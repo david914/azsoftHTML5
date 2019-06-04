@@ -58,14 +58,14 @@ public class Cmm0200{
 		try {
 			conn = connectionContext.getConnection();
 			strQuery.setLength(0);
-			strQuery.append("select a.cm_syscd,a.cm_sysmsg,a.cm_sysgb,a.cm_sysopen,\n");
-			strQuery.append("       a.cm_scmopen,a.cm_sysinfo,a.cm_basesys,        \n");
-			strQuery.append("       a.cm_stopst,a.cm_stoped,c.cm_sysmsg basesys,   \n");
-			strQuery.append("       a.cm_closedt,a.cm_prccnt,b.cm_codename,a.cm_systime,  \n");
-			strQuery.append("       c.cm_dirbase, d.cm_codename servername \n");
-			strQuery.append("  from cmm0030 a,cmm0020 b,cmm0030 c,cmm0020 d        \n");
-			strQuery.append(" where b.cm_macode='SYSGB' and b.cm_micode=a.cm_sysgb \n");
-			if (!clsSw) strQuery.append("and a.cm_closedt is null     	           \n");
+			strQuery.append("select a.cm_syscd,a.cm_sysmsg,a.cm_sysgb,a.cm_sysopen,		\n");
+			strQuery.append("       a.cm_scmopen,a.cm_sysinfo,a.cm_basesys,        		\n");
+			strQuery.append("       a.cm_stopst,a.cm_stoped,c.cm_sysmsg basesys,   		\n");
+			strQuery.append("       a.cm_closedt,a.cm_prccnt,b.cm_codename,a.cm_systime,\n");
+			strQuery.append("       c.cm_dirbase, d.cm_codename servername,a.cm_prjname \n");
+			strQuery.append("  from cmm0030 a,cmm0020 b,cmm0030 c,cmm0020 d        		\n");
+			strQuery.append(" where b.cm_macode='SYSGB' and b.cm_micode=a.cm_sysgb 		\n");
+			if (!clsSw) strQuery.append("and a.cm_closedt is null     	           		\n");
 			if (SysCd != null && SysCd != "") {
 				strQuery.append("and ( a.cm_syscd like ? or upper(a.cm_sysmsg) like upper(?) )   \n");
 			}
@@ -96,6 +96,7 @@ public class Cmm0200{
 				rst.put("cm_basesys", rs.getString("cm_basesys"));
 				rst.put("cm_systime", rs.getString("cm_systime"));
 				rst.put("basesys", rs.getString("basesys"));
+				rst.put("cm_prjname", rs.getString("cm_prjname"));
 				rst.put("sysopen", rs.getString("cm_sysopen").substring(0,4)+"/"+
 						           rs.getString("cm_sysopen").substring(4,6)+"/"+
 						           rs.getString("cm_sysopen").substring(6,8));
@@ -473,7 +474,7 @@ public class Cmm0200{
 //			pstmt.close();
 
 			parmCnt = 0;
-			if (etcData.get("cm_jobcd") != "" && etcData.get("cm_jobcd") != null) {
+			if (!etcData.get("cm_jobcd").isEmpty()) {
 				strQuery.setLength(0);
 				strQuery.append("update cmm0034 set cm_closedt=SYSDATE                    \n");
 				strQuery.append("where cm_syscd=?                                         \n");

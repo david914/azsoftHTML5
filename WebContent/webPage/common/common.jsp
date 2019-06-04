@@ -37,4 +37,4 @@
 <link rel="stylesheet" href="<c:url value="/css/ecams/common/toolTip2.css" />">
 <link rel="stylesheet" href="<c:url value="/css/ecams/login/loginPage.css" />">
 
-<link rel="stylesheet" href="<c:url value="/styles/jquery-ui.css"/>">
+<%-- <link rel="stylesheet" href="<c:url value="/styles/jquery-ui.css"/>"> --%>
