@@ -36,7 +36,7 @@ public class ParsingCommon {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(json.toString());
 		return json.toString();
 	}
 	

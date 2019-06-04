@@ -31,8 +31,8 @@
 
 var toast 			= new ax5.ui.toast();
 var dialog 			= new ax5.ui.dialog({title: "확인"});
-var confirmDialog = new ax5.ui.dialog();	//알럿,확인창
-
+var confirmDialog 	= new ax5.ui.dialog();	//알럿,확인창
+var mask 			= new ax5.ui.mask();
 toast.setConfig({
 	containerPosition: "top-right",
 	displayTime:10000
@@ -207,8 +207,7 @@ function changeDateToYYYYMMDD(date){
 	var year 	= date.getFullYear();
 	var month 	= (date.getMonth() + 1) <  10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
 	var date 	= date.getDate() <  10 ? '0' + date.getDate() : date.getDate();
-	
-	return year+month+date;
+	return year+''+month+''+date;
 }
 
 // StringReplaceAll

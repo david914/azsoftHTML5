@@ -16,7 +16,6 @@ var userid = window.top.userId;
 var noticePopData = null;
 var picker = new ax5.ui.picker();
 var divGrid1 = new ax5.ui.grid();
-var mask = new ax5.ui.mask();
 var modal = new ax5.ui.modal();
 var fileLength = 0 ;
 var uploadAcptno = null;
@@ -402,7 +401,6 @@ function new_Click(){
         }
     }, function () {
     });
-	
 }
 
 function openFileUpload() {
@@ -459,7 +457,7 @@ function fileInfoInsert(data) {
 	var ajaxReturnData = null;
 	var tmpData = {
 		requestType : 'insertNoticeFileInfo',
-		fileInfo : JSON.stringify(data),
+		fileInfo : data,
 	}
 	
 	ajaxReturnData = ajaxCallWithJson('/webPage/mypage/Notice', tmpData, 'json');

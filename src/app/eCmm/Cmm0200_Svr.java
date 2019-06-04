@@ -80,10 +80,10 @@ public class Cmm0200_Svr{
 			strQuery.append("   and d.cm_micode!='****'                             \n");
 			strQuery.append("   and d.cm_micode =to_char(LPAD(a.cm_buffsize,8,'0'))\n");
 			strQuery.append("order by a.cm_svrcd,a.cm_svrip,a.cm_svrname           \n");
-			//pstmt = new LoggableStatement(conn,strQuery.toString());
-            pstmt = conn.prepareStatement(strQuery.toString());	
+			pstmt = new LoggableStatement(conn,strQuery.toString());
+            //pstmt = conn.prepareStatement(strQuery.toString());	
             pstmt.setString(1, SysCd);
-            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
                         
 			while (rs.next()){
@@ -128,7 +128,6 @@ public class Cmm0200_Svr{
 				rsval.add(rst);
 				rst = null;
 			}//end of while-loop statement
-			
 			rs.close();
 			pstmt.close();
 			
@@ -628,7 +627,6 @@ public class Cmm0200_Svr{
 			pstmt.setString(3, SvrCd);
 			pstmt.setInt(4, Integer.parseInt(SeqNo));
 			pstmt.executeUpdate();
-			
 			strQuery.setLength(0);
 			strQuery.append("delete cmm0035                                  \n");
 			strQuery.append("where cm_syscd=? and cm_svrcd=? and cm_seqno=?  \n");
@@ -638,7 +636,6 @@ public class Cmm0200_Svr{
 			pstmt.setInt(3, Integer.parseInt(SeqNo));
 			pstmt.executeUpdate();
 			pstmt.close();
-
 			strQuery.setLength(0);
 			strQuery.append("delete cmm0038                                  \n");
 			strQuery.append("where cm_syscd=? and cm_svrcd=? and cm_seqno=?  \n");
@@ -651,7 +648,6 @@ public class Cmm0200_Svr{
 			conn.close();
 			conn = null;
 			pstmt = null;
-			
 			return "OK";
 			
 		} catch (SQLException sqlexception) {

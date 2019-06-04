@@ -19,6 +19,9 @@ var datStDate 		= new ax5.ui.picker();
 var datEdDate 		= new ax5.ui.picker();
 var datSysOpen 		= new ax5.ui.picker();
 var datScmOpen 		= new ax5.ui.picker();
+var relModal 		= new ax5.ui.modal();
+var jobModal 		= new ax5.ui.modal();
+var sysDetailModal 	= new ax5.ui.modal();
 
 var cboOptions = [];
 
@@ -32,9 +35,10 @@ var jobGridData 	= null;	//	업무 그리드
 var stFullDate = null;	// 중단시작일시
 var edFullDate = null;	// 중단종료일시
 
-var addFg1 = false;
-var addFg2 = false;
-var closeModifyFg = false;
+var addFg1 			= false;
+var addFg2 			= false;
+var closeModifyFg 	= false;
+var selectedSystem 	= null;
 
 sysInfoGrid.setConfig({
     target: $('[data-ax5grid="sysInfoGrid"]'),
@@ -134,7 +138,7 @@ function dateInit() {
 
 
 $(document).ready(function(){
-	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'square-dot-blue', highlightLabel: true});
+	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 	
 	dateInit();
 	getSysCodeInfo();
@@ -142,7 +146,7 @@ $(document).ready(function(){
 	getSysInfoList('');
 	screenInit();
 	
-	
+	// 조회 클릭시
 	$('#btnQry').bind('click', function() {
 		var strDay = getDate('DATE',0);
 		strDay = strDay.substr(0,4) + '/' + strDay.substr(4,2) + '/' + strDay.substr(6,2);
@@ -163,8 +167,7 @@ $(document).ready(function(){
 		$('[data-ax5select="cboSvrCd"]').ax5select('setValue',cboSvrCdData[0].cm_micode,true);
 		
 		for(var i=0; i<sysInfoData.length; i++) {
-			$('#chkJobName'+ (i+1) ).parent().removeClass('wCheck-on');
-			$('#chkJobName'+ (i+1) ).parent().addClass('wCheck-off');
+			$('#chkJobName'+ (i+1) ).wCheck('check',false);
 		}
 		
 		jobGrid.clearSelect();
@@ -179,6 +182,7 @@ $(document).ready(function(){
 		getSysInfoList('');
 	});
 	
+	// 신규 클릭시
 	$('#chkOpen').bind('click', function() {
 		if($(this).is(':checked')) {
 			screenInit();
@@ -196,6 +200,7 @@ $(document).ready(function(){
 		}
 	});
 	
+	// 시스템 속성 클릭시
 	$('input.checkbox-sysInfo').bind('click', function(e) {
 		var selectedSysInfo = Number(this.value); 
 		var selectedIndexs = sysInfoGrid.selectedDataIndexs;
@@ -243,6 +248,7 @@ $(document).ready(function(){
 		}
 	});
 	
+	// 처리팩터추가 버튼 클릭시
 	$('#btnFact').bind('click',function() {
 		var factUpInfoData;
 		factUpInfoData = new Object();
@@ -252,6 +258,7 @@ $(document).ready(function(){
 		ajaxAsync('/webPage/administrator/SysInfoServlet', factUpInfoData, 'json',successFactUpdt);
 	});
 	
+	//삭제 버튼 클릭시
 	$('#btnDel').bind('click',function() {
 		var gridSelectedIndex 	= sysInfoGrid.selectedDataIndexs;
 		var selectedGridItem 	= null;
@@ -282,12 +289,118 @@ $(document).ready(function(){
 		});
 	});
 	
+	// 등록 버튼 클릭시
 	$('#btnAdd').bind('click',function() {
 		sysValidationCheck();
+	});
+	
+	// 정기배포일괄등록
+	$('#btnReleaseTimeSet').bind('click', function() {
+		relModal.open({
+	        width: 600,
+	        height: 800,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/ReleaseTimeSetModal.jsp",
+	            param: "callBack=modalCallBack"
+	        },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	                $('#btnQry').trigger('click');
+	            }
+	        }
+	    }, function () {
+	    });
+	});
+	
+	// 업무등록
+	$('#btnJob').bind('click', function() {
+		jobModal.open({
+	        width: 600,
+	        height: 800,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/JobModal.jsp",
+	            param: "callBack=jobModalCallBack"
+	        },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	                $('#btnQry').trigger('click');
+	            }
+	        }
+	    }, function () {
+	    });
+	});
+	
+	// 시스템상세정보
+	$('#btnSysDetail').bind('click', function() {
+		
+		var gridSelectedIndex 	= sysInfoGrid.selectedDataIndexs;
+		if(gridSelectedIndex.length === 0 ) {
+			dialog.alert('시스템을 그리드에서 선택후 눌러주세요.',function(){});
+			return;
+		}
+		selectedSystem = sysInfoGrid.list[gridSelectedIndex];
+		sysDetailModal.open({
+	        width: 1200,
+	        height: 600,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/SysDetailModal.jsp",
+	            param: "callBack=sysDetailModalCallBack"
+	        },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	                selectedSystem = null;
+	            }
+	        }
+	    }, function () {
+	    });
+	});
+	
+	// 프로그램종류정보
+	$('#btnProg').bind('click', function() {
+		dialog.alert('프로그램종류정보버튼 클릭', function(){});
+	});
+	
+	// 공통디렉토리
+	$('#btnDir').bind('click', function() {
+		dialog.alert('공통디렉토리 버튼 클릭', function(){});
+	});
+	
+	// 시스템정보복사
+	$('#btnCopy').bind('click', function() {
+		dialog.alert('시스템정보복사 버튼 클릭', function(){});
 	});
 
 });
 
+
+var modalCallBack = function(){
+	relModal.close();
+};
+
+var jobModalCallBack = function() {
+	jobModal.close();
+}
+
+var sysDetailModalCallBack = function() {
+	sysDetailModal.close();
+}
+
+// 시스템 등록/업데이트시 유효성 체크
 function sysValidationCheck() {
 	var gridSelectedIndex 	= sysInfoGrid.selectedDataIndexs;
 	var stDate = null;
@@ -298,6 +411,17 @@ function sysValidationCheck() {
 	var nowTime = null;
 	var nowFullDate = null;
 	var isNew		= true;
+	
+	
+	if( !$.isNumeric($('#txtSysCd').val()) ) {
+		dialog.alert('시스템코드는 숫자만 가능합니다.',function(){});
+		return;
+	}
+	
+	if( $('#txtSysCd').val().length !== 5 ) {
+		dialog.alert('시스템코드는 5자리의 숫자로 만들어주시기 바랍니다.',function(){});
+		return;
+	}
 	
 	if( $('#chkOpen').is(':checked') && $('#chkSelf').is(':checked') && $('#txtSysCd').val().length === 0) {
 		dialog.alert('시스템코드를 입력하여 주시기 바랍니다.',function(){});
@@ -333,10 +457,8 @@ function sysValidationCheck() {
 		dialog.alert('형상관리오픈일를 선택하여 주시기 바랍니다.',function(){});
 		return;
 	}
-	
 	for(var i=0; i<sysInfoData.length; i++) {
 		if(i === 3 && $('#chkJobName'+ (i+1) ).is(':checked') ) {
-			
 			stDate = replaceAllString($('#datStDate').val(), '/', '');  
 			edDate = replaceAllString($('#datEdDate').val(), '/', '');  
 			nowDate = getDate('DATE',0);
@@ -347,16 +469,11 @@ function sysValidationCheck() {
 			edFullDate = edDate + edTime;
 			nowFullDate = nowDate + nowTime;
 			
-			console.log(nowDate);
-			console.log(nowTime);
-			
 			if(stDate.length === 0 || stTime.length === 0 
 					|| edDate.length === 0 || edTime.length === 0) {
 				dialog.alert('중단일시 및 시간을 입력해 주시기 바랍니다.',function(){});
 				return;
 			}
-			console.log(nowFullDate);
-			console.log(stFullDate);
 			if( nowFullDate > stFullDate) {
 				dialog.alert('중단시작일시가 현재일 이전입니다. 정확히 선택하여 주십시오.',function(){});
 				return;
@@ -470,6 +587,7 @@ function updateSystem(isNew) {
 		requestType	: 	'UPDATESYSTEM'
 	}
 	
+	
 	ajaxAsync('/webPage/administrator/SysInfoServlet', systemInfoDta, 'json',successUpdateSysetm);
 }
 
@@ -526,7 +644,6 @@ function successFactUpdt(data) {
 // 시스템 리스트
 function getSysInfoList(sysCd) {
 	var sysClsSw = $('#chkCls').is(':checked');
-	
 	var sysListInfo;
 	var sysListInfoData;
 	sysListInfo 		= new Object();
@@ -538,17 +655,42 @@ function getSysInfoList(sysCd) {
 		sysInfo	: 	sysListInfo,
 		requestType	: 	'GETSYSINFOLIST'
 	}
-	console.log(sysListInfo);
 	
 	ajaxAsync('/webPage/administrator/SysInfoServlet', sysListInfoData, 'json',successGetSysInfoList);
 }
 
 //시스템 리스트
 function successGetSysInfoList(data) {
-	sysInfoGridData = data;
-	sysInfoGrid.setData(sysInfoGridData);
+	if( addFg2 ) {
+		addFg2 = false;
+		var findSw = false;
+		var selectedIndexs = sysInfoGrid.selectedDataIndexs;
+		if(selectedIndexs.length <= 0) findSw = true;
+		else if(sysInfoGrid.list[selectedIndexs].cm_syscd !== data[0].cm_syscd) findSw = true;
+		
+		$('[data-ax5select="cboSys"]').ax5select('setValue',data[0].cm_syscd,true);
+		sysInfoGrid.clearSelect();
+		if( findSw && !closeModifyFg) {
+			sysInfoGridData[sysInfoGridData.length] = data[0];
+			sysInfoGrid.setData(sysInfoGridData);
+			sysInfoGrid.select(sysInfoGridData.length-1);
+		}
+		if ( closeModifyFg ) {
+			closeModifyFg = false;
+			sysInfoGridData[selectedIndexs[0]] = data[0];
+			sysInfoGrid.setData(sysInfoGridData);
+			sysInfoGrid.select(selectedIndexs[0]);
+		}
+		
+		cboSysClick();
+		
+	} else {
+		sysInfoGridData = data;
+		sysInfoGrid.setData(sysInfoGridData);
+		getJobList();
+	}
 	
-	getJobList();
+	
 }
 
 // 업무 그리드
@@ -604,7 +746,12 @@ function successGetSysInfoCbo(data) {
 	});
 	
 	if( addFg1 && sysInfoCboData.length > 0 ) {
+		addFg1 = false;
 		$('[data-ax5select="cboSys"]').ax5select('setValue',$('#txtSysCd').val(),true);
+		$('#chkOpen').wCheck('check',false);
+		$('#chkSelfDiv').css('visibility','hidden');
+		$('[data-ax5select="cboSys"]').ax5select("enable");
+		
 		getSysInfoList($('#txtSysCd').val());
 	}
 }
@@ -647,16 +794,14 @@ function cboSysClick() {
 	}
 	
 	for(var i=0; i<sysInfoData.length; i++) {
-		$('#chkJobName'+ (i+1) ).parent().removeClass('wCheck-on');
-		$('#chkJobName'+ (i+1) ).parent().addClass('wCheck-off');
+		$('#chkJobName'+ (i+1) ).wCheck('check',false);
 	}
 	
 	if(selectedSysCboSysInfo.cm_sysinfo !== undefined && selectedSysCboSysInfo.cm_sysinfo !== null) {
 		sysInfoStr = selectedSysCboSysInfo.cm_sysinfo;
 		for(var i=0; i<sysInfoStr.length; i++) {
 			if(sysInfoStr.substr(i,1) === '1') {
-				$('#chkJobName'+ (i+1) ).parent().removeClass('wCheck-off');
-				$('#chkJobName'+ (i+1) ).parent().addClass('wCheck-on');
+				$('#chkJobName'+ (i+1) ).wCheck('check',true);
 			}
 		}
 	}
@@ -704,7 +849,12 @@ function cboSysClick() {
 		}
 		
 		if(sysInfoStr.substr(5,1) === '1' && selectedGridItem.hasOwnProperty('cm_systime') ) {
-			$('#txtTime').val(selectedGridItem.cm_systime);
+			var txtTimeStr = selectedGridItem.cm_systime;
+			var txtTime = txtTimeStr.substr(0,2) + ':' + txtTimeStr.substr(2,2);
+			$('#txtTime').val(txtTime);
+			$('#txtTime').prop( "disabled", false );
+		} else {
+			$('#txtTime').val('');
 			$('#txtTime').prop( "disabled", true );
 		}
 		
@@ -809,5 +959,5 @@ function makeSysInfoUlList() {
 		$('#ulSysInfo').append(liStr);
 	});
 	
-	$('input.checkbox-sysInfo').wCheck({theme: 'square-inset blue', selector: 'square-dot-blue', highlightLabel: true});
+	$('input.checkbox-sysInfo').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 }

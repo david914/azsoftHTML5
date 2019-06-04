@@ -493,7 +493,7 @@ function update_resultHandler(selectedObj) {
 	var tmpData = {
 		requestType : 'Cmm1100_4',
 		UserId : userid,
-		dataObj : JSON.stringify(selectedObj)
+		dataObj : selectedObj
 	}
 	
 	ajaxReturnData = ajaxCallWithJson('/webPage/mypage/AbsenceRegister', tmpData, 'json');

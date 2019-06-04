@@ -207,7 +207,7 @@ function updateHandler(){
 	var tmpData = {
 			requestType : 'Cmm2101_1',
 			UserId : window.top.userId,
-			dataObj : JSON.stringify(updateData)
+			dataObj : updateData
 	}
 	
 	ajaxReturnData = ajaxCallWithJson('/webPage/modal/PopNotice', tmpData, 'json');
@@ -262,7 +262,7 @@ function del() {
 			var tmpData = {
 					requestType : 'Cmm2101_2',
 					UserId : window.top.userId,
-					dataObj : JSON.stringify(delData)
+					dataObj : delData
 			}
 			
 			ajaxReturnData = ajaxCallWithJson('/webPage/modal/PopNotice', tmpData, 'json');
