@@ -4,6 +4,12 @@
 <c:import url="/webPage/common/common.jsp" />
 <link rel="stylesheet" href="<c:url value="/styles/bootstrap-timepicker.css"/>" />
 <style>
+	.fontStyle-cncl {
+		color: #FF0000;
+	}
+	.fontStyle-module {
+		color: #FF8080;
+	}
 	.bootstrap-timepicker-widget table td input { width: 40%; }
 </style>
 
@@ -15,7 +21,7 @@
 		    		<label id="lblSrId" class="padding-5-top float-left">*SR-ID</label>
 		    	</div>
 		    	<div class="col-lg-10 col-md-10 col-sm-10 col-12" style="padding-left: 0;">
-			    	<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+			    	<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" onchange="cboSRChange()"  ></div>
 		    	</div>
 		    	<div class="col-lg-1 col-md-1 col-sm-1 col-12">
 					<div class="float-right">
@@ -36,7 +42,7 @@
 		    		<label id="lblSysId" class="padding-5-top float-left">*시스템</label>
 		    	</div>
 		    	<div class="col-lg-9 col-md-12 col-sm-12 col-12" style="padding-left: 0;">
-			    	<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+			    	<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" onchange="cboSysChange()" ></div>
 		    	</div>
 	    	</div>
     	</div>
@@ -60,7 +66,7 @@
 		    	</div>
 		    	<div class="col-lg-3 col-md-3 col-sm-3 col-12">
 					<div class="float-right">
-						<button id="btnFind"  class="btn btn-default">
+						<button id="btnFind"  class="btn btn-default" onclick="btnFind_Click();">
 							&nbsp;&nbsp;검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색&nbsp;&nbsp;<span class="glyphicon glyphicon-search" aria-hidden="true"> </span>
 						</button>
 					</div>
@@ -82,19 +88,19 @@
 	    	<div class="row">
 		    	<div class="col-lg-1 col-md-1 col-sm-1 col-12">
 		    		<div class="float-left" style="padding-top:5px;padding-bottom:3px;">
-	    				<input type="checkbox" class="checkbox-pie" id="chkDetail" data-label="항목상세보기"></input>
+	    				<input type="checkbox" class="checkbox-pie" id="chkDetail" data-label="항목상세보기" onclick="chkDetail_Click();"></input>
 	   				</div>
 				</div>
 		    	<div class="col-lg-5 col-md-5 col-sm-5 col-12" style="padding: 0 1 0 0;">
 					<div class="float-right">
-						<button id="btnAdd"  class="btn btn-default">
+						<button id="btnAdd"  class="btn btn-default" onclick="btnAdd_Click();">
 							추 가 <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
 						</button>
 					</div>
 				</div>
-		    	<div class="col-lg-6 col-md-6 col-sm-6 col-12" style="padding: 1 0 0 0;">
+		    	<div class="col-lg-6 col-md-6 col-sm-6 col-12" style="padding: 0 0 0 1;">
 					<div class="float-left">
-						<button id="btnDel"  class="btn btn-default">
+						<button id="btnDel"  class="btn btn-default" onclick="btnDel_Click();">
 							제 거 <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
 						</button>
 					</div>
@@ -166,7 +172,7 @@
 	   			</div>
 		    	<div class="col-lg-3 col-md-3 col-sm-3 col-12">
 					<div class="float-right">
-						<button id="btnRequest"  class="btn btn-default">
+						<button id="btnRequest"  class="btn btn-default" onclick="btnRequest_Click();">
 							운영배포신청 <span class="glyphicon" aria-hidden="true"></span>
 						</button>
 					</div>

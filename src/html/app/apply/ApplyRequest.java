@@ -2,6 +2,7 @@ package html.app.apply;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,8 +14,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import app.common.SysInfo;
 import app.eCmd.Cmd0100;
-
+import app.eCmr.Cmr0200;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/apply/ApplyRequest")
@@ -24,7 +26,9 @@ public class ApplyRequest extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
+	SysInfo sysInfo  = new SysInfo();
 	Cmd0100 cmd0100  = new Cmd0100();
+	Cmr0200 cmr0200  = new Cmr0200();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,8 +48,14 @@ public class ApplyRequest extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
+				case "GETSYSINFOLIST" :
+					response.getWriter().write( getSysInfoList(jsonElement) );
+					break;
 				case "RSRCOPEN" :
 					response.getWriter().write( getRsrcOpen(jsonElement) );
+					break;
+				case "PROGRAM_LIST" :
+					response.getWriter().write( getDeployList(jsonElement) );
 					break;
 				default:
 					break;
@@ -58,6 +68,15 @@ public class ApplyRequest extends HttpServlet {
 		
 	}
 
+	private String getSysInfoList(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId = null;
+		UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String ReqCd = null;
+		ReqCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "ReqCd") );
+		
+		return gson.toJson(sysInfo.getSysInfo(UserId,"Y","SEL","N",ReqCd));
+	}
+	
 	private String getRsrcOpen(JsonElement jsonElement) throws SQLException, Exception {
 		String SysCd = null;
 		SysCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SysCd") );
@@ -66,6 +85,18 @@ public class ApplyRequest extends HttpServlet {
 		
 		System.out.println(SysCd+":"+SelMsg);
 		return gson.toJson(cmd0100.getRsrcOpen(SysCd,SelMsg));
+	}
+	
+	private String getDeployList(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> prjMap = new HashMap<String, String>();
+		prjMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"param"));
+		
+		if ("07".equals(prjMap.get("SinCd"))) {//체크인
+			return gson.toJson(cmr0200.getReqList(prjMap));
+			
+		} else { //SinCd=03(테스트적용) or 04(운영적용) 
+			return gson.toJson(cmr0200.getDeployList(prjMap));
+		}
 	}
 	
 }

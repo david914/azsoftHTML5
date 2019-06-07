@@ -300,7 +300,11 @@ public class PrjInfo{
 						//ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
 						rs2 = pstmt2.executeQuery();
 						while ( rs2.next() ) {
-							svSysCd = svSysCd + ","+rs2.getString("cr_syscd");
+							if ("".equals(svSysCd)) {
+								svSysCd = rs2.getString("cr_syscd");
+							} else {
+								svSysCd = svSysCd + ","+rs2.getString("cr_syscd");
+							}
 						}
 						rs2.close();
 						pstmt2.close();

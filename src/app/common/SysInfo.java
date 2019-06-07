@@ -190,6 +190,7 @@ public class SysInfo{
 				rst.put("websw", "N");
 				rst.put("delsw", "Y");
 				rst.put("usersw", "Y");
+				rst.put("TstSw", "0");
 
 				if(tstInfo.substring(5,6).equals("1")){//SYSINFO[06] 정기배포사용 여부 확인 후 정기적용시간 셋팅
 					if(rs.getString("cm_systime") != null && rs.getString("cm_systime") != ""){
@@ -313,9 +314,7 @@ public class SysInfo{
 						else tstCnt = 0;
 						rst.put("usersw", Integer.toString(tstCnt));
 					}
-				} else {
-					rst.put("TstSw", "0");
-				}
+				} 
 				if (strSysCd != "") {
 					if (strSysCd.equals(tmpSyscd)){
 						rst.put("setyn","Y");
