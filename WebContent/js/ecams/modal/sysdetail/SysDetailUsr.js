@@ -8,11 +8,11 @@
  * 
  */
 
-var userName 	= window.parent.userName;		// 접속자 Name
-var userId 		= window.parent.userId;		// 접속자 ID
-var adminYN 	= window.parent.adminYN;		// 관리자여부
-var userDeptName= window.parent.userDeptName;	// 부서명
-var userDeptCd 	= window.parent.userDeptCd;	// 부서코드
+var userName 	= window.parent.userName;			// 접속자 Name
+var userId 		= window.parent.userId;				// 접속자 ID
+var adminYN 	= window.parent.adminYN;			// 관리자여부
+var userDeptName= window.parent.userDeptName;		// 부서명
+var userDeptCd 	= window.parent.userDeptCd;			// 부서코드
 var selectedSystem  = window.parent.selectedSystem;
 
 var sysCd 	= null;	// 시스템정보 선택 코드
@@ -31,6 +31,11 @@ var ulSvrInfoData	= null;
 var selSw			= false;
 
 /////////////////// 계정정보 화면 세팅 start////////////////////////////////////////////////
+$('[data-ax5select="cboSvrUsr"]').ax5select({
+    options: []
+});
+
+
 svrUsrGrid.setConfig({
     target: $('[data-ax5grid="svrUsrGrid"]'),
     sortable: true, 
@@ -129,7 +134,7 @@ $(document).ready(function(){
 	/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
 	$('#cboSvrUsr').bind('change',function(){
 		
-		$('#chkAllUsr').wCheck('check',false);
+		if(svrUsrGridData !== null) $('#chkAllUsr').wCheck('check',false);
 		
 		if(sysInfo.substr(8,1) === '1') {
 			// 사용업무 사용가능하게
@@ -137,7 +142,6 @@ $(document).ready(function(){
 			// 사용업무 사용 불가능하게
 		}
 		
-		//selSw = false;
 		var svrUsrInfoData = new Object();
 		svrUsrInfoData = {
 			SysCd	: sysCd,
@@ -176,7 +180,6 @@ $(document).ready(function(){
 				var id = ulItem.cm_jobcd;
 				if($('#chkJob'+id).is(':checked')) {
 					checkSw = true;
-					break;
 				}
 			});
 			
@@ -194,14 +197,29 @@ $(document).ready(function(){
 		if(sysInfo.substr(8,1) === '1') {
 			ulSvrInfoData.forEach(function( ulItem, index) {
 				if(tmpJob.length > 0 ) tmpJob += ',';
-				//else 
+				else tmpJob += ulItem.cm_jobcd; 
 			});
 		} else {
 			tmpJob = '****';
 		}
 		
 		
+		var svrUsrCloseData = new Object();
+		svrUsrCloseData = {
+			svrList		: svrArr,
+			SysCd 		: sysCd,
+			JobCd 		: tmpJob,
+			requestType	: 'closeSvrUsr'
+		}
+		ajaxAsync('/webPage/administrator/SvrUsrServlet', svrUsrCloseData, 'json',successCloseSvrUsr);
+		
 	});
+	
+	function successCloseSvrUsr(data) {
+		dialog.alert('업무별 계정권한에 대한 폐기처리를 완료하였습니다.', function() {
+			getSecuList();
+		});
+	}
 	
 	// 계정정보 조회버튼 클릭 이벤트
 	$('#btnQryUsr').bind('click', function() {
@@ -209,14 +227,18 @@ $(document).ready(function(){
 	});
 	
 	$('#chkAllUsr').bind('change',function() {
-		/*var checkSw = false;
+		var checkSw = false;
 		if($('#chkAllUsr').is(':checked')) checkSw = true;
+		
 		if(checkSw) {
-			for(var i=0; svrUsrGridData.length; i++) {
-				svrUsrGrid.select(i);
-			}
-		}*/
-		//if(!checkSw) svrUsrGrid.clearSelect();
+			svrUsrGridData.forEach(function(svrUsrItem, index) {
+				svrUsrGrid.select(index);
+			});
+		} else {
+			svrUsrGridData.forEach(function(svrUsrItem, index) {
+				svrUsrGrid.clearSelect(index);
+			});
+		}
 	});
 	
 	// 사용업무 전체선택 클릭 이벤트

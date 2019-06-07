@@ -36,7 +36,7 @@
 		       	
 		       	<!-- 서버별 프로그램종류 연결정보 START -->
 		       	<div id="tab3" class="tab_content">
-					<iframe src='/webPage/modal/sysdetail/SysDetailUsr.jsp' width='100%' height='83%' frameborder="0"></iframe>
+					<iframe src='/webPage/modal/sysdetail/SysDetailPrg.jsp' width='100%' height='83%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- 서버별 프로그램종류 연결정보 END -->
 		   	</div>

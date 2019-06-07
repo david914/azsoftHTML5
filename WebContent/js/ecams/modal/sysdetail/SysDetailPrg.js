@@ -1,10 +1,10 @@
 /**
- * 시스템상세정보 팝업 화면 기능 정의
+ * 시스템상세정보 - 서버별프로그램종류정보 팝업 화면 기능 정의
  * 
  * <pre>
  * 	작성자	: 이용문
  * 	버전 		: 1.0
- *  수정일 	: 2019-05-31
+ *  수정일 	: 2019-06-07
  * 
  */
 
@@ -13,752 +13,86 @@ var userId 		= window.top.userId;		// 접속자 ID
 var adminYN 	= window.top.adminYN;		// 관리자여부
 var userDeptName= window.top.userDeptName;	// 부서명
 var userDeptCd 	= window.top.userDeptCd;	// 부서코드
-
+var selectedSystem  = window.parent.selectedSystem;
+	
 var sysCd 	= null;	// 시스템정보 선택 코드
 var sysInfo = null;	// 시스템 속성
 var dirBase = null; // 기준서버
 
-var svrInfoGrid		= new ax5.ui.grid();
-var svrUsrGrid		= new ax5.ui.grid();
-var accGrid			= new ax5.ui.grid();
-var svrInfoGridData = null;
-var svrUsrGridData 	= null;
-var accGridData 	= null;
+var svrItemGrid = new ax5.ui.grid();
+var itemGrid 	= new ax5.ui.grid();
 
-var cboSvrData 		= null;
-var cboOsData 		= null;
-var cboBufferData 	= null;
-var svrInfoData		= null;
 var cboOptions		= null;
-var selectedSystem  = window.parent.selectedSystem;
+var cboSvrItemData	= null;
 
-
-var ulSvrInfoData	= null;
-
-var selSw			= false;
-
-///////////////////// 서버정보 화면 세팅 start////////////////////////////////////////////////
-svrInfoGrid.setConfig({
-    target: $('[data-ax5grid="svrInfoGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 20,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-            clickSvrList(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", label: "서버구분",  width: 120 },
-        {key: "cm_svrname", label: "서버명",  width: 120},
-        {key: "sysos", label: "OS",  width: 80 , align: "center"},
-        {key: "cm_svrip", label: "IP Address",  width: 120},
-        {key: "cm_portno", label: "Port",  width: 80, align: "center"},
-        {key: "cm_prcseq", label: "순서",  width: 80, align: "center"},
-        {key: "cm_svrusr", label: "계정",  width: 80, align: "center"},
-        {key: "cm_volpath", label: "Home_Dir",  width: 150},
-        {key: "cm_dir", label: "Agent_Dir",  width: 130},
-        {key: "ab", label: "버퍼사이즈",  width: 80},
-        {key: "svrinfo", label: "속성",  width: 150, align: "center"},
-        {key: "agent", label: "장애",  width: 80, align: "center"},
-        {key: "svrstop", label: "정지",  width: 80, align: "center"}
-    ]
+///////////////////  화면 세팅 start////////////////////////////////////////////////
+$('[data-ax5select="cboSvrItem"]').ax5select({
+    options: []
 });
 
-$('input.checkbox-IP').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
-$('input.checkbox-IPC').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
-/////////////////// 서버정보 화면 세팅 end////////////////////////////////////////////////
-
-
-/////////////////// 계정정보 화면 세팅 start////////////////////////////////////////////////
-svrUsrGrid.setConfig({
-    target: $('[data-ax5grid="svrUsrGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: true,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 20,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", label: "서버종류",  width: 120 },
-        {key: "cm_svrname", label: "서버명/OS",  width: 120},
-        {key: "cm_svrip", label: "IP Address",  width: 120},
-        {key: "cm_portno", label: "Port",  width: 80, align: "center"}
-    ]
-});
-
-accGrid.setConfig({
-    target: $('[data-ax5grid="accGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 20,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", label: "서버구분",  width: 120 , align: "center"},
-        {key: "cm_svrname", label: "서버명",  width: 120, align: "center"},
-        {key: "cm_svrip", label: "IP Address",  width: 120, align: "center"},
-        {key: "cm_portno", label: "Port",  width: 80, align: "center"},
-        {key: "cm_svrusr", label: "계정",  width: 80, align: "center"},
-        {key: "cm_svrusr", label: "계정",  width: 150, align: "center"},
-        {key: "cm_jobname", label: "업무명",  width: 130, align: "center"},
-        {key: "cm_grpid", label: "그룹",  width: 80, align: "center"},
-        {key: "cm_permission", label: "권한",  width: 150, align: "center"},
-        {key: "cm_dbuser", label: "DB계정",  width: 80, align: "center"},
-        {key: "cm_dbconn", label: "DB연결자",  width: 80, align: "center"}
-    ]
-});
-
-
-$('input.checkbox-usr').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
-
-/////////////////// 계정정보 화면 세팅 end////////////////////////////////////////////////
+///////////////////  화면 세팅 end////////////////////////////////////////////////
 
 
 $(document).ready(function(){
-	$('#tab1Li').width($('#tab1Li').width()+10);
-	$('#tab2Li').width($('#tab2Li').width()+10);
-	$('#tab3Li').width($('#tab3Li').width()+10);
 	
 	sysCd = selectedSystem.cm_syscd;
 	sysInfo = selectedSystem.cm_sysinfo;
 	dirBase = selectedSystem.cm_dirbase;
 	
-	$('#lblAftIp').css('visibility','hidden');
-	$('#txtAftIp').css('visibility','hidden');
-	$('#lblSysMsg').text('시스템 : ' + selectedSystem.cm_syscd + ' ' + selectedSystem.cm_sysmsg);
-	setTabMenu();
-	_promise(500,getCodeInfo())
-	.then(function(){
-		return _promise(500,getSvrInfoList());
-	});
-	
-	
-	// 업무별 서버관리
-	if(sysInfo.substr(8,1) === '1') {
-		getUlSvrInfo();
-		//sysjob.getJobInfo_Rpt(strUserId,strSysCd,"N","");
-		//chkAll3.enabled = true;  계정정보탭의 전체선택 사용가능
-	} else  {
-		//chkAll3.enabled = false; 계정정보탭의 전체선택 사용가능
-	}
-	
-	getSecuList();
-	
-	function getSecuList() {
-		var secuInfoData = new Object();
-		secuInfoData = {
-			SysCd		: sysCd,
-			sysInfo 	: sysInfo,
-			requestType	: 'getSecuList'
-		}
-		ajaxAsync('/webPage/administrator/SvrUsrServlet', secuInfoData, 'json',successGetSecuList);
-	}
-	
-	function successGetSecuList(data) {
-		accGridData = data;
-		accGrid.setData(accGridData);
-	}
-	
-	/////////////////////// 서버정보 버튼 event start////////////////////////////////////////////////
-	$('#chkAllSvr').bind('click',function() {
-		clickChkAllSvr($('#chkAllSvr').is(':checked'));
-	});
-	
-	$('#chkIp').bind('click',function() {
-		if($('#chkIp').is(':checked')) {
-			if($('#chkIpC').is(':checked')) {
-				$('#chkIpC').wCheck('check',false);
-			}
-			$('#lblAftIp').css('visibility','visible');
-			$('#txtAftIp').css('visibility','visible');
-		} 
-		if(!$('#chkIp').is(':checked') && !$('#chkIpC').is(':checked')){
-			console.log('check2');
-			$('#lblAftIp').css('visibility','hidden');
-			$('#txtAftIp').css('visibility','hidden');
-		}
-	});
-	
-	$('#chkIpC').bind('click',function() {
-		if($('#chkIpC').is(':checked')) {
-			if($('#chkIp').is(':checked')) {
-				$('#chkIp').wCheck('check',false);
-			}
-			$('#lblAftIp').css('visibility','visible');
-			$('#txtAftIp').css('visibility','visible');
-		} 
-		
-		if(!$('#chkIp').is(':checked') && !$('#chkIpC').is(':checked')){
-			$('#lblAftIp').css('visibility','hidden');
-			$('#txtAftIp').css('visibility','hidden');
-		}
-	});
-	
-	$('#btnReq').bind('click', function() {
-		checkSvrVal(1);
-	});
-	
-	$('#btnUpdt').bind('click', function() {
-		checkSvrVal(2);
-	});
-	
-	$('#btnCls').bind('click', function() {
-		var selIndex = svrInfoGrid.selectedDataIndexs;
-		if(selIndex.length < 1) {
-			dialog.alert('폐기 그리드를 선택해주세요.', function(){});
-			return;
-		}
-		
-		closeSvr();
-	});
-	
-	$('#btnQry').bind('click', function() {
-		getSvrInfoList();
-	});
-	
-	$('[data-grid-control]').bind('click',function () {
-		switch (this.getAttribute('data-grid-control')) {
-			case 'excel-export':
-				svrInfoGrid.exportExcel('['+selectedSystem.cm_sysmsg+']시스템상세정보.xls');
-			break;
-		}
-	});
-	
-	$('#btnExit').bind('click', function() {
-		popClose();
-	});
-	/////////////////////// 서버정보 버튼 event end////////////////////////////////////////////////
-	
-	/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
-	$('#cboSvrUsr').bind('change',function(){
-		console.log('cboSvrUsr change~~');
-		$('#chkAllUsr').wCheck('check',false);
-		
-		if(sysInfo.substr(8,1) === '1') {
-			// 사용업무 사용가능하게
-		} else {
-			// 사용업무 사용 불가능하게
-		}
-		
-		selSw = false;
-		var svrUsrInfoData = new Object();
-		svrUsrInfoData = {
-			SysCd	: sysCd,
-			SvrCd 	: $('[data-ax5select="cboSvrUsr"]').ax5select("getValue")[0].value ,
-			requestType	: 'getSvrUsrInfo'
-		}
-		ajaxAsync('/webPage/administrator/SvrUsrServlet', svrUsrInfoData, 'json',successGetSvrUsrInfo);
+	getSvrList();
 
+	///////////////////////  버튼 event start////////////////////////////////////////////////
+	
+	// 등록 이벤트
+	$('#btnReqItem').bin('click',function() {
+		
 	});
-	$('#cboSvrUsr').trigger('change');
 	
+	// 폐기 이벤트
+	$('#btnClsItem').bin('click',function() {
+		
+	});
 	
-	// 계정정보 닫기 버튼 클릭
-	$('#btnExitUsr').bind('click', function() {
+	// 조회 이벤트
+	$('#btnQryItem').bin('click',function() {
+		
+	});
+	
+	// 닫기 이벤트
+	$('#btnExitItem').bin('click',function() {
 		popClose();
 	});
 	
-	// 계정정보 등록 버튼 클릭
-	$('#btnReqUsr').bind('click', function() {
-		
-		getSecuList();
-	});
+	///////////////////////  버튼 event end////////////////////////////////////////////////
 	
-	// 계정정보 폐기 버튼 클릭
-	$('#btnUsrClose').bind('click',function() {
-		
-	});
 	
-	// 계정정보 조회버튼 클릭
-	$('#btnQryUsr').bind('click', function() {
-		getSecuList();
-	});
-	/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
 });
 
 
-/////////////////////// 서버정보 버튼 function start////////////////////////////////////////////////
-function closeSvr() {
-	var selIndex 	= svrInfoGrid.selectedDataIndexs;
-	var selSvrItem 	= svrInfoGrid.list[selIndex];
-	var txtSvrIp 	= $('#txtSvrIp').val().trim();
-	var txtUser 	= $('#txtUser').val().trim();
-	var tmpSeq		= '';
-	if(selIndex.length < 1) {
-		dialog.alert('수정할 그리드를 선택해주세요.', function(){});
-		return;
-	}
-	
-	if(txtSvrIp.length === 0 ) {
-		dialog.alert('서버IP를 입력하여 주시기 바랍니다.', function(){});
-		return;
-	}
-	
-	if(txtUser.length === 0 ) {
-		dialog.alert('계정을 입력하여 주시기 바랍니다.', function(){});
-		return;
-	}
-	
-	if(selSvrItem.cm_svrcd == $('[data-ax5select="cboSvr"]').ax5select("getValue")[0].value 
-			&& selSvrItem.cm_svrip == txtSvrIp
-			&& selSvrItem.cm_svrusr == txtUser) {
-		tmpSeq = selSvrItem.cm_seqno;
-	}
-	
-	if(tmpSeq.length <= 0 ) {
-		dialog.alert('선택한 그리드의 정보와 현재 정보가 다릅니다. 다시 선택 후 눌러주세요.',function(){});
-		return;
-	}
-	
-	var svrCloseData = new Object();
-	svrCloseData = {
-		SysCd	: sysCd,
-		UserId	: userId,
-		SvrCd 	: $('[data-ax5select="cboSvr"]').ax5select("getValue")[0].value ,
-		SeqNo 	: tmpSeq,
-		requestType	: 'closeSvr'
-	}
-	ajaxAsync('/webPage/administrator/SvrServlet', svrCloseData, 'json',successSvrClose);
-}
-
-function successSvrClose(data) {
-	dialog.alert('시스템상세정보 폐기처리를 완료하였습니다.',function(){getSvrInfoList();});
-}
-
-function checkSvrVal(gbnCd) {
-	if(gbnCd === 2) {
-		var selIndex = svrInfoGrid.selectedDataIndexs;
-		if(selIndex.length < 1) {
-			dialog.alert('수정할 그리드를 선택해주세요.', function(){});
-			return;
-		}
-		$('#chkIp').wCheck('check',false);
-		$('#chkIpC').wCheck('check',false);
-	}
-	var txtSvrName 	= $('#txtSvrName').val().trim();
-	var txtSvrIp 	= $('#txtSvrIp').val().trim();
-	var txtPort 	= $('#txtPort').val().trim();
-	var txtSeq 		= $('#txtSeq').val().trim();
-	var txtHome 	= $('#txtHome').val().trim();
-	var txtDir 		= $('#txtDir').val().trim();
-	var txtUser 	= $('#txtUser').val().trim();
-	var txtAftIp	= $('#txtAftIp').val().trim();
-	var rquestType	= '';
-	
-	if(txtSvrName.length === 0 ) {
-		dialog.alert('서버명을 입력하여 주시기 바랍니다.',function(){});
-		return;
-	}
-	if(txtSvrIp.length === 0 ) {
-		dialog.alert('서버IP를 입력하여 주시기 바랍니다.',function(){});
-		return;
-	}
-	if(txtPort.length === 0 ) {
-		dialog.alert('Port를 입력하여 주시기 바랍니다.',function(){});
-		return;
-	}
-	if(txtSeq.length === 0 ) {
-		dialog.alert('순서를 입력하여 주시기 바랍니다.',function(){});
-		return;
-	}
-	if(txtHome.length === 0 ) {
-		dialog.alert('Home-Dir을 입력하여 주시기 바랍니다.',function(){});
-		return;
-	}
-	if(txtDir.length === 0 ) {
-		dialog.alert('형상관리설치디렉토리(Agent-Dir)을 입력하여 주시기 바랍니다.',function(){});
-		return;
-	}
-	if(txtUser.length === 0 ) {
-		dialog.alert('계정을 입력하여 주시기 바랍니다.',function(){});
-		return;
-	}
-	
-	if($('#chkIp').is(':checked') || $('#chkIpC').is(':checked')) {
-		if(txtAftIp.length === 0) {
-			dialog.alert('변경할 IP를 입력하여 주시기 바랍니다.',function(){});
-			return;
-		}
-		
-		if(txtAftIp === txtSvrIp) {
-			dialog.alert('변경전/후 IP가 동일합니다.',function(){});
-			return;
-		}
-	}
-	
-	var svrReqInfoData 	= new Object();
-	var svrReqInfo 		= new Object();
-	var svrUser			= '';
-	if(gbnCd === 2) {
-		var selIndex = svrInfoGrid.selectedDataIndexs;
-		var selSvrItem = svrInfoGrid.list[selIndex];
-		svrReqInfo.cm_svrcd = selSvrItem.cm_svrcd;
-		svrReqInfo.cm_seqno = selSvrItem.cm_seqno;
-	} else {
-		svrReqInfo.cm_svrcd = $('[data-ax5select="cboSvr"]').ax5select("getValue")[0].value;
-	}
-	svrReqInfo.cm_sysos 	= $('[data-ax5select="cboOs"]').ax5select("getValue")[0].value;
-	svrReqInfo.cm_buffsize 	= $('[data-ax5select="cboBuffer"]').ax5select("getValue")[0].value;
-
-	svrReqInfo.gbncd 		= String(gbnCd);
-	svrReqInfo.cm_syscd 	= sysCd;
-	svrReqInfo.cm_svrname 	= txtSvrName;
-	svrReqInfo.cm_svrip 	= txtSvrIp;
-	svrReqInfo.cm_portno 	= txtPort;
-	svrReqInfo.cm_prcseq	= txtSeq;
-	svrReqInfo.cm_svrusr 	= txtUser;
-	svrReqInfo.cm_volpath 	= txtHome;
-	svrReqInfo.cm_dir 		= txtDir;
-	svrReqInfo.basesvr 		= dirBase;
-	svrReqInfo.cm_ftppass 	= $('#txtPass').val().trim();
-	svrReqInfo.cm_samedir 	= $('#txtTmp').val().trim();
-	
-	if($('#chkErr').is(':checked'))  svrReqInfo.cm_agent = 'ER';
-	if($('#chkStop').is(':checked')) svrReqInfo.cm_svrstop = 'Y';
-	else svrReqInfo.cm_svrstop = 'N';
-	
-	
-	for(var i=0; i<svrInfoData.length; i++) {
-		svrUser += $('#chkSvrName' + Number(svrInfoData[i].cm_micode)).is(':checked') ? '1' : '0';
-	}
-	
-	if(svrReqInfo.cm_svrcd === dirBase) {
-		if($('#chkBase').is(':checked')) svrReqInfo.dirbase = 'Y';
-		else svrReqInfo.dirbase = 'N';
-	} else {
-		svrReqInfo.dirbase = 'N';
-	}
-	
-	
-	
-	if($('#chkIp').is(':checked') || $('#chkIpC').is(':checked')) svrReqInfo.aftip = txtAftIp;
-	if($('#chkIp').is(':checked')) {
-		rquestType = 'svrInAnUp';
-	}
-	if($('#chkIpC').is(':checked')) {
-		rquestType = 'svrCopy';
-	}
-	if(!$('#chkIp').is(':checked') && !$('#chkIpC').is(':checked')) {
-		rquestType = 'svrIn';
-	}
-	svrReqInfo.cm_svruse = svrUser;
-	svrReqInfo.cm_editor = userId;
-	
-	svrReqInfoData = {
-		svrReqInfo	: svrReqInfo,
-		requestType	: rquestType
-	}
-	
-	if(rquestType === 'svrInAnUp') {
-		ajaxAsync('/webPage/administrator/SvrServlet', svrReqInfoData, 'json',successSvrInAnUp);
-	} 
-	
-	if(rquestType === 'svrCopy') {
-		ajaxAsync('/webPage/administrator/SvrServlet', svrReqInfoData, 'json',successSvrCopy);
-	}
-	
-	if(rquestType === 'svrIn') {
-		ajaxAsync('/webPage/administrator/SvrServlet', svrReqInfoData, 'json',successSvrIn);
-	}
-	
-};
-
-function successSvrInAnUp(data) {
-	if(data != 'OK') {
-		dialog.alert(data,function(){});
-	} else {
-		dialog.alert('서버 IP변경 후 복사 처리를 완료하였습니다.',function(){getSvrInfoList();});
-	}
-}
-function successSvrCopy(data) {
-	if(data != 'OK') {
-		dialog.alert(data,function(){});
-	} else {
-		dialog.alert('서버 IP변경 처리를 완료하였습니다.',function(){getSvrInfoList();});
-	}
-	
-}
-function successSvrIn(data) {
-	dialog.alert('서버정보 등록처리를 완료하였습니다.',function(){getSvrInfoList();});
-}
-
-
-function getSvrInfoList() {
-	var svrInfoStr = '';
-	svrInfoData.forEach(function(svrItem,index) {
-		if(svrInfoStr.length > 0) svrInfoStr += ',';
-		svrInfoStr += svrItem.cm_codename;
-	});
-	var svrInfo = new Object();
-	svrInfo = {
-		sysCd		: sysCd,
-		svrInfoStr	: svrInfoStr,
-		requestType	: 'getSvrInfoList'
-	}
-	ajaxAsync('/webPage/administrator/SvrServlet', svrInfo, 'json',successGetSvrInfoList);
-}
-
-function successGetSvrInfoList(data) {
-	svrInfoGridData = data;
-	svrInfoGrid.setData(svrInfoGridData);
-}
-
+///////////////////////  버튼 function start////////////////////////////////////////////////
 function popClose(){
-	window.parent.sysDetailModal.close();
+	window.parent.parent.sysDetailModal.close();
 }
 
-function clickSvrList(selIndex) {
-	var selItem = svrInfoGrid.list[selIndex];
-	var svruse 	= selItem.cm_svruse;
-	// 서버 콤보 채인지 이벤트 추가 해야함
-	$('[data-ax5select="cboSvr"]').ax5select('setValue',selItem.cm_svrcd,true);
-	$('[data-ax5select="cboOs"]').ax5select('setValue',selItem.cm_sysos,true);
-	$('[data-ax5select="cboBuffer"]').ax5select('setValue',selItem.cm_buffsize,true);
-	
-	if(selItem.cm_svrcd == dirBase && selItem.cm_cmpsvr == 'Y') {
-		$('#chkBase').wCheck('check',true);
-	} else {
-		$('#chkBase').wCheck('check',false);
+function getSvrList() {
+	var svrListData = new Object();
+	svrListData = {
+		SysCd		: sysCd,
+		requestType	: 'getSvrList'
 	}
-	
-	$('#txtSvrName').val(selItem.cm_svrname);
-	$('#txtSvrIp').val(selItem.cm_svrip);
-	$('#txtPort').val(selItem.cm_portno);
-	$('#txtSeq').val(selItem.cm_prcseq);
-	$('#txtUser').val(selItem.cm_svrusr);
-	$('#txtPass').val(selItem.cm_ftppass);
-	$('#txtHome').val(selItem.cm_volpath);
-	$('#txtDir').val(selItem.cm_dir);
-	$('#txtTmp').val(selItem.cm_samedir);
-	
-	clickChkAllSvr(false);
-	
-	for(var i=0; i<svruse.length; i++) {
-		if(svruse.substr(i,1) === '1') {
-			$('#chkSvrName'+ (i+1) ).wCheck('check',true);
-		}
-	}
-	
+	ajaxAsync('/webPage/administrator/SvrPrgServlet', svrListData, 'json',successgetSvrList);
 }
 
-function clickChkAllSvr(checked){
-	if(checked) {
-		for(var i=0; i<svrInfoData.length; i++) {
-			$('#chkSvrName'+ (i+1) ).wCheck('check',true);
-		}
-	}
-	
-	if(!checked) {
-		for(var i=0; i<svrInfoData.length; i++) {
-			$('#chkSvrName'+ (i+1) ).wCheck('check',false);
-		}
-	}
-}
-
-function getCodeInfo() {
-	var codeInfos = getCodeInfoCommon([
-		new CodeInfo('SERVERCD','','N'),
-		new CodeInfo('SYSOS','','N'), 
-		new CodeInfo('SVRINFO','','N'),
-		new CodeInfo('BUFFSIZE','','N'),
-		]);
-	cboSvrData 		= codeInfos.SERVERCD;
-	cboOsData		= codeInfos.SYSOS;
-	svrInfoData 	= codeInfos.SVRINFO;
-	cboBufferData 	= codeInfos.BUFFSIZE;
-	
-	
+function getSvrList(data) {
+	cboSvrItemData = data;
 	cboOptions = [];
-	$.each(cboSvrData,function(key,value) {
+	$.each(cboSvrItemData,function(key,value) {
 		cboOptions.push({value: value.cm_micode, text: value.cm_codename});
 	});
-	$('[data-ax5select="cboSvr"]').ax5select({
+	
+	$('[data-ax5select="cboSvrItem"]').ax5select({
         options: cboOptions
 	});
-	
-	$('[data-ax5select="cboSvrUsr"]').ax5select({
-        options: cboOptions
-	});
-	
-	cboOptions = [];
-	$.each(cboOsData,function(key,value) {
-		cboOptions.push({value: value.cm_micode, text: value.cm_codename});
-	});
-	$('[data-ax5select="cboOs"]').ax5select({
-        options: cboOptions
-	});
-	
-	cboOptions = [];
-	$.each(cboBufferData,function(key,value) {
-		cboOptions.push({value: value.cm_micode, text: value.cm_codename});
-	});
-	$('[data-ax5select="cboBuffer"]').ax5select({
-        options: cboOptions
-	});
-	
-	
-	$('#ulSyrInfo').empty();
-	var liStr = null;
-	var addId = null;
-	svrInfoData.forEach(function(svrInfoItem, sysInfoIndex) {
-		addId = Number(svrInfoItem.cm_micode);
-		liStr  = '';
-		liStr += '<li class="list-group-item">';
-		liStr += '	<input type="checkbox" class="checkbox-svrInfo" id="chkSvrName'+addId+'" data-label="'+svrInfoItem.cm_codename+'"  value="'+svrInfoItem.cm_micode+'" />';
-		liStr += '</li>';
-		$('#ulSyrInfo').append(liStr);
-	});
-	
-	$('input.checkbox-svrInfo').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
-	
-	//getSvrInfoList();
 }
-///////////////////// 서버정보 버튼 function end////////////////////////////////////////////////
-
-/////////////////// 계정정보 버튼 function end////////////////////////////////////////////////
-function successGetSvrUsrInfo(data) {
-	console.log(data);
-	svrUsrGridData = data;
-	svrUsrGrid.setData([
-		{"cm_codename": "체크아웃서버",
-			"cm_micode": "01",
-				"cm_portno": "29896",
-				"cm_seqno": "1",
-				"cm_svrip": "192.168.0.12",
-				"cm_svrname": "개발서버",
-				"cm_svruse": "000000",
-				"cm_svrusr": "ecams"}]);
-	var accSelIndex = accGrid.selectedDataIndexs;
-	var accSelItem = accGrid.list[accSelIndex];
-	if(selSw && accSelIndex.length !== 0) {
-		svrUsrGridData.forEach(function(svrUsrItem, index) {
-			if(svrUsrItem.cm_micode === accSelItem.cm_svrcd 
-					&& svrUsrItem.cm_seqno === accSelItem.cm_seqno) svrUsrGrid.select(index);
-		});
-	}
-}
-
-// 사용업무 
-function getUlSvrInfo() {
-	var ulSvrInfoData = new Object();
-	ulSvrInfoData = {
-		UserID	: userId,
-		SysCd 	: sysCd ,
-		CloseYn : 'N',
-		SelMsg : '',
-		requestType	: 'getUlSvrInfo'
-	}
-	ajaxAsync('/webPage/administrator/SvrUsrServlet', ulSvrInfoData, 'json',successGetUlSvrInfo);
-}
-
-function successGetUlSvrInfo(data) {
-	
-	ulSvrInfoData = data;
-	
-	$('#ulSvrInfo').empty();
-	var liStr = null;
-	var addId = null;
-	console.log('check');
-	console.log(ulSvrInfoData);
-	for(var i=0; i< ulSvrInfoData.length; i++) {
-		var svrinfoItem = ulSvrInfoData[i];
-		addId = Number(svrinfoItem.cm_jobcd);
-		liStr  = '';
-		liStr += '<li class="list-group-item">';
-		liStr += '	<input type="checkbox" class="checkbox-svrinfo" id="chkJob'+addId+'" data-label="'+svrinfoItem.cm_jobname+'"  value="'+svrinfoItem.cm_jobcd+'" />';
-		liStr += '</li>';
-		console.log(liStr);
-		$('#ulSvrInfo').append(liStr);
-	}
-	/*ulSvrInfoData.forEach(function(svrinfoItem, sysInfoIndex) {
-		
-		addId = Number(svrinfoItem.cm_jobcd);
-		liStr  = '';
-		liStr += '<li class="list-group-item">';
-		liStr += '	<input type="checkbox" class="checkbox-svrinfo" id="chkJob'+cm_jobcd+'" data-label="'+svrinfoItem.cm_jobname+'"  value="'+svrinfoItem.cm_jobcd+'" />';
-		liStr += '</li>';
-		console.log(liStr);
-		$('#ulSvrInfo').append(liStr);
-	});*/
-	
-	$('input.checkbox-svrinfo').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
-}
-/////////////////// 계정정보 버튼 function end////////////////////////////////////////////////
-
-function setTabMenu(){
-	$(".tab_content").hide();
-	$(".tab_content:first").show();
-	$("ul.tabs li").click(function () {
-		$("ul.tabs li").removeClass("active").css("color", "#333");
-		$(this).addClass("active").css("color", "darkred");
-		$(".tab_content").hide();
-		
-		var activeTab = $(this).attr("rel");
-		
-		// 페이지를 처음 불러올때 미리 불러오면 셀 width 깨짐 현상이 있어 클릭후 처움 ifram 을 새로 불러오도록 수정
-		// 수정 후 첫 페이지 load 시에 fadeIn이 매끄럽지 않아 추후 수정이 필요함
-		if(urlArr[$(this).index()] == null && $(this).index() > 0){
-			urlArr[$(this).index()] = $("#" + activeTab).children("iframe");
-			$("#" + activeTab).children("iframe").attr("src",$("#" + activeTab).children("iframe").attr("src"));
-			
-			$("#" + activeTab).children("iframe").on('load',function(){
-				$("#" + activeTab).fadeIn();
-			});
-			return;
-		}
-		$("#" + activeTab).fadeIn();
-	});
-}
-
-/*function setTabMenu(){
-	$(".tab_content").hide();
-	$(".tab_content:first").show();
-	$("ul.tabs li").click(function () {
-		$("ul.tabs li").removeClass("active").css("color", "#333");
-		$(this).addClass("active").css("color", "darkred");
-		$(".tab_content").hide();
-		var selectedId = $(this).attr('rel'); 
-		$('#'+selectedId).show();
-	});
-}*/
+/////////////////////  버튼 function end////////////////////////////////////////////////
 

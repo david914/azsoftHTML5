@@ -13,7 +13,9 @@ var userDeptName= null;
 var userDeptCd 	= null;
 var request 	= new Request();
 var sessionID 	= null;
+var reqCd		= null;
 var iframeHeight= 0;
+var menuData	= null;
 
 $(document).ready(function() {
 	screenInit();
@@ -78,8 +80,10 @@ function meneSet() {
 	}   
 	ajaxUserData = ajaxCallWithJson('/webPage/main/eCAMSBaseServlet', userInfo, 'json');
 	
+	menuData = ajaxUserData;
+	
 	var menuHtmlStr = '';
-	ajaxUserData.forEach(function(menuItem, menuItemIndex) {
+	menuData.forEach(function(menuItem, menuItemIndex) {
 		if(menuItem.link === undefined || menuItem.link === null) {
 			if(menuHtmlStr.length > 1) {
 				menuHtmlStr += '</ul>\n';
@@ -92,7 +96,7 @@ function meneSet() {
 			menuHtmlStr += '<li><a href="'+menuItem.link+'">'+menuItem.text+'</a></li>\n';
 		}
 		
-		if((menuItemIndex+1) === ajaxUserData.length) {
+		if((menuItemIndex+1) === menuData.length) {
 			menuHtmlStr += '</ul>\n';
 			menuHtmlStr += '</li>\n';
 		}
@@ -111,6 +115,17 @@ function clickSideMenu(event) {
 	var $iFrm = '';
 	var pathName = event.target.pathname;
 	var parentMenuName = '';
+	
+	// 접속 메뉴 request code 가져오기 수정.
+	var findReqCd = false;
+	for(var i=0; i<menuData.length; i++) {
+		if(menuData[i].link === event.target.pathname) {
+			reqCd = menuData[i].reqcd;
+			findReqCd = true;
+			break;
+		}
+	} 
+	if(!findReqCd) reqCd = null;
 	
 	// 하위 메뉴일시만 이동
 	if( pathName.indexOf('doneMove') < 0) {

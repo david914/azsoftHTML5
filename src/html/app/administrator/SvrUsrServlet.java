@@ -66,6 +66,9 @@ public class SvrUsrServlet extends HttpServlet {
 				case "insertSecuInfo" :
 					response.getWriter().write(insertSecuInfo(jsonElement));
 					break;
+				case "closeSvrUsr" :
+					response.getWriter().write(closeSvrUsr(jsonElement));
+					break;
 				default:
 					break;
 			}
@@ -104,5 +107,13 @@ public class SvrUsrServlet extends HttpServlet {
 		HashMap<String, String> etcData = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "etcData") );
 		ArrayList<HashMap<String, String>> svrList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "svrList") );
 		return gson.toJson(cmm0200_svr.secuInfo_Ins(etcData,svrList));
+	}
+	
+	// [시스템상세정보 > 계정정보] 계정연결정보 삭제
+	private String closeSvrUsr(JsonElement jsonElement) throws SQLException, Exception {
+		String SysCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SysCd") );
+		String JobCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "JobCd") );
+		ArrayList<HashMap<String, String>> svrList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "svrList") );
+		return gson.toJson(cmm0200_svr.secuInfo_Close(SysCd, JobCd, svrList));
 	}
 }

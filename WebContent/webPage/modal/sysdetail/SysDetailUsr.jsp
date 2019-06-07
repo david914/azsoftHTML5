@@ -28,8 +28,7 @@
 		</div>
 		<div class="col-sm-12">
 			<div class="scrollBind" style="height: 245px; border: 1px solid black;">
-   				<ul class="list-group" id="ulSvrInfo">
-    			</ul>
+   				<ul class="list-group" id="ulSvrInfo"></ul>
    			</div>
 		</div>
 	</div>
@@ -81,7 +80,7 @@
 			<button class="btn btn-default" id="btnReqUsr">
 				등록 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
 			</button>
-			<button class="btn btn-default" id="btnReq">
+			<button class="btn btn-default" id="btnUsrClose">
 				폐기 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
 			</button>
 			<button class="btn btn-default" id="btnQryUsr">

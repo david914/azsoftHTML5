@@ -32,6 +32,23 @@ var selectedSystem  = window.parent.selectedSystem;
 var selSw			= false;
 
 ///////////////////// 서버정보 화면 세팅 start////////////////////////////////////////////////
+$('[data-ax5select="cboSvr"]').ax5select({
+    options: []
+});
+
+$('[data-ax5select="cboSvrUsr"]').ax5select({
+    options: []
+});
+
+$('[data-ax5select="cboOs"]').ax5select({
+    options: []
+});
+
+$('[data-ax5select="cboBuffer"]').ax5select({
+    options: []
+});
+
+
 svrInfoGrid.setConfig({
     target: $('[data-ax5grid="svrInfoGrid"]'),
     sortable: true, 

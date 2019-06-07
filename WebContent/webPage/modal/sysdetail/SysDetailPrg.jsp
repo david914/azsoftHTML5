@@ -1,78 +1,67 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:import url="/webPage/common/common.jsp" />
+
 <div class="row">
 	<div class="col-sm-7">
-		<div class="col-sm-2">
-			<label id="lblSvr">서버종류</label>
+		<div class="col-sm-3">
+			<label id="lblSvrItem">서버종류</label>
 		</div>
-		<div class="col-sm-10">
-			<div 	id="cboSvr" data-ax5select="cboSvr" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" >
-		</div>
-		</div>
- 			
-	 	<div class="col-sm-2">
-			<label id="lblSvrName">서버명/OS</label>
-	 	</div>
-	 	<div class="col-sm-5">
-	 		<input id="txtSvrName" name="txtSvrName" class="form-control" type="text"></input>
-	 	</div>
-	 	<div class="col-sm-5">
-	 		<div 	id="cboOs" data-ax5select="cboOs" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" >
+		<div class="col-sm-5">
+			<div 	id="cboSvrItem" data-ax5select="cboSvrItem" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" >
 			</div>
-	 	</div>
-	 			
-	 	<div class="col-sm-2">
-	 		<label id="lblIp">IP/PORT/순서</label>
-	 	</div>
-	 	<div class="col-sm-5">
-	 		<input id="txtSvrIp" name="txtSvrIp" class="form-control" type="text"></input>
-	 	</div>
-	 	<div class="col-sm-3">
-	 		<input id="txtPort" name="txtPort" class="form-control" type="text"></input>
-	 	</div>
-	 	<div class="col-sm-2">
-	 		<input id="txtSeq" name="txtSeq" class="form-control" type="text"></input>
-	 	</div>
-	 			
-	 	<div class="col-sm-2">
-	 		<label id="lblUser">계정/비밀번호</label>
-	 	</div>
-	 	<div class="col-sm-5">
-	 		<input id="txtUser" name="txtTitle" class="form-control" type="text"></input>
-	 	</div>
-	 	<div class="col-sm-5">
-	 		<input id="txtPass" name="txtTitle" class="form-control" type="text"></input>
-	 	</div>
-	 			
-	 	<div class="col-sm-2">
-	 		<label id="lblHome">Home-Dir</label>
-	 	</div>
-	 	<div class="col-sm-10">
-	 		<input id="txtHome" name="txtHome" class="form-control" type="text"></input>
-	 	</div>
-	 			
-	 	<div class="col-sm-2">
-	 		<label id="lblDir">Agent-Dir</label>
-	 	</div>
-	 	<div class="col-sm-10">
-	 		<input id="txtDir" name="txtDir" class="form-control" type="text"></input>
-	 	</div>
-	 			
-	 	<div class="col-sm-2">
-	 		<label id="lblBuffer">버퍼사이즈</label>
-	 	</div>
-	 	<div class="col-sm-10">
-	 		<div 	id="cboBuffer" data-ax5select="cboBuffer" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;">
+		</div>
+		<div class="col-sm-4">
+			<input type="checkbox" class="checkbox-usr" id="chkAllSvrItem" data-label="전체선택"  />
+		</div>
+		<div class="col-sm-12">
+			<div data-ax5grid="svrItemGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 45%;"></div>
+		</div>
+	</div>
+	
+	<div class="col-sm-5">
+		<div class="col-sm-8">
+			<label id="lblItem">[프로그램종류]</label>
+		</div>
+		<div class="col-sm-4">
+			<input type="checkbox" class="checkbox-usr" id="chkAllItem" data-label="전체선택"  />
+		</div>
+		<div class="col-sm-12">
+			<div class="scrollBind" style="height: 205px; border: 1px solid black;">
+				<ul class="list-group" id="ulItemInfo"></ul>
 			</div>
-	 	</div>
-	 			
-		<div class="col-sm-2">
-	 		<label id="lblTmp">동기화홈경로</label>
-	 	</div>
-		<div class="col-sm-10">
-	 		<input id="txtTmp" name="txtTmp" class="form-control" type="text"></input>
-	 	</div>
- 	</div>
- 	<div class="col-sm-5">
- 	</div>
+		</div>
+	</div>
+	
+	<div class="col-sm-1">
+		<label id="lblHome">홈디렉토리</label>
+	</div>
+	
+	<div class="col-sm-7">
+		<input id="txtVolpath" name="txtVolpath" class="form-control" type="text"></input>
+	</div>
+	
+	<div class="col-sm-4">
+		<button class="btn btn-default" id="btnReqItem">
+			등록 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
+		</button>
+		<button class="btn btn-default" id="btnClsItem">
+			폐기 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
+		</button>
+		<button class="btn btn-default" id="btnQryItem">
+			조회 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
+		</button>
+		<button class="btn btn-default" id="btnExitItem">
+			닫기 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
+		</button>
+	</div>
+	
+	<div class="col-sm-12">
+		<div data-ax5grid="itemGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 45%;"></div>
+	</div>
 </div>
+
+<c:import url="/js/ecams/common/commonscript.jsp" />	
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/sysdetail/SysDetailPrg.js"/>"></script>
