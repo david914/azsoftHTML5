@@ -106,7 +106,7 @@ public class Cmc0200{
 				pstmt.setString(pstmtcount++,UserId);
 			}
 
-			if (UserId != null && UserId != "") pstmt.setString(pstmtcount++,UserId);
+			//if (UserId != null && UserId != "") pstmt.setString(pstmtcount++,UserId);
 	        ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());           
 	        rs = pstmt.executeQuery();
 	        rsval.clear();
@@ -215,11 +215,11 @@ public class Cmc0200{
 			strQuery.append("  from cmc0111 a,cmm0040 b			   \n");
 			strQuery.append(" where a.cc_srid=?                    \n");
 			strQuery.append("   and a.cc_userid=b.cm_userid	       \n");
-			pstmt = conn.prepareStatement(strQuery.toString());	
-//			pstmt = new LoggableStatement(conn,strQuery.toString());
+//			pstmt = conn.prepareStatement(strQuery.toString());	
+			pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmtcount = 1;
 			pstmt.setString(pstmtcount++,IsrId);
-	//        //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());           
+			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());           
 	        rs = pstmt.executeQuery();
 	        rsval.clear();
 			while (rs.next()){			
