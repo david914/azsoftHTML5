@@ -89,9 +89,9 @@ $(document).ready(function(){
 	$('#txtAftIp').css('visibility','hidden');
 	$('#lblSysMsg').text('시스템 : ' + selectedSystem.cm_syscd + ' ' + selectedSystem.cm_sysmsg);
 	
-	_promise(500,getCodeInfo())
+	_promise(50,getCodeInfo())
 		.then(function(){
-			return _promise(500,getSvrInfoList());
+			return _promise(50,getSvrInfoList());
 		});
 	
 	/////////////////////// 서버정보 버튼 event start////////////////////////////////////////////////

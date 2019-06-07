@@ -117,18 +117,17 @@ $(document).ready(function(){
 		//chkAll3.enabled = false; 계정정보탭의 전체선택 사용가능
 	}
 	
-	_promise(500,getCodeInfo())
+	_promise(50,getCodeInfo())
 		.then(function(){
-			return _promise(500,$('#cboSvrUsr').trigger('change'));
+			return _promise(50,$('#cboSvrUsr').trigger('change'));
 		})
 		.then(function() {
-			return _promise(500,getSecuList());
+			return _promise(50,getSecuList());
 		});
 	
 	
 	/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
 	$('#cboSvrUsr').bind('change',function(){
-		console.log('서버종류 콤보 change');
 		
 		$('#chkAllUsr').wCheck('check',false);
 		
@@ -149,37 +148,89 @@ $(document).ready(function(){
 
 	});
 	
-	// 계정정보 닫기 버튼 클릭
+	// 계정정보 닫기 버튼 클릭 이벤트
 	$('#btnExitUsr').bind('click', function() {
 		popClose();
 	});
 	
-	// 계정정보 등록 버튼 클릭
+	// 계정정보 등록 버튼 클릭 이벤트
 	$('#btnReqUsr').bind('click', function() {
 		checkValUsr();
 	});
 	
-	// 계정정보 폐기 버튼 클릭
+	// 계정정보 폐기 버튼 클릭 이벤트
 	$('#btnUsrClose').bind('click',function() {
+		
+		var selSvrIn= svrUsrGrid.selectedDataIndexs;
+		var svrItem = null;
+		var tmpJob 	= '';
+		var svrArr	= [];
+		if(selSvrIn.length === 0 ) {
+			dialog.alert('폐기할 서버를 선택한 후 처리하시기 바랍니다.', function() {});
+			return;
+		}
+		
+		if(sysInfo.substr(8,1) === '1') {
+			var checkSw = false;
+			ulSvrInfoData.forEach(function( ulItem, index) {
+				var id = ulItem.cm_jobcd;
+				if($('#chkJob'+id).is(':checked')) {
+					checkSw = true;
+					break;
+				}
+			});
+			
+			if(!checkSw) {
+				dialog.alert('폐기할 업무를 선택한 후 처리하시기 바랍니다.',function(){});
+				return;
+			}
+		}
+		
+		selSvrIn.forEach(function(selIn, index) {
+			svrItem = svrUsrGrid.list[selIn];
+			svrArr.push(svrItem);
+		});
+		
+		if(sysInfo.substr(8,1) === '1') {
+			ulSvrInfoData.forEach(function( ulItem, index) {
+				if(tmpJob.length > 0 ) tmpJob += ',';
+				//else 
+			});
+		} else {
+			tmpJob = '****';
+		}
+		
 		
 	});
 	
-	// 계정정보 조회버튼 클릭
+	// 계정정보 조회버튼 클릭 이벤트
 	$('#btnQryUsr').bind('click', function() {
 		getSecuList();
 	});
 	
-	$('#chkAllSvrJob').bind('click', function() {
-		if($('#chkAllSvrJob').is(':checked')) {
-			
-			
-			
-		}
+	$('#chkAllUsr').bind('change',function() {
+		/*var checkSw = false;
+		if($('#chkAllUsr').is(':checked')) checkSw = true;
+		if(checkSw) {
+			for(var i=0; svrUsrGridData.length; i++) {
+				svrUsrGrid.select(i);
+			}
+		}*/
+		//if(!checkSw) svrUsrGrid.clearSelect();
+	});
+	
+	// 사용업무 전체선택 클릭 이벤트
+	$('#chkAllSvrJob').bind('change', function(e) {
+		var id = '';
+		var checkSw = false;
+		if($('#chkAllSvrJob').is(':checked')) checkSw = true;
 		
-		if(!$('#chkAllSvrJob').is(':checked')) {
-			
+		for(var i=0; i<ulSvrInfoData.length; i++) {
+			var svrinfoItem = ulSvrInfoData[i];
+			id = svrinfoItem.cm_jobcd;
+			if(checkSw) $('#chkJob'+id).wCheck('check',true);
+			if(!checkSw) $('#chkJob'+id).wCheck('check',false);
 		}
-		
 	})
 	/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
 });
@@ -359,63 +410,20 @@ function successGetUlSvrInfo(data) {
 	$('#ulSvrInfo').empty();
 	var liStr = null;
 	var addId = null;
-	console.log('check');
-	console.log(ulSvrInfoData);
 	for(var i=0; i< ulSvrInfoData.length; i++) {
 		var svrinfoItem = ulSvrInfoData[i];
-		addId = Number(svrinfoItem.cm_jobcd);
+		addId = svrinfoItem.cm_jobcd;
 		liStr  = '';
 		liStr += '<li class="list-group-item">';
-		liStr += '	<input type="checkbox" class="checkbox-svrinfo" id="chkJob'+addId+'" data-label="'+svrinfoItem.cm_jobname+'"  value="'+svrinfoItem.cm_jobcd+'" />';
+		liStr += '	<input type="checkbox" class="checkbox-svrinfo" id="chkJob'+addId+'" data-label="'+svrinfoItem.cm_jobname+'"  value="'+addId+'" />';
 		liStr += '</li>';
-		console.log(liStr);
 		$('#ulSvrInfo').append(liStr);
 	}
-	/*ulSvrInfoData.forEach(function(svrinfoItem, sysInfoIndex) {
-		
-		addId = Number(svrinfoItem.cm_jobcd);
-		liStr  = '';
-		liStr += '<li class="list-group-item">';
-		liStr += '	<input type="checkbox" class="checkbox-svrinfo" id="chkJob'+cm_jobcd+'" data-label="'+svrinfoItem.cm_jobname+'"  value="'+svrinfoItem.cm_jobcd+'" />';
-		liStr += '</li>';
-		console.log(liStr);
-		$('#ulSvrInfo').append(liStr);
-	});*/
 	
 	$('input.checkbox-svrinfo').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 }
 
 function clickAccGrid(selIndex) {
-/*	var i:int = 0;
-	var tmpInfo:String = "";
-	
-	if (grdAcc.selectedIndex < 0) return;
-	for (i=0;cboSvr2_dp.length>i;i++) {
-		if (cboSvr2_dp.getItemAt(i).cm_micode == grdAcc.selectedItem.cm_svrcd) {
-			cboSvr2.selectedIndex = i;
-			break;
-		}
-	}
-	selSw = true;
-	Cmm0200_Copy.getSvrInfo(strSysCd,grdAcc.selectedItem.cm_svrcd);
-		txtSvrUsr.text = grdAcc.selectedItem.cm_svrusr;
-	txtGroup.text = grdAcc.selectedItem.cm_grpid;
-	txtMode.text = grdAcc.selectedItem.cm_permission;
-	txtDbUsr.text = grdAcc.selectedItem.cm_dbuser;	
-	txtDbConn.text = grdAcc.selectedItem.cm_dbconn;
-	txtDbPass.text = grdAcc.selectedItem.cm_dbpass;
-		chkAll3.selected = false;
-	chkAll3_Click();
-	
-	for (i=0;lstJob_dp.length>i;i++) {
-		if (grdAcc.selectedItem.cm_jobcd == lstJob_dp.getItemAt(i).cm_jobcd) { 
-		   lstJob_dp.getItemAt(i).checkbox = true;
-		   break;
-		}
-	}
-	lstJob_dp.refresh();
-*/	
-	
 	var selItem = accGrid.list[selIndex];
 	selSw = true;
 	
@@ -426,10 +434,21 @@ function clickAccGrid(selIndex) {
 	$('#txtDbConn').val(selItem.cm_dbconn);
 	$('#txtDbPass').val(selItem.cm_dbpass);
 	
-	$('#chkAllSvrJob').wCheck('check',false);
 	
 	$('[data-ax5select="cboSvrUsr"]').ax5select('setValue',selItem.cm_svrcd,true);
 	$('#cboSvrUsr').trigger('change');
+	
+	$('#chkAllSvrJob').wCheck('check',false);
+	_promise(50, $('#chkAllSvrJob').trigger('change'))
+		.then(function() {
+			for(var i=0; i<ulSvrInfoData.length; i++) {
+				if(selItem.cm_jobcd === ulSvrInfoData[i].cm_jobcd){
+					var id = ulSvrInfoData[i].cm_jobcd;
+					$('#chkJob'+id).wCheck('check',true);
+					break;
+				}
+			}
+		});
 	
 }
 /////////////////// 계정정보 버튼 function end////////////////////////////////////////////////
