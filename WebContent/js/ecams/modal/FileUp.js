@@ -1,6 +1,12 @@
 var dialog = new ax5.ui.dialog({title: "확인"});
 var uploadCnt = 0;
 var fileArr = [];
+
+
+$(document).ready(function(){
+	window.parent.fileUploadBtn = $('#btnStartUpload');
+});
+
 /*
  * For the sake keeping the code clean and the examples simple this file
  * contains only the plugin configuration & callbacks.

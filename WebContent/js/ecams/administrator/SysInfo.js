@@ -22,6 +22,7 @@ var datScmOpen 		= new ax5.ui.picker();
 var relModal 		= new ax5.ui.modal();
 var jobModal 		= new ax5.ui.modal();
 var sysDetailModal 	= new ax5.ui.modal();
+var prgKindsModal 	= new ax5.ui.modal();
 
 var cboOptions = [];
 
@@ -190,7 +191,6 @@ $(document).ready(function(){
 			$('#txtSysCd').val('');
 			$('[data-ax5select="cboSys"]').ax5select('setValue','00000',true);
 			$('[data-ax5select="cboSys"]').ax5select("disable");
-
 		}
 		
 		if( !($(this).is(':checked')) ) {
@@ -342,7 +342,6 @@ $(document).ready(function(){
 	
 	// 시스템상세정보
 	$('#btnSysDetail').bind('click', function() {
-		
 		var gridSelectedIndex 	= sysInfoGrid.selectedDataIndexs;
 		if(gridSelectedIndex.length === 0 ) {
 			dialog.alert('시스템을 그리드에서 선택후 눌러주세요.',function(){});
@@ -372,7 +371,31 @@ $(document).ready(function(){
 	
 	// 프로그램종류정보
 	$('#btnProg').bind('click', function() {
-		dialog.alert('프로그램종류정보버튼 클릭', function(){});
+		var gridSelectedIndex 	= sysInfoGrid.selectedDataIndexs;
+		if(gridSelectedIndex.length === 0 ) {
+			dialog.alert('시스템을 그리드에서 선택후 눌러주세요.',function(){});
+			return;
+		}
+		selectedSystem = sysInfoGrid.list[gridSelectedIndex];
+		prgKindsModal.open({
+	        width: 1200,
+	        height: 700,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/PrgKindsModal.jsp",
+	            param: "callBack=prgKindsModalCallBack"
+	        },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	                selectedSystem = null;
+	            }
+	        }
+	    }, function () {
+	    });
 	});
 	
 	// 공통디렉토리
@@ -398,6 +421,10 @@ var jobModalCallBack = function() {
 
 var sysDetailModalCallBack = function() {
 	sysDetailModal.close();
+}
+
+var prgKindsModalCallBack = function() {
+	prgKindsModal.close();
 }
 
 // 시스템 등록/업데이트시 유효성 체크
@@ -960,4 +987,5 @@ function makeSysInfoUlList() {
 	});
 	
 	$('input.checkbox-sysInfo').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
+
 }

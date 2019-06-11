@@ -23,6 +23,8 @@ var downAcptno = null;
 var downFileCnt = 0;
 var title_;
 var class_;
+var fileUploadBtn = null;
+
 
 var fileUploadModal = new ax5.ui.modal({
 	theme: "warning",

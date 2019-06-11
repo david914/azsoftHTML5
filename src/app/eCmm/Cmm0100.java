@@ -968,9 +968,95 @@ public class Cmm0100{
 				}
 			}
 		}
-
-
 	}//end of getProgInfoTree() method statement
+    
+    public ArrayList<HashMap<String, String>> getProgInfoZTree() throws SQLException, Exception {
+		Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		ResultSet         rs          = null;
+		PreparedStatement pstmt2      = null;
+		ResultSet         rs2         = null;
+		StringBuffer      strQuery    = new StringBuffer();
+		HashMap<String, String> rtMap 				= new HashMap<>();
+		ArrayList<HashMap<String, String>> rtArr 	= new ArrayList<>();
+		ConnectionContext connectionContext = new ConnectionResource();
+
+		try {
+			conn = connectionContext.getConnection();
+
+			strQuery.setLength(0);
+			strQuery.append("Select cm_prginfcd, cm_upprginfcd, cm_prginfname  \n");
+			strQuery.append("from (Select * from cmm0104 where cm_useyn='Y')   \n");
+			strQuery.append("start with cm_upprginfcd is null  				   \n");
+			strQuery.append("connect by prior cm_prginfcd = cm_upprginfcd      \n");
+
+            pstmt = conn.prepareStatement(strQuery.toString());
+
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+            	rtMap = new HashMap<>();
+            	rtMap.put("id", rs.getString("cm_prginfcd"));
+            	rtMap.put("pId", rs.getString("cm_upprginfcd"));
+            	rtMap.put("name", rs.getString("cm_prginfname"));
+            	rtMap.put("isParent"			, "true");
+            	
+
+				strQuery.setLength(0);
+				strQuery.append("select b.cm_micode,b.cm_codename from cmm0020 b,cmm0105 a \n");
+				strQuery.append(" where a.cm_prginfcd=?                        \n");
+				strQuery.append("   and b.cm_macode='RSCHKITEM'                \n");
+				strQuery.append("   and b.cm_micode=a.cm_infcode               \n");
+				pstmt2 = conn.prepareStatement(strQuery.toString());
+				pstmt2.setString(1, rs.getString("cm_prginfcd"));
+				rs2 = pstmt2.executeQuery();
+				while (rs2.next()) {
+					rtArr.add(rtMap);
+					rtMap = new HashMap<>();
+	            	rtMap.put("id", rs.getString("cm_prginfcd")+rs2.getString("cm_micode"));
+	            	rtMap.put("pId", rs.getString("cm_prginfcd"));
+	            	rtMap.put("name", rs2.getString("cm_codename"));
+	            	rtMap.put("isParent"			, "false");
+	            	
+				}
+				rs2.close();
+				pstmt2.close();
+				rtArr.add(rtMap);
+			}//end of while-loop statement
+            rs.close();
+            pstmt.close();
+            conn.close();
+			conn = null;
+			pstmt = null;
+			rs = null;
+            return rtArr;
+
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## Cmm0100.getProgInfoZTree() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## Cmm0100.getProgInfoZTree() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## Cmm0100.getProgInfoZTree() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## Cmm0100.getProgInfoZTree() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmm0100.getProgInfoZTree() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+	}//end of getProgInfoTree() method statement
+    
     public String getProcInfo_Init() throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;

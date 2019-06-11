@@ -19,6 +19,9 @@ import org.apache.log4j.Logger;
 import com.ecams.common.dbconn.ConnectionContext;
 import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
+
+import app.common.LoggableStatement;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -65,11 +68,11 @@ public class Cmm0200_Copy{
 			strQuery.append("   and b.cm_macode='SERVERCD'                         \n");
 			strQuery.append("   and b.cm_micode=a.cm_svrcd                         \n");
 			strQuery.append("order by a.cm_svrcd,a.cm_svrip,a.cm_svrname           \n");
-			//pstmt = new LoggableStatement(conn,strQuery.toString());
-            pstmt = conn.prepareStatement(strQuery.toString());
+			pstmt = new LoggableStatement(conn,strQuery.toString());
+            //pstmt = conn.prepareStatement(strQuery.toString());
             pstmt.setString(1, SysCd);
             if (SvrCd != "" && SvrCd != null) pstmt.setString(2, SvrCd);
-            ////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
 			while (rs.next()){
