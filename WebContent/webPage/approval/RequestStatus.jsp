@@ -149,7 +149,7 @@ div[class^="row"] {
 
 <section>
 	<div class="container-fluid">
-		<div data-ax5grid="first-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 550px;"></div>
+		<div data-ax5grid="first-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 82%;"></div>
 	</div>
 </section>
 

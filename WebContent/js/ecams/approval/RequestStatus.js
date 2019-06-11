@@ -502,7 +502,7 @@ function new_win_popup(type,reqCd,reqNo,rsrcName) {
 	if (type === 1) {
 		nHeight = screen.height - 300;
 	    nWidth  = screen.width - 400;
-	    cURL = "../winpop/RequestPop.jsp";
+	    cURL = "../winpop/RequestDetail.jsp";
 	} else if (type === 2) {
 		nHeight = 400;
 	    nWidth  = 900;
