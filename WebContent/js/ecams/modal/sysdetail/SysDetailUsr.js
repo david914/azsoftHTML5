@@ -87,22 +87,21 @@ accGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", label: "서버구분",  width: 120 , align: "center"},
-        {key: "cm_svrname", label: "서버명",  width: 120, align: "center"},
-        {key: "cm_svrip", label: "IP Address",  width: 120, align: "center"},
-        {key: "cm_portno", label: "Port",  width: 80, align: "center"},
-        {key: "cm_svrusr", label: "계정",  width: 80, align: "center"},
-        {key: "cm_svrusr", label: "계정",  width: 150, align: "center"},
-        {key: "cm_jobname", label: "업무명",  width: 130, align: "center"},
-        {key: "cm_grpid", label: "그룹",  width: 80, align: "center"},
-        {key: "cm_permission", label: "권한",  width: 150, align: "center"},
-        {key: "cm_dbuser", label: "DB계정",  width: 80, align: "center"},
-        {key: "cm_dbconn", label: "DB연결자",  width: 80, align: "center"}
+        {key: "cm_codename", 	label: "서버구분",  	width: 120, align: "center"},
+        {key: "cm_svrname", 	label: "서버명",  	width: 120, align: "center"},
+        {key: "cm_svrip", 		label: "IP Address",width: 120, align: "center"},
+        {key: "cm_portno", 		label: "Port",  	width: 80, 	align: "center"},
+        {key: "cm_svrusr", 		label: "계정",  		width: 80, 	align: "center"},
+        {key: "cm_svrusr", 		label: "계정",  		width: 150, align: "center"},
+        {key: "cm_jobname", 	label: "업무명",  	width: 130, align: "center"},
+        {key: "cm_grpid", 		label: "그룹",  		width: 80, 	align: "center"},
+        {key: "cm_permission", 	label: "권한",  		width: 150, align: "center"},
+        {key: "cm_dbuser", 		label: "DB계정",  	width: 80, 	align: "center"},
+        {key: "cm_dbconn", 		label: "DB연결자", 	width: 80, 	align: "center"}
     ]
 });
 
 
-$('input.checkbox-usr').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
 $('input.checkbox-usr').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
 
 /////////////////// 계정정보 화면 세팅 end////////////////////////////////////////////////

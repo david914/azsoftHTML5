@@ -14,10 +14,10 @@
 			</div>
 		</div>
 		<div class="col-sm-4">
-			<input type="checkbox" class="checkbox-usr" id="chkAllSvrItem" data-label="전체선택"  />
+			<input type="checkbox" class="checkbox-prg" id="chkAllSvrItem" data-label="전체선택"  />
 		</div>
 		<div class="col-sm-12">
-			<div data-ax5grid="svrItemGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 45%;"></div>
+			<div data-ax5grid="svrItemGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 45%;"></div>
 		</div>
 	</div>
 	
@@ -26,10 +26,10 @@
 			<label id="lblItem">[프로그램종류]</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="checkbox" class="checkbox-usr" id="chkAllItem" data-label="전체선택"  />
+			<input type="checkbox" class="checkbox-prg" id="chkAllItem" data-label="전체선택"  />
 		</div>
 		<div class="col-sm-12">
-			<div class="scrollBind" style="height: 205px; border: 1px solid black;">
+			<div class="scrollBind" style="height: 235px; border: 1px solid black;">
 				<ul class="list-group" id="ulItemInfo"></ul>
 			</div>
 		</div>
@@ -38,11 +38,9 @@
 	<div class="col-sm-1">
 		<label id="lblHome">홈디렉토리</label>
 	</div>
-	
 	<div class="col-sm-7">
 		<input id="txtVolpath" name="txtVolpath" class="form-control" type="text"></input>
 	</div>
-	
 	<div class="col-sm-4">
 		<button class="btn btn-default" id="btnReqItem">
 			등록 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>

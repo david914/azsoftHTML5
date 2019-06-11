@@ -87,7 +87,6 @@ svrInfoGrid.setConfig({
         {key: "svrstop", label: "정지",  width: 80, align: "center"}
     ]
 });
-
 $('input.checkbox-IP').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
 $('input.checkbox-IPC').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
 /////////////////// 서버정보 화면 세팅 end////////////////////////////////////////////////
@@ -97,10 +96,6 @@ $(document).ready(function(){
 	sysCd = selectedSystem.cm_syscd;
 	sysInfo = selectedSystem.cm_sysinfo;
 	dirBase = selectedSystem.cm_dirbase;
-	
-	console.log('sysCd : ' + sysCd);
-	console.log('sysInfo : ' + sysInfo);
-	console.log('dirBase : ' + dirBase);
 	
 	$('#lblAftIp').css('visibility','hidden');
 	$('#txtAftIp').css('visibility','hidden');

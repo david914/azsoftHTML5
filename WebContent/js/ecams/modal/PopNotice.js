@@ -218,7 +218,7 @@ function updateHandler(){
 		if(window.parent.fileLength > 1) {
 			window.parent.uploadAcptno = ajaxReturnData;
 			window.parent.fileUploadModal.restore();
-			$('#btnStartUpload',window.parent.document.getElementsByName('ax5-modal-15-frame')[0].contentWindow.document).click();
+			$(window.parent.fileUploadBtn).trigger('click');
 		}
 		dialog.alert('등록 되었습니다.', function () {
 			window.parent.fileLength = 0;
