@@ -153,4 +153,9 @@ div[class^="row"] {
 	</div>
 </section>
 
+<form name="popPam">
+	<input type="hidden" name="acptno"/>
+	<input type="hidden" name="user"/>
+</form>
+
 <script type="text/javascript" src="<c:url value="/js/ecams/approval/RequestStatus.js"/>"></script>

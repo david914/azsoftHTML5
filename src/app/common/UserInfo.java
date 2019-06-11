@@ -53,6 +53,7 @@ public class UserInfo{
 		try {
 			conn = connectionContext.getConnection();
 			
+			strQuery.setLength(0);
 			strQuery.append("select a.cm_username,a.cm_manid,a.cm_position,a.cm_project,a.cm_duty, \n");
 			strQuery.append("		a.cm_admin,c.cm_deptname teamname,a.cm_posname caption  \n");
 			strQuery.append("  from cmm0100 c,cmm0040 a 				\n");

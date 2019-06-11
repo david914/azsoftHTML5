@@ -12,6 +12,9 @@ var firstGrid = new ax5.ui.grid();
 // 달력 생성
 var picker = new ax5.ui.picker();
 
+var myWin;
+var isAdmin = false;
+
 // 이 부분 지우면 영어명칭으로 바뀜
 // ex) 월 -> MON
 ax5.info.weekNames = [
@@ -121,6 +124,11 @@ function getUserInfo(){
 	
 	if(strReqCD != null && strReqCD != ""){
 		$("#txtUser").text(ajaxResultData[0].cm_username);
+	}
+	
+	
+	if (ajaxResultData[0].cm_admin === '1') {
+		isAdmin = true;
 	}
 	
 	getPMOInfo();
@@ -286,17 +294,17 @@ function cmdQry_Proc(){
 
 	if($('[data-ax5select="cboSysCd"]').ax5select("getValue")[0]['@index'] > 0){
 		tmpObj.strSys = $('[data-ax5select="cboSysCd"]').ax5select("getValue")[0].value;
-	}
-		
+	} 
+	
 	tmpObj.cboGbn = $('[data-ax5select="cboGbn"]').ax5select("getValue")[0].value;
 	
 	if($('[data-ax5select="cboSin"]').ax5select("getValue")[0]['@index'] > 0){
 		tmpObj.strQry = $('[data-ax5select="cboSin"]').ax5select("getValue")[0].value;	// 멀티셀렉트 가능하게 수정해야됨
-	}
+	} 
 	
 	if($('[data-ax5select="cboDept"]').ax5select("getValue")[0]['@index'] > 0){
 		tmpObj.strTeam = $('[data-ax5select="cboDept"]').ax5select("getValue")[0].value;
-	}
+	} 
 	
 	if($('[data-ax5select="cboSta"]').ax5select("getValue")[0]['@index'] > 0){
 		tmpObj.strSta = $('[data-ax5select="cboSta"]').ax5select("getValue")[0].value;
@@ -312,20 +320,21 @@ function cmdQry_Proc(){
 	console.log(tmpObj);
 	
 	var tmpData = {
-			requestType : 'get_SelectList',
-			prjData: JSON.stringify(tmpObj)
+		requestType : 'get_SelectList',
+		prjData: tmpObj
 	}	
+
+	ajaxAsync('/webPage/approval/RequestStatus', tmpData, 'json', successGetSelectList);
+}
+
+function successGetSelectList(data) {
+	firstGrid.setData(data);
 	
-	
-	ajaxResultData = ajaxCallWithJson('/webPage/approval/RequestStatus', tmpData, 'json');
-	
-	//console.log("result" + ajaxResultData);
-	
-	var cnt = Object.keys(ajaxResultData).length;	
+	var cnt = Object.keys(data).length;	
 	
 	$("#lbTotalCnt").text("총" + cnt + "건");
 	
-	firstGrid.setData(ajaxResultData);
+	firstGrid.setData(data);
 	
 	tmpObj = null;
 }
@@ -353,11 +362,15 @@ function setGrid(){
         		//alert('신청상세팝업');
             	//console.log(this);
             	//Sweet Alert [https://sweetalert.js.org/guides/]
+            	
+            	if (this.dindex < 0) return;
+            	
         		swal({
                     title: "신청상세팝업",
-                    text: "신청번호 ["+this.item.acptno2+"]"
+                    text: "신청번호 ["+this.item.acptno2+"]["+param.item.qrycd2+"]["+this.dindex+"]"
                 });
 
+    			new_win_popup(1, param.item.qrycd2, this.item.acptno2,'');
             },
         	trStyleClass: function () {
         		//console.log(this); -> string으로 변환하면 item 데이타 로그 볼수 없음
@@ -389,7 +402,7 @@ function setGrid(){
                 {type: 3, label: "전체회수"}
             ],
             popupFilter: function (item, param) {
-                //console.log(item, param);
+                console.log(item, param);
             	//param.item.qrycd2 -> 01,02,03,04,06,07,11,12,16
             	
             	/** 
@@ -404,14 +417,54 @@ function setGrid(){
 	            		return item.type == 1 | item.type == 2;
 	            	}
             	 */
-            	return true;
+            	
+            	if (param.item == undefined) return false;
+            	if (param.dindex < 0) return false;
+            	
+            	console.log(param.item, param.item.editor2, isAdmin, param.item.colorsw);
+            	
+            	if (param.item.colorsw === '9') return item.type == 1 | item.type == 2;
+            	else if ( (param.item.qrycd2 === '07' || param.item.qrycd2 === '03' || param.item.qrycd2 === '04' 
+            			|| param.item.qrycd2 === '06' || param.item.qrycd2 === '16') 
+            			&& (userid === param.item.editor2 || isAdmin) ) return true; 
+            	else return item.type == 1 | item.type == 2;
             },
             onClick: function (item, param) {
                 //console.log(item, param);
-        		swal({
+        		/*swal({
                     title: item.label+"팝업",
-                    text: "신청번호 ["+param.item.acptno2+"]"
-                });
+                    text: "신청번호 ["+param.item.acptno2+"]["+param.item.qrycd2+"]"
+                });*/
+        		
+        		if (item.type === 3) {
+        			//param.item.befsw = 'Y';
+        			if (param.item.befsw === 'Y') {
+        				swal({
+                            title: "선행작업확인",
+                            text: "다른 사용자가 선행작업으로 지정한 신청 건이 있습니다. \n\n"+
+		                          "해당 신청 건 사용자에게 선행작업 해제 요청 후 \n" +
+		                          "선행작업으로 지정한 신청 건이 없는 상태에서\n진행하시기 바랍니다."
+                        });
+        				return;
+        			}
+        			
+        			confirmDialog.confirm({
+        				title: '전체회수 여부확인',
+        				msg: '신청번호 ['+param.item.acptno+'] 를  \n전체회수 하시겠습니까?',
+        			}, function(){
+        				if(this.key === 'ok') {
+        					console.log('OK click!!');
+        					//inputmsg pop
+        					//Cmr3200.reqCncl(grdLst.selectedItem.acptno2,strUserId,msgPopUp.txtMsg.text,strConfUsr);
+        				} else {
+        					console.log(this.key);
+        				}
+        			});
+        			
+        		} else {
+        			new_win_popup(item.type, param.item.qrycd2, param.item.acptno2,'');
+        		}
+        		
                 firstGrid.contextMenu.close();//또는 return true;
             }
         },
@@ -431,4 +484,42 @@ function setGrid(){
             {key: "sayu", label: "신청사유", width: '10%'}	//formatter: function(){	return "<button>" + this.value + "</button>"}, 	 
         ]
     });
+}
+
+function new_win_popup(type,reqCd,reqNo,rsrcName) {
+	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
+
+	if ( (type+'_'+reqCd) == winName ) {
+		if (myWin != null) {
+	        if (!myWin.closed) {
+	        	myWin.close();
+	        }
+		}
+	}
+
+    winName = type+'_'+reqCd;
+    
+	if (type === 1) {
+		nHeight = screen.height - 300;
+	    nWidth  = screen.width - 400;
+	    cURL = "../winpop/RequestPop.jsp";
+	} else if (type === 2) {
+		nHeight = 400;
+	    nWidth  = 900;
+		cURL = "../winpop/ApprovalInfo.jsp";
+	}
+	
+	nTop  = parseInt((window.screen.availHeight/2) - (nHeight/2));
+	nLeft = parseInt((window.screen.availWidth/2) - (nWidth/2));
+	cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
+
+	var f=document.popPam;   //폼 name
+    myWin=window.open('',winName,cFeatures);
+    f.acptno.value = reqNo;    //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.user.value = userid;    //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.action=cURL; //이동할 페이지
+    f.target=winName;    //폼의 타겟 지정(위의 새창을 지정함)
+    f.method="post"; //POST방식
+    f.submit();
+    
 }

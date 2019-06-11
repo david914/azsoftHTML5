@@ -20,6 +20,8 @@ import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import app.common.LoggableStatement;
 //import app.common.LoggableStatement;
 import app.common.SystemPath;
 import app.common.UserInfo;
@@ -208,7 +210,7 @@ public class Cmr3200{
 			strQuery.append("order by a.cr_acptdate desc \n");
 
 			pstmt = conn.prepareStatement(strQuery.toString());
-//			pstmt = new LoggableStatement(conn,strQuery.toString());
+			pstmt = new LoggableStatement(conn,strQuery.toString());
             Cnt = 0;
 
 			if (((pStateCd == null || pStateCd == "")&&!pStartDt.equals(""))
@@ -245,7 +247,7 @@ public class Cmr3200{
 				pstmt.setString(++Cnt, "%"+spms+"%");
 				pstmt.setString(++Cnt, "%"+spms+"%");
 			}
-//			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
 			while (rs.next()){
