@@ -10,10 +10,7 @@
 package html.app.dev;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +32,7 @@ import html.app.common.ParsingCommon;
 import sun.security.jca.GetInstance.Instance;
 
 @WebServlet("/webPage/dev/CheckOut")
-public class CheckOut extends HttpServlet {
+public class CheckOutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
 	Cmr0100 cmr0100  = new Cmr0100();
@@ -58,11 +55,10 @@ public class CheckOut extends HttpServlet {
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement = jsonParser.parse(ParsingCommon.getJsonStr(request));
 		String requestType	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "requestType") );
-		
+
 		try {
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
-			
 			switch (requestType) {
 				case "SYSTEMCOMBO" :
 					response.getWriter().write( getSysInfo(jsonElement) );
@@ -166,6 +162,10 @@ public class CheckOut extends HttpServlet {
 	private String getChidrenTree(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>				 childrenMap = null;
 		childrenMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "childFileTreeData"));
+		// childFileTreeData 가 없으면 return
+		if(childrenMap.size() < 1) {
+			return "";
+		}
 		return makeChildrenTree(
 					childrenMap.get("Rsrccd"), 
 					childrenMap.get("FileInfo"), 
@@ -189,17 +189,16 @@ public class CheckOut extends HttpServlet {
 			for(HashMap<String, String> pathMap: rtRsrcPathList) {
 				
 				pathMap.put("id", 	pathMap.get("cm_seqno"));
-				pathMap.put("pid", 	pathMap.get("cm_upseq"));
+				pathMap.put("pId", 	pathMap.get("cm_upseq"));
+				//pathMap.put("pid", 	pathMap.get("cm_upseq"));
 				pathMap.put("order","1");
 				pathMap.put("text", pathMap.get("cm_dirpath"));
 				pathMap.put("value", pathMap.get("cr_rsrccd"));
 				pathMap.put("fullpath", pathMap.get("cm_fullpath"));
 				pathMap.put("dsncd", pathMap.get("cr_dsncd"));
-				
 			}
 			
 			mergePathList.addAll(mergePathList.size(), rtRsrcPathList);
-			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -215,7 +214,7 @@ public class CheckOut extends HttpServlet {
 	
 	private String getRsrcPath(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>				 rsrcPathMap = null;
-		rsrcPathMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "fileTreeData"));
+		rsrcPathMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "treeInfoData"));
 		return gson.toJson( systemPath.getRsrcPath(
 								rsrcPathMap.get("UserId"),
 								rsrcPathMap.get("SysCd") , 
