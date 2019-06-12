@@ -126,6 +126,22 @@ jobGrid.setConfig({
     ]
 });
 
+$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
+
+
+$('#txtTime').timepicker({
+    showMeridian : false,
+    minuteStep: 1
+ });
+$('#timeDeploy').timepicker({
+	showMeridian : false,
+	minuteStep: 1
+});
+$('#timeDeployE').timepicker({
+	showMeridian : false,
+	minuteStep: 1
+});
+
 function dateInit() {
 	$('#datStDate').val(getDate('DATE',0));
 	$('#datEdDate').val(getDate('DATE',0));
@@ -141,7 +157,7 @@ function dateInit() {
 
 
 $(document).ready(function(){
-	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
+	
 	
 	dateInit();
 	getSysCodeInfo();
@@ -183,6 +199,7 @@ $(document).ready(function(){
 		$('#txtTime').prop( "disabled", true );
 		
 		getSysInfoList('');
+		getSysInfoCbo();
 	});
 	
 	// 신규 클릭시
@@ -431,12 +448,6 @@ $(document).ready(function(){
 	
 	// 시스템정보복사
 	$('#btnCopy').bind('click', function() {
-		var gridSelectedIndex 	= sysInfoGrid.selectedDataIndexs;
-		if(gridSelectedIndex.length === 0 ) {
-			dialog.alert('시스템을 그리드에서 선택후 눌러주세요.',function(){});
-			return;
-		}
-		selectedSystem = sysInfoGrid.list[gridSelectedIndex];
 		sysCopyModal.open({
 	        width: 1000,
 	        height: 800,
@@ -451,7 +462,7 @@ $(document).ready(function(){
 	            }
 	            else if (this.state === "close") {
 	                mask.close();
-	                selectedSystem = null;
+	                $('#btnQry').trigger('click');
 	            }
 	        }
 	    }, function () {

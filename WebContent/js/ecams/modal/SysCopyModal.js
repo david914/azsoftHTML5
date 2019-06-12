@@ -13,19 +13,20 @@ var userId 		= window.parent.userId;			// 접속자 ID
 var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
-var selectedSystem  = window.parent.selectedSystem;
-
-var sysCd 	= selectedSystem.cm_syscd;	// 시스템정보 선택 코드
 
 var dirGrid		= new ax5.ui.grid();
 var detailGrid	= new ax5.ui.grid();
 var dirGridData 	= null;
 var detailGridData 	= null;
 
-var cboDirData 		= null;
+var cboSysData 		= null;	// From Cbo 데이터
 var cboOptions		= null;
 
-$('[data-ax5select="cboDir"]').ax5select({
+var ulPropData		= null;	// 시스템 속성 데이터
+var ulToSysData		= null;	// To 시스템 데이터
+var ulPrgData		= null;	// To 시스템 데이터
+
+$('[data-ax5select="cboSys"]').ax5select({
     options: []
 });
 
@@ -41,7 +42,6 @@ detailGrid.setConfig({
     body: {
         columnHeight: 25,
         onClick: function () {
-        	this.self.clearSelect();
             this.self.select(this.dindex);
         },
         onDBLClick: function () {},
@@ -52,10 +52,10 @@ detailGrid.setConfig({
     },
     columns: [
         {key: "cm_codename", 	label: "서버종류", 		width: 100, align: "center" },
-        {key: "cm_svrname", 	label: "서버명",  		width: 220, align: "center"	},
-        {key: "cm_svrip", 		label: "IP Address",  	width: 80 , align: "center"	},
-        {key: "cm_portno", 		label: "Port",  		width: 120, align: "center" },
-        {key: "cm_svrusr", 		label: "계정",  			width: 120, align: "center" },
+        {key: "cm_svrname", 	label: "서버명",  		width: 140, align: "center"	},
+        {key: "cm_svrip", 		label: "IP Address",  	width: 200, align: "center"	},
+        {key: "cm_portno", 		label: "Port",  		width: 80,  align: "center" },
+        {key: "cm_svrusr", 		label: "계정",  			width: 80,  align: "center" },
     ]
 });
 dirGrid.setConfig({
@@ -70,7 +70,6 @@ dirGrid.setConfig({
 	body: {
 		columnHeight: 25,
 		onClick: function () {
-			this.self.clearSelect();
 			this.self.select(this.dindex);
 		},
 		onDBLClick: function () {},
@@ -80,7 +79,7 @@ dirGrid.setConfig({
 		}
 	},
 	columns: [
-		{key: "cm_codename", 	label: "구분", 		width: 100 	},
+		{key: "cm_codename", 	label: "구분", 		width: 80 	},
 		{key: "cm_dirpath", 	label: "디렉토리",  	width: 220	},
 		]
 });
@@ -88,25 +87,79 @@ dirGrid.setConfig({
 $('input.checkbox-all').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function(){
-	sysCd = selectedSystem.cm_syscd;
-	getCodeInfo();
-	getDirList();
 	
-	$('#txtSysMsg').val(sysCd + ' ' + selectedSystem.cm_sysmsg);
+	getSysCbo();
+	getCodeInfo();
+	
+	
+	// From system cbo 체인지 이벤트
+	$('#cboSys').bind('change', function() {
+		var selVal = $('[data-ax5select="cboSys"]').ax5select("getValue")[0].value;
+		
+		if(selVal === '00000') return;
+		console.log($('[data-ax5select="cboSys"]').ax5select("getValue")[0].cm_sysinfo);
+		var sysinfo = $('[data-ax5select="cboSys"]').ax5select("getValue")[0].cm_sysinfo;
+		
+		$('#chkAllToSys').wCheck('check',false);
+		$('#chkAllProp').wCheck('check',false);
+		$('#chkAllPrg').wCheck('check',false);
+		
+		ulPropData.forEach(function(sysInfoItem, index) {
+			addId = Number(sysInfoItem.cm_micode);
+			$('#chkProp'+addId).wCheck('check',false);
+		});
+		
+		if(sysinfo !== undefined) {
+			for(var i=0; i<sysinfo.length; i++) {
+				if(sysinfo.substr(i,1) === '1') $('#chkProp'+(i+1)).wCheck('check',true);
+			}
+		}
+		
+		getProgInfo(selVal);
+		getDetailSvrInfo(selVal);
+		getDirInfo(selVal);
+		
+	});
+	
+	// 시스템 To 전체선택
+	$('#chkAllToSys').bind('click',function() {
+		var checkSw = $('#chkAllToSys').is(':checked');
+		var addId = null;
+		
+		ulToSysData.forEach(function(item,index) {
+			 addId =  item.cm_syscd;
+			 if(checkSw) $('#chkToSys'+addId).wCheck('check',checkSw);
+			 else $('#chkToSys'+addId).wCheck('check',checkSw);
+		});
+	});
+	
+	// 시스템속성 전체선택
+	$('#chkAllProp').bind('click',function() {
+		var checkSw = $('#chkAllProp').is(':checked');
+		var addId = null;
+		
+		ulPropData.forEach(function(item,index) {
+			 addId =  Number(item.cm_micode);
+			 if(checkSw) $('#chkProp'+addId).wCheck('check',checkSw);
+			 else $('#chkProp'+addId).wCheck('check',checkSw);
+		});
+	});
+	
+	// 프로그램종류 전체선택
+	$('#chkAllPrg').bind('click',function() {
+		var checkSw = $('#chkAllPrg').is(':checked');
+		var addId = null;
+		
+		ulPrgData.forEach(function(item,index) {
+			 addId =  item.cm_micode;
+			 if(checkSw) $('#chkPrg'+addId).wCheck('check',checkSw);
+			 else $('#chkPrg'+addId).wCheck('check',checkSw);
+		});
+	});
 	
 	// 등록
 	$('#btnReq').bind('click', function() {
 		checkVal();
-	});
-	
-	// 폐기
-	$('#btnCls').bind('click', function() {
-		closeDir();
-	});
-	
-	// 조회
-	$('#btnQry').bind('click', function() {
-		getDirList();
 	});
 	
 	// 닫기
@@ -116,126 +169,239 @@ $(document).ready(function(){
 	
 });
 
-// 공통 디렉토리 삭제
-function closeDir() {
-	var selIndex 	= dirGrid.selectedDataIndexs;
-	var selItem		= null;
-	
-	if(selIndex.length === 0 ) {
-		dialog.alert('삭제할 목록을 선택 후 눌러주시기 바랍니다.', function(){});
+// 복사 유효성 체크
+function checkVal() {
+	var selSysCd 	= $('[data-ax5select="cboSys"]').ax5select("getValue")[0].value;
+	var addId	= null;	
+	var selToSys = false;
+	if(selSysCd === '00000') {
+		dialog.alert('복사대상시스템 (FROM)을 선택하여 주시기 바랍니다.', function(){});
 		return;
 	}
 	
-	selItem		= dirGrid.list[selIndex];
-	
-	var data = new Object();
-	data = {
-		SysCd 		: sysCd,
-		DirCd		: selItem.cm_dircd,
-		requestType	: 'closeDir'
-	}
-	ajaxAsync('/webPage/administrator/ComDirServlet', data, 'json',successCloseDir);
-}
-
-function successCloseDir(data) {
-	dialog.alert('통디렉토리정보 폐기처리를 완료하였습니다.', function(){
-		$('#btnQry').trigger('click');
+	ulToSysData.forEach(function(item,index) {
+		 addId =  item.cm_syscd;
+		 if($('#chkToSys'+addId).is(':checked')) selToSys = true;
 	});
-}
-
-// 공통디렉토리 등록
-function checkVal(){
-	var txtSvrIp 	= $('#txtSvrIp').val().trim();
-	var txtPort 	= $('#txtPort').val().trim();
-	var txtDir 		= $('#txtDir').val().trim();
 	
-	
-	if(txtSvrIp.length === 0) {
-		dialog.alert('서버IP를 입력하여 주시기 바랍니다.', function() {});
-		return;
-	}
-	if(txtPort.length === 0) {
-		dialog.alert('Port를 입력하여 주시기 바랍니다.', function() {});
-		return;
-	}
-	if(txtDir.length === 0) {
-		dialog.alert('디렉토리를 입력하여 주시기 바랍니다.', function() {});
+	if(!selToSys) {
+		dialog.alert('복사대상시스템 (TO)을 선택하여 주시기 바랍니다.', function(){});
 		return;
 	}
 	
-	var etcData = new Object();
-	etcData.cm_syscd = sysCd;
-	etcData.cm_dircd = $('[data-ax5select="cboDir"]').ax5select("getValue")[0].value;
-	etcData.cm_svrip = txtSvrIp;
-	etcData.cm_port 	= txtPort;
-	etcData.cm_dirpath 	= txtDir;
-	etcData.cm_shell 	= $('#txtShell').val().trim();
-	etcData.cm_svrusr 	= $('#txtUser').val().trim();
-	etcData.cm_svrpass 	= $('#txtPass').val().trim();
+	var etcData	= new Object();
+	var tmpSys 	= '';
+	var tmpInfo	= '';
+	var tmpProg = '';
+	var svrList			= [];
+	var dirList			= [];
+	var selSvrIndexs	= [];
+	var selDirindexs	= [];
 	
-	var data = new Object();
-	data = {
-		etcData 	: etcData,
-		requestType	: 'insertDir'
-	}
-	ajaxAsync('/webPage/administrator/ComDirServlet', data, 'json',successInsertDir);
- }
-
-// 등록 완료
-function successInsertDir(data) {
-	if(data === 'OK') {
-		dialog.alert('공통디렉토리정보 등록처리를 완료하였습니다.', function() {
-			$('#btnQry').trigger('click');
+	ulToSysData.forEach(function(item,index) {
+		 addId =  item.cm_syscd;
+		 if($('#chkToSys'+addId).is(':checked') && selSysCd !== item.cm_syscd) {
+			 if(tmpSys.length > 0 ) tmpSys += ',';
+			 tmpSys += item.cm_syscd;
+		 }
+	});
+	
+	if($('#chkCopy').is(':checked')) {
+		ulPropData.forEach(function(item,index) {
+			addId =  Number(item.cm_micode);
+			if($('#chkProp'+addId).is(':checked')) tmpInfo += '1';
+			else tmpInfo += '0';
 		});
 	}
-}
-
-// 공통 디렉토리 리스트 클릭
-function clickDirGrid(index) {
-	var selItem = dirGrid.list[index];
 	
-	$('#txtSvrIp').val(selItem.cm_svrip);
-	$('#txtPort').val(selItem.cm_port);
-	$('#txtUser').val(selItem.cm_svrusr);
-	$('#txtPass').val(selItem.cm_svrpass);
-	$('#txtShell').val(selItem.cm_shell);
-	$('#txtDir').val(selItem.cm_dirpath);
-}
-
-// 공통 디렉토리 리스트 가져오기
-function getDirList() {
+	ulPrgData.forEach(function(item, index) {
+		addId =  item.cm_micode;
+		 if($('#chkPrg'+addId).is(':checked')) {
+			 if(tmpProg.length > 0 ) tmpProg += ',';
+			 tmpProg += item.cm_micode;
+		 }
+	});
+	
+	etcData.cm_syscd = selSysCd;
+	etcData.copysys = tmpSys;
+	etcData.info 	= tmpInfo;
+	etcData.prog 	= tmpProg;
+	etcData.userid 	= userId;
+	
+	if ($('#chkItem').is(':checked')) 	etcData.item = "Y";
+	else etcData.item = "N";
+	if ($('#chkMonitor').is(':checked'))etcData.monitor = "Y";
+	else etcData.monitor = "N";
+	if ($('#chkCopy').is(':checked')) 	etcData.copy = "Y";
+	else etcData.copy = "N";
+	
+	selSvrIndexs = detailGrid.selectedDataIndexs;
+	selDirindexs = dirGrid.selectedDataIndexs;
+	
+	selSvrIndexs.forEach(function(detailIndex, index) {
+		svrList.push(detailGrid.list[detailIndex]);
+	});
+	selDirindexs.forEach(function(dirIndex, index) {
+		dirList.push(dirGrid.list[dirIndex]);
+	});
+	
 	var data = new Object();
 	data = {
-		SysCd 		: sysCd,
-		requestType	: 'getDirList'
+		etcData 	: etcData, 
+		svrList 	: svrList,
+		dirList 	: dirList,
+		requestType	: 'copySys'
 	}
-	ajaxAsync('/webPage/administrator/ComDirServlet', data, 'json',successGetDirlist);
+	ajaxAsync('/webPage/administrator/SysCopyServlet', data, 'json',successCopySys);
 }
 
-// 공통 디렉토리 리스트 가져오기 완료
-function successGetDirlist(data) {
+// 복사 완료
+function successCopySys(data) {
+	if(data === 'OK') {
+		dialog.alert('시스템정보 복사처리를 완료하였습니다.', function(){});
+	} else {
+		dialog.alert('시스템정보 복사처리중 오류가 발생했습니다. 관리자에게 문의하시기 바랍니다.', function(){});
+	}
+}
+
+// 프로그램종류 가져오기
+function getProgInfo(sysCd){
+	var data = new Object();
+	data = {
+		SysCd 	: sysCd, 
+		requestType	: 'getPrgInfo'
+	}
+	ajaxAsync('/webPage/administrator/SysCopyServlet', data, 'json',successGetProgInfo);
+}
+
+// 프로그램종류 가져오기 완료
+function successGetProgInfo(data) {
+	ulPrgData = data;
+	$('#ulPrg').empty();
+	var liStr = null;
+	var addId = null;
+	ulPrgData.forEach(function(prgItem, sysInfoIndex) {
+		addId = prgItem.cm_micode;
+		liStr  = '';
+		liStr += '<li class="list-group-item">';
+		liStr += '	<input type="checkbox" class="checkbox-prg" id="chkPrg'+addId+'" data-label="'+prgItem.cm_codename+'"  value="'+addId+'" />';
+		liStr += '</li>';
+		$('#ulPrg').append(liStr);
+	});
+	
+	$('input.checkbox-prg').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
+}
+
+// 시스템상세정보 가져오기
+function getDetailSvrInfo(sysCd) {
+	var data = new Object();
+	data = {
+		SysCd 	: sysCd, 
+		SvrCd	: null,
+		requestType	: 'getDetailSvrInfo'
+	}
+	ajaxAsync('/webPage/administrator/SysCopyServlet', data, 'json',successGetDetailSvrInfo);
+}
+
+// 시스템상세정보 가져오기 완료
+function successGetDetailSvrInfo(data) {
+	detailGridData = data;
+	detailGrid.setData(detailGridData);
+}
+
+// 공통디렉토리정보 가져오기
+function getDirInfo(sysCd) {
+	var data = new Object();
+	data = {
+		SysCd 	: sysCd, 
+		requestType	: 'getDirInfo'
+	}
+	ajaxAsync('/webPage/administrator/SysCopyServlet', data, 'json',successGetDirInfo);
+}
+
+// 공통디렉토리정보 가져오기 완료
+function successGetDirInfo(data) {
 	dirGridData = data;
 	dirGrid.setData(dirGridData);
 }
 
-// 디렉토리 콤보 박스 가져오기
-function getCodeInfo() {
-	var codeInfos = getCodeInfoCommon([
-		new CodeInfo('SYSDIR','','N')
-		]);
-	
-	cboDirData 	= codeInfos.SYSDIR;
-	
+
+// From system cbo 가져오기
+function getSysCbo() {
+	var data = new Object();
+	data = {
+		UserId 	: userId, 
+		SelMsg 	: 'SEL', 
+		CloseYn : 'N', 
+		SysCd 	: null,
+		requestType	: 'getSysCbo'
+	}
+	ajaxAsync('/webPage/administrator/SysCopyServlet', data, 'json',successGetSysCbo);
+}
+
+// From system cbo 가져오기 완료
+function successGetSysCbo(data) {
+	cboSysData = data;
 	cboOptions = [];
-	$.each(cboDirData,function(key,value) {
-		cboOptions.push({value: value.cm_micode, text: value.cm_codename});
+	$.each(cboSysData,function(key,value) {
+		cboOptions.push({value: value.cm_syscd, text: value.cm_sysmsg, cm_sysgb: value.cm_sysgb, cm_sysinfo: value.cm_sysinfo, cm_prjname: value.cm_prjname});
 	});
-	$('[data-ax5select="cboDir"]').ax5select({
+	$('[data-ax5select="cboSys"]').ax5select({
         options: cboOptions
 	});
+	
+	ulToSysData = [];
+	cboSysData.forEach(function(item, index) {
+		if(item.cm_syscd !== '00000') ulToSysData.push(item);
+	});
+	makeToSysUlList();
 }
+
+function makeToSysUlList() {
+	$('#ulToSys').empty();
+	var liStr = null;
+	var addId = null;
+	ulToSysData.forEach(function(sysInfoItem, sysInfoIndex) {
+		addId = sysInfoItem.cm_syscd;
+		liStr  = '';
+		liStr += '<li class="list-group-item">';
+		liStr += '	<input type="checkbox" class="checkbox-tosys" id="chkToSys'+addId+'" data-label="'+sysInfoItem.cm_sysmsg+'"  value="'+addId+'" />';
+		liStr += '</li>';
+		$('#ulToSys').append(liStr);
+	});
+	
+	$('input.checkbox-tosys').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
+}
+
+// 시스템 속성 가져오기
+function getCodeInfo() {
+	var codeInfos = getCodeInfoCommon([
+		new CodeInfo('SYSINFO','','N'), 
+		]);
+	ulPropData 	= codeInfos.SYSINFO;
+	makeSysInfoUlList();
+}
+
+// 시스템 속성 ul 만들어주기
+function makeSysInfoUlList() {
+	$('#ulProp').empty();
+	var liStr = null;
+	var addId = null;
+	ulPropData.forEach(function(sysInfoItem, sysInfoIndex) {
+		addId = Number(sysInfoItem.cm_micode);
+		liStr  = '';
+		liStr += '<li class="list-group-item">';
+		liStr += '	<input type="checkbox" class="checkbox-sysprop" id="chkProp'+addId+'" data-label="'+sysInfoItem.cm_codename+'"  value="'+addId+'" />';
+		liStr += '</li>';
+		$('#ulProp').append(liStr);
+	});
+	
+	$('input.checkbox-sysprop').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
+
+}
+
 
 // 닫기
 function popClose(){
-	window.parent.comDirModal.close();
+	window.parent.sysCopyModal.close();
 }

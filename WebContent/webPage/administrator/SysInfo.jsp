@@ -154,22 +154,19 @@
 		    		</div>
 		    	</div>
 		    	<div class="col-lg-3 col-md-12 col-sm-12 col-12">
-		    		<input id="txtTime" name="time" class="form-control" type="time" ></input>
+		    		<!-- <input id="txtTime" name="time" class="form-control" type="time" ></input> -->
+		    		<div class='input-group date'>
+		    			<input id="txtTime" type='text' class="form-control" />
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-time"></span>
+	                    </span>
+		    		</div>
 		    	</div>
 	    	</div>
 	    	<div class="row">
 	    		<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 	    			<div class="scrollBind">
 	    				<ul class="list-group" id="ulSysInfo">
-		    				<li class="list-group-item"><input type="checkbox" class="checkbox-sysInfo" id="chkJobName" data-label="프로그램없음"  /></li>
-		    				<li class="list-group-item"><input type="checkbox" class="checkbox-sysInfo" id="chkJobName" data-label="개별배포허용(사용안함)"  /></li>
-		    				<li class="list-group-item"><input type="checkbox" class="checkbox-sysInfo" id="chkJobName" data-label="반입허용"  /></li>
-		    				<li class="list-group-item"><input type="checkbox" class="checkbox-sysInfo" id="chkJobName" data-label="사용중지"  /></li>
-		    				<li class="list-group-item"><input type="checkbox" class="checkbox-sysInfo" id="chkJobName" data-label="정기배포사용"  /></li>
-		    				<li class="list-group-item"><input type="checkbox" class="checkbox-sysInfo" id="chkJobName" data-label="정기배포사용"  /></li>
-		    				<li class="list-group-item"><input type="checkbox" class="checkbox-sysInfo" id="chkJobName" data-label="정기배포사용"  /></li>
-		    				<li class="list-group-item"><input type="checkbox" class="checkbox-sysInfo" id="chkJobName" data-label="정기배포사용"  /></li>
-		    				<li class="list-group-item"><input type="checkbox" class="checkbox-sysInfo" id="chkJobName" data-label="정기배포사용"  /></li>
 		    			</ul>
 	    			</div>
 	    		</div>
@@ -185,7 +182,12 @@
 			        </div>
 	    		</div>
 	    		<div class="col-lg-5 col-md-12 col-sm-12 col-12">
-			        <input id="timeDeploy" class="form-control" type="time" name="time"></input>
+	    			<div class='input-group date'>
+		    			<input id="timeDeploy" type='text' class="form-control" />
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-time"></span>
+	                    </span>
+		    		</div>
 	    		</div>
     		</div>
     		<div class="row">
@@ -199,7 +201,12 @@
 			        </div>
 	    		</div>
 	    		<div class="col-lg-5 col-md-12 col-sm-12 col-12">
-			        <input id="timeDeployE" class="form-control" type="time" name="time"  placeholder="hrs:mins" pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$" ></input>
+	    			<div class='input-group date'>
+		    			<input id="timeDeployE" type='text' class="form-control" />
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-time"></span>
+	                    </span>
+		    		</div>
 	    		</div>
     		</div>
     	</div>

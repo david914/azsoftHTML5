@@ -41,4 +41,8 @@
 <script src="<c:url value="/scripts/filetree/jquery.ztree.exedit.js"/>"></script>
 <script src="<c:url value="/scripts/filetree/jquery.ztree.exhide.js"/>"></script>
 
+<!-- time picker -->
+<script src="<c:url value="/scripts/bootstrap-timepicker.min.js"/>"></script>
+
+
 <script src="<c:url value="/js/ecams/common/common.js" />" type="text/javascript"></script>
