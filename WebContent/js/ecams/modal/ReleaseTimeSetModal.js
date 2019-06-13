@@ -57,6 +57,9 @@ releaseGrid.setConfig({
 });
 
 $('input:radio[name=releaseChk]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
+
+
+
 function checkR(event) {
 	var id = event.target.id;
 	
@@ -77,6 +80,11 @@ function popClose(){
 }
 
 $(document).ready(function(){
+	$('#txtTime').timepicker({
+		showMeridian : false,
+		minuteStep: 1
+	});
+	
 	getReleaseTime();
 	
 	// 전체설정/전체해제

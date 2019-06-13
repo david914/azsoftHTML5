@@ -48,3 +48,7 @@ function setTabMenu(){
 		$("#" + activeTab).fadeIn();
 	});
 }
+
+function popClose() {
+	window.parent.sysDetailModal.close();
+}

@@ -42,7 +42,7 @@ div[class^="row"] {
 						<label  id="lbDept" name="lbDept" >신청부서</label>
 					</div>
 					<div class="form-group col-sm-10 no-padding">
-						 <div data-ax5select="cboDept" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+						 <div id="cboDept" data-ax5select="cboDept" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 					</div>
 				</div>
 				
@@ -51,7 +51,7 @@ div[class^="row"] {
 						<label  id="lbSysCd" name="lbSysCd">시스템</label>
 					</div>
 					<div class="form-group col-sm-10 no-padding">
-						 <div data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+						 <div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 					</div>
 				</div>
 				<div class="col-sm-2">
@@ -67,12 +67,12 @@ div[class^="row"] {
 						<label  id="lbEditor" name="lbEditor">신청인</label>
 					</div>
 					<div class="form-group col-sm-9 no-padding">
-						<input class="input-sm" id="txtUser" name="txtUser" type="text" class="form-control" placeholder="신청인을 입력하세요." onkeypress="if(event.keyCode==13) {cmdQry_Proc();}"/>
+						<input class="input-sm" id="txtUser" name="txtUser" type="text" class="form-control" placeholder="신청인을 입력하세요."/>
 					</div>
 				</div>
 				<div class="col-sm-1 col-sm-offset-1">
 					<div class="form-group">
-						<button class="btn btn-default" data-grid-control="excel-export">엑셀저장</button>
+						<button class="btn btn-default" data-grid-control="excel-export" id="btnExcel">엑셀저장</button>
 					</div>
 				</div>
 			</div>
@@ -104,7 +104,7 @@ div[class^="row"] {
 					</div>	
 				</div>
 				<div class="col-sm-1 col-sm-offset-1">
-					<button class="btn btn-default" onclick="cmdQry_Proc();">조&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회</button>
+					<button id="btnQry" class="btn btn-default">조&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회</button>
 				</div>
 			</div>
 			
@@ -122,7 +122,7 @@ div[class^="row"] {
 						<label  id="lbSpms" name="lbSpms">SR-ID/SR명</label>
 					</div>
 					<div class="form-group col-sm-9 no-padding">
-						<input class="input-sm" id="txtSpms" name="txtSpms" type="text" class="form-control" placeholder="SR-ID/SR명을 입력하세요." onkeypress="if(event.keyCode==13) {cmdQry_Proc();}"/>
+						<input class="input-sm" id="txtSpms" name="txtSpms" type="text" class="form-control" placeholder="SR-ID/SR명을 입력하세요."/>
 					</div>
 				</div>
 				<div class="col-sm-4">
@@ -138,7 +138,7 @@ div[class^="row"] {
 				</div>
 				<div class="cols-sm-1">
 					<div class="form-group">
-						<button class="btn btn-default" onclick="reset_btn();">초&nbsp;&nbsp;기&nbsp;&nbsp;화</button>
+						<button id="btnReset" class="btn btn-default">초&nbsp;&nbsp;기&nbsp;&nbsp;화</button>
 					</div>
 				</div>
 			</div>		
@@ -149,7 +149,7 @@ div[class^="row"] {
 
 <section>
 	<div class="container-fluid">
-		<div data-ax5grid="first-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 82%;"></div>
+		<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 82%;"></div>
 	</div>
 </section>
 

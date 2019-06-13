@@ -50,23 +50,20 @@ public class RequestStatus extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
-				case "UserInfochk" :
+				case "getUserInfo" :
 					response.getWriter().write( getUserInfo(jsonElement) );
 					break;
 				case "UserPMOInfo" :
 					response.getWriter().write( getPMOInfo(jsonElement) );
 					break;
-				case "SysInfo" :
+				case "getSysInfo" :
 					response.getWriter().write( getSysInfo(jsonElement) );
 					break;
-				case "CodeInfo_1" :
-					response.getWriter().write( getCodeInfo(jsonElement) );
+				case "getDeptInfo" :
+					response.getWriter().write( getDeptInfo(jsonElement) );
 					break;
-				case "TeamInfo" :
-					response.getWriter().write( getTeamInfoGrid2(jsonElement) );
-					break;
-				case "get_SelectList" :
-					response.getWriter().write( get_SelectList(jsonElement) );
+				case "getRquestList" :
+					response.getWriter().write( getRquestList(jsonElement) );
 					break;
 				default:
 					break;
@@ -79,14 +76,12 @@ public class RequestStatus extends HttpServlet {
 	}
 	
 	private String getUserInfo(JsonElement jsonElement) throws SQLException, Exception {
-		String user = null;
-		user = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
-		return gson.toJson(userinfo.getUserInfo(user));
+		String UserID = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		return gson.toJson(userinfo.getUserInfo(UserID));
 	}
 	
 	private String getPMOInfo(JsonElement jsonElement) throws SQLException, Exception {
-		String user = null;
-		user = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String user = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		return gson.toJson(userinfo.getPMOInfo(user));
 	}
 	
@@ -96,20 +91,21 @@ public class RequestStatus extends HttpServlet {
 		return gson.toJson(sysinfo.getSysInfo(user,"Y","ALL","N",""));
 	}
 	
-	private String getCodeInfo(JsonElement jsonElement) throws SQLException, Exception {
-		return gson.toJson(codeinfo.getCodeInfo("REQUEST,R3200STA","ALL","N"));
+	
+	private String getDeptInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String SelMsg 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
+		String cm_useyn = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_useyn") );
+		String gubun 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "gubun") );
+		String itYn 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "itYn") );
+		return gson.toJson(teaminfo.getTeamInfoGrid2(SelMsg, cm_useyn, gubun, itYn));
 	}
 	
-	private String getTeamInfoGrid2(JsonElement jsonElement) throws SQLException, Exception {
-		return gson.toJson(teaminfo.getTeamInfoGrid2("All","Y","sub","N"));
-	}
-	
-	private String get_SelectList(JsonElement jsonElement) throws SQLException, Exception {
+	private String getRquestList(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>	prjDataInfoMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "prjData") );
 		return gson.toJson( cmr3200.get_SelectList(prjDataInfoMap.get("strSys"),
 												   prjDataInfoMap.get("strQry"),prjDataInfoMap.get("strTeam"),
-												   prjDataInfoMap.get("strSta"),prjDataInfoMap.get("txtUser"),prjDataInfoMap.get("strStD"),
+												   prjDataInfoMap.get("strSta"),prjDataInfoMap.get("txtUser"),	prjDataInfoMap.get("strStD"),
 												   prjDataInfoMap.get("strEdD"),prjDataInfoMap.get("strUserId"),prjDataInfoMap.get("cboGbn"),
-												   prjDataInfoMap.get("strJob"),prjDataInfoMap.get("dategbn"),prjDataInfoMap.get("txtSpms")) );
+												   prjDataInfoMap.get("strJob"),prjDataInfoMap.get("dategbn"),	prjDataInfoMap.get("txtSpms")) );
 	}
 }

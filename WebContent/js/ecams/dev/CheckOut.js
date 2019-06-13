@@ -29,12 +29,11 @@ var firstGridTop = null;
 
 var selectedSrId	= null;
 var selectedPrg 	= null;
-var reqcd 			= null;
 var localFileDownYN = false;
 var outpos 			= '';
 var reqSw			= false;
 var searchMOD		= '';
-
+var reqcd			= window.top.reqCd;
 var sysData = null;
 
 var childFileTreeInfoData = new Object();
@@ -47,7 +46,7 @@ $(document).ready(function() {
 });
 
 function screenInit() {
-	reqcd =  request.getParameter('reqcd').substring(0,2);
+	//reqcd =  request.getParameter('reqcd').substring(0,2);
 	createElements();
 	setSysCbo();
 	$("#idx_request_btn").attr("disabled","true");

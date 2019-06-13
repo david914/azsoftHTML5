@@ -157,12 +157,12 @@ function getCodeInfoCommon(codeInfoArr) {
  *  increaseDecreaseNumber = 양수 혹은 음수
  *  
  *  EX)
- *  SBUxMethod.set('datStD',getDate('DATE',-1));  	>> 현재 날짜에서 하루전날짜
- *  SBUxMethod.set('datStD',getDate('DATE',0));		>> 현재 날짜
- *  SBUxMethod.set('datStD',getDate('MON',-1));		>> 한달 전
- *  SBUxMethod.set('datStD',getDate('MON',1)); 		>> 한달 후
- *  SBUxMethod.set('datStD',getDate('LASTDATE',0));	>> 현재달의 마지막 날짜
- *  SBUxMethod.set('datStD',getDate('FIRSTDATE',0));>> 현재달의 첫 날짜		 		
+ *  getDate('DATE',-1));  	>> 현재 날짜에서 하루전날짜
+ *  getDate('DATE',0));		>> 현재 날짜
+ *  getDate('MON',-1));		>> 한달 전
+ *  getDate('MON',1)); 		>> 한달 후
+ *  getDate('LASTDATE',0));	>> 현재달의 마지막 날짜
+ *  getDate('FIRSTDATE',0));>> 현재달의 첫 날짜		 		
  * 
  */
 function getDate(dateSeparator, increaseDecreaseNumber) {
@@ -216,7 +216,13 @@ function replaceAllString(source, find, replacement){
 	return source.split( find ).join( replacement );
 }
 
+function getSelectedIndex(id) {
+	return $('[data-ax5select="'+id+'"]').ax5select("getValue")[0]['@index'];
+}
 
+function getSelectedVal(id) {
+	return $('[data-ax5select="'+id+'"]').ax5select("getValue")[0];
+}
 
 // window load 되기 전까지 마우스 커서 wait 로 나타나게 처리
 $('html').css({'cursor':'wait'});

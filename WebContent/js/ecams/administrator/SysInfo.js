@@ -316,7 +316,7 @@ $(document).ready(function(){
 	// 정기배포일괄등록
 	$('#btnReleaseTimeSet').bind('click', function() {
 		relModal.open({
-	        width: 600,
+	        width: 800,
 	        height: 800,
 	        iframe: {
 	            method: "get",
