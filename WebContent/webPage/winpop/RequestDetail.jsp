@@ -6,6 +6,20 @@
 	String acptNo = StringHelper.evl(request.getParameter("acptno"),"");
 	String userId = StringHelper.evl(request.getParameter("user"),"");
 %>
+
+<style>
+.fontStyle-error {
+	color: #BE81F7;
+}
+.fontStyle-cncl {
+	color: #FF0000;
+}
+.fontStyle-module {
+	color: #FF8080;
+}
+</style>
+
+
 <c:import url="/webPage/common/common.jsp" />
 
 <div class="hpanel">
@@ -82,7 +96,7 @@
 				    	</div>
 				    	<div id="reqgbnDiv" class="col-lg-6 dis-i-b" style="padding: 0;">
 				    		<div class="col-lg-6 col-md-12 col-sm-12 col-12" style="padding: 0;">
-				    			<div class="input-group" data-ax5picker="txtReqDate" >
+				    			<div class="input-group" data-ax5picker="basic" >
 						            <input id="txtReqDate" type="text" class="form-control" placeholder="yyyy/mm/dd">
 						            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
 						        </div>
