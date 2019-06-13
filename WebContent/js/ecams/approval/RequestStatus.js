@@ -170,10 +170,10 @@ firstGrid.setConfig({
          	else return item.type == 1 | item.type == 2;
          },
          onClick: function (item, param) {
-     		swal({
+     		/*swal({
                  title: item.label+"팝업",
                  text: "신청번호 ["+param.item.acptno2+"]["+param.item.qrycd2+"]"
-             });
+             });*/
      		if (item.type === 3) {
      			if (param.item.befsw === 'Y') {
      				swal({
@@ -483,8 +483,16 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
 
 	var f = document.popPam;   		//폼 name
     myWin = window.open('',winName,cFeatures);
+    
+    console.log('aaaaaaaaa');
+    
     f.acptno.value	= reqNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
     f.user.value 	= userid;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    
+
+    console.log(reqNo+','+userid);
+    
+    
     f.action		= cURL; 		//이동할 페이지
     f.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
     f.method		= "post"; 		//POST방식
