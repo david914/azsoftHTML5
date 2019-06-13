@@ -431,11 +431,14 @@ function setGrid(){
             },
             onClick: function (item, param) {
                 //console.log(item, param);
-        		/*swal({
+        		swal({
                     title: item.label+"팝업",
                     text: "신청번호 ["+param.item.acptno2+"]["+param.item.qrycd2+"]"
-                });*/
-        		
+                });
+            	/*mask.open();
+        		dialog.alert("신청번호 ["+param.item.acptno2+"]["+param.item.qrycd2+"]",function(){
+        			mask.close();
+        		});*/
         		if (item.type === 3) {
         			//param.item.befsw = 'Y';
         			if (param.item.befsw === 'Y') {
@@ -447,7 +450,8 @@ function setGrid(){
                         });
         				return;
         			}
-        			
+
+                	mask.open();
         			confirmDialog.confirm({
         				title: '전체회수 여부확인',
         				msg: '신청번호 ['+param.item.acptno+'] 를  \n전체회수 하시겠습니까?',
@@ -459,6 +463,7 @@ function setGrid(){
         				} else {
         					console.log(this.key);
         				}
+            			mask.close();
         			});
         			
         		} else {
