@@ -1371,6 +1371,7 @@ public class Cmd1200{
 			conn = connectionContext.getConnection();
 
 			for (int i=0;delList.size()>i;i++) {
+				System.out.println("여기들어오니?");
 				strQuery.setLength(0);
 		    	strQuery.append("DELETE cmm0033    \n");
 		    	strQuery.append(" WHERE CM_syscd=?     \n");
@@ -1379,13 +1380,15 @@ public class Cmd1200{
 		    	strQuery.append("   AND CM_rsrccd=?    \n");
 		    	strQuery.append("   AND CM_jobcd=?     \n");
 		    	strQuery.append("   AND CM_rungbn=?    \n");
-				pstmt = conn.prepareStatement(strQuery.toString());
+				//pstmt = conn.prepareStatement(strQuery.toString());
+				pstmt =  new LoggableStatement(conn, strQuery.toString());
 	            pstmt.setString(1, delList.get(i).get("cm_syscd"));
 	            pstmt.setString(2, delList.get(i).get("cm_qrycd"));
 	            pstmt.setString(3, delList.get(i).get("cm_prcsys"));
 	            pstmt.setString(4, delList.get(i).get("cm_rsrccd"));
 	            pstmt.setString(5, delList.get(i).get("cm_jobcd"));
 	            pstmt.setString(6, delList.get(i).get("cm_rungbn"));
+	            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	            pstmt.executeUpdate();
 	            pstmt.close();
 			}

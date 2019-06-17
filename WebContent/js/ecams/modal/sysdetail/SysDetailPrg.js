@@ -102,7 +102,7 @@ $('input.checkbox-prg').wCheck({theme: 'square-classic red', selector: 'checkmar
 
 $(document).ready(function(){
 	
-	sysCd = selectedSystem.cm_syscd;
+	sysCd 	= selectedSystem.cm_syscd;
 	sysInfo = selectedSystem.cm_sysinfo;
 	dirBase = selectedSystem.cm_dirbase;
 	
@@ -219,7 +219,8 @@ function successGetSvrItemGrid(data) {
 function filterSvrItemgrid() {
 	fSvrItemGridData = null;
 	svrItemGridData.forEach(function(item, index) {
-		if($('[data-ax5select="cboSvrItem"]').ax5select("getValue")[0].value === item.cm_micode) {
+		
+		if(getSelectedVal('cboSvrItem').value === item.cm_micode) {
 			fSvrItemGridData = [];
 			fSvrItemGridData.push(item);
 		}
@@ -338,10 +339,11 @@ function checkValItem(kinds) {
 	
 	var tmpObj = new Object();
 	tmpObj.cm_syscd = sysCd;
-	tmpObj.cm_svrcd = $('[data-ax5select="cboSvrItem"]').ax5select("getValue")[0].value;
-	tmpObj.cm_seqno = seqs;
-	tmpObj.cm_rsrccd = rsrcCds;
-	tmpObj.cm_volpath = cm_volpath;
+	
+	tmpObj.cm_svrcd 	= getSelectedVal('cboSvrItem').value;
+	tmpObj.cm_seqno 	= seqs;
+	tmpObj.cm_rsrccd 	= rsrcCds;
+	tmpObj.cm_volpath 	= cm_volpath;
 	tmpObj.userid = userId;
 	
 	var insertItemData = new Object();

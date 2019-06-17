@@ -329,6 +329,43 @@ function defaultPickerInfo(dataAx5picker) {
 	};
 }
 
+/**
+ *	cbo 데이터 세팅시 자바에서 받아온 모든 데이터 편하게 넣어주기
+ *
+ *  !!!!기존 사용법
+ *  cboBldCdData = data;
+ *  cboOptions = [];
+	$.each(cboBldCdData,function(key,value) {
+		cboOptions.push({value: value.cm_micode, text: value.cm_codename});
+	});
+	
+	$('[data-ax5select="cboBldCd"]').ax5select({
+        options: cboOptions
+    });
+    
+    
+    !!!!injectCboDataToArr function 사용시
+    cboSysCdData = data;
+	$('[data-ax5select="cboSysCd"]').ax5select({
+        options: injectCboDataToArr(cboSysCdData, 'cm_syscd' , 'cm_sysmsg')
+	});
+ *   
+ */
+function injectCboDataToArr(cboSysCdData, value, text) {
+	var cboOptionObj	= null;
+	var cboOptions 	= [];
+	var keyArr		= [];
+	cboSysCdData.forEach(function(item, index) {
+		cboOptionObj = new Object();
+		cboOptionObj = item;
+		cboOptionObj.value = item[value];
+		cboOptionObj.text = item[text];
+		cboOptions.push(cboOptionObj);
+		cboOptionObj = null;
+	});
+	return cboOptions; 
+}
+
 String.prototype.trim = function() { 
 	return this.replace(/^\s+|\s+$/g,""); 
 }

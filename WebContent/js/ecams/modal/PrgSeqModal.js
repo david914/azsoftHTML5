@@ -37,7 +37,6 @@ var setting = {
 	
 };
 
-
 $(document).ready(function(){
 	getProgInfoTree();
 	getCodeSelInfo(null);

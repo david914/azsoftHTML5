@@ -60,7 +60,7 @@ public class Cmm0400{
 			strQuery.append("cm_telno2,cm_project2,cm_handrun,cm_dumypw,cm_juminnum,cm_blankdts,cm_blankdte,cm_daegyul,to_char(sysdate,'yyyymmdd') as sysdt, ");
 			strQuery.append("cm_daegmsg,cm_daesayu,cm_email from cmm0040 where ");
 			String tmpStr = "";
-			if (UserId != "" && UserId != null){
+			if (!"".equals(UserId)){
 				tmpStr = UserId;
 				strQuery.append("cm_userid = ? ");
 			}else{

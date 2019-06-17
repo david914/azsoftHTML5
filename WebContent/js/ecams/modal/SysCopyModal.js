@@ -94,11 +94,12 @@ $(document).ready(function(){
 	
 	// From system cbo 체인지 이벤트
 	$('#cboSys').bind('change', function() {
-		var selVal = $('[data-ax5select="cboSys"]').ax5select("getValue")[0].value;
+		
+		var selVal = getSelectedVal('cboSys').value;
 		
 		if(selVal === '00000') return;
-		console.log($('[data-ax5select="cboSys"]').ax5select("getValue")[0].cm_sysinfo);
-		var sysinfo = $('[data-ax5select="cboSys"]').ax5select("getValue")[0].cm_sysinfo;
+		console.log(getSelectedVal('cboSys').cm_sysinfo);
+		var sysinfo = getSelectedVal('cboSys').cm_sysinfo;
 		
 		$('#chkAllToSys').wCheck('check',false);
 		$('#chkAllProp').wCheck('check',false);
@@ -171,7 +172,7 @@ $(document).ready(function(){
 
 // 복사 유효성 체크
 function checkVal() {
-	var selSysCd 	= $('[data-ax5select="cboSys"]').ax5select("getValue")[0].value;
+	var selSysCd 	= getSelectedVal('cboSys').value;
 	var addId	= null;	
 	var selToSys = false;
 	if(selSysCd === '00000') {

@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import app.common.SysInfo;
 import app.eCmd.Cmd1200;
 import html.app.common.ParsingCommon;
 
@@ -27,6 +28,7 @@ public class BuildReleaseInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
 	Cmd1200 cmd1200 = new Cmd1200();
+	SysInfo	sysInfo = new SysInfo();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -64,6 +66,24 @@ public class BuildReleaseInfo extends HttpServlet {
 				case "getExistScript" :
 					response.getWriter().write(getExistScript(jsonElement));
 					break;
+				case "getSysInfo" :
+					response.getWriter().write(getSysInfo(jsonElement));
+					break;
+				case "getQryCd" :
+					response.getWriter().write(getQryCd(jsonElement));
+					break;
+				case "getBldList" :
+					response.getWriter().write(getBldList(jsonElement));
+					break;
+				case "getJobInfo" :
+					response.getWriter().write(getJobInfo(jsonElement));
+					break;
+				case "deleteBldList" :
+					response.getWriter().write(deleteBldList(jsonElement));
+					break;
+				case "insertBldList" :
+					response.getWriter().write(insertBldList(jsonElement));
+					break;
 				default:
 					break;
 			}
@@ -74,6 +94,9 @@ public class BuildReleaseInfo extends HttpServlet {
 		
 	}
 	
+	/**
+	 *	빌드/릴리즈정보 유형 등록 메소드 
+	 */
 	// [빌드/릴리즈정보] 유형구분 cbo 가져오기
 	private String getBldCd(JsonElement jsonElement) throws SQLException, Exception {
 		return gson.toJson(cmd1200.getBldCd());
@@ -117,5 +140,57 @@ public class BuildReleaseInfo extends HttpServlet {
 		String Cbo_BldGbn 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"Cbo_BldGbn"));
 		String msg 			= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"msg"));
 		return gson.toJson(cmd1200.getSql_Qry(Cbo_BldGbn, msg));
+	}
+	
+	/**
+	 *	빌드/릴리즈정보 유형 연결 메소드 
+	 */
+	// [빌드/릴리즈정보] 시스템정보 cbo 가져오기
+	private String getSysInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"UserId"));
+		String SecuYn 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"SecuYn"));
+		String SelMsg 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"SelMsg"));
+		String CloseYn 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"CloseYn"));
+		String ReqCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"ReqCd"));
+		return gson.toJson(sysInfo.getSysInfo(UserId, SecuYn, SelMsg, CloseYn, ReqCd));
+	}
+	
+	// [빌드/릴리즈정보] 요청구분/실행구분 가져오기
+	private String getQryCd(JsonElement jsonElement) throws SQLException, Exception {
+		String SysCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"SysCd"));
+		String TstSw 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"TstSw"));
+		return gson.toJson(cmd1200.getQryCd(SysCd, TstSw));
+	}
+	
+	// [빌드/릴리즈정보] 연결정보리스트/프로그램종류 가져오기
+	private String getBldList(JsonElement jsonElement) throws SQLException, Exception {
+		String SysCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"SysCd"));
+		String TstSw 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"TstSw"));
+		String QryCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"QryCd"));
+		String SysInfo 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"SysInfo"));
+		return gson.toJson(cmd1200.getBldList(SysCd, TstSw, QryCd, SysInfo));
+	}
+	
+	// [빌드/릴리즈정보] 업무종류 가져오기
+	private String getJobInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String UserID 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"UserID"));
+		String SysCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"SysCd"));
+		String SecuYn 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"SecuYn"));
+		String CloseYn 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"CloseYn"));
+		String SelMsg 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"SelMsg"));
+		String sortCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"sortCd"));
+		return gson.toJson(sysInfo.getJobInfo(UserID, SysCd, SecuYn, CloseYn, SelMsg, sortCd));
+	}
+	
+	// [빌드/릴리즈정보] 삭제
+	private String deleteBldList(JsonElement jsonElement) throws SQLException, Exception {
+		ArrayList<HashMap<String, String>> delList 	= ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"delList"));
+		return gson.toJson(cmd1200.getCmm0033_Del(delList));
+	}
+	
+	// [빌드/릴리즈정보] 등록
+	private String insertBldList(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> etcData 	= ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"etcData"));
+		return gson.toJson(cmd1200.getCmm0033_DBProc(etcData));
 	}
 }

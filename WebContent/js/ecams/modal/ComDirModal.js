@@ -63,10 +63,9 @@ dirGrid.setConfig({
 
 $(document).ready(function(){
 	sysCd = selectedSystem.cm_syscd;
+	$('#txtSysMsg').val(sysCd + ' ' + selectedSystem.cm_sysmsg);
 	getCodeInfo();
 	getDirList();
-	
-	$('#txtSysMsg').val(sysCd + ' ' + selectedSystem.cm_sysmsg);
 	
 	// 등록
 	$('#btnReq').bind('click', function() {
@@ -138,9 +137,9 @@ function checkVal(){
 	}
 	
 	var etcData = new Object();
-	etcData.cm_syscd = sysCd;
-	etcData.cm_dircd = $('[data-ax5select="cboDir"]').ax5select("getValue")[0].value;
-	etcData.cm_svrip = txtSvrIp;
+	etcData.cm_syscd 	= sysCd;
+	etcData.cm_dircd 	= getSelectedVal('cboDir').value;
+	etcData.cm_svrip 	= txtSvrIp;
 	etcData.cm_port 	= txtPort;
 	etcData.cm_dirpath 	= txtDir;
 	etcData.cm_shell 	= $('#txtShell').val().trim();

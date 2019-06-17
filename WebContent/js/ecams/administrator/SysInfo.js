@@ -78,12 +78,12 @@ sysInfoGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_syscd", label: "시스템코드",  width: '10%'},
-        {key: "cm_sysmsg", label: "시스템명",  width: '37%'},
-        {key: "sysgb", label: "시스템유형",  width: '14%'},
-        {key: "servername", label: "기준서버구분",  width: '13%'},
-        {key: "scmopen", label: "형상관리오픈",  width: '13%'},
-        {key: "sysopen", label: "시스템오픈",  width: '13%'}
+        {key: "cm_syscd", 	label: "시스템코드",	width: '10%'},
+        {key: "cm_sysmsg", 	label: "시스템명",  	width: '37%'},
+        {key: "sysgb", 		label: "시스템유형",  	width: '14%'},
+        {key: "servername", label: "기준서버구분", 	width: '13%'},
+        {key: "scmopen", 	label: "형상관리오픈", 	width: '13%'},
+        {key: "sysopen", 	label: "시스템오픈",  	width: '13%'}
     ]
 });
 
@@ -121,8 +121,8 @@ jobGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_jobcd", label: "업무코드",  width: '20%'},
-        {key: "cm_jobname", label: "업무명",  width: '80%'},
+        {key: "cm_jobcd", 	label: "업무코드",  	width: '20%'},
+        {key: "cm_jobname",	label: "업무명",  	width: '80%'},
     ]
 });
 
@@ -198,6 +198,9 @@ $(document).ready(function(){
 		$('#txtPrjName').prop( "disabled", true );
 		$('#txtTime').prop( "disabled", true );
 		
+		$('#datStDateDiv').css('pointer-events','none');
+		$('#datEdDateDiv').css('pointer-events','none');
+		
 		getSysInfoList('');
 		getSysInfoCbo();
 	});
@@ -241,6 +244,9 @@ $(document).ready(function(){
 			$('#timeDeploy').prop( "disabled", 	false );
 			$('#datEdDate').prop( "disabled", 	false );
 			$('#timeDeployE').prop( "disabled", false );
+			
+			$('#datStDateDiv').css('pointer-events','auto');
+			$('#datEdDateDiv').css('pointer-events','auto');
 		}
 		
 		if(selectedSysInfo === 4 && !($(this).is(':checked')) ) {
@@ -248,6 +254,9 @@ $(document).ready(function(){
 			$('#timeDeploy').prop( "disabled", 	true );
 			$('#datEdDate').prop( "disabled", 	true );
 			$('#timeDeployE').prop( "disabled", true );
+			
+			$('#datStDateDiv').css('pointer-events','none');
+			$('#datEdDateDiv').css('pointer-events','none');
 		}
 		
 		if(selectedSysInfo === 6 && $(this).is(':checked') ) {
@@ -633,15 +642,15 @@ function updateSystem(isNew) {
 	var tmpInfo = '';
 	var tmpDate = '';
 	var tmpMon = 0;
-	var tmpSysGb = $('[data-ax5select="cboSysGb"]').ax5select("getValue")[0].value;
-	var tmpDirBase = $('[data-ax5select="cboSvrCd"]').ax5select("getValue")[0].value;
+	var tmpSysGb 	= getSelectedVal('cboSysGb').value;
+	var tmpDirBase 	= getSelectedVal('cboSvrCd').value;
 	var selectedJobIndexs = jobGrid.selectedDataIndexs;
 	var systemInfo = new Object();
-	systemInfo.cm_syscd = $('#txtSysCd').val();
-	systemInfo.cm_sysmsg = $('#txtSysMsg').val();
-	systemInfo.cm_sysgb = tmpSysGb;
-	systemInfo.cm_dirbase = tmpDirBase;
-	systemInfo.cm_prccnt = $('#txtPrcCnt').val();
+	systemInfo.cm_syscd 	= $('#txtSysCd').val();
+	systemInfo.cm_sysmsg 	= $('#txtSysMsg').val();
+	systemInfo.cm_sysgb 	= tmpSysGb;
+	systemInfo.cm_dirbase 	= tmpDirBase;
+	systemInfo.cm_prccnt 	= $('#txtPrcCnt').val();
 	
 	
 	for(var i=0; i<selectedJobIndexs.length; i++) {
@@ -726,6 +735,9 @@ function screenInit() {
 	$('#timeDeployE').prop( "disabled", true );
 	$('#txtPrjName').prop( "disabled", true );
 	$('#txtTime').prop( "disabled", true );
+	
+	$('#datStDateDiv').css('pointer-events','none');
+	$('#datEdDateDiv').css('pointer-events','none');
 	
 }
 
@@ -854,7 +866,7 @@ function successGetSysInfoCbo(data) {
 
 //	하단 시스템 콤보 선택
 function cboSysClick() {
-	var selectedIndex = $('#cboSys option').index($('#cboSys option:selected'));
+	var selectedIndex = getSelectedIndex('cboSys');
 	var findSw = false;
 	var gridSelectedIndex = sysInfoGrid.selectedDataIndexs;
 	var selectedSysCboSysInfo = $('[data-ax5select="cboSys"]').ax5select("getValue");
@@ -922,6 +934,10 @@ function cboSysClick() {
 			$('#datEdDate').prop( "disabled", 	false );
 			$('#timeDeployE').prop( "disabled", false );
 			
+			$('#datStDateDiv').css('pointer-events','auto');
+			$('#datEdDateDiv').css('pointer-events','auto');
+			
+			
 			var stDate = selectedGridItem.cm_stdate;
 			var edDate = selectedGridItem.cm_eddate;
 			
@@ -942,6 +958,9 @@ function cboSysClick() {
 			$('#timeDeploy').prop( "disabled", true );
 			$('#datEdDate').prop( "disabled", true );
 			$('#timeDeployE').prop( "disabled", true );
+			
+			$('#datStDateDiv').css('pointer-events','none');
+			$('#datEdDateDiv').css('pointer-events','none');
 		}
 		
 		if(sysInfoStr.substr(5,1) === '1' && selectedGridItem.hasOwnProperty('cm_systime') ) {

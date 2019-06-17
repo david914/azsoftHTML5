@@ -137,7 +137,7 @@ $(document).ready(function(){
 	
 	// 프로그램 종류 콤보 체인지 이벤트
 	$('#cboJawon').bind('change',function() {
-		var jawonVal 	= $('[data-ax5select="cboJawon"]').ax5select("getValue")[0].value;
+		var jawonVal 	= getSelectedVal('cboJawon').value;
 		var prgSelItem 	= null;
 		var findSw	= false;
 		var tmpWork = null;
@@ -383,7 +383,7 @@ $(document).ready(function(){
 		}
 		
 		tmpObj.cm_syscd 	= sysCd;
-		tmpObj.cm_rsrccd 	= $('[data-ax5select="cboJawon"]').ax5select("getValue")[0].value;
+		tmpObj.cm_rsrccd 	= getSelectedVal('cboJawon').value;
 		tmpObj.userid 		= userId;
 		tmpObj.info 		= tmpWork;
 		tmpObj.cm_time 		= replaceAllString($('#txtTime').val(), ':', '');
@@ -518,8 +518,8 @@ $(document).ready(function(){
 		}
 		
 		for(var i=0; i<sameGridArr.length; i++) {
-			if (sameGridArr[i].cm_rsrccd == $('[data-ax5select="cboJawon"]').ax5select("getValue")[0].value  &&
-				sameGridArr[i].cm_samersrc == $('[data-ax5select="cboSame"]').ax5select("getValue")[0].value &&
+			if (sameGridArr[i].cm_rsrccd == getSelectedVal('cboJawon').value  &&
+				sameGridArr[i].cm_samersrc == getSelectedVal('cboSame').value &&
 				sameGridArr[i].cm_basedir == txtBaseDir &&
 				sameGridArr[i].cm_samedir == txtChgDir &&
 				sameGridArr[i].cm_basename == txtBase &&
@@ -529,10 +529,9 @@ $(document).ready(function(){
 			}
 		}
 		
-		
-		tmpObj.cm_codename 	= $('[data-ax5select="cboSame"]').ax5select("getValue")[0].text;
-		tmpObj.cm_rsrccd 	= $('[data-ax5select="cboJawon"]').ax5select("getValue")[0].value;
-		tmpObj.cm_samersrc 	= $('[data-ax5select="cboSame"]').ax5select("getValue")[0].value;
+		tmpObj.cm_codename 	= getSelectedVal('cboSame').text;
+		tmpObj.cm_rsrccd 	= getSelectedVal('cboJawon').value;
+		tmpObj.cm_samersrc 	= getSelectedVal('cboSame').value;
 		tmpObj.cm_basename 	= txtBase;
 		tmpObj.cm_samename 	= txtChgRule;
 		tmpObj.cm_basedir 	= txtBaseDir;
@@ -693,7 +692,7 @@ function successGetSameList(data) {
 // 동시적용 그리드 필터
 function sameGridFilter() {
 	fSameGridData = [];
-	var jawonVal = $('[data-ax5select="cboJawon"]').ax5select("getValue")[0].value;
+	var jawonVal = getSelectedVal('cboJawon').value;
 	
 	sameGridData.forEach(function(item, index) {
 		if(item.cm_rsrccd === jawonVal) {

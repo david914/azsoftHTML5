@@ -407,6 +407,101 @@ public class Cmm0500{
 			}
 		}
 	}
+	
+	
+	public ArrayList<HashMap<String, String>> getMenuZTree() throws SQLException, Exception {
+		Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		ResultSet         rs          = null;
+		StringBuffer      strQuery    = new StringBuffer();
+		ArrayList<HashMap<String, String>>  rtList = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String>			    rst	   = null;
+
+		ConnectionContext connectionContext = new ConnectionResource();
+
+		try {
+			conn = connectionContext.getConnection();
+
+			strQuery.setLength(0);
+			strQuery.append("select cm_menucd,cm_order,cm_befmenu,cm_maname,cm_filename 					\n");
+			strQuery.append("from (Select cm_menucd,cm_order,cm_befmenu,cm_maname,cm_filename from cmm0081) \n");
+			strQuery.append("start with cm_befmenu=0														\n");
+			strQuery.append("connect by prior cm_menucd = cm_befmenu 										\n");			
+			strQuery.append("order by cm_befmenu,cm_order 													\n");			
+            pstmt = conn.prepareStatement(strQuery.toString());
+
+            rs = pstmt.executeQuery();
+            rtList.clear();
+
+			rst = new HashMap<String, String>();
+			
+			
+			rst.put("id", 			"0");
+			rst.put("pId", 			"-1");
+			rst.put("name", 		"메뉴체계");
+			rst.put("cm_order", 	"1");
+			rst.put("cm_filename", 	"");
+			rst.put("isParent", 	"true");
+			
+			
+			rtList.add(rst);
+			rst = null;
+			
+            while (rs.next()){
+            	rst = new HashMap<String, String>();  	
+            	
+            	rst.put("id", 			rs.getString("cm_menucd"));
+    			rst.put("name", 		rs.getString("cm_maname"));
+    			rst.put("cm_order", 	rs.getString("cm_order"));
+    			rst.put("cm_filename", 	rs.getString("cm_filename"));
+    			rst.put("pId", 			rs.getString("cm_befmenu"));
+            	
+            	if(rs.getString("cm_befmenu").equals("0")) {
+            		rst.put("isParent", 	"true");
+            	}else {            		
+            		rst.put("isParent", 	"false");
+            		rst.put("cm_menucd", 	rs.getString("cm_menucd"));
+            	}
+            	
+    			rtList.add(rst);
+				rst = null;
+			}
+            rs.close();
+			pstmt.close();
+			conn.close();
+
+			rs = null;
+			pstmt = null;
+			conn = null;
+
+			return rtList;
+
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## Cmm0500.getMenuZTree() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## Cmm0500.getMenuZTree() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## Cmm0500.getMenuZTree() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## Cmm0500.getMenuZTree() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmm0500.getMenuZTree() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+	}
 
 
 	/**

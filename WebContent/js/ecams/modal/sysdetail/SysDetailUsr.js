@@ -144,7 +144,7 @@ $(document).ready(function(){
 		var svrUsrInfoData = new Object();
 		svrUsrInfoData = {
 			SysCd	: sysCd,
-			SvrCd 	: $('[data-ax5select="cboSvrUsr"]').ax5select("getValue")[0].value ,
+			SvrCd 	: getSelectedVal('cboSvrUsr').value ,
 			requestType	: 'getSvrUsrInfo'
 		}
 		ajaxAsync('/webPage/administrator/SvrUsrServlet', svrUsrInfoData, 'json',successGetSvrUsrInfo);

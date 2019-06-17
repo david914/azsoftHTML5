@@ -127,13 +127,8 @@
 		    	<div class="col-lg-2 col-md-12 col-sm-12 col-12">
 		    		<label id="lblJobName" class="padding-5-top">업무</label>
 		    	</div>
-		    	<div class="col-lg-7 col-md-12 col-sm-12 col-12 no-padding">
+		    	<div class="col-lg-8 col-md-12 col-sm-12 col-12 no-padding">
 		    		<input id="txtJobname" name="txtTitle" class="form-control" type="text"></input>
-		    	</div>
-		    	<div class="col-lg-3 col-md-12 col-sm-12 col-12">
-		    		<div class="float-right">
-			    		<input type="checkbox" class="checkbox-pie" id="chkJobName" data-label="전체선택"  />
-		    		</div>
 		    	</div>
 	    	</div>
 	    	<div class="row">
@@ -176,7 +171,7 @@
 	    			<label id="lblDeploy" class="padding-5-top">중단시작</label>
 	    		</div>
 	    		<div class="col-lg-5 col-md-12 col-sm-12 col-12">
-	    			<div class="input-group" data-ax5picker="datStDate" >
+	    			<div class="input-group" data-ax5picker="datStDate" id="datStDateDiv" >
 			            <input id="datStDate" type="text" class="form-control" placeholder="yyyy/mm/dd">
 			            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
 			        </div>
@@ -195,7 +190,7 @@
 	    			<label id="lblDeployE" class="padding-5-top">중단종료</label>
 	    		</div>
 	    		<div class="col-lg-5 col-md-12 col-sm-12 col-12">
-	    			<div class="input-group" data-ax5picker="datEdDate" >
+	    			<div class="input-group" data-ax5picker="datEdDate" id="datEdDateDiv" >
 			            <input id="datEdDate" type="text" class="form-control" placeholder="yyyy/mm/dd">
 			            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
 			        </div>
