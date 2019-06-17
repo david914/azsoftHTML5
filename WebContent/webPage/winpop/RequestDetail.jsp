@@ -91,10 +91,10 @@
 				    	<div class="col-lg-2 col-md-12 col-sm-12 col-12">
 				    		<label id="lblReqPass" class="padding-5-top float-left">처리구분</label>
 				    	</div>
-				    	<div class="col-lg-4 col-md-12 col-sm-12 col-12" style="padding: 0;">
+				    	<div class="col-lg-3 col-md-12 col-sm-12 col-12" style="padding: 0;">
 			    			<div id="cboReqPass" data-ax5select="cboReqPass" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 				    	</div>
-				    	<div id="reqgbnDiv" class="col-lg-6 dis-i-b" style="padding: 0;">
+				    	<div id="reqgbnDiv" class="col-lg-6 dis-i-b" style="padding: 0;visibility: hidden">
 				    		<div class="col-lg-6 col-md-12 col-sm-12 col-12" style="padding: 0;">
 				    			<div class="input-group" data-ax5picker="basic" >
 						            <input id="txtReqDate" type="text" class="form-control" placeholder="yyyy/mm/dd">
@@ -108,6 +108,11 @@
 								</div>
 				    		</div>
 			    		</div>
+				    	<div class="col-lg-1 col-md-12 col-sm-12 col-12" style="padding: 0;visibility: hidden;" id="reqBtnDiv">
+							<button id="btnUpdate"  class="btn btn-default">
+								수정 <span class="glyphicon" aria-hidden="true"></span>
+							</button>
+				    	</div>
 			    	</div>
 		    	</div>
 		    	<div class="col-lg-6 col-md-6 col-sm-6 col-12" style="padding-right: 0;">
@@ -122,17 +127,17 @@
 			    	<div class="row" style="padding-top: 2;">
 				    	<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="float-right">
-								<button id="btnTestDoc"  class="btn btn-default">
+								<button id="btnTestDoc"  class="btn btn-default" disabled>
 									테스트결과서 <span class="glyphicon" aria-hidden="true"></span>
 								</button>
-								<button id="btnBefJob"  class="btn btn-default">
+								<button id="btnBefJob"  class="btn btn-default" disabled>
 									선후행작업확인 <span class="glyphicon" aria-hidden="true"></span>
 								</button>
 							</div>
 				    	</div>
 			    	</div>
 		    	</div>
-		    	<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 2 0 0 0;">
+		    	<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 2 0 0 0;visibility: hidden" id="SrDiv">
 			    	<div class="col-lg-1 col-md-12 col-sm-12 col-12" style="padding-left: 0;width:70px;">
 			    		<label id="lblSR" class="padding-5-top float-left">SR-ID</label>
 			    	</div>
@@ -148,7 +153,7 @@
 			    	</div>
 			    </div>
 		    	<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 2 0 0 0;">
-	    			<label id="lblErrMsg" class="padding-5-top float-left" style="color:#ff0000;padding-top: 0px;">오류메시지: </label>
+	    			<label id="lblErrMsg" class="padding-5-top float-left" style="color:#ff0000;padding-top: 0px;"></label>
 		    	</div>
 		    </div>
 	   </div>
@@ -164,28 +169,28 @@
 	</div>
 	<div class="col-lg-9 col-md-12 col-sm-12 col-12" style="padding: 0;">
 		<div class="float-right">
-			<button id="btnSrcView"  class="btn btn-default">
+			<button id="btnSrcView"  class="btn btn-default" disabled>
 				소스보기 <span class="glyphicon" aria-hidden="true"></span>
 			</button>
-			<button id="btnSrcDiff"  class="btn btn-default">
+			<button id="btnSrcDiff"  class="btn btn-default" disabled>
 				소스비교 <span class="glyphicon" aria-hidden="true"></span>
 			</button>
-			<button id="btnAllCncl"  class="btn btn-default">
+			<button id="btnAllCncl"  class="btn btn-default" disabled>
 				전체회수 <span class="glyphicon" aria-hidden="true"></span>
 			</button>
-			<button id="btnRetry"  class="btn btn-default">
+			<button id="btnRetry"  class="btn btn-default" disabled>
 				전체재처리 <span class="glyphicon" aria-hidden="true"></span>
 			</button>
-			<button id="btnNext"  class="btn btn-default">
+			<button id="btnNext"  class="btn btn-default" disabled>
 				다음단계진행 <span class="glyphicon" aria-hidden="true"></span>
 			</button>
-			<button id="btnErrRetry"  class="btn btn-default">
+			<button id="btnErrRetry"  class="btn btn-default" disabled>
 				오류건재처리 <span class="glyphicon" aria-hidden="true"></span>
 			</button>
-			<button id="btnStepEnd"  class="btn btn-default">
+			<button id="btnStepEnd"  class="btn btn-default" disabled>
 				단계완료 <span class="glyphicon" aria-hidden="true"></span>
 			</button>
-			<button id="btnLog"  class="btn btn-default">
+			<button id="btnLog"  class="btn btn-default" disabled>
 				로그확인 <span class="glyphicon" aria-hidden="true"></span>
 			</button>
 		</div>
@@ -198,14 +203,14 @@
 				    	<div class="col-lg-6 col-12" style="padding: 0;">
 							<div class="float-left">
 				    			<input type="checkbox" class="checkbox-pie" id="chkDetail" data-label="항목상세보기"  />
-								<button id="btnSelCncl"  class="btn btn-default">
+								<button id="btnSelCncl"  class="btn btn-default" disabled>
 									선택건회수<span class="glyphicon" aria-hidden="true"></span>
 								</button>
 					    	</div>
 					    </div>
 			    		<div class="col-lg-6 col-12" style="padding-right: 5;">
 							<div class="float-right">
-								<button id="btnPriorityOrder"  class="btn btn-default">
+								<button id="btnPriorityOrder"  class="btn btn-default" disabled>
 									우선순위적용<span class="glyphicon" aria-hidden="true"></span>
 								</button>
 								<input style="width: 10;border-style: none;"/>
@@ -260,10 +265,10 @@
 				<button id="btnPriority"  class="btn btn-default">
 					우선적용 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnApproval"  class="btn btn-default">
+				<button id="btnApproval"  class="btn btn-default" disabled>
 					결재 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnCncl"  class="btn btn-default">
+				<button id="btnCncl"  class="btn btn-default" disabled>
 					반려 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
 				<button id="btnClose"  class="btn btn-default">
