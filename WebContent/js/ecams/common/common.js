@@ -77,7 +77,7 @@ function ajaxCallWithJson(url, requestData, dataType) {
 
 
 
-function ajaxAsync(url, requestData, dataType,successFunction) {
+function ajaxAsync(url, requestData, dataType,successFunc,callbackFunc) {
 	var requestJson = JSON.stringify(requestData);
 	var ajax = $.ajax({
 		type 	: 'POST',
@@ -85,7 +85,8 @@ function ajaxAsync(url, requestData, dataType,successFunction) {
 		data 	: requestJson,
 		dataType: dataType,
 		async 	: true
-	}).then(successFunction,defaultErrorFunction);
+	}).then(successFunc,defaultErrorFunction)
+		.then(callbackFunc);
 }
 
 function defaultErrorFunction(err) {

@@ -227,6 +227,8 @@
 	</div>
 </div>
 
-
+<form name="popPam">
+	<input type="hidden" name="userId"/>
+</form>
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript"	src="<c:url value="/js/ecams/administrator/UserInfo.js"/>"></script>

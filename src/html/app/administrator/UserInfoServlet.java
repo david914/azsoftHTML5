@@ -2,6 +2,7 @@ package html.app.administrator;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -67,20 +68,14 @@ public class UserInfoServlet extends HttpServlet {
 				case "getUserRgtDept" :
 					response.getWriter().write( getUserRgtDept(jsonElement) );
 					break;
-					
-					
-					
-					
-				case "Cmm0400_1" :
-					response.getWriter().write( getListDuty(jsonElement) );
+				case "deleteJob" :
+					response.getWriter().write( deleteJob(jsonElement) );
 					break;
-				case "Cmm0400_2" :
-					response.getWriter().write( getjobList(jsonElement) );
+				case "deleteUser" :
+					response.getWriter().write( deleteUser(jsonElement) );
 					break;
-				case "Cmm0400_3" :
-					response.getWriter().write( getUserRgtDept(jsonElement) );
-					break;
-				default:
+				case "setUserInfo" :
+					response.getWriter().write( setUserInfo(jsonElement) );
 					break;
 			}
 		} catch (Exception e) {
@@ -134,21 +129,22 @@ public class UserInfoServlet extends HttpServlet {
 		String userName = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userName") );
 		return gson.toJson(cmm0400.getUserInfo(userId,userName));
 	}
-	
-	
-	
-	
-	
-	private String getListDuty(JsonElement jsonElement) throws SQLException, Exception {
-		String txtUserId = null;
-		txtUserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "txtUserId") );
-		return gson.toJson(cmm0400.getUserRGTCD(txtUserId));
+	// [사용자정보] 담당업무 삭제
+	private String deleteJob(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId  								= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		ArrayList<HashMap<String, String>> JobList 	= ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "JobList") );
+		return gson.toJson(cmm0400.delUserJob(UserId, JobList));
 	}
-	
-	private String getjobList(JsonElement jsonElement) throws SQLException, Exception {
-		String txtUserId = null;
-		txtUserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "txtUserId") );
-		return gson.toJson(cmm0400.getUserJobList("USER", txtUserId));
+	// [사용자정보] 사용자정보 폐끼
+	private String deleteUser(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		return gson.toJson(cmm0400.delUserInfo(UserId));
 	}
-	
+	// [사용자정보] 사용자정보 폐끼
+	private String setUserInfo(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> dataObj 			= ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
+		ArrayList<HashMap<String, String>> DutyList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "DutyList") );
+		ArrayList<HashMap<String, String>> JobList	= ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "JobList") );
+		return gson.toJson(cmm0400.setUserInfo(dataObj, DutyList, JobList));
+	}
 }

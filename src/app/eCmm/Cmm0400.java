@@ -2024,7 +2024,7 @@ public class Cmm0400{
 			if( ((rgtCd != null) && !rgtCd.equals("")) && !rgtCd.equals("0000") ) {
 				strQuery.append("AND         c.cm_rgtcd = ?																	\n");
 			}
-			if( (userId != null) && !userId.equals("") ) {
+			if(!"".equals(userId)) {
 				strQuery.append("AND         a.cm_userid = ?																\n");
 			}
 			strQuery.append("GROUP   BY  a.cm_userid, a.cm_username, b.cm_syscd, d.cm_sysmsg, b.cm_jobcd, e.cm_jobname	\n");
@@ -2040,7 +2040,7 @@ public class Cmm0400{
             if( ((rgtCd != null) && !rgtCd.equals("")) && !rgtCd.equals("0000") ) {
             	pstmt.setString(++pstmtcnt,rgtCd);
             }
-            if( (userId != null) && !userId.equals("") ) {
+			if(!"".equals(userId)) {
             	pstmt.setString(++pstmtcnt,userId);
             }
             
