@@ -557,7 +557,7 @@ function workerGrid_Click() {
 			}
 		}
 	}
-	
+	 
 	if(selectedGridItem.cc_devstday != null && selectedGridItem.cc_devstday != "") {
 		$('#ExpStdate').val(selectedGridItem.cc_devstday.substr(0,4) + "/" +
 							selectedGridItem.cc_devstday.substr(4,2) + "/" +

@@ -82,7 +82,7 @@ public class DevPlanServlet extends HttpServlet {
 		String srId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "srId"));
 		return gson.toJson(cmc0200.get_Worktime(srId));
 	}
-	
+	 
 	private String getWorkdays(JsonElement jsonElement) throws SQLException, Exception {
 		String year = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "year"));
 		return gson.toJson(cmc0200.getWorkDays(year));
