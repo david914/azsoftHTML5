@@ -15,10 +15,10 @@ var DevDatePicker	= new ax5.ui.picker(); //예상개발종료일
 var workerGrid 		= new ax5.ui.grid();   //담당자그리드
 var worktimeGrid 	= new ax5.ui.grid();   //작업시간내역그리드
 
-var selOptions 		= [];
-var selectedIndex;		//select 선택 index
-var gridSelectedIndex;  //그리드 선택 index
-var selectedGridItem;	//그리드 선택 item
+var selOptions 				= [];
+var selectedIndex			= -1;	//select 선택 index
+var gridSelectedIndex		= -1;   //그리드 선택 index
+var selectedGridItem		= [];	//그리드 선택 item
 
 var workDay					= "";   //월근무일수
 var selRateData 			= null;	//기능접수등급 데이터
@@ -26,18 +26,22 @@ var workerGridData 			= null; //담당자그리드 데이터
 var worktimeGridData		= null; //작업시간내역그리드 데이터
 var worktimeGridData_filter = null; //작업시간내역그리드 필터링 데이터
 
-var date = new Date(); 
-var year = date.getFullYear(); 
-var month = new String(date.getMonth()+1); 
-var day = new String(date.getDate()); 
+ax5.info.weekNames = [
+    {label: "일"},
+    {label: "월"},
+    {label: "화"},
+    {label: "수"},
+    {label: "목"},
+    {label: "금"},
+    {label: "토"}
+];
 
-if(month.length == 1){ 
-  month = "0" + month; 
-} 
+var today = getDate('DATE',0);
+today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);
 
-if(day.length == 1){ 
-  day = "0" + day; 
-} 
+$('#ExpStdate').val(today);
+$('#ExpEnddate').val(today);
+$('#DevDate').val(today);
 
 workerGrid.setConfig({
     target: $('[data-ax5grid="workerGrid"]'),
@@ -130,6 +134,29 @@ ExpStdatePicker.bind({
                 this.item.pickerCalendar[0].ax5uiInstance.setSelection([ax5.util.date(new Date(), {'add': {d: 1}})]);
             }
         }
+    },
+    btns: {
+        today: {
+            label: "Today", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .close();
+            }
+        },
+        thisMonth: {
+            label: "This Month", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
+                                + '/'
+                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+                        .close();
+            }
+        },
+        ok: {label: "Close", theme: "default"}
     }
 });
 
@@ -165,6 +192,29 @@ ExpEnddatePicker.bind({
                 this.item.pickerCalendar[0].ax5uiInstance.setSelection([ax5.util.date(new Date(), {'add': {d: 1}})]);
             }
         }
+    },
+    btns: {
+        today: {
+            label: "Today", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .close();
+            }
+        },
+        thisMonth: {
+            label: "This Month", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
+                                + '/'
+                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+                        .close();
+            }
+        },
+        ok: {label: "Close", theme: "default"}
     }
 });
 
@@ -200,6 +250,29 @@ ExpStdatePicker.bind({
                 this.item.pickerCalendar[0].ax5uiInstance.setSelection([ax5.util.date(new Date(), {'add': {d: 1}})]);
             }
         }
+    },
+    btns: {
+        today: {
+            label: "Today", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .close();
+            }
+        },
+        thisMonth: {
+            label: "This Month", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
+                                + '/'
+                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+                        .close();
+            }
+        },
+        ok: {label: "Close", theme: "default"}
     }
 });
 
@@ -238,34 +311,25 @@ DevDatePicker.bind({
     }
 });
 
+
 $(document).ready(function(){
-	//연도별월근무일수조회 Cmc0200.getWorkDays(new Date().getFullYear());
-	var tmpData;
-	tmpData = new Object();
-	tmpData = {
-		requestType	: 'GETWORKDAYS',
-		year		: new Date().getFullYear() 
-	}
-	ajaxAsync('/webPage/dev/DevPlanServlet', tmpData, 'json', successWorkdays);
-	
-	//기능접수등급 조회 Cmc0200.getRatecd();
-	tmpData = new Object();
-	tmpData = {
-		requestType	: 'GETDEVRATE' 
-	}
-	ajaxAsync('/webPage/dev/DevPlanServlet', tmpData, 'json', successDevrate);
-	
-	initDevPlan();
+	getWorkDays();
+	getDevrRate();
+	//initDevPlan();
 	
 	//예상개발시작일, 예살개방종료일, 작업일
-	$('#ExpStdate').val(year + "/" + month + "/" + day);
-	$('#ExpEnddate').val(year + "/" + month + "/" + day);
-	$('#DevDate').val(year + "/" + month + "/" + day);
+	today = getDate('DATE',0);
+	today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);
+	$('#ExpStdate').val(today);
+	$('#ExpEnddate').val(today);
+	$('#DevDate').val(today);
 	
+	//개발계획 클릭
 	$('#radioPlan').bind('click',function() {
 		radioPlan_click();
 	});
 	
+	//개발식절 클릭
 	$('#radioResult').bind('click',function() {
 		radioPlan_click();
 	});
@@ -290,21 +354,59 @@ $(document).ready(function(){
 	radioPlan_click();
 });
 
+//연도별월근무일수조회 Cmc0200.getWorkDays(new Date().getFullYear());
+function getWorkDays() {
+	var tmpData;
+	tmpData = new Object();
+	tmpData = {
+		requestType	: 'GETWORKDAYS',
+		year		: new Date().getFullYear() 
+	}
+	ajaxAsync('/webPage/dev/DevPlanServlet', tmpData, 'json', successWorkdays);
+}
+
+function successWorkdays(data) {
+	workDay = data;
+	if(workDay == "No") {
+		dialog.alert('월근무일수가 등록되지 않았습니다.',function(){});
+		return;
+	}
+}
+
+//기능접수등급 조회 Cmc0200.getRatecd();
+function getDevrRate() {
+	var codeInfos = getCodeInfoCommon([
+		new CodeInfo('DEVRATE','ALL','N')
+	]);
+	
+	selOptions = codeInfos.DEVRATE;
+	selRateData = [];
+	
+	$.each(selOptions,function(key,value) {
+		selRateData.push({value: value.cm_micode, text: value.cm_codename});
+	});
+	
+	$('[data-ax5select="selRate"]').ax5select({
+        options: selRateData
+	});
+	
+	initDevPlan();
+}
+
 function screenInit(gbn) {
 	if(gbn == 'M') {
 		workerGrid.setData([]);
 		worktimeGrid.setData([]);
 		$('#radioPlan').prop("checked", true);
-		$('#radioResult').prop("checked", false);
 		$('#radioResult').prop("disabled", false);
 		$('[data-ax5select="selRate"]').ax5select('setValue','00',true);
 		radioPlan_click();
 	}
 	
-	$('#txtWriteDay').val(""); 	//개발계획작성일
-	$('#txtWriter').val(""); 	//개발계획작성인
-	$('#txtExpTime').val(""); 	//예상소요시간
-	$('#txtDevTime').val(""); 	//작업시간
+	$('#txtWriteDay').val(''); 	//개발계획작성일
+	$('#txtWriter').val(''); 	//개발계획작성인
+	$('#txtExpTime').val(''); 	//예상소요시간
+	$('#txtDevTime').val(''); 	//작업시간
 	
 	$('#btnRegPlan').prop("disabled", true);
 	$('#btnRegResult').prop("disabled", true);
@@ -319,7 +421,7 @@ function radioPlan_click() {
 	gridSelectedIndex = workerGrid.selectedDataIndexs;
 	selectedGridItem = workerGrid.list[workerGrid.selectedDataIndexs];
 	
-	if(workerGridData == null || gridSelectedIndex < 0) {
+	if(workerGridData == null || gridSelectedIndex < 0 || selectedGridItem == null) {
 		return;
 	}
 	
@@ -338,16 +440,16 @@ function radioPlan_click() {
 		$('#txtExpTime').prop("readonly", false); 
 		$('#ExpStdate').prop("disabled", false);
 		$('#ExpEnddate').prop("disabled", false);
-		$('[data-ax5select="selRate"]').ax5select("enable");
 		$('#txtDevTime').prop("readonly", true);
 		$('#DevDate').prop("disabled", true);
+		$('[data-ax5select="selRate"]').ax5select("enable");
 	}else if($('#radioResult').is(':checked') && $('#btnRegResult').is(':enabled')) {
 		$('#txtExpTime').prop("readonly", true); 
 		$('#ExpStdate').prop("disabled", true);
 		$('#ExpEnddate').prop("disabled", true);
-		$('[data-ax5select="selRate"]').ax5select("disable");
 		$('#txtDevTime').prop("readonly", false);
 		$('#DevDate').prop("disabled", false);
+		$('[data-ax5select="selRate"]').ax5select("disable");
 	}
 }
 
@@ -358,27 +460,6 @@ function initDevPlan() {
 	
 	//작업시간내역 조회 Cmc0200.get_Worktime(strIsrId);
 	getWorktime();
-}
-
-function successWorkdays(data) {
-	workDay = data;
-	if(workDay == "No") {
-		dialog.alert('월근무일수가 등록되지 않았습니다.',function(){});
-		return;
-	}
-}
-
-function successDevrate(data) {
-	selOptions = data;
-	selRateData = [];
-	
-	$.each(selOptions,function(key,value) {
-		selRateData.push({value: value.cm_micode, text: value.cm_codename});
-	});
-	
-	$('[data-ax5select="selRate"]').ax5select({
-        options: selRateData
-	});
 }
 
 function getWorker() {
@@ -443,7 +524,7 @@ function worktimeFiltering() {
 		gridSelectedIndex = workerGrid.selectedDataIndexs;
 		selectedGridItem = workerGrid.list[workerGrid.selectedDataIndexs];
 		
-		if(workerGridData == null || gridSelectedIndex < 0) {
+		if(workerGridData == null || gridSelectedIndex < 0 || worktimeGridData == null) {
 			return;
 		}
 		
@@ -468,10 +549,12 @@ function workerGrid_Click() {
 	//$('#개발계획작성인').val(selectedGridItem.cm_username);
 	$('#txtExpTime').val(selectedGridItem.devtime);
 	
-	for(var i=0; i<selRateData.length; i++) {
-		if(selRateData[i].value == selectedGridItem.cc_rate) {
-			$('[data-ax5select="selRate"]').ax5select('setValue',selectedGridItem.cc_rate,true);
-			break;
+	if(selRateData != null) {
+		for(var i=0; i<selRateData.length; i++) {
+			if(selRateData[i].value == selectedGridItem.cc_rate) {
+				$('[data-ax5select="selRate"]').ax5select('setValue',selectedGridItem.cc_rate,true);
+				break;
+			}
 		}
 	}
 	
@@ -494,11 +577,9 @@ function workerGrid_Click() {
 			$('#radioResult').prop("disabled", false);
 		}
 		$('#radioPlan').prop("checked", true);
-		$('#radioResult').prop("checked", false);
 	}else {
 		$('#radioResult').prop("disabled", false);
 		$('#radioPlan').prop("checked", false);
-		$('#radioResult').prop("checked", true);
 	}
 	
 	if(workerGridData.length > 0) {
@@ -542,9 +623,10 @@ function worktimeGrid_dbClick() {
 
 function successDeleteWorkResult(data) {
 	if(data == "0") {
-		dialog.alert('작업시간이 삭제 되었습니다.',function(){});
-		screenInit("M");
-		initDevPlan();
+		dialog.alert('작업시간이 삭제 되었습니다.',function(){
+			screenInit("M");
+			initDevPlan();
+		});
 	}else {
 		dialog.alert('작업시간 삭제 중 오류가 발생하였습니다.',function(){});
 	}
@@ -593,9 +675,11 @@ function btnRegPlan_Click() {
 
 function successDevPlan(data) {
 	if(data == "0") {
-		dialog.alert('개발계획등록이 정상적으로 처리되었습니다.',function(){});
-		screenInit("M");
-		initDevPlan();
+		dialog.alert('개발계획등록이 정상적으로 처리되었습니다.',function(){
+			initDevPlan();
+			screenInit("M");
+		});
+		
 	}else {
 		dialog.alert('개발계획등록 중 오류가 발생하였습니다.',function(){});
 	}
@@ -603,7 +687,8 @@ function successDevPlan(data) {
 
 //개발실적등록
 function btnRegResult_Click() {
-	var NowDate = year + month + day;;
+	var NowDate = getDate('DATE',0);
+	console.log("NodwDate: " + NowDate);
 	
 	if(replaceAllString($('#DevDate').val(), '/', '') > NowDate) {
 		dialog.alert('작업일자가 현재일자 이후입니다. 정확히 선택하여 주시기 바랍니다.',function(){});
@@ -643,9 +728,10 @@ function btnRegResult_Click() {
 
 function successWorkResult(data) {
 	if(data == "0") {
-		dialog.alert('개발실적등록이 정상적으로 처리되었습니다.',function(){});
-		screenInit("M");
-		initDevPlan();
+		dialog.alert('개발실적등록이 정상적으로 처리되었습니다.',function(){
+			screenInit("M");
+			initDevPlan();
+		});
 	}else {
 		dialog.alert('개발실적등록 중 오류가 발생하였습니다.',function(){});
 	}

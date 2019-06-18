@@ -52,9 +52,6 @@ public class DevPlanServlet extends HttpServlet {
 				case "GETWORKDAYS" :
 					response.getWriter().write( getWorkdays(jsonElement) );
 					break;
-				case "GETDEVRATE" :
-					response.getWriter().write( getDevrate(jsonElement) );
-					break;
 				case "SETDEVPLAN" :
 					response.getWriter().write( setDevplan(jsonElement) );
 					break;
@@ -89,10 +86,6 @@ public class DevPlanServlet extends HttpServlet {
 	private String getWorkdays(JsonElement jsonElement) throws SQLException, Exception {
 		String year = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "year"));
 		return gson.toJson(cmc0200.getWorkDays(year));
-	}
-	
-	private String getDevrate(JsonElement jsonElement) throws SQLException, Exception {
-		return gson.toJson(cmc0200.getRatecd());
 	}
 	
 	private String setDevplan(JsonElement jsonElement) throws SQLException, Exception {
