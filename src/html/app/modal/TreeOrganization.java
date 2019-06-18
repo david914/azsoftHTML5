@@ -18,6 +18,7 @@ import com.google.gson.JsonParser;
 import app.common.CodeInfo;
 import app.common.TeamInfo;
 import app.eCmm.Cmm0100;
+import app.eCmm.Cmm0400;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/modal/TreeOrganization")
@@ -28,6 +29,7 @@ public class TreeOrganization extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
 	TeamInfo teamInfo = new TeamInfo();
+	Cmm0400 cmm0400 = new Cmm0400();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		super.doGet(req, resp);
@@ -48,8 +50,11 @@ public class TreeOrganization extends HttpServlet {
 				case "GET_TREE_INFO" :
 					response.getWriter().write( getTreeInfo(jsonElement) );
 					break;
-				case "GET_ZTREE_INFO" :
+				case "getZTreeInfo" :
 					response.getWriter().write( getTreeInfo_zTree(jsonElement) );
+					break;
+				case "insertNewDir" :
+					response.getWriter().write( insertNewDir(jsonElement) );
 					break;
 				default:
 					break;
@@ -69,6 +74,12 @@ public class TreeOrganization extends HttpServlet {
 	private String getTreeInfo_zTree(JsonElement jsonElement) throws SQLException, Exception {
 		String treeInfoData = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "treeInfoData") );
 		return gson.toJson( teamInfo.getTeamInfoTree_zTree(Boolean.parseBoolean(treeInfoData)) );
+	}
+	
+	// [사용자정보 > 조직도 ] 조칙 추가 (동일레벨)
+	private String insertNewDir(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
+		return gson.toJson( cmm0400.subNewDir(dataObj) );
 	}
 	
 	

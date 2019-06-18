@@ -35,7 +35,7 @@ $(document).ready(function() {
     var ajaxReturnData = null;
 	var treeInfo = {
 		treeInfoData: 	JSON.stringify(true),
-		requestType: 	'GET_ZTREE_INFO'
+		requestType: 	'getZTreeInfo'
 	}
 	
 	ajaxReturnData = ajaxCallWithJson('/webPage/modal/TreeOrganization', treeInfo, 'json');

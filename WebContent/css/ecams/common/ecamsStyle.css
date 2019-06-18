@@ -788,6 +788,35 @@ ul.tabs li.active {
 	width: 70%;
 	display: inline-block;
 }
+
+
+/* 	tree right menu css start 
+	지우지 마세요.
+	트리 오른쪽메뉴 css 입니다.
+	이거 없으면 안보임 테스트 불가합니다.
+*/
+div#rMenu {
+	position:absolute; 
+	visibility:hidden; 
+	top:0; 
+	background-color: #cdcdcd;
+	text-align: left;
+	padding: 1px;
+}
+div#rMenu ul li{
+	margin: 1px 0;
+	padding: 0 5px;
+	cursor: pointer;
+	list-style: none outside none;
+	background-color: #ffffff;
+}
+div#rMenu ul {
+	padding: 0;
+    margin: 0;
+    font-size: 13px;
+}
+/* tree right menu css end*/
+
 /*common*/
 #divContent {width: 580px; background: #f8f8f8; padding: 20px; margin: 0 auto;}
 /*비밀번호변경*/

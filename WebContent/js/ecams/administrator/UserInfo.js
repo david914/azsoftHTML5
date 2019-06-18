@@ -14,6 +14,10 @@ var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
+var organizationModal 	= new ax5.ui.modal();	// 조직도 팝업
+var rgtCdModal 			= new ax5.ui.modal();	// 사용자 직무조회 팝업
+var allSingUpWin		= null;					// 사용자 일괄등록 새창
+
 var userGrid	= new ax5.ui.grid();
 var jobGrid		= new ax5.ui.grid();
 
@@ -26,6 +30,11 @@ var cboSysCdData	= null;
 
 var ulDutyInfoData	= null;
 var ulJobInfoData	= null;
+
+var selDeptSw		= null;
+var modiDeptSw		= false;
+var selDeptCd		= null;
+var selSubDeptCd	= null;
 
 userGrid.setConfig({
     target: $('[data-ax5grid="userGrid"]'),
@@ -59,7 +68,7 @@ jobGrid.setConfig({
     target: $('[data-ax5grid="jobGrid"]'),
     sortable: true, 
     multiSort: true,
-    showRowSelector: false,
+    showRowSelector: true,
     header: {
         align: "center",
         columnHeight: 30
@@ -67,9 +76,7 @@ jobGrid.setConfig({
     body: {
         columnHeight: 25,
         onClick: function () {
-        	this.self.clearSelect();
             this.self.select(this.dindex);
-            clickEditGrid(this.dindex);
         },
         onDBLClick: function () {},
     	trStyleClass: function () {},
@@ -98,30 +105,50 @@ $('[data-ax5select="cboSysCd"]').ax5select({
 $('input:radio[name^="userRadio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 $('input.checkbox-user').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
 
+
 $(document).ready(function() {
-	getCodeInfo();
+	
+/*	var p1 = 3;
+	var p2 = 1337;
+	var p3 = new Promise((resolve, reject) => {
+	  setTimeout(() => {
+	    resolve("foo");
+	  }, 100);
+	}); 
+
+	Promise.all([getSysInfo(), successGetSysInfo]).then(values => { 
+		getCodeInfo();
+	});*/
+	/*getSysInfo.then(function() {
+		getCodeInfo();
+	})*/;
+	/*_promise(1,getSysInfo())
+		.then(function(){
+			return _promise(1,getCodeInfo());
+		});*/
 	getSysInfo();
 	
+	// 사원번호
 	$('#txtUserId').bind('keydown', function(event) {
 		if(event.keyCode === 13) {
 			getUserInfo($('#txtUserId').val().trim(), '');
 		}
 	});
-	
+	// 성명
 	$('#txtUserName').bind('keydown', function(event) {
 		if(event.keyCode === 13) {
 			getUserInfo('', $('#txtUserName').val().trim());
 		}
 	});
-	
-	// 직급
-	$('#cboPosition').bind('change', function() {
-		
-		
+	// 소속조직 클릭
+	$('#txtOrg').bind('click', function() {
+		selDeptSw = true;
+		openOranizationModal();
 	});
-	// 직위
-	$('#cboDuty').bind('change', function() {
-		
+	// 소속(겸직)클릭
+	$('#txtOrgAdd').bind('click', function() {
+		selDeptSw = false;
+		openOranizationModal();
 	});
 	// 시스템
 	$('#cboSysCd').bind('change', function() {
@@ -139,9 +166,8 @@ $(document).ready(function() {
 			requestType	: 'getJobInfo'
 		}
 		ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json',successGetJobInfo);
-		
 	});
-	
+	// 업무 전체선택
 	$('#chkAllJob').bind('click', function() {
 		var checkSw = $('#chkAllJob').is(':checked');
 		var addId = null;
@@ -157,19 +183,20 @@ $(document).ready(function() {
 	
 	// 담당업무 삭제
 	$('#btnDelJob').bind('click', function() {
-		
+		deleteJob();
 	});
 	// 사용자직무조회
 	$('#btnQryRgtCd').bind('click', function() {
-		
+		openAllRgtCd();
 	});
 	// 사용자일괄등록
 	$('#btnSignUp').bind('click', function() {
-		
+		winOpenSignUp();
 	});
 	// 조직정보등록
 	$('#btnDept').bind('click', function() {
-		
+		modiDeptSw = true;
+		openOranizationModal();
 	});
 	// 권한복사
 	$('#btnJobCopy').bind('click', function() {
@@ -189,15 +216,257 @@ $(document).ready(function() {
 	});
 	// 저장
 	$('#btnSave').bind('click', function() {
-		
+		setUserInfo();
 	});
 	// 폐기
 	$('#btnDel').bind('click', function() {
-		
+		deleteUser();
 	});
-	
 });
 
+// 사용자일괄등록 새창
+function winOpenSignUp() {
+	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
+
+	if (allSingUpWin != null 
+			&& !allSingUpWin.closed ) {
+    	allSingUpWin.close();
+	}
+
+    winName = 'allSingUp';
+	nHeight = screen.height - 300;
+    nWidth  = screen.width - 400;
+    cURL = "../winpop/AllSignUp.jsp";
+	
+	nTop  = parseInt((window.screen.availHeight/2) - (nHeight/2));
+	nLeft = parseInt((window.screen.availWidth/2) - (nWidth/2));
+	cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
+
+	var f = document.popPam;   		//폼 name
+	allSingUpWin = window.open('',winName,cFeatures);
+    
+    
+    f.userId.value	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.action		= cURL; 		//이동할 페이지
+    f.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
+    f.method		= "post"; 		//POST방식
+    f.submit();
+}
+
+// 사용자 직무조회 
+function openAllRgtCd() {
+	rgtCdModal.open({
+        width: 1200,
+        height: 700,
+        iframe: {
+            method: "get",
+            url: "../modal/RgtCdModal.jsp",
+            param: "callBack=rgtCdModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+            }
+        }
+    }, function () {
+    });
+}
+
+var rgtCdModalCallBack = function(){
+	rgtCdModal.close();
+};
+
+// 소소조직 선택 창 오픈
+function openOranizationModal() {
+	organizationModal.open({
+        width: 400,
+        height: 700,
+        iframe: {
+            method: "get",
+            url: "../modal/OrganizationModal.jsp",
+            param: "callBack=modalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+                modiDeptSw = false;
+            }
+        }
+    }, function () {
+    });
+}
+
+var modalCallBack = function(){
+	organizationModal.close();
+};
+
+// 사용자 정보 저장
+function setUserInfo() {
+	var txtUserId 	= $('#txtUserId').val().trim();
+	var txtUserName = $('#txtUserName').val().trim();
+	var txtIp 		= $('#txtIp').val().trim();
+	var txtTel1 	= $('#txtTel1').val().trim();
+	var txtTel2 	= $('#txtTel2').val().trim();
+	var txtDaeGyul 	= $('#txtDaeGyul').val().trim();
+	var txtBlankTerm = $('#txtBlankTerm').val().trim();
+	var txtBlankSayu = $('#txtBlankSayu').val().trim();
+	var txtLogin 	= $('#txtLogin').val().trim();
+	var txtErrCnt 	= $('#txtErrCnt').val().trim();
+	var txtOrg 		= $('#txtOrg').val().trim();
+	var txtOrgAdd 	= $('#txtOrgAdd').val().trim();
+	var txtEMail 	= $('#txtEMail').val().trim();
+	var dutyArr		= [];
+	var jobArr		= [];
+	var addId		= null;
+	var dataObj		= new Object();
+	
+	if(txtUserId.length === 0 ) {
+		dialog.alert('사원번호를 입력하여 주십시오.', function(){});
+		return;
+	}
+	if(txtUserName.length === 0 ) {
+		dialog.alert('사용자명을 입력하여 주십시오.', function(){});
+		return;
+	}
+	if(getSelectedIndex('cboPosition') < 1 ) {
+		dialog.alert('직급을 선택하여 주십시오.', function(){});
+		return;
+	}
+	if(getSelectedIndex('cboDuty') < 1 ) {
+		dialog.alert('직위를 선택하여 주십시오.', function(){});
+		return;
+	}
+	if(txtOrg.length === 0 ) {
+		dialog.alert('소속조직을 선택하여 주십시오.', function(){});
+		return;
+	}
+	if(txtTel2.length === 0 ) {
+		dialog.alert('[전화번호2]에 핸드폰번호를 입력하여 주십시오.', function(){});
+		return;
+	}
+	
+	ulDutyInfoData.forEach(function(item, index) {
+		addId = item.cm_micode;
+		if($('#chkDuty'+addId).is(':checked')) {
+			dutyArr.push(item);
+		}
+	});
+	
+	if(dutyArr.length === 0 ) { 
+		dialog.alert('담당직무를 선택하여 주십시오.', function(){});
+		return;
+	}
+	
+	if(ulJobInfoData != null ) { 
+		ulJobInfoData.forEach(function(item, index) {
+			addId = item.cm_jobcd;
+			if($('#chkJob'+addId).is(':checked')) {
+				jobArr.push(item);
+			}
+		});
+		dataObj.cm_syscd = getSelectedVal('cboSysCd').value;
+	}
+	
+	dataObj.Txt_UserId 		= txtUserId;
+    dataObj.Txt_UserName 	= txtUserName;
+    dataObj.Cbo_Pos 		= getSelectedVal('cboPosition').value;
+    dataObj.Cbo_Duty 		= getSelectedVal('cboDuty').value;
+    dataObj.Lbl_Org00 		= selDeptCd ;
+    dataObj.Lbl_Org11 		= selSubDeptCd;
+    dataObj.Txt_TelNo1 		= txtTel1;
+    dataObj.Txt_TelNo2 		= txtTel2;
+    dataObj.active1 		= String($('#optActCheck').is(':checked'));
+    dataObj.Txt_Ip 			= txtIp;
+    dataObj.Chk_HandYn 		= String($('#chkHand').is(':checked'));
+    dataObj.Chk_ManId2 		= String($('#chkManage').is(':checked'));
+    dataObj.Chk_ManId0 		= String($('#optManCheck').is(':checked'));
+    dataObj.Txt_email 		= txtEMail;
+    if (txtErrCnt.length === 0) {
+    	$('#txtErrCnt').val('0');
+    }
+    dataObj.Txt_ercount = $('#txtErrCnt').val().trim();
+	
+	var data = new Object();
+	data = {
+		dataObj 	: dataObj,
+		DutyList 	: dutyArr,
+		JobList 	: jobArr,
+		requestType	: 'setUserInfo'
+	}
+	ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json',successSetUserInfo);
+}
+
+// 사용자 정보 저장 완료
+function successSetUserInfo(data) {
+	dialog.alert('['+ data +'] 사용자의 정보가 저장 되였습니다.', function(){
+		getUserInfo($('#txtUserId').val().trim(), '');
+	});
+}
+
+// 사용자 폐기
+function deleteUser() {
+	var txtUserId 	= $('#txtUserId').val().trim();
+	if(txtUserId.length === 0 ) {
+		dialog.alert('사용자번호를 입력하여 주십시오.', function(){});
+		return;
+	}
+	
+	var data = new Object();
+	data = {
+		UserId 		: txtUserId,
+		requestType	: 'deleteUser'
+	}
+	ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json',successDeleteUser);
+}
+
+// 사용자 폐기 완료
+function successDeleteUser(data) {
+	dialog.alert('['+data + '] 사용자정보가 폐기 되었습니다.', function(){});
+}
+
+// 담당업무 삭제
+function deleteJob() {
+	var txtUserId 	= $('#txtUserId').val().trim();
+	var selIn		= jobGrid.selectedDataIndexs;
+	var selArr		= [];
+	if(txtUserId.length === 0 ) {
+		dialog.alert('사용자번호를 입력하여 주십시오.', function(){});
+		return;
+	}
+	if(selIn.length === 0 ) {
+		dialog.alert('삭제할 업무를 선택한 후 처리하십시오.', function(){});
+		return;
+	}
+	
+	selIn.forEach(function(item, index) {
+		selArr.push(jobGrid.list[item]);
+	});
+	var data = new Object();
+	data = {
+		UserId 		: txtUserId,
+		JobList 	: selArr,
+		requestType	: 'deleteJob'
+	}
+	ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json',successDeleteJob);
+	
+}
+
+// 담당업무 삭제 완료
+function successDeleteJob(data) {
+	if(data === 0 ) {
+		dialog.alert('선택한 업무에 대한 폐기처리를 완료하였습니다.', function() {
+			getUserJobList();
+		});
+	}
+}
+
+// 업무 그리드 선택
 function clickUserGrid(index) {
 	var selItem = userGrid.list[index];
 	getUserInfo(selItem.cm_userid, '');
@@ -274,6 +543,8 @@ function successGetUserInfo(data) {
 	$('#txtOrgAdd').val(userInfo.deptname2);
 	$('#txtEMail').val(userInfo.cm_email);
 	
+	selDeptCd 		= userInfo.cm_project;
+	selSubDeptCd 	= userInfo.cm_project2;
 	
 	$('[data-ax5select="cboPosition"]').ax5select('setValue', userInfo.cm_position, true);
 	$('[data-ax5select="cboDuty"]').ax5select('setValue', userInfo.cm_duty, true);
@@ -354,6 +625,7 @@ function successGetUserRgtDept(data) {
 
 // 시스템목록 가져오기
 function getSysInfo() {
+	console.log('getsysinfo start');
 	var data = new Object();
 	data = {
 		UserId 		: userId,
@@ -363,7 +635,7 @@ function getSysInfo() {
 		ReqCd 		: '',
 		requestType	: 'getSysInfo'
 	}
-	ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json',successGetSysInfo);
+	ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json', successGetSysInfo, getCodeInfo);
 }
 
 function successGetJobInfo(data) {
@@ -373,6 +645,7 @@ function successGetJobInfo(data) {
 
 // 시스템목록 가져오기 완료
 function successGetSysInfo(data) {
+	console.log('getsysinfo end');
 	cboSysCdData = data;
 	$('[data-ax5select="cboSysCd"]').ax5select({
         options: injectCboDataToArr(cboSysCdData, 'cm_syscd' , 'cm_sysmsg')
@@ -381,6 +654,7 @@ function successGetSysInfo(data) {
 
 //등록구분 가져오기
 function getCodeInfo() {
+	console.log('getCodeinfo start');
 	var codeInfos = getCodeInfoCommon([
 		new CodeInfo('POSITION','SEL','N'),
 		new CodeInfo('DUTY',	'SEL','N'),
