@@ -82,11 +82,7 @@ public class RequestDetail extends HttpServlet {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"param"));
 		
-		boolean qrySw = false;
-		if ("Y".equals(param.get("qrySw"))) {
-			qrySw = true;
-		}
-		return gson.toJson(cmr0250.getProgList(param.get("UserId"),param.get("AcptNo"),param.get("chkYn"),qrySw));
+		return gson.toJson(cmr0250.getProgList(param.get("UserId"),param.get("AcptNo"),param.get("chkYn"),Boolean.parseBoolean(param.get("qrySw"))));
 	}
 	
 }

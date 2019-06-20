@@ -55,7 +55,7 @@ public class Cmr0250{
 
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
-		PreparedStatement pstmt2       = null;
+		PreparedStatement pstmt2      = null;
 		ResultSet         rs          = null;
 		ResultSet         rs2         = null;
 		StringBuffer      strQuery    = new StringBuffer();
@@ -261,14 +261,15 @@ public class Cmr0250{
 					} else {
 						rst.put("prcsw", "0");
 						strPrcSw = "0";
+
 						strQuery.setLength(0);
 						strQuery.append("select count(*) cnt from cmr1030       \n");
 						strQuery.append(" where cr_befact=? and cr_autolink='N' \n");
 						pstmt2 = conn.prepareStatement(strQuery.toString());
 			        	pstmt2.setString(1, AcptNo);
 			        	rs2 = pstmt2.executeQuery();
-			        	if (rs2.next()) {
-			        		if (rs2.getInt("cnt")>0) rst.put("befsw", "Y");
+			        	if (rs2.next() && rs2.getInt("cnt")>0) {
+			        		rst.put("befsw", "Y");
 			        	}
 			        	rs2.close();
 			        	pstmt2.close();
@@ -427,7 +428,6 @@ public class Cmr0250{
 		ResultSet         rs          = null;
 		ResultSet         rs2         = null;
 		StringBuffer      strQuery    = new StringBuffer();
-		Object[] 		  returnObject = null;
 		boolean           findSw      = false;
 		boolean           errSw       = false;
 		String            strPutCd    = "";
@@ -457,7 +457,7 @@ public class Cmr0250{
 			strQuery.append("       f.cm_codename checkin,a.cr_editor,g.cr_teamcd,g.cr_syscd,    \n");
 			strQuery.append("       g.cr_jobcd,nvl(x.cnt,0) rst,nvl(y.cnt,0) err,                \n");
 			strQuery.append("       nvl(z.cnt,0) basecnt,nvl(u.cnt,0) baserst,a.cr_befver        \n");
-			strQuery.append("  from cmr1000 g,cmm0020 f,cmm0102 e,cmm0036 d,cmm0020 c,cmm0070 b,cmr1010 a \n");
+			strQuery.append("  from cmr1000 g,cmm0102 e,cmm0036 d,cmm0020 c,cmm0070 b,cmr1010 a  \n");
 			strQuery.append(" ,(select cr_serno,count(*) cnt from cmr1011						 \n");
 			strQuery.append("    where cr_acptno=? and cr_prcdate is not null	                 \n");
 			strQuery.append("    group by cr_serno) x						                     \n");
@@ -475,13 +475,16 @@ public class Cmr0250{
 			strQuery.append("    where a.cr_acptno=? and a.cr_prcdate is not null                \n");
 			strQuery.append("      and a.cr_acptno=b.cr_acptno and a.cr_serno=b.cr_serno         \n");
 			strQuery.append("    group by b.cr_baseitem) u		   		                         \n");
+			strQuery.append(" ,(select cm_micode, cm_macode, cm_codename                         \n");
+			strQuery.append(" 	  from cmm0020 where cm_macode='CHECKIN') f                      \n");
+			
 			strQuery.append(" where a.cr_acptno=? and a.cr_acptno=g.cr_acptno					 \n");
 			if (qrySw == false) {
 				strQuery.append("and a.cr_itemid=a.cr_baseitem                                   \n");
 			}
 			strQuery.append("   and a.cr_syscd=b.cm_syscd and a.cr_dsncd=b.cm_dsncd              \n");
 			strQuery.append("   and c.cm_macode='JAWON' and c.cm_micode=a.cr_rsrccd              \n");
-			strQuery.append("   and f.cm_macode='CHECKIN' and f.cm_micode=a.cr_qrycd             \n");
+			strQuery.append("   and a.cr_qrycd=f.cm_micode(+)						             \n");
 			strQuery.append("   and a.cr_syscd=d.cm_syscd and a.cr_rsrccd=d.cm_rsrccd            \n");
 			strQuery.append("   and a.cr_jobcd=e.cm_jobcd                 					     \n");
 	        strQuery.append("   and a.cr_serno=x.cr_serno(+) and a.cr_serno=y.cr_serno(+)        \n");
@@ -490,13 +493,13 @@ public class Cmr0250{
 	        //strQuery.append(" order by a.cr_serno                                                \n");
 	        strQuery.append(" order by a.cr_baseitem, a.cr_itemid                                \n");
 			pstmt = conn.prepareStatement(strQuery.toString());
-			//pstmt = new LoggableStatement(conn,strQuery.toString());
+			pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmt.setString(1, AcptNo);
 			pstmt.setString(2, AcptNo);
 			pstmt.setString(3, AcptNo);
 			pstmt.setString(4, AcptNo);
 			pstmt.setString(5, AcptNo);
-	        //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+	        ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	        rs = pstmt.executeQuery();
 
 	        rsval.clear();
@@ -518,7 +521,8 @@ public class Cmr0250{
 					rst.put("checkin",rs.getString("checkin")+"[¹Ý¼Û]");
 				}
 				else{
-					rst.put("checkin", rs.getString("checkin"));
+					if (null != rs.getString("checkin")) rst.put("checkin", rs.getString("checkin"));
+					else rst.put("checkin", "");
 				}
 				if (rs.getString("cr_itemid") != null && rs.getString("cr_itemid") != "") {
 					if (rs.getString("cr_itemid").equals(rs.getString("cr_baseitem"))) {
@@ -656,32 +660,10 @@ public class Cmr0250{
 	        rs2 = null;
 	        pstmt2 = null;
 			conn = null;
-			int j = 0;
-			for (int i=0;rsval.size()>i;i++) {
-				if (rsval.get(i).get("cr_itemid") != null && rsval.get(i).get("cr_baseitem") != null) {
-					if (!rsval.get(i).get("cr_itemid").equals(rsval.get(i).get("cr_baseitem"))) {
-						for (j=0;rsval.size()>j;j++) {
-							if (rsval.get(j).get("cr_itemid") != null && rsval.get(j).get("cr_baseitem") != null) {
-								if (rsval.get(j).get("cr_itemid").equals(rsval.get(i).get("cr_baseitem"))) {
-									if (!rsval.get(j).get("cr_itemid").equals(rsval.get(j).get("cr_baseitem"))) {
-										rst = new HashMap<String, String>();
-										rst = rsval.get(i);
-										rst.put("sortfg", rsval.get(j).get("cr_baseitem")+"2");
-										rsval.set(i, rst);
-									}
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
+			
 			//ecamsLogger.error("++++proglist end++++++++++"+rsval.toString());
-			returnObject = rsval.toArray();
-			rsval.clear();
-			rsval = null;
 
-			return returnObject;
+			return rsval.toArray();
 
 
 		} catch (SQLException sqlexception) {
@@ -698,7 +680,6 @@ public class Cmr0250{
 			throw exception;
 		}finally{
 			if (strQuery != null) strQuery = null;
-			if (returnObject != null) returnObject = null;
 			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
 			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
 			if (rs2 != null)     try{rs2.close();}catch (Exception ex){ex.printStackTrace();}
