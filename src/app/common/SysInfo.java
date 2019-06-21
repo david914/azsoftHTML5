@@ -944,7 +944,7 @@ public class SysInfo{
 
 			strQuery.append("select a.cm_syscd,a.cm_sysmsg,a.cm_sysgb,a.cm_sysfc1,a.cm_dirbase,a.cm_sysinfo,cm_prjname \n");
 			strQuery.append("from cmm0030 a             \n");
-			if (SysCd != null && SysCd != "") {
+			if (SysCd != null && !"".equals(SysCd)) {
 				strQuery.append("where cm_syscd=?       \n");
 			} else {
 				if (secuYn == false) {
@@ -963,7 +963,7 @@ public class SysInfo{
 			strQuery.append("order by a.cm_sysmsg \n");
             //pstmt = conn.prepareStatement(strQuery.toString());
             pstmt = new LoggableStatement(conn,strQuery.toString());
-            if (SysCd != null && SysCd != "") pstmt.setString(1, SysCd);
+            if (SysCd != null && !"".equals(SysCd)) pstmt.setString(1, SysCd);
             else
 	            if (secuYn == false){
 	            	pstmt.setString(1, UserId);
