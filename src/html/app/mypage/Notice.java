@@ -42,7 +42,6 @@ public class Notice extends HttpServlet {
 		doPost(req, resp);
 	}
 	
-	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		JsonParser jsonParser = new JsonParser();
@@ -60,8 +59,8 @@ public class Notice extends HttpServlet {
 				case "CodeInfo" :
 					response.getWriter().write( getCodeInfo(jsonElement) );
 					break;
-				case "Cmm2100" :
-					response.getWriter().write( getSqlQry(jsonElement) );
+				case "getNoticeIfno" :
+					response.getWriter().write( getNoticeIfno(jsonElement) );
 					break;
 				case "SystemPath" :
 					response.getWriter().write( getSysPass(jsonElement) );
@@ -92,25 +91,24 @@ public class Notice extends HttpServlet {
 		
 	}
 	
+	// [공지사항] 어드민 체크
 	private String checkAdmin(JsonElement jsonElement) throws SQLException, Exception {
 		String userId = null;
 		userId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		return gson.toJson(userinfo.isAdmin(userId));
 	}
 	
+	// [공지사항] 코드정보가져오기
 	private String getCodeInfo(JsonElement jsonElement) throws SQLException, Exception {
 		return gson.toJson(codeinfo.getCodeInfo("FIND","","N"));
 	}
 	
-	private String getSqlQry(JsonElement jsonElement) throws SQLException, Exception {
-		String cboFindMicode = null;
-		cboFindMicode = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "CboFind_micode") );
-		String txtFindText = null;
-		txtFindText = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "TxtFind_text") );
-		String dateStD = null;
-		dateStD = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strStD") );
-		String dateEdD = null;
-		dateEdD = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strEdD") );
+	// [공지사항] 공지사항 리스트가져오기
+	private String getNoticeIfno(JsonElement jsonElement) throws SQLException, Exception {
+		String cboFindMicode = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "CboFind_micode") );
+		String txtFindText 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "TxtFind_text") );
+		String dateStD 		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "dateStD") );
+		String dateEdD 		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "dateEdD") );
 		return gson.toJson(cmm2100.get_sql_Qry(cboFindMicode, txtFindText, dateStD, dateEdD));
 	}
 	
@@ -118,8 +116,8 @@ public class Notice extends HttpServlet {
 		return gson.toJson(systempath.getTmpDir("99"));
 	}
 	
+	// [공지사항] 공지사항 등록
 	private String insertNoticeFileInfo(JsonElement jsonElement) throws SQLException, Exception {
-		
 		ArrayList<HashMap<String, String>> tmpList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement, "fileInfo") );
 		ArrayList<HashMap<String, String>> fileList = new  ArrayList<HashMap<String,String>>();
 		for(int i=0; i<tmpList.size(); i++) {
@@ -133,24 +131,28 @@ public class Notice extends HttpServlet {
 		return gson.toJson(cmm2101.setDocFile(fileList));
 	}
 	
+	//[공지사항] 첨부파일 리스트 가져오기
 	private String getFileList(JsonElement jsonElement) throws SQLException, Exception {
 		String acptno = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "acptno") );
 		return gson.toJson(cmm2100.getFileList(acptno));
 	}
 	
-	
+	// [공지사항] 공지사항 업로드 디렉토리 가져오기
 	private String getNoticeFolderPath(JsonElement jsonElement) throws SQLException, Exception {
 		return gson.toJson(systempath.getTmpDir("01"));
 	}
-
+	// [공지사항] 공지사항 첨부파일 삭제
 	private String deleteNoticeFile(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> fileData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "fileData") );
 		return gson.toJson(cmm2101.removeDocFileHtml(fileData));
 	}
 	
+	
+	
+	
+	
+	// 테스트 메소드 입니다. 
 	private String getBigDataTest(JsonElement jsonElement) throws SQLException, Exception {
-		
-		
 		for(long i=0; i<1000000000; i++) {
 			if(i%10000 ==0 ) System.out.println("데이터가져오는중...  [i] = " + i);
 		}
@@ -167,7 +169,6 @@ public class Notice extends HttpServlet {
 			
 			if(i%10000 ==0 ) System.out.println("데이터가져오는중...  [i] = " + i);
 		}
-		
 		return gson.toJson("OK");
 	}
 	

@@ -39,7 +39,6 @@ $(document).ready(function() {
 
 function screenInit() {
 	if( sessionID === null ) sessionID =$('#txtSessionID').val();
-	console.log(sessionID);
 	if( sessionID === null || sessionID === '' || sessionID === 'undefinded' ) {
 		window.location.replace('/webPage/login/ecamsLogin.jsp');
 		return;
@@ -81,7 +80,6 @@ function meneSet() {
 	ajaxUserData = ajaxCallWithJson('/webPage/main/eCAMSBaseServlet', userInfo, 'json');
 	
 	menuData = ajaxUserData;
-	
 	var menuHtmlStr = '';
 	menuData.forEach(function(menuItem, menuItemIndex) {
 		if(menuItem.link === undefined || menuItem.link === null) {

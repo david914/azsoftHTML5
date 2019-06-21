@@ -129,6 +129,14 @@ public class LoginManager implements HttpSessionBindingListener
             rs = pstmt.executeQuery();
             
 			if (rs.next()){
+				
+				ecamsLogger.error("###############################################CEHCK PASSWD###########################################################################################");
+				ecamsLogger.error(rs.getString("CM_CPASSWD"));
+				ecamsLogger.error(oEncryptor.SHA256(usr_passwd));
+				ecamsLogger.error(usr_passwd);
+				ecamsLogger.error("###############################################CEHCK PASSWD###########################################################################################");
+				
+				
 				//ecamsLogger.error(rs.getString("CM_CPASSWD"));
 				++CNT2;
 				strUserId = rs.getString("CM_USERID");
@@ -233,6 +241,9 @@ public class LoginManager implements HttpSessionBindingListener
 			pstmt = null;
 			conn = null;
 			//ecamsLogger.debug("++++++retCnt3+++"+Integer.toString(retCnt));
+			ecamsLogger.error("###############################################CEHCK PASSWD###########################################################################################");
+			ecamsLogger.error(retCnt);
+			ecamsLogger.error("###############################################CEHCK PASSWD###########################################################################################");
 			return Integer.toString(retCnt) + strUserId;
 			//if(CNT2 < 1) return 9;
 		} catch (SQLException sqlexception) {

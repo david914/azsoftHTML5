@@ -73,16 +73,13 @@ $('#drag-and-drop-zone').dmUploader({
 		fileMeta.cm_svfile = */
 		
 		fileArr.push(data[0]);
-		
 		if(uploadCnt === 0 ) {
 			dialog.alert('파일 업로드 완료.', function () {
 				window.parent.fileUploadModal.close();
-				
 				//DB에 업로드 파일 정보 저장.
 				window.parent.fileInfoInsert(fileArr);
-				
-	    		window.parent.modal.close();
-	    		window.parent.Search_click();
+	    		window.parent.popNoticeModal.close();
+	    		window.parent.getNoticeInfo();
 			});
 		}
 	},

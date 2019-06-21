@@ -77,7 +77,7 @@ public class Cmm2100{
 			else if (Cbo_Find.equals("01")){
 				strQuery.append("and instr(a.cm_title,?) > 0 \n");
 			}
-			else if (Cbo_Find.equals("02")){
+			else if (!"".equals(Txt_Find) && Cbo_Find.equals("02")){
 				strQuery.append("and (a.cm_title LIKE  '%' || ? || '%'  or a.cm_contents LIKE  '%' || ? || '%') \n");
 			}
 			strQuery.append("  and to_char(a.CM_ACPTDATE,'yyyymmdd')>=?  	\n");
@@ -93,7 +93,7 @@ public class Cmm2100{
 			else if (Cbo_Find.equals("01")){
 				pstmt.setString(++Cnt, Txt_Find);
 			}
-			else if (Cbo_Find.equals("02")){
+			else if (!"".equals(Txt_Find) && Cbo_Find.equals("02")){
 				pstmt.setString(++Cnt, Txt_Find);
 				pstmt.setString(++Cnt, Txt_Find);
 			}

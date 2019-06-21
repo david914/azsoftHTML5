@@ -1,29 +1,49 @@
 /**
- * 공지사항 화면의 기능 정의
+ * 공지사항 화면 기능 정의
  * 
  * <pre>
- * &lt;b&gt;History&lt;/b&gt;
- * 	작성자: 홍소미
- * 	버전 : 1.0
- *  수정일 : 2019-02-07
+ * 	작성자 	: 이용문
+ * 	버전   	: 1.0
+ *  수정일 	: 2019-06-27
  * 
  */
-var strAdmin = "";
-var combo_dp1;
-var strStD = "";
-var strEdD = "";
-var userid = window.top.userId;
-var noticePopData = null;
-var picker = new ax5.ui.picker();
-var divGrid1 = new ax5.ui.grid();
-var modal = new ax5.ui.modal();
-var fileLength = 0 ;
-var uploadAcptno = null;
-var downAcptno = null;
+
+/*
+var userName 	= window.top.userName;		// 접속자 Name
+var userId 		= window.top.userId;		// 접속자 ID
+var adminYN 	= window.top.adminYN;		// 관리자여부
+var userDeptName= window.top.userDeptName;	// 부서명
+var userDeptCd 	= window.top.userDeptCd;	// 부서코드
+*/
+
+
+var userName 	= '관리자'
+var userId 		= 'MASTER';
+var adminYN 	= true;
+var userDeptName= window.parent.userDeptName;	// 부서명
+var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
+
+var picker			= new ax5.ui.picker();		// DATE PICKER
+var popNoticeModal 	= new ax5.ui.modal();		// 공지사항등록/수정 팝업
+
+var noticeGrid = new ax5.ui.grid();				// 공지사항 그리드
+
+var noticeGridData 	= [];
+var uploadData		= [];
+var noticePopData 	= null;
+
+var strStD 		= "";
+var strEdD 		= "";
+var fileLength 	= 0 ;
+
+var uploadAcptno= null;
+var downAcptno 	= null;
 var downFileCnt = 0;
+
+var fileUploadBtn = null;
+
 var title_;
 var class_;
-var fileUploadBtn = null;
 
 
 var fileUploadModal = new ax5.ui.modal({
@@ -74,7 +94,251 @@ var fileDownloadModal = new ax5.ui.modal({
     }
 });
 
+noticeGrid.setConfig({
+    target: $('[data-ax5grid="noticeGrid"]'),
+    sortable: true, 
+    multiSort: true,
+    showRowSelector: false,
+    header: {
+        align: "center",
+        columnHeight: 30
+    },
+    body: {
+        columnHeight: 28,
+        onClick: function () {
+        	this.self.clearSelect();
+            this.self.select(this.dindex);
+        },
+        onDBLClick: function () {
+        	noticePopData = noticeGrid.list[noticeGrid.selectedDataIndexs];
+        	openPopNotice();
+        },
+    	onDataChanged: function(){
+    	    this.self.repaint();
+    	}
+    },
+    columns: [
+        {key: "CM_TITLE", 		label: "제목",  		width: '52%'},
+        {key: "CM_USERNAME", 	label: "등록자",  	width: '8%'},
+        {key: "CM_ACPTDATE", 	label: "등록일",  	width: '8%'},
+        {key: "CM_STDATE", 		label: "팝업시작일",  	width: '8%'},
+        {key: "CM_EDDATE", 		label: "팝업마감일",  	width: '8%'},
+        {key: "CM_NOTIYN", 		label: "팝업",  		width: '8%'},
+        {key: "fileCnt", 		label: "첨부파일",  	width: '8%',
+         formatter: function(){
+        	 var htmlStr = this.value > 0 ? "<button class='btn-ecams-grid' onclick='openFileDownload("+this.item.CM_ACPTNO+","+this.item.fileCnt+")' >첨부파일다운</button>" : '';
+        	 return htmlStr;
+         }
+        }
+    ]
+});
 
+$('#start_date').val(getDate('MON',-1));
+$('#end_date').val(getDate('DATE',0));
+
+picker.bind({
+    target: $('[data-ax5picker="basic"]'),
+    direction: "top",
+    content: {
+        width: 220,
+        margin: 10,
+        type: 'date',
+        config: {
+            control: {
+                left: '<i class="fa fa-chevron-left"></i>',
+                yearTmpl: '%s',
+                monthTmpl: '%s',
+                right: '<i class="fa fa-chevron-right"></i>'
+            },
+            dateFormat: 'yyyy/MM/dd',
+            lang: {
+                yearTmpl: "%s년",
+                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+                dayTmpl: "%s"
+            }
+        },
+        formatter: {
+            pattern: 'date'
+        }
+    },
+    btns: {
+        today: {
+            label: "Today", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .close();
+            }
+        },
+        thisMonth: {
+            label: "This Month", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
+                                + '/'
+                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+                        .close();
+            }
+        },
+        ok: {label: "Close", theme: "default"}
+    }
+});
+
+
+$(document).ready(function() {
+	getNoticeInfo();
+	
+	if(!adminYN) {
+		$('#btnReg').prop('disabled',true);
+	}
+	
+	$('#btnReg').bind('click', function() {
+		noticePopData = null;
+		openPopNotice();
+	});
+	
+	// 엔터 이벤트
+	$('#txtFind').bind('keypress', function(event) {
+		if(event.keyCode === 13) {
+			$('#btnQry').trigger('click');
+		}
+	});
+	
+	// 엑셀저장
+	$('#btnExcel').bind('click', function() {
+		noticeGrid.exportExcel("공지사항.xls");
+	});
+	
+	// 조회
+	$('#btnQry').bind('click', function() {
+		getNoticeInfo();
+	});
+})
+
+// 공지사항 정보 가져오기
+function getNoticeInfo() {
+	console.log('check');
+	var TxtFind_text = $('#txtFind').val().trim();
+	strStD = replaceAllString($("#start_date").val(), "/", "");
+	strEdD = replaceAllString($("#end_date").val(), "/", "");
+
+	var data = new Object();
+	data = {
+		UserId 			: userId,
+		CboFind_micode 	: '02',
+		TxtFind_text 	: TxtFind_text,
+		dateStD 		: strStD,
+		dateEdD 		: strEdD,
+		requestType	: 'getNoticeIfno'
+	}
+	ajaxAsync('/webPage/mypage/Notice', data, 'json',successGetNoticeInfo);
+}
+
+//공지사항 정보 가져오기 완료
+function successGetNoticeInfo(data) {
+	noticeGridData = data;
+	noticeGrid.setData(noticeGridData);
+	// 조회건수 : <strong>총 0건</strong></span>
+	$('#lbCnt').html('조회건수 : <strong>총'+data.length+'건</strong>');
+}
+
+// 공지사항 등록 /수정 오픈
+function openPopNotice(){
+	popNoticeModal.open({
+        width: 600,
+        height: 440,
+        iframe: {
+            method: "get",
+            url: "../modal/PopNotice.jsp",
+            param: "callBack=popNoticeModalCallBack"
+        },
+        onStateChanged: function () {
+            // mask
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+                $('#btnQry').trigger('click');
+            }
+        }
+    }, function () {
+    });
+}
+
+var popNoticeModalCallBack = function(){
+	popNoticeModal.close();
+};
+
+var fileUploadModalCallBack = function() {
+	fileLength = 0;
+	fileUploadModal.close();
+}
+
+var fileDownloadModalCallBack = function() {
+	fileDownloadModal.close();
+}
+
+// 첨부파일 모달 오픈
+function openFileUpload() {
+	fileUploadModal.open({
+        width: 600,
+        height: 360,
+        iframe: {
+            method: "get",
+            url: 	"../modal/FileUp.jsp",
+            param: "callBack=fileUploadModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+            }
+            else if (this.state === "close") {
+            	$('#btnQry').trigger('click');
+            }
+        }
+    }, function () {
+    });
+}
+
+// 다운로드 모달 오픈
+function openFileDownload(acptno,fileCnt) {
+	if(acptno !== '') {
+		downAcptno = acptno;
+		downFileCnt = fileCnt;
+	}
+	fileDownloadModal.open({
+        width: 600,
+        height: 360,
+        iframe: {
+            method: "get",
+            url: 	"../modal/FileDownload.jsp",
+            param: "callBack=fileDownloadModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+            }
+            else if (this.state === "close") {
+            	$('#btnQry').trigger('click');
+            }
+        }
+    }, function () {
+    });
+}
+
+// 공지사항 등록시 파입 업로드
+function fileInfoInsert(data) {
+	uploadData = data;
+	var testArr = []
+	testArr.push(data[0]);
+	var data = new Object();
+	data = {
+		fileInfo : uploadData,
+		requestType	: 'insertNoticeFileInfo'
+	}
+	ajaxAsync('/webPage/mypage/Notice', data, 'json');
+}
 
 function checkModalLength() {
 	return $("div[id*='modal']").length;
@@ -84,179 +348,17 @@ function returnFileModal() {
 	return $("div[id*='modal-15']");
 }
 
-$(document).ready(function() {
-	createGrid();
-	getAdminInfo();
-	date_init();
-	
-	//그리드 엑셀 저장
-	$('[data-grid-control]').click(function () {
-		console.log('excel');
-		switch (this.getAttribute("data-grid-control")) {
-			case "excel-export":
-				divGrid1.exportExcel("공지사항.xls");
-			break;
-		}
-	});
-})
-function createGrid() {
-	
-	divGrid1.setConfig({
-        target: $('[data-ax5grid="divGrid1"]'),
-        sortable: true, 
-        multiSort: true,
-        showRowSelector: false,
-        header: {
-            align: "center",
-            columnHeight: 30
-        },
-        body: {
-            columnHeight: 28,
-            onClick: function () {
-            	this.self.clearSelect(); //기존선택된 row deselect 처리 (multipleSelect 할땐 제외해야함)
-                this.self.select(this.dindex);
-            },
-            onDBLClick: function () {
-            	doubleClickGrid1();
-            },
-        	onDataChanged: function(){
-        	    this.self.repaint();
-        	}
-        },
-        columns: [
-            {key: "CM_TITLE", label: "제목",  width: '52%'},
-            {key: "CM_USERNAME", label: "등록자",  width: '8%'},
-            {key: "CM_ACPTDATE", label: "등록일",  width: '8%'},
-            {key: "CM_STDATE", label: "팝업시작일",  width: '8%'},
-            {key: "CM_EDDATE", label: "팝업마감일",  width: '8%'},
-            {key: "CM_NOTIYN", label: "팝업",  width: '8%'},
-            {key: "fileCnt", label: "첨부파일",  width: '8%',
-             formatter: function(){
-            	 var htmlStr = this.value > 0 ? "<button class='btn-ecams-grid' onclick='openFileDownload("+this.item.CM_ACPTNO+","+this.item.fileCnt+")' >첨부파일다운</button>" : '';
-            	 return htmlStr;
-             }
-            }
-        ]
-    });
-}
-
-function date_init() {
-	$('#start_date').val(getDate('MON',-1));
-	$('#end_date').val(getDate('DATE',0));
-	
-	picker.bind({
-        target: $('[data-ax5picker="basic"]'),
-        direction: "top",
-        content: {
-            width: 220,
-            margin: 10,
-            type: 'date',
-            config: {
-                control: {
-                    left: '<i class="fa fa-chevron-left"></i>',
-                    yearTmpl: '%s',
-                    monthTmpl: '%s',
-                    right: '<i class="fa fa-chevron-right"></i>'
-                },
-                dateFormat: 'yyyy/MM/dd',
-                lang: {
-                    yearTmpl: "%s년",
-                    months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                    dayTmpl: "%s"
-                }
-            },
-            formatter: {
-                pattern: 'date'
-            }
-        },
-        btns: {
-            today: {
-                label: "Today", onClick: function () {
-                    var today = new Date();
-                    this.self
-                            .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                            .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                            .close();
-                }
-            },
-            thisMonth: {
-                label: "This Month", onClick: function () {
-                    var today = new Date();
-                    this.self
-                            .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-                            .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-                                    + '/'
-                                    + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-                            .close();
-                }
-            },
-            ok: {label: "Close", theme: "default"}
-        }
-    });
-	
-	grid_resultHandler();
-}
-
-function getAdminInfo() {
-	strAdmin = "0";
-	var ajaxReturnData = null;
-	
-	var tmpData = {
-		requestType : 'UserInfo',
-		UserId : userid
-	}
-	
-	ajaxReturnData = ajaxCallWithJson('/webPage/mypage/Notice', tmpData, 'json');
-	console.log('admin');
-	console.log(ajaxReturnData);
-	if(ajaxReturnData !== 'ERR') {
-		if (ajaxReturnData) { //관리자여부
-			strAdmin = "1";
-			$('#btnReg').attr('disabled',false);
-		}
-	}
-}
-
-function grid_resultHandler() {
-	strStD = $("#start_date").val().substr(0,4) + $("#start_date").val().substr(5,2) + $("#start_date").val().substr(8,2);
-	strEdD = $("#end_date").val().substr(0,4) + $("#end_date").val().substr(5,2) + $("#end_date").val().substr(8,2);
-	var CboFind_micode = $('#Cbo_Find option:selected').val();
-	var TxtFind_text = document.getElementById("Txt_Find").value === null ? '' : document.getElementById("Txt_Find").value;
-	var ajaxReturnData = null;
-	
-	var tmpData = {
-		requestType : 'Cmm2100',
-		UserId : userid,
-		CboFind_micode : '02',
-		TxtFind_text : TxtFind_text,
-		strStD : strStD,
-		strEdD : strEdD
-	}
-	
-	ajaxReturnData = ajaxCallWithJson('/webPage/mypage/Notice', tmpData, 'json');
-
-	if(ajaxReturnData !== 'ERR') {
-		grid_dp1 = ajaxReturnData;
-		divGrid1.setData(grid_dp1);
-		$('#lbCnt').text('총 '+grid_dp1.length+'건');
-		//제목에 툴팁달기  !!
-	}
-}
-
-// 그리드에 마우스 툴팁 달기
+//그리드에 마우스 툴팁 달기
 $(document).on("mouseenter","[data-ax5grid-panel='body'] span",function(event){
 	if(this.innerHTML == ""){
 		return;
 	}
-	
 	//첫번째 컬럼에만 툴팁 달기
 	if($(this).closest("td").index() > 0) return;
 	
 	//그리드 정보 가져오기
-	var gridRowInfo = divGrid1.list[parseInt($(this).closest("td").closest("tr").attr("data-ax5grid-tr-data-index"))];
+	var gridRowInfo = noticeGrid.list[parseInt($(this).closest("td").closest("tr").attr("data-ax5grid-tr-data-index"))];
 	var contents = gridRowInfo.CM_CONTENTS;
-	
-	console.log(contents.length);
 	
 	if(contents.length > 500 ) {
 		contents = contents.substring(0,500) + '....';
@@ -280,201 +382,12 @@ $(document).on("mouseenter","[data-ax5grid-panel='body'] span",function(event){
 		$("#tip").text(title_);
 	}
 	
-	//var pageX = $(this).offset().left -20;
-	//var pageY = $(this).offset().top - $("#tip").innerHeight();
 	var pageX = event.pageX;
 	var pageY = event.pageY;
 	
 	$("#tip").css({left : pageX + "px", top : pageY + "px"}).fadeIn(500);
 	return;
 }).on('mouseleave',"[data-ax5grid-panel='body'] span",function(){
-
 	$(this).attr("title", title_);
 	$("#tip").remove();	
-	
 });
-
-function Search_click1() {
-	Search_click();
-}
-
-function Search_click() {
-	if ($("#Cbo_Find option").index($("#Cbo_Find option:selected")) == 1
-			|| $("#Cbo_Find option").index($("#Cbo_Find option:selected")) == 2) {
-		$('#Txt_Find').val($.trim(document.getElementById("Txt_Find").value));
-	}
-	grid_resultHandler();
-}
-
-function doubleClickGrid1() {
-	noticePopData =divGrid1.list[divGrid1.selectedDataIndexs];
-	modal.open({
-        width: 600,
-        height: 440,
-        iframe: {
-            method: "get",
-            url: "../modal/PopNotice.jsp",
-            param: "callBack=modalCallBack"
-        },
-        onStateChanged: function () {
-            // mask
-            if (this.state === "open") {
-                mask.open();
-            }
-            else if (this.state === "close") {
-                mask.close();
-            }
-        }
-    }, function () {
-    });
-}
-
-function popNoticeClose() { //eCmm2101Close	완료
-	SBUxMethod.closeModal("modalPopWin");
-	Search_click();
-}
-
-function sysPathButton_Click() {
-	DataToExcel_Handler();
-}
-
-function DataToExcel_Handler() {
-	var ajaxReturnData = null;
-	
-	var tmpData = {
-			requestType : 'SystemPath',
-			UserId : userid
-	}
-	
-	ajaxReturnData = ajaxCallWithJson('/webPage/mypage/Notice', tmpData, 'json');
-	
-	if(ajaxReturnData !== 'ERR') {
-		if (ajaxReturnData == null) {
-			alert("Excel 저장 실패");
-		} else {
-			var headerDef = new Array();
-			var excelData;
-			var i = 0;
-			var j = 0;
-			var k = 0;
-			var colCnt = 0;
-			var grdList_dp_Len = 0;
-			var col = null;
-			var arrCol = new Array();
-
-			arrCol = myGrid1.getGridDataAll();
-			colCnt = myGrid1.getCols();
-			grdList_dp_Len = myGrid1.getCols();
-		}
-	}
-}
-
-var modalCallBack = function(){
-    modal.close();
-};
-
-var fileUploadModalCallBack = function() {
-	fileLength = 0;
-	fileUploadModal.close();
-}
-
-var fileDownloadModalCallBack = function() {
-	fileDownloadModal.close();
-}
-
-function new_Click(){
-	noticePopData = null;
-    modal.open({
-        width: 600,
-        height: 440,
-        iframe: {
-            method: "get",
-            url: "../modal/PopNotice.jsp",
-            param: "callBack=modalCallBack"
-        },
-        onStateChanged: function () {
-            // mask
-            if (this.state === "open") {
-                mask.open();
-            }
-            else if (this.state === "close") {
-                mask.close();
-            }
-        }
-    }, function () {
-    });
-}
-
-function openFileUpload() {
-	fileUploadModal.open({
-        width: 600,
-        height: 360,
-        iframe: {
-            method: "get",
-            url: 	"../modal/FileUp.jsp",
-            param: "callBack=fileUploadModalCallBack"
-        },
-        onStateChanged: function () {
-            if (this.state === "open") {
-            }
-            else if (this.state === "close") {
-            }
-        }
-    }, function () {
-    });
-}
-
-function openFileDownload(acptno,fileCnt) {
-	if(acptno !== '') {
-		downAcptno = acptno;
-		downFileCnt = fileCnt;
-	}
-	fileDownloadModal.open({
-        width: 600,
-        height: 360,
-        iframe: {
-            method: "get",
-            url: 	"../modal/FileDownload.jsp",
-            param: "callBack=fileDownloadModalCallBack"
-        },
-        onStateChanged: function () {
-            if (this.state === "open") {
-            }
-            else if (this.state === "close") {
-            }
-        }
-    }, function () {
-    });
-}
-
-function sysPathButton_Click() { //완성
-	DataToExcel_Handler();
-}
-
-function fileInfoInsert(data) {
-	//data = [{"noticeAcptno":"1234","fileName":"11.exe"}];
-	
-	var testArr = []
-	testArr.push(data[0]);
-	var ajaxReturnData = null;
-	var tmpData = {
-		requestType : 'insertNoticeFileInfo',
-		fileInfo : data,
-	}
-	
-	ajaxReturnData = ajaxCallWithJson('/webPage/mypage/Notice', tmpData, 'json');
-}
-
-function onPrint() {
-	var html = document.querySelector('html');
-	var printContents = document.querySelector('.test-print').innerHTML;
-	var printDiv = document.createElement('div');
-	printDiv.className ='print-div';
-
-	html.appendChild(printDiv);
-	printDiv.innerHTML = printContents;
-	document.body.style.display = 'none';
-	window.print();
-	document.body.style.display = 'block';
-	printDiv.style.display = 'none';
-	}

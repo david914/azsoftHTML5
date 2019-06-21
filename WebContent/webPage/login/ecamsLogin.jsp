@@ -34,6 +34,11 @@
 		</div>
 	</section>
 	
+	<form name="popPam">
+		<input type="hidden" name="userId"/>
+		<input type="hidden" name="winPopSw"/>
+	</form>
+	
 	<c:import url="/js/ecams/common/commonscript.jsp" />
 	<script type="text/javascript" src="<c:url value="/js/ecams/login/login.js"/>"></script>
 </body>

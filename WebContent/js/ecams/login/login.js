@@ -6,6 +6,8 @@
  * 	버전 : 1.0
  *  수정일 : 2019-01-29
  */
+var pwdChangeWin = null;
+
 $(document).ready(function() {
 	screenInit();
 });
@@ -61,18 +63,17 @@ var loginSubmitAction = function(e) {
 	auth_rtn==9:형상관리시스템 관리자 정상적인로그인
 	*/    
     if ( authCode === '0' || authCode === '3' || authCode === '9') {
+    	
+    	if(authCode === '3') {
+    		dialog.alert('비밀번호가 초기화 되었습니다.\n비밀번호 재설정 후 이용해 주시기 바랍니다.', function() {
+    			openPwdChange(userId);
+    		});
+    		return;
+    	}
+    	
     	sessionID = setSessionLoginUser(userId);
-    	//setSessionLoginUser2(userId);
     	console.log('sessionId check : ' + sessionID);
     	if( sessionID !== null && sessionID !== undefined ) {
-    		
-    		//location.replace('../main/eCAMSBase.jsp?sessionID='+sessionID);
-    		
-    		/*var url = '../main/eCAMSBase.jsp?sessionID='+sessionID;
-    		var form = $('<form action="' + url + '" method="post">' +
-    		'</form>');
-    		$('body').append(form);
-    		form.submit();*/
     		
     	    var form = document.createElement("form");
             var parm = new Array();
@@ -90,15 +91,10 @@ var loginSubmitAction = function(e) {
                 input[i].setAttribute("value", parm[i][1]);
                 form.appendChild(input[i]);
             }
-            
             document.body.appendChild(form);
             form.submit();
     	}
-    	
-    	
-    	
     }
-    
     
     /* 
     if (authCode === '2')//에러카운드 초과 했을때
@@ -107,9 +103,35 @@ var loginSubmitAction = function(e) {
 	if (authCode === '5')//CM_JUMINNUM 주민번호가 null 일때
 	if (authCode === '6')//비번변경 주기 초과 했을 경우
     */
-    
-    
 };
+
+function openPwdChange(userId) {
+	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
+	if (pwdChangeWin != null 
+			&& !pwdChangeWin.closed ) {
+		pwdChangeWin.close();
+	}
+
+    winName = 'pwdChangeWin';
+	nHeight = 500;
+    nWidth  = 500;
+    cURL = "../mypage/PwdChange.jsp";
+	
+	nTop  = parseInt((window.screen.availHeight/2) - (nHeight/2));
+	nLeft = parseInt((window.screen.availWidth/2) - (nWidth/2));
+	cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
+
+	var f = document.popPam;   		//폼 name
+	pwdChangeWin = window.open('',winName,cFeatures);
+    
+    
+    f.userId.value	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.winPopSw.value= 'true';    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.action		= cURL; 		//이동할 페이지
+    f.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
+    f.method		= "post"; 		//POST방식
+    f.submit();
+}
 
 function setSessionLoginUser(userId) {
 	var userInfo = {

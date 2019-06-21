@@ -17,6 +17,9 @@ import org.apache.log4j.Logger;
 import com.ecams.common.dbconn.ConnectionContext;
 import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
+
+import app.common.LoggableStatement;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -967,7 +970,7 @@ public class Cmm0400{
 			_UserId = UserId;
 
 			for (int i=0 ; i<JobList.size() ; i++){
-				if (_UserId == ""){
+				if ("".equals(_UserId )){
 					_UserId = JobList.get(i).get("cm_userid");
 				}
 	        	strQuery.setLength(0);
@@ -975,16 +978,18 @@ public class Cmm0400{
 	        	strQuery.append("where cm_userid=? ");
 	        	strQuery.append("  and cm_syscd=? ");
 	        	strQuery.append("  and cm_jobcd=? ");
+	        	//pstmt = new LoggableStatement(conn,strQuery.toString());
 	        	pstmt = conn.prepareStatement(strQuery.toString());
 	        	pstmt.setString(1, _UserId);
 	        	pstmt.setString(2, JobList.get(i).get("cm_syscd"));
 	        	pstmt.setString(3, JobList.get(i).get("cm_jobcd"));
+	        	//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	        	pstmt.executeUpdate();
 	        	pstmt.close();
 			}
 
+			conn.setAutoCommit(true);
 		    conn.commit();
-		    conn.setAutoCommit(true);
             conn.close();
             strQuery = null;
             pstmt = null;
@@ -1599,8 +1604,6 @@ public class Cmm0400{
 
 		try{
 			conn = connectionContext.getConnection();
-			//conn.setAutoCommit(false);
-
         	for (int i=0 ; i<RgtList.size() ; i++){
         		strQuery.setLength(0);
         		strQuery.append("select count(*) cnt from cmm0043 \n");
@@ -1645,16 +1648,16 @@ public class Cmm0400{
 			        	strQuery.append("insert into  cmm0044 ");
 			        	strQuery.append("(CM_USERID,CM_SYSCD,CM_JOBCD,CM_CREATDT) values (     \n");
 			        	strQuery.append(" ?,?,?,sysdate) \n");
-			        	pstmt = conn.prepareStatement(strQuery.toString());
-			        	pstmt.setString(1, etcData.get("userid1"));
-			        	pstmt.setString(2, JobList.get(i).get("cm_syscd"));
-			        	pstmt.setString(3, JobList.get(i).get("cm_jobcd"));
-			        	pstmt.executeUpdate();
-			        	pstmt.close();
+			        	pstmt2 = conn.prepareStatement(strQuery.toString());
+			        	pstmt2.setString(1, etcData.get("userid1"));
+			        	pstmt2.setString(2, JobList.get(i).get("cm_syscd"));
+			        	pstmt2.setString(3, JobList.get(i).get("cm_jobcd"));
+			        	pstmt2.executeUpdate();
+			        	pstmt2.close();
     				}
     			}
 			}
-
+			System.out.println("dd6");
 			//conn.commit();
         	conn.close();
         	pstmt = null;

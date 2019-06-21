@@ -3,8 +3,8 @@ package html.app.fileupload;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -42,7 +42,6 @@ public class FileUploadServlet extends HttpServlet {
 	        throws ServletException, IOException{
 	    
 		// 1. Upload File Using Java Servlet API
-		//files.addAll(MultipartRequestHandler.uploadByJavaServletAPI(request));			
 		
 		List<FileMeta> files = new LinkedList<FileMeta>();
 		try {
@@ -58,7 +57,6 @@ public class FileUploadServlet extends HttpServlet {
 	    	System.out.println("files : " + files.toString());
 	    	mapper.writeValue(response.getOutputStream(), files);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
@@ -71,65 +69,44 @@ public class FileUploadServlet extends HttpServlet {
 	 ****************************************************/
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException{
-		/*// 1. Get f from URL upload?f="?"
-		 String value = request.getParameter("f");
-		 
-		 // 2. Get the file of index "f" from the list "files"
-		 FileMeta getFile = files.get(Integer.parseInt(value));
-		 
-		 try {	
-			 	// 3. Set the response content type = file content type 
-			 	response.setContentType(getFile.getFileType());
-			 	
-			 	// 4. Set header Content-disposition
-			 	response.setHeader("Content-disposition", "attachment; filename=\""+getFile.getFileName()+"\"");
-			 	
-			 	// 5. Copy file inputstream to response outputstream
-		        InputStream input 	= getFile.getContent();
-		        OutputStream output = response.getOutputStream();
-		        byte[] buffer = new byte[1024*10];
-		        
-		        for (int length = 0; (length = input.read(buffer)) > 0;) {
-		            output.write(buffer, 0, length);
-		        }
-		        
-		        output.close();
-		        input.close();
-		 }catch (IOException e) {
-				e.printStackTrace();
-		 }*/
+		String fileName 		= request.getParameter("f");
+		String setFileName		= null;
+		String noticeAcptno 	= request.getParameter("noticeAcptno");
+		String pullPath			= null;
+		SystemPath systemPath 	= new SystemPath();
+		String noticeUploadDir 	= null;
+		String userAgent 		= request.getHeader("User-Agent");
 		
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		SystemPath systemPath = new SystemPath();
+		boolean ie = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
 		
-		// 1. Get f from URL upload?f="?"
-		 String fileName = request.getParameter("f");
-		 String noticeAcptno = request.getParameter("noticeAcptno");
-		 
-		 System.out.println("download file name = " + fileName);
-
-		 try {	
-			 String noticeUploadDir =  systemPath.getTmpDir("01");
-			 // 3. Set the response content type = file content type 
-		 	
-		 	// 4. Set header Content-disposition
-		 	response.setHeader("Content-disposition", "attachment; filename=\""+fileName+"\"");
-		 	
-		 	// 5. Copy file inputstream to response outputstream
-	        FileInputStream input 	= new FileInputStream(noticeUploadDir+"\\"+noticeAcptno+"\\"+fileName); 
-	        OutputStream output = response.getOutputStream();
-	        byte[] buffer = new byte[1024*10];
-	        
-	        for (int length = 0; (length = input.read(buffer)) > 0;) {
-	            output.write(buffer, 0, length);
-	        }
-	        
-	        output.close();
-	        input.close();
-		 }catch (Exception e) {
-				e.printStackTrace();
-		 }
+		if(ie) {
+			setFileName = URLEncoder.encode( fileName, "UTF-8" ).replaceAll("\\+", "%20");
+		} else{
+			setFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+			
+		}
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + setFileName + "\"");
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		response.setHeader("Connection", "close");
+		
+		try {	
+			noticeUploadDir = systemPath.getTmpDir("01");
+			
+			pullPath = noticeUploadDir+File.separator+noticeAcptno+File.separator+fileName;
+			
+			FileInputStream input 	= new FileInputStream(pullPath); 
+			OutputStream output = response.getOutputStream();
+			byte[] buffer = new byte[1024*10];
+			
+			for (int length = 0; (length = input.read(buffer)) > 0;) {
+				output.write(buffer, 0, length);
+			}
+			    
+			output.close();
+			input.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	
 	}
 }

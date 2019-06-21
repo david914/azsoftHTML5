@@ -117,7 +117,7 @@ public class Encryptor
   	{
   		try
   		{
-  			String password = "12345";
+  			String password = "HTML5";
   			
   			String en = Encryptor.instance().strGetEncrypt(password);  			
   			
@@ -125,7 +125,7 @@ public class Encryptor
   			
 			String sha = Encryptor.instance().SHA256(password);
 			
-  			System.out.println(password);
+			System.out.println(password);
 			System.out.println(en);
   			System.out.println(de);
   			System.out.println(sha);
