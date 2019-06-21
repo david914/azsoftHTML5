@@ -94,7 +94,7 @@
 </div>
 
 <div class="row" style="padding-top: 5px; padding-left: 30px;">
-	<label style="padding-top: 5px;">총0건</label>
+	<label id="lbTotalCnt" name="lbTotalCnt" style="padding-top: 5px; text-align: right;">총0건</label>
 </div>
 
 <!-- 프로그램 그리드 -->
@@ -104,7 +104,7 @@
 	</div>
 </div>
 
-<form name="form" id="form" method="post">
+<form name="popPam" id="popPam" method="post">
 	<INPUT type="hidden" name="UserId" id="UserId"> 
 	<INPUT type="hidden" name="SysCd" id="SysCd">
 </form>
