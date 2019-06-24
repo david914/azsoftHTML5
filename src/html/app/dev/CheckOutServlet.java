@@ -8,9 +8,15 @@
  */
 
 package html.app.dev;
-import java.io.IOException;
+import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.Part;
+import com.oreilly.servlet.multipart.FilePart;
+import com.oreilly.servlet.multipart.MultipartParser;
+import com.oreilly.servlet.multipart.ParamPart;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +30,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import app.common.PrjInfo;
 import app.common.SysInfo;
 import app.common.SystemPath;
+import app.common.excelUtil;
 import app.eCmd.Cmd0100;
 import app.eCmr.Cmr0100;
 import app.eCmr.Cmr0200;
@@ -31,9 +38,10 @@ import app.eCmr.Confirm_select;
 import html.app.common.ParsingCommon;
 import sun.security.jca.GetInstance.Instance;
 
-@WebServlet("/webPage/dev/CheckOut")
+@WebServlet("/webPage/dev/CheckOutServlet")
 public class CheckOutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final JsonElement SystemPath = null;
 	Gson gson = new Gson();
 	Cmr0100 cmr0100  = new Cmr0100();
 	SysInfo sysinfo = new SysInfo();
@@ -42,6 +50,7 @@ public class CheckOutServlet extends HttpServlet {
 	SystemPath systemPath = new SystemPath();
 	Cmr0200 cmr0200 = new Cmr0200();
 	Confirm_select confirm = new Confirm_select();
+	excelUtil excelUtil = new excelUtil();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -60,16 +69,16 @@ public class CheckOutServlet extends HttpServlet {
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
 			switch (requestType) {
-				case "SYSTEMCOMBO" :
+				case "getSysInfo" :
 					response.getWriter().write( getSysInfo(jsonElement) );
 					break;
-				case "SRIDCOMBO" :
+				case "getPrjList" :
 					response.getWriter().write( getPrjList(jsonElement) );
 					break;
 				case "PRGCOMBO" :
 					response.getWriter().write( getRsrcOpen(jsonElement) );
 					break;
-				case "FILETREE" :
+				case "getRsrcPath" :
 					response.getWriter().write( getRsrcPath(jsonElement) );
 					break;
 				case "CHILDFILETREE" :
@@ -78,27 +87,36 @@ public class CheckOutServlet extends HttpServlet {
 				case "GETFILEGRID":
 					response.getWriter().write( getFileList(jsonElement) );
 					break;
-				case "GRIDDOWNFILE":
+				case "getDownFileList":
 					response.getWriter().write( getDownFileList(jsonElement) );
 					break;
 				case "GETLOCALHOME":
-					response.getWriter().write( getLocalHomeDir(jsonElement));
+					response.getWriter().write( getDevHome(jsonElement));
 					break;
-				case "CHECKCONFIRM":
-					response.getWriter().write( checkConfirmInfo(jsonElement));
+				case "confSelect":
+					response.getWriter().write( confSelect(jsonElement));
 					break;
-				case "GETCONFIRMINFO":
-					response.getWriter().write( getConfirmInfo(jsonElement));
+				case "Confirm_Info":
+					response.getWriter().write( Confirm_Info(jsonElement));
 					break;
-				case "REQUESTCHECKOUT":
-					response.getWriter().write( requestCheckOut(jsonElement));
+				case "request_Check_Out":
+					response.getWriter().write( request_Check_Out(jsonElement));
 					break;
-				case "SVRFILEMAKE":
+				case "svrFileMake":
 					response.getWriter().write( svrFileMake(jsonElement));
 					break;	
-				case "GETFILELIST":
+				case "getProgFileList":
 					response.getWriter().write( getProgFileList(jsonElement));
-					break;	
+					break;
+				case "getTmpDir":
+					response.getWriter().write( getTmpDir(jsonElement));
+					break;
+				case "getArrayCollection":
+					response.getWriter().write( getArrayCollection(jsonElement));
+					break;
+				case "getFileList_excel":
+					response.getWriter().write( getFileList_excel(jsonElement));
+					break;
 				default:
 					break;
 			}
@@ -119,7 +137,7 @@ public class CheckOutServlet extends HttpServlet {
 		return gson.toJson( cmr0100.svrFileMake(acptNo));
 	}
 	
-	private String requestCheckOut(JsonElement jsonElement) throws SQLException, Exception {
+	private String request_Check_Out(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>	requestMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "requestData"));
 		ArrayList<HashMap<String, String>> requestFiles = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement, "requestFiles"));
 		ArrayList<HashMap<String, Object>> requestConfirmData = changeLinkedTreeMapToMap(ParsingCommon.jsonStrToArrObj(ParsingCommon.jsonEtoStr(jsonElement, "requestConfirmData")));
@@ -137,13 +155,13 @@ public class CheckOutServlet extends HttpServlet {
 		return changeTargetArr;
 	}
 	
-	private String getConfirmInfo(JsonElement jsonElement) throws SQLException, Exception {
+	private String Confirm_Info(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>	confirmInfoMap = null;
 		confirmInfoMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "confirmInfoData"));
 		return gson.toJson( confirm.Confirm_Info(confirmInfoMap) );
 	}
 	
-	private String checkConfirmInfo(JsonElement jsonElement) throws SQLException, Exception {
+	private String confSelect(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>	confirmInfoMap = null;
 		confirmInfoMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "confirmInfoData"));
 		return gson.toJson( cmr0200.confSelect(	confirmInfoMap.get("sysCd"),
@@ -153,10 +171,10 @@ public class CheckOutServlet extends HttpServlet {
 												confirmInfoMap.get("strQry")) );
 	}
 	
-	private String getLocalHomeDir(JsonElement jsonElement) throws SQLException, Exception {
+	private String getDevHome(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>	localHomeMap = null;
 		localHomeMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "devHomeData"));
-		return gson.toJson( systemPath.getDevHome(localHomeMap.get("userId"), localHomeMap.get("sysCd")) );
+		return gson.toJson( systemPath.getDevHome(localHomeMap.get("UserId"), localHomeMap.get("SysCd")) );
 	}
 	
 	private String getChidrenTree(JsonElement jsonElement) throws SQLException, Exception {
@@ -273,6 +291,28 @@ public class CheckOutServlet extends HttpServlet {
 														downFileData.get("sayu"),
 														false)  );
 	}
-	
 
+	private String getTmpDir(JsonElement jsonElement) throws SQLException, Exception {
+		String pCode = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pCode") );
+		return gson.toJson(systemPath.getTmpDir(pCode));
+	}
+	
+	private String getArrayCollection(JsonElement jsonElement)throws SQLException, Exception{
+		String						 filePath = null;
+		ArrayList<String> 	 headerDef = null;
+
+		filePath = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "filePath") );
+		headerDef = ParsingCommon.jsonStrToArrStr(ParsingCommon.jsonEtoStr(jsonElement, "headerDef"));
+		return gson.toJson(excelUtil.getArrayCollection(filePath, headerDef));
+		
+	}
+
+	private String getFileList_excel(JsonElement jsonElement) throws SQLException, Exception {
+		ArrayList<HashMap<String, String>> 	 fileList = null;
+		HashMap<String, String>				   fileData = null;
+
+		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement, "fileList"));
+		fileData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "fileData"));
+		return gson.toJson(cmr0100.getFileList_excel(fileList, fileData.get("SysCd"), fileData.get("SysGb"), fileData.get("ReqCd")));
+	}
 }
