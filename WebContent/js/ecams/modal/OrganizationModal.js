@@ -1,5 +1,5 @@
 /**
- * [사용자정보 > 조직도] 조직도 선택 또는 수기조직도 관리 js
+ * [사용자정보 > 조직도] 조직도 선택 또는 사용자선택 또는 수기조직도 관리 js
  * 
  * <pre>
  * 	작성자	: 이용문
@@ -18,6 +18,7 @@ var rMenu			= null;
 
 var selDeptSw		= window.parent.selDeptSw;
 var modiDeptSw		= window.parent.modiDeptSw;
+var subSw			= window.parent.subSw;
 
 var setting = {
 	data: {
@@ -319,14 +320,27 @@ function successReNameDir(data) {
 
 // 트리 더블 클릭
 function dbClickTree(event, treeId, treeNode) {
-	if(selDeptSw) {
-		window.parent.selDeptCd = treeNode.id;
-		$('#txtOrg', window.parent.document).val(treeNode.name);
+	// 사용자 선택시
+	if(subSw) {
+		if(treeNode.userId === undefined) {
+			dialog.alert('사용자를 선택해 주시기 바랍니다.', function() {});
+			return;
+		} else {
+			$('#txtUser', window.parent.document).val(treeNode.userName);
+			window.parent.txtUserId 	= treeNode.userId;
+			window.parent.txtUserName 	= treeNode.userName;
+		}
 	} else {
-		window.parent.selSubDeptCd = treeNode.id;
-		$('#txtOrgAdd', window.parent.document).val(treeNode.name);
+		// 조직 선택시
+		if(selDeptSw) {
+			window.parent.selDeptCd = treeNode.id;
+			$('#txtOrg', window.parent.document).val(treeNode.name);
+		} else {
+			// 조직(겸직)선택시
+			window.parent.selSubDeptCd = treeNode.id;
+			$('#txtOrgAdd', window.parent.document).val(treeNode.name);
+		}
 	}
-	
 	popClose();
 }
 
@@ -341,7 +355,7 @@ function findNode() {
 function getTreeInfo() {
 	var data = new Object();
 	data = {
-		treeInfoData: false,
+		treeInfoData: subSw,
 		requestType	: 'getZTreeInfo'
 	}
 	ajaxAsync('/webPage/modal/TreeOrganization', data, 'json',successGetTreeInfo);

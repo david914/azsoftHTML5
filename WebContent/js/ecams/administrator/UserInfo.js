@@ -37,6 +37,7 @@ var ulJobInfoData	= null;
 
 var selDeptSw		= null;
 var modiDeptSw		= false;
+var subSw			= false;
 var selDeptCd		= null;
 var selSubDeptCd	= null;
 var txtUserIdP		= null;
@@ -801,5 +802,4 @@ function makeJobInfoUlList() {
 	});
 	
 	$('input.checkbox-job').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
-	
 }

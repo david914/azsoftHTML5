@@ -2,6 +2,7 @@ package html.app.administrator;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -69,6 +70,45 @@ public class Configuration extends HttpServlet {
 				case "insertDelCycle" :
 					response.getWriter().write( insertDelCycle(jsonElement) );
 					break;
+				case "getDirList" :
+					response.getWriter().write( getDirList(jsonElement) );
+					break;
+				case "insertDirList" :
+					response.getWriter().write( insertDirList(jsonElement) );
+					break;
+				case "deleteDirList" :
+					response.getWriter().write( deleteDirList(jsonElement) );
+					break;
+				case "getWorkServerList" :
+					response.getWriter().write( getWorkServerList(jsonElement) );
+					break;
+				case "insertWorkServerList" :
+					response.getWriter().write( insertWorkServerList(jsonElement) );
+					break;
+				case "delWorkServerList" :
+					response.getWriter().write( delWorkServerList(jsonElement) );
+					break;
+				case "getNotiList" :
+					response.getWriter().write( getNotiList(jsonElement) );
+					break;
+				case "getNotiInfo" :
+					response.getWriter().write( getNotiInfo(jsonElement) );
+					break;
+				case "insertNotiInfo" :
+					response.getWriter().write( insertNotiInfo(jsonElement) );
+					break;
+				case "insertNotiList" :
+					response.getWriter().write( insertNotiList(jsonElement) );
+					break;
+				case "delNotiList" :
+					response.getWriter().write( delNotiList(jsonElement) );
+					break;
+				case "getSrCatType" :
+					response.getWriter().write( getSrCatType(jsonElement) );
+					break;
+				case "setSrCatType" :
+					response.getWriter().write( setSrCatType(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -126,4 +166,89 @@ public class Configuration extends HttpServlet {
 		String jugigb 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "jugigb") );
 		return gson.toJson(cmm0700.addTab2Info(delgb, deljugi, jugigb));
 	}
+	
+	// [환경설정 > 디렉토리정책] 디렉토리정책 리스트 가져오기
+	private String getDirList(JsonElement jsonElement) throws SQLException, Exception {
+		return gson.toJson(cmm0700.getTab3Info());
+	}
+	// [환경설정 > 디렉토리정책] 디렉토리정책 등록
+	private String insertDirList(JsonElement jsonElement) throws SQLException, Exception {
+		String pathcd 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pathcd") );
+		String path 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "path") );
+		String tip 		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "tip") );
+		String tport 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "tport") );
+		return gson.toJson(cmm0700.addTab3Info(pathcd, path, tip, tport));
+	}
+	// [환경설정 > 디렉토리정책] 디렉토리정책 폐기
+	private String deleteDirList(JsonElement jsonElement) throws SQLException, Exception {
+		String pathcd 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pathcd") );
+		return gson.toJson(cmm0700.delTab3Info(pathcd));
+	}
+	
+	// [환경설정 > 작업서버정보] 작업서버정보 리스트 가져오기
+	private String getWorkServerList(JsonElement jsonElement) throws SQLException, Exception {
+		return gson.toJson(cmm0700.getTab4Info());
+	}
+	// [환경설정 > 작업서버정보] 작업서버정보 리스트 등록
+	private String insertWorkServerList(JsonElement jsonElement) throws SQLException, Exception {
+		String jobgb 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "jobgb") );
+		String tip 		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "tip") );
+		String tport 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "tport") );
+		String tuserid 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "tuserid") );
+		String tpwd 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "tpwd") );
+		String texename = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "texename") );
+		String tagent 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "tagent") );
+		String stopsw 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "stopsw") );
+		return gson.toJson(cmm0700.addTab4Info(jobgb, tip, tport, tuserid, tpwd, texename, tagent, stopsw));
+	}
+	// [환경설정 > 작업서버정보] 작업서버정보 리스트 폐기
+	private String delWorkServerList(JsonElement jsonElement) throws SQLException, Exception {
+		String jobgb 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "jobgb") );
+		return gson.toJson(cmm0700.delTab4Info(jobgb));
+	}
+	
+	
+	// [환경설정 > 알림기준정보] 알리정보 리스트 가져오기
+	private String getNotiList(JsonElement jsonElement) throws SQLException, Exception {
+		return gson.toJson(cmm0700.getNotiInfo2());
+	}
+	// [환경설정 > 알림기준정보] 알리정보 리스트 가져오기
+	private String getNotiInfo(JsonElement jsonElement) throws SQLException, Exception {
+		return gson.toJson(cmm0700.getNotiInfo1());
+	}
+	// [환경설정 > 알림기준정보] 알림유저 등록
+	private String insertNotiInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String smssend 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "smssend") );
+		String notiuser = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "notiuser") );
+		return gson.toJson(cmm0700.addNotiInfo1(UserId, smssend, notiuser));
+	}
+	// [환경설정 > 알림기준정보] 알리정보 리스트 등록
+	private String insertNotiList(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String qrycd 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "qrycd") );
+		String notigbn 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "notigbn") );
+		String common 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "common") );
+		String holiday 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "holiday") );
+		return gson.toJson(cmm0700.addNotiInfo2(UserId, qrycd, notigbn, common, holiday));
+	}
+	// [환경설정 > 알림기준정보] 알리정보 리스트 폐기
+	private String delNotiList(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		ArrayList<HashMap<String, String>> delList 	= ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "delList") );
+		return gson.toJson(cmm0700.delNotiInfo(UserId, delList));
+	}
+	
+	
+	// [환경설정 > 알림기준정보] SR유형관리 분류유형에따른 신청구분체크 가져오기
+	private String getSrCatType(JsonElement jsonElement) throws SQLException, Exception {
+		String cattype 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cattype") );
+		return gson.toJson(cmm0700.getSrCattype(cattype));
+	}
+	// [환경설정 > 알림기준정보] SR유형관리 분류유형에따른 신청구분체크 가져오기
+	private String setSrCatType(JsonElement jsonElement) throws SQLException, Exception {
+		ArrayList<HashMap<String, String>> typeList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "typeList") );
+		return gson.toJson(cmm0700.setSrCattype(typeList));
+	}
+	
 }

@@ -1100,6 +1100,7 @@ public class Cmm0700{
 			strQuery.setLength(0);
 			strQuery.append("select a.cm_stno,a.cm_gbncd,a.cm_svrip, \n");
 			strQuery.append("a.cm_portno,a.cm_svrusr,a.cm_svrpass,b.cm_codename \n");
+			strQuery.append(",a.cm_excexe, a.cm_agentdir, a.cm_stopsw \n");
 			strQuery.append("from cmm0020 b,cmm0015 a  \n");
 			strQuery.append("where b.cm_macode='SVPROC' \n");
 			strQuery.append("and b.cm_micode=a.cm_gbncd \n");
@@ -1117,6 +1118,9 @@ public class Cmm0700{
 				rst.put("cm_svrip", rs.getString("cm_svrip"));
 				rst.put("cm_portno", rs.getString("cm_portno"));
 				rst.put("cm_svrusr", rs.getString("cm_svrusr"));
+				rst.put("cm_excexe", rs.getString("cm_excexe"));
+				rst.put("cm_agentdir", rs.getString("cm_agentdir"));
+				rst.put("cm_stopsw", rs.getString("cm_stopsw"));
 				//rst.put("cm_svrpass", rs.getString("cm_svrpass"));
 				if (rs.getString("cm_svrpass") != null)
 					//rst.put("cm_svrpass", oEncryptor.strGetDecrypt(rs.getString("cm_svrpass")));
@@ -1235,7 +1239,7 @@ public class Cmm0700{
 	}//end of delTab4Info() method statement
 
 
-    public HashMap<String, String> addTab4Info(String jobgb,String tip,String tport,String tuserid,String tpwd) throws SQLException, Exception {
+    public HashMap<String, String> addTab4Info(String jobgb,String tip,String tport,String tuserid,String tpwd,String texename, String tagnet, String stopsw) throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		StringBuffer      strQuery    = new StringBuffer();
@@ -1293,13 +1297,16 @@ public class Cmm0700{
 				else{
 					strQuery.append("		CM_SVRPASS = '', \n");
 				}
-				strQuery.append("		cm_svrip = ?, \n");
-				strQuery.append("		cm_portno = ? \n");
-				strQuery.append("where cm_stno = 'ECAMS' \n");
+				strQuery.append("		cm_svrip = ?, 		\n");
+				strQuery.append("		cm_portno = ?, 		\n");
+				strQuery.append("		cm_excexe = ?, 		\n");
+				strQuery.append("		cm_agentdir = ?, 	\n");
+				strQuery.append("		cm_stopsw = ? 		\n");
+				strQuery.append("where cm_stno = 'ECAMS' 	\n");
 				strQuery.append("and   cm_gbncd = ? \n");
 			}else{
 				strQuery.setLength(0);
-				strQuery.append("insert into cmm0015 (CM_STNO,CM_SVRUSR,CM_SVRPASS,CM_SVRIP,CM_PORTNO,CM_GBNCD) \n");
+				strQuery.append("insert into cmm0015 (CM_STNO,CM_SVRUSR,CM_SVRPASS,CM_SVRIP,CM_PORTNO,cm_excexe,cm_agentdir, cm_stopsw, CM_GBNCD) \n");
 				strQuery.append(" values ( 'ECAMS', \n");
 				if (tuserid != null){
 					if (!tuserid.equals("")){
@@ -1323,7 +1330,7 @@ public class Cmm0700{
 				else{
 					strQuery.append(" '', \n");
 				}
-				strQuery.append(" ?, ?, ? ) \n");
+				strQuery.append(" ?, ?, ? , ?, ?, ?) \n");
 			}
 
 			pstmt = conn.prepareStatement(strQuery.toString());
@@ -1344,6 +1351,9 @@ public class Cmm0700{
 
 			pstmt.setString(pstmtcnt++, tip);
 			pstmt.setString(pstmtcnt++, tport);
+			pstmt.setString(pstmtcnt++, texename);
+			pstmt.setString(pstmtcnt++, tagnet);
+			pstmt.setString(pstmtcnt++, stopsw);
 			pstmt.setString(pstmtcnt++, jobgb);
 
 			nret = pstmt.executeUpdate();

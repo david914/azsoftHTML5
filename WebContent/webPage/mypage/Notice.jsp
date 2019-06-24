@@ -36,10 +36,10 @@
 					<button id="btnQry" name="btnQry" class="btn_basic_s">조 회</button>
 				</div>	
 				<div class="r_wrap">
-					<div>
+					<div class="vat">
 						<button id="btnReg" name="btnReg" class="btn_basic_s">공지사항등록</button>
 					</div>
-					<div>
+					<div class="vat">
 						<button class="btn_basic_s" data-grid-control="excel-export" id="btnExcel">엑셀저장</button>
 					</div>
 					<div class="all_num">
@@ -49,7 +49,7 @@
 			</div>
 		</div>
 		
-		<div class="az_board_basic height-80">
+		<div class="az_board_basic" style="height: 80%">
 			<div data-ax5grid="noticeGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 		</div>
 	</div>

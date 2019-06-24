@@ -587,6 +587,8 @@ public class TeamInfo{
 		            	//rs2.getString("cm_userid")
 		            	teamInfoMap.put("id", Integer.toString(rs.getRow()) + Integer.toString(rs2.getRow()) );
 		            	teamInfoMap.put("pId", rs.getString("id"));
+		            	teamInfoMap.put("userId", rs2.getString("cm_userid"));
+		            	teamInfoMap.put("userName", rs2.getString("cm_username"));
 		            	teamInfoMap.put("name", "["+rs2.getString("cm_codename")+"]"+rs2.getString("cm_username"));
 		            	teamInfoMap.put("isParent"			, "false");
 		            }
