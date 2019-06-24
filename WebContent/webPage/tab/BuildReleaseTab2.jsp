@@ -108,4 +108,4 @@
 
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
-<script type="text/javascript" src="<c:url value="/js/ecams/administrator/BuildReleaseTab2.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/tab/BuildReleaseTab2.js"/>"></script>
