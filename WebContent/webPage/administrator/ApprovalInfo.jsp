@@ -46,7 +46,7 @@
     		
     		<div class="row">
     			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-    				<div class="scrollBind" style="height: 200px; border: 1px dotted gray;">
+    				<div class="scrollBind" style="height: 200px; border: 1px dotted gray;" id="treeDeptDiv">
 						<ul id="treeDept" class="ztree"></ul>
 					</div>
     			</div>
@@ -60,7 +60,7 @@
     				<label id="lbSignStep" class="padding-5-top float-right">결재단계</label>
     			</div>
     			<div class="col-lg-9 col-md-12 col-sm-12 col-12">
-		    		<div id="selSignStep" data-ax5select="selSignStep" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+		    		<div id="selSignStep" data-ax5select="selSignStep" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div> <!-- cboStep -->
 		    	</div>
     		</div>
     		
@@ -96,7 +96,7 @@
     		
     		<div class="row">
 	    		<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-	    			<div class="scrollBind">
+	    			<div class="scrollBind" id="lstRgtDiv">
 	    				<ul class="list-group" id="lstRgt" style="height: 90%; border: 1px dotted gray;"> <!-- 결재직무 -->
 		    			</ul>
 	    			</div>
@@ -152,7 +152,7 @@
     		
     		<div class="row">
 	    		<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-	    			<div class="scrollBind">
+	    			<div class="scrollBind" id="lstGradeDiv">
 	    				<ul class="list-group" id="lstGrade" style="height: 90%; border: 1px dotted gray;"> <!-- lstType -->
 		    			</ul>
 	    			</div>
@@ -201,7 +201,7 @@
     		
     		<div class="row">
 	    		<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-	    			<div class="scrollBind">
+	    			<div class="scrollBind" id="lstJawonDiv">
 	    				<ul class="list-group" id="lstJawon" style="height: 90%; border: 1px dotted gray;"> <!-- lstProg --> 
 		    			</ul>
 	    			</div>

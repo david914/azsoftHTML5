@@ -17,6 +17,7 @@ import com.google.gson.JsonParser;
 import app.common.SysInfo;
 import app.common.TeamInfo;
 import app.eCmm.Cmm0200_Copy;
+import app.eCmm.Cmm0300;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/administrator/ApprovalInfoServlet")
@@ -29,6 +30,7 @@ public class ApprovalInfoServlet extends HttpServlet {
 	SysInfo      sysinfo 	  = new SysInfo();
 	Cmm0200_Copy cmm0200_copy = new Cmm0200_Copy();
 	TeamInfo	 teamInfo 	  = new TeamInfo();
+	Cmm0300 	 cmm0300	  = new Cmm0300();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -56,6 +58,15 @@ public class ApprovalInfoServlet extends HttpServlet {
 				case "GETTEAMINFOTREE" : 
 					response.getWriter().write( getTeamInfoTree(jsonElement) );
 					break;
+				case "GETAPPROVALINFO" : 
+					response.getWriter().write( getApprovalInfo(jsonElement) );
+					break;
+				case "SETAPPROVALINFO" :
+					response.getWriter().write( setApprovalInfo(jsonElement) );
+					break;
+				case "DELAPPROVALINFO" :
+					response.getWriter().write( delApprovalInfo(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -80,5 +91,26 @@ public class ApprovalInfoServlet extends HttpServlet {
 	
 	private String getTeamInfoTree(JsonElement jsonElement) throws SQLException, Exception {
 		return gson.toJson(teamInfo.getTeamInfoTree_zTree(false));
+	}
+	
+	private String getApprovalInfo(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		return gson.toJson(cmm0300.getConfInfo_List(DataMap.get("SysCd"),
+											  		DataMap.get("ReqCd"),
+											  		DataMap.get("ManId"),
+											  		DataMap.get("SeqNo")));
+	}
+	
+	private String setApprovalInfo(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		return gson.toJson(cmm0300.confInfo_Updt(DataMap));
+	}
+	
+	private String delApprovalInfo(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		return gson.toJson(cmm0300.confInfo_Close(DataMap.get("sysCd"),
+ 												  DataMap.get("reqCd"),
+												  DataMap.get("memId"),
+												  DataMap.get("seqNo")));
 	}
 }

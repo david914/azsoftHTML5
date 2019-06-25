@@ -82,25 +82,25 @@ public class Cmm0300{
 			strQuery.append("       f.cm_codename emg2,g.cm_codename,a.cm_orgstep  \n");
 			strQuery.append("  from cmm0020 g,cmm0020 f,cmm0020 e,cmm0020 d,       \n");
 			strQuery.append("       cmm0020 c,cmm0020 b,cmm0060 a                  \n");
-			if (SysCd != null && SysCd != "") {
+			if (SysCd != null && !"".equals(SysCd)) {
 				strQuery.append("where a.cm_syscd=?    \n");
 				whereSw = true;
 			}
-			if (ReqCd != null && ReqCd != "") {
+			if (ReqCd != null && !"".equals(ReqCd)) {
 				if (whereSw == true) strQuery.append("and a.cm_reqcd=?            \n");
 				else {
 					strQuery.append("where a.cm_reqcd=?                           \n");
 					whereSw = true;
 				}
 			}
-			if (ManId != null && ManId != "" && !ManId.equals("9")) {
+			if (ManId != null && !"".equals(ManId) && !ManId.equals("9")) {
 				if (whereSw == true) strQuery.append("and a.cm_manid=?            \n");
 				else {
 					strQuery.append("where a.cm_manid=?                           \n");
 					whereSw = true;
 				}
 			}
-			if (SeqNo != null && SeqNo != "") {
+			if (SeqNo != null && !"".equals(SeqNo)) {
 				if (whereSw == true) strQuery.append("and a.cm_seqno=?            \n");
 				else {
 					strQuery.append("where a.cm_seqno=?                           \n");
@@ -119,10 +119,10 @@ public class Cmm0300{
 
 			//pstmt = new LoggableStatement(conn,strQuery.toString());
             pstmt = conn.prepareStatement(strQuery.toString());
-            if (SysCd != null && SysCd != "") pstmt.setString(++parmCnt, SysCd);
-            if (ReqCd != null && ReqCd != "") pstmt.setString(++parmCnt, ReqCd);
-            if (ManId != null && ManId != "" && !ManId.equals("9")) pstmt.setString(++parmCnt, ManId);
-			if (SeqNo != null && SeqNo != "") pstmt.setInt(++parmCnt, Integer.parseInt(SeqNo));
+            if (SysCd != null && !"".equals(SysCd)) pstmt.setString(++parmCnt, SysCd);
+            if (ReqCd != null && !"".equals(ReqCd)) pstmt.setString(++parmCnt, ReqCd);
+            if (ManId != null && !"".equals(ManId) && !ManId.equals("9")) pstmt.setString(++parmCnt, ManId);
+			if (SeqNo != null && !"".equals(SeqNo)) pstmt.setInt(++parmCnt, Integer.parseInt(SeqNo));
             ////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
