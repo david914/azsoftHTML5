@@ -84,14 +84,30 @@ $(document).ready(function(){
 			dialog.alert('조직을 선택하여 주시기 바랍니다.', function(){});
 			return;
 		}
-		if(selDeptSw) {
-			window.parent.selDeptCd = nodes[0].id;
-			$('#txtOrg', window.parent.document).val(nodes[0].name);
+		
+		if(subSw) {
+			if(nodes[0].userId === undefined) {
+				dialog.alert('사용자를 선택해 주시기 바랍니다.', function() {});
+				return;
+			} else {
+				$('#txtUser', window.parent.document).val(nodes[0].userName);
+				window.parent.txtUserId 	= nodes[0].userId;
+				window.parent.txtUserName 	= nodes[0].userName;
+				window.parent.deptName 		= nodes[0].deptName;
+				window.parent.deptCd 		= nodes[0].pId;
+			}
 		} else {
-			window.parent.selSubDeptCd = nodes[0].id;
-			$('#txtOrgAdd', window.parent.document).val(nodes[0].name);
+			// 조직 선택시
+			if(selDeptSw) {
+				window.parent.selDeptCd = nodes[0].id;
+				$('#txtOrg', window.parent.document).val(nodes[0].name);
+			} else {
+				// 조직(겸직)선택시
+				window.parent.selSubDeptCd = nodes[0].id;
+				$('#txtOrgAdd', window.parent.document).val(nodes[0].name);
+			}
 		}
-		popClose();
+		popClose();		
 	});
 	
 	// 취소
@@ -329,6 +345,10 @@ function dbClickTree(event, treeId, treeNode) {
 			$('#txtUser', window.parent.document).val(treeNode.userName);
 			window.parent.txtUserId 	= treeNode.userId;
 			window.parent.txtUserName 	= treeNode.userName;
+			window.parent.txtUserId 	= treeNode.userId;
+			window.parent.txtUserName 	= treeNode.userName;
+			window.parent.deptName 		= treeNode.deptName;
+			window.parent.deptCd 		= treeNode.pId;
 		}
 	} else {
 		// 조직 선택시

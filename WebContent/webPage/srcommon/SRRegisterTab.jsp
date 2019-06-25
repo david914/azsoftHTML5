@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:import url="/webPage/common/common.jsp" />
  
 <section>
 	<div class="container-fluid">
@@ -49,7 +48,7 @@
 						<label id="lbReqDept">*요청부서</label>
 					</div>
 					<div class="col-sm-5 col-xs-12 text-right no-padding margin-5-top"> 
-						<input id="txtDept" name="txtDept" class="form-control" type="text"></input>
+						<input id="txtOrg" name="txtOrg" class="form-control" type="text"></input>
 					</div>
 				</div> 
 				
@@ -92,7 +91,7 @@
 				
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-5-top"> 
-						<button id="btnFileAdd" class="btn btn-default" onclick="openSrModal()">파일첨부</button>
+						<button id="btnFileAdd" class="btn btn-default">파일첨부</button>
 					</div>
 					<div class="col-sm-11 col-xs-12 no-padding margin-3-top">
 						<section>
@@ -108,7 +107,7 @@
 						<label id="lbDevUser">*담당개발자</label>
 					</div>
 					<div class="col-sm-1 col-xs-12 no-padding margin-3-top">
-						<input id="txtDevUser" name="txtDevUser" class="form-control" type="text"></input>
+						<input id="txtUser" name="txtUser" class="form-control" type="text"></input>
 					</div>
 					
 					<div class="col-sm-8 col-xs-12 no-padding margin-3-top">
@@ -116,11 +115,11 @@
 					</div>
 					
 					<div class="col-sm-1 col-xs-12 no-padding margin-3-top">
-						<button id="btnAddDevUser" class="btn btn-default" onclick="openSrModal()">추가</button>
+						<button id="btnAddDevUser" class="btn btn-default">추가</button>
 					</div>
 					
 					<div class="col-sm-1 col-xs-12 no-padding margin-3-top">
-						<button id="btnDelDevUser" class="btn btn-default" onclick="openSrModal()">삭제</button>
+						<button id="btnDelDevUser" class="btn btn-default">삭제</button>
 					</div>
 				</div>
 			</div>
@@ -199,5 +198,4 @@
 		</div>
 	</div>
 </section>
-<c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/srcommon/SRRegisterTab.js"/>"></script>

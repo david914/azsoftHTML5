@@ -590,6 +590,7 @@ public class TeamInfo{
 		            	teamInfoMap.put("userId", rs2.getString("cm_userid"));
 		            	teamInfoMap.put("userName", rs2.getString("cm_username"));
 		            	teamInfoMap.put("name", "["+rs2.getString("cm_codename")+"]"+rs2.getString("cm_username"));
+		            	teamInfoMap.put("deptName", rs.getString("text"));
 		            	teamInfoMap.put("isParent"			, "false");
 		            }
 		            rs2.close();
