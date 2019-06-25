@@ -52,6 +52,6 @@
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
-	</classpathentry>  
+	</classpathentry>   
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
