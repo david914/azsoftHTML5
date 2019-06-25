@@ -1,195 +1,321 @@
 /**
- * 	ajax 호출부분 /js/ecams/common/common.js 의 ajaxCallWithJson function으로 바꾸었습니다.
+ * 코드정보 화면 기능정의
+ * 
+ * <pre>
+ * 	작성자	: 이용문
+ * 	버전 		: 1.0
+ *  수정일 	: 2019-06-25
+ * 
  */
-var codeInfoData;
-var UseData;
-var menuJson;
-var datagrid;
-var SBGridProperties = {};
-var grid_Data;
-var userId = window.parent.userId;
 
-$(document).ready(function(){
-	console.log('CodeInfo Page load...');
-	screenInit();
+/*var userName 	= window.parent.userName;		// 접속자 Name
+var userId 		= window.parent.userId;			// 접속자 ID
+var adminYN 	= window.parent.adminYN;		// 관리자여부
+var userDeptName= window.parent.userDeptName;	// 부서명
+var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
+*/
+
+var userName 	= '관리자';
+var userId 		= 'MASTER';
+var adminYN 	= 'Y';
+
+var codeGrid	= new ax5.ui.grid();
+
+var jobModal 		= new ax5.ui.modal();
+
+var codeGridData	= [];
+var cboQryData		= [];
+var cboCloseYnData	= [];
+
+codeGrid.setConfig({
+    target: $('[data-ax5grid="codeGrid"]'),
+    sortable: true, 
+    multiSort: true,
+    showRowSelector: false,
+    header: {
+        align: "center",
+        columnHeight: 30
+    },
+    body: {
+        columnHeight: 25,
+        onClick: function () {
+        	this.self.clearSelect();
+            this.self.select(this.dindex);
+            clickCodeGrid(this.dindex);
+        },
+        onDBLClick: function () {},
+    	trStyleClass: function () {},
+    	onDataChanged: function(){
+    		this.self.repaint();
+    	}
+    },
+    columns: [
+        {key: "cm_macode", 	 label: "대구분",  		width: '10%'},
+        {key: "cm_micode",	 label: "소구분",  		width: '10%'},
+        {key: "cm_codename", label: "코드명칭",  		width: '10%'},
+        {key: "cm_seqno", 	 label: "소구분순서",  	width: '10%'},
+        {key: "cm_creatdt",  label: "등록일",  		width: '10%'},
+        {key: "cm_lastupdt", label: "최종등록일",  	width: '10%'},
+        {key: "closeYN", 	 label: "사용여부",  		width: '10%'},
+        {key: "cm_closedt",  label: "폐기일",  		width: '10%'},
+    ]
 });
 
-function screenInit() {
-	code_set();
-	createGrid();
-}
+$('[data-ax5select="cboQry"]').ax5select({
+    options: []
+});
+$('[data-ax5select="cboCloseYn"]').ax5select({
+	options: []
+});
 
-//검색조건 셋팅
-function code_set(){
-	var ajaxReturnData = null;
-	var codeData = new Object();
-	codeData.CLASSNAME = "CodeInfo";
-	codeData.method = "getCodeInfo";
-	codeData.cm_macode = "CODEINFO";
-	codeData.selMsg = "";
-	codeData.closeYN = "N";
-	
-	var codeInfo = {
-		requestType: 'GETCODEINFO',
-		codeInfoData: JSON.stringify(codeData)
-	}
-	ajaxReturnData = ajaxCallWithJson('/webPage/administrator/CodeInfo', codeInfo, 'json');
-	if( ajaxReturnData !== 'ERR'){
-    	codeInfoData = ajaxReturnData;
-    	SBUxMethod.refresh('selectchk_codeInfo'); //name
-	}
-}
+$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 
-var UseData = [
-    {"text" : "사용",		"value" : "사용" },
-    {"text" : "미사용", 	"value" : "미사용"}
-];
-
-//그리드 선언
-function createGrid() {
-	SBGridProperties.parentid = 'sbGridArea'; //그리드를 삽입할 영역의 div id (*)
-	SBGridProperties.id = 'datagrid'; //그리드 객체의 ID (*)
-	SBGridProperties.jsonref = 'grid_Data'; //그리드에 표시될 데이터의 JSON 객체 (*)
-	SBGridProperties.rowheader = 'seq'
-	SBGridProperties.columns = [
-		{caption : ['대구분'], 	ref : 'cm_macode', 		width : '20%', style : 'text-align: center', type : 'output'},
-		{caption : ['소구분'], 	ref : 'cm_micode', 		width : '20%', style : 'text-align: center', type : 'output'},
-		{caption : ['코드명칭'], 	ref : 'cm_codename', 	width : '45%', style : 'text-align: center', type : 'output'},
-		{caption : ['소구분순서'], ref : 'cm_seqno', 		width : '10%', style : 'text-align: center', type : 'output'},
-		{caption : ['등록일'], 	ref : 'cm_creatdt', 	width : '20%', style : 'text-align: center', type : 'output'},
-		{caption : ['최종등록일'], ref : 'cm_lastupdt', 	width : '20%', style : 'text-align: center', type : 'output'},
-		{caption : ['사용여부'], 	ref : 'closeYN', 		width : '10%', style : 'text-align: center', type : 'output'},
-		{caption : ['폐기일'], 	ref : 'cm_closedt', 	width : '25%', style : 'text-align: center', type : 'output'}
-	];
-	datagrid = _SBGrid.create(SBGridProperties);
-	datagrid.bind('dblclick','gridDblclick');
-}
-
-//input 타입 엔터이벤트
-function code_Enter(idx) {
-	var ajaxReturnData = null;
+$(document).ready(function() {
 	
-	if(idx == '') idx = SBUxMethod.get('selectchk_codeInfo');
-	SBUxMethod.set('selectchk_codeInfo', idx); //name, value
+	getCodeInfo();
 	
-	var searchData = new Object();
-	searchData.UserId = userId;
-	searchData.CboMicode = SBUxMethod.get('selectchk_codeInfo'); //검색조건(value값)
-	searchData.Txt_Code0 = SBUxMethod.get('search_macode'); //대구분 코드값
-	searchData.Txt_Code1 = SBUxMethod.get('search_macodecmt'); //대구분 코드설명
-	searchData.Txt_Code2 = SBUxMethod.get('search_micode'); //소구분 코드값
-	searchData.Txt_Code3 = SBUxMethod.get('search_micodecmt'); //소구분 코드설명
-	
-	if(searchData.Txt_Code0 == '') {
-		alert('코드값을 입력하여 주십시오.');
-		return;
-	}
-	
-	var searchInfo = {
-		requestType: 'GETCODELIST',
-		searchInfoData: JSON.stringify(searchData)
-	}
-	console.log(searchInfo);
-	ajaxReturnData = ajaxCallWithJson('/webPage/administrator/CodeInfo', searchInfo, 'json');
-	if( ajaxReturnData !== 'ERR'){
-		grid_Data = ajaxReturnData;
-    	datagrid.refresh();
-	}
-}
-
-//그리드 더블클릭 이벤트
-function gridDblclick() {
-	var ajaxReturnData = null;
-	var nRow = datagrid.getRow();
-    
-    if(datagrid.getRowData(nRow,false).cm_micode == "****") {
-    	SBUxMethod.set('search_macode', datagrid.getRowData(nRow,false).cm_macode);
-    	SBUxMethod.set('search_macodecmt', datagrid.getRowData(nRow,false).cm_codename);
-    	SBUxMethod.set('search_micode', datagrid.getRowData(nRow,false).cm_micode);
-    	SBUxMethod.set('search_micodecmt', "");
-    	SBUxMethod.set('selectchk_codeInfo', '02'); //name, value
-    	code_Enter("02");
-    }else {
-    	var codeNameData = new Object();
-    	codeNameData.CLASSNAME = "Cmm0100";
-    	codeNameData.method = "getCodeName";
-    	codeNameData.macode	= datagrid.getRowData(nRow,false).cm_macode;
-    	
-    	var codeNameInfo = {
-			requestType: 'GETCODENAME',
-			codeNameInfoData: JSON.stringify(codeNameData)
+	// 대구분 코드값 엔터
+	$('#txtMaCode').bind('keypress', function(event) {
+		if(event.keyCode === 13) {
+			$('[data-ax5select="cboQry"]').ax5select('setValue', '00', true);
+			$('#btnQry').trigger('click');
 		}
-		ajaxReturnData = ajaxCallWithJson('/webPage/administrator/CodeInfo', codeNameInfo, 'json');
-    	
-    	var i = 0;
-    	if( ajaxReturnData !== 'ERR') {
-    		SBUxMethod.set('search_macode', datagrid.getRowData(nRow,false).cm_macode);
-	    	SBUxMethod.set('search_macodecmt', ajaxReturnData);
-	    	SBUxMethod.set('search_micode', datagrid.getRowData(nRow,false).cm_micode);
-	    	SBUxMethod.set('search_micodecmt', datagrid.getRowData(nRow,false).cm_codename);
-	    	SBUxMethod.set('search_seqno', datagrid.getRowData(nRow,false).cm_seqno);
-	    	$(UseData).each(function(i) {
-	    		if(UseData[i].text == datagrid.getRowData(nRow,false).closeYN) {
-	    			SBUxMethod.set('selectchk_useyn', datagrid.getRowData(nRow,false).closeYN);
-	    		}
-	    	});
-    	}
-    }
-};
+	});
+	// 대구분 코드설명 엔터
+	$('#txtMaName').bind('keypress', function(event) {
+		if(event.keyCode === 13) {
+			$('[data-ax5select="cboQry"]').ax5select('setValue', '01', true);
+			$('#btnQry').trigger('click');
+		}
+	});
+	// 소구분 코드값 엔터
+	$('#txtMiCode').bind('keypress', function(event) {
+		if(event.keyCode === 13) {
+			$('[data-ax5select="cboQry"]').ax5select('setValue', '02', true);
+			$('#btnQry').trigger('click');
+		}
+	});
+	// 소구분 코드설명 엔터
+	$('#txtMiName').bind('keypress', function(event) {
+		if(event.keyCode === 13) {
+			$('[data-ax5select="cboQry"]').ax5select('setValue', '03', true);
+			$('#btnQry').trigger('click');
+		}
+	});
+	
+	// 업무정보
+	$('#btnJob').bind('click', function() {
+		openJobModal();
+	});
+	// 조회
+	$('#btnQry').bind('click', function() {
+		getCodeList();
+	});
+	// 적용
+	$('#btnReq').bind('click', function() {
+		setCodeValue();
+	});
+});
 
-//적용버튼 클릭 이벤트
-function set_Click() {
-	if(SBUxMethod.get('search_macode') == '' || SBUxMethod.get('search_macode') == undefined) {
-		alert('대구분 코드값을 입력하여 주십시오.');
-		return;
-	}
-	
-	if(SBUxMethod.get('search_macodecmt') == '' || SBUxMethod.get('search_macodecmt') == undefined) {
-		alert('대구분 코드설명을 입력하여 주십시오.');
-		return;
-	}
-	
-	if(SBUxMethod.get('search_micode') == '' || SBUxMethod.get('search_micode') == undefined) {
-		alert('소구분 코드값을 입력하여 주십시오.');
-		return;
-	}
-	
-	if(SBUxMethod.get('search_micodecmt') == '' || SBUxMethod.get('search_micodecmt') == undefined) {
-		alert('소구분 코드설명을 입력하여 주십시오.');
-		return;
-	}
-	
-	SBUxMethod.set('search_macode', SBUxMethod.get('search_macode').toUpperCase()); 
-	
-	var codeValueData = new Object();
-	codeValueData.CLASSNAME = "Cmm0100";
-	codeValueData.method = "setCodeValue";
-	codeValueData.CboMicode = SBUxMethod.get('selectchk_codeInfo'); //검색조건(value값)
-	codeValueData.Txt_Code0 = SBUxMethod.get('search_macode'); 	  //대구분 코드값
-	codeValueData.Txt_Code1 = SBUxMethod.get('search_macodecmt');   //대구분 코드설명
-	codeValueData.Txt_Code2 = SBUxMethod.get('search_micode');      //소구분 코드값
-	codeValueData.Txt_Code3 = SBUxMethod.get('search_micodecmt');   //소구분 코드설명
-	codeValueData.Txt_Code4 = SBUxMethod.get('search_seqno');   	  //순서
-	codeValueData.closeYN = SBUxMethod.get('selectchk_useyn');      //사용구분
-	
-	
-	var codeValueInfo = {
-		requestType: 'SETCODEVALUE',
-		codeValueInfoData: JSON.stringify(codeValueData)
-	}
-	ajaxReturnData = ajaxCallWithJson('/webPage/administrator/CodeInfo', codeValueInfo, 'json');
-	
-	if(ajaxReturnData !== 'ERR') {
-		var i = 0;
-		alert("코드설명 [" + ajaxReturnData + "] 이(가) 적용 되였습니다.");
-    	
-    	SBUxMethod.set('search_micode', 	"****");
-    	SBUxMethod.set('search_micodecmt', 	"");
-    	SBUxMethod.set('selectchk_codeInfo','02'); //name, value
-    	code_Enter("02");
-	}
-};
+// 업무정보 모달 오픈
+function openJobModal() {
+	jobModal.open({
+        width: 600,
+        height: 800,
+        iframe: {
+            method: "get",
+            url: "../modal/JobModal.jsp",
+            param: "callBack=jobModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+                $('#btnQry').trigger('click');
+            }
+        }
+    }, function () {
+    });
+}
 
-function fnCloseModal(){
-	SBUxMethod.closeModal("modal_middle");
+var jobModalCallBack = function() {
+	jobModal.close();
+}
+
+// 코드정보 적용
+function setCodeValue() {
+	var txtMaCode = $('#txtMaCode').val().trim();
+	var txtMaName = $('#txtMaName').val().trim();
+	var txtMiCode = $('#txtMiCode').val().trim();
+	var txtMiName = $('#txtMiName').val().trim();
+	var txtSeq 	  = $('#txtSeq').val().trim();
+	
+	if(txtMaName.length === 0 ) {
+		dialog.alert('대구분 코드값을 입력하여 주십시오.', function() {});
+		return;
+	}
+	if(txtMaCode.length === 0 ) {
+		dialog.alert('대구분 코드설명을 입력하여 주십시오.', function() {});
+		return;
+	}
+	if(txtMiCode.length === 0 ) {
+		dialog.alert('소구분 코드값을 입력하여 주십시오.', function() {});
+		return;
+	}
+	if(txtMiName.length === 0 ) {
+		dialog.alert('소구분 코드설명을 입력하여 주십시오.', function() {});
+		return;
+	}
+	
+	$('#txtMaCode').val($('#txtMaCode').val().trim().toUpperCase());
+	txtMaCode = $('#txtMaCode').val();
+	
+	
+	
+	var dataObj = new Object();
+	dataObj.UserId	= userId;
+	dataObj.CboMicode = getSelectedVal('cboQry').value;
+	dataObj.Txt_Code0 = txtMaCode;
+	dataObj.Txt_Code1 = txtMaName;
+	dataObj.Txt_Code2 = txtMiCode;
+	dataObj.Txt_Code3 = txtMiName;
+	dataObj.Txt_Code4 = txtSeq;
+	dataObj.closeYN = $('#optUse').is(':checked') ? '사용' : '미사용';
+	var data = new Object();
+	data = {
+		dataObj 	: dataObj,
+		requestType	: 'setCodeValue'
+	}
+	ajaxAsync('/webPage/administrator/CodeInfo', data, 'json',successgSetCodeValue);
+}
+
+// 코드정보 적용 완료
+function successgSetCodeValue(data) {
+	dialog.alert('코드설명 [' + data +'] 이(가) 적용 되었습니다.', function() {
+		var selIn 	= codeGrid.selectedDataIndexs;
+		var selItem = null;
+		if(selIn.length !== 0 ) {
+			selItem = codeGrid.list[selIn];
+			$('#txtMaCode').val(selItem.cm_macode);
+		}
+		$('#txtMiCode').val('****');
+		$('#txtMiName').val('');
+		$('[data-ax5select="cboQry"]').ax5select('setValue', '02', true);
+		$('#btnQry').trigger('click');
+	});
+}
+
+//코드 리스트 클릭
+function clickCodeGrid(index) {
+	var selItem = codeGrid.list[index];
+	
+	if(selItem.cm_micode === '****') {
+		$('#txtMaCode').val(selItem.cm_macode);
+		$('#txtMaName').val(selItem.cm_codename);
+		$('#txtMiCode').val(selItem.cm_micode);
+		$('#txtMiName').val('');
+		$('[data-ax5select="cboQry"]').ax5select('setValue', '02', true);
+		
+		if(selItem.closeYN === '사용') {
+			$('#optUse').wRadio('check', true);
+		} else {
+			$('#optNotUse').wRadio('check', false);
+		}
+		
+		$('#btnQry').trigger('click');
+	} else {
+		getCodeName();
+	}
+}
+
+// 소구분명 가져오기
+function getCodeName() {
+	var data = new Object();
+	data = {
+		txtCode0 	: $('#txtMaCode').val(),
+		requestType	: 'getCodeName'
+	}
+	ajaxAsync('/webPage/administrator/CodeInfo', data, 'json',successgGetCodeName);
+}
+// 소구분명 가져오기 완료
+function successgGetCodeName(data) {
+	var selItem = codeGrid.list[codeGrid.selectedDataIndexs[0]];
+	$('#txtMaCode').val(selItem.cm_macode);
+	$('#txtMaName').val(data);
+	$('#txtMiCode').val(selItem.cm_micode);
+	$('#txtMiName').val(selItem.cm_codename);
+	$('#txtSeq').val(selItem.cm_seqno);
+	
+	if(selItem.closeYN === '사용') {
+		$('#optUse').wRadio('check', true);
+	} else {
+		$('#optNotUse').wRadio('check', false);
+	}
+}
+
+// 코드 리스트 조회
+function getCodeList() {
+	var selVal = getSelectedVal('cboQry').value;
+	var txtMaCode = $('#txtMaCode').val().trim();
+	var txtMaName = $('#txtMaName').val().trim();
+	var txtMiCode = $('#txtMiCode').val().trim();
+	var txtMiName = $('#txtMiName').val().trim();
+	
+	if(selVal !== '00') {
+		if(selVal === '01' && txtMaName.length === 0 ) {
+			dialog.alert('조회할 대구분 코드설명을 입력하여 주십시오.', function() {});
+			return;
+		}
+		if(selVal !== '01' && txtMaCode.length === 0 ) {
+			dialog.alert('대구분 코드값을 입력하여 주십시오.', function() {});
+			return;
+		}
+		if(selVal === '02' && txtMiCode.length === 0 ) {
+			dialog.alert('조회할 소구분 코드값을 입력하여 주십시오.', function() {});
+			return;
+		}
+		if(selVal === '03' && txtMiName.length === 0 ) {
+			dialog.alert('조회할 소구분 코드설명을 입력하여 주십시오.', function() {});
+			return;
+		}
+	}
+	$('#txtMaCode').val($('#txtMaCode').val().trim().toUpperCase());
+	txtMaCode = $('#txtMaCode').val();
+	
+	
+	var dataObj = new Object();
+	dataObj.UserId		= userId;
+	dataObj.CboMicode 	= selVal;
+	dataObj.Txt_Code0 	= txtMaCode;
+	dataObj.Txt_Code1 	= txtMaName;
+	dataObj.Txt_Code2 	= txtMiCode;
+	dataObj.Txt_Code3 	= txtMiName;
+	
+	var data = new Object();
+	data = {
+		dataObj 	: dataObj,
+		requestType	: 'getCodeList'
+	}
+	ajaxAsync('/webPage/administrator/CodeInfo', data, 'json',successGetCodeList);
+}
+
+// 조회 완료
+function successGetCodeList(data) {
+	codeGridData = data;
+	codeGrid.setData(codeGridData);
+}
+
+// 검색조건 가져오기
+function getCodeInfo() {
+	var codeInfos = getCodeInfoCommon([
+		new CodeInfo('CODEINFO','','N'),
+		]);
+	cboQryData 	= codeInfos.CODEINFO;
+	
+	$('[data-ax5select="cboQry"]').ax5select({
+      options: injectCboDataToArr(cboQryData, 'cm_micode' , 'cm_codename')
+	});
+	
 }

@@ -47,13 +47,13 @@ public class CodeInfoServlet extends HttpServlet {
 				case "GETCODEINFO" :
 					response.getWriter().write( getCodeInfo(jsonElement) );
 					break;
-				case "GETCODELIST" :
+				case "getCodeList" :
 					response.getWriter().write( getCodeList(jsonElement) );
 					break;
-				case "GETCODENAME" :
+				case "getCodeName" :
 					response.getWriter().write( getCodeName(jsonElement) );
 					break;
-				case "SETCODEVALUE" :
+				case "setCodeValue" :
 					response.getWriter().write( setCodeValue(jsonElement) );
 					break;
 				default:
@@ -71,18 +71,19 @@ public class CodeInfoServlet extends HttpServlet {
 		return gson.toJson(codeInfo.getCodeInfo(codeInfoMap.get("cm_macode"),codeInfoMap.get("selMsg"), codeInfoMap.get("closeYN")));
 	}
 	
+	// [코드정보] 코드리스트 가져오기
 	private String getCodeList(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String> searchInfoMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "searchInfoData") );
-		System.out.println(searchInfoMap);
-		return gson.toJson(cmm0100.getCodeList(searchInfoMap));
+		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
+		return gson.toJson(cmm0100.getCodeList(dataObj));
 	}
-	
+	// [코드정보] 코드명 가져오기
 	private String getCodeName(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String> codeNameInfoMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "codeNameInfoData") );
-		return gson.toJson(cmm0100.getCodeName(codeNameInfoMap.get("macode")));
+		String txtCode0 = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "txtCode0") ); 
+		return gson.toJson(cmm0100.getCodeName(txtCode0));
 	}
+	// [코드정보] 코드정보 적용
 	private String setCodeValue(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String> codeValueInfoMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "codeValueInfoData") );
-		return gson.toJson(cmm0100.setCodeValue(codeValueInfoMap));
+		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
+		return gson.toJson(cmm0100.setCodeValue(dataObj));
 	}
 }

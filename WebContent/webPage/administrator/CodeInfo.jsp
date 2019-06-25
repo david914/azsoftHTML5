@@ -4,182 +4,61 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<style type="text/css">
-	.row{margin:0px;}
-				
-	.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, 
-	.col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, 
-	.col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, 
-	.col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, 
-	.col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, 
-	.col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
-		padding:0px;
-	}
-	
-	.ui-menu-item{ height: auto !important;}
-	
-	.sb-selectbox{padding:5px 8px 4px 10px !important;}
-	
-	@media (min-width: 768px){
-		.col-dt{
-			width: 40%;
-		}
-		.col-wave{
-			width: 20%;
-		}
-	}
-</style>      
-    
-<!-- #page_title -->
-<div id="page_title">
-	<h1>코드조회</h1>
-</div>
-<!-- //#page_title -->
-   
-   </head>
-   <body>
-
-<form id="frm" name="frm" method="post">
-  	<div style="margin:30px 5px 0;">
-		<div class="container-fluid">
-			<div class="row-fluid">
+<div id="wrapper">
+    <div class="content">    	
+        <!-- history S-->
+        <div id="history_wrap">관리자<strong>&gt; 코드정보</strong></div>
+        <!-- history E-->    
+             
+		<div class="half_wrap">
+			<div class="l_wrap dib width-60 vat"><!--ver2-->
+				<label class="width-7">구분명</label>
+				<label class="width-30">코드값</label>
+				<label class="width-60">코드설명</label>
+			</div>
+			<div class="r_wrap dib width-40 vat"><!--ver2-->
+				<button id="btnJob" name="btnJob" class="width-10 float-right btn_basic_s" style="cursor: pointer;">업무정보</button>
+			</div>
 			
-				<div class="col-xs-12">
-					<div class="row" style="height:30px; clear: both; background-color:#fafafa;">
-						<div class="col-xs-12 col-sm-1" style="padding-top:11px; text-align:center;">
-							<sbux-label id="idx_lab_gbn" text="코드구분&nbsp;&nbsp;" uitype="normal">
-							</sbux-label>
-						</div>
-						<div class="col-xs-12 col-sm-2" style="padding-top:11px; text-align:center;">
-							<sbux-label id="idx_lab_code" text="코드값&nbsp;&nbsp;" uitype="normal">
-							</sbux-label>
-						</div>
-						
-						<div class="col-xs-12 col-sm-4" style="padding-top:11px; text-align:center;">
-							<sbux-label id="idx_lab_comment" text="설명&nbsp;&nbsp;" uitype="normal">
-						</div>
-					</div>
-					
-					<div class="row" style="height:30px; clear: both; background-color:#fafafa;">
-						<div class="col-xs-12 col-sm-1" style="padding-top:11px; background-color:#fafafa; text-align:center; border-bottom: 1px solid #ececec;">
-							<sbux-label id="idx_lab_search_condition1" text="대구분&nbsp;&nbsp;" uitype="normal"/>
-						</div>
-						<div class="col-xs-12 col-sm-2" style="padding-top:2px;">
-							<sbux-input id="idx_search_macode" name="search_macode" uitype="text" datastore-id="idxData1" onkeyenter="code_Enter('00')"
-							 sbux-popover-title="<font color='yellow'>대구분</font>"
-							 sbux-popover="<font color='blue' style='font-weight:bold;'>대구분 코드</font>를 입력<br>"
-							 sbux-popover-placement="top" sbux-popover-html="true"/>
-						</div>
-						
-						<div class="col-xs-12 col-sm-4" style="padding-top:2px;">
-							<sbux-input id="idx_search_macodecmt" name="search_macodecmt" uitype="text" datastore-id="idxData1" autocomplete-ref="autoCompleteData2"
-							 sbux-tooltip="<font color='yellow' style='font-weight: bold;'>대구분 코드설명</font>을 입력하세요<br>"
-							sbux-tooltip-placement="top" sbux-tooltip-html="true"/>
-						</div>
-						
-						<div class="col-xs-12 col-sm-1" style="padding-top:11px; background-color:#fafafa; text-align:center; border-bottom: 1px solid #ececec;">
-							<sbux-label id="idx_lab_search_condition3" text="검색조건&nbsp;&nbsp;" uitype="normal">
-							</sbux-label>
-						</div>
-						<div class="col-xs-12 col-sm-2" style="padding-top:2px;">
-							<sbux-select id="idxSelectChk_codeInfo" name="selectchk_codeInfo" uitype="single"
-			                  jsondata-ref="codeInfoData"
-			                  jsondata-text = "text"
-			                  jsondata-value = "value"
-			                  title-select-max-count = "1"
-			                  is-select-all-option = "false"
-			                  storage-data ="value"
-			                  scroll-style="min-height: 140px;"
-			                  style="width:100%;" 
-			                  auto-unselected-text="false"
-			                >
-							</sbux-select>
-						</div>
-						
-						<div class="col-xs-12 col-sm-2" style="padding-top:2px; padding-left:2px;">
-							<sbux-button id="idx_button_jobinfo" name="button_jobinfo" uitype="modal" text="업무정보"
-								style="background: #0077c1; border:none; vertical-align:middle; color: #fff; padding:5px 10px; font-size: 13px; height:auto; 
-								position: relative; bottom: 2px; width:95px; height:100%" button-size="big" target-id="idxmodal_middle">
-							</sbux-button>
-						</div>
-					</div>
-					
-					<div class="row" style="height:30px; clear: both; background-color:#fafafa;">
-						<div class="col-xs-12 col-sm-1" style="padding-top:11px; background-color:#fafafa; text-align:center; border-bottom: 1px solid #ececec;">
-							<sbux-label id="idx_lab_search_condition4" text="소구분&nbsp;&nbsp;" uitype="normal" >
-							</sbux-label>
-						</div>
-						<div class="col-xs-12 col-sm-2" style="padding-top:2px;">
-							<sbux-input id="idx_search_micode" name="search_micode" uitype="text" datastore-id="idxData1" autocomplete-ref="autoCompleteData"
-							sbux-popover-title="<font color='yellow'>소구분</font>"
-								sbux-popover="<font color='blue' style='font-weight:bold;'>소구분 코드</font>를 입력<br>"
-								sbux-popover-placement="top" sbux-popover-html="true"
-							></sbux-input>
-						</div>
-						
-						<div class="col-xs-12 col-sm-4" style="padding-top:2px;">
-							<sbux-input id="idx_search_micodecmt" name="search_micodecmt" uitype="text" datastore-id="idxData1" autocomplete-ref="autoCompleteData2"
-							 sbux-tooltip="<font color='yellow' style='font-weight: bold;'>소구분 코드설명</font>을 입력하세요<br>"
-								sbux-tooltip-placement="top" sbux-tooltip-html="true"></sbux-input>
-						</div>
-						
-						<div class="col-xs-12 col-sm-1" style="padding-top:11px; background-color:#fafafa; text-align:center; border-bottom: 1px solid #ececec;">
-							<sbux-label id="idx_lab_search_condition7" text="소구분순서&nbsp;&nbsp;" uitype="normal">
-							</sbux-label>
-						</div>
-						<div class="col-xs-12 col-sm-1" style="padding-top:2px;">
-							<sbux-input id="idx_search_sqeno" name="search_seqno" uitype="text" datastore-id="idxData1" autocomplete-ref="autoCompleteData2"
-							 sbux-tooltip="<font color='yellow' style='font-weight: bold;'>소구분 순서</font>을 입력하세요<br>"
-							 sbux-tooltip-placement="top" sbux-tooltip-html="true">
-							 </sbux-input>
-						</div>
-						<div class="col-xs-12 col-sm-1" style="padding-top:2px;">
-							<sbux-select id="idxSelectChk_useyn" name="selectchk_useyn" uitype="single"
-			                  jsondata-ref="UseData"
-			                  jsondata-text = "text"
-			                  jsondata-value = "value"
-			                  title-select-max-count = "1"
-			                  is-select-all-option = "false"
-			                  storage-data ="value"
-			                  scroll-style="min-height: 140px;"
-			                  style="width:100%;" 
-			                  auto-unselected-text="false"
-			                >
-						</div>
-						<div class="col-xs-12 col-sm-1" style="padding-top:2px; padding-left:2px;">
-							<sbux-button id="idx_button_search" name="button_search" uitype="normal" text="조회"
-								style="background: #0077c1; border:none; vertical-align:middle; color: #fff; padding:5px 10px; font-size: 13px; height:auto; position: relative; bottom: 2px;"
-								onclick="code_Enter('')"
-								button-size="big">
-							</sbux-button>
-							
-							<sbux-button id="idx_button_set" name="button_set" uitype="normal" text="적용"
-								style="background: #0077c1; border:none; vertical-align:middle; color: #fff; padding:5px 10px; font-size: 13px; height:auto; position: relative; bottom: 2px;"
-								onclick="set_Click()"
-								button-size="big">
-							</sbux-button>
-						</div>
-						
+			<div class="l_wrap dib width-60 vat"><!--ver2-->
+				<label class="width-7">대구분</label>
+				<input id="txtMaCode" name="txtMaCode" type="text" class="width-30">
+				<input id="txtMaName" name="txtMaName" type="text" class="width-60">
+			</div>
+			<div class="r_wrap dib width-40 vat"><!--ver2-->
+				<label class="width-10">검색조건</label>
+				<div class="width-65 dib">
+					<div id="cboQry" data-ax5select="cboQry" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
+				</div>
+				<button id="btnQry" name="btnQry" class="width-10 float-right btn_basic_s" style="cursor: pointer;">조회</button>
+			</div>
+			
+			<div class="l_wrap dib width-60 vat"><!--ver2-->
+				<label class="width-7">소구분</label>
+				<input id="txtMiCode" name="txtMiCode" type="text" class="width-30">
+				<input id="txtMiName" name="txtMiName" type="text" class="width-60">
+			</div>
+			
+			<div class="r_wrap dib width-40 vat"><!--ver2-->
+				<label class="width-10">소구분순서</label>
+				<div class="width-65 dib">
+					<input id="txtSeq" name="txtSeq" type="text" class="width-60">
+					<div class="width-30 dib">
+						<input id="optUse"  type="radio" name="radio"  value="use"/>
+						<label for="optUse">사용</label>
+						<input id="optNotUse" type="radio"  name="radio"  value="notUse"/>
+						<label for="optNotUse">미사용</label>
 					</div>
 				</div>
+				<button id="btnReq" name="btnReq" class="width-10 float-right btn_basic" style="cursor: pointer;">적용</button>
 			</div>
 		</div>
+		<div class="az_board_basic margin-10-top" style="height: 80%;">
+			<div data-ax5grid="codeGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
+		</div>
 	</div>
-</form>
-
-<div id="sbGridArea" style="margin:0 20px; height:700px;"></div>
-
-
-<sbux-modal id="idxmodal_middle" name="modal_middle" uitype="middle" header-title="업무정보" 
-			body-html-id="modalBody" footer-is-close-button="false">
-</sbux-modal>
-<div id="modalBody">
-	<iframe id="ifrm" name="ifrm" src="<c:url value="/webPage/modal/TaskInfo.jsp"/>" 
-			width="100%" height="590px" 
-			frameborder="0" border="0" 
-			scrolling="no" marginheight="0" marginwidth="0">
-	</iframe>
 </div>
 
+<c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/administrator/CodeInfo.js"/>"></script>
 	
