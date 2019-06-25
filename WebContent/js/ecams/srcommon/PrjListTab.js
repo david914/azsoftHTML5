@@ -18,7 +18,7 @@ var cboReqDepartData = null;
 var cboCatTypeData = null;
 var cboQryGbnData = null;
 var firstGridData = null;
-
+ 
 var firstGrid 	= new ax5.ui.grid();
 var picker 		= new ax5.ui.picker();
 

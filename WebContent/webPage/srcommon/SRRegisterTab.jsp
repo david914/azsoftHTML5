@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
-
+ 
 <section>
 	<div class="container-fluid">
 		<div class="border-style-black">

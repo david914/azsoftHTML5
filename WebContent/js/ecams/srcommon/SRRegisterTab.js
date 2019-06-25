@@ -30,7 +30,7 @@ ax5.info.weekNames = [
 	{label: "금"},
 	{label: "토"}
 ];
-
+ 
 picker.bind({
   target: $('[data-ax5picker="basic2"]'),
   direction: "top",

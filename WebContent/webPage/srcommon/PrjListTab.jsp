@@ -55,7 +55,7 @@
 					</section>
 				</div>
 			</div>
-		</div>
+		</div> 
 	</div>
 </section>
 <script type="text/javascript" src="<c:url value="/js/ecams/srcommon/PrjListTab.js"/>"></script>
