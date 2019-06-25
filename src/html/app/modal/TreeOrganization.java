@@ -56,6 +56,15 @@ public class TreeOrganization extends HttpServlet {
 				case "insertNewDir" :
 					response.getWriter().write( insertNewDir(jsonElement) );
 					break;
+				case "checkDelDir" :
+					response.getWriter().write( checkDelDir(jsonElement) );
+					break;
+				case "delDir" :
+					response.getWriter().write( delDir(jsonElement) );
+					break;
+				case "reNameDir" :
+					response.getWriter().write( reNameDir(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -80,6 +89,23 @@ public class TreeOrganization extends HttpServlet {
 	private String insertNewDir(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
 		return gson.toJson( cmm0400.subNewDir(dataObj) );
+	}
+	
+	// [사용자정보 > 조직도 ] 조직 삭제전 조직에 등록된 사용자 있는지 체크
+	private String checkDelDir(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
+		return gson.toJson( cmm0400.subDelDir_Check(dataObj) );
+	}
+	
+	// [사용자정보 > 조직도 ] 조직 삭제
+	private String delDir(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
+		return gson.toJson( cmm0400.subDelDir(dataObj) );
+	}
+	// [사용자정보 > 조직도 ] 조직명 변경
+	private String reNameDir(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
+		return gson.toJson( cmm0400.subRename(dataObj) );
 	}
 	
 	

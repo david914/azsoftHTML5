@@ -18,6 +18,7 @@ var selSvrData		= null;	//서버 데이터
 var selJawonData	= null;	//프로그램종류 데이터
 var selJobData		= null;	//업무 데이터
 var selSRIData		= null;	//SRID 데이터
+var proglistGridData= null; //프로그램목록그리드 데이터
 
 var treeObj			= null;
 var treeObjData		= null; //디렉토리트리 데이터
@@ -49,10 +50,10 @@ proglistGrid.setConfig({
     	}
     },
     columns: [
-        {key: "filename", 		label: "파일명",		width: '10%', 	align: "left"},
+    	{key: "filename", 		label: "파일명",		width: '10%', 	align: "left"},
         {key: "errmsg", 		label: "등록결과",	  	width: '17%',	align: "left"},
         {key: "dirpath", 	 	label: "디렉토리",   	width: '14%',	align: "left"},
-        {key: "story", 			label: "프로그램설명", 	width: '13%',	align: "left"},
+        {key: "story", 			label: "프로그램설명", 	width: '13%',	align: "left",	editor: {type: "text"}},
         {key: "rsrccdname", 	label: "프로그램종류", 	width: '13%',	align: "left"},
         {key: "jobname", 		label: "업무",   		width: '24%',	align: "left"}
     ]
@@ -76,35 +77,59 @@ $(document).ready(function(){
 	strUserId = $('#UserId').val();
 	strSyscd = $('#SysCd').val();
 	
-	//SystemPath.getTmpDir("99");
+	getTempDir();
+	getSysInfo();
+	getPrjList();
+	
+	//tmpAry.filterFunction = selectedFilters;
+	
+	$('#chkAll').prop("checked", true);
+	
+	//디렉토리조회 클릭
+	$("#btnQry").bind('click', function() {
+		btnQry_Click();
+	});
+	
+	//등록 클릭
+	$("#btnRegist").bind('click', function() {
+		btnRegist_Click();
+	});
+	
+	//초기화 클릭
+	$("#btnInit").bind('click', function() {
+		btnInit_Click();
+	});
+	
+	//시스템
+	$("#selSystem").bind('change', function() {
+		selSystem_Change();
+	});
+	
+	//프로그램종류
+	$("#selJawon").bind('change', function() {
+		selJawon_Change();
+	});
+	
+	//경로변경 (입력할 수 있는 select box)
+});
+
+//SystemPath.getTmpDir("99");
+function getTempDir() {
 	tmpInfo = new Object();
 	tmpInfo = {
 		requestType	: 'GETSYSTEMPATH',
 		pathcd		: '99' 
 	}
 	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfo, 'json', successSystemPath);
-	
-	//SysInfo.getSysInfo(strUserId,SecuYn,"SEL",SecuYn,"OPEN");
-	tmpInfo = new Object();
-	tmpInfo.userId = strUserId;
-	if(adminYN) {
-		tmpInfo.secuYn = "N";
-		tmpInfo.closeYn = "N";
-	}else {
-		tmpInfo.secuYn = "Y";
-		tmpInfo.closeYn = "Y";
-	}
-	tmpInfo.selMsg = "SEL";
-	tmpInfo.reqCd = "OPEN";		
-	
-	tmpInfoData = new Object();
-	tmpInfoData = {
-		tmpInfo		: tmpInfo,
-		requestType	: 'GETSYSINFO'
-	}
-	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successSysInfo);
-	
-	//PrjInfo.getPrjList(tmpObj);
+}
+
+
+function successSystemPath(data) {
+	strTmpDir = data + "/";
+}
+
+//PrjInfo.getPrjList(tmpObj);
+function getPrjList() {
 	tmpInfo = new Object();
 	tmpInfo.userid = strUserId;
 	tmpInfo.reqcd = "01";
@@ -117,27 +142,6 @@ $(document).ready(function(){
 		requestType	: 'GETSRID'
 	}
 	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successSRID);
-	
-	//tmpAry.filterFunction = selectedFilters;
-	
-	$('#chkAll').prop("checked", true);
-	
-	//디렉토리조회 클릭
-	$("#btnQry").bind('click', function() {
-		btnQry_Click();
-	});
-	
-	//등록 클릭
-	$("#btnRegist").bind('change', function() {
-		//btnRegist_Click();
-	});
-	
-	//경로변경 (입력할 수 있는 select box)
-	
-});
-
-function successSystemPath(data) {
-	strTmpDir = data + "/";
 }
 
 function successSRID(data) {
@@ -157,22 +161,39 @@ function successSRID(data) {
 	});
 }
 
-function successSysInfo(data) {
-	selOptions = data;
-	selSystemData = [];
+//SysInfo.getSysInfo(strUserId,SecuYn,"SEL",SecuYn,"OPEN");
+function getSysInfo() {
+	tmpInfo = new Object();
+	tmpInfo.userId = strUserId;
+	if(adminYN) {
+		tmpInfo.secuYn = "N";
+		tmpInfo.closeYn = "N";
+	}else {
+		tmpInfo.secuYn = "Y";
+		tmpInfo.closeYn = "Y";
+	}
+	tmpInfo.selMsg = "SEL";
+	tmpInfo.reqCd = "OPEN";		
 	
-	selOptions = selOptions.filter(function(data) {
+	tmpInfoData = new Object();
+	tmpInfoData = {
+		tmpInfo		: tmpInfo,
+		requestType	: 'GETSYSINFO'
+	}
+	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successSysInfo);
+}
+
+function successSysInfo(data) {
+	selSystemData = data;
+	
+	selSystemData = selSystemData.filter(function(data) {
 		if(data.cm_sysinfo.substr(6,1) == "1") return true;
 		else return false;
 	});
 	
-	$.each(selOptions,function(key,value) {
-		selSystemData.push({value: value.cm_syscd, text: value.cm_sysmsg, cm_sysinfo: value.cm_sysinfo, cm_sysgb: value.cm_sysgb, cm_dirbase: value.cm_dirbase});
-	});
-	
-	$('[data-ax5select="selSystem"]').ax5select({
-        options: selSystemData
-	});
+   	$('[data-ax5select="selSystem"]').ax5select({
+        options: injectCboDataToArr(selSystemData, 'cm_syscd' , 'cm_sysmsg')
+   	});
 	
 	if(strSyscd != "" && strSyscd != null) {
 		for(var i=0; i<selSystemData.length; i++) {
@@ -184,11 +205,19 @@ function successSysInfo(data) {
 	}
 	
 	if($("#selSystem option").index($("#selSystem option:selected")) > -1) {
-		selSystem_Click();
+		selSystem_Change();
 	}
 }
 
-function selSystem_Click() {
+function selJawon_Change() {
+	selectedIndex = $("#selJawon option").index($("#selJawon option:selected"));
+	selectedItem = $('[data-ax5select="selJawon"]').ax5select("getValue")[0];
+	$('#txtExeName').val("");
+	if(selectedIndex < 1) return;
+	$('#txtExeName').val(selectedItem.cm_exename);
+}
+
+function selSystem_Change() {
 	screenInit();
 	
 	selectedIndex = $("#selSystem option").index($("#selSystem option:selected"));
@@ -289,10 +318,9 @@ function successJobInfo(data) {
 }
 
 function successJawon(data) {
-	selOptions = data;
-	selJawonData = [];
+	selJawonData = data;
 	
-	selOptions = selOptions.filter(function(data) {
+	selJawonData = selJawonData.filter(function(data) {
 		if(data.cm_micode == "0000") return true;
 		else {
 			if(data.cm_info.substr(44,1) == "1" ||
@@ -305,19 +333,14 @@ function successJawon(data) {
 		}
 	});
 	
-	$.each(selOptions,function(key,value) {
-		selJawonData.push({value: value.cm_micode, text: value.cm_codename, cm_info: value.cm_info});
-	});
-	
 	$('[data-ax5select="selJawon"]').ax5select({
-        options: selJawonData
-	});
+        options: injectCboDataToArr(selJawonData, 'cm_micode' , 'cm_codename')
+   	});
 	
 	$('[data-ax5select="selJawon"]').ax5select('setValue',selJawonData[0].value,true); //value값으로
 }
 
 function successSvrInfo(data) {
-	selOptions = [];
 	selSvrData = data;
 		
 	selSvrData = selSvrData.filter(function(data) {
@@ -331,15 +354,11 @@ function successSvrInfo(data) {
 		}
 	});
 	
-	$.each(selSvrData,function(key,value) {
-		selOptions.push({value: value.cm_svrip, text: value.cm_svrname, cm_svrcd: value.cm_svrcd, cm_seqno: value.cm_seqno}); //이외 필요한 데이터 많음
-	});
+   	$('[data-ax5select="selSvr"]').ax5select({
+        options: injectCboDataToArr(selSvrData, 'cm_svrip' , 'cm_svrname')
+   	});
 	
-	$('[data-ax5select="selSvr"]').ax5select({
-        options: selOptions
-	});
-	
-//	treeDir.dataProvider = null;
+   	$.fn.zTree.init($("#treeDir"), treeSetting, []); //초기화
 	
 	if(selOptions.length > 0) {
 		$('[data-ax5select="selSvr"]').ax5select('setValue',selOptions[0].value,true); //value값으로
@@ -356,14 +375,6 @@ function selSvr_click() {
 	selectedItem = $('[data-ax5select="selSvr"]').ax5select("getValue")[0];
 	
 	if(selectedIndex < 0) return;
-	
-	for(var i=0; i<selSvrData.length; i++) {
-		if(selSvrData[i].cm_svrcd == selectedItem.cm_svrcd && 
-		   selSvrData[i].cm_seqno == selectedItem.cm_seqno) {
-			selectedItem = selSvrData[i];
-			break;
-		}
-	}
 	
 	//svrOpen_svr.getHomeDirList(strUserId,cboSys.selectedItem.cm_syscd,cboSvr.selectedItem.cm_svrcd,cboSvr.selectedItem.cm_seqno,cboSvr.selectedItem.cm_svruse,cboSvr.selectedItem.cm_volpath);
 	tmpInfo = new Object();
@@ -436,14 +447,6 @@ function btnQry_Click() {
 	
 	if(selectedIndex < 0) return;
 	
-	for(var i=0; i<selSvrData.length; i++) {
-		if(selSvrData[i].cm_svrcd == selectedItem.cm_svrcd && 
-		   selSvrData[i].cm_seqno == selectedItem.cm_seqno) {
-			selectedItem = selSvrData[i];
-			break;
-		}
-	}
-	
 	//svrOpen_svr.getSvrDir(strUserId,cboSys.selectedItem.cm_syscd,cboSvr.selectedItem.cm_svrip,cboSvr.selectedItem.cm_portno,strBaseDir,cboSvr.selectedItem.cm_dir,cboSvr.selectedItem.cm_sysos,cboSvr.selectedItem.cm_volpath,cboSvr.selectedItem.cm_svrname,cboSvr.selectedItem.cm_buffsize);
 	
 	tmpInfo = new Object();
@@ -469,7 +472,7 @@ function btnQry_Click() {
 /* 디렉토리 트리구조 셋팅 */
 function successSvrDir(data) {
 	treeObjData = data;
-	$.fn.zTree.init($("#treeDir"), treeSetting, data);
+	$.fn.zTree.init($("#treeDir"), treeSetting, data); //초기화
 	treeObj = $.fn.zTree.getZTreeObj("treeDir");
 }
 
@@ -519,7 +522,7 @@ function hideRMenu() {
 function contextmenu_click() {
 	hideRMenu();
 	
-	console.log("treeObj: " + treeObj.getSelectedNodes()[0].name);
+	//console.log("treeObj: " + treeObj.getSelectedNodes()[0].name);
 	
 	if(treeObj.getSelectedNodes()[0].id == null) return;
 	
@@ -542,19 +545,13 @@ function contextmenu_click() {
 		tmpStr = "1";
 	}
 	
-	if($('#"txtExe"').val($('#"txtExe"').val().trim()).length > 0) tmpExe1 = $('#"txtExe"').val($('#"txtExe"').val().trim());
+	if($('#txtExe').val($('#txtExe').val().trim()).length > 0) tmpExe1 = $('#txtExe').val().trim();
 	else tmpExe1 = "";
 	
-	if($('#"txtNoExe"').val($('#"txtNoExe"').val().trim()).length > 0) tmpExe2 = $('#"txtNoExe"').val($('#"txtNoExe"').val().trim());
+	if($('#txtNoExe').val($('#txtNoExe').val().trim()).length > 0) tmpExe2 = $('#txtNoExe').val().trim();
 	else tmpExe2 = "";
 	
-	for(var i=0; i<selSvrData.length; i++) {
-		if(selSvrData[i].cm_svrcd == selectedItem.cm_svrcd && 
-		   selSvrData[i].cm_seqno == selectedItem.cm_seqno) {
-			selectedItem = selSvrData[i];
-			break;
-		}
-	}
+	selectedItem = $('[data-ax5select="selSvr"]').ax5select("getValue")[0];
 	
 	//svrOpen_svr.getFileList_thread(strUserId,cboSys.selectedItem.cm_syscd,cboSvr.selectedItem.cm_svrip,cboSvr.selectedItem.cm_portno,cboSvr.selectedItem.cm_volpath,strDirFull,cboSvr.selectedItem.cm_svrcd,tmpStr,tmpExe1,tmpExe2,cboSvr.selectedItem.cm_sysinfo,cboSvr.selectedItem.cm_dir,cboSvr.selectedItem.cm_sysos,cboSvr.selectedItem.cm_buffsize,cboSvr.selectedItem.cm_svruse,cboSvr.selectedItem.cm_seqno);
 	tmpInfo = new Object();
@@ -580,7 +577,246 @@ function contextmenu_click() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETFILELIST_THREAD'
 	}
+	
 	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successGetFileList);
 	
 	fullpath = "";
+}
+
+function successGetFileList(data) {
+	var findSw = false;
+	
+	proglistGridData = data;
+	
+	if(proglistGridData.length > 0) {
+		if(proglistGridData[0].error == "W") {
+			dialog.alert(proglistGridData[0].cm_dirpath,function(){});
+			proglistGridData.splice(0,1);
+		}
+		
+		var j = 0;
+		for(var i=0; i<proglistGridData.length; i++) {
+			if(proglistGridData[i].enable1 == "1") {
+				if(proglistGridData[i].rsrccd != null && proglistGridData[i].rsrccd != "") {
+					findSw = false;
+					for(j=0; j<selJawonData.length; j++) {
+						if(selJawonData[j].cm_micode == proglistGridData[i].rsrccd) {
+							proglistGridData[i].rsrccdname = selJawonData[j].cm_codename;
+							proglistGridData[i].cm_info = selJawonData[j].cm_info;
+							findSw = true;
+							break;
+						}
+					}
+					if(!findSw) {
+						proglistGridData[i].errmsg = "프로그램유형없음";
+						proglistGridData[i].error = "1";
+						proglistGridData[i].enable1 = "0";
+					}
+				}
+				if(findSw) {
+					findSw = false;
+					if(proglistGridData[i].jobcd != null && proglistGridData[i].jobcd != "") {
+						findSw = false;
+						for(j=0; j<selJobData.length; j++) {
+							if(selJawonData[j].cm_jobcd == proglistGridData[i].jobcd) {
+								proglistGridData[i].jobname = selJawonData[j].cm_jobname;
+								findSw = true;
+								break;
+							}
+						}
+						if(!findSw) {
+							proglistGridData[i].errmsg = "업무코드없음";
+							proglistGridData[i].error = "1";
+							proglistGridData[i].enable1 = "0";
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	proglistGrid.setData(proglistGridData);
+}
+
+function btnRegist_Click() {
+	var checkedGridItem = proglistGrid.getList("selected");
+	var tmpHomedir 		= $('[data-ax5select="selDir"]').ax5select("getValue")[0].value;
+	var i 				= 0;
+	var tmpExe 			= "";
+	var rsrcExe 		= "";
+	var errSw 			= false;
+	
+	for(i=0; i<checkedGridItem.length; i++) {
+		checkedGridItem[i].errmsg = "";
+	}
+	
+	//tmpAry.source = qry_dp.toArray();
+	
+	$('#txtStory').val($('#txtStory').val().trim());
+	
+	if($("#selSystem option").index($("#selSystem option:selected")) < 0) {
+		dialog.alert('시스템을 선택하여 주십시오.',function(){});
+		$('#selSystem').focus();
+		return;
+	}
+	
+	if(checkedGridItem.length == 0) {
+		dialog.alert('등록할 파일을 선택하여 주십시오.',function(){});
+		$('#selSystem').focus();
+	}
+	
+	if($("#selJawon option").index($("#selJawon option:selected")) < 1) {
+		dialog.alert('프로그램종류를 선택하여 주십시오.',function(){});
+		$('#selJawon').focus();
+		return;
+	}
+	
+	if($("#selJob option").index($("#selJob option:selected")) < 1) {
+		dialog.alert('업무를 선택하여 주십시오.',function(){});
+		$('#selJob').focus();
+		return;
+	}
+	
+	errSw = false;
+	
+	if(checkedGridItem.length == 0) return;
+	
+	//console.log("checked: " , checkedGridItem[0].__index);
+	
+	for(i=0; i<checkedGridItem.length; i++) {
+		tmpExe = "";
+		
+		if(checkedGridItem[i].errmsg != null && checkedGridItem[i].errmsg != "") {
+			checkedGridItem[i].errmsg = "";
+			checkedGridItem[i].error = "";
+		}
+		
+		if(checkedGridItem[i].cm_dirpath.length > 499) {
+			proglistGrid.setValue(checkedGridItem[i].__index, "errmsg", "프로그램경로가 너무 큼(최대 500)");
+			errSw = true;
+		}else if(checkedGridItem[i].cm_dirpath.substr(0, tmpHomedir.length) != tmpHomedir) {
+			proglistGrid.setValue(checkedGridItem[i].__index, "errmsg", "홈디렉토리불일치");
+			errSw = true;
+		}else {
+			if(checkedGridItem[i].filename.lastIndexOf(",") >= 0) {
+				proglistGrid.setValue(checkedGridItem[i].__index, "errmsg", "프로그램명컴마제외");
+				errSw = true;
+			}else if($('[data-ax5select="selJawon"]').ax5select("getValue")[0].cm_info.substr(26,1) == "1") {
+				// tmpObj 쓰는 곳 없음
+				//tmpObj = {};
+				//tmpObj = tmpAry.getItemAt(i);
+				//tmpObj.filename = tmpObj.filename.substr(0,tmpObj.filename.indexOf("."));
+			}else {
+				if($('#txtExeName').val() != "" && $('#txtExeName').val() != null) {
+					if(checkedGridItem[i].filename.lastIndexOf(".") > 0) {
+						tmpExe = checkedGridItem[i].filename.substr(checkedGridItem[i].filename.lastIndexOf("."));
+						tmpExe = tmpExe + ",";
+						tmpExe = tmpExe.toUpperCase();
+						rsrcExe = $('#txtExeName').val().toUpperCase();
+						
+						if(rsrcExe.indexOf(tmpExe) < 0) {
+							proglistGrid.setValue(checkedGridItem[i].__index, "errmsg", "확장자불일치");
+							errSw = true;
+						}
+					}else {
+						proglistGrid.setValue(checkedGridItem[i].__index, "errmsg", "확장자불일치");
+						errSw = true;
+					}
+				}
+			}
+		}
+		
+		if(!errSw) {
+			if(checkedGridItem[i].story == null || checkedGridItem[i].story == "") {
+				if($('#txtStory').val().length == 0) {
+					dialog.alert('프로그램설명을 입력하여 주십시오.',function(){});
+					return;
+				}else {
+					checkedGridItem[i].story = $('#txtStory').val(); 
+				}
+			}
+		}
+	}
+	
+	proglistGrid.selectAll({selected: false});
+	
+	if(errSw) {
+		dialog.alert('등록대상 파일 중 요건에 맞지않는 파일이 있습니다. [등록결과] 을 확인 후 다시 등록하시기 바랍니다.',function(){});
+		return;
+	}
+	
+	tmpInfo = new Object();
+	tmpInfo.userid = strUserId;
+	tmpInfo.sysgb = $('[data-ax5select="selSystem"]').ax5select("getValue")[0].cm_sysgb;
+	tmpInfo.syscd = $('[data-ax5select="selSystem"]').ax5select("getValue")[0].cm_syscd;
+	tmpInfo.svrcd = $('[data-ax5select="selSvr"]').ax5select("getValue")[0].cm_svrcd;
+	tmpInfo.basesvr = $('[data-ax5select="selSystem"]').ax5select("getValue")[0].cm_dirbase;
+	tmpInfo.story = $('#txtStory').val(); 
+	tmpInfo.rsrccd = $('[data-ax5select="selJawon"]').ax5select("getValue")[0].cm_micode;
+	tmpInfo.cm_info = $('[data-ax5select="selJawon"]').ax5select("getValue")[0].cm_info;
+	tmpInfo.seqno = $('[data-ax5select="selSvr"]').ax5select("getValue")[0].cm_seqno;
+	tmpInfo.jobcd = $('[data-ax5select="selJob"]').ax5select("getValue")[0].value;
+	if($('[data-ax5select="selSystem"]').ax5select("getValue")[0].cm_sysinfo.substr(9,1) == "0" && $("#selSRID option").index($("#selSRID option:selected")) > 0) {
+		tmpInfo.srid = $('[data-ax5select="selSRID"]').ax5select("getValue")[0].cc_srid;
+	}
+	
+	tmpInfoData = new Object();
+	tmpInfoData = {
+		tmpInfo		: tmpInfo,
+		tmpAry		: checkedGridItem,
+		requestType	: 'REGISTPROG'
+	}
+	
+	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successRegistProg);
+}
+
+function successRegistProg(data) {
+	var tmpArray = data;
+	var tmpObj = new Object();
+	var j = 0;
+	var findSw = false;
+	var okSw = false;
+	var itemId = "";
+	
+	for(var i=0; i<tmpArray.length; i++) {
+		for(j=0; j<proglistGridData.length; j++) {
+			if(tmpArray[i].cm_dirpath == proglistGridData[j].cm_dirpath &&
+					tmpArray[i].filename == proglistGridData[j].filename) {
+				if(tmpArray[i].error == "1") {
+					findSw = true;
+					proglistGrid.setValue(proglistGrid[j].__index, "errmsg", tmpArray[i].errmsg);
+					proglistGrid.setValue(proglistGrid[j].__index, "error", tmpArray[i].error);
+					proglistGrid.select(j, {selected: false});
+				}else {
+					proglistGrid.removeRow(j--);
+					okSw = true;
+					break;
+				}
+			}
+		}
+	} 
+	
+	if($('[data-ax5select="selJawon"]').ax5select("getValue")[0].cm_info.substr(8,1) == "1" &&
+			okSw && $('[data-ax5select="selJawon"]').ax5select("getValue")[0].modsw == "Y") {
+		for(i=0; i<tmpArray.length; i++) {
+			if(tmpArray[i].error != "1") {
+				itemId = itemId + "," + tmpArray[i].itemid;
+			}
+		}
+		//실행모듈 연결정보 팝업 svrOpen_Relat
+	}
+
+	if(findSw) {
+		dialog.alert('등록 중 오류가 발생한 건이 있으니 확인하시기 바랍니다.',function(){});
+	}else {
+		dialog.alert('등록처리에 성공하였습니다.',function(){});
+	}
+}
+
+function btnInit_Click() {
+	selSystem_Change();
+	$('#txtExeName').val("");
+	$('#txtExe').val("");
+	$('#txtNoExe').val("");
+	$('#txtStory').val("");
 }

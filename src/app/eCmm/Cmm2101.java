@@ -315,13 +315,14 @@ public class Cmm2101{
 			String noticeFileUplaodDir = systemPath.getTmpDir("01");
 			File deleteFolder = new File(noticeFileUplaodDir + "\\" + AcptNo);
 			File[] deleteFolderList = deleteFolder.listFiles();
-			
-			for(int i=0; i<deleteFolderList.length; i++) {
-				deleteFolderList[i].delete();
+			if(deleteFolderList != null) {
+				for(int i=0; i<deleteFolderList.length; i++) {
+					deleteFolderList[i].delete();
+				}
 			}
-			
-			deleteFolder.delete();
-			
+			if(deleteFolder != null) {
+				deleteFolder.delete();
+			}
 			
 	        strQuery.setLength(0);
 			strQuery.append("delete from CMM0220 where cm_acptno = ? and cm_gbncd= '1' \n");

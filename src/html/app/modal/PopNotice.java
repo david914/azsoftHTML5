@@ -43,11 +43,11 @@ public class PopNotice extends HttpServlet {
 				case "Cmm2101" :
 					response.getWriter().write( getNoticeInfo(jsonElement) );
 					break;
-				case "Cmm2101_1" :
-					response.getWriter().write( update(jsonElement) );
+				case "updateNotice" :
+					response.getWriter().write( updateNotice(jsonElement) );
 					break;
-				case "Cmm2101_2" :
-					response.getWriter().write( delete(jsonElement) );
+				case "deleteNotice" :
+					response.getWriter().write( deleteNotice(jsonElement) );
 					break;
 				default:
 					break;
@@ -63,7 +63,7 @@ public class PopNotice extends HttpServlet {
 		return gson.toJson(cmm2101.get_sql_Qry(dataMap.get("memo_id"), dataMap.get("memo_date")));
 	}
 	
-	private String update(JsonElement jsonElement) throws SQLException, Exception {
+	private String updateNotice(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> updateMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
 		return gson.toJson(cmm2101.get_update_Qry(updateMap.get("memo_id"), 
 												  updateMap.get("user_id"), 
@@ -75,7 +75,7 @@ public class PopNotice extends HttpServlet {
 	}
 	
 	
-	private String delete(JsonElement jsonElement) throws SQLException, Exception {
+	private String deleteNotice(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> updateMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
 		
 		return gson.toJson(cmm2101.get_delete_Qry(updateMap.get("memo_id"), 

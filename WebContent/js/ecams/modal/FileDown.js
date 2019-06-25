@@ -33,83 +33,67 @@ $(document).ready(function() {
 });
 
 function getNoticeFolderPath() {
-	var ajaxReturnData = null;
-	var tmpData = {
+	var data = new Object();
+	data = {
 		requestType : 'getNoticeFolderPath'
 	}
-	ajaxReturnData = ajaxCallWithJson('/webPage/mypage/Notice', tmpData, 'json');
-	if(ajaxReturnData !== 'ERR') {
-		noticeFolderPath = ajaxReturnData;
-		getFileList();
-	}
+	ajaxAsync('/webPage/mypage/Notice', data, 'json',successGetNoticeFolderPath);
 }
 
+function successGetNoticeFolderPath(data) {
+	noticeFolderPath = data;
+	getFileList();
+}
+
+// 첨부파일 리스트 가져오기
 function getFileList() {
-	var ajaxReturnData = null;
-	var tmpData = {
+	var data = new Object();
+	data = {
 		requestType : 'getFileList',
 		acptno : downAcptno
 	}
-	
-	
-	ajaxReturnData = ajaxCallWithJson('/webPage/mypage/Notice', tmpData, 'json');
-	if(ajaxReturnData !== 'ERR') {
-		downFilelist = ajaxReturnData;
-		
-		downFilelist.forEach(function(item,itemIndex){
-			/* 
-			 * ecma script 6 버전 이게 더 깔끔하고 사용하기 편합니다.
-			 * 다만 IE에서 사용불가..
-			var appendStr = ``;
-			appendStr += `<tr>`;
-			appendStr += `	<td>`;
-			appendStr += `		<a href="/webPage/fileupload/upload?f=${item.orgname}&noticeAcptno=${downAcptno}">${item.orgname}</a>`;
-			appendStr += `		<button onclick="test('${item.orgname}')" class="btn btn-sm btn-danger cancel" role="button" style="float: right;">삭제</button>`;
-			appendStr += `	</td>`;
-			appendStr +=`</tr>`;*/
-			
-			var appendStr = '';
-			appendStr += '<tr id="file_'+item.orgname+'">';
-			appendStr += '	<td>';
-			appendStr += '		<a href="/webPage/fileupload/upload?f='+item.orgname+'&noticeAcptno='+downAcptno+'">'+item.orgname+'</a>';
-			appendStr += '		<button onclick="delFile(\''+item.orgname+'\')" class="btn btn-sm btn-danger cancel" role="button" style="float: right;">삭제</button>';
-			appendStr += '	</td>';
-			appendStr +='</tr>';
-			$('#fileDownBody').append(appendStr);
-		});
-	}
+	ajaxAsync('/webPage/mypage/Notice', data, 'json',successGetFileList);
 }
 
+// 첨부파일 리스트 가져오기 완료
+function successGetFileList(data) {
+	downFilelist = data;
+	downFilelist.forEach(function(item,itemIndex){
+		var appendStr = '';
+		appendStr += '<tr id="file_'+item.orgname+'">';
+		appendStr += '	<td>';
+		appendStr += '		<a href="/webPage/fileupload/upload?f='+item.orgname+'&noticeAcptno='+downAcptno+'">'+item.orgname+'</a>';
+		appendStr += '		<button onclick="delFile(\''+item.orgname+'\')" class="btn btn-sm btn-danger cancel" role="button" style="float: right;">삭제</button>';
+		appendStr += '	</td>';
+		appendStr +='</tr>';
+		$('#fileDownBody').append(appendStr);
+	});
+}
+
+// 파일삭제
 function delFile(item) {
 	confirmDialog.confirm({
 		msg: '해당 파일을 삭제 하시겠습니까?',
 	}, function(){
 		if(this.key === 'ok') {
-			var ajaxReturnData = null;
-			var fileInfo = {};
-			fileInfo.acptNo = downAcptno;
-			fileInfo.fileName = item;
-			var tmpData = {
-				requestType : 'deleteNoticeFile',
-				fileData : JSON.stringify(fileInfo)
+			var fileInfo 		= new Object();
+			fileInfo.acptNo 	= downAcptno;
+			fileInfo.fileName 	= item;
+			var data = new Object();
+			data = {
+					requestType : 'deleteNoticeFile',
+					fileData : fileInfo
 			}
-			
-			ajaxReturnData = ajaxCallWithJson('/webPage/mypage/Notice', tmpData, 'json');
-			
-			if(ajaxReturnData !== 'ERR') {
-				dialog.alert('파일이 삭제 되었습니다.', function () {});
-				$('#fileDownBody').empty();
-				getFileList();
-			}
+			ajaxAsync('/webPage/mypage/Notice', data, 'json',successDelFile);
 		}
 	});
-	
-	
-	
-	
 }
 
-
+function successDelFile(data) {
+	dialog.alert('파일이 삭제 되었습니다.', function () {});
+	$('#fileDownBody').empty();
+	getFileList();
+}
 
 
 /*

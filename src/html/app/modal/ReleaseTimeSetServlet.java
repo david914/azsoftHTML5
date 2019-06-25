@@ -63,8 +63,7 @@ public class ReleaseTimeSetServlet extends HttpServlet {
 	}
 	
 	private String setReleaseTime(JsonElement jsonElement) throws SQLException, Exception {
-		ArrayList<HashMap<String, String>> releaseGridData = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement, "releaseGridData") );
-		String txtTime = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "txtTime") );
-		return gson.toJson(cmm0200.setReleaseTime(releaseGridData, txtTime));
+		HashMap<String, String> etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "etcData") );
+		return gson.toJson(cmm0200.setReleaseTime(etcData));
 	}
 }

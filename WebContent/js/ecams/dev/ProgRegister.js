@@ -18,6 +18,7 @@ var selJobData		= null;	//업무 데이터
 var selDirData		= null;	//프로그램경로 데이터
 var selSRIDData		= null;	//SRID 데이터
 var progGridData 	= null; //프로그램그리드 데이터
+var myWin 			= null;
 
 var selSw = false;
 
@@ -57,38 +58,8 @@ progGrid.setConfig({
 });
 
 $(document).ready(function(){
-	//SR조회 prjCall();
-	tmpInfo = new Object();
-	tmpInfo.userid = userId;
-	tmpInfo.reqcd = "01";
-	tmpInfo.secuyn = "Y";
-	tmpInfo.qrygbn = "01";		
-	
-	tmpInfoData = new Object();
-	tmpInfoData = {
-		tmpInfo		: tmpInfo,
-		requestType	: 'GETSRID'
-	}
-	ajaxAsync('/webPage/dev/ProgRegisterServlet', tmpInfoData, 'json', successSRID);
-	
-	//시스템조회 SysInfo.getSysInfo(strUserId,SecuYn,"","N","04");
-	tmpInfo = new Object();
-	tmpInfo.userId = userId;
-	if(adminYN) {
-		tmpInfo.secuYn = "N";
-	}else {
-		tmpInfo.secuYn = "Y";
-	}
-	tmpInfo.selMsg = "";
-	tmpInfo.closeYn = "N";		
-	tmpInfo.reqCd = "04";
-	
-	tmpInfoData = new Object();
-	tmpInfoData = {
-		tmpInfo		: tmpInfo,
-		requestType	: 'GETSYSINFO'
-	}
-	ajaxAsync('/webPage/dev/ProgRegisterServlet', tmpInfoData, 'json', successSystem);
+	getSRID();
+	getSysInfo();
 	
 	//시스템
 	$("#selSystem").bind('change', function() {
@@ -141,12 +112,29 @@ function screenInit() {
 	});
 	
 	progGrid.setData([]);
+	$("#lbTotalCnt").text("총0건");
 	$('#txtRsrcName').val("");
 	$('#txtStory').val("");
 	$('#btnDevRep').prop("disabled", true);
 	$('#btnLocalRep').prop("disabled", true);
-	$('[data-ax5select="selSRID"]').ax5select("disable");
+	if(selSRIDData != null) $('[data-ax5select="selSRID"]').ax5select("disable");
 } 
+
+//SR조회 prjCall();
+function getSRID() {
+	tmpInfo = new Object();
+	tmpInfo.userid = userId;
+	tmpInfo.reqcd = "01";
+	tmpInfo.secuyn = "Y";
+	tmpInfo.qrygbn = "01";		
+	
+	tmpInfoData = new Object();
+	tmpInfoData = {
+		tmpInfo		: tmpInfo,
+		requestType	: 'GETSRID'
+	}
+	ajaxAsync('/webPage/dev/ProgRegisterServlet', tmpInfoData, 'json', successSRID);
+}
 
 function successSRID(data) {
 	selOptions = data;
@@ -165,23 +153,39 @@ function successSRID(data) {
 	});
 }
 
+//시스템조회 SysInfo.getSysInfo(strUserId,SecuYn,"","N","04");
+function getSysInfo() {
+	tmpInfo = new Object();
+	tmpInfo.userId = userId;
+	if(adminYN) {
+		tmpInfo.secuYn = "N";
+	}else {
+		tmpInfo.secuYn = "Y";
+	}
+	tmpInfo.selMsg = "";
+	tmpInfo.closeYn = "N";		
+	tmpInfo.reqCd = "04";
+	
+	tmpInfoData = new Object();
+	tmpInfoData = {
+		tmpInfo		: tmpInfo,
+		requestType	: 'GETSYSINFO'
+	}
+	ajaxAsync('/webPage/dev/ProgRegisterServlet', tmpInfoData, 'json', successSystem);
+}
+
 function successSystem(data) {
 	selSystemData = data;
-	selOptions = [];
 	
 	selSystemData = selSystemData.filter(function(data) {
 		if(data.cm_sysinfo.substr(0,1) == "1") return false;
 		else return true;
 	});
 	
-	$.each(selSystemData,function(key,value) {
-		selOptions.push({value: value.cm_syscd, text: value.cm_sysmsg, cm_sysinfo: value.cm_sysinfo});
-	});
-	
 	$('[data-ax5select="selSystem"]').ax5select({
-        options: selOptions
+		options: injectCboDataToArr(selSystemData, 'cm_syscd' , 'cm_sysmsg')
 	});
-	
+
 	if(selSystemData.length > 0) {
 		for(var i=0; i<selSystemData.length; i++) {
 			if(selSystemData[i].setyn == "Y") {
@@ -206,20 +210,13 @@ function selSystem_Change() {
 	
 	if(selectedIndex < 0) return;
 	
-	for(var i=0; i<selSystemData.length; i++) {
-		if(selSystemData[i].cm_syscd == selectedItem.value) {
-			selectedItem = selSystemData[i];
-			break;
-		}
-	}
-	
 	if(selectedItem.cm_sysinfo.substr(9,1) == "1") {
 		$('[data-ax5select="selSRID"]').ax5select("disable");
 		if(selSRIDData.length > 0) {
 			$('[data-ax5select="selSRID"]').ax5select('setValue',selSRIDData[0].value,true); //value값으로
 		}
 	}else {
-		$('[data-ax5select="selSRID"]').ax5select("enable");
+		if(selSRIDData != null) $('[data-ax5select="selSRID"]').ax5select("enable");
 	}
 	
 	if(selectedIndex > -1) {
@@ -281,14 +278,9 @@ function successJob(data) {
 
 function successJawon(data) {
 	selJawonData = data;
-	selOptions = [];
-	
-	$.each(selJawonData,function(key,value) {
-		selOptions.push({value: value.cm_micode, text: value.cm_codename, cm_info: value.cm_info});
-	});
 	
 	$('[data-ax5select="selJawon"]').ax5select({
-        options: selOptions
+        options: injectCboDataToArr(selJawonData, 'cm_micode' , 'cm_codename')
 	});
 	
 	selJawon_Change();
@@ -297,13 +289,6 @@ function successJawon(data) {
 function selJawon_Change() {
 	selectedIndex = $("#selJawon option").index($("#selJawon option:selected"));
 	selectedItem = $('[data-ax5select="selJawon"]').ax5select("getValue")[0];
-	
-	for(var i=0; i<selJawonData.length; i++) {
-		if(selJawonData[i].cm_micode == selectedItem.value) {
-			selectedItem = selJawonData[i];
-			break;
-		}
-	}
 	
 	if(selectedIndex > 0) {
 		$('#txtExeName').val(selectedItem.cm_exename);
@@ -428,6 +413,8 @@ function successProgList(data) {
 	progGrid.setData(progGridData);
 	
 	progGrid.setColumnSort({cr_rsrcname:{seq:0, orderBy:"asc"}});
+	
+	$("#lbTotalCnt").text("총" + progGridData.length + "건");
 }
 
 function progGrid_Click() {
@@ -683,25 +670,35 @@ function btnDevRep_Click() {
 		return;
 	}
 	
-	//ExternalInterface.call("winopen",strUserId,"D02",cboSys.selectedItem.cm_syscd,"");
-	//winopen(UserId,ReqCD,ReqNo,RsrcName)
-	
-	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures;
-	
-	nHeight   = screen.height - 200;
-    nWidth    = screen.width - 200;
-    nTop 	  = parseInt((window.screen.availHeight/2) - (nHeight/2));
-	nLeft	  = parseInt((window.screen.availWidth/2) - (nWidth/2));
-    cURL 	  = "DevRepProgRegister.jsp";
-    cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
-	
-	var form = document.form;
-    var win = window.open('', "D02", cFeatures);
-    form.UserId.value = userId;
-    form.SysCd.value = $("#selSystem option:selected").val();
-    form.action = cURL;
-    form.target = "D02";
-    form.method = "post";
-    form.submit();
-    //win.focus();
+	openWindow('D02', $("#selSystem option:selected").val(), '', '');
+}
+
+function openWindow(type, syscd, reqNo, rsrcName) {
+	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
+
+	if ( (type+'_'+syscd) == winName ) {
+		if (myWin != null) {
+	        if (!myWin.closed) {
+	        	myWin.close();
+	        }
+		}
+	}
+
+    winName 	= type+'_'+syscd;
+	nHeight 	= screen.height - 200;
+    nWidth  	= screen.width - 200;
+	nTop  		= parseInt((window.screen.availHeight/2) - (nHeight/2));
+	nLeft 		= parseInt((window.screen.availWidth/2) - (nWidth/2));
+	cURL 		= "../winpop/DevRepProgRegister.jsp";
+	cFeatures 	= "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
+
+	var f = document.popPam;   		//폼 name
+    myWin = window.open('',winName,cFeatures);
+    
+    f.UserId.value	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.SysCd.value 	= syscd;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.action		= cURL; 		//이동할 페이지
+    f.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
+    f.method		= "post"; 		//POST방식
+    f.submit();
 }

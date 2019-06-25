@@ -65,4 +65,10 @@ public class ParsingCommon {
 		ArrayList<HashMap<String, Object>> dataList 	=  gson.fromJson(str, typeToken.getType());
 		return dataList;
 	}
+	
+	public static ArrayList<String> jsonStrToArrStr(String str){
+		TypeToken<ArrayList<String>> typeToken = new TypeToken<ArrayList<String>>(){};
+		ArrayList<String>  dataList 	=  gson.fromJson(str, typeToken.getType());
+		return dataList;		
+	}
 }

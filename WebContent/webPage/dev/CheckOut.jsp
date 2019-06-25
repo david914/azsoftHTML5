@@ -69,7 +69,7 @@ div[class^="row"] {
 						<label id="idx_lbl_system">*시스템</label>
 					</div>
 					<div class="form-group col-sm-10 no-padding">
-						 <div data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+						 <div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 					</div>
 				</div>
 				<div class="col-sm-3">
@@ -78,18 +78,18 @@ div[class^="row"] {
 					</div>
 					</div>
 					<div class="form-group col-sm-10 no-padding">
-						<div data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+						<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 					</div>
 				</div>
 				<div class="col-sm-2">
 					<div class="col-sm-4">
-						<button 
-							id="idx_button_srinfo" 
-							name="button_search" 
-							class="width-100"
-							onclick="openSrModal()">SR정보
-						</button>
+						<button id="btnSrInfo" name="button_search" class="width-100">SR정보</button>
+						<button id="btnExcelLoad" name="button_excelLoad" class="width-100">일괄 체크아웃</button>
+						<form id='ajaxform' method='post' enctype='multypart/form-data'>
+							<input type='file' id='excelFile' name='excelFile' style='display:none;' onchange='fileTypeCheck(this)' accept='.xls,.xlsx' accept-charset='UTF-8'/>
+						</form>
 					</div>
+					
 					</div>
 					<div class="form-group col-sm-8 no-padding">
 					</div>
@@ -99,7 +99,7 @@ div[class^="row"] {
 						<label id="idx_lbl_request_text" >*신청사유</label>
 					</div>
 					<div class="form-group col-sm-9 no-padding">
-						<input class="input-sm" id="idx_request_text" name="idx_request_text" type="text" class="form-control" placeholder="신청사유을 입력하세요." onkeypress="if(event.keyCode==13) {cmdQry_Proc();}"/>
+						<input class="input-sm" id="reqText" name="idx_request_text" type="text" class="form-control" placeholder="신청사유을 입력하세요."/>
 					</div>
 				</div>
 				
@@ -126,7 +126,7 @@ div[class^="row"] {
 					</div>
 					<div class="form-group col-sm-10 no-padding">
 						<input 
-							id="idx_lbl_prg_exp_txt" 
+							id="progName" 
 							name="idx_lbl_prg_exp_txt"
 							class="input-sm form-control" 
 							placeholder="프로그램설명 을 입력"/>
@@ -134,7 +134,7 @@ div[class^="row"] {
 				</div>
 				<div class="col-sm-4">
 					<div class="col-sm-2">
-						<button class="btn btn-default" onclick="clickSearchBtn();" javascript:;>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
+						<button id="btnSearch" class="btn btn-default" >검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
 					</div>
 					<div class="form-group col-sm-10 no-padding">
 						
@@ -185,18 +185,20 @@ div[class^="row"] {
 				</label>	
 			</div>
 			
-			<div class="col-xs-12 col-md-7"></div>
+			<div class="col-xs-12 col-md-7">
+			<input type="checkbox" name = 'chkbox_checkDetail' id ='chkDetail'/><label for='chkDetail'>체크아웃항목상세보기</label>
+			</div>
 			
 			<div class="col-xs-12 col-md-2">
 				<div class="row">
 					<div class="float-right">
 						<div class="form-group">
-							<button class="btn btn-default" id="idx_del_btn" name="idx_del_btn" onclick="deleteDataRow()">제거</button>
+							<button class="btn btn-default" id="btnDel" name="idx_del_btn" >제거</button>
 						</div>
 					</div>
 					<div class="float-right">
 						<div class="form-group">
-							<button class="btn btn-default" id="idx_add_btn" name="idx_add_btn" onclick="addDataRow()">추가</button>
+							<button class="btn btn-default" id="btnAdd" name="idx_add_btn" >추가</button>
 						</div>
 					</div>
 				</div>
@@ -222,7 +224,8 @@ div[class^="row"] {
 		<div class="row-fulid" >
 			<div class="float-right">
 					<div class="form-group">
-						<button class="btn btn-default" id="idx_request_btn" onclick="clickCheckOutBtn()">체크아웃</button>
+						<button class="btn btn-default" id="btndiff" style='display:none'>파일비교</button>
+						<button class="btn btn-default" id="btnReq">체크아웃</button>
 					</div>
 			</div>
 		</div>

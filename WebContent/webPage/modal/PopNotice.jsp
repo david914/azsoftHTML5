@@ -33,8 +33,8 @@
 		<div class="row">
 			<div class="col-sm-2 col-xs-2">
 				<div class="form-check margin-5-top" id="chkNotice">
-					<input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="notiClick()">
-		    		<label class="form-check-label" for="exampleCheck1" >팝업공지</label>
+					<input type="checkbox" class="form-check-input" id="chkPop">
+		    		<label class="form-check-label" for="chkPop" >팝업공지</label>
 				</div>
 			</div>
 			<div class="col-sm-6 col-xs-6">
@@ -49,15 +49,15 @@
 		
 		<div class="row">
 			<div class="col-sm-2 col-xs-2">
-				<button id="btnFile" name="btnFile" class="btn btn-default margin-15-top" onclick="fileOpen()">파일첨부</button>
+				<button id="btnFile" name="btnFile" class="btn btn-default margin-15-top">파일첨부</button>
 			</div>
 			<div class="col-sm-5 col-xs-5"></div>
 			<div class="col-sm-5 col-xs-5">
 				<div class="col-sm-4 col-xs-4 no-padding">
-					<button id="btnRem" name="btnRem" class="btn btn-default margin-15-top width-100" onclick="del()">삭제</button>
+					<button id="btnRem" name="btnRem" class="btn btn-default margin-15-top width-100">삭제</button>
 				</div>
 				<div class="col-sm-4 col-xs-4 no-padding">
-					<button id="btnReg" name="btnReg" class="btn btn-default margin-15-top width-100" onclick="update()">등록</button>
+					<button id="btnReg" name="btnReg" class="btn btn-default margin-15-top width-100">등록</button>
 				</div>
 				<div class="col-sm-4 col-xs-4 no-padding">
 					<button id="btnClo" name="btnClo" class="btn btn-default margin-15-top width-100" onclick="popClose()">닫기</button>

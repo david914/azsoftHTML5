@@ -1,8 +1,14 @@
+<%@page import="com.ecams.common.base.StringHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
+
+<%
+	String userId = StringHelper.evl(request.getParameter("userId"),"");
+	String winPopSw = StringHelper.evl(request.getParameter("winPopSw"),"");
+%>
 
 <style>
 	#lb1 {background: #bdc0c4; border-radius: 50%; color: white; font-style:bold}
@@ -79,5 +85,8 @@
 		<button id="btnPw" name="btnPw" class="btn btn-default" onclick="clickBtnPw()">비밀번호변경</button>
 	</div>
 </section>
+
+<input type="hidden" id="userId" name="userId" value="<%=userId%>"/>
+<input type="hidden" id="winPopSw" name="winPopSw" value="<%=winPopSw%>"/>
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/mypage/PwdChange.js"/>"></script>

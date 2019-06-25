@@ -7,6 +7,11 @@
  *  수정일 	: 2019-05-29
  * 
  */
+var userName 	= window.parent.userName;		// 접속자 Name
+var userId 		= window.parent.userId;			// 접속자 ID
+var adminYN 	= window.parent.adminYN;		// 관리자여부
+var userDeptName= window.parent.userDeptName;	// 부서명
+var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
 var releaseGrid = new ax5.ui.grid();
 var releaseGridData = null;
@@ -15,7 +20,7 @@ releaseGrid.setConfig({
     target: $('[data-ax5grid="releaseGrid"]'),
     sortable: false, 
     multiSort: false,
-    showRowSelector: false,
+    showRowSelector: true,
     header: {
         align: "center",
         columnHeight: 30
@@ -23,7 +28,6 @@ releaseGrid.setConfig({
     body: {
         columnHeight: 25,
         onClick: function () {
-        	this.self.clearSelect();
             this.self.select(this.dindex);
         },
         onDBLClick: function () {},
@@ -33,72 +37,43 @@ releaseGrid.setConfig({
     	}
     },
     columns: [
-        {key: "chcked", label: "정기배포사용",  width: '40%',
-    	 formatter: function(){
-        	 var htmlStr = '';
-        	 if(this.item.checked === 'true') {
-        		 htmlStr += '<input id="check'+this.item.cm_syscd+'" type="radio" name="release'+this.item.cm_syscd+'" value="optCheck" checked="checked" onclick="checkR(event)"/>';
-        		 htmlStr += '<label for="check'+this.item.cm_syscd+'">설정</label>';
-        		 htmlStr += '<input id="checkUn'+this.item.cm_syscd+'" type="radio" name="release'+this.item.cm_syscd+'" value="optUnCheck" onclick="checkR(event)"/>';
-        		 htmlStr += '<label for="checkUn'+this.item.cm_syscd+'">해제</label>';
-        	 }
-        	 if(this.item.checked === 'false') {
-        		 htmlStr += '<input id="check'+this.item.cm_syscd+'" type="radio" name="release'+this.item.cm_syscd+'" value="optCheck" onclick="checkR(event)"/>';
-        		 htmlStr += '<label for="check'+this.item.cm_syscd+'">설정</label>';
-        		 htmlStr += '<input id="checkUn'+this.item.cm_syscd+'" type="radio" name="release'+this.item.cm_syscd+'" value="optUnCheck" checked="checked" onclick="checkR(event)"/>';
-        		 htmlStr += '<label for="checkUn'+this.item.cm_syscd+'">해제</label>';
-        	 }
-        	 return htmlStr;
-         }
-        },
-        {key: "cm_sysmsg", label: "시스템명",  width: '40%'},
-        {key: "cm_systime", label: "배포시간",  width: '20%'},
+        {key: "cm_sysmsg", 	label: "시스템명",  	width: '20%'},
+        {key: "weekname", 	label: "요일",  		width: '40%'},
+        {key: "buildtime", 	label: "정기빌드시간", width: '20%'},
+        {key: "deploytime", label: "정기배포시간", width: '20%'}
     ]
 });
 
+$('input:radio[name=releaseChkS]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 $('input:radio[name=releaseChk]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
+$('input.checkbox-rel').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
+$('#txtBuildTime').timepicker({
+	showMeridian : false,
+	minuteStep: 1
+});
 
-
-function checkR(event) {
-	var id = event.target.id;
-	
-	if(event.target.value === 'optCheck') 	id = id.substr(5,5);
-	if(event.target.value === 'optUnCheck') id = id.substr(7,5);
-	
-	releaseGridData.forEach(function(item, index) {
-		if(item.cm_syscd === id) {
-			if(event.target.value === 'optCheck') 	item.checked = 'true';
-			if(event.target.value === 'optUnCheck') item.checked = 'false';
-			
-			releaseGridData.splice(index,1,item);
-		}
-	});
-}
-function popClose(){
-	window.parent.relModal.close();
-}
+$('#txtDeployTime').timepicker({
+	showMeridian : false,
+	minuteStep: 1
+});
 
 $(document).ready(function(){
-	$('#txtTime').timepicker({
-		showMeridian : false,
-		minuteStep: 1
-	});
+	
+	$('#optAll').wRadio('check', true);
 	
 	getReleaseTime();
 	
-	// 전체설정/전체해제
-	$('input:radio[name^="release"]').bind('click', function() {
-		var checkYn = 'true';
-		if(this.value === 'optUnCheck') {
-			checkYn = 'false';
+	// 전체/정기배포대상/정기비배포대상 라디오 클릭
+	$('input:radio[name=releaseChkS]').bind('click', function() {
+		releaseGridFilter();
+	});
+	
+	// 시스템명 엔터
+	$('#txtSysMsg').bind('keydown', function(event) {
+		if(event.keyCode === 13) {
+			releaseGridFilter();
 		}
-		releaseGridData.forEach(function(item, index) {
-			item.checked = checkYn;
-			releaseGridData.splice(index,1,item);
-		});
-		releaseGrid.setData(releaseGridData);
-		$('input:radio[name^="release"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 	});
 	
 	// 조회
@@ -117,39 +92,164 @@ $(document).ready(function(){
 	});
 });
 
-
-// 정기배포 설정값 등록
-function setReleaseTime(txtTime) {
-	var chkYN = false;
-	var txtTime = null;
+// 그리드 데이터 세팅 전 화면 값에 따라서 필터
+function releaseGridFilter() {
+	var txtSysMsg 	= $('#txtSysMsg').val().trim();
+	var filteredDataStr = [];
+	var filteredData 	= [];
+	
 	releaseGridData.forEach(function(item, index) {
-		if(item.checked === 'true') {
-			chkYN = true;
+		if(txtSysMsg.length > 0 ) {
+			if(item.cm_sysmsg.indexOf(txtSysMsg) !== -1) {
+				filteredDataStr.push(item);
+			}
+		} else {
+			filteredDataStr.push(item);
 		}
 	});
 	
-	txtTime = $('#txtTime').val();
-	if(chkYN && txtTime.length <= 0) {
-		dialog.alert('정기배포시간을 확인해 주세요.',function(){});
+	
+	filterDataSe = [];
+	filteredDataStr.forEach(function(item, index) {
+		if($('#optRelease').is(':checked') && item.deploysw === '1') {
+			filteredData.push(item);
+		}  else if($('#optUnRelease').is(':checked') && item.deploysw === '0') {
+			filteredData.push(item);
+		} else if($('#optAll').is(':checked')){
+			filteredData.push(item);
+		}
+	});
+	
+	releaseGrid.setData(filteredData);
+}
+
+function popClose(){
+	window.parent.relModal.close();
+}
+
+// 정기배포 설정값 등록
+function setReleaseTime(txtTime) {
+	var etcData = new Object();
+	var syslist = '';
+	var selIn 	= releaseGrid.selectedDataIndexs;
+	var txtBuildTime 	= $('#txtBuildTime').val().trim();
+	var txtDeployTime 	= $('#txtDeployTime').val().trim();
+	txtBuildTime 	= replaceAllString(txtBuildTime,':','');
+	txtDeployTime 	= replaceAllString(txtDeployTime,':','');
+	
+	if(selIn.length === 0 ) {
+		dialog.alert('목록에서 대상시스템을 선택한후 진행하시기 바랍니다.',function(){});
 		return;
 	}
-	txtTime = replaceAllString(txtTime, ':', '');
+	
+	selIn.forEach(function(selIn, index) {
+		if(syslist.length !== 0 ) syslist += ',';
+		syslist += releaseGrid.list[selIn].cm_syscd;
+	});
+	
+	if(!$('#optCheck').is(':checked') && !$('#optUnCheck').is(':checked')) {
+		dialog.alert('목록하단의 구분을 선택한 후 진행하시기 바랍니다. [설정/해제]',function(){});
+		return;
+	}
+	
+	
+	if($('#optCheck').is(':checked')) {
+		etcData.gbncd = "true";
+		
+		if(txtBuildTime.length === 0 && txtDeployTime.length === 0 ) {
+			dialog.alert('빌드시간/배포시간 중 하나이상 입력한 후 진행하시기 바랍니다.',function(){});
+			return;
+		}
+		
+		if(txtBuildTime.length === 3) {
+			txtBuildTime = '0' + txtBuildTime;
+		}
+		
+		if(txtDeployTime.length === 3) {
+			txtDeployTime = '0' + txtDeployTime;
+		}
+		
+		
+		if(!$('#chkSun').is(':checked') && !$('#chkMon').is(':checked') && !$('#chkTue').is(':checked') && !$('#chkWed').is(':checked')
+				&& !$('#chkThu').is(':checked') && !$('#chkFri').is(':checked') && !$('#chkSat').is(':checked')) {
+			dialog.alert('대상요일을 선택한 후 진행하시기 바랍니다.',function(){});
+			return;
+		}
+		
+		if($('#chkSun').is(':checked')) {
+			etcData.sun = "Y";
+		} else {
+			etcData.sun = "N";
+		}
+		
+		if($('#chkMon').is(':checked')) {
+			etcData.mon = "Y";
+		} else {
+			etcData.mon = "N";
+		}
+		
+		if($('#chkTue').is(':checked')) {
+			etcData.tue = "Y";
+		} else {
+			etcData.tue = "N";
+		}
+		
+		if($('#chkWed').is(':checked')) {
+			etcData.wed = "Y";
+		} else {
+			etcData.wed = "N";
+		}
+		
+		if($('#chkThu').is(':checked')) {
+			etcData.thu = "Y";
+		} else {
+			etcData.thu = "N";
+		}
+		
+		if($('#chkFri').is(':checked')) {
+			etcData.fri = "Y";
+		} else {
+			etcData.fri = "N";
+		}
+		
+		if($('#chkSat').is(':checked')) {
+			etcData.sat = "Y";
+		} else {
+			etcData.sat = "N";
+		}
+		
+	} else {
+		etcData.gbncd = "false";
+	}
+	
+	etcData.syslist = syslist;
+	etcData.userid 	= userId;
+	etcData.buildtime 	= txtBuildTime;
+	etcData.deploytime 	= txtDeployTime;
+	
 	
 	var systemInfoDta = new Object(); 
 	systemInfoDta = {
 		requestType		: 'setReleaseTime',
-		releaseGridData : releaseGridData,
-		txtTime 		: txtTime,
+		etcData 		: etcData,
 	}
 	ajaxAsync('/webPage/modal/ReleaseTimeSet', systemInfoDta, 'json',successSetReleaseTime);
 }
 
 function successSetReleaseTime(data) {
+	var msg = '';
 	if(data === 0) {
-		dialog.alert('정기배포 시간을 일괄등록 완료 하였습니다.',
+		if($('#optCheck').is(':checked')) {
+			msg = '설정처리가 완료되었습니다.';
+		} else {
+			msg = '해제처리가 완료되었습니다.';
+		}
+		dialog.alert(msg,
 				function(){
 					getReleaseTime();
 				});
+	} else {
+		dialog.alert('정기배포설정중 오류가 발생했습니다. 관리자에게 문의하시기 바랍니다.',function(){});
 	}
 }
 
@@ -165,7 +265,7 @@ function getReleaseTime() {
 // 정기배포 설정값 조회 결과
 function successgetReleaseTime(data) {
 	releaseGridData = data;
-	releaseGrid.setData(releaseGridData);
+	releaseGridFilter();
 	
 	$('input:radio[name^="release"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 }

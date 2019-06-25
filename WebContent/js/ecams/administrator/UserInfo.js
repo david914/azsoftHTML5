@@ -16,6 +16,10 @@ var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
 var organizationModal 	= new ax5.ui.modal();	// 조직도 팝업
 var rgtCdModal 			= new ax5.ui.modal();	// 사용자 직무조회 팝업
+var jobCopyModal 		= new ax5.ui.modal();	// 권한복사 팝업
+var initPassModal 		= new ax5.ui.modal();	// 비밀번호 초기화 팝업
+var setUserJobModal 	= new ax5.ui.modal();	// 업무권한일괄등록 팝업
+var allUserInfoModal 	= new ax5.ui.modal();	// 업무권한일괄등록 팝업
 var allSingUpWin		= null;					// 사용자 일괄등록 새창
 
 var userGrid	= new ax5.ui.grid();
@@ -33,8 +37,10 @@ var ulJobInfoData	= null;
 
 var selDeptSw		= null;
 var modiDeptSw		= false;
+var subSw			= false;
 var selDeptCd		= null;
 var selSubDeptCd	= null;
+var txtUserIdP		= null;
 
 userGrid.setConfig({
     target: $('[data-ax5grid="userGrid"]'),
@@ -107,27 +113,8 @@ $('input.checkbox-user').wCheck({theme: 'square-classic red', selector: 'checkma
 
 
 $(document).ready(function() {
-	
-/*	var p1 = 3;
-	var p2 = 1337;
-	var p3 = new Promise((resolve, reject) => {
-	  setTimeout(() => {
-	    resolve("foo");
-	  }, 100);
-	}); 
-
-	Promise.all([getSysInfo(), successGetSysInfo]).then(values => { 
-		getCodeInfo();
-	});*/
-	/*getSysInfo.then(function() {
-		getCodeInfo();
-	})*/;
-	/*_promise(1,getSysInfo())
-		.then(function(){
-			return _promise(1,getCodeInfo());
-		});*/
 	getSysInfo();
-	
+	getCodeInfo();
 	// 사원번호
 	$('#txtUserId').bind('keydown', function(event) {
 		if(event.keyCode === 13) {
@@ -200,19 +187,19 @@ $(document).ready(function() {
 	});
 	// 권한복사
 	$('#btnJobCopy').bind('click', function() {
-		
+		openJboCopyModal();
 	});
 	// 비밀번호 초기화
 	$('#btnPassInit').bind('click', function() {
-		
+		openInitPassword();
 	});
 	// 업무권한 일괄등록
 	$('#btnSetJob').bind('click', function() {
-		
+		openSetUserJob();
 	});
 	// 전체사용자조회
 	$('#btnAllUser').bind('click', function() {
-		
+		getAllUserInfo();
 	});
 	// 저장
 	$('#btnSave').bind('click', function() {
@@ -223,6 +210,115 @@ $(document).ready(function() {
 		deleteUser();
 	});
 });
+
+
+// 전체 사용자 조회
+function getAllUserInfo() {
+	allUserInfoModal.open({
+        width: 1100,
+        height: 600,
+        iframe: {
+            method: "get",
+            url: "../modal/AllUserInfoModal.jsp",
+            param: "callBack=allUserInfoModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+            }
+        }
+    }, function () {
+    });
+}
+
+var allUserInfoModalCallBack = function(){
+	allUserInfoModal.close();
+};
+
+// 업무권한 일괄등록
+function openSetUserJob() {
+	setUserJobModal.open({
+        width: 800,
+        height: 800,
+        iframe: {
+            method: "get",
+            url: "../modal/SetUserJobModal.jsp",
+            param: "callBack=setUserJobModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+                txtUserIdP = '';
+            }
+        }
+    }, function () {
+    });
+}
+
+var setUserJobModalCallBack = function(){
+	setUserJobModal.close();
+};
+
+// 비밀번호 초기화
+function openInitPassword() {
+	txtUserIdP = $('#txtUserId').val().trim();
+	initPassModal.open({
+        width: 400,
+        height: 200,
+        iframe: {
+            method: "get",
+            url: "../modal/InitPassModal.jsp",
+            param: "callBack=initPassModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+                txtUserIdP = '';
+            }
+        }
+    }, function () {
+    });
+}
+
+var initPassModalCallBack = function(){
+	initPassModal.close();
+};
+
+// 권한 복사
+function openJboCopyModal() {
+	jobCopyModal.open({
+        width: 1200,
+        height: 700,
+        iframe: {
+            method: "get",
+            url: "../modal/JobCopyModal.jsp",
+            param: "callBack=jobCopyModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+            }
+        }
+    }, function () {
+    });
+}
+
+var jobCopyModalCallBack = function(){
+	jobCopyModal.close();
+};
+
 
 // 사용자일괄등록 새창
 function winOpenSignUp() {
@@ -244,7 +340,6 @@ function winOpenSignUp() {
 
 	var f = document.popPam;   		//폼 name
 	allSingUpWin = window.open('',winName,cFeatures);
-    
     
     f.userId.value	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
     f.action		= cURL; 		//이동할 페이지
@@ -625,7 +720,6 @@ function successGetUserRgtDept(data) {
 
 // 시스템목록 가져오기
 function getSysInfo() {
-	console.log('getsysinfo start');
 	var data = new Object();
 	data = {
 		UserId 		: userId,
@@ -635,7 +729,7 @@ function getSysInfo() {
 		ReqCd 		: '',
 		requestType	: 'getSysInfo'
 	}
-	ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json', successGetSysInfo, getCodeInfo);
+	ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json', successGetSysInfo);
 }
 
 function successGetJobInfo(data) {
@@ -645,7 +739,6 @@ function successGetJobInfo(data) {
 
 // 시스템목록 가져오기 완료
 function successGetSysInfo(data) {
-	console.log('getsysinfo end');
 	cboSysCdData = data;
 	$('[data-ax5select="cboSysCd"]').ax5select({
         options: injectCboDataToArr(cboSysCdData, 'cm_syscd' , 'cm_sysmsg')
@@ -654,7 +747,6 @@ function successGetSysInfo(data) {
 
 //등록구분 가져오기
 function getCodeInfo() {
-	console.log('getCodeinfo start');
 	var codeInfos = getCodeInfoCommon([
 		new CodeInfo('POSITION','SEL','N'),
 		new CodeInfo('DUTY',	'SEL','N'),
@@ -690,12 +782,9 @@ function makeDutyInfoUlList() {
 		}
 		liStr += '</li>';
 		$('#ulDutyInfo').append(liStr);
-		
-		
 	});
 	
 	$('input.checkbox-duty').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
-
 }
 
 //업무 리스트
@@ -713,5 +802,4 @@ function makeJobInfoUlList() {
 	});
 	
 	$('input.checkbox-job').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
-	
 }

@@ -626,31 +626,73 @@ public class Cmm0200{
 		try {
 
 			conn = connectionContext.getConnection();
-
+			String svSysCD = "";
 			strQuery.setLength(0);
-			strQuery.append("select cm_syscd,cm_sysmsg,cm_systime, \n");
-			strQuery.append("       decode(substr(cm_sysinfo,6,1),'1','true','false') checked \n");
-			strQuery.append("  from cmm0030 \n");
-			strQuery.append(" where cm_closedt is null \n");
-			strQuery.append(" order by cm_syscd \n");
+			strQuery.append("select a.cm_syscd,a.cm_sysmsg,                           \n");
+			strQuery.append("       substr(a.cm_sysinfo,6,1) deploysw,                \n");
+			strQuery.append("       b.cm_prctime,b.cm_prcsys,b.cm_closedt,            \n");
+			strQuery.append("       decode(nvl(b.cm_sun,'N'),'Y','ÀÏ','') cm_sun,      \n");
+			strQuery.append("       decode(nvl(b.cm_mon,'N'),'Y','¿ù','') cm_mon,      \n");
+			strQuery.append("       decode(nvl(b.cm_tue,'N'),'Y','È­','') cm_tue,      \n");
+			strQuery.append("       decode(nvl(b.cm_wed,'N'),'Y','¼ö','') cm_wed,      \n");
+			strQuery.append("       decode(nvl(b.cm_thu,'N'),'Y','¸ñ','') cm_thu,      \n");
+			strQuery.append("       decode(nvl(b.cm_fri,'N'),'Y','±Ý','') cm_fri,      \n");
+			strQuery.append("       decode(nvl(b.cm_sat,'N'),'Y','Åä','') cm_sat,      \n");
+			strQuery.append("       (select cm_codename from cmm0020                  \n");
+			strQuery.append("         where cm_macode='SYSGBN'                        \n");
+			strQuery.append("           and cm_micode=b.cm_prcsys) stepname           \n");
+			strQuery.append("  from cmm0030 a,cmm0030_time b                          \n");
+			strQuery.append(" where a.cm_closedt is null                              \n");
+			strQuery.append("   and a.cm_syscd=b.cm_syscd(+)                          \n");
+			strQuery.append(" order by a.cm_syscd,b.cm_prcsys                         \n");
             pstmt = conn.prepareStatement(strQuery.toString());
             rs = pstmt.executeQuery();
 
 			while (rs.next()){
-				rst = new HashMap<String, String>();
-				rst.put("cm_syscd", rs.getString("cm_syscd"));
-				rst.put("cm_sysmsg", rs.getString("cm_sysmsg"));
-				rst.put("checked", rs.getString("checked"));
-				if (rs.getString("cm_systime") != null && rs.getString("cm_systime") != ""){
-					rst.put("cm_systime", rs.getString("cm_systime").substring(0,2)+":"+rs.getString("cm_systime").substring(2));
-				}else {
-					rst.put("cm_systime", "");
+				if (svSysCD.length() == 0 || !svSysCD.equals(rs.getString("cm_syscd"))) {
+					if (svSysCD.length() > 0 && !svSysCD.equals(rs.getString("cm_syscd"))) {
+						rsval.add(rst);
+						rst = null;
+					}
+				
+					rst = new HashMap<String, String>();
+					rst.put("cm_syscd", rs.getString("cm_syscd"));
+					rst.put("cm_sysmsg", rs.getString("cm_sysmsg"));
+					rst.put("deploysw", rs.getString("deploysw"));
+					rst.put("buildtime", "");
+					rst.put("deploytime", "");
+					rst.put("weekname", "");
+					svSysCD = rs.getString("cm_syscd");
 				}
-				rsval.add(rst);
-				rst = null;
+				if ("0".equals(rs.getString("deploysw"))) continue;
+				if (rs.getString("cm_closedt") != null) continue;
+				
+				if (rs.getString("cm_prcsys") != null && rs.getString("cm_prctime")!=null) {
+					if ("SYSCB".equals(rs.getString("cm_prcsys"))) {
+						rst.put("buildtime", rs.getString("cm_prctime").substring(0,2)+":"+rs.getString("cm_prctime").substring(2));
+					} else {
+						rst.put("deploytime", rs.getString("cm_prctime").substring(0,2)+":"+rs.getString("cm_prctime").substring(2));
+					}
+					if (rst.get("weekname").length() == 0) {
+						if (rs.getString("cm_sun") != null) rst.put("weekname", rs.getString("cm_sun"));
+						if (rs.getString("cm_mon") != null) rst.put("weekname", rst.get("weekname")+"/"+rs.getString("cm_mon"));
+						if (rs.getString("cm_tue") != null) rst.put("weekname", rst.get("weekname")+"/"+rs.getString("cm_tue"));
+						if (rs.getString("cm_wed") != null) rst.put("weekname", rst.get("weekname")+"/"+rs.getString("cm_wed"));
+						if (rs.getString("cm_thu") != null) rst.put("weekname", rst.get("weekname")+"/"+rs.getString("cm_thu"));
+						if (rs.getString("cm_fri") != null) rst.put("weekname", rst.get("weekname")+"/"+rs.getString("cm_fri"));
+						if (rs.getString("cm_sat") != null) rst.put("weekname", rst.get("weekname")+"/"+rs.getString("cm_sat"));
+					}
+				}
 			}
 			rs.close();
 			pstmt.close();
+			
+			if (svSysCD.length() > 0) {
+				rsval.add(rst);
+				rst = null;
+			}
+			
+			//ecamsLogger.error(rsval.toString());
 			conn.close();
 			rs = null;
 			pstmt = null;
@@ -694,7 +736,7 @@ public class Cmm0200{
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public int setReleaseTime(ArrayList<HashMap<String,String>> sysList,String releaseTime) throws SQLException, Exception {
+    public int setReleaseTime(HashMap<String,String> etcData) throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
@@ -706,37 +748,205 @@ public class Cmm0200{
 
 			conn = connectionContext.getConnection();
 			conn.setAutoCommit(false);
-
-		    //ï¿½ï¿½ï¿½Ã½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ã½ï¿½ï¿½Û¼Ó¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å© ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ CM_SYSTIME ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
-			/*strQuery.setLength(0);
-			strQuery.append("UPDATE CMM0030 set CM_SYSTIME='', \n");
-			strQuery.append("       CM_SYSINFO = SUBSTR(CM_SYSINFO,1,5) || '0' || substr(CM_SYSINFO,7) \n");
-			pstmt = conn.prepareStatement(strQuery.toString());
-			pstmt.executeUpdate();
-			pstmt.close();
-			*/
-
-			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ã½ï¿½ï¿½Û¸ï¿½ ï¿½Ã½ï¿½ï¿½Û¼Ó¼ï¿½ Ã¼Å©ï¿½Ï°ï¿½, CM_SYSTIME ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
-			for (int i = 0 ; sysList.size() > i; i++) {
-				strQuery.setLength(0);
-				strQuery.append("UPDATE CMM0030 set \n");
-				strQuery.append("       CM_SYSTIME=?,CM_SYSINFO = SUBSTR(CM_SYSINFO,1,5) || ? || substr(CM_SYSINFO,7) \n");
-				strQuery.append(" WHERE CM_SYSCD=? \n");
-				pstmt = conn.prepareStatement(strQuery.toString());
-				if (sysList.get(i).get("checked").equals("true")){
-					pstmt.setString(1, releaseTime);
-					pstmt.setString(2, "1");
-				} else{
-					pstmt.setString(1, "");
-					pstmt.setString(2, "0");
+			String sysList[] = etcData.get("syslist").split(",");
+			int i = 0;
+			int parmCnt = 0;
+			String buildGbn  = "I";
+			String deployGbn  = "I";
+			for (i=0;sysList.length>i;i++) {
+				if ("false".equals(etcData.get("gbncd"))) {
+					//ÇØÁ¦
+					strQuery.setLength(0);
+					strQuery.append("update cmm0030_time         \n");
+					strQuery.append("   set cm_closedt=sysdate   \n");
+					strQuery.append("      ,cm_editor=?          \n");
+					strQuery.append(" where cm_syscd=?           \n");
+					pstmt = conn.prepareStatement(strQuery.toString());
+					pstmt.setString(1, etcData.get("userid"));
+					pstmt.setString(2, sysList[i]);
+					pstmt.executeUpdate();
+					pstmt.close();
+					
+					strQuery.setLength(0);
+					strQuery.append("update cmm0030              \n");
+					strQuery.append("   set cm_sysinfo=substr(cm_sysinfo,1,5) || '0' || substr(cm_sysinfo,7)   \n");
+					strQuery.append(" where cm_syscd=?           \n");
+					pstmt = conn.prepareStatement(strQuery.toString());
+					pstmt.setString(1, sysList[i]);
+					pstmt.executeUpdate();
+					pstmt.close();
+				} else {
+					buildGbn  = "I";
+					deployGbn  = "I";
+					strQuery.setLength(0);
+					strQuery.append("select cm_prcsys,cm_closedt, \n");
+					strQuery.append("       cm_prctime            \n");
+					strQuery.append("  from cmm0030_time          \n");
+					strQuery.append(" where cm_syscd=?            \n");
+					pstmt = conn.prepareStatement(strQuery.toString());
+					pstmt.setString(1, sysList[i]);
+					rs = pstmt.executeQuery();
+					while (rs.next()) {
+						if ("SYSCB".equals(rs.getString("cm_prcsys"))) {
+							if (etcData.get("buildtime") != null && !"".equals(etcData.get("buildtime"))) {
+								buildGbn = "U";
+							} else if (rs.getString("cm_closedt") == null) {
+								buildGbn = "C";
+							} else {
+								buildGbn = "X";
+							}
+						} else if ("SYSED".equals(rs.getString("cm_prcsys"))) {
+							if (etcData.get("deploytime") != null && !"".equals(etcData.get("deploytime"))) {
+								deployGbn = "U";
+							} else if (rs.getString("cm_closedt") == null) {
+								deployGbn = "C";
+							} else {
+								deployGbn = "X";
+							}
+						}
+					}
+					rs.close();
+					pstmt.close();
+					
+					//ecamsLogger.error("syscd="+sysList[i]+",buildGbn="+buildGbn+",deployGbn="+deployGbn);
+					if ("U".equals(buildGbn) || "C".equals(buildGbn)) {
+						parmCnt = 0;
+						strQuery.setLength(0);
+						strQuery.append("update cmm0030_time         \n");
+						strQuery.append("   set cm_editor=?          \n");
+						if ("U".equals(buildGbn)) {
+							strQuery.append("  ,cm_closedt=''        \n");
+							strQuery.append("  ,cm_sun=?             \n");
+							strQuery.append("  ,cm_mon=?             \n");
+							strQuery.append("  ,cm_tue=?             \n");
+							strQuery.append("  ,cm_wed=?             \n");
+							strQuery.append("  ,cm_thu=?             \n");
+							strQuery.append("  ,cm_fri=?             \n");
+							strQuery.append("  ,cm_sat=?             \n");
+							strQuery.append("  ,cm_prctime=?         \n");
+						} else {
+							strQuery.append("  ,cm_closedt=sysdate   \n");
+						}
+						strQuery.append(" where cm_syscd=?           \n");
+						strQuery.append("   and cm_prcsys='SYSCB'    \n");
+						pstmt = conn.prepareStatement(strQuery.toString());
+						pstmt.setString(++parmCnt, etcData.get("userid"));
+						if ("U".equals(buildGbn)) {
+							pstmt.setString(++parmCnt, etcData.get("sun"));
+							pstmt.setString(++parmCnt, etcData.get("mon"));
+							pstmt.setString(++parmCnt, etcData.get("tue"));
+							pstmt.setString(++parmCnt, etcData.get("wed"));
+							pstmt.setString(++parmCnt, etcData.get("thu"));
+							pstmt.setString(++parmCnt, etcData.get("fri"));
+							pstmt.setString(++parmCnt, etcData.get("sat"));
+							pstmt.setString(++parmCnt, etcData.get("buildtime").replace(":", ""));
+						}
+						pstmt.setString(++parmCnt, sysList[i]);
+						pstmt.executeUpdate();
+						pstmt.close();
+					} else if ("I".equals(buildGbn) && etcData.get("buildtime") != null && etcData.get("buildtime").length()>0) {
+						parmCnt = 0;
+						strQuery.setLength(0);
+						strQuery.append("insert into cmm0030_time    \n");
+						strQuery.append(" (cm_syscd,cm_prcsys,cm_sun,\n");
+						strQuery.append("  cm_mon,cm_tue,cm_wed,     \n");
+						strQuery.append("  cm_thu,cm_fri,cm_sat,     \n");
+						strQuery.append("  cm_prctime,cm_lastdt,     \n");
+						strQuery.append("  cm_editor)                \n");
+						strQuery.append(" values                     \n");
+						strQuery.append("  (?,'SYSCB',?,  ?,?,?,     \n");
+						strQuery.append("   ?,?,?,  ?,sysdate,  ?)   \n");
+						pstmt = conn.prepareStatement(strQuery.toString());
+						pstmt.setString(++parmCnt, sysList[i]);
+						pstmt.setString(++parmCnt, etcData.get("sun"));
+						pstmt.setString(++parmCnt, etcData.get("mon"));
+						pstmt.setString(++parmCnt, etcData.get("tue"));
+						pstmt.setString(++parmCnt, etcData.get("wed"));
+						pstmt.setString(++parmCnt, etcData.get("thu"));
+						pstmt.setString(++parmCnt, etcData.get("fri"));
+						pstmt.setString(++parmCnt, etcData.get("sat"));
+						pstmt.setString(++parmCnt, etcData.get("buildtime").replace(":", ""));
+						pstmt.setString(++parmCnt, etcData.get("userid"));
+						pstmt.executeUpdate();
+						pstmt.close();						
+					}
+					if ("U".equals(deployGbn) || "C".equals(deployGbn)) {
+						parmCnt = 0;
+						strQuery.setLength(0);
+						strQuery.append("update cmm0030_time         \n");
+						strQuery.append("   set cm_editor=?          \n");
+						if ("U".equals(deployGbn)) {
+							strQuery.append("  ,cm_closedt=''        \n");
+							strQuery.append("  ,cm_sun=?             \n");
+							strQuery.append("  ,cm_mon=?             \n");
+							strQuery.append("  ,cm_tue=?             \n");
+							strQuery.append("  ,cm_wed=?             \n");
+							strQuery.append("  ,cm_thu=?             \n");
+							strQuery.append("  ,cm_fri=?             \n");
+							strQuery.append("  ,cm_sat=?             \n");
+							strQuery.append("  ,cm_prctime=?         \n");
+						} else {
+							strQuery.append("  ,cm_closedt=sysdate   \n");
+						}
+						strQuery.append(" where cm_syscd=?           \n");
+						strQuery.append("   and cm_prcsys='SYSED'    \n");
+						pstmt = conn.prepareStatement(strQuery.toString());
+						pstmt.setString(++parmCnt, etcData.get("userid"));
+						if ("U".equals(deployGbn)) {
+							pstmt.setString(++parmCnt, etcData.get("sun"));
+							pstmt.setString(++parmCnt, etcData.get("mon"));
+							pstmt.setString(++parmCnt, etcData.get("tue"));
+							pstmt.setString(++parmCnt, etcData.get("wed"));
+							pstmt.setString(++parmCnt, etcData.get("thu"));
+							pstmt.setString(++parmCnt, etcData.get("fri"));
+							pstmt.setString(++parmCnt, etcData.get("sat"));
+							pstmt.setString(++parmCnt, etcData.get("deploytime").replace(":", ""));
+						}
+						pstmt.setString(++parmCnt, sysList[i]);
+						pstmt.executeUpdate();
+						pstmt.close();
+					} else if ("I".equals(deployGbn) && etcData.get("deploytime") != null && etcData.get("deploytime").length()>0) {
+						parmCnt = 0;
+						strQuery.setLength(0);
+						strQuery.append("insert into cmm0030_time    \n");
+						strQuery.append(" (cm_syscd,cm_prcsys,cm_sun,\n");
+						strQuery.append("  cm_mon,cm_tue,cm_wed,     \n");
+						strQuery.append("  cm_thu,cm_fri,cm_sat,     \n");
+						strQuery.append("  cm_prctime,cm_lastdt,     \n");
+						strQuery.append("  cm_editor)                \n");
+						strQuery.append(" values                     \n");
+						strQuery.append("  (?,'SYSED',?,  ?,?,?,     \n");
+						strQuery.append("   ?,?,?,  ?,sysdate,  ?)   \n");
+						pstmt = conn.prepareStatement(strQuery.toString());
+						pstmt.setString(++parmCnt, sysList[i]);
+						pstmt.setString(++parmCnt, etcData.get("sun"));
+						pstmt.setString(++parmCnt, etcData.get("mon"));
+						pstmt.setString(++parmCnt, etcData.get("tue"));
+						pstmt.setString(++parmCnt, etcData.get("wed"));
+						pstmt.setString(++parmCnt, etcData.get("thu"));
+						pstmt.setString(++parmCnt, etcData.get("fri"));
+						pstmt.setString(++parmCnt, etcData.get("sat"));
+						pstmt.setString(++parmCnt, etcData.get("deploytime").replace(":", ""));
+						pstmt.setString(++parmCnt, etcData.get("userid"));
+						pstmt.executeUpdate();
+						pstmt.close();						
+					}
+					strQuery.setLength(0);
+					strQuery.append("update cmm0030              \n");
+					strQuery.append("   set cm_sysinfo=substr(cm_sysinfo,1,5) || '1' || substr(cm_sysinfo,7)   \n");
+					strQuery.append(" where cm_syscd=?           \n");
+					pstmt = conn.prepareStatement(strQuery.toString());
+					pstmt.setString(1, sysList[i]);
+					pstmt.executeUpdate();
+					pstmt.close();
 				}
-				pstmt.setString(3, sysList.get(i).get("cm_syscd"));
-				pstmt.executeUpdate();
-				pstmt.close();
 			}
 			conn.commit();
 	        conn.close();
-
+	        
+	        rs = null;
+	        pstmt = null;
+	        conn = null;
 	        return 0;
 
 		} catch (SQLException sqlexception) {

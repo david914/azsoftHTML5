@@ -214,7 +214,7 @@
 			<div class="row">
 				<div class="float-right margin-10-right">
 					<button class="btn btn-default" id="btnReleaseTimeSet">
-						정기배포일괄등록 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
+						정기배포설정<span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
 					</button>
 					<button class="btn btn-default" id="btnAdd">
 						등  록 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>

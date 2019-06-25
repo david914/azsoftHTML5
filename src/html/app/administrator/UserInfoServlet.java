@@ -18,7 +18,7 @@ import com.google.gson.JsonParser;
 import app.common.CodeInfo;
 import app.common.SysInfo;
 import app.eCmm.Cmm0400;
-
+import app.eCmm.Cmm1700;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/administrator/UserInfoServlet")
@@ -31,6 +31,7 @@ public class UserInfoServlet extends HttpServlet {
 	CodeInfo codeinfo = new CodeInfo();
 	SysInfo sysinfo = new SysInfo();
 	Cmm0400 cmm0400 = new Cmm0400();
+	Cmm1700 cmm1700 = new Cmm1700();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -76,6 +77,9 @@ public class UserInfoServlet extends HttpServlet {
 					break;
 				case "setUserInfo" :
 					response.getWriter().write( setUserInfo(jsonElement) );
+					break;
+				case "resetPassWord" :
+					response.getWriter().write( resetPassWord(jsonElement) );
 					break;
 			}
 		} catch (Exception e) {
@@ -146,5 +150,12 @@ public class UserInfoServlet extends HttpServlet {
 		ArrayList<HashMap<String, String>> DutyList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "DutyList") );
 		ArrayList<HashMap<String, String>> JobList	= ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "JobList") );
 		return gson.toJson(cmm0400.setUserInfo(dataObj, DutyList, JobList));
+	}
+	
+	// [사용자정보 > 비밀번호초기화] 비밀번호 초기화
+	private String resetPassWord(JsonElement jsonElement) throws SQLException, Exception {
+		String user_id  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "user_id") );
+		String JuMinNUM = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "JuMinNUM") );
+		return gson.toJson(cmm1700.PassWd_reset(user_id, JuMinNUM));
 	}
 }

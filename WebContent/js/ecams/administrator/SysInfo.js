@@ -322,10 +322,10 @@ $(document).ready(function(){
 		sysValidationCheck();
 	});
 	
-	// 정기배포일괄등록
+	// 정기배포설정
 	$('#btnReleaseTimeSet').bind('click', function() {
 		relModal.open({
-	        width: 800,
+	        width: 1400,
 	        height: 800,
 	        iframe: {
 	            method: "get",

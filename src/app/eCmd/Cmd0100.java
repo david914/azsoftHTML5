@@ -1726,8 +1726,8 @@ public class Cmd0100{
         		strQuery.append("values                                                         \n");
         		strQuery.append("  (lpad(ITEMID_SEQ.nextval,12,'0'),?,?,?,  ?,?,'','3',?,?,  SYSDATE,SYSDATE,0,?,?,'0',?)  \n");
 
-        		pstmt = conn.prepareStatement(strQuery.toString());
-        		//pstmt = new LoggableStatement(conn,strQuery.toString());
+        		//pstmt = conn.prepareStatement(strQuery.toString());
+        		pstmt = new LoggableStatement(conn,strQuery.toString());
           	    pstmt.setString(++parmCnt, openInfo.get("syscd"));
           	    pstmt.setString(++parmCnt, openInfo.get("dsncd"));
           	    pstmt.setString(++parmCnt, openInfo.get("rsrcname"));
@@ -1742,7 +1742,8 @@ public class Cmd0100{
           	    pstmt.setString(++parmCnt, openInfo.get("userid"));
           	  
           	    pstmt.setString(++parmCnt, openInfo.get("srid"));
-
+          	    
+          	    ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
           		pstmt.executeUpdate();
     	        pstmt.close();
 
@@ -1758,8 +1759,8 @@ public class Cmd0100{
         		strQuery.append("                   ,CR_ISRID=?        			     \n");
         		strQuery.append("where cr_itemid=?                                   \n");
 
-        		pstmt = conn.prepareStatement(strQuery.toString());
-        		//pstmt = new LoggableStatement(conn,strQuery.toString());
+        		//pstmt = conn.prepareStatement(strQuery.toString());
+        		pstmt = new LoggableStatement(conn,strQuery.toString());
         		parmCnt = 0;
           	    pstmt.setString(++parmCnt, openInfo.get("rsrccd"));
           	    pstmt.setString(++parmCnt, openInfo.get("jobcd"));
@@ -1771,7 +1772,7 @@ public class Cmd0100{
           	    pstmt.setString(++parmCnt, openInfo.get("srid"));
           	    
           	    pstmt.setString(++parmCnt, strItemId);
-          	    //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+          	    ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
           	    pstmt.executeUpdate();
     	        pstmt.close();
 	        }

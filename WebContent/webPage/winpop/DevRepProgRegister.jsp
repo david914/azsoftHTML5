@@ -73,15 +73,15 @@
 
 <div class="row" style="padding-top: 5px;">
 	<!-- 디렉토리 트리 -->
-	<div class="col-sm-6">
+	<div class="col-sm-3">
 		<div class="scrollBind" style="height: 495px; border: 1px dotted gray;">
 			<ul id="treeDir" class="ztree"></ul>
 		</div>
 	</div>
 	
 	<!-- 프로그램목록 그리드 -->
-	<div class="col-sm-6">
-		<div data-ax5grid="proglistGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 50%;"></div>
+	<div class="col-sm-9">
+		<div data-ax5grid="proglistGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 495px;"></div>
 	</div>
 </div>
 

@@ -20,13 +20,6 @@ pUserId = f.user.value;
 
 console.log(pReqNo, pUserId);
 
-if (pReqNo == null) {
-	swal({
-        title: "정보오류",
-        text: "신청정보가 없습니다.\n다시 로그인 하시기 바랍니다."
-    });
-}
-
 ax5.info.weekNames = [
     {label: "일"},
     {label: "월"},
@@ -94,6 +87,8 @@ reqGrid.setConfig({
     target: $('[data-ax5grid="reqGrid"]'),
     sortable: true, 
     multiSort: true,
+    showRowSelector: true,
+    showLineNumber: true,
     header: {
         align: "center",
         columnHeight: 30
@@ -101,7 +96,7 @@ reqGrid.setConfig({
     body: {
         columnHeight: 28,
         onClick: function () {
-        	this.self.clearSelect();
+        	//this.self.clearSelect();
            this.self.select(this.dindex);
         },
         onDBLClick: function () {
@@ -163,12 +158,13 @@ reqGrid.setConfig({
         }
     },
     columns: [
-        {key: "rsrcname", label: "프로그램명",  width: '20%'},
-        {key: "story", label: "프로그램설명",  width: '15%'},
-        {key: "jawon", label: "프로그램종류",  width: '15%'},
-        {key: "jobname", label: "업무명",  width: '10%'},
-        {key: "version", label: "신청버전",  width: '10%'},
-        {key: "dirpath", label: "프로그램경로",  width: '20%'},
+        {key: "cr_rsrcname", label: "프로그램명",  width: '20%'},
+        {key: "cr_story", label: "프로그램설명",  width: '10%'},
+        {key: "cm_codename", label: "프로그램종류",  width: '10%'},
+        {key: "cm_jobname", label: "업무명",  width: '10%'},
+        {key: "cr_version", label: "신청버전",  width: '10%'},
+        {key: "cm_dirpath", label: "프로그램경로",  width: '20%'},
+        {key: "checkin", label: "수정구분",  width: '10%'},
         {key: "priority", label: "우선순위",  width: '10%'} 
     ]
 });
@@ -230,6 +226,20 @@ resultGrid.setConfig({
 $(document).ready(function(){
 	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
+	if (pReqNo == null) {
+		swal({
+	        title: "정보오류",
+	        text: "신청정보가 없습니다.\n다시 로그인 하시기 바랍니다."
+	    });
+		return;
+	}
+
+
+	if (pReqNo.substr(4,2) == '01' || pReqNo.substr(4,2) == '02' || pReqNo.substr(4,2) == '11' || pReqNo.substr(4,2) == '12') {
+		reqGrid.removeColumn(7);
+		reqGrid.removeColumn(6);
+	}
+	
 	$('#tab1Li').width($('#tab1Li').width()+10);
 	$('#tab2Li').width($('#tab2Li').width()+10);
 	setTabMenu();
@@ -318,13 +328,32 @@ function getReqInfo() {
 	}
 	ajaxAsync('/webPage/winpop/RequestDetail', data, 'json',successGetReqList);
 }
+
+//체크인 목록가져오기 완료
+function successGetProgList(data) {
+	reqGridData = data;
+	reqGrid.setData(reqGridData);
+}
+
 //신청정보가져오기 완료
 function successGetReqList(data) {
 	reqInfoData = data;
 	
 	if ( reqInfoData.length > 0 ) {
-
-		//Cmr0250.getProgList(pUserId,strAcptNo,"0",true);
+		
+		var param = new Object();
+		param.UserId = pUserId;
+		param.AcptNo = pReqNo;
+		param.chkYn = "0";
+		param.qrySw = "true";
+		
+		var data =  new Object();
+		data = {
+			param			: param,
+			requestType		: 'getProgList'
+		}
+		ajaxAsync('/webPage/winpop/RequestDetail', data, 'json', successGetProgList);
+		
 		//console.log(reqInfoData);
 		
 		$('#txtSyscd').val(reqInfoData[0].cm_sysmsg);			//시스템
@@ -436,7 +465,7 @@ function aftChk() {
 	   	}
 	}
 
-    console.log('updtsw2:'+reqInfoData[0].updtsw2+'status:'+reqInfoData[0].cr_status+'admin:'+isAdmin+'prcsw:'+reqInfoData[0].prcsw);
+    //console.log('updtsw2:'+reqInfoData[0].updtsw2+'status:'+reqInfoData[0].cr_status+'admin:'+isAdmin+'prcsw:'+reqInfoData[0].prcsw);
 	if (reqInfoData[0].cr_status == '0' && (reqInfoData[0].cr_editor == pUserId || isAdmin) && reqInfoData[0].prcsw == '0') {
 	    if (reqInfoData[0].updtsw1 == '1') {
 	    	$('btnPriorityOrder').prop("disabled", false);			//우선순위적용

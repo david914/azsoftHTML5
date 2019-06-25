@@ -13,13 +13,20 @@ var lastPassDp;
 var befEncPassWd;
 var updtEncPassWd;
 var userid = window.parent.userId;
+var winPopSw = '';
 
 $(document).ready(function() {
-	console.log('PwdChange.js load');
+	winPopSw = $('#winPopSw').val();
+	
+	if(winPopSw === 'true') {
+		userid = $('#userId').val();
+	}
+	
 	if(userid == "" || userid == null){
 		alert("로그인 후 사용하시기 바랍니다.");
 		return;
 	}
+	
 	$("#txtUserId").val(userid);
 	getUserInfo();
 	getLastPasswdBef();
@@ -259,6 +266,12 @@ function setPassWd() {
 	
 	if(ajaxReturnData !== 'ERR') {
 		if (ajaxReturnData > 0) {
+			if(winPopSw === 'true') {
+				dialog.alert('비밀번호 변경이 완료되었습니다. 다시 로그인해주시기 바랍니다.', function() {
+					window.close();
+				});
+				return;
+			}
 			alert("비밀번호변경이 완료되었습니다.");
 			$("#txtPw").val("");
 			$("#txtUpdatePw1").val("");

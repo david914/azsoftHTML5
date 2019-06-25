@@ -100,4 +100,4 @@
 
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
-<script type="text/javascript" src="<c:url value="/js/ecams/administrator/BuildReleaseTab1.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/tab/BuildReleaseTab1.js"/>"></script>
