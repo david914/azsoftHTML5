@@ -53,5 +53,9 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/AZSOFT/Desktop/HTML5/openjdk_jre_lib_ext파일/com.fasterxml.jackson.annotations.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AZSOFT/Desktop/HTML5/openjdk_jre_lib_ext파일/com.fasterxml.jackson.core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AZSOFT/Desktop/HTML5/openjdk_jre_lib_ext파일/com.fasterxml.jackson.databind.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AZSOFT/Desktop/HTML5/openjdk_jre_lib_ext파일/ojdbc6.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

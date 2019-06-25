@@ -37,7 +37,7 @@ public class ConfigReqReport extends HttpServlet {
 		super.doGet(req, resp);
 		doPost(req, resp);
 	}
-	
+	 
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
