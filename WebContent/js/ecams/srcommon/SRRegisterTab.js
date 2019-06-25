@@ -2,152 +2,20 @@
  * 
  * <pre>
  * <b>History</b>
- * 	작성자: 이성현
- * 	버전 : 1.4
- *  수정일 : 2019-06-20
+ * 	작성자: 이용문
+ * 	버전 : 1.0
+ *  수정일 : 2019-02-08
  */
-
-var userName 	= window.top.userName;
-var userid 		= window.top.userId;
-var adminYN 	= window.top.adminYN;
-var userDeptName= window.top.userDeptName;
-var userDeptCd 	= window.top.userDeptCd;
-var strReqCD 	= window.top.reqCd;
-var deptModal 	= new ax5.ui.modal();
-
-var grid_fileList 	= new ax5.ui.grid();
-var devUserGrid 	= new ax5.ui.grid();
-var picker 		= new ax5.ui.picker();
-
-//이 부분 지우면 영어명칭으로 바뀜
-//ex) 월 -> MON
-ax5.info.weekNames = [
-	{label: "일"},
-	{label: "월"},
-	{label: "화"},
-	{label: "수"},
-	{label: "목"},
-	{label: "금"},
-	{label: "토"}
-];
-
-picker.bind({
-  target: $('[data-ax5picker="basic2"]'),
-  direction: "top",
-  content: {
-      width: 220,
-      margin: 10,
-      type: 'date',
-      config: {
-          control: {
-              left: '<i class="fa fa-chevron-left"></i>',
-              yearTmpl: '%s',
-              monthTmpl: '%s',
-              right: '<i class="fa fa-chevron-right"></i>'
-          },
-          dateFormat: 'yyyy/MM/dd',
-          lang: {
-              yearTmpl: "%s년",
-              months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-              dayTmpl: "%s"
-          }
-      },
-      formatter: {
-          pattern: 'date'
-      }
-  },
-  onStateChanged: function () {
-  },
-  btns: {
-      today: {
-          label: "Today", onClick: function () {
-              var today = new Date();
-              this.self
-                      .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                      .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                      .close();
-          }
-      },
-      thisMonth: {
-          label: "This Month", onClick: function () {
-              var today = new Date();
-              this.self
-                      .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-                      .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-                              + '/'
-                              + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-                      .close();
-          }
-      },
-      ok: {label: "Close", theme: "default"}
-  }
-});
-
-
-grid_fileList.setConfig({
-    target: $('[data-ax5grid="grid_fileList"]'),
-    sortable: true, 
-    multiSort: true,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 28,
-        onClick: function () {
-        	this.self.clearSelect();
-           this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if (this.dindex < 0) return;
-    		swal({
-                title: "신청상세팝업",
-                text: "신청번호 ["+this.item.acptno2+"]["+param.item.qrycd2+"]["+this.dindex+"]"
-           });
-    		
-			openWindow(1, param.item.qrycd2, this.item.acptno2,'');
-        }
-    },
-    columns: [
-        {key: "fileName", label: "파일명",  width: '100%'} 
-    ]
-});
-
-devUserGrid.setConfig({
-    target: $('[data-ax5grid="devUserGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 28,
-        onClick: function () {
-        	this.self.clearSelect();
-           this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if (this.dindex < 0) return;
-    		swal({
-                title: "신청상세팝업",
-                text: "신청번호 ["+this.item.acptno2+"]["+param.item.qrycd2+"]["+this.dindex+"]"
-           });
-    		
-			openWindow(1, param.item.qrycd2, this.item.acptno2,'');
-        }
-    },
-    columns: [
-        {key: "fileName", label: "소속부서",  width: '30%'},
-        {key: "fileName", label: "담당개발자",  width: '40%'},
-        {key: "fileName", label: "상태",  width: '30%'}
-    ]
-});
 
 var fileAddGrid;
 var fileAddGridData;
 var devUserGrid;
 var devUserGridData;
+var userId 	 = window.parent.userId;
+var userName = window.parent.userName;
+var reqCd;
+var adminYN = window.parent.adminYN;
+var request =  new Request();
 
 var cboCatTypeSRData;
 var cboChgTypeData;
@@ -162,114 +30,62 @@ var strDept = '';
 
 var treeOranizationSubSw = false;
 
-$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
-
 $(document).ready(function() {
-	//createElements();
-	setCboElement();
-	setCboDevUser();
+	reqCd =  request.getParameter('reqcd');
+	screenInit();
+	
 	/* 다른화면에서 사용시 구현...
 		if (strAcptNo != null && strAcptNo != "") {
 			Cmr3100.gyulChk(strAcptNo,strUserId);//결재자 인지 체크
 		}
 	*/
-	
-	// 신규등록 - 체크박스 선택
-	$('#chkNew').bind('click', function() {
-		clickChkNew();
-	});
-	
-	// 보안요구사항 - 직접기입시 input 상태값 변경
-	$('#cboReqSecu').bind('change', function() {
-		changeCboReqSecu();
-	});
-	
-	//시스템상세정보
-	$('#txtDept').bind('click', function() {
-		deptModal.open({
-	        width: 376,
-	        height: 492,
-	        iframe: {
-	            method: "get",
-	            url: "../modal/deptModal.jsp",
-	            param: "callBack=sysDetailModalCallBack"
-	        },
-	        onStateChanged: function () {
-	            if (this.state === "open") {
-	                mask.open();
-	            }
-	            else if (this.state === "close") {
-	                mask.close();
-	                selectedSystem = null;
-	            }
-	        }
-	    }, function () {
-	    });
-	});
-	
 });
 
-function changeCboReqSecu() {
-	if(getSelectedVal('cboReqSecu').value === '6') {
-		$('#txtReqSecu').css('display','block');
-	}else {
-		$('#txtReqSecu').css('display','none');
-		$('#cboReqSecu').removeClass('width-20');
-		$('#cboReqSecu').addClass('width-100');
-	}
-}
-
-function setCboDevUser(){	// 담당개발자 select 세팅
-	var ajaxReturnData = null;
-	var userInfo = {
-		userInfoData: 	userid,
-		requestType: 	'GET_USER_COMBO'
-	}
-	
-	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', userInfo, 'json');
-	if(ajaxReturnData !== 'ERR') {
-		cboDevUserData = ajaxReturnData;
-		options = [];
-		$.each(cboDevUserData,function(key,value) {
-			options.push({value: value.cm_userid, text: value.cm_idname});
-		});
-		
-		$('[data-ax5select="cboDevUser"]').ax5select({
-	        options: options
-		});
-		
-		if(cboDevUserData.length === 2){
-			$('[data-ax5select="cboDevUser"]').ax5select("setValue", userid, true);
-		}
-	}
+//초기 화면 셋팅
+function screenInit() {
+	createElements();
+	setCboElement();
+	changeCboReqSecu('0');
 }
 
 function elementInit(initDivision) {
+	SBUxMethod.attr('btnFileAdd', 		'readonly', 'false');
+	SBUxMethod.attr('btnAddDevUser', 	'readonly', 'false');
+	SBUxMethod.attr('btnDelDevUser', 	'readonly', 'false');
+	
 	if(initDivision === 'NEW'){
     	strIsrId = '';
     	/*if( this.parentDocument.toString().indexOf("eCmc0100") > -1 ) {
     		this.parentDocument.tab0.grdPrj.selectedIndex = -1;
     	}*/
-
-    	$('#datReqComDate').val('');
-    	$('#chkNew').wCheck('check',true);
-    	$('#btnUpdate').attr('readonly', true);
-    	$('#btnRegister').attr('readonly', false);
-    	$('#btnDelete').attr('readonly', true);
-    	$('#txtSRID').val('신규등록');
-    	$('#txtRegUser').val(userName);
-    	$('#txtRegDate').val('신규등록');
+    	SBUxMethod.set('datReqComDate','');
+    	SBUxMethod.set('chkNew','true');
+    	SBUxMethod.attr('btnUpdate', 	'readonly', 'true');
+    	SBUxMethod.attr('btnRegister', 	'readonly', 'false');
+    	SBUxMethod.attr('btnDelete', 	'readonly', 'true');
+    	SBUxMethod.set('txtSRID','신규등록');
+    	SBUxMethod.set('txtRegUser', userName);
+    	SBUxMethod.set('txtRegDate', '신규등록');
     	
-    	$('#txtSRID').attr('readonly', true);
-    	$('#txtRegUser').attr('readonly', true);
-    	$('#txtRegDate').attr('readonly', true);
+    	SBUxMethod.attr('txtSRID', 		'readonly', 'true');
+    	SBUxMethod.attr('txtRegUser', 	'readonly', 'true');
+    	SBUxMethod.attr('txtRegDate', 	'readonly', 'true');
     	
     	insertSrIdSw = true;
     	
-    	setCboDevUser();
+    	var ajaxReturnData = null;
+    	var userInfo = {
+			userInfoData: 	JSON.stringify(userId),
+			requestType: 	'GET_USER_COMBO'
+		}
 		
-    }/* else if(strIsrId !== null && strIsrId !== '') {
-    	
+		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', userInfo, 'json');
+		if(ajaxReturnData !== 'ERR') {
+			cboDevUserData = ajaxReturnData;
+			SBUxMethod.refresh('cboDevUser');
+			if(cboDevUserData.length === 2) $("#cboDevUser option:eq(1)").attr("selected","selected");
+		}
+    } else if(strIsrId !== null && strIsrId !== '') {
     	if(initDivision === 'M'){
     		SBUxMethod.refresh('chkNew');
     		SBUxMethod.attr('btnRegister', 	'readonly', 'true');
@@ -314,34 +130,32 @@ function elementInit(initDivision) {
     		insertSrIdSw = false;
     		
     	}
-    }*/else {
-    	$('#datReqComDate').val('');
-    	$('#chkNew').wCheck('check',false);
-    	$('#btnUpdate').attr('readonly', true);
-    	$('#btnRegister').attr('readonly', true);
-    	$('#btnDelete').attr('readonly', true);
-    	$('#txtSRID').val('');
-    	$('#txtRegUser').val('');
-    	$('#txtRegDate').val('');
+    }else {
     	
-    	$('#txtSRID').attr('readonly', true);
-    	$('#txtRegUser').attr('readonly', true);
-    	$('#txtRegDate').attr('readonly', true);
+    	SBUxMethod.set('txtSRID',	'');
+		SBUxMethod.set('txtRegUser','');
+		SBUxMethod.set('txtRegDate','');
+		
+		SBUxMethod.attr('btnFileAdd', 		'readonly', 'true');
+		SBUxMethod.attr('btnAddDevUser', 	'readonly', 'true');
+		SBUxMethod.attr('btnDelDevUser', 	'readonly', 'true');
+		SBUxMethod.attr('btnRegister', 		'readonly', 'true');
+		SBUxMethod.attr('btnUpdate', 		'readonly', 'true');
+		SBUxMethod.attr('btnDelete', 		'readonly', 'true');
     }
 	
 	
-	//SBUxMethod.set('txtDocuNum', 	'');
+	SBUxMethod.set('txtDocuNum', 	'');
 	//SBUxMethod.set('txtRegUser', 	'');
-	//SBUxMethod.set('txtReqSubject', '');
-	//SBUxMethod.set('texReqContent', '');
-	//SBUxMethod.set('txtDevUser', 	'');
+	SBUxMethod.set('txtReqSubject', '');
+	SBUxMethod.set('texReqContent', '');
+	SBUxMethod.set('txtDevUser', 	'');
 	
-	//fileAddGridData = null;
-	//devUserGridData = null;
+	fileAddGridData = null;
+	devUserGridData = null;
 	
 	//fileAddGrid.refresh();
 	//devUserGrid.refresh();
-	
 }
 
 function setCboElement() {
@@ -356,52 +170,70 @@ function setCboElement() {
 	cboWorkRankData= codeInfos.WORKRANK;
 	cboReqSecuData= codeInfos.REQSECU;
 	
-	options = [];
-	$.each(cboCatTypeSRData,function(key,value) {
-		options.push({value: value.cm_micode, text: value.cm_codename});
-	});
+	SBUxMethod.refresh('cboCatTypeSR');
+	SBUxMethod.refresh('cboChgType');
+	SBUxMethod.refresh('cboWorkRank');
+	SBUxMethod.refresh('cboReqSecu');
 	
-	$('[data-ax5select="cboCatTypeSR"]').ax5select({
-        options: options
-	});
+	//SBUxMethod.set('cboQryGbn', '01');
+}
+
+
+function createElements() {
+	var SBGridProperties 		= {};
+	SBGridProperties.parentid 	= 'fileAddGrid';  			// [필수] 그리드 영역의 div id 입니다.            
+	SBGridProperties.id 		= 'fileAddGrid';          	// [필수] 그리드를 담기위한 객체명과 동일하게 입력합니다.                
+	SBGridProperties.jsonref 	= 'fileAddGridData';    	// [필수] 그리드의 데이터를 나타내기 위한 json data 객체명을 입력합니다.
+	//SBGridProperties.rowheader 	= 'seq';
+	// 그리드의 여러 속성들을 입력합니다.
+	SBGridProperties.extendlastcol	= 'scroll';
+	SBGridProperties.tooltip 		= true;
+	SBGridProperties.ellipsis 		= true;
+	SBGridProperties.rowdragmove 	= true;
 	
-	options = [];
-	$.each(cboChgTypeData,function(key,value) {
-		options.push({value: value.cm_micode, text: value.cm_codename});
-	});
+	// [필수] 그리드의 컬럼을 입력합니다.  
+	SBGridProperties.columns = [new GridDefaultColumn('파일명', 		'fileName', 	'100%', 'output')];
+	fileAddGrid = _SBGrid.create(SBGridProperties); 	// 만들어진 SBGridProperties 객체를 파라메터로 전달합니다.
 	
-	$('[data-ax5select="cboChgType"]').ax5select({
-        options: options
-	});
 	
-	options = [];
-	$.each(cboWorkRankData,function(key,value) {
-		options.push({value: value.cm_micode, text: value.cm_codename});
-	});
+	var SBGridProperties2 		= {};
+	SBGridProperties2.parentid 	= 'devUserGrid';  			// [필수] 그리드 영역의 div id 입니다.            
+	SBGridProperties2.id 		= 'devUserGrid';          	// [필수] 그리드를 담기위한 객체명과 동일하게 입력합니다.                
+	SBGridProperties2.jsonref 	= 'devUserGridData';    	// [필수] 그리드의 데이터를 나타내기 위한 json data 객체명을 입력합니다.
+	//SBGridProperties.rowheader 	= 'seq';
+	// 그리드의 여러 속성들을 입력합니다.
+	SBGridProperties2.extendlastcol	= 'scroll';
+	SBGridProperties2.tooltip 		= true;
+	SBGridProperties2.ellipsis 		= true;
+	SBGridProperties2.rowdragmove 	= true;
 	
-	$('[data-ax5select="cboWorkRank"]').ax5select({
-        options: options
-	});
-	
-	options = [];
-	$.each(cboReqSecuData,function(key,value) {
-		options.push({value: value.cm_micode, text: value.cm_codename});
-	});
-	
-	$('[data-ax5select="cboReqSecu"]').ax5select({
-        options: options
-	});
-	
+	// [필수] 그리드의 컬럼을 입력합니다.  
+	SBGridProperties2.columns = [
+		new GridDefaultColumn('소속부서', 		'fileName', 	'40%', 'output'	,'text-align:center'),
+		new GridDefaultColumn('담당개발자', 	'fileName', 	'40%', 'output' ,'text-align:center'),
+		new GridDefaultColumn('상태', 		'fileName', 	'20%', 'output' ,'text-align:center'),
+		];
+	devUserGrid = _SBGrid.create(SBGridProperties2); 	// 만들어진 SBGridProperties 객체를 파라메터로 전달합니다.
 }
 
 function clickChkNew() {
-	if($('#chkNew').is(':checked')) {
+	var chkNew = SBUxMethod.get('chkNew').chkNew;
+	if(chkNew) {
 		elementInit('NEW')
 	} else {
 		elementInit('');
 	}
 }
 
+function changeCboReqSecu(selectedValue) {
+	if(selectedValue === '6') {
+		$('#txtReqSecu').css('display','block');
+	}else {
+		$('#txtReqSecu').css('display','none');
+		$('#cboReqSecu').removeClass('width-20');
+		$('#cboReqSecu').addClass('width-100');
+	}
+}
 /*$('#exampleModal').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget) // Button that triggered the modal
 	var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -409,7 +241,6 @@ function clickChkNew() {
 	modal.find('.modal-title').text('New message to ' + recipient)
 	modal.find('.modal-body input').val(recipient)
 })*/
-
 
 // findDivision = 1 > 사람검색
 // findDivision = 0 > 부서검색
