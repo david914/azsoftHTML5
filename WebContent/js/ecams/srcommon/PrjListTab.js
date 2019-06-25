@@ -2,36 +2,172 @@
  * 
  * <pre>
  * <b>History</b>
- * 	작성자: 이용문
- * 	버전 : 1.0
- *  수정일 : 2019-02-07
+ * 	작성자: 이성현
+ * 	버전 : 1.1
+ *  수정일 : 2019-06-14
  */
 
-var prjListGrid;
-var prjListGridData;
-var cboReqDepartData;
-var cboCatTypeData;
-var cboQryGbnData;
-var userId = window.parent.userId;
-var reqCd;
-var adminYN = window.parent.adminYN;
-var request =  new Request();
+var userName 	= window.top.userName;
+var userid 		= window.top.userId;
+var adminYN 	= window.top.adminYN;
+var userDeptName= window.top.userDeptName;
+var userDeptCd 	= window.top.userDeptCd;
+var strReqCD 	= window.top.reqCd;
 
-$(document).ready(function() {
-	reqCd =  request.getParameter('reqcd');
-	screenInitPrj();
+var cboReqDepartData = null;
+var cboCatTypeData = null;
+var cboQryGbnData = null;
+var firstGridData = null;
+
+var firstGrid 	= new ax5.ui.grid();
+var picker 		= new ax5.ui.picker();
+
+//이 부분 지우면 영어명칭으로 바뀜
+//ex) 월 -> MON
+ax5.info.weekNames = [
+ {label: "일"},
+ {label: "월"},
+ {label: "화"},
+ {label: "수"},
+ {label: "목"},
+ {label: "금"},
+ {label: "토"}
+];
+
+
+$('#datStD').val(getDate('DATE',-1));
+$('#datEdD').val(getDate('DATE',0));
+
+picker.bind({
+  target: $('[data-ax5picker="basic"]'),
+  direction: "top",
+  content: {
+      width: 220,
+      margin: 10,
+      type: 'date',
+      config: {
+          control: {
+              left: '<i class="fa fa-chevron-left"></i>',
+              yearTmpl: '%s',
+              monthTmpl: '%s',
+              right: '<i class="fa fa-chevron-right"></i>'
+          },
+          dateFormat: 'yyyy/MM/dd',
+          lang: {
+              yearTmpl: "%s년",
+              months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+              dayTmpl: "%s"
+          }
+      },
+      formatter: {
+          pattern: 'date'
+      }
+  },
+  onStateChanged: function () {
+  },
+  btns: {
+      today: {
+          label: "Today", onClick: function () {
+              var today = new Date();
+              this.self
+                      .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                      .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                      .close();
+          }
+      },
+      thisMonth: {
+          label: "This Month", onClick: function () {
+              var today = new Date();
+              this.self
+                      .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
+                      .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
+                              + '/'
+                              + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+                      .close();
+          }
+      },
+      ok: {label: "Close", theme: "default"}
+  }
 });
 
 
-//초기 화면 셋팅
-function screenInitPrj() {
-	//createElementsPrj();	grid 라이센스 활성화되면 풀기
-	setReqDepartInfo();
-	setDateInit();
-	setCboElementPrj();
+firstGrid.setConfig({
+    target: $('[data-ax5grid="firstGrid"]'),
+    sortable: true, 
+    multiSort: true,
+    header: {
+        align: "center",
+        columnHeight: 30
+    },
+    body: {
+        columnHeight: 28,
+        onClick: function () {
+        	this.self.clearSelect();
+           this.self.select(this.dindex);
+        },
+        onDBLClick: function () {
+        	if (this.dindex < 0) return;
+    		swal({
+                title: "신청상세팝업",
+                text: "신청번호 ["+this.item.acptno2+"]["+param.item.qrycd2+"]["+this.dindex+"]"
+           });
+    		
+			openWindow(1, param.item.qrycd2, this.item.acptno2,'');
+        }
+    },
+    columns: [
+        {key: "cc_srid", label: "SR-ID",  width: '10%'},
+        {key: "cc_reqtitle", label: "요청제목",  width: '20%'},
+        {key: "createdate", label: "등록일",  width: '10%'},
+        {key: "reqcompdat", label: "완료요청일",  width: '10%'},
+        {key: "reqdept", label: "요청부서",  width: '10%'},
+        {key: "cattype", label: "분류유형",  width: '10%'},
+        {key: "chgtype", label: "변경종류",  width: '10%'},
+        {key: "status", label: "진행현황",  width: '10%'},
+        {key: "workrank", label: "작업순위",  width: '10%'}	 
+    ]
+});
+
+$(document).ready(function() {
+	getReqDepartInfo();
+	getCboElementPrj();
+	
+	// 조회 버튼 클릭
+	$('#btnQry').bind('click', function() {
+		getPrjList();
+	});
+	
+	// 초기화 버튼 클릭
+	$('#btnReset').bind('click', function() {
+		resetScreen();
+	});
+	
+	// 대상구분 변경시 달력 변경
+	$('#cboQryGbn').bind('change', function() {
+		changeQryGbn();
+	});
+	getPrjList();
+
+	$('#datStD').prop("disabled", true); 
+	$('#datEdD').prop("disabled", true); 
+	$('#dateDiv').css('pointer-events','none');
+});
+
+// 대상구분 변경 시
+function changeQryGbn(){
+	if(getSelectedVal('cboQryGbn').value === "01"){
+		$('#datStD').prop("disabled", true); 
+		$('#datEdD').prop("disabled", true); 
+		$('#dateDiv').css('pointer-events','none');
+	} else {
+		$('#datStD').prop("disabled", false); 
+		$('#datEdD').prop("disabled", false); 
+		$('#dateDiv').css('pointer-events','auto');
+	}
 }
 
-function setReqDepartInfo() {
+// 요청부서 가져오기
+function getReqDepartInfo() {
 	var ajaxReturnData = null;
 	
 	var teamInfoData 		= new Object();
@@ -41,7 +177,7 @@ function setReqDepartInfo() {
 	teamInfoData.itYn 		= 'N';
 	
 	var teamInfo = {
-		teamInfoData: 	JSON.stringify(teamInfoData),
+		teamInfoData: 	teamInfoData,
 		requestType: 	'SET_TEAM_INFO'
 	}
 	
@@ -50,142 +186,109 @@ function setReqDepartInfo() {
 	if(ajaxReturnData !== 'ERR') {
 		console.dir(ajaxReturnData);
 		cboReqDepartData = ajaxReturnData;
-		SBUxMethod.refresh('cboReqDepart');
+		options = [];
+		$.each(cboReqDepartData,function(key,value) {
+			options.push({value: value.cm_deptcd, text: value.cm_deptname});
+		});
+		
+		$('[data-ax5select="cboReqDepart"]').ax5select({
+	        options: options
+		});
 	}
 }
 
-function setCboElementPrj() {
+// 분류유형, 대상구분 가져오기
+function getCboElementPrj() {
 	var codeInfos = getCodeInfoCommon( [new CodeInfo('CATTYPE','ALL','N'),
 										new CodeInfo('QRYGBN','ALL','N')] );
 	cboCatTypeData 	= codeInfos.CATTYPE;
 	cboQryGbnData 	= codeInfos.QRYGBN;
-	SBUxMethod.refresh('cboCatType');
-	SBUxMethod.refresh('cboQryGbn');
 	
-	SBUxMethod.set('cboQryGbn', '01');
-	changeQryGbnCbo('01');
-}
-
-function setDateInit() {
-	SBUxMethod.set('datStD',getDate('DATE',-1));
-	SBUxMethod.set('datEdD',getDate('DATE',0));
-}
-
-function changeQryGbnCbo(selectedQryGbn) {
-	SBUxMethod.attr('datStD', 'readonly', 'true');
-	SBUxMethod.attr('datEdD', 'readonly', 'true');
+	console.log(cboCatTypeData);
+	console.log(cboQryGbnData);
+	options = [];
+	$.each(cboCatTypeData,function(key,value) {
+		options.push({value: value.cm_micode, text: value.cm_codename});
+	});
 	
-	if(selectedQryGbn === '00') {
-		SBUxMethod.attr('datStD', 'readonly', 'flase');
-		SBUxMethod.attr('datEdD', 'readonly', 'false');
-	}
+	$('[data-ax5select="cboCatType"]').ax5select({
+        options: options
+	});
 	
-	getPrjList();
+	options = [];
+	$.each(cboQryGbnData,function(key,value) {
+		options.push({value: value.cm_micode, text: value.cm_codename});
+	});
+	
+	$('[data-ax5select="cboQryGbn"]').ax5select({
+        options: options
+	});
+	
+	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", '01', true);	// select 초기값 셋팅 '01'에는 해당 내용의 value값 입력
 }
 
 function getPrjList() {
-	SRRegisterTabInit('NEW');
-	
-	if($("#cboQryGbn option").index($("#cboQryGbn option:selected")) < 0 ) return;
-	
-	if(SBUxMethod.get('cboQryGbn') === '00' && (SBUxMethod.get('datStD')  > SBUxMethod.get('datEdD')) ) {
-		SBUxMethod.openAlert(new Alert('확인', '조회기간을 정확하게 선택하여 주십시오.', 'info'));
-		return;
-	}
-	
-	if( SBUxMethod.get('datStD') > getDate('DATE',0) ) {
-		SBUxMethod.openAlert(new Alert('확인', '신청일자 시작일이 오늘보다 이후일 수 없습니다.', 'info'));
-		return;
-	}
-	
+	var prjData = new Object();
 	var ajaxReturnData = null;
 	
-	var prjInfoData 		= new Object();
-	prjInfoData.userid 	= userId;
-	prjInfoData.reqcd 	= reqCd;
-	prjInfoData.qrygbn 	= SBUxMethod.get('cboQryGbn');
-	prjInfoData.secuyn 	= 'Y';
-	prjInfoData.admin = adminYN;
+	prjData.userid 	= userid;
+	prjData.reqcd 	= strReqCD;
 	
-	console.log(SBUxMethod.get('cboQryGbn'));
-	if(SBUxMethod.get('cboQryGbn') === '00') {
-		prjInfoData.stday = SBUxMethod.get('datStD');
-		prjInfoData.edday = SBUxMethod.get('datEdD');
+	prjData.secuyn 	= 'Y';
+	prjData.admin = adminYN;
+	
+	prjData.qrygbn = getSelectedVal('cboQryGbn').value;
+
+	if(getSelectedVal('cboQryGbn').value === '00') {
+		prjData.stday = replaceAllString($("#datStD").val(), '/', '');
+		prjData.edday = replaceAllString($("#datEdD").val(), '/', '');
 	}
 	
-	if($("#cboReqDepart option").index($("#cboReqDepart option:selected")) > 0 )
-		prjInfoData.reqdept = SBUxMethod.get('cboReqDepart');
+	if(getSelectedIndex('cboReqDepart') > 0){
+		prjData.reqdept = getSelectedVal('cboReqDepart').value;
+	}
 	
-	if($("#cboCatType option").index($("#cboCatType option:selected")) > 0 )
-		prjInfoData.cattype = SBUxMethod.get('cboCatType');
+	if(getSelectedIndex('cboCatType') > 0){
+		prjData.cattype = getSelectedVal('cboCatType').value;
+	}
 	
 	//사용안하는 reqCd들인듯..
-	if( reqCd === '99' || reqCd === 'LINK' || reqCd === 'CP43' || reqCd === 'CP44') {
+	if( strReqCD === '99' || strReqCD === 'LINK' || strReqCD === 'CP43' || strReqCD === 'CP44') {
 		//prjInfoData.isrid = strIsrId;
 		//prjInfoData.secuyn = "N";
 	}
 	
+	console.log(prjData);
+	
 	var prjInfo = {
-		prjInfoData: 	JSON.stringify(prjInfoData),
+		prjInfoData: 	prjData,
 		requestType: 	'GET_PRJ_INFO'
 	}
 	
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/PrjListTab', prjInfo, 'json');
-	
+	console.log(ajaxReturnData);
 	if(ajaxReturnData !== 'ERR') {
-		prjListGridData = ajaxReturnData;
+		firstGridData = ajaxReturnData;
 		
-		// grid row header 달아주기.
-		prjListGridData.forEach(function(prjItem, prjItemIndex) {
-			prjItem.seq = prjItemIndex+1;
-		});
-		
-		prjListGrid.refresh();
+		firstGrid.setData(firstGridData);
 	}
 }
 
 // prjListTab 화면 초기화 버튼 클릭
-function initPrjListTab() {
-	SBUxMethod.set('cboReqDepart', '0');
-	SBUxMethod.set('cboCatType', '00');
-	SBUxMethod.set('cboQryGbn', '01');
+function resetScreen() {
+	$('[data-ax5select="cboReqDepart"]').ax5select("setValue", '0', true);
+	$('[data-ax5select="cboCatType"]').ax5select("setValue", '00', true);
+	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", '01', true);
+	$('#datStD').prop("disabled", true); 
+	$('#datEdD').prop("disabled", true); 
+
+	var today = getDate('DATE',-1);
+	today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);
+	$('#datStD').val(today);
 	
-	SBUxMethod.attr('datStD', 'readonly', 'true');
-	SBUxMethod.attr('datEdD', 'readonly', 'true');
+	today = getDate('DATE',0);
+	today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);
+	$('#datEdD').val(today);
 	
 	getPrjList();
-}
-
-function prjGridClick() {
-	var nRow = prjListGrid.getRow();
-	clickedPrjInfo =  JSON.stringify(prjListGrid.getRowData(nRow));
-}
-
-function createElementsPrj() {
-	var SBGridProperties 		= {};
-	SBGridProperties.parentid 	= 'prjListGrid';  			// [필수] 그리드 영역의 div id 입니다.            
-	SBGridProperties.id 		= 'prjListGrid';          	// [필수] 그리드를 담기위한 객체명과 동일하게 입력합니다.                
-	SBGridProperties.jsonref 	= 'prjListGridData';    	// [필수] 그리드의 데이터를 나타내기 위한 json data 객체명을 입력합니다.
-	SBGridProperties.rowheader 	= 'seq';
-	// 그리드의 여러 속성들을 입력합니다.
-	SBGridProperties.extendlastcol	= 'scroll';
-	SBGridProperties.tooltip 		= true;
-	SBGridProperties.ellipsis 		= true;
-	SBGridProperties.rowdragmove 	= true;
-	
-	// [필수] 그리드의 컬럼을 입력합니다.  
-	SBGridProperties.columns = [
-		new GridDefaultColumn('SR-ID', 		'cc_srid', 		'10%', 'output','text-align:center'),
-		new GridDefaultColumn('요청제목', 		'cc_reqtitle', 	'20%', 'output'),
-		new GridDefaultColumn('등록일', 		'createdate', 	'10%', 'output','text-align:center'),
-		new GridDefaultColumn('완료요청일', 	'reqcompdat', 	'10%', 'output','text-align:center'),
-		new GridDefaultColumn('요청부서', 		'reqdept', 		'10%', 'output'),
-		new GridDefaultColumn('분류유형', 		'cattype', 		'10%', 'output'),
-		new GridDefaultColumn('변경종류', 		'chgtype', 		'10%', 'output'),
-		new GridDefaultColumn('진행현황', 		'status', 		'10%', 'output'),
-		new GridDefaultColumn('작업순위', 		'workrank', 	'10%', 'output','text-align:center')
-		];
-	prjListGrid = _SBGrid.create(SBGridProperties); 	// 만들어진 SBGridProperties 객체를 파라메터로 전달합니다.
-	
-	prjListGrid.bind('click','prjGridClick');
 }

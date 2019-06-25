@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
 <c:import url="/webPage/common/common.jsp" />
 
 <section>
@@ -11,78 +9,30 @@
 			<div class="row">
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-5-top"> 
-						<sbux-label 
-							id="lbSRID"
-							text="SR번호" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbSRID">SR번호</label>
 					</div>
 					<div class="col-sm-3 col-xs-12 no-padding margin-3-top">
-						<sbux-input 
-							id="txtSRID" 
-							model-name="txtSRID"
-							name="cc_srid"
-							class="width-100" 
-							uitype="text"
-							grid-id="prjListGrid" 
-							sbux-popover="<font color='blue' style='font-weight:bold;'>SR번호입력</font>를 입력"
-							sbux-popover-placement="bottom" 
-							sbux-popover-html="true"
-							onclick="test()">
-						</sbux-input>
+						<input id="txtSRID" name="txtSRID" class="form-control" type="text" readonly></input>
 					</div>
 					<div class="col-sm-2 col-xs-12 no-padding margin-5-top">
-						<sbux-checkbox 
-							id="chkNew" 
-							name="chkNew"
-							uitype="normal" 
-							text="신규등록"
-							class="sm-font"
-							style="color:blue;"
-							onclick="clickChkNew()">
-						</sbux-checkbox>
+						<input type="checkbox" class="checkbox-pie form-check-input" id="chkNew">
+		    			<label class="form-check-label" for="exampleCheck1" >신규등록</label>
 					</div>
 					
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-5-top"> 
-						<sbux-label 
-							id="lbRegUser"
-							text="등록인" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbRegUser">등록인</label>
 					</div>
 					<div class="col-sm-5 col-xs-12 no-padding margin-3-top">
-						<sbux-input 
-							id="txtRegUser" 
-							name="txtRegUser"
-							uitype="text" 
-							sbux-popover="<font color='blue' style='font-weight:bold;'>등록인</font>을 입력"
-							sbux-popover-placement="bottom" 
-							sbux-popover-html="true">
-						</sbux-input>
+						<input id="txtRegUser" name="txtRegUser" class="form-control" type="text" readonly></input>
 					</div>
 				</div> 
 				
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-5-top"> 
-						<sbux-label 
-							id="lbRegDate"
-							text="등록일시" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbRegDate">등록일시</label>
 					</div>
 					<div class="col-sm-11 col-xs-12 no-padding margin-3-top">
-						<sbux-input 
-							id="txtRegDate" 
-							model-name="txtRegDate"
-							name="createdate"
-							uitype="text"
-							grid-id="prjListGrid"
-							sbux-popover-placement="bottom" 
-							sbux-popover-html="true">
-						</sbux-input>
+						<input id="txtRegDate" name="txtRegDate" class="form-control" type="text" readonly></input>
 					</div>
 				</div>
 			</div>
@@ -90,68 +40,28 @@
 			<div class="row">
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-10-top"> 
-						<sbux-label 
-							id="lbDocuNum"
-							text="문서번호" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbDocuNum">문서번호</label>
 					</div>
 					<div class="col-sm-5 col-xs-12 no-padding margin-3-top">
-						<sbux-input 
-							id="txtDocuNum" 
-							name="txtDocuNum"
-							class="width-100" 
-							uitype="text"
-							sbux-popover="<font color='blue' style='font-weight:bold;'>SR번호입력</font>를 입력"
-							sbux-popover-placement="bottom" 
-							sbux-popover-html="true">
-						</sbux-input>
+						<input id="txtDocuNum" name="txtDocuNum" class="form-control" type="text"></input>
 					</div>
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-10-top">
-						<sbux-label 
-							id="lbReqDept"
-							text="*요청부서" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbReqDept">*요청부서</label>
 					</div>
-					
 					<div class="col-sm-5 col-xs-12 text-right no-padding margin-5-top"> 
-						<sbux-input 
-							id="txtDept" 
-							model-name="txtDept"
-							name="reqdept"
-							uitype="text"
-							grid-id="prjListGrid"
-							sbux-popover="<font color='blue' style='font-weight:bold;'>더블클릭</font> 부서선택"
-							sbux-popover-placement="bottom" 
-							sbux-popover-html="true">
-						</sbux-input>
+						<input id="txtDept" name="txtDept" class="form-control" type="text"></input>
 					</div>
 				</div> 
 				
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-10-top"> 
-						<sbux-label 
-							id="lbRegComDate"
-							text="*완료요청일" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbRegComDate">*완료요청일</label>
 					</div>
 					<div class="col-sm-11 col-xs-12 no-padding">
-						<sbux-picker 
-							id="datReqComDate" 
-							model-name="datReqComDate"
-							name="reqcompdat"
-							grid-id="prjListGrid" 
-							uitype="date" 
-							mode="popup"
-							style="width: 100%;"
-						    init="2018/01/01" 
-						    date-format="yyyy/mm/dd">
-						</sbux-picker>
+						<div class="input-group" data-ax5picker="basic2">
+				            <input id="datReqComDate" type="text" class="form-control" placeholder="yyyy/mm/dd">
+				            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+				        </div>
 					</div>
 				</div>
 			</div>
@@ -159,24 +69,10 @@
 			<div class="row">
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-5-top"> 
-						<sbux-label 
-							id="lbReqSubject"
-							text="*요청제목" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbReqSubject">*요청제목</label>
 					</div>
 					<div class="col-sm-11 col-xs-12 no-padding">
-						<sbux-input 
-							id="txtReqSubject" 
-							model-name="txtReqSubject"
-							name="cc_reqtitle"
-							grid-id="prjListGrid" 
-							uitype="text"
-							sbux-popover="<font color='blue' style='font-weight:bold;'>요청제목</font>을 입력"
-							sbux-popover-placement="bottom" 
-							sbux-popover-html="true">
-						</sbux-input>
+						<input id="txtReqSubject" name="txtReqSubject" class="form-control" type="text"></input>
 					</div>
 				</div> 
 				<div class="col-sm-6 col-xs-12 no-padding height-30px">
@@ -187,100 +83,44 @@
 			<div class="row">
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-5-top"> 
-						<sbux-label 
-							id="lbReqContent"
-							text="*상세내용" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbReqContent">*상세내용</label>
 					</div>
 					<div class="col-sm-11 col-xs-12 no-padding margin-5-top">
-						<sbux-textarea 
-							id="texReqContent" 
-							name="texReqContent"
-							class="width-100"
-							rows="7"
-							uitype="normal"
-							>
-						</sbux-textarea>
+						<textarea id="texReqContent" name="texReqContent" class="form-control" style="align-content:left;width:100%;height:265px;resize: none;"></textarea>
 					</div>
 				</div>
 				
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-5-top"> 
-						<sbux-button 
-							id="btnFileAdd" 
-							name="btnFileAdd" 
-							class="width-100"
-							uitype="normal" 
-							text="파일첨부"
-							onclick="openSrModal()">
-						</sbux-button>
+						<button id="btnFileAdd" class="btn btn-default" onclick="openSrModal()">파일첨부</button>
 					</div>
 					<div class="col-sm-11 col-xs-12 no-padding margin-3-top">
-						<div id="fileAddGrid" class="xs-grid-height">
-						</div>
+						<section>
+							<div class="container-fluid">
+								<div data-ax5grid="grid_fileList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 25%;"></div>
+							</div>
+						</section>
 					</div>
 				</div>
 				
 				<div class="col-sm-6 offset-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 text-right no-padding margin-5-top"> 
-						<sbux-label 
-							id="lbDevUser"
-							text="*담당개발자" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbDevUser">*담당개발자</label>
 					</div>
 					<div class="col-sm-1 col-xs-12 no-padding margin-3-top">
-						<sbux-input 
-							id="txtDevUser" 
-							name="txtDevUser"
-							class="width-100" 
-							uitype="text"
-							sbux-popover="<font color='blue' style='font-weight:bold;'>더블클릭</font>하여 사용자 검색"
-							sbux-popover-placement="bottom" 
-							sbux-popover-html="true"
-							ondblclick="findPesonOrDepart('1')">
-						</sbux-input>
+						<input id="txtDevUser" name="txtDevUser" class="form-control" type="text"></input>
 					</div>
 					
 					<div class="col-sm-8 col-xs-12 no-padding margin-3-top">
-						<sbux-select 
-							id="cboDevUser" 
-							name="cboDevUser"
-							class="combo-height width-100"  
-							uitype="single" 
-						  	model-name="cboDevUser"
-		                  	jsondata-text = "cm_idname"
-		                  	jsondata-value = "cm_userid"
-		                  	scroll-style="min-height: 120px;"
-		                  	required 
-		                  	jsondata-ref="cboDevUserData"
-		                >
-		                </sbux-select>
+		                <div id="cboDevUser" data-ax5select="cboDevUser" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 					</div>
 					
 					<div class="col-sm-1 col-xs-12 no-padding margin-3-top">
-						<sbux-button 
-							id="btnAddDevUser" 
-							name="btnAddDevUser" 
-							class="width-100"
-							uitype="normal" 
-							text="추가"
-							onclick="openSrModal()">
-						</sbux-button>
+						<button id="btnAddDevUser" class="btn btn-default" onclick="openSrModal()">추가</button>
 					</div>
 					
 					<div class="col-sm-1 col-xs-12 no-padding margin-3-top">
-						<sbux-button 
-							id="btnDelDevUser" 
-							name="btnDelDevUser" 
-							class="width-100"
-							uitype="normal" 
-							text="삭제"
-							onclick="openSrModal()">
-						</sbux-button>
+						<button id="btnDelDevUser" class="btn btn-default" onclick="openSrModal()">삭제</button>
 					</div>
 				</div>
 			</div>
@@ -288,27 +128,11 @@
 			<div class="row">
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 no-padding text-right margin-10-top">
-						<sbux-label 
-							id="lbCatTypeSR"
-							text="*분류유형" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbCatTypeSR">*분류유형</label>
 					</div>
 				
 					<div class="col-sm-11 col-xs-12 no-padding margin-5-top"> 
-						<sbux-select 
-							id="cboCatTypeSR" 
-							name="cboCatTypeSR"
-							class="combo-height width-100"  
-							uitype="single" 
-		                  	jsondata-text = "cm_codename"
-		                  	jsondata-value = "cm_micode"
-		                  	scroll-style="min-height: 120px;"
-		                  	required 
-		                  	jsondata-ref="cboCatTypeSRData"
-		                >
-		                </sbux-select>
+		                 <div id="cboCatTypeSR" data-ax5select="cboCatTypeSR" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 					</div>
 				</div>
 				
@@ -317,98 +141,42 @@
 					</div>
 				
 					<div class="col-sm-11 col-xs-12 no-padding margin-5-top"> 
-						<div id="devUserGrid" class="xs-grid-height">
-						</div>
+						<section>
+							<div class="container-fluid">
+								<div data-ax5grid="devUserGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 25%;"></div>
+							</div>
+						</section>
 					</div>
 				</div>
 				
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 no-padding text-right margin-10-top">
-						<sbux-label 
-							id="lbChgType"
-							text="*변경종류" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbChgType">*변경종류</label>
 					</div>
 				
 					<div class="col-sm-11 col-xs-12 no-padding margin-5-top"> 
-						<sbux-select 
-							id="cboChgType" 
-							name="cboChgType"
-							class="combo-height width-100"  
-							uitype="single" 
-		                  	jsondata-text = "cm_codename"
-		                  	jsondata-value = "cm_micode"
-		                  	scroll-style="min-height: 120px;"
-		                  	required 
-		                  	jsondata-ref="cboChgTypeData"
-		                >
-		                </sbux-select>
+		                <div id="cboChgType" data-ax5select="cboChgType" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 					</div>
 				</div>
 				
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 no-padding text-right margin-10-top">
-						<sbux-label 
-							id="lbWorkRank"
-							text="*작업순위" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbWorkRank">*작업순위</label>
 					</div>
 				
 					<div class="col-sm-11 col-xs-12 no-padding margin-5-top"> 
-						<sbux-select 
-							id="cboWorkRank" 
-							name="cboWorkRank"
-							class="combo-height width-100"  
-							uitype="single" 
-		                  	jsondata-text = "cm_codename"
-		                  	jsondata-value = "cm_micode"
-		                  	scroll-style="min-height: 120px;"
-		                  	required 
-		                  	jsondata-ref="cboWorkRankData"
-		                >
-		                </sbux-select>
+		                <div id="cboWorkRank" data-ax5select="cboWorkRank" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 					</div>
 				</div>
 				
 				<div class="col-sm-6 col-xs-12">
 					<div class="col-sm-1 col-xs-12 no-padding text-right margin-10-top">
-						<sbux-label 
-							id="lbReqSecu"
-							text="보안요구사항" 
-							class="sm-font"
-							uitype="normal">
-						</sbux-label>
+						<label id="lbReqSecu">보안요구사항</label>
 					</div>
 				
 					<div class="col-sm-11 col-xs-12 no-padding margin-5-top"> 
-						<sbux-select 
-							id="cboReqSecu" 
-							name="cboReqSecu"
-							class="combo-height width-100"  
-							uitype="single" 
-		                  	jsondata-text = "cm_codename"
-		                  	jsondata-value = "cm_micode"
-		                  	scroll-style="min-height: 120px;"
-		                  	required 
-		                  	jsondata-ref="cboReqSecuData"
-		                  	onchange = "changeCboReqSecu(cboReqSecu)"
-		                >
-		                </sbux-select>
-		                
-		                <sbux-input 
-							id="txtReqSecu" 
-							model-name="txtReqSecu"
-							name="txtReqSecu"
-							class="width-100"
-							uitype="text"
-							sbux-popover="<font color='blue' style='font-weight:bold;'>보안요구사항</font>을 직접 입력"
-							sbux-popover-placement="top" 
-							sbux-popover-html="true">
-						</sbux-input>
+		                <div id="cboReqSecu" data-ax5select="cboReqSecu" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+						<input id="txtReqSecu" name="txtReqSecu" class="form-control" type="text" style="display:none;"></input>
 					</div>
 				</div>
 			</div>
@@ -417,35 +185,14 @@
 				<div class="col-sm-9 col-xs-12 height-30px">
 				</div>
 				<div class="col-sm-1 col-xs-12 no-padding margin-5-top">
-					<sbux-button 
-						id="btnRegister" 
-						name="btnRegister" 
-						class="width-100"
-						uitype="normal" 
-						text="등록"
-						onclick="openSrModal()">
-					</sbux-button>
+					<button id="btnRegister" class="btn btn-default" onclick="openSrModal()">등록</button>
 				</div>
 				<div class="col-sm-1 col-xs-12 no-padding margin-5-top"> 
-					<sbux-button 
-						id="btnUpdate" 
-						name="btnUpdate" 
-						class="width-100"
-						uitype="normal" 
-						text="수정"
-						onclick="openSrModal()">
-					</sbux-button>
+					<button id="btnUpdate" class="btn btn-default" onclick="openSrModal()">수정</button>
 				</div>
 				
 				<div class="col-sm-1 col-xs-12 no-padding margin-5-top"> 
-					<sbux-button 
-						id="btnDelete" 
-						name="btnDelete" 
-						class="width-100"
-						uitype="normal" 
-						text="반려"
-						onclick="openSrModal()">
-					</sbux-button>
+					<button id="btnDelete" class="btn btn-default" onclick="openSrModal()">반려</button>
 				</div>
 			</div>
 			
@@ -454,27 +201,3 @@
 </section>
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/srcommon/SRRegisterTab.js"/>"></script>
-
-<sbux-modal id="modalOrganization" 
-			name="modalOrganization" 
-			uitype="middle" 
-			header-title="조직도" 
-			body-html-id="modalBody" 
-			footer-is-close-button="false">
-</sbux-modal>
-
-<div id="modalBody">
-	<iframe id="modalOrganizationBody"
-			name="modalOrganizationBody" 
-			src="<c:url value="/webPage/modal/TreeOrganization.jsp"/>" 
-			width="100%" 
-			height="380px" 
-			frameborder="0" 
-			border="0" 
-			scrolling="no" 
-			marginheight="0" 
-			marginwidth="0">
-	</iframe>
-</div>
-
-
