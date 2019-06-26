@@ -128,8 +128,8 @@ public class Cmm1200{
 						jawonLs = rs2.getString("cm_micode");
 					}
 					else{
-						jawonNames = jawonNames+ ", " + rs2.getString("cm_codename");
-						jawonLs = jawonLs + ", " + rs2.getString("cm_micode");
+						jawonNames = jawonNames+ "," + rs2.getString("cm_codename");
+						jawonLs = jawonLs + "," + rs2.getString("cm_micode");
 					}
 				}
 				rs2.close();
@@ -163,8 +163,8 @@ public class Cmm1200{
 						jobLs = rs2.getString("cm_jobcd");
 					}
 					else{
-						jobNames = jobNames+ ", " + rs2.getString("cm_jobname");
-						jobLs = jobLs + ", " + rs2.getString("cm_jobcd");
+						jobNames = jobNames+ "," + rs2.getString("cm_jobname");
+						jobLs = jobLs + "," + rs2.getString("cm_jobcd");
 					}
 				}
 				rs2.close();
@@ -389,7 +389,6 @@ public class Cmm1200{
 				conn = null;
 				return rst;
 			}
-
 			if (dsnCD.equals("")){
 				rst = new HashMap<String, String>();
 				rst.put("retVal", "0");
@@ -398,7 +397,6 @@ public class Cmm1200{
 				conn = null;
 				return rst;
 			}
-
 			strQuery.setLength(0);
 			strQuery.append("select count(*) as cnt from cmr0020 \n");
 			strQuery.append("where cr_syscd= ? \n");
@@ -412,7 +410,6 @@ public class Cmm1200{
 
 
 			rs = pstmt.executeQuery();
-
 
 			cnt0020 = 0;
 			if (rs.next()){
@@ -429,7 +426,6 @@ public class Cmm1200{
             	conn = null;
             	return rst;
             }
-
             conn.setAutoCommit(false);
             strQuery.setLength(0);
 			strQuery.append("delete cmm0072 \n");
@@ -442,7 +438,6 @@ public class Cmm1200{
 
 
             pstmt.executeUpdate();
-
             pstmt.close();
 
             strQuery.setLength(0);
@@ -456,7 +451,6 @@ public class Cmm1200{
 
 
             pstmt.executeUpdate();
-
             pstmt.close();
 
 
@@ -471,7 +465,6 @@ public class Cmm1200{
 
 
             pstmt.executeUpdate();
-
             pstmt.close();
 
             rst = new HashMap<String, String>();
@@ -482,7 +475,7 @@ public class Cmm1200{
             conn.close();
             pstmt = null;
             conn = null;
-
+            
 
             return rst;
             //ecamsLogger.error(rsval.toString());
@@ -687,7 +680,7 @@ public class Cmm1200{
                 }
 
                 //ecamsLogger.error(saveList.get(i).get("jawonLs"));
-                tmpAry = saveList.get(i).get("jawonLs").split(", ");
+                tmpAry = saveList.get(i).get("jawonLs").split(",");
 
                 for (j=0;j<tmpAry.length;j++){
                 	if (tmpAry[j] == null){
@@ -712,7 +705,7 @@ public class Cmm1200{
 
                 tmpAry = null;
 
-                tmpAry = saveList.get(i).get("jobLs").split(", ");
+                tmpAry = saveList.get(i).get("jobLs").split(",");
 
                 for (j=0;j<tmpAry.length;j++){
                 	if (tmpAry[j] == null){

@@ -517,7 +517,33 @@ ul.tabs li.active {
 .width-90 {
 	width: 90%;
 }
-
+.width-89 {
+	width: 89%;
+}
+.width-88 {
+	width: 88%;
+}
+.width-87 {
+	width: 87%;
+}
+.width-86 {
+	width: 86%;
+}
+.width-85 {
+	width: 85%;
+}
+.width-84 {
+	width: 84%;
+}
+.width-83 {
+	width: 83%;
+}
+.width-82 {
+	width: 82%;
+}
+.width-81 {
+	width: 81%;
+}
 .width-80 {
 	width: 80% !important;
 }
@@ -818,7 +844,7 @@ em{font-style: normal;}
 blockquote, q {quotes:none;}
 blockquote:before, blockquote:after, q:before, q:after {content: ''; content: none;}
 table, table tr, table td {border: 0; border-collapse: collapse; border-spacing: 0;}
-label {display: inline-block; max-width: 100%; line-height: 25px; letter-spacing: -0.8px; margin-right: 5px; font-weight: bold; vertical-align: top; }
+label {display: inline-block;max-width: 100%;line-height: 25px;letter-spacing: -0.8px;margin-right: 5px;font-weight: bold;vertical-align: top;}
 button, input, select{vertical-align: top;}
 button{border: 0;}
 input{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
