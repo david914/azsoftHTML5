@@ -3,104 +3,105 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp"/>
 
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
 
-<!-- 담당자그리드 -->
-<div class="row" style="padding-top: 5px;">
-	<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-		<div data-ax5grid="workerGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 27%;"></div>
-	</div>
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">개발 <strong>&gt; 개발계획/실적</strong></div>
+        <!-- history E-->         
+	    
+	    <!-- PrjListTab.jsp -->
+	    <div class="az_board_basic">
+			<div class="l_wrap width-48 dib vat" style="width:100%">
+    			<iframe src='/webPage/srcommon/PrjListTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+    		</div>
+	    </div>
+	    
+		<!-- 하단 S-->
+		<div class="half_wrap margin-10-top">
+			<!-- tab S-->
+			<div class="tab_wrap">
+				<ul class="tabs">
+					<li rel="tabSRRegister" id="tab1Li">SR등록/접수</li><li rel="tabDevPlan" id="tab2Li" class="on">개발계획/실적등록</li>
+				</ul>
+			</div>
+			<!-- tab E-->
+			
+			<div class="half_wrap margin-10-top" style="height:60%"> <!--  tab_container -->
+		       	<!-- SR등록/접수 START -->
+		       	<div id="tabSRRegister" class="tab_content mask_wrap" style="width:100%">
+		       		<iframe src='/webPage/srcommon/SRRegisterTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       	</div>
+		       	<!-- SR등록/접수  END -->
+		       	
+		       	<!-- 개발계획/실적등록 START -->
+		       	<div id="tabDevPlan" class="tab_content" style="width:100%">
+		       		<iframe src='/webPage/srcommon/DevPlanTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       	</div>
+		       	<!-- 개발계획/실적등록 END -->
+		   	</div>
+		   	
+		</div>
+    </div>
 </div>
+	<!-- Footer-->
+	<footer id="footer">
+	    <ul>
+	        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+	        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+	    </ul>
+	</footer>
+	<input id="txtSessionID" type="hidden" value="FE5E5695B40130B57F234A35A59EF651">
 
+<!-- contener E -->
 
-<div class="row" style="padding-top: 5px;">
-	<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-		<label><input type="checkbox" id="chkAll"/>전체보기</label>
-	</div>
-</div>
-
-<!-- 작업시간내역 -->
-<div class="row" style="padding-top: 5px;">
-	<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-		<div data-ax5grid="worktimeGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 27%;"></div>
-	</div>
-</div>
-
-
-<!-- 개발계획 -->
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-1">
-		<label><input type="radio" id="radioPlan" name="group" value="HTML">개발계획</label>
-	</div>
-	
-	<div class="col-sm-2">
-		<div class="col-sm-12">
-			<label style="padding-top: 25px;">예상소요시간</label>
-			<input id="txtExpTime" name="txtExpTime" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></input>
-		</div>
-	</div>
-	
-	<div class="col-sm-2">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">예상개발시작일</label>
-			<div class="input-group" data-ax5picker="ExpStdate">
-	           <input id="ExpStdate" type="text" class="form-control" placeholder="yyyy/mm/dd">
-	           <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-	    	</div>
-		</div>
-	</div>
-	
-	<div class="col-sm-2">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">예상개발종료일</label>
-			<div class="input-group" data-ax5picker="ExpEnddate">
-	           <input id="ExpEnddate" type="text" class="form-control" placeholder="yyyy/mm/dd">
-	           <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-	    	</div>
-		</div>
-	</div>
-	
-    <div class="col-sm-2">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">기능점수등급</label>
-		
-			<div class="form-group">
-            	<div id="selRate" data-ax5select="selRate" data-ax5select-config="{}"></div>
-        	</div>
-		</div>
-	</div>
-	
-	<div class="col-sm-2" style="padding-top: 28px;">
-		<button class="btn btn-default" id="btnRegPlan">등록</button>
-	</div>
-</div>
-
-<!-- 개발실적 -->
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-1">
-		<label><input type="radio" id="radioResult" name="group" value="HTML">개발실적</label>
-	</div>
-		
-	<div class="col-sm-2">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">작업일</label>
-			<div class="input-group" data-ax5picker="DevDate">
-	           <input id="DevDate" type="text" class="form-control" placeholder="yyyy/mm/dd">
-	           <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-	    	</div>
-		</div>
-	</div>
-	
-    <div class="col-sm-2">
-		<div class="col-sm-12">
-			<label style="padding-top: 30px;">작업시간</label>
-			<input id="txtDevTime" name="txtDevTime" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></input>
-		</div>
-	</div>
-	
-	<div class="col-sm-2" style="padding-top: 28px;">
-		<button class="btn btn-default" id="btnRegResult">등록</button>
-	</div>
-</div>
+</body>
+</html>
 
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
