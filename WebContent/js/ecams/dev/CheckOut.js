@@ -11,7 +11,7 @@ var userId 			  = window.top.userId;
 var adminYN		  = window.top.adminYN;
 var userDeptName = window.top.userDeptName;
 var userDeptCd 	  = window.top.userDeptCd;
-var reqcd 			  = window.top.reqCd;
+var reqCd 			  = window.top.reqCd;
 
 //grid 생성
 var firstGrid 	 = new ax5.ui.grid();
@@ -190,11 +190,11 @@ $(document).ready(function() {
 		changeSrId();
 	});
 
-	$('#cboSysCd').bind('change',function(){
+	$('#cboSys').bind('change',function(){
 		changeSys();
 	});
 	
-	$('#btnSrInfo').bind('click',function(){
+	$('#btnSR').bind('click',function(){
 		idx_button_srinfo();
 	});
 	
@@ -220,7 +220,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('#progName').bind('keypress',function(event){
+	$('#txtRsrcName').bind('keypress',function(event){
 		if(event.keyCode == 13){
 			clickSearchBtn();
 		}
@@ -255,7 +255,7 @@ function getSysCbo(){
 	sysInfoData.SelMsg = 'SEL';
 	sysInfoData.UserId = userId;
 	sysInfoData.SecuYn = 'y';
-	sysInfoData.ReqCd = reqcd;
+	sysInfoData.ReqCd = reqCd;
 	sysInfoData.CloseYn = 'n';
 	
 	var tmpData = {
@@ -278,24 +278,24 @@ function successGetSysCbo(data){
 		options.push({value: sysData[i].cm_syscd, text: sysData[i].cm_sysmsg, cm_sysgb: sysData[i].cm_sysgb, cm_sysinfo : sysData[i].cm_sysinfo});
 	};
 	
-	$('[data-ax5select="cboSysCd"]').ax5select({
+	$('[data-ax5select="cboSys"]').ax5select({
         options: options
 	});
 	
 	if(sysData.lenght > 0){
 		if(strAcptNo != null && strAcptNo !=""){
-			var selectVal = $('select[name=cboSysCd] option:eq(0)').val();
-			$('[data-ax5select="cboSysCd"]').ax5select('setValue',selectVal,true);
+			var selectVal = $('select[name=cboSys] option:eq(0)').val();
+			$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
 		}else{
 			for (var i=0;sysData.lenght>i;i++) {
 					if (sysData[i].setyn == "Y") {
-						var selectVal = $('select[name=cboSysCd] option:eq('+i+')').val();
-						$('[data-ax5select="cboSysCd"]').ax5select('setValue',selectVal,true);
+						var selectVal = $('select[name=cboSys] option:eq('+i+')').val();
+						$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
 						break;
 					}
 				}
-			var selectVal = $('select[name=cboSysCd] option:eq(0)').val();
-			if (i>=sysData.lenght) $('[data-ax5select="cboSysCd"]').ax5select('setValue',selectVal,true);;
+			var selectVal = $('select[name=cboSys] option:eq(0)').val();
+			if (i>=sysData.lenght) $('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);;
 		}
 	} else {
 		if (strAcptNo != null && strAcptNo != "") {
@@ -312,7 +312,7 @@ function getSrIdCbo(){
 	var srInfoData = new Object();
 	srInfoData.userid = userId;
 	srInfoData.secuyn = 'Y';
-	srInfoData.reqcd = reqcd;
+	srInfoData.reqcd = reqCd;
 	srInfoData.qrygbn = '01';
 	
 	var tmpData = {
@@ -344,7 +344,7 @@ function successGetSrIdCbo(data){
 function getPrgCbo(){
 	var ajaxReturnData = null;
 	var progInfoData = new Object();
-	progInfoData.SysCd = getSelectedVal('cboSysCd').value;
+	progInfoData.SysCd = getSelectedVal('cboSys').value;
 	progInfoData.SelMsg = 'ALL';
 	
 	var tmpData = {
@@ -365,7 +365,7 @@ function successGetPrgCbo(data){
 		options.push({value: value.cm_micode, text: value.cm_codename});
 	});
 	
-	$('[data-ax5select="cboProg"]').ax5select({
+	$('[data-ax5select="cboRsrccd"]').ax5select({
         options: options
 	});
 	
@@ -387,14 +387,14 @@ function changeSrId(){
 function changeSys(){
 	
 	firstGrid.setData([]);
-	if (getSelectedVal('cboSysCd').cm_sysinfo.substr(4,1) == "1" && getSelectedVal('cboSysCd').cm_stopsw == "1") {
+	if (getSelectedVal('cboSys').cm_sysinfo.substr(4,1) == "1" && getSelectedVal('cboSys').cm_stopsw == "1") {
 		showToast('이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.');
 
 		$('#btnSearch').prop('disabled',true);
 		return;
 	}
 	localHome = "";
-	if(getSelectedVal('cboSysCd').cm_sysinfo.substr(9,1) == "1"){
+	if(getSelectedVal('cboSys').cm_sysinfo.substr(9,1) == "1"){
 
 		$('[data-ax5select="cboSrId"]').ax5select("disable");
 		$('#btnSearch').prop('disabled',false);
@@ -402,12 +402,12 @@ function changeSys(){
 		$('[data-ax5select="cboSrId"]').ax5select("enable");
 		$('#btnSearch').prop('disabled',false);
 	}
-	if (getSelectedVal('cboSysCd').localyn == "S") {//S: server only
+	if (getSelectedVal('cboSys').localyn == "S") {//S: server only
 	} else {
-		if (getSelectedVal('cboSysCd').localyn == "A" || getSelectedVal('cboSysCd').localyn == "L") { //A: ALL
+		if (getSelectedVal('cboSys').localyn == "A" || getSelectedVal('cboSys').localyn == "L") { //A: ALL
 			var devHomeData = new Object();
 			devHomeData.UserId = userId;
-			devHomeData.SysCd = getSelectedVal('cboSysCd').value;
+			devHomeData.SysCd = getSelectedVal('cboSys').value;
 			
 			var tmpData = {
 				treeInfoData: 	devHomeData,
@@ -436,9 +436,9 @@ function successGetDevHome(data){
 function getFileTree(){
 	var fileTreeInfoData = new Object();
 	fileTreeInfoData.UserId = userId;
-	fileTreeInfoData.SysCd = getSelectedVal('cboSysCd').value;
+	fileTreeInfoData.SysCd = getSelectedVal('cboSys').value;
 	fileTreeInfoData.SecuYn = 'Y';
-	fileTreeInfoData.SinCd = reqcd;
+	fileTreeInfoData.SinCd = reqCd;
 	fileTreeInfoData.ReqCd = '';
 	
 	var tmpData = {
@@ -504,7 +504,7 @@ function myOnExpand(event, treeId, treeNode) {
 		var ajaxReturnData = null;
 		var childFileTreeData = new Object();
 		childFileTreeData.UserId = userId;
-		childFileTreeData.SysCd = getSelectedVal('cboSysCd').value;
+		childFileTreeData.SysCd = getSelectedVal('cboSys').value;
 		childFileTreeData.FileInfo = treeNode.cm_info;
 		childFileTreeData.Rsrccd = treeNode.cm_rsrccd == undefined ?  treeNode.cr_rsrccd : treeNode.cm_rsrccd;
 		childFileTreeData.FileId = treeNode.id;
@@ -536,8 +536,8 @@ function myOnExpand(event, treeId, treeNode) {
 };
 
 function onClickTree(event, treeId, treeNode) {
-	var sysCd  		= getSelectedVal('cboSysCd').value;
-	var sysgb  		= getSelectedVal('cboSysCd').cm_sysgb;
+	var sysCd  		= getSelectedVal('cboSys').value;
+	var sysgb  		= getSelectedVal('cboSys').cm_sysgb;
 	
 	var hasChild 	= treeNode.children != undefined? true : false;
 	var root 		= treeNode.root;
@@ -616,10 +616,10 @@ function makeFileDir(fullpath, dsncd, fileinfo, hasChild, sysgb, rsrccd, sysCd){
 			getFileData.dsncd = toDsnCd;
 		} 
 		getFileData.rsrccd = rsrccd;
-		getFileData.reqcd = reqcd;
+		getFileData.reqcd = reqCd;
 		if(rsrcname === undefined) getFileData.rsrcname = '';
 		else getFileData.rsrcname = rsrcname;
-		getFileData.reqcd = reqcd;
+		getFileData.reqcd = reqCd;
 		
 		
 		var getFileDataInfo = {
@@ -682,11 +682,11 @@ function clickSearchBtn() {
 	var getFileData = {};
 	var rsrcname 	= null;
 	getFileData.userid 	= userId;
-	getFileData.syscd 	= getSelectedVal('cboSysCd').value;
-	getFileData.sysgb 	= getSelectedVal('cboSysCd').cm_sysgb;
-	getFileData.rsrccd 	= getSelectedVal('cboProg').value;
-	getFileData.reqcd 	= reqcd;
-	rsrcname = $('#progName').val();
+	getFileData.syscd 	= getSelectedVal('cboSys').value;
+	getFileData.sysgb 	= getSelectedVal('cboSys').cm_sysgb;
+	getFileData.rsrccd 	= getSelectedVal('cboRsrccd').value;
+	getFileData.reqcd 	= reqCd;
+	rsrcname = $('#txtRsrcName').val();
 	if(rsrcname === '' || rsrcname === undefined) {
 		showToast('검색단어를 입력한 후 검색하시기 바랍니다.');
 		return;
@@ -737,7 +737,7 @@ function addDataRow() {
 			}
 		}
 		
-		if (reqcd == "02"){
+		if (reqCd == "02"){
 			if (firstGrid.list[selectIndex].cr_lstver == "sel"){
 				vercnt++;
 				calcnt++;
@@ -765,8 +765,8 @@ function addDataRow() {
 			if (secondGridData.length > 0){
 					var downFileData = new Object();
 					downFileData.strUserId = userId;
-					downFileData.strReqCD = reqcd;
-					downFileData.syscd = getSelectedVal('cboSysCd').value;
+					downFileData.strReqCD = reqCd;
+					downFileData.syscd = getSelectedVal('cboSys').value;
 					downFileData.sayu = '';
 					downFileData.localFileDownYN = localFileDownYN;
 					
@@ -802,7 +802,7 @@ function deleteDataRow() {
 	
 	if (secondGrid.list.length == 0){
 
-		$('[data-ax5select="cboSysCd"]').ax5select("enable");
+		$('[data-ax5select="cboSys"]').ax5select("enable");
 		$('#btnReq').prop('disabled',true);
 		$('#btndiff').hide();
 		outpos = "";
@@ -897,7 +897,7 @@ function checkDuplication(downFileList) {
 	
 	if(secondGrid.list.length > 0 ) {
 
-		$('[data-ax5select="cboSysCd"]').ax5select("disable");
+		$('[data-ax5select="cboSys"]').ax5select("disable");
 		$('#btndiff').show();
 		
 		secondGrid.list.forEach(function(requestFileGridData, requestFileGridDataIndex) {
@@ -958,7 +958,7 @@ function ckoConfirm(){
 	var strQry = "";
 	var strRsrcCd = "";
 	var ajaxReturnData;
-	strQry = reqcd;
+	strQry = reqCd;
 	for (var x=0;x<secondGrid.list.length;x++) {
 		if (strRsrcCd != null && strRsrcCd != "") {
 			if (strRsrcCd.indexOf(secondGrid.list[x].cr_rsrccd)<0) {
@@ -968,10 +968,10 @@ function ckoConfirm(){
 	}
 	
 	var confirmInfoData = new Object();
-	confirmInfoData.sysCd = getSelectedVal('cboSysCd').value;
-	confirmInfoData.strReqCd = reqcd;
+	confirmInfoData.sysCd = getSelectedVal('cboSys').value;
+	confirmInfoData.strReqCd = reqCd;
 	confirmInfoData.strRsrcCd = strRsrcCd;
-	confirmInfoData.ReqCd = reqcd;
+	confirmInfoData.ReqCd = reqCd;
 	confirmInfoData.userId = userId;
 	confirmInfoData.strQry = strQry;
 	
@@ -1004,7 +1004,7 @@ function confCall(GbnCd){
 	var strQry = "";
 	var tmpRsrc = "";
 	var ajaxReturnData;
-	strQry = reqcd;
+	strQry = reqCd;
 	for (var x=0;x<secondGrid.list.length;x++) {
 		if (tmpRsrc != null && tmpRsrc != "") {
 			if (tmpRsrc.indexOf(secondGrid.list[x].cr_rsrccd) < 0)
@@ -1015,8 +1015,8 @@ function confCall(GbnCd){
 
 	var confirmInfoData = new Object();
 	confirmInfoData.UserID = userId;
-	confirmInfoData.ReqCD  = reqcd;
-	confirmInfoData.SysCd  = getSelectedVal('cboSysCd').value;
+	confirmInfoData.ReqCD  = reqCd;
+	confirmInfoData.SysCd  = getSelectedVal('cboSys').value;
 	confirmInfoData.Rsrccd = tmpRsrc;
 	confirmInfoData.QryCd = strQry;
 	confirmInfoData.EmgSw = "N";
@@ -1063,10 +1063,10 @@ function requestCheckOut(){
 	var ajaxReturnStr = null;
 	var requestData = {};
 	requestData.UserID = userId;
-	requestData.ReqCD  = reqcd;
+	requestData.ReqCD  = reqCd;
 	requestData.Sayu	 = $('#reqText').val();
-	requestData.cm_syscd = getSelectedVal('cboSysCd').value;
-	requestData.cm_sysgb = getSelectedVal('cboSysCd').cm_sysgb;
+	requestData.cm_syscd = getSelectedVal('cboSys').value;
+	requestData.cm_sysgb = getSelectedVal('cboSys').cm_sysgb;
 	requestData.ckoutpos = outpos;
 	
 	if(!$('#cboSrId').prop('disabled') && getSelectedIndex('cboSrId') > 0 ) {
@@ -1170,7 +1170,7 @@ function ckout_end(){
 	upFiles = null;
 	upFiles = new Array();
 	
-	$('[data-ax5select="cboSysCd"]').ax5select("disable");
+	$('[data-ax5select="cboSys"]').ax5select("disable");
 	
 	$('#btndiff').hide();
 	$('#btnReq').prop('disabled',true);
@@ -1371,9 +1371,9 @@ function successGetArrayCollection(data){
 	secondGrid.setData([]);
 	
 	var fileData = {};
-	fileData.SysCd = getSelectedVal('cboSysCd').value;
-	fileData.SysGb = getSelectedVal('cboSysCd').cm_sysgb;
-	fileData.ReqCd = reqcd;
+	fileData.SysCd = getSelectedVal('cboSys').value;
+	fileData.SysGb = getSelectedVal('cboSys').cm_sysgb;
+	fileData.ReqCd = reqCd;
 	var tmpData = {
 			fileList : excelAry,
 			fileData: fileData,

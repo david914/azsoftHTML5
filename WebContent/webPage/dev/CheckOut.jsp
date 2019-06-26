@@ -66,15 +66,15 @@ div[class^="row"] {
 				<div class="col-sm-3">
 					<div class="col-sm-2">
 					<div class="margin-15-left margin-15-top">
-						<label id="idx_lbl_system">*시스템</label>
+						<label id="lblSysId">*시스템</label>
 					</div>
 					<div class="form-group col-sm-10 no-padding">
-						 <div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+						 <div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="col-sm-2">
-						<label id="idx_lbl_srid">*SR-ID</label>
+						<label id="lblSrId">*SR-ID</label>
 					</div>
 					</div>
 					<div class="form-group col-sm-10 no-padding">
@@ -83,7 +83,7 @@ div[class^="row"] {
 				</div>
 				<div class="col-sm-2">
 					<div class="col-sm-4">
-						<button id="btnSrInfo" name="button_search" class="width-100">SR정보</button>
+						<button id="btnSR" name="button_search" class="width-100">SR정보</button>
 						<button id="btnExcelLoad" name="button_excelLoad" class="width-100">일괄 체크아웃</button>
 						<form id='ajaxform' method='post' enctype='multypart/form-data'>
 							<input type='file' id='excelFile' name='excelFile' style='display:none;' onchange='fileTypeCheck(this)' accept='.xls,.xlsx' accept-charset='UTF-8'/>
@@ -113,21 +113,21 @@ div[class^="row"] {
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="col-sm-2">
-						<label id="idx_lbl_prg">프로그램유형</label>
+						<label id="lblRsrccd">프로그램유형</label>
 					</div>
 					<div class="form-group col-sm-10 no-padding">
-						<div data-ax5select="cboProg" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+						<div data-ax5select="cboRsrccd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 					</div>
 				</div>
 				
 				<div class="col-sm-3">
 					<div class="col-sm-2">
-						<label id="idx_lbl_prg_exp" >*프로그램명/설명</label>
+						<label id="lblRsrcName" >*프로그램명/설명</label>
 					</div>
 					<div class="form-group col-sm-10 no-padding">
 						<input 
-							id="progName" 
-							name="idx_lbl_prg_exp_txt"
+							id="txtRsrcName" 
+							name="txtRsrcName"
 							class="input-sm form-control" 
 							placeholder="프로그램설명 을 입력"/>
 					</div>
@@ -193,12 +193,12 @@ div[class^="row"] {
 				<div class="row">
 					<div class="float-right">
 						<div class="form-group">
-							<button class="btn btn-default" id="btnDel" name="idx_del_btn" >제거</button>
+							<button class="btn btn-default" id="btnDel" >제거</button>
 						</div>
 					</div>
 					<div class="float-right">
 						<div class="form-group">
-							<button class="btn btn-default" id="btnAdd" name="idx_add_btn" >추가</button>
+							<button class="btn btn-default" id="btnAdd" >추가</button>
 						</div>
 					</div>
 				</div>
