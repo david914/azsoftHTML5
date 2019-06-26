@@ -85,11 +85,6 @@ public class ConfigReqReport extends HttpServlet {
 	
 	private String getSelectList(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>	prjDataInfoMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "prjData") );
-		System.out.println(prjDataInfoMap.get("stDt")+" / "+
-				   prjDataInfoMap.get("edDt")+" / "+prjDataInfoMap.get("desc")+" / "+
-				   prjDataInfoMap.get("strSys")+" / "+prjDataInfoMap.get("strJob")+" / "+	prjDataInfoMap.get("strDept")+" / "+
-				   prjDataInfoMap.get("txtUser")+" / "+prjDataInfoMap.get("strQry")+" / "+prjDataInfoMap.get("strGbn")+" / "+
-				   prjDataInfoMap.get("strPrc")+" / "+prjDataInfoMap.get("srId")+" / "+	prjDataInfoMap.get("dategbn"));
 		return gson.toJson( cmp0600.get_SelectList(prjDataInfoMap.get("stDt"),
 												   prjDataInfoMap.get("edDt"),prjDataInfoMap.get("desc"),
 												   prjDataInfoMap.get("strSys"),prjDataInfoMap.get("strJob"),	prjDataInfoMap.get("strDept"),

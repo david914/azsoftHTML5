@@ -1,11 +1,5 @@
 
-var userName 	= window.top.userName;
 var userid 		= window.top.userId;
-var adminYN 	= window.top.adminYN;
-var userDeptName= window.top.userDeptName;
-var userDeptCd 	= window.top.userDeptCd;
-var strReqCD 	= window.top.reqCd;
-
 var mainGrid		= new ax5.ui.grid();
 var picker			= [new ax5.ui.picker(), new ax5.ui.picker()];
 var columnData = 
@@ -98,6 +92,7 @@ $(document).ready(function() {
 		columns : columnData
 	}); 
 	
+	//진행상태박스 데이터 세팅
 	$('[data-ax5select="statusSel"]').ax5select({
 		options: [
 			{value: "0", text: "전체"},
@@ -110,13 +105,13 @@ $(document).ready(function() {
 	comboSet();	
 })
 
+//콤보 데이터 셋
 function comboSet() {
 	
 	var ajaxResult = new Array();
 	var comboData = new Array();
-	var selectMenu = ["systemSel", "reqDeptSel",  "prcdDivSel", "reqDivSel"];
-	
 	var ajaxData = new Object();
+	var selectMenu = ["systemSel", "reqDeptSel",  "prcdDivSel", "reqDivSel"];
 	
 	//시스템
 	ajaxData = {
@@ -137,10 +132,8 @@ function comboSet() {
 	//처리구분
 	ajaxData.cm_macode = 'CHECKIN';
 	ajaxResult.push(ajaxCallWithJson('/webPage/report/ConfigReqReport', ajaxData, 'json'));
-	console.log("-------------------------------------");
-	console.log(ajaxResult);
 
-	
+	//콤보박스에 들어갈 데이터 세팅
 	for(var i = 0; i < ajaxResult.length; i++) {
 		comboData[i] = [];
 		for(var j = 0; j < ajaxResult[i].length; j++) {
@@ -171,17 +164,17 @@ function comboSet() {
 	
 }
 
+//picker에 오늘 날짜 디폴트로 세팅
 $(function() {
 	var today = new Date().toISOString().substring(0,10).replace(/-/gi, "/");
 	$("#datEdD").val(today);
 	$("#datStD").val(today);
 })
 
+//조회 클릭 시
 $("#btnSearch").bind('click', function() {
 	
 	var inputData = new Object();
-	var dategbn = "0";
-	if($("#radioCkIn").is(":checked")) dategbn = 1;
 	
 	inputData = {			
 		stDt : replaceAllString($("#datStD").val(), '/', ''),
@@ -195,18 +188,23 @@ $("#btnSearch").bind('click', function() {
 		strGbn : $("[data-ax5select='prcdDivSel").ax5select("getValue")[0].value,
 		strPrc : $("[data-ax5select='statusSel']").ax5select("getValue")[0].value,
 		srId : $("#srId").val() == '' ? null : $("#srId").val(),
-		dategbn : dategbn
+		dategbn : $("#radioCkIn").is(":checked") ? 0 : 1
 	}
 	
-	console.log(inputData);
 	ajaxData = {
 			prjData : inputData,
 			UserId : userid,
 			requestType : "getSelectList"
 	}
 	var ajaxResult = ajaxCallWithJson('/webPage/report/ConfigReqReport', ajaxData, 'json');
-	console.log(ajaxResult);
 	mainGrid.setData(ajaxResult);
+})
+
+$("#btnExcel").on('click', function() {
+	var st_date = new Date().toLocaleString();
+	var today = st_date.substr(0, st_date.indexOf("오"));
+	
+	mainGrid.exportExcel("형상관리신청현황 " + today + ".xls");
 })
 
 function enterKey() {

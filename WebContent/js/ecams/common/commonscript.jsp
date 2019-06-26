@@ -29,6 +29,7 @@
 <script src="<c:url value="/scripts/ax5/ax5modal.js"/>" type="text/javascript"></script>
 <script src="<c:url value="/scripts/ax5/ax5dialog.js"/>" type="text/javascript"></script>
 <script src="<c:url value="/scripts/ax5/ax5uploader.js"/>" type="text/javascript"></script>
+<script src="<c:url value="/scripts/ax5/ax5binder.min.js"/>" type="text/javascript"></script>
 
 <!-- fileupload script -->
 <script src="<c:url value="/scripts/fileupload/jquery.dm-uploader.min.js"/>"></script>

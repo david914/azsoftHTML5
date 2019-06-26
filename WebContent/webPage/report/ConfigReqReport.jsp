@@ -43,6 +43,8 @@ label {
 }
 </style>
 <div style="height: 100%; width: 100%;">
+
+	<!-- data inPut section -->
 	<div class="col-lg-12 col-md-12 col-sm-12 binder-form" style="margin-top: 10px;">
 	<div class="col-lg-12 col-md-12 col-sm-12 no-padding topBorder">
 		<div class="col-lg-3 col-md-3 col-sm-3 form-group test">
@@ -159,6 +161,7 @@ label {
 	<!-- 구분선 -->
 	<div class="col-lg-12 col-md-12 col-sm-12" style="margin: 5px;"></div>
 	
+	<!-- 그리드 -->
 	<div class="col-lg-12 col-md-12 col-sm-12">
 		<div id="mainGrid" data-ax5grid="mainGrid" data-ax5grid-config="{}" style="width:100%;">
 		
