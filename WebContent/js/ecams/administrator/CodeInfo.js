@@ -41,18 +41,20 @@ codeGrid.setConfig({
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
-            clickCodeGrid(this.dindex);
+            
         },
-        onDBLClick: function () {},
+        onDBLClick: function () {
+        	clickCodeGrid(this.dindex);
+        },
     	trStyleClass: function () {},
     	onDataChanged: function(){
     		this.self.repaint();
     	}
     },
     columns: [
-        {key: "cm_macode", 	 label: "대구분",  		width: '10%'},
+        {key: "cm_macode", 	 label: "대구분",  		width: '10%', align: "left"},
         {key: "cm_micode",	 label: "소구분",  		width: '10%'},
-        {key: "cm_codename", label: "코드명칭",  		width: '10%'},
+        {key: "cm_codename", label: "코드명칭",  		width: '10%', align: "left"},
         {key: "cm_seqno", 	 label: "소구분순서",  	width: '10%'},
         {key: "cm_creatdt",  label: "등록일",  		width: '10%'},
         {key: "cm_lastupdt", label: "최종등록일",  	width: '10%'},
