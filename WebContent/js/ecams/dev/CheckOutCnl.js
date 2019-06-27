@@ -18,13 +18,15 @@ var firstGrid 	 = new ax5.ui.grid();
 var secondGrid = new ax5.ui.grid();
 
 var fileGridData = null;
+var secondGridData = null;
 var sysData 	  = null;
 var srData 	  	  = null;
 var gridSimpleData = null;
 var secondGridList = [];
 
-var options = [];
+var options 	= [];
 var strAcptNo = null;
+var srSw 		= false;
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="first-grid"]'),
@@ -236,7 +238,6 @@ $(document).ready(function() {
 
 function screenInit() {
 	getSysCbo();
-	getSrIdCbo();
 	$('#btnReq').attr('disabled',true);
 }
 
@@ -259,71 +260,49 @@ function successGetSysCbo(data){
 	sysData = data;
 	options = [];
 	
+	console.log(sysData);
 	for(var i=0; i<sysData.length;i++){
-		if(sysData[i].cm_syscd == '00000' || sysData[i].cm_sysinfo.substr(0,1) == '1'){
-			sysData.splice(i,1);
-			i--;
-			continue;
-		}
-		options.push({value: sysData[i].cm_syscd, text: sysData[i].cm_sysmsg, cm_sysgb: sysData[i].cm_sysgb, cm_sysinfo : sysData[i].cm_sysinfo});
+		options.push({value: sysData[i].cm_syscd, text: sysData[i].cm_sysmsg, cm_sysgb: sysData[i].cm_sysgb, cm_sysinfo : sysData[i].cm_sysinfo, setyn:sysData[i].setyn});
 	};
 	
 	$('[data-ax5select="cboSys"]').ax5select({
         options: options
 	});
 	
-	if(sysData.lenght > 0){
-		if(strAcptNo != null && strAcptNo !=""){
-			var selectVal = $('select[name=cboSys] option:eq(0)').val();
-			$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
-		}else{
-			for (var i=0;sysData.lenght>i;i++) {
-					if (sysData[i].setyn == "Y") {
-						var selectVal = $('select[name=cboSys] option:eq('+i+')').val();
-						$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
-						break;
-					}
+	if(sysData.length > 0){
+		for (var i=0;sysData.length>i;i++) {
+				if (sysData[i].setyn == "Y") {
+					var selectVal = $('select[name=cboSys] option:eq('+i+')').val();
+					$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
+					break;
 				}
-			var selectVal = $('select[name=cboSys] option:eq(0)').val();
-			if (i>=sysData.lenght) $('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);;
-		}
-	} else {
-		if (strAcptNo != null && strAcptNo != "") {
-			showToast('사용권한이 없는 시스템에 대하여 체크아웃요청을 의뢰하였습니다.');
-		}
+				if(i>sysData.length){
+					
+				}
+			}
 	}
+	getSrIdCbo();
 	
 }
 
 function sysDataFilter(){
 	var sysDataLength = sysData.length;
 	options = [];
-	
 	for(var i=0; i<sysDataLength ; i++){
 		var data = sysData[i];
-		
-		if(data.cm_sysinfo.substr(0,1) == '1'){
-			sysData.splice(i,1);
-			i--;
-			continue;
-		}else if (data.cm_syscd =='00000'){
-			options.push({value: sysData[i].cm_syscd, text: sysData[i].cm_sysmsg, cm_sysgb: sysData[i].cm_sysgb, cm_sysinfo : sysData[i].cm_sysinfo});
+		if (data.cm_syscd =='00000'){
+			options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
 		}else{
 			if(getSelectedIndex('cboSrId') > 0){
-				var syscd = getSelectedVal('cboSys').value;
+				var syscd = getSelectedVal('cboSrId').syscd;
 				var arySyscd = new Array(syscd.split(","));
-				for(var i=0; i<arySyscd.length; i++){
-					if(arySyscd[i] == data.cm_syscd){
-						options.push({value: sysData[i].cm_syscd, text: sysData[i].cm_sysmsg, cm_sysgb: sysData[i].cm_sysgb, cm_sysinfo : sysData[i].cm_sysinfo});
+				for(var j=0; j<arySyscd.length; j++){
+					if(arySyscd[j] == data.cm_syscd){
+						options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
 					}
 				}
-				sysData.splice(i,1);
-				i--;
-				continue;
 			}else{
-				sysData.splice(i,1);
-				i--;
-				continue;
+				options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
 			}
 		}
 		
@@ -332,6 +311,7 @@ function sysDataFilter(){
 	$('[data-ax5select="cboSys"]').ax5select({
         options: options
 	});
+	
 }
 
 function getSrIdCbo(){
@@ -355,10 +335,9 @@ function successGetSrIdCbo(data){
 	srData = data;
 	options = [];
 	options.push({value:'SR정보 선택 또는 해당없음',text:'SR정보 선택 또는 해당없음'});
-	
 	$.each(srData,function(key,value) {
 		if(value.setyn === 'Y') selectedSrId = value.cc_srid;
-		options.push({value: value.cc_srid, text: value.srid, cc_reqtitle :value.cc_reqtitle});
+		options.push({value: value.cc_srid, text: value.srid, cc_reqtitle :value.cc_reqtitle, syscd:value.syscd});
 	});
 	
 	$('[data-ax5select="cboSrId"]').ax5select({
@@ -375,32 +354,120 @@ function changeSrId(){
 	$('#txtSayu').val('');
 	$('#btnSR').attr('enabled','false');
 
-	if (getSelectedIndex('cboSrId') < 1) return;
+	if (getSelectedIndex('cboSrId') < 0) return;
+	
+	
+	sysDataFilter();
+
+	var sysSelectIndex = 0;
+	if(sysData.length == 1 || getSelectedIndex('cboSrId') == 0) sysSelectIndex = 0;
+	else sysSelectIndex = 1;
+
+	var selectVal = $('select[name=cboSys] option:eq('+sysSelectIndex+')').val();
+	$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
+	
 	
 	$('#txtSayu').val(getSelectedVal('cboSrId').text);
 	$('#btnSR').attr('enabled','true');
-	
-	sysDataFilter();
-	
+	if (getSelectedIndex('cboSys') > 0) {
+		findProc();
+		changeSys();
+	}
 }
 
+function changeSys(){
+	firstGrid.setData([]);
+	if (cboSys.selectedItem.cm_stopsw == "1") {
+		Alert.show("이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.");
+		cmdFind.enabled = false;
+		return;
+	} else cmdFind.enabled = true;
+	
+	if (cboSys.selectedItem.cm_sysinfo.substr(9,1) == "1") srSw = false;
+	else srSw = true;
+	if (srSw) {
+		cboIsrId.enabled=true;						
+		if (cboIsrId_dp.length==2) cboIsrId.selectedIndex = 1;	
+	} else {
+		cboIsrId.enabled=false;
+		if (cboIsrId_dp.length>0) cboIsrId.selectedIndex = 0;
+	}
+//	if (cboIsrId.selectedIndex>-1) {
+//		cboIsrId.dispatchEvent(new ListEvent(ListEvent.CHANGE));
+//	}
+	if(cboSys.selectedIndex>0) findProc();
+}
 
 function findProc()
 {
-	grdLst1_dp.source = null;
-	grdLst1.dataProvider = grdLst1_dp;
+	firstGrid.setData([]);
 	
-	if (cboSys.selectedIndex < 0) return;
-	if (srSw && cboIsrId.selectedIndex<1) return;
+	if (getSelectedIndex('cboSys') < 0) return;
+	if (srSw && getSelectedIndex('cboSrId')<1) return;
+
+	var getFileListData = new Object();
+	getFileListData.UserID = userId;
+	getFileListData.syscd  = getSelectedVal('cboSys').value;
+	getFileListData.sysgb  = getSelectedVal('cboSys').cm_sysgb;
+	getFileListData.reqcd  = reqCd;
+	getFileListData.txtProg = $('#txtRsrcName').val().trim();
+	if (srSw) getFileListData.srid = getSelectedVal('cboSrId').value;
 	
-	var etcObj = {};
-	etcObj.UserID = strUserId;
-	etcObj.syscd  = cboSys.selectedItem.cm_syscd;
-	etcObj.sysgb  = cboSys.selectedItem.cm_sysgb;
-	etcObj.reqcd  = strReqCD;
-	etcObj.txtProg = mx.utils.StringUtil.trim(txtProg.text);
-	if (srSw) etcObj.srid = cboIsrId.selectedItem.cc_srid;
-	
-	Cmr0101.getFileList(etcObj);
-	etcObj = null;
+	var tmpData = {
+			requestType : 'getFileList',
+			getFileListData : getFileListData
+	}	
+	ajaxAsync('/webPage/dev/CheckOutCnlServlet', tmpData, 'json',successFindProc);
 }
+
+function successFindProc(data){
+	fileGridData = data;
+	checkSelectedFlag();
+}
+
+function checkSelectedFlag(){
+	if(fileGridData.length >0){
+		
+		var i=0;
+		var j=0;
+		var fndItem=0;
+		for (i=0;i<fileGridData.length;i++){
+			fndItem=0;
+			for (j=0;j<secondGrid.length;j++){
+				if (fileGridData[i].cr_itemid == secondGridData[j].cr_itemid){
+					fndItem++;
+				}
+			}
+			if (fndItem > 0){
+				fileGridData[i].selected_flag = true;
+			}
+			else{
+				fileGridData[i].selected_flag = false;
+			}
+		}
+		tmpobj1 = null;
+		
+	}
+	
+	firstGrid.setData(fileGridData);
+	//grdLst1.selectedIndex = -1;
+	//grdLst2.selectedIndex = -1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

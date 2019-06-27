@@ -282,12 +282,12 @@ function successGetSysCbo(data){
         options: options
 	});
 	
-	if(sysData.lenght > 0){
+	if(sysData.length > 0){
 		if(strAcptNo != null && strAcptNo !=""){
 			var selectVal = $('select[name=cboSys] option:eq(0)').val();
 			$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
 		}else{
-			for (var i=0;sysData.lenght>i;i++) {
+			for (var i=0;sysData.length>i;i++) {
 					if (sysData[i].setyn == "Y") {
 						var selectVal = $('select[name=cboSys] option:eq('+i+')').val();
 						$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
@@ -295,7 +295,7 @@ function successGetSysCbo(data){
 					}
 				}
 			var selectVal = $('select[name=cboSys] option:eq(0)').val();
-			if (i>=sysData.lenght) $('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);;
+			if (i>=sysData.length) $('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);;
 		}
 	} else {
 		if (strAcptNo != null && strAcptNo != "") {
@@ -427,7 +427,7 @@ function changeSys(){
 function successGetDevHome(data){
 	localHome = data;
 	
-	if(localHome.lenght == 0 || localHome == ''){
+	if(localHome.length == 0 || localHome == ''){
 		showToast('로컬로 체크아웃을 받고자 하는 경우 \n [기본관리-사용자환경설정]에서 \n 로컬 홈디렉토리를 지정한 후 진행하시기 바랍니다.');
 	}
 	
@@ -573,7 +573,7 @@ function makeFileDir(fullpath, dsncd, fileinfo, hasChild, sysgb, rsrccd, sysCd){
 	var strDsn 		= dsncd;
 	var devToolCon 	= false;
 	var getFileData = {};
-	var rsrcname = $('#idx_lbl_prg_exp_txt').val();
+	var rsrcname = $('#idx_lbl_prg_exp_txt').val().trim();
 	var selectedSubnode = $('#chkbox_subnode').prop('checked');
 	
 	if(!devToolCon && fileinfo != undefined && fileinfo.substr(26,1) == '1') {
@@ -686,7 +686,7 @@ function clickSearchBtn() {
 	getFileData.sysgb 	= getSelectedVal('cboSys').cm_sysgb;
 	getFileData.rsrccd 	= getSelectedVal('cboRsrccd').value;
 	getFileData.reqcd 	= reqCd;
-	rsrcname = $('#txtRsrcName').val();
+	rsrcname = $('#txtRsrcName').val().trim();
 	if(rsrcname === '' || rsrcname === undefined) {
 		showToast('검색단어를 입력한 후 검색하시기 바랍니다.');
 		return;
@@ -1064,7 +1064,7 @@ function requestCheckOut(){
 	var requestData = {};
 	requestData.UserID = userId;
 	requestData.ReqCD  = reqCd;
-	requestData.Sayu	 = $('#reqText').val();
+	requestData.Sayu	 = $('#reqText').val().trim();
 	requestData.cm_syscd = getSelectedVal('cboSys').value;
 	requestData.cm_sysgb = getSelectedVal('cboSys').cm_sysgb;
 	requestData.ckoutpos = outpos;
@@ -1190,7 +1190,7 @@ function ckout_end(){
 		if(searchMOD == "B"){//B:조회버튼 클릭시,  T:트리구조 클릭시
 			clickSearchBtn();
 		}else {
-			if (ztree.getSelectedNodes(true).lenght == 0){
+			if (ztree.getSelectedNodes(true).length == 0){
 				return;
 			}
 			$('#'+ztree.getNodesByParam("id", ztree.getSelectedNodes(true)[0].id)[0].tId+'_a').click();
