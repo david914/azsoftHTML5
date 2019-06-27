@@ -53,6 +53,8 @@ public class RequestDetail extends HttpServlet {
 				case "getProgList" :
 					response.getWriter().write( getProgList(jsonElement) );
 					break;
+				case "getRstList" :
+					response.getWriter().write( getRstList(jsonElement) );
 				default:
 					break;
 			}
@@ -85,4 +87,11 @@ public class RequestDetail extends HttpServlet {
 		return gson.toJson(cmr0250.getProgList(param.get("UserId"),param.get("AcptNo"),param.get("chkYn"),Boolean.parseBoolean(param.get("qrySw"))));
 	}
 	
+	private String getRstList(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String prcSys = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "prcSys") );
+		
+		return gson.toJson(cmr0250.getRstList(UserId,AcptNo,prcSys));
+	}
 }

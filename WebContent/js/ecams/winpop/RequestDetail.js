@@ -5,6 +5,9 @@ var reqGrid     = new ax5.ui.grid();
 var resultGrid  = new ax5.ui.grid();
 var picker 		= new ax5.ui.picker();
 
+var confirmDialog = new ax5.ui.dialog();	//확인,취소 창
+var confirmDialog2 = new ax5.ui.dialog();   //확인 창
+
 var options 	   = [];
 var reqInfoData    = null;
 var reqGridData    = null; //체크인목록그리드 데이타
@@ -19,6 +22,16 @@ pReqNo = f.acptno.value;
 pUserId = f.user.value;
 
 console.log(pReqNo, pUserId);
+
+confirmDialog.setConfig({
+    lang:{
+        "ok": "확인", "cancel": "취소"
+    }
+});
+confirmDialog2.setConfig({
+	Title: "확인",
+    theme: "info"
+});
 
 ax5.info.weekNames = [
     {label: "일"},
@@ -214,18 +227,18 @@ resultGrid.setConfig({
     },
     columns: [
         {key: "prcsys", label: "구분",  width: '10%'},
-        {key: "rsrcname", label: "프로그램명",  width: '15%'},
+        {key: "cr_rsrcname", label: "프로그램명",  width: '15%'},
         {key: "jawon", label: "프로그램종류",  width: '15%'},
-        {key: "dirpath", label: "적용경로",  width: '20%'},
-        {key: "server", label: "적용서버",  width: '20%'},
-        {key: "result", label: "처리결과",  width: '10%'},
+        {key: "cm_dirpath", label: "적용경로",  width: '20%'},
+        {key: "cr_svrname", label: "적용서버",  width: '20%'},
+        {key: "prcrst", label: "처리결과",  width: '10%'},
         {key: "prcdate", label: "처리일시",  width: '10%'} 
     ]
 });
 
 $(document).ready(function(){
 	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
-
+	
 	if (pReqNo == null) {
 		swal({
 	        title: "정보오류",
@@ -246,11 +259,8 @@ $(document).ready(function(){
 	
 	getCodeInfo();
 	
+	//처리구분 콤보선택
 	$('#cboReqPass').bind('change', function() {
-		var selectedIndex = $('#cboReqPass option').index($('#cboReqPass option:selected'));
-		
-		console.log(getSelectedVal('cboReqPass').value);
-		
 		if (getSelectedVal('cboReqPass').value == '4') {
 			document.getElementById('reqgbnDiv').style.visibility = "visible";
 			
@@ -262,13 +272,241 @@ $(document).ready(function(){
 			document.getElementById('reqgbnDiv').style.visibility = "hidden";
 		}
 	});
+	//배포구분 콤보선택
+	$('#cboPrcSys').bind('change', function() {
+		var selectedIndex = getSelectedIndex('cboPrcSys');
+		
+		if (selectedIndex > 0) {
+			if (pReqNo.substr(4,2) == getSelectedVal('cboReqPass').qrycd) {
+				var k = 0;
+				var tmpResultGridData = [];
+				for(var i = 0 ; i < resultGridData.length ; i++){
+					if (getSelectedVal('cboReqPass').value == 'SYSCB') {
+						if(resultGridData[i].cr_prcsys == 'SYSCB' || resultGridData[i].cr_prcsys == 'SYSGB'){
+							tmpResultGridData[k++] = resultGridData[i];
+						}
+					} else if (getSelectedVal('cboReqPass').value == getSelectedVal('cboReqPass').value) {
+						tmpResultGridData[k++] = resultGridData[i];
+					}
+				}
+				resultGrid.setData(tmpResultGridData);
+			} else {
+				resultGrid.setData([]);
+			}
+		} else {
+			resultGrid.setData(resultGridData);
+		}
+	});
+	
+	//전체회수 클릭
+	$('#btnAllCncl').bind('click', function() {
+		if (ingSw) {
+			confirmDialog2.alert('현재 신청내용 처리 중입니다. 잠시 후 이용해 주세요.');
+		}else{
+			if (reqInfoData[0].befsw == "Y") {
+				confirmDialog2.alert("다른 사용자가 선행작업으로 지정한 신청 건이 있습니다. \n"+
+				                       "해당 신청 건 사용자에게 선행작업 해제 요청 후 \n" +
+				                       "선행작업으로 지정한 신청 건이 없는 상태에서 진행하시기 바랍니다.");
+				return;
+			}
+			mx.controls.Alert.show(strReqTitle+"번호 ["+strAcptNo+"]를 "+strReqTitle+" 회수할까요?",strReqTitle+"회수",3,this,cnclProc);
+			//reqCncl_1.reqCncl(strAcptNo,strUserId,msgPopUp.txtMsg.text,reqInfoData[0].confusr);
+		}
+	});
+	//전체재처리 클릭
+	$('#btnRetry').bind('click', function() {
+		if (ingSw) {
+			confirmDialog2.alert('현재 신청하신 다른 내용을 처리 중입니다.');
+			return;
+		}
+		mask.open();
+        confirmDialog.confirm({
+			title: '작업확인',
+			msg: '전체 재처리를 시작할까요?',
+		}, function(){
+			if(this.key === 'ok') {
+				svrProc('Retry');
+			}
+			mask.close();
+		});
+	});
+	//다음단계진행 클릭
+	$('#btnNext').bind('click', function() {
+		if (ingSw) {
+			confirmDialog2.alert('현재 신청하신 다른 내용을 처리 중입니다.');
+			return;
+		}
+		mask.open();
+        confirmDialog.confirm({
+			title: '작업확인',
+			msg: '정지되어 있는 처리를 계속 진행할까요?',
+		}, function(){
+			if(this.key === 'ok') {
+				svrProc('Sttry');
+			}
+			mask.close();
+		});
+	});
+	//오류건 재처리 클릭
+	$('#btnErrRetry').bind('click', function() {
+		if (ingSw) {
+			confirmDialog2.alert('현재 신청하신 다른 내용을 처리 중입니다.');
+			return;
+		}
+		mask.open();
+        confirmDialog.confirm({
+			title: '작업확인',
+			msg: '오류건에 대한 재처리를 시작할까요?',
+		}, function(){
+			if(this.key === 'ok') {
+				svrProc('Errtry');
+			}
+			mask.close();
+		});
+	});
+	//단계완료 클릭
+	$('#btnStepEnd').bind('click', function() {
+		if (ingSw) {
+			confirmDialog2.alert('현재 신청하신 다른 내용을 처리 중입니다.');
+			return;
+		}
 
-	_promise(50,getUserInfo())
-		.then(function(){
-			return _promise(50,getReqInfo()); 
-		})
-	getPrcSysInfo();
+     	mask.open();
+        confirmDialog.confirm({
+			title: '단계완료처리확인',
+			msg: '[신청번호 : "+strAcptNo+"]에 대한 현재 단계를 완료처리 할까요?',
+		}, function(){
+			if(this.key === 'ok') {
+		        nextConf('1', '수기완료처리');
+			}
+			mask.close();
+		});
+	});
+	//선택건회수 클릭
+	$('#btnSelCncl').bind('click', function() {
+	
+	});
+	//우선순위적용 클릭
+	$('#btnPriorityOrder').bind('click', function() {
+	
+	});
+	//새로고침 클릭
+	$('#btnQry').bind('click', function() {
+		reqGrid.setData([]);
+		resultGrid.setData([]);
+		
+		_promise(50,getUserInfo())
+			.then(function(){
+				return _promise(50,getReqInfo()); 
+			})
+		getPrcSysInfo();
+	});
+	//우선적용 클릭
+	$('#btnPriority').bind('click', function() {
+		if (cmdFirst.label == "우선적용") {
+			mx.controls.Alert.show(strReqTitle+"번호 ["+strAcptNo+"]를 우선적용 할까요?","우선적용",3,this,firstProc);
+		} else {
+			mx.controls.Alert.show(strReqTitle+"번호 ["+strAcptNo+"]를 우선적용해제 할까요?","우선적용해제",3,this,firstProc);
+		}
+		/*
+		if (cmdFirst.label == "우선적용") Cmr0250.updtDeploy_2(strAcptNo,"1");
+		else  Cmr0250.updtDeploy_2(strAcptNo,"0");
+		*/
+	});
+	//결재클릭
+	$('#btnApproval').bind('click', function() {
+		if (ingSw) {
+			confirmDialog2.alert('현재 신청하신 다른 내용을 처리 중입니다.');
+			return;
+		}
+     	mask.open();
+        confirmDialog.confirm({
+			title: '결재확인',
+			msg: '결재처리하시겠습니까?',
+		}, function(){
+			if(this.key === 'ok') {
+		        nextConf('1',$('#txtApprovalMsg').value);
+			}
+			mask.close();
+		});
+	});
+	//반려클릭
+	$('#btnCncl').bind('click', function() {
+		if (ingSw) {
+			confirmDialog2.alert('현재 신청하신 다른 내용을 처리 중입니다.');
+			return;
+		}
+	    if($('#txtApprovalMsg').value == ''){
+	    	confirmDialog2.alert('반려의견을 입력하여 주십시오.');
+	    	return;
+	    }
+     	mask.open();
+        confirmDialog.confirm({
+			title: '반려확인',
+			msg: '반려처리하시겠습니까?',
+		}, function(){
+			if(this.key === 'ok') {
+		        nextConf('3',$('#txtApprovalMsg').value);
+			}
+			mask.close();
+		});
+	});
+	//닫기클릭
+	$('#btnClose').bind('click', function() {
+		close();
+	});
+	
+	$('#btnQry').trigger('click');
 });
+
+//결재, 반려 실행
+function nextConf(gyulGbn, conMsg) {
+	var data =  new Object();
+	data = {
+		AcptNo			: pReqNo,
+		UserId			: pUserId,
+		conMsg			: conMsg,
+		Cd				: gyulGbn,
+		ReqCd			: pReqNo.substr(4,2),
+		requestType		: 'nextConf'
+	}
+	ajaxAsync('/webPage/approval/RequestStatus', data, 'json',successNextConf);
+}
+//결재, 반려 처리완료
+function successNextConf(data) {
+	ingSw = false;
+	if (event.result.toString() == "0") {
+		close();
+	}else{
+		confirmDialog2.alert('처리에 실패했습니다.');
+	}
+	$('#btnQry').trigger('click');
+}
+//자동처리 실행
+function svrProc(prcSysGbn) {
+	var data =  new Object();
+	data = {
+		AcptNo			: pReqNo,
+		UserId			: pUserId,
+		prcCd			: prcSysGbn,
+		prcSys			: reqInfoData[0].signteam,
+		requestType		: 'svrProc'
+	}
+	
+	ajaxAsync('/webPage/approval/RequestStatus', data, 'json',successSvrProc);
+}
+//자동처리 완료
+function successSvrProc(data) {
+	ingSw = false;
+
+	if (event.result.toString() == "0") {
+		confirmDialog2.alert("재처리작업이 신청되었습니다. 잠시 후 다시받기를 하여 확인하여 주시기 바랍니다.");
+	}else if (event.result.toString() == "2") {
+		confirmDialog2.alert("현재 서버에서 다른처리를 진행 중입니다. 잠시 후 다시 처리하여 주시기 바랍니다.");
+	} else  {
+		confirmDialog2.alert("재처리작업 신청 중 오류가 발생하였습니다.");
+	}
+}
 
 //어드민 여부 확인
 function getUserInfo(){
@@ -333,8 +571,21 @@ function getReqInfo() {
 function successGetProgList(data) {
 	reqGridData = data;
 	reqGrid.setData(reqGridData);
+	
+	var data =  new Object();
+	data = {
+		UserId			: pUserId,
+		AcptNo			: pReqNo,
+		prcSys			: '',
+		requestType		: 'getRstList'
+	}
+	ajaxAsync('/webPage/winpop/RequestDetail', data, 'json',successGetRstList);
 }
-
+//처리결과확인 목록 가져오기 완료
+function successGetRstList(data) {
+	resultGridData = data;
+	resultGrid.setData(resultGridData);
+}
 //신청정보가져오기 완료
 function successGetReqList(data) {
 	reqInfoData = data;
@@ -478,7 +729,28 @@ function aftChk() {
 		//체크인목록 그리드에 체크박스 비활성화
 	}
 }
-//처리결과가져오기
+
+//처리구분 가져오기
 function getPrcSysInfo() {
-	//Cmr0250.getPrcSys(strAcptNo);
+	
+	var data =  new Object();
+	data = {
+		AcptNo			: pReqNo,
+		requestType		: 'getPrcSys'
+	}
+	ajaxAsync('/webPage/winpop/RequestDetail', data, 'json', successGetPrcSys);
+}
+//처리구분 가져오기 완료
+function successGetPrcSys(data) {
+	cboPrcSysData = data;
+	
+	options = [];
+    
+	$.each(cboPrcSysData,function(key,value) {
+	    options.push({value: value.cm_micode, text: value.cm_codename, qrycd: value.qrycd});
+	});
+	
+	$('[data-ax5select="cboPrcSys"]').ax5select({
+        options: options
+	});
 }

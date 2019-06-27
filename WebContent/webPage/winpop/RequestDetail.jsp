@@ -232,7 +232,7 @@
 				<div class="hpanel" style="padding: 10;">
 		    		<div class="row" style="padding-bottom: 5;">
 	    				<label id="lblPrcSys" class="padding-5-top">배포구분</label>
-	    				<div id="cboPrcSys" data-ax5select="cboPrcSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+	    				<div id="cboPrcSys" data-ax5select="cboPrcSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 20%;"></div>
 		    		</div>
 		    		<div class="row" style="padding-top: 5;">
 					    <div class="panel-body text-center" id="gridDiv2">

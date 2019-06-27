@@ -726,7 +726,7 @@ public class Cmr0250{
 
 			strQuery.append("   and a.cr_acptno=b.cr_acptno and a.cr_serno=b.cr_serno                \n");
 			strQuery.append("   and (nvl(b.cr_putcode,'NONE')<>'0000' or b.cr_rstfile is not null)   \n");
-			if (prcSys != "" && prcSys != "") {
+			if (null != prcSys && !"".equals(prcSys)){
 				strQuery.append("and b.cr_prcsys=?                                                   \n");
 			}
 			if (!adminYn && AcptNo.substring(4,6).equals("04")){
@@ -747,7 +747,7 @@ public class Cmr0250{
 			strQuery.append(" where a.cr_acptno=?                                                    \n");
 			strQuery.append("   and a.cr_acptno=b.cr_acptno and b.cr_serno=0                         \n");
 			strQuery.append("   and (nvl(b.cr_putcode,'NONE')<>'0000' or b.cr_rstfile is not null)   \n");
-			if (prcSys != "" && prcSys != "") {
+			if (null != prcSys && !"".equals(prcSys)){
 				strQuery.append("and b.cr_prcsys=?                                                   \n");
 			}
 			if (!adminYn){
@@ -759,11 +759,11 @@ public class Cmr0250{
 			pstmt = conn.prepareStatement(strQuery.toString());
 			//pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmt.setString(++parmCnt, AcptNo);
-			if (prcSys != "" && prcSys != ""){
+			if (null != prcSys && !"".equals(prcSys)){
 				pstmt.setString(++parmCnt, prcSys);
 			}
 			pstmt.setString(++parmCnt, AcptNo);
-			if (prcSys != "" && prcSys != ""){
+			if (null != prcSys && !"".equals(prcSys)){
 				if (!prcSys.equals("SYSCB") && !prcSys.equals("SYSAC")) pstmt.setString(++parmCnt, prcSys);
 			}
 	        //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
@@ -1888,6 +1888,7 @@ public class Cmr0250{
     				//rst.put("ID", Integer.toString(rs.getRow()));
     				rst.put("cm_codename", "ÀüÃ¼");
     				rst.put("cm_micode", "0");
+    				rst.put("qrycd", "00");
     				rsval.add(rst);
             	}
             	rst = new HashMap<String, String>();
