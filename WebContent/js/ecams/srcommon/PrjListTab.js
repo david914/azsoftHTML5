@@ -103,16 +103,10 @@ firstGrid.setConfig({
         columnHeight: 28,
         onClick: function () {
         	this.self.clearSelect();
-           this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if (this.dindex < 0) return;
-    		swal({
-                title: "신청상세팝업",
-                text: "신청번호 ["+this.item.acptno2+"]["+param.item.qrycd2+"]["+this.dindex+"]"
-           });
-    		
-			openWindow(1, param.item.qrycd2, this.item.acptno2,'');
+            this.self.select(this.dindex);
+            if(strReqCD == "41"){
+             	firstGridClick(this.item.cc_srid);
+        	 }
         }
     },
     columns: [

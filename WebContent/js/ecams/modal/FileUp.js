@@ -2,10 +2,33 @@ var dialog = new ax5.ui.dialog({title: "확인"});
 var uploadCnt = 0;
 var fileArr = [];
 
+var fileGrid = false;
 
 $(document).ready(function(){
 	window.parent.fileUploadBtn = $('#btnStartUpload');
+	
+	if(window.parent.fileGrid){
+		fileGrid = true;
+	}
+	
+	$('#btnChoice').bind('click', function(){
+		choiceClick();
+	});
 });
+
+function choiceClick(){
+	var tmpFile = new Object();
+	if(fileGrid){
+		var tmp =  $('#files').find('li.media');
+		var allText = "";
+		$(tmp).each(function(){
+			var tmp2 = $(this).find('strong').html();
+			tmpFile.fileName = tmp2;
+			window.parent.grid_fileList.addRow($.extend({}, tmpFile, {__index: undefined}));
+			window.parent.grid_fileList.repaint();
+		});
+	}
+}
 
 /*
  * For the sake keeping the code clean and the examples simple this file

@@ -53,7 +53,9 @@ public class SRRegisterTab extends HttpServlet {
 				case "GET_USER_COMBO" :
 					response.getWriter().write( getUserCombo(jsonElement) );
 					break;
-				
+				case "selectSRInfo" :
+					response.getWriter().write( selectSRInfo(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -68,5 +70,10 @@ public class SRRegisterTab extends HttpServlet {
 		String userId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userInfoData") );
 		return gson.toJson(cmc0100.getUserCombo("REQUSER", "", "", userId));
 	}
-
+	
+	private String selectSRInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String srid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "srInfoData") );
+		return gson.toJson(cmc0100.selectSRInfo(srid));
+	}
+	
 }

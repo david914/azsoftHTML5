@@ -20,6 +20,60 @@ var grid_fileList 	= new ax5.ui.grid();
 var devUserGrid 	= new ax5.ui.grid();
 var picker 		= new ax5.ui.picker();
 var strStatus = "";
+
+var fileGridData = new Object();
+
+var cboCatTypeSRData;
+var cboChgTypeData;
+var cboWorkRankData;
+var cboReqSecuData;
+var cboDevUserData;
+
+var insertSrIdSw = false;
+var inProgressSw = false;
+var strIsrId = '';
+var strDept = '';
+var subSw = false;
+var selDeptSw = false;
+var treeOranizationSubSw = false;
+var txtUserId = "";
+var txtUserName = "";
+var deptName = "";
+var deptCd = "";
+
+// 그리드 테스트
+var fileGrid = true;
+
+// 파일첨부 팝업
+var fileUploadModal = new ax5.ui.modal({
+	theme: "warning",
+    header: {
+        title: '<i class="glyphicon glyphicon-file" aria-hidden="true"></i> [첨부파일]',
+        btns: {
+            minimize: {
+                label: '<i class="fa fa-minus-circle" aria-hidden="true"></i>', onClick: function(){
+                	fileUploadModal.minimize('bottom-right');
+                }
+            },
+            restore: {
+                label: '<i class="fa fa-plus-circle" aria-hidden="true"></i>', onClick: function(){
+                	fileUploadModal.restore();
+                }
+            },
+            close: {
+                label: '<i class="fa fa-times-circle" aria-hidden="true"></i>', onClick: function(){
+                	fileUploadModal.minimize('bottom-right');
+                }
+            }
+        }
+    }
+});
+
+var fileUploadModalCallBack = function() {
+	fileLength = 0;
+	fileUploadModal.close();
+} 
+
 //이 부분 지우면 영어명칭으로 바뀜
 //ex) 월 -> MON
 ax5.info.weekNames = [
@@ -98,15 +152,6 @@ grid_fileList.setConfig({
         onClick: function () {
         	this.self.clearSelect();
            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if (this.dindex < 0) return;
-    		swal({
-                title: "신청상세팝업",
-                text: "신청번호 ["+this.item.acptno2+"]["+param.item.qrycd2+"]["+this.dindex+"]"
-           });
-    		
-			openWindow(1, param.item.qrycd2, this.item.acptno2,'');
         }
     },
     columns: [
@@ -135,27 +180,6 @@ devUserGrid.setConfig({
         {key: "cm_codename", label: "상태",  width: '30%'}
     ]
 });
-
-var fileAddGrid;
-var devUserGrid;
-
-var cboCatTypeSRData;
-var cboChgTypeData;
-var cboWorkRankData;
-var cboReqSecuData;
-var cboDevUserData;
-
-var insertSrIdSw = false;
-var inProgressSw = false;
-var strIsrId = '';
-var strDept = '';
-var subSw = false;
-var selDeptSw = false;
-var treeOranizationSubSw = false;
-var txtUserId = "";
-var txtUserName = "";
-var deptName = "";
-var deptCd = "";
 
 $('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
@@ -204,6 +228,11 @@ $(document).ready(function() {
 		btn_DelDever();
 	});
 	
+	// 파일첨부 버튼
+	$('#btnFileAdd').bind('click', function(){
+		fileOpen();
+	});
+	
 });
 
 //소소조직 선택 창 오픈
@@ -231,6 +260,8 @@ function openOranizationModal() {
 
 var modalCallBack = function(){
 	organizationModal.close();
+	
+	
 };
 
 function changeCboReqSecu() {
@@ -271,16 +302,15 @@ function elementInit(initDivision) {
     	/*if( this.parentDocument.toString().indexOf("eCmc0100") > -1 ) {
     		this.parentDocument.tab0.grdPrj.selectedIndex = -1;
     	}*/
-
     	$('#datReqComDate').val('');
     	$('#chkNew').wCheck('check',true);
-    	$('#btnUpdate').attr('readonly', true);
-    	$('#btnRegister').attr('readonly', false);
-    	$('#btnDelete').attr('readonly', true);
+    	$('#btnUpdate').attr('disabled', true);
+    	$('#btnRegister').attr('disabled', false);
+    	$('#btnDelete').attr('disabled', true);
     	$('#txtSRID').val('신규등록');
     	$('#txtRegUser').val(userName);
     	$('#txtRegDate').val('신규등록');
-    	
+    	$('#txtOrg').attr('disabled', false);
     	$('#txtSRID').attr('readonly', true);
     	$('#txtRegUser').attr('readonly', true);
     	$('#txtRegDate').attr('readonly', true);
@@ -293,40 +323,40 @@ function elementInit(initDivision) {
     	
     	if(initDivision === 'M'){
     		$('#chkNew').wCheck('check', false);
-    		$('#btnRegister').attr('readonly', true);
-    		$('#btnUpdate').attr('readonly', true);
-        	$('#btnDelete').attr('readonly', true);
+    		$('#btnRegister').attr('disabled', true);
+    		$('#btnUpdate').attr('disabled', true);
+        	$('#btnDelete').attr('disabled', true);
     	} else {
     		//저장 상태 - 모이라 등록건?
     		if( strStatus === '0') {
-        		$('#btnRegister').attr('readonly', false);
-        		$('#btnUpdate').attr('readonly', false);
-            	$('#btnDelete').attr('readonly', false);
+        		$('#btnRegister').attr('disabled', false);
+        		$('#btnUpdate').attr('disabled', false);
+            	$('#btnDelete').attr('disabled', false);
         	// 등록완료, 진행중, 등록승인중 반려
     		} else if( strStatus === '2' || strStatus === 'C' || strStatus === '4') {
     			//등록완료, 진행중 이면
     			if(strStatus === '2'  || strStatus === 'C' ) { 
-    				$('#btnDelete').attr('readonly', false);
-    				$('#btnUpdate').attr('readonly', false);
+    				$('#btnDelete').attr('disabled', false);
+    				$('#btnUpdate').attr('disabled', false);
     			//등록승인중반려 면
     			} else { 
-    				$('#btnDelete').attr('readonly', true);
-    				$('#btnUpdate').attr('readonly', true);
+    				$('#btnDelete').attr('disabled', true);
+    				$('#btnUpdate').attr('disabled', true);
 	    		}
     			
-    			$('#btnRegister').attr('readonly', true);
+    			$('#btnRegister').attr('disabled', true);
         		
     		}else { //그외 상태일 때
-    			$('#btnRegister').attr('readonly', true);
-        		$('#btnUpdate').attr('readonly', true);
-            	$('#btnDelete').attr('readonly', true);
+    			$('#btnRegister').attr('disabled', true);
+        		$('#btnUpdate').attr('disabled', true);
+            	$('#btnDelete').attr('disabled', true);
         		
         		//등록승인중, 반려, 적용확인중, 완료승인중 이면
 		    	if( strStatus === '1' || strStatus === '3' || 
 		    			strStatus === '5' || strStatus === 'A') {
-	        		$('#btnFileAdd').attr('readonly', true);
-	        		$('#btnAddDevUser').attr('readonly', true);
-	            	$('#btnDelDevUser').attr('readonly', true);
+	        		$('#btnFileAdd').attr('disabled', true);
+	        		$('#btnAddDevUser').attr('disabled', true);
+	            	$('#btnDelDevUser').attr('disabled', true);
 		    	}
 	    	}
     		
@@ -340,9 +370,9 @@ function elementInit(initDivision) {
     } else {
     	$('#datReqComDate').val('');
     	$('#chkNew').wCheck('check',false);
-    	$('#btnUpdate').attr('readonly', true);
-    	$('#btnRegister').attr('readonly', true);
-    	$('#btnDelete').attr('readonly', true);
+    	$('#btnUpdate').attr('disabled', true);
+    	$('#btnRegister').attr('disabled', true);
+    	$('#btnDelete').attr('disabled', true);
     	$('#txtSRID').val('');
     	$('#txtRegUser').val('');
     	$('#txtRegDate').val('');
@@ -353,7 +383,6 @@ function elementInit(initDivision) {
     }
 	
 	$('#txtDocuNum').val('');
-	$('#txtRegUser').val('');
 	$('#txtReqSubject').val('');
 	$('#texReqContent').val('');
 	$('#txtUser').val('');
@@ -361,6 +390,27 @@ function elementInit(initDivision) {
 	
 	grid_fileList.setData([]); // grid 초기화
 	devUserGrid.setData([]);   // grid 초기화
+}
+
+//파일첨부
+function fileOpen() {
+	fileUploadModal.open({
+        width: 600,
+        height: 360,
+        iframe: {
+            method: "get",
+            url: 	"../modal/FileUp.jsp",
+            param: "callBack=fileUploadModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+            }
+            else if (this.state === "close") {
+            	$('#btnQry').trigger('click');
+            }
+        }
+    }, function () {
+    });
 }
 
 // 개발자 추가 버튼
@@ -483,4 +533,34 @@ function closeModal() {
 	}
 	
 	btn_addDever();
+}
+
+// sr 리스트 클릭 이벤트
+function firstGridClick(srid){
+	// sr 정보 가져오기 
+	var ajaxReturnData = null;
+	var srInfo = {
+		srInfoData: 	srid,
+		requestType: 	'selectSRInfo'
+	}
+	
+	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', srInfo, 'json');
+	if(ajaxReturnData !== 'ERR') {
+		console.log(ajaxReturnData);
+		
+		$('#chkNew').wCheck('check', false);
+		clickChkNew();
+
+		$('#txtSRID').val(ajaxReturnData[0].cc_srid);
+		$('#txtRegUser').val(ajaxReturnData[0].createuser);
+		$('#txtRegDate').val(ajaxReturnData[0].createdate);
+		strDept = ajaxReturnData[0].cc_reqdept;
+		$('#txtDocuNum').val(ajaxReturnData[0].cc_docid);
+		$('#txtOrg').attr('disabled', true);
+		$('#txtOrg').val(ajaxReturnData[0].reqdept);
+		
+		$('#txtReqSubject').val(ajaxReturnData[0].cc_reqtitle);
+		
+		
+	}
 }

@@ -455,7 +455,7 @@ function setGrid(){
             	//Sweet Alert [https://sweetalert.js.org/guides/]
         		swal({
                     title: "신청상세팝업",
-                    text: "신청번호 ["+this.item.acptno2+"]"
+                    text: "신청번호 ["+this.item.acptno+"]"
                 });
 
             },

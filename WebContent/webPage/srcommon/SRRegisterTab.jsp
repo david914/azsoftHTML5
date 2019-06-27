@@ -184,14 +184,14 @@
 				<div class="col-sm-9 col-xs-12 height-30px">
 				</div>
 				<div class="col-sm-1 col-xs-12 no-padding margin-5-top">
-					<button id="btnRegister" class="btn btn-default" onclick="openSrModal()">등록</button>
+					<button id="btnRegister" class="btn btn-default">등록</button>
 				</div>
 				<div class="col-sm-1 col-xs-12 no-padding margin-5-top"> 
-					<button id="btnUpdate" class="btn btn-default" onclick="openSrModal()">수정</button>
+					<button id="btnUpdate" class="btn btn-default" disabled>수정</button>
 				</div>
 				
 				<div class="col-sm-1 col-xs-12 no-padding margin-5-top"> 
-					<button id="btnDelete" class="btn btn-default" onclick="openSrModal()">반려</button>
+					<button id="btnDelete" class="btn btn-default">반려</button>
 				</div>
 			</div>
 			

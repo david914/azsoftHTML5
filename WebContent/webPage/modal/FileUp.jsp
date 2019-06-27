@@ -47,7 +47,7 @@
 		<a href="#" class="btn btn-danger" id="btnApiCancel">
 			<i class="fa fa-stop"></i> Stop
 		</a> -->
-		<button class="btn" style="float: right; background-color: #fff; border-color: #e4e5e7; color: #6a6c6f;" onclick="window.parent.fileUploadModal.minimize('bottom-right');">선택완료</button>
+		<button class="btn" id="btnChoice" style="float: right; background-color: #fff; border-color: #e4e5e7; color: #6a6c6f;" onclick="window.parent.fileUploadModal.minimize('bottom-right');">선택완료</button>
 		<div class="filebox" id="drag-and-drop-zone" style="display: inline-block; float: right;"> 
 			<label for="ex_file">업로드</label> 
 			<input type="file" id="ex_file"> 
