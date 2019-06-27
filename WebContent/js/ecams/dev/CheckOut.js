@@ -573,7 +573,7 @@ function makeFileDir(fullpath, dsncd, fileinfo, hasChild, sysgb, rsrccd, sysCd){
 	var strDsn 		= dsncd;
 	var devToolCon 	= false;
 	var getFileData = {};
-	var rsrcname = $('#idx_lbl_prg_exp_txt').val().trim();
+	var rsrcname = $('#txtRsrcName').val().trim();
 	var selectedSubnode = $('#chkbox_subnode').prop('checked');
 	
 	if(!devToolCon && fileinfo != undefined && fileinfo.substr(26,1) == '1') {
