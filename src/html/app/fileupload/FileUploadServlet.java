@@ -71,10 +71,8 @@ public class FileUploadServlet extends HttpServlet {
 	        throws ServletException, IOException{
 		String fileName 		= request.getParameter("f");
 		String setFileName		= null;
-		String noticeAcptno 	= request.getParameter("noticeAcptno");
+		String folderPath 	= request.getParameter("folderPath");
 		String pullPath			= null;
-		SystemPath systemPath 	= new SystemPath();
-		String noticeUploadDir 	= null;
 		String userAgent 		= request.getHeader("User-Agent");
 		
 		boolean ie = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
@@ -90,9 +88,8 @@ public class FileUploadServlet extends HttpServlet {
 		response.setHeader("Connection", "close");
 		
 		try {	
-			noticeUploadDir = systemPath.getTmpDir("01");
-			
-			pullPath = noticeUploadDir+File.separator+noticeAcptno+File.separator+fileName;
+			System.out.println(folderPath);
+			pullPath = folderPath+File.separator+fileName;
 			
 			FileInputStream input 	= new FileInputStream(pullPath); 
 			OutputStream output = response.getOutputStream();

@@ -153,7 +153,7 @@ document.body.onresize = function() {
 	
 	if(chartHeight < 300) chartHeight = 300;
 	
-	pieChart.resize({
+/*	pieChart.resize({
 		width 	: pieWidth - 10,
 		height	: chartHeight	
 	});
@@ -166,7 +166,7 @@ document.body.onresize = function() {
 	barChart.resize({
 		width 	: barWidth - 10,
 		height	: chartHeight	
-	});
+	});*/
 	
 };
 

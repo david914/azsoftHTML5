@@ -15,10 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import app.common.CodeInfo;
-import app.common.SysInfo;
 import app.eCmm.Cmm0100;
-import app.eCmm.Cmm0200;
 import app.eCmm.Cmm0200_Copy;
 import app.eCmm.Cmm0200_Prog;
 import html.app.common.ParsingCommon;

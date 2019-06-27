@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
+<!-- Header -->
+<div id="header"></div>
 
 <div id="wrapper">
     <div class="content">    	
@@ -61,7 +63,7 @@
 			</div>
 			
 		</div>
-		<div class="az_board_basic margin-10-top" style="height: 60%;">
+		<div class="az_board_basic margin-10-top" style="height: 58%;">
 			<div data-ax5grid="dirGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 		</div>
 	</div>

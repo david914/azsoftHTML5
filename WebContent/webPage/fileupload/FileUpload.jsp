@@ -79,6 +79,7 @@ Part part;
 				}
 
 				if ( fileName != null ){
+					System.out.println("여기 filePath : " + filePath);
 					File newfile=new File(filePath);
 					long size=filePart.writeTo(newfile);
 				}

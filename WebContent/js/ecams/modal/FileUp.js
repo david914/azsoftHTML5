@@ -11,6 +11,12 @@ $(document).ready(function(){
 		fileGrid = true;
 	}
 	
+	// 선택완료
+	$('#selectBtn').bind('click', function() {
+	    window.parent.fileUploadModal.minimize('bottom-right');
+	});
+
+	
 	$('#btnChoice').bind('click', function(){
 		choiceClick();
 	});

@@ -19,7 +19,7 @@ var uploadSucessCnt = 0;
 var uploadSelectedFileLength = 0;
 
 $(document).ready(function() {
-	
+	getNoticeFolderPath();
 	downAcptno  = window.parent.downAcptno;
 	downFileCnt = window.parent.downFileCnt; 
 	if(downFileCnt > 0 ) {
@@ -62,7 +62,7 @@ function successGetFileList(data) {
 		var appendStr = '';
 		appendStr += '<tr id="file_'+item.orgname+'">';
 		appendStr += '	<td>';
-		appendStr += '		<a href="/webPage/fileupload/upload?f='+item.orgname+'&noticeAcptno='+downAcptno+'">'+item.orgname+'</a>';
+		appendStr += '		<a href="/webPage/fileupload/upload?f='+item.orgname+'&folderPath='+noticeFolderPath+'\\'+downAcptno+'">'+item.orgname+'</a>';
 		appendStr += '		<button onclick="delFile(\''+item.orgname+'\')" class="btn btn-sm btn-danger cancel" role="button" style="float: right;">삭제</button>';
 		appendStr += '	</td>';
 		appendStr +='</tr>';

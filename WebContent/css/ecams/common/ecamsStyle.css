@@ -517,7 +517,33 @@ ul.tabs li.active {
 .width-90 {
 	width: 90%;
 }
-
+.width-89 {
+	width: 89%;
+}
+.width-88 {
+	width: 88%;
+}
+.width-87 {
+	width: 87%;
+}
+.width-86 {
+	width: 86%;
+}
+.width-85 {
+	width: 85%;
+}
+.width-84 {
+	width: 84%;
+}
+.width-83 {
+	width: 83%;
+}
+.width-82 {
+	width: 82%;
+}
+.width-81 {
+	width: 81%;
+}
 .width-80 {
 	width: 80% !important;
 }
@@ -801,6 +827,12 @@ div#rMenu ul {
    padding: 0;
     margin: 0;
     font-size: 13px;
+}
+.text-danger {
+	color: red;	
+}
+.text-prog {
+	color: blue;	
 }
 /* tree right menu css end*/
 
