@@ -16,13 +16,13 @@
 		    <form id="ecamsLoginForm" method="post">
 		        <h2 class="text-center">로그인</h2>       
 		        <div class="form-group ui input focus">
-		        	<input id="idx_input_id" name="idx_input_id" class="form-control" placeholder="아이디를 입력하세요." required="required" />
+		        	<input id="idx_input_id" name="idx_input_id" class="form-control az_login_input" placeholder="아이디를 입력하세요." required="required" />
 		        </div>
 		        <div class="form-group">
-		            <input type ="password" id="idx_input_pwd" name="idx_input_pwd" class="form-control" placeholder="비밀번호를 입력하세요" required="required"/>
+		            <input type ="password" id="idx_input_pwd" name="idx_input_pwd" class="form-control az_login_input" placeholder="비밀번호를 입력하세요" required="required"/>
 		        </div>
 		        <div class="form-group">
-		        	<button class ="btn btn-info" id="idx_login_btn" style="width:100%" type="submit">로그인</button>
+		        	<button class ="az_login_btn" id="idx_login_btn" style="width:100%" type="submit">로그인</button>
 		        </div>
 		        <div class="clearfix">
 		            <input type="checkbox" id="chkbox_remember" name="chkbox_remember"/> <label for="chkbox_remember">아이디/비밀번호 저장</label>

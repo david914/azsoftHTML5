@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+<!-- Header -->
+<div id="header"></div>
+
+<!-- contener -->
+<div id="wrapper">
+	<div class="content">
+	    <!-- history S-->
+		<div id="history_wrap">기본관리 <strong>&gt; 공지사항</strong></div>
+		<!-- history E--> 
+	    <!-- 검색 S-->    
+		<div class="az_search_wrap">
+			<div class="az_in_wrap">
+				<div class="l_wrap">
+					<div id="divPicker" class="az_input_group" data-ax5picker="basic">
+			            <input id="start_date" name="start_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;"><span class="sim">&sim;</span><input id="end_date" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;"><span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+						<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="제목/내용 입력후 조회" style="width:250px;"><button id="Search_Data" name="Search_Data" class="btn_basic_s" onclick="Search_click()">조  회</button>
+					</div>
+				</div>	
+				<div class="r_wrap">
+					<div class="vat dib"><!--class 추가-->
+						<button id="btnReg" name="btnReg" class="btn_basic_s" onclick="new_Click()" disabled >공지사항등록</button>
+					</div>
+					<div class="vat dib"><!--class 추가-->
+						<button class="btn_basic_s" data-grid-control="excel-export">엑셀저장</button>
+					</div>
+					<div class="all_num">
+			      		<span id="lbCnt">조회건수 :</span> <strong>총 0건</strong>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!-- 검색 E-->
+	    <!-- 게시판 S-->
+	    <div class="az_board_basic" style="height:72px;">
+	    	<table>
+	    		<colgroup>
+		    		<col width="3%"/><col width="*"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="5%"/><col width="5%"/><col width="7%"/>
+		    	</colgroup>
+	    		<tr>
+	    			<th>NO</th>
+	    			<th>제목</th>
+	    			<th>등록자</th>
+	    			<th>등록일</th>
+	    			<th>팝업시작인</th>
+	    			<th>팝업마감일</th>
+	    			<th>팝업</th>
+	    			<th>첨부파일</th>
+	    		</tr>
+	    		<tr>
+	    			<td>1</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>2</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>3</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>4</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>5</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>6</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>7</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>8</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>9</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>10</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>11</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>12</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>13</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>14</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>15</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>16</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>17</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>18</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>19</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>20</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>21</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>22</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    		<tr>
+	    			<td>23</td>
+	    			<td class="tal">제목 나옵니다.</td>
+	    			<td>관리자</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>2019-08-03</td>
+	    			<td>N</td>
+	    			<td><button>첨부파일</button></td>
+	    		</tr>
+	    	</table>	
+		</div>	
+		<!-- 게시판 E -->
+		<!-- 게시판 조건 검색 S-->
+		<div class="az_board_search tar">
+			<!-- <select tabindex="-1" class="form-control input-sm" name="" style="width:150px;"> -->
+			<div class="width-15 dib"><!--ver2-->
+				<select>
+					<option selected="selected">검색조건선택</option>
+					<option>제목</option>
+					<option>제목+내용</option>
+					<option>등록기준일</option>
+				</select>
+			</div> <input type="text"><button class="btn_gray_s">조회</button>
+		</div>
+		<!-- 게시판 조건 검색 E-->
+	</div>
+</div>
+<!-- Footer-->
+<footer id="footer">
+    <ul>
+        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+    </ul>
+</footer>
+
+<section>
+	<div class="container-fluid">
+		<div data-ax5grid="divGrid1" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 80%"></div>
+	</div>
+</section>
+
+
+<c:import url="/js/ecams/common/commonscript.jsp" />
+<script type="text/javascript" src="<c:url value="/js/ecams/mypage/Notice.js"/>"></script>
+</body>
+</html>
