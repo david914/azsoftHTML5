@@ -9,6 +9,7 @@
 var pwdChangeWin = null;
 
 $(document).ready(function() {
+	$('body').css('background','#f8f8f8');
 	screenInit();
 });
 

@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
+<!-- Header -->
+<div id="header"></div>
 
 <div id="wrapper">
     <div class="content">    	
@@ -53,7 +55,7 @@
 				<button id="btnReq" name="btnReq" class="width-10 float-right btn_basic" style="cursor: pointer;">적용</button>
 			</div>
 		</div>
-		<div class="az_board_basic margin-10-top" style="height: 80%;">
+		<div class="az_board_basic margin-10-top" style="height: 75%;">
 			<div data-ax5grid="codeGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 		</div>
 	</div>

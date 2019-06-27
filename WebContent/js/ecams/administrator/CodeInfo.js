@@ -31,7 +31,7 @@ codeGrid.setConfig({
     target: $('[data-ax5grid="codeGrid"]'),
     sortable: true, 
     multiSort: true,
-    showRowSelector: false,
+    showRowSelector: true,
     header: {
         align: "center",
         columnHeight: 30

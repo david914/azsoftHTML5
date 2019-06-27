@@ -39,7 +39,7 @@ public class Cmr0101 {
 			userinfo = null;
 			boolean srSw = false;
 			
-			if (etcData.get("srid") != null && etcData.get("srid") != "") srSw = true;
+			if (etcData.get("srid") != null && !"".equals(etcData.get("srid")) ) srSw = true;
 
 			strQuery.setLength(0);
 			strQuery.append("select a.cr_acptno,a.cr_rsrcname,a.cr_langcd,a.cr_rsrccd,a.cr_jobcd, \n");
@@ -57,7 +57,7 @@ public class Cmr0101 {
 			strQuery.append("   and decode(b.cr_status,'5',b.cr_ckoutacpt,b.cr_devacpt)=f.cr_acptno \n");
 			strQuery.append("   and f.cr_acptno=a.cr_acptno   							          \n");
 			strQuery.append("   and b.cr_itemid=a.cr_itemid   							          \n");
-			if (etcData.get("txtProg") != "" && etcData.get("txtProg") != null){
+			if (!"".equals(etcData.get("txtProg"))  && etcData.get("txtProg") != null){
 				strQuery.append(" and (b.cr_rsrcname like ?	or b.cr_story like ?)		    		\n");
 				//strQuery.append(" and upper(b.cr_rsrcname) like upper(?)			  				\n"); //2013.11.13 일단 upper 제외
 			}
@@ -78,7 +78,7 @@ public class Cmr0101 {
 			pstmt =  new LoggableStatement(conn, strQuery.toString());
 			pstmt.setString(pstmtcount++, etcData.get("syscd"));
 			if (srSw) pstmt.setString(pstmtcount++, etcData.get("srid"));
-			if (etcData.get("txtProg") != "" && etcData.get("txtProg") != null){
+			if (!"".equals(etcData.get("txtProg"))  && etcData.get("txtProg") != null){
 				pstmt.setString(pstmtcount++, "%"+etcData.get("txtProg")+"%");
 				pstmt.setString(pstmtcount++, "%"+etcData.get("txtProg")+"%");
 			}

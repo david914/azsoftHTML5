@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ecams.service.list.LoginManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -123,7 +122,6 @@ public class BuildReleaseInfo extends HttpServlet {
 	private String copyScript(JsonElement jsonElement) throws SQLException, Exception {
 		String Cbo_BldGbn 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"Cbo_BldGbn"));
 		String Cbo_BldCd0 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"Cbo_BldCd0"));
-		String Txt_Comp2 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"Txt_Comp2"));
 		String NewBld 		= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"NewBld"));
 		return gson.toJson(cmd1200.getCmm0022_Copy(Cbo_BldGbn, Cbo_BldCd0, NewBld));
 	}

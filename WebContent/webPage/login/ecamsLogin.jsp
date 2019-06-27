@@ -9,6 +9,7 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
+<link rel="stylesheet" href="<c:url value="/css/ecams/login/loginPage.css" />">
 </head>
 <body>
 	<section>

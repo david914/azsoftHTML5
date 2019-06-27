@@ -282,12 +282,12 @@ function successGetSysCbo(data){
         options: options
 	});
 	
-	if(sysData.lenght > 0){
+	if(sysData.length > 0){
 		if(strAcptNo != null && strAcptNo !=""){
 			var selectVal = $('select[name=cboSys] option:eq(0)').val();
 			$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
 		}else{
-			for (var i=0;sysData.lenght>i;i++) {
+			for (var i=0;sysData.length>i;i++) {
 					if (sysData[i].setyn == "Y") {
 						var selectVal = $('select[name=cboSys] option:eq('+i+')').val();
 						$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
@@ -295,7 +295,7 @@ function successGetSysCbo(data){
 					}
 				}
 			var selectVal = $('select[name=cboSys] option:eq(0)').val();
-			if (i>=sysData.lenght) $('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);;
+			if (i>=sysData.length) $('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);;
 		}
 	} else {
 		if (strAcptNo != null && strAcptNo != "") {
@@ -427,7 +427,7 @@ function changeSys(){
 function successGetDevHome(data){
 	localHome = data;
 	
-	if(localHome.lenght == 0 || localHome == ''){
+	if(localHome.length == 0 || localHome == ''){
 		showToast('로컬로 체크아웃을 받고자 하는 경우 \n [기본관리-사용자환경설정]에서 \n 로컬 홈디렉토리를 지정한 후 진행하시기 바랍니다.');
 	}
 	
@@ -573,7 +573,7 @@ function makeFileDir(fullpath, dsncd, fileinfo, hasChild, sysgb, rsrccd, sysCd){
 	var strDsn 		= dsncd;
 	var devToolCon 	= false;
 	var getFileData = {};
-	var rsrcname = $('#idx_lbl_prg_exp_txt').val();
+	var rsrcname = $('#txtRsrcName').val().trim();
 	var selectedSubnode = $('#chkbox_subnode').prop('checked');
 	
 	if(!devToolCon && fileinfo != undefined && fileinfo.substr(26,1) == '1') {
@@ -686,7 +686,7 @@ function clickSearchBtn() {
 	getFileData.sysgb 	= getSelectedVal('cboSys').cm_sysgb;
 	getFileData.rsrccd 	= getSelectedVal('cboRsrccd').value;
 	getFileData.reqcd 	= reqCd;
-	rsrcname = $('#txtRsrcName').val();
+	rsrcname = $('#txtRsrcName').val().trim();
 	if(rsrcname === '' || rsrcname === undefined) {
 		showToast('검색단어를 입력한 후 검색하시기 바랍니다.');
 		return;
@@ -810,7 +810,7 @@ function deleteDataRow() {
 		findSw = false;
 		for (i=0;secondGrid.list.length>i;i++) {
 			var secondGridItem = secondGrid.list[i];
-			if (secondGridItem.cr_lstusr != strUserId 
+			if (secondGridItem.cr_lstusr != userId 
 			  && secondGridItem.cm_info.substr(1,1) == "1" 
 			  && secondGridItem.cm_info.substr(2,1) == "0" 
 			  && secondGridItem.cm_info.substr(9,1)=="0" 
@@ -1064,7 +1064,7 @@ function requestCheckOut(){
 	var requestData = {};
 	requestData.UserID = userId;
 	requestData.ReqCD  = reqCd;
-	requestData.Sayu	 = $('#reqText').val();
+	requestData.Sayu	 = $('#reqText').val().trim();
 	requestData.cm_syscd = getSelectedVal('cboSys').value;
 	requestData.cm_sysgb = getSelectedVal('cboSys').cm_sysgb;
 	requestData.ckoutpos = outpos;
@@ -1136,7 +1136,7 @@ function fileSenderClose(){
 							fileUpDownPop = progFileUpDown_Agent(PopUpManager.createPopUp(this, progFileUpDown_Agent, true));
 				            PopUpManager.centerPopUp(fileUpDownPop);//팝업을 중앙에 위치하도록 함
 			    	        fileUpDownPop.acptNo = strAcptNo;
-			    	        fileUpDownPop.UserId = strUserId;
+			    	        fileUpDownPop.UserId = userId;
 			    	        fileUpDownPop.progFile_dp = progFiles;
 			    	        fileUpDownPop.popType = "G";
 			    	        fileUpDownPop.parentFunc = fileDownChk_Close;
@@ -1190,7 +1190,7 @@ function ckout_end(){
 		if(searchMOD == "B"){//B:조회버튼 클릭시,  T:트리구조 클릭시
 			clickSearchBtn();
 		}else {
-			if (ztree.getSelectedNodes(true).lenght == 0){
+			if (ztree.getSelectedNodes(true).length == 0){
 				return;
 			}
 			$('#'+ztree.getNodesByParam("id", ztree.getSelectedNodes(true)[0].id)[0].tId+'_a').click();
@@ -1206,7 +1206,7 @@ function cmdReqInfo_Click(){
 		Alert.show("SR정보를 확인 할 SR-ID를 선택하십시오.");
 		return;
 	}
-	ExternalInterface.call("winopen",strUserId,"SRINFO",cboIsrId.selectedItem.cc_srid);
+	ExternalInterface.call("winopen",userId,"SRINFO",cboIsrId.selectedItem.cc_srid);
 }
 
 //그리드 리스트 클릭 퉅팁 미개발
@@ -1439,7 +1439,7 @@ function cmdDiff_click(){
 	
 	for (var i=0;secondGridList.length>i;i++) {
 		var Data = secondGridList[i];
-		if (Data.cr_lstusr != strUserId 
+		if (Data.cr_lstusr != userId 
 		   && Data.cm_info.substr(1,1) == "1"//체크아웃대상
 		   && Data.cm_info.substr(2,1) == "0"//체크아웃무 아닌거
 		   && Data.cm_info.substr(9,1)=="0" //바이너리 아닌거
@@ -1459,7 +1459,7 @@ function cmdDiff_click(){
 		fileUpDownPop = progFileUpDown_Agent(PopUpManager.createPopUp(this, progFileUpDown_Agent, true));
         PopUpManager.centerPopUp(fileUpDownPop);//팝업을 중앙에 위치하도록 함
         fileUpDownPop.acptNo = syscd_combo.selectedItem.cm_syscd;
-        fileUpDownPop.UserId = strUserId;
+        fileUpDownPop.UserId = userId;
         fileUpDownPop.acptNo = "999999999999";
         fileUpDownPop.progFile_dp = tmpArray;
         fileUpDownPop.popType = "F";
@@ -1479,7 +1479,7 @@ function FileUpLoad_Handler(ret){
 				tmpObj = null;
 			}	
 		}
-		Cmr0100.diffList(strUserId,tmpArray.toArray());
+		Cmr0100.diffList(userId,tmpArray.toArray());
 	}
 	PopUpManager.removePopUp(fileUpDownPop);
 	
