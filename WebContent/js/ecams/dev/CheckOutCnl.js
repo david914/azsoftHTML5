@@ -352,7 +352,7 @@ function successGetSrIdCbo(data){
 function changeSrId(){
 	
 	$('#txtSayu').val('');
-	$('#btnSR').attr('enabled','false');
+	$('#btnSR').attr('disabled','false');
 
 	if (getSelectedIndex('cboSrId') < 0) return;
 	
@@ -368,7 +368,7 @@ function changeSrId(){
 	
 	
 	$('#txtSayu').val(getSelectedVal('cboSrId').text);
-	$('#btnSR').attr('enabled','true');
+	$('#btnSR').attr('disabled','false');
 	if (getSelectedIndex('cboSys') > 0) {
 		findProc();
 		changeSys();
@@ -377,9 +377,9 @@ function changeSrId(){
 
 function changeSys(){
 	firstGrid.setData([]);
-	if (cboSys.selectedItem.cm_stopsw == "1") {
-		Alert.show("이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.");
-		cmdFind.enabled = false;
+	if (getSelectedVal('cboSys').cm_stopsw == "1") {
+		showToast("이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.");
+		$('#btnSearch').prop('disabled','true');
 		return;
 	} else cmdFind.enabled = true;
 	

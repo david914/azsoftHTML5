@@ -810,7 +810,7 @@ function deleteDataRow() {
 		findSw = false;
 		for (i=0;secondGrid.list.length>i;i++) {
 			var secondGridItem = secondGrid.list[i];
-			if (secondGridItem.cr_lstusr != strUserId 
+			if (secondGridItem.cr_lstusr != userId 
 			  && secondGridItem.cm_info.substr(1,1) == "1" 
 			  && secondGridItem.cm_info.substr(2,1) == "0" 
 			  && secondGridItem.cm_info.substr(9,1)=="0" 
@@ -1136,7 +1136,7 @@ function fileSenderClose(){
 							fileUpDownPop = progFileUpDown_Agent(PopUpManager.createPopUp(this, progFileUpDown_Agent, true));
 				            PopUpManager.centerPopUp(fileUpDownPop);//팝업을 중앙에 위치하도록 함
 			    	        fileUpDownPop.acptNo = strAcptNo;
-			    	        fileUpDownPop.UserId = strUserId;
+			    	        fileUpDownPop.UserId = userId;
 			    	        fileUpDownPop.progFile_dp = progFiles;
 			    	        fileUpDownPop.popType = "G";
 			    	        fileUpDownPop.parentFunc = fileDownChk_Close;
@@ -1206,7 +1206,7 @@ function cmdReqInfo_Click(){
 		Alert.show("SR정보를 확인 할 SR-ID를 선택하십시오.");
 		return;
 	}
-	ExternalInterface.call("winopen",strUserId,"SRINFO",cboIsrId.selectedItem.cc_srid);
+	ExternalInterface.call("winopen",userId,"SRINFO",cboIsrId.selectedItem.cc_srid);
 }
 
 //그리드 리스트 클릭 퉅팁 미개발
@@ -1439,7 +1439,7 @@ function cmdDiff_click(){
 	
 	for (var i=0;secondGridList.length>i;i++) {
 		var Data = secondGridList[i];
-		if (Data.cr_lstusr != strUserId 
+		if (Data.cr_lstusr != userId 
 		   && Data.cm_info.substr(1,1) == "1"//체크아웃대상
 		   && Data.cm_info.substr(2,1) == "0"//체크아웃무 아닌거
 		   && Data.cm_info.substr(9,1)=="0" //바이너리 아닌거
@@ -1459,7 +1459,7 @@ function cmdDiff_click(){
 		fileUpDownPop = progFileUpDown_Agent(PopUpManager.createPopUp(this, progFileUpDown_Agent, true));
         PopUpManager.centerPopUp(fileUpDownPop);//팝업을 중앙에 위치하도록 함
         fileUpDownPop.acptNo = syscd_combo.selectedItem.cm_syscd;
-        fileUpDownPop.UserId = strUserId;
+        fileUpDownPop.UserId = userId;
         fileUpDownPop.acptNo = "999999999999";
         fileUpDownPop.progFile_dp = tmpArray;
         fileUpDownPop.popType = "F";
@@ -1479,7 +1479,7 @@ function FileUpLoad_Handler(ret){
 				tmpObj = null;
 			}	
 		}
-		Cmr0100.diffList(strUserId,tmpArray.toArray());
+		Cmr0100.diffList(userId,tmpArray.toArray());
 	}
 	PopUpManager.removePopUp(fileUpDownPop);
 	
