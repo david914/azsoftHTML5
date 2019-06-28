@@ -32,6 +32,7 @@ $(document).ready(function() {
     });
 });
 
+// 공지사항 다운로드 경로 가져오기
 function getNoticeFolderPath() {
 	var data = new Object();
 	data = {
@@ -39,10 +40,9 @@ function getNoticeFolderPath() {
 	}
 	ajaxAsync('/webPage/mypage/Notice', data, 'json',successGetNoticeFolderPath);
 }
-
+// 공지사항 다운로드 경로 가져오기 완료
 function successGetNoticeFolderPath(data) {
 	noticeFolderPath = data;
-	getFileList();
 }
 
 // 첨부파일 리스트 가져오기
@@ -57,6 +57,8 @@ function getFileList() {
 
 // 첨부파일 리스트 가져오기 완료
 function successGetFileList(data) {
+	console.log(data);
+	$('#fileDownBody').empty();
 	downFilelist = data;
 	downFilelist.forEach(function(item,itemIndex){
 		var appendStr = '';
@@ -88,7 +90,7 @@ function delFile(item) {
 		}
 	});
 }
-
+// 파일삭제 완료
 function successDelFile(data) {
 	dialog.alert('파일이 삭제 되었습니다.', function () {});
 	$('#fileDownBody').empty();

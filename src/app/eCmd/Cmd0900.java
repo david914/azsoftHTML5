@@ -887,7 +887,10 @@ public class Cmd0900{
 				pstmt2.setString(2,rs.getString("cm_micode"));
 				rs2 = pstmt2.executeQuery();
 				while (rs2.next()) {
-					strSameRsrc = strSameRsrc + ","+rs2.getString("cm_rsrccd");
+					if(strSameRsrc.length() != 0 ) {
+						strSameRsrc += ",";
+					}
+					strSameRsrc += rs2.getString("cm_rsrccd");
 				}
 				pstmt2.close();
 				rs2.close();

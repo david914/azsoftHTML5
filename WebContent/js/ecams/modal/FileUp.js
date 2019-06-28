@@ -72,11 +72,13 @@ $('#drag-and-drop-zone').dmUploader({
 		ui_add_log('All pending tranfers finished');
 	},
 	onNewFile: function(id, file){
+		console.log('New file added #' + id);
 		// When a new file is added using the file selector or the DnD area
 		ui_add_log('New file added #' + id);
 		ui_multi_add_file(id, file);
 	},
 	onBeforeUpload: function(id){	//	업로드 되기전
+		console.log(id, 'uploading', 'Uploading...');
 		// about tho start uploading a file
 		ui_add_log('Starting the upload2 of #' + id);
 		ui_multi_update_file_status(id, 'uploading', 'Uploading...');
@@ -88,18 +90,15 @@ $('#drag-and-drop-zone').dmUploader({
 		// Updating file progress
 		ui_multi_update_file_progress(id, percent);
 	},
-	onUploadSuccess: function(id, data){	// 업로드 성공
-		// A file was successfully uploaded
+	onUploadSuccess: function(id, data){	
+		// 업로드 성공
+		console.log('Server Response for file #' + id + ': ' + JSON.stringify(data));
 		ui_add_log('Server Response for file #' + id + ': ' + JSON.stringify(data));
 		ui_add_log('Upload of file #' + id + ' COMPLETED', 'success');
 		ui_multi_update_file_status(id, 'success', 'Upload Complete');
 		ui_multi_update_file_progress(id, 100, 'success', false);
 		ui_multi_update_file_controls(id, false, false);  // change control buttons status
 		--uploadCnt;
-		console.log("data : "+JSON.stringify(data));
-		//m_acptno,cm_gbncd,cm_seqno,cm_attfile,cm_svfile
-		/*var fileMeta = new Object();
-		fileMeta.cm_svfile = */
 		
 		fileArr.push(data[0]);
 		if(uploadCnt === 0 ) {

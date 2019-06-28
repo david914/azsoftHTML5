@@ -9,7 +9,7 @@
 <div id="wrapper">
     <div class="content">    	
         <!-- history S-->
-        <div id="history_wrap">관리자<strong>&gt; Agent모니터링</strong></div>
+        <div id="history_wrap">프로그램<strong>&gt; 실행모듈정보</strong></div>
         <!-- history E-->    
         
         <div class="az_search_wrap">

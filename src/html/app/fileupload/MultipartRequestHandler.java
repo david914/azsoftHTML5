@@ -92,18 +92,7 @@ public class MultipartRequestHandler {
 				for(FileItem item:items){
 					// 2.5 if FileItem is not of type "file"
 				    if (item.isFormField()) {
-				    	// 2.6 Search for "twitter" parameter
-				        /*if(item.getFieldName().equals("noticeAcptno")) {
-				        	if(!noticeAcptno.equals(item.getString())) {
-				        		fileIndex = 0;
-				        	}
-				        	noticeAcptno = item.getString();
-				        	System.out.println("noticeAcptno : " + noticeAcptno);
-				        }*/
-				        	
-				        
 				    } else {
-				       
 				    	// 2.7 Create FileMeta object
 				    	temp = new FileMeta();
 						temp.setFileName(item.getName());
