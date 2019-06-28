@@ -8,7 +8,7 @@
 	<div class="hpanel">
 		<div class="panel-heading">
             <div class="panel-tools width-5">
-                <a class="closebox width-100" onclick="btnExit_Click()"><i class="fa fa-times"></i></a>
+                <a class="closebox width-100" onclick="btnClose_Click()"><i class="fa fa-times"></i></a>
             </div>
 			[결재정보 전체조회]
         </div>
@@ -40,7 +40,7 @@
 					
 					<div class="col-xs-3">
 						<button class="btn btn-default" id="btnQry">조회</button>
-						<button class="btn btn-default" id="btnExit">닫기</button>
+						<button class="btn btn-default" id="btnClose">닫기</button>
 					</div>
 				</div>
 			</div>

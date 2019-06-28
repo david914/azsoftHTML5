@@ -1,3 +1,13 @@
+/**
+ * [결재정보] 화면 기능정의
+ * 
+ * <pre>
+ * 	작성자	: 방지연
+ * 	버전 		: 1.0
+ *  수정일 	: 2019-06-25
+ * 
+ */
+
 var userName 	= window.top.userName;
 var userId 		= window.top.userId;
 var adminYN 	= window.top.adminYN;
@@ -29,7 +39,7 @@ var treeDeptData	= null; //조직트리 데이터
 var tmpDeptCd		= "";
 
 var allApprovalInfoModal 	= new ax5.ui.modal(); //전체조회 팝업
-var copyInfoModal	= new ax5.ui.modal(); //결재정보복사 팝업
+var copyApprovalInfoModal	= new ax5.ui.modal(); //결재정보복사 팝업
 
 var tmpInfo     	= new Object(); 
 var tmpInfoData 	= new Object(); 
@@ -93,8 +103,8 @@ var allApprovalInfoModalCallBack = function() {
 	allApprovalInfoModal.close();
 }
 
-var copyInfoModalCallBack = function() {
-	copyInfoModal.close();
+var copyApprovalInfoModalCallBack = function() {
+	copyApprovalInfoModal.close();
 }
 
 $(document).ready(function(){
@@ -161,7 +171,7 @@ $(document).ready(function(){
 	
 	//결재정보복사
 	$("#btnCopy").bind('click', function() {
-		//btnCopy_Click();
+		btnCopy_Click();
 	});
 	
 	//대결범위등록
@@ -1311,6 +1321,27 @@ function btnAllQry_Click() {
             method: "get",
             url: "../modal/AllApprovalInfoModal.jsp",
             param: "callBack=allApprovalInfoModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+            }
+        }
+    }, function () {
+    });
+}
+
+function btnCopy_Click() {
+	copyApprovalInfoModal.open({
+        width: 1200,
+        height: 700,
+        iframe: {
+            method: "get",
+            url: "../modal/CopyApprovalInfoModal.jsp",
+            param: "callBack=copyApprovalInfoModalCallBack"
         },
         onStateChanged: function () {
             if (this.state === "open") {

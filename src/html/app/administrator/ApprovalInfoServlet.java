@@ -2,6 +2,7 @@ package html.app.administrator;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import app.common.SysInfo;
 import app.common.TeamInfo;
 import app.eCmm.Cmm0200_Copy;
 import app.eCmm.Cmm0300;
+import app.eCmm.Cmm0300_Copy;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/administrator/ApprovalInfoServlet")
@@ -31,6 +33,7 @@ public class ApprovalInfoServlet extends HttpServlet {
 	Cmm0200_Copy cmm0200_copy = new Cmm0200_Copy();
 	TeamInfo	 teamInfo 	  = new TeamInfo();
 	Cmm0300 	 cmm0300	  = new Cmm0300();
+	Cmm0300_Copy cmm0300_copy = new Cmm0300_Copy();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -66,6 +69,9 @@ public class ApprovalInfoServlet extends HttpServlet {
 					break;
 				case "DELAPPROVALINFO" :
 					response.getWriter().write( delApprovalInfo(jsonElement) );
+					break;
+				case "COPYAPPROVALINFO" :
+					response.getWriter().write( copyApprovalInfo(jsonElement) );
 					break;
 				default:
 					break;
@@ -112,5 +118,11 @@ public class ApprovalInfoServlet extends HttpServlet {
  												  DataMap.get("reqCd"),
 												  DataMap.get("memId"),
 												  DataMap.get("seqNo")));
+	}
+	
+	private String copyApprovalInfo(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		ArrayList<HashMap<String, String>> DataArray = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "tmpArray") );
+		return gson.toJson(cmm0300_copy.confCopy(DataMap, DataArray));
 	}
 }

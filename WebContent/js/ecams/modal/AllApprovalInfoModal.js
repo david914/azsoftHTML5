@@ -64,13 +64,6 @@ grdAllApprovalInfo.setConfig({
     ]
 });
 
-$('[data-ax5select="cboTeam"]').ax5select({
-	options: []
-});
-
-
-$('input:radio[name^="userRadio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
-
 $(document).ready(function() {
 	getCodeInfo();
 	getSysInfo();
@@ -84,15 +77,15 @@ $(document).ready(function() {
 	});
 	
 	// 닫기
-	$('#btnExit').bind('click', function() {
-		btnExit_Click();
+	$('#btnClose').bind('click', function() {
+		btnClose_Click();
 	});
 });
 
 function getCodeInfo(){
 	var codeInfos = getCodeInfoCommon([
 		new CodeInfo('REQUEST', 'ALL','N')
-		]);
+	]);
 	
 	cboReqCdData = codeInfos.REQUEST;
 	
@@ -172,6 +165,6 @@ function successApprovalInfo(data) {
 	grdAllApprovalInfo.setData(grdAllApprovalInfoData);
 }
 
-function btnExit_Click() {
+function btnClose_Click() {
 	window.parent.allApprovalInfoModal.close();
 }
