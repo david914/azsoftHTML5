@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+	<div class="pop-header">
+		<div>
+			<label id="lbSub">공지사항 등록</label>
+		</div>
+		<div>
+			<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		</div> 
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div>
+				<label id="lbSub">제목</label>
+				<input id="txtTitle" name="txtTitle" class="form-control" type="text"></input>
+			</div>
+		</div>
+		<!--CM_TITLE -->
+		<div class="row">
+			<div>
+				<textarea id="textareaContents" name="textareaContents" class="form-control margin-15-top" rows="12"></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<div class="dib">
+				<div class="form-check margin-5-top" id="chkNotice">
+					<input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="notiClick()">
+		    		<label class="form-check-label" for="exampleCheck1" style="vertical-align: middle;" >팝업공지</label>
+				</div>
+			</div>
+			<div class="dib">
+				<div id="divPicker" class="az_input_group" data-ax5picker="basic">
+		            <input id="start_date" name="start_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;"><span class="sim">∼</span><input id="end_date" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;"><span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="l_wrap">
+				<button id="btnFile" name="btnFile" class="btn_basic" onclick="fileOpen()">파일첨부</button>
+			</div>
+			<div class="r_wrap">
+				<div>
+					<button id="btnRem" name="btnRem" class="btn_basic dib" onclick="del()">삭제</button>
+					<button id="btnReg" name="btnReg" class="btn_basic dib" onclick="update()">등록</button>
+					<button id="btnClo" name="btnClo" class="btn_basic dib" onclick="popClose()">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- contener E -->
+
+</body>	
+<c:import url="/js/ecams/common/commonscript.jsp" />	
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/FileUp.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/PopNotice.js"/>"></script>
+</html>
