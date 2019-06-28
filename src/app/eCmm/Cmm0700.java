@@ -2045,7 +2045,7 @@ public class Cmm0700{
             }
 
             SystemPath systemPath = new SystemPath();
-            String path = systemPath.getTmpDir("14")+"/ecams.conf";
+            String path = systemPath.getTmpDir("02")+ File.separator +"ecams.conf";
             systemPath = null;
             
             FileInputStream fip = new FileInputStream(path);
@@ -2345,15 +2345,17 @@ public class Cmm0700{
         
         try{
         	String path = "";
-        	
+        	String os	= System.getProperty("os.name");
         	if("O".equals(infoList.get(0).get("gbn").substring(0,1))){
         		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 	            if( cl == null ){
 	                cl = ClassLoader.getSystemClassLoader();
 	            }
-	            
-	            path = cl.getResource("DBInfo.properties").toString().split(":")[1];
-	            
+	            if(os.indexOf("Window") >= 0) {
+	            	path = cl.getResource("DBInfo.properties").toString().substring(6, cl.getResource("DBInfo.properties").toString().length());
+	            } else {
+	            	path = cl.getResource("DBInfo.properties").toString().split(":")[1];
+	            }
 	            cl = null;
         	}else if("P".equals(infoList.get(0).get("gbn").substring(0,1))){
             	SystemPath systemPath = new SystemPath();
@@ -2363,14 +2365,29 @@ public class Cmm0700{
             	systemPath = null;
             }
         	
-
+        	
+        	System.out.println(path);
             FileInputStream fip = new FileInputStream(path);
             props.load(new BufferedInputStream(fip));
             
             Encryptor oEncryptor = Encryptor.instance();
+            boolean secuSw = false;
+            
+            for(int i=0; i<infoList.size(); i++){
+            	if(infoList.get(i).get("gbn").indexOf("_secu") > 0 ) {
+            		if(infoList.get(i).get("value").equals("true")) {
+            			secuSw = true;
+            		}
+            	}
+            }
+            
             for(int i=0; i<infoList.size(); i++){
             	if(infoList.get(i).get("gbn").indexOf("_url")>0 || infoList.get(i).get("gbn").indexOf("_username")>0 || infoList.get(i).get("gbn").indexOf("_password")>0){
-            		props.setProperty(infoList.get(i).get("gbn"), oEncryptor.strGetEncrypt(infoList.get(i).get("value")));
+            		if(secuSw) {
+            			props.setProperty(infoList.get(i).get("gbn"), oEncryptor.strGetEncrypt(infoList.get(i).get("value")));
+            		} else {
+            			props.setProperty(infoList.get(i).get("gbn"), infoList.get(i).get("value"));
+            		}
             	}else{
             		props.setProperty(infoList.get(i).get("gbn"), infoList.get(i).get("value"));
             	}

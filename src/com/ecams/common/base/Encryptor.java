@@ -59,8 +59,9 @@ public class Encryptor
   	{
 		Cipher cipher = Cipher.getInstance("DES");
 		cipher.init(Cipher.ENCRYPT_MODE, getSecretKeySpec()); 
-		byte[] encrypted = cipher.doFinal(str.getBytes()); 
-		
+		//byte[] encrypted = cipher.doFinal(str.getBytes()); 
+		// 2019 06 28 DB프로퍼티 암호화 복호화 제대로 안되어서 수정
+		byte[] encrypted = cipher.doFinal(str.getBytes("UTF-8"));
 		return encoder.encode(encrypted);  	   		
   	}
 
@@ -81,8 +82,10 @@ public class Encryptor
 		Cipher cipher = Cipher.getInstance("DES"); 
 		cipher.init(Cipher.DECRYPT_MODE, getSecretKeySpec()); 
 		byte[] decrypted = cipher.doFinal(encrypted); 
- 
-		return new String(decrypted);
+		
+		//return new String(decrypted);
+		// 2019 06 28 DB프로퍼티 암호화 복호화 제대로 안되어서 수정
+		return new String(decrypted,"UTF-8");
 	}  	
 	
   	public String strGetDecrypt(byte[] encrypted) throws Exception

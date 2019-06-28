@@ -66,6 +66,11 @@ public class ConnectionResource implements ConnectionContext {
 					strUrl = oEncryptor.strGetDecrypt(ConfigFactory.getProperties("O_url"));
 					strUsernm = oEncryptor.strGetDecrypt(ConfigFactory.getProperties("O_username"));
 					strUserps = oEncryptor.strGetDecrypt(ConfigFactory.getProperties("O_password"));
+					System.out.println("check DB SECU CONNECTION INFO====");
+					System.out.println(strUrl);
+					System.out.println(strUsernm);
+					System.out.println(strUserps);
+					System.out.println("check DB SECU CONNECTION INFO====");
 				} else {
 					strUrl = ConfigFactory.getProperties("O_url");
 					strUsernm = ConfigFactory.getProperties("O_username");
@@ -77,7 +82,7 @@ public class ConnectionResource implements ConnectionContext {
 			}
 			else{
 				Context ctx = new InitialContext();
-
+				
 				DataSource ds = (DataSource)ctx.lookup(ConfigFactory.getProperties("O_poolName"));
 				connection = ds.getConnection();
 			}
