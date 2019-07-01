@@ -134,34 +134,20 @@ function comboSet() {
 	ajaxResult.push(ajaxCallWithJson('/webPage/report/ConfigReqReport', ajaxData, 'json'));
 
 	//콤보박스에 들어갈 데이터 세팅
-	for(var i = 0; i < ajaxResult.length; i++) {
-		comboData[i] = [];
-		for(var j = 0; j < ajaxResult[i].length; j++) {
-			comboData[i][j] = {};
-			switch(i) {
-			case 0 :
-				comboData[i][j].text = ajaxResult[i][j].cm_sysmsg;
-				comboData[i][j].value = j == 0 ? null : ajaxResult[i][j].cm_syscd; 
-				break;
-			case 1 :
-				comboData[i][j].text = ajaxResult[i][j].cm_deptname;
-				comboData[i][j].value = j == 0 ? null : ajaxResult[i][j].cm_deptcd; 
-				break;
-			case 2: case 3:
-				comboData[i][j].text = ajaxResult[i][j].cm_codename;
-				comboData[i][j].value = j == 0 ? null : ajaxResult[i][j].cm_micode; 
-				break;
-			}
-		}
-	}
-	comboData[3].splice(1,0, {"text" : "신규+수정", "cm_micode" : "99"});
-	
-	for(var i = 0; i < selectMenu.length; i++) {
-		$('[data-ax5select="' + selectMenu[i] + '"]').ax5select({
-			options: comboData[i]
+	$.each(ajaxResult, function(index, value) {
+		comboData[index] = [];
+		$.each(value, function(key, value2) {
+			if(index == 0) comboData[index].push({value : value2.cm_syscd, text : value2.cm_sysmsg});		
+			if(index == 1) comboData[index].push({value : value2.cm_deptcd, text : value2.cm_deptname});		
+			if(index == 2 || index == 3) comboData[index].push({value : value2.cm_micode, text : value2.cm_codename});		
+		})
+		comboData[index][0].value = null; //"전체"값은 null로 세팅
+		if(index == 3) comboData[3].splice(1,0, {"text" : "신규+수정", "value" : "99"}); //처리구분에 신규+수정 추가
+		
+		$('[data-ax5select="' + selectMenu[index] + '"]').ax5select({
+			options: comboData[index]
 		});	
-	}
-	
+	}) 	
 }
 
 //picker에 오늘 날짜 디폴트로 세팅

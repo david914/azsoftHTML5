@@ -37,6 +37,7 @@ label {
 }
 .topBorder {
 /* 	border: 1px solid #ddd; */
+	height: 100%;
 	border-radius: 5px;
 	box-shadow: 1px 1px 4px 1px lightgrey;
 	
@@ -44,52 +45,40 @@ label {
 </style>
 <div style="height: 100%; width: 100%;">
 
-	<!-- data inPut section -->
-	<div class="col-lg-12 col-md-12 col-sm-12 binder-form" style="margin-top: 10px;">
+	<!-- data input section -->
+	<div class="col-lg-12 col-md-12 col-sm-12 binder-form" style="margin-top: 10px; height: 15%;">
 	<div class="col-lg-12 col-md-12 col-sm-12 no-padding topBorder">
 		<div class="col-lg-3 col-md-3 col-sm-3 form-group test">
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-2 col-md-2 col-sm-2">시스템</label>
-				<div class="col-lg-10 col-md-10 col-sm-10">
-					<div class="form-group">
-		            	<div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{}"></div>
-		        	</div>
+				<div class="col-lg-10 col-md-10 col-sm-10 form-group">
+	            	<div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{}"></div>
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-2 col-md-2 col-sm-2">신청구분</label>
 				<div class="col-lg-10 col-md-10 col-sm-10">
-					<div class="form-group">
-		            	<div id="reqDivSel" data-ax5select="reqDivSel" data-ax5select-config="{}"></div>
-		        	</div>
+	            	<div id="reqDivSel" data-ax5select="reqDivSel" data-ax5select-config="{}"></div>
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-2 col-md-2 col-sm-2">진행상태</label>
 				<div class="col-lg-10 col-md-10 col-sm-10">
-					<div class="form-group">
-		            	<div id="statusSel" data-ax5select="statusSel" data-ax5select-config="{}"></div>
-		        	</div>
+	            	<div id="statusSel" data-ax5select="statusSel" data-ax5select-config="{}"></div>
 				</div>
 			</div>			
 		</div>
 		<div class="col-lg-3 col-md-3 col-sm-3 form-group test">
-			<div class="col-lg-12 col-md-12 col-sm-12 div1" style="height: 30px;">
-			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-2 col-md-2 col-sm-2">신청부서</label>
 				<div class="col-lg-10 col-md-10 col-sm-10">
-					<div class="form-group">
-		            	<div id="reqDeptSel" data-ax5select="reqDeptSel" data-ax5select-config="{}"></div>
-		        	</div>
+	            	<div id="reqDeptSel" data-ax5select="reqDeptSel" data-ax5select-config="{}"></div>
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-2 col-md-2 col-sm-2">처리구분</label>
 				<div class="col-lg-10 col-md-10 col-sm-10">
-					<div class="form-group">
-		            	<div id="prcdDivSel" data-ax5select="prcdDivSel" data-ax5select-config="{}"></div>
-		        	</div>
+	            	<div id="prcdDivSel" data-ax5select="prcdDivSel" data-ax5select-config="{}"></div>
 				</div>
 			</div>		
 		</div>
@@ -97,25 +86,19 @@ label {
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-3 col-md-3 col-sm-3">SR-ID/SR명</label>
 				<div class="col-lg-9 col-md-9 col-sm-9">
-					<div class="form-group">
-						<input type="text" class="form-control" data-ax-path="srId" id="srId" onkeyup="enterKey()">
-		        	</div>
+					<input type="text" class="form-control" data-ax-path="srId" id="srId" onkeyup="enterKey()">
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-3 col-md-3 col-sm-3">신청자</label>
 				<div class="col-lg-9 col-md-9 col-sm-9">
-					<div class="form-group">
-						<input type="text" class="form-control" data-ax-path="reqUser" id="reqUser" onkeyup="enterKey()">
-		        	</div>
+					<input type="text" class="form-control" data-ax-path="reqUser" id="reqUser" onkeyup="enterKey()">
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-3 col-md-3 col-sm-3">프로그램명/설명</label>
 				<div class="col-lg-9 col-md-9 col-sm-9">
-					<div class="form-group">
 						<input type="text" class="form-control" data-ax-path="descript" id="descript" onkeyup="enterKey()">
-		        	</div>
 				</div>
 			</div>				
 		</div>
@@ -133,7 +116,7 @@ label {
 					</div>
 				</div>
 				<div class="col-lg-5 col-md-5 col-sm-5 div1">
-					<div class="input-group" data-ax5picker="picker1"">
+					<div class="input-group" data-ax5picker="picker1">
 			            <input id="datStD" name="datStD" type="text" class="form-control" value="2018/01/01">
 			            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
 			        </div>

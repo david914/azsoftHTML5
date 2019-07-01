@@ -1,252 +1,203 @@
-// userId 및 reqcd 가져오기
-var userid = window.parent.userId;
-var request =  new Request();
-strReqCD = request.getParameter('reqcd');
 
-// 변수
-var SecuYn;
-var L_SysCd = "";
-
-//그리드 변수
-var grid_data;
-
-// 콤보박스 변수
-var cbo_Option;
-var cboSysCd;
-var cbo_Cond10;
-var cbo_Cond2;
-var cbo_Cond11;
-
-
-
-$(document).ready(function(){
-	cboOption_set();
-	isAdmin();
-	getJogun(2);
-	createGrid();
-});
-
-function cboOption_set(){
-	cbo_Option = [
-		{cm_codename : "전체", cm_micode : "0", cm_macode : "OPTION"},
-		{cm_codename : "신규중 제외", cm_micode : "1", cm_macode : "OPTION"},
-		{cm_codename : "신규중", cm_micode : "2", cm_macode : "OPTION"},
-		{cm_codename : "폐기분 제외", cm_micode : "3", cm_macode : "OPTION"},
-		{cm_codename : "폐기분", cm_micode : "4", cm_macode : "OPTION"}
-	]
-	SBUxMethod.refresh('cbo_Option');
-}
-
-function isAdmin(){
-	var ajaxResultData = null;
-	var tmpData = {
-			requestType : 'UserInfo',
-			UserId : userid
-	}	
-	ajaxResultData = ajaxCallWithJson('/webPage/report/PrgListReport', tmpData, 'json');
-	
-	if(ajaxResultData === true){
-		SecuYn = "Y";
-	} else {
-		SecuYn = "N";
-	}
-	
-	ajaxResultData = null;
-	tmpData = null;
-	
-	if(SecuYn == "Y"){
-		tmpData = {
-				requestType : 'getSysInfo',
-				UserId : userid,
-				tmp	   : 'N'
-		}
-		ajaxResultData = ajaxCallWithJson('/webPage/report/PrgListReport', tmpData, 'json');
-	} else {
-		tmpData = {
-				requestType : 'getSysInfo',
-				UserId : userid,
-				tmp    : 'Y'
-		}
-		ajaxResultData = ajaxCallWithJson('/webPage/report/PrgListReport', tmpData, 'json');
-	}
-	getSysInfo_resultHandler(ajaxResultData);
-}
-
-function getSysInfo_resultHandler(resultData){
-	var count = 0;
-	var ajaxResultData = null;
-	var selectedIndex;
-	cboSysCd = resultData;
-	
-	cboSysCd = cboSysCd.filter(function(data) {
-		return data.cm_sysinfo.substring(0,1) !== "1";
-	});
-	
-	SBUxMethod.refresh('cboSysCd');
-	
-	getJogun(1);
-}
-
-function getJogun(vari){
-	var ajaxResultData = null;
-	var selectedIndex;
-	var tmpData = {
-			requestType : 'getJogun',
-			cnt : vari
-	}	
-	ajaxResultData = ajaxCallWithJson('/webPage/report/PrgListReport', tmpData, 'json');
-	
-	if(ajaxResultData[0].Index === "1"){
-		console.log("1");
-		cbo_Cond10 = ajaxResultData;
-		SBUxMethod.refresh('cbo_Cond10');
-		if(cbo_Cond10.length > 1){
-			$("#cbo_Cond10 option:eq(2)").prop("selected", true);
-			setJogunOne(0);
-		}
-	} else {
-		cbo_Cond11 = ajaxResultData;
-		SBUxMethod.refresh('cbo_Cond11');
-		selectedIndex = document.getElementById("cbo_Cond11");
-		SBUxMethod.set('lbl_Cond1',  ajaxResultData[selectedIndex.selectedIndex].cm_codename);
-	}
-}
-
-function setJogunOne(index){
-	var selectedIndex;
-	if(cboSysCd.length > 0) L_SysCd = SBUxMethod.get("cboSysCd");
-	else L_SysCd = "";
-	
-	setJogunTwo(index);
-	
-	cbo_Cond2 = null;
-	selectedIndex = document.getElementById("cbo_Cond10");
-	if(selectedIndex.selectedIndex < 1){
-		SBUxMethod.hide('lbl_Cond0');
-		SBUxMethod.attr('cbo_Cond2', 'readonly', 'true');
-	} else {
-		if (L_SysCd == ""){
-		}else{
-			SBUxMethod.show('lbl_Cond0');
-			SBUxMethod.attr('cbo_Cond2', 'readonly', 'false');
-			var cnt = selectedIndex.selectedIndex;
-			SBUxMethod.set('lbl_Cond0', cbo_Cond10[cnt].cm_codename);
-			getCode(cnt);
-		}
-	}
-}
-
-function setJogunTwo(index){
-	var selectedIndex;
-	SBUxMethod.set('txt_Cond', "");
-	selectedIndex = document.getElementById("cbo_Cond11");	
-	if(selectedIndex.selectedIndex < 1){
-		SBUxMethod.hide('lbl_Cond1');
-		SBUxMethod.attr('txt_Cond', 'readonly', 'true');
-		SBUxMethod.set('txt_Cond', "");
-	} else {
-		SBUxMethod.show('lbl_Cond1');
-		SBUxMethod.set('lbl_Cond1', cbo_Cond11[selectedIndex.selectedIndex].cm_codename);			
-		SBUxMethod.attr('txt_Cond', 'readonly', 'false');
-	}
-}
-
-function getCode(cnt){
-	var ajaxResultData = null;
-	var selectedIndex;
-	var tmpData = {
-			requestType : 'getCode',
-			L_SysCd : L_SysCd,
-			cnt		: cnt
-	}	
-	ajaxResultData = ajaxCallWithJson('/webPage/report/PrgListReport', tmpData, 'json');
-	
-	cbo_Cond2 = ajaxResultData;
-	SBUxMethod.refresh('cbo_Cond2');
-	selectedIndex = document.getElementById("cbo_Cond10");
-	if(selectedIndex.selectedIndex == "2" && cbo_Cond2.length > 2){
-		$("#cbo_Cond2 option:eq(3)").prop("selected", true);
-	}
-	
-	Sql_Qry();
-}
-
-function Sql_Qry(){
-	var tmpObj = {};
-	var selectedIndex;
-	var L_JobCd = ""; // 개발당시 nice데모에서는 값을 공백으로 보내줌
-	
-	tmpObj.UserId = userid;
-	tmpObj.SecuYn = SecuYn;
-	tmpObj.L_SysCd = L_SysCd;
-	tmpObj.L_JobCd = L_JobCd;
-	
-	selectedIndex = document.getElementById("cbo_Cond10");	
-	tmpObj.Cbo_Cond10_code = selectedIndex.selectedIndex;
-	selectedIndex = null;
-	
-	selectedIndex = document.getElementById("cbo_Cond11");	
-	tmpObj.Cbo_Cond11_code = selectedIndex.selectedIndex;
-	selectedIndex = null;
-	
-	selectedIndex = document.getElementById("cbo_Cond2");
-	if(cbo_Cond2.length > 0 && selectedIndex.selectedIndex > 0) tmpObj.Cbo_Cond2_code = SBUxMethod.get("cbo_Cond2");
-	else tmpObj.Cbo_Cond2_code = "";
-	
-	if(SBUxMethod.get("txt_Cond") !== undefined){
-		tmpObj.Txt_Cond = SBUxMethod.get("txt_Cond");
-	} else {
-		tmpObj.Txt_Cond = "";
-	}
-	
-	tmpObj.Cbo_Option = SBUxMethod.get("cbo_Option");
-	tmpObj.Chk_Aply = SBUxMethod.get('chkDetail').chkDetail;
-	
-	var ajaxResultData = null;
-	var tmpData = {
-			requestType : 'getSql_Qry',
-			prjData: JSON.stringify(tmpObj)
-	}	
-	
-	
-	ajaxResultData = ajaxCallWithJson('/webPage/report/PrgListReport', tmpData, 'json');
-	
-	console.log(ajaxResultData);
-	
-	if(Object.keys(ajaxResultData).length > 0){
-		var cnt = Object.keys(ajaxResultData).length;				// json 객체 길이 구하기			
-		SBUxMethod.set('lbTotalCnt', '총'+cnt+'건');	// 총 개수 표현		
-	}
-
-	grid_data = ajaxResultData;
-	datagrid.refresh();
-}
-
-// 그리드 생성 함수
-function createGrid(){
-	SBGridProperties = {};
-	SBGridProperties.parentid = 'sbGridArea';  // [필수] 그리드 영역의 div id 입니다.            
-	SBGridProperties.id = 'datagrid';          // [필수] 그리드를 담기위한 객체명과 동일하게 입력합니다.                
-	SBGridProperties.jsonref = 'grid_data';    // [필수] 그리드의 데이터를 나타내기 위한 json data 객체명을 입력합니다.
-	SBGridProperties.waitingui = true;
-	// 그리드의 여러 속성들을 입력합니다.
-	SBGridProperties.explorerbar = 'sort';
-	SBGridProperties.extendlastcol = 'scroll';
-	SBGridProperties.tooltip = true;
-	SBGridProperties.ellipsis = true;
-	SBGridProperties.rowheader = 'seq';
-
-	// [필수] 그리드의 컬럼을 입력합니다.
-	SBGridProperties.columns = [
-		{caption : ['시스템'],	ref : 'job',width : '100px', style : 'text-align:center',  type : 'output'},
-		{caption : ['프로그램명'],	ref : 'cr_rsrcname', width : '150px', style : 'text-align:center',	type : 'output'},
-		{caption : ['프로그램경로'],	ref : 'cm_dirpath',width : '150px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['상태'],	ref : 'sta',width : '150px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['버전'],	ref : 'cr_lstver',width : '150px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['프로그램종류'],	ref : 'rsrccd',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['프로그램설명'],	ref : 'cr_story',width : '200px',  style : 'text-align:center', type : 'output'},
-		{caption : ['최종변경자'],	ref : 'cm_username',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['최종변경일'],	ref : 'cr_lastdate',width : '150px',  style : 'text-align:center', type : 'output'}
+var userid 		= window.top.userId;
+var mainGrid		= new ax5.ui.grid();
+var SecuYn = null;
+var L_SysCd = null;
+var columnData = 
+	[ 
+		{key : "job",label : "시스템",align : "center",width: "7%"}, 
+		{key : "cr_rsrcname",label : "프로그램명",align : "center",width: "14%"}, 
+		{key : "cm_dirpath",label : "프로그램경로",align : "center",width: "24%"}, 
+		{key : "sta",label : "상태",align : "center",width: "7%"}, 
+		{key : "cr_lstver",label : "버전",align : "center",width: "5%"}, 
+		{key : "rsrccd",label : "프로그램종류",align : "center",width: "12%"}, 
+		{key : "cr_story",label : "프로그램설명",align : "center",width: "10%"}, 
+		{key : "cm_username",label : "최종변경자",align : "center",width: "8%"}, 
+		{key : "cr_lastdate",label : "최종변경일",align : "center",width: "10%"} 
 	];
-	datagrid = _SBGrid.create(SBGridProperties); // 만들어진 SBGridProperties 객체를 파라메터로 전달합니다.
+
+$(document).ready(function() {
+	
+	$('input:checkBox[name=checkStd]').wCheck({theme: 'circle-classic blue', selector: 'checkmark', highlightLabel: true});
+	mainGrid.setConfig({
+		target : $('[data-ax5grid="mainGrid"]'),
+		showLineNumber : true,
+		showRowSelector : false,
+		multipleSelect : false,
+		lineNumberColumnWidth : 40,
+		rowSelectorColumnWidth : 27,
+		body : {
+			columnHeight: 24,
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	        },
+		},
+		columns : columnData
+	}); 
+	
+	//범위 콤보박스 데이터 세팅
+	$('[data-ax5select="rangeSel"]').ax5select({
+		options: [
+			{value: "0", cm_macode: "OPTION", text: "전체"},
+			{value: "1", cm_macode: "OPTION", text: "신규중 제외"},
+			{value: "2", cm_macode: "OPTION", text: "신규중"},
+			{value: "3", cm_macode: "OPTION", text: "폐기분 제외"},
+			{value: "4", cm_macode: "OPTION", text: "폐기분"}
+		]
+	});
+		
+	isAdmin();
+	comboSet();	
+})
+
+function isAdmin() {
+	var ajaxData = {
+			requestType : 'isAdmin',
+			UserId : userid
+	}
+	ajaxResultData = ajaxCallWithJson('/webPage/report/PrgListReport', ajaxData, 'json');
+	SecuYn = ajaxResultData ? "Y" : "N"; 
+}
+
+//콤보 데이터 셋
+function comboSet() {
+	
+	var ajaxResult = new Array();
+	var comboData = new Array();
+	var ajaxData = new Object();
+	var selectMenu = ["systemSel", "conditionSel1",  "conditionSel2", "prgStatusSel"];
+	
+	//시스템
+	ajaxData = {
+		UserId : userid,
+		tmp : SecuYn,
+		requestType	: 'getSysInfo'
+	};
+	ajaxResult.push(ajaxCallWithJson('/webPage/report/PrgListReport', ajaxData, 'json'));
+	
+	//조건선택1
+	ajaxData.requestType = 'getJogun';
+	ajaxData.cnt = "1";
+	ajaxResult.push(ajaxCallWithJson('/webPage/report/PrgListReport', ajaxData, 'json'));
+	
+	//조건선택2
+	ajaxData.requestType = 'getJogun';
+	ajaxData.cnt = "0";
+	ajaxResult.push(ajaxCallWithJson('/webPage/report/PrgListReport', ajaxData, 'json'));
+	
+	//콤보박스에 들어갈 데이터 세팅
+	$.each(ajaxResult, function(index, value) {
+		comboData[index] = [];
+		$.each(value, function(key, value2) {
+			if(index == 0) {
+				comboData[index].push({value : value2.cm_syscd, text : value2.cm_sysmsg});		
+			} else {
+				comboData[index].push({value : key == 0 ? 0 : value2.cm_micode, text : value2.cm_codename});
+			}
+		})
+	});
+	comboData[1][2].value = 2; //조건선택1의 프로그램상태 밸류값 따로 세팅 안 해줄 시 3으로 들어가서 2로 직접 대입
+	
+	for(var i = 0; i < selectMenu.length; i++) {
+		$('[data-ax5select="' + selectMenu[i] + '"]').ax5select({
+			options: comboData[i],
+			onStateChanged : function(item) {
+				if(item.state == "changeValue") {		
+					//조건선택2의 선택값에 따른 텍스트필드, 라벨 세팅
+					if($("[data-ax5select='conditionSel2']").ax5select("getValue")[0].value == 0) {
+						$("#conditionText").prop('disabled', true);
+						$("#conditionTextLabel").text("");
+					} else {
+						$("#conditionText").prop('disabled', false);
+						$("#conditionTextLabel").text($("[data-ax5select='conditionSel2']").ax5select("getValue")[0].text);
+					}
+					
+					//조건 선택시마다 조회 이벤트 돌리도록 세팅
+					if(item.item.name != "conditionSel2" && $("[data-ax5select='conditionSel1']").ax5select("getValue")[0].value != 0) {
+						var sysCd = $("[data-ax5select='systemSel']").ax5select("getValue")[0].value;
+						var condCd = $("[data-ax5select='conditionSel1']").ax5select("getValue")[0].value;
+						prgOptionSet(sysCd, condCd);
+						$("#btnSearch").trigger('click');
+					} else if(item.item.name != "conditionSel2" && $("[data-ax5select='conditionSel1']").ax5select("getValue")[0].value == 0) {
+						$('[data-ax5select="prgStatusSel"]').ax5select("disable");			
+					}
+				}
+			}
+		});	
+	}	
+	$('[data-ax5select="prgStatusSel"]').ax5select("disable");
+}
+
+//조건선택1의 값에 따른 프로그램상태 콤보박스 세팅
+function prgOptionSet(sysCd, condCd) {
+	
+	$("#prgStatusLabel").text($('[data-ax5select="conditionSel1"').ax5select("getValue")[0].text);
+	$('[data-ax5select="prgStatusSel"]').ax5select("enable");
+	
+	var ajaxData = new Object();
+	var ajaxResult = new Object();
+	var comboData = [];
+	
+	ajaxData.requestType = 'getCode';
+	ajaxData.L_SysCd = "" + sysCd;
+	ajaxData.cnt = "" + condCd;
+	ajaxResult = ajaxCallWithJson('/webPage/report/PrgListReport', ajaxData, 'json');
+	
+	$.each(ajaxResult, function(key, value) {
+		comboData.push({value : key == 0 ? '' : value.cm_micode, text : value.cm_codename});
+	})
+	
+	$('[data-ax5select="prgStatusSel"]').ax5select({
+		options: comboData,
+		onStateChanged : function(item) {
+			if(item.state == "changeValue") {					
+				$("#btnSearch").trigger('click');
+			}
+		}
+	});	
+}
+
+//조회 이벤트 시
+$("#btnSearch").bind('click', function() {
+		
+	if($('[data-ax5select="conditionSel1"]').ax5select("getValue")[0].value == 0) {
+		dialog.alert('조건을 먼저 선택해주세요.',function(){});
+	} else {
+		var inputData = new Object();
+		var tmpObj = {};
+		
+		tmpObj = {	
+				UserId : userid,
+				SecuYn : SecuYn,
+				L_SysCd : $('[data-ax5select="systemSel"]').ax5select("getValue")[0].value,
+				L_JobCd : "0000",
+				Cbo_Cond10_code : $('[data-ax5select="conditionSel1"]').ax5select("getValue")[0].value,
+				Cbo_Cond11_code : $('[data-ax5select="conditionSel2"]').ax5select("getValue")[0].value,
+				Cbo_Cond2_code : $('[data-ax5select="prgStatusSel"]').ax5select("getValue")[0].value,
+				Txt_Cond : $("#conditionText").val(),
+				Cbo_Option : $('[data-ax5select="rangeSel"]').ax5select("getValue")[0].value,
+				Chk_Aply : $("#checkDetail").is(':checked')
+		}
+		
+		ajaxData = {
+				prjData : tmpObj,
+				UserId : userid,
+				requestType : "getSql_Qry"
+		}
+		var ajaxResult = ajaxCallWithJson('/webPage/report/PrgListReport', ajaxData, 'json');
+		mainGrid.setData(ajaxResult);
+	}
+	
+})
+
+$("#btnExcel").on('click', function() {
+	var st_date = new Date().toLocaleString();
+	var today = st_date.substr(0, st_date.indexOf("오"));
+	
+	mainGrid.exportExcel("프로그램목록 " + today + ".xls");
+})
+
+function enterKey() {
+	if(window.event.keyCode == 13) $("#btnSearch").trigger("click");
 }

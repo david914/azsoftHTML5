@@ -47,7 +47,7 @@ public class PrgListReport extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
-				case "UserInfo" :
+				case "isAdmin" :
 					response.getWriter().write( isAdmin(jsonElement) );
 					break;
 				case "getSysInfo" :
