@@ -1,12 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-</body>
-</html>
+<c:import url="/webPage/common/common.jsp" />
+
+<div id="wrapper">
+	<!-- Header -->
+	<div id="header"></div>
+	
+    <div class="content">    	
+        <!-- history S-->
+        <div id="history_wrap">관리자<strong>&gt; 파일대사환경설정</strong></div>
+        <!-- history E-->    
+        <!-- 하단 S-->
+		<div class="half_wrap margin-10-top">
+			<!-- tab S-->
+			<div class="tab_wrap">
+				<ul class="tabs">
+					<li rel="tabDefault" id="tab1Li" class="on">기본정보</li>
+					<li rel="tabEct" id="tab2Li">예외디렉토리정보</li>
+					<li rel="tabHand" id="tab3Li">수기파일대사</li>
+				</ul>
+			</div>
+			<!-- tab E-->
+			
+			<div class="half_wrap margin-10-top"> <!--  tab_container -->
+		       	<div id="tabDefault" class="tab_content" style="width:100%">
+		       		<iframe src='/webPage/tab/FileConfigurationTab1.jsp' width='100%' height='80%' frameborder="0"></iframe>
+		       	</div>
+		       	<div id="tabEct" class="tab_content" style="width:100%">
+		       		<iframe src='/webPage/tab/FileConfigurationTab2.jsp' width='100%' height='80%' frameborder="0"></iframe>
+		       	</div>
+		       	<div id="tabHand" class="tab_content" style="width:100%">
+		       		<iframe src='/webPage/tab/FileConfigurationTab3.jsp' width='100%' height='80%' frameborder="0"></iframe>
+		       	</div>
+		   	</div>
+		</div>
+	</div>
+</div>
+
+<c:import url="/js/ecams/common/commonscript.jsp" />
+<script type="text/javascript" src="<c:url value="/js/ecams/administrator/FileConfiguration.js"/>"></script>
+	

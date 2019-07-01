@@ -2868,7 +2868,7 @@ public class Cmd1200{
 				strQuery.append("   and a.cm_syscd=c.cm_syscd                   \n");	
 				strQuery.append("   and a.cm_svrcd=c.cm_svrcd                   \n");	
 				strQuery.append("   and a.cm_seqno=c.cm_seqno                   \n");	
-				strQuery.append("   and a.cm_jobcd<>'****'                      \n");		
+				strQuery.append("   and c.cm_jobcd<>'****'                      \n");		
 				strQuery.append("   and d.cm_macode='SERVERCD'                  \n");	
 				strQuery.append("   and d.cm_micode=a.cm_svrcd                  \n");
 				strQuery.append(" group by a.cm_svrcd,b.cm_jobname,d.cm_codename \n");	
@@ -3117,7 +3117,7 @@ public class Cmd1200{
 				strQuery.append("   and a.cr_jobcd=b.cm_jobcd           \n");
 				strQuery.append(" group by b.cm_jobcd,b.cm_jobname      \n");
 				strQuery.append(" minus                                 \n");
-				strQuery.append("select b.cm_jobcd,b.cm_jobname         \n");
+				strQuery.append("select c.cm_jobcd,c.cm_jobname         \n");
 				strQuery.append("  from cmm0033 a,cmm0022 b,cmm0102 c   \n");
 				strQuery.append(" where a.cm_syscd=?                    \n");
 				strQuery.append("   and a.cm_qrycd=?                    \n");
@@ -3131,6 +3131,10 @@ public class Cmd1200{
 	            pstmt =  new LoggableStatement(conn, strQuery.toString());
 	            pstmt.setString(1, sysCd);
 	            pstmt.setString(2, RsrcCd);
+	            pstmt.setString(3, sysCd);
+	            pstmt.setString(4, qryCd);
+	            pstmt.setString(5, prcSys);
+	            pstmt.setString(6, RsrcCd);
 	            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	            rs = pstmt.executeQuery();
 			    while (rs.next()){

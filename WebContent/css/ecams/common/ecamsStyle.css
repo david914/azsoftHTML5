@@ -1030,7 +1030,7 @@ select::-ms-expand {display: none;}
 .btn_gray_s{background: #ddd; border: 1px solid #ccc; color:#333; font-weight:bold; padding: 0 7px 2px; height: 25px;}
 
 .input-group-addon{background: #fff; border: 1px solid #ccc; color:#333; line-height: 2px;}
-.btn_calendar{display: inline-block; height: 25px; line-height: 16px; padding: 4px 12px 3px; margin-right: 15px; color: #333; text-align: center; background-color: #fff; border: 1px solid #ccc;}
+.btn_calendar{display: inline-block;height: 25px;line-height: 16px;padding: 4px 12px 3px;margin-right: 15px;color: #333;text-align: center;background-color: #fff;border: 1px solid #ccc;}
 /********************************** 
                 layout
 **********************************/

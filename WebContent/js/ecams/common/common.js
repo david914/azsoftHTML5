@@ -33,6 +33,7 @@ var toast 			= new ax5.ui.toast();
 var dialog 			= new ax5.ui.dialog({title: "확인"});
 var confirmDialog 	= new ax5.ui.dialog();	//알럿,확인창
 var mask 			= new ax5.ui.mask();
+var picker			= new ax5.ui.picker();
 toast.setConfig({
 	containerPosition: "top-right",
 	displayTime:10000

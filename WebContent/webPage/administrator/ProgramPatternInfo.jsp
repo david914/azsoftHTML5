@@ -1,12 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-</body>
-</html>
+<c:import url="/webPage/common/common.jsp" />
+
+<style>
+#tip {
+	position:absolute;
+  	color:#FFFFFF;
+	padding:5px;
+	display:none;
+	background:#FFA200;
+  	border-radius: 5px;
+}
+</style>
+
+<!-- contener -->
+<div id="wrapper">
+	<div class="content">
+	    <!-- history S-->
+		<div id="history_wrap">
+			관리자 <strong>&gt; 프로그램유형정보</strong>
+		</div>
+		
+		<div class="az_search_wrap">
+			<div class="az_in_wrap">
+				<div class="l_wrap width-60">
+					<label>시스템</label>
+					<div class="width-30 vat dib">
+						<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
+					</div>
+					<div class="dib margin-3-top">
+						<input id="optQry"  type="radio" name="radio" value="1"/>
+						<label for="optQry">조회</label>
+						<input id="optChk" type="radio" name="radio" value="2"/>
+						<label for="optChk">점검</label>
+					</div>
+				</div>	
+			</div>
+		</div>
+		
+		<div class="az_board_basic" style="height: 40%">
+			<div data-ax5grid="prgGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%"></div>
+		</div>
+		<div class="az_board_basic margin-10-top" style="height: 40%">
+			<div data-ax5grid="cmdGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%"></div>
+		</div>
+	</div>
+</div>
+
+
+<c:import url="/js/ecams/common/commonscript.jsp" />
+<script type="text/javascript" src="<c:url value="/js/ecams/administrator/ProgramPatternInfo.js"/>"></script>
