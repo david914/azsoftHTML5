@@ -88,6 +88,7 @@ picker.bind({
 $('#dateStD').val(ax5.util.date(new Date(), {'return': 'yyyy/MM/dd', 'add': {d: 0} } ));
 $('#dateEdD').val(ax5.util.date(new Date(), {'return': 'yyyy/MM/dd', 'add': {d: 0} } ));
 
+$('input.checkbox-pop').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function() {
 	popNoticeInit();
@@ -284,7 +285,6 @@ function del() {
 			delData.chkNotice = $('#chkPop').prop("checked").toString();
 			delData.stDate = stDate;
 			delData.edDate = edDate;
-			console.log(userId, delData);
 			var data = new Object();
 			data = {
 				requestType : 'deleteNotice',

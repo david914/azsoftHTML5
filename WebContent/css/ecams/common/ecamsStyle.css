@@ -498,6 +498,7 @@ ul.tabs li.active {
 	padding-bottom: 40px;
 }
 
+
 .width-100 {
 	width: 100%;
 }
@@ -798,18 +799,23 @@ ul.tabs li.active {
 .width-400px {
 	width: 400px;
 }
+
 .width-default-btn {
 	width: 100px;
 }
+
 .height-100 {
 	height: 100%;
 }
+
 .height-30px {
 	height: 30px;
 }
+
 .height-80px {
 	height: 80px;
 }
+
 .combo-height {
 	height: 30px;
 	font-size: 8px;
@@ -899,7 +905,7 @@ ul.tabs li.active {
 }
 .pop-header > div > label{
 	color: white;
-	margin-top: 5px;
+	/*margin-top: 5px;*/
 	font-size: 12px;	
 }
 
@@ -964,19 +970,13 @@ div#rMenu ul {
     margin: 0;
     font-size: 13px;
 }
-.text-danger {
-	color: red;	
-}
-.text-prog {
-	color: blue;	
-}
 /* tree right menu css end*/
 
 /****************************************************************************************************************************************
                 										ver2019 디자인 리뉴얼 퍼블리셔 김수정
 ****************************************************************************************************************************************/
 /*setting*/
-* {margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box;}
+* {margin: 0;padding: 0;border: 0;outline: 0;box-sizing: border-box;}
 html{position: relative; height: 100%;}
 html,body{font-size: 12px; color: #333; margin: 0; padding: 0;}
 body{min-width: 1024px; height: 100%;}
@@ -986,9 +986,9 @@ em{font-style: normal;}
 blockquote, q {quotes:none;}
 blockquote:before, blockquote:after, q:before, q:after {content: ''; content: none;}
 table, table tr, table td {border: 0; border-collapse: collapse; border-spacing: 0;}
-label {display: inline-block; max-width: 100%; line-height: 25px; letter-spacing: -0.8px; margin-right: 5px; font-weight: bold; vertical-align: top;}
-button, input, select{vertical-align: top;}
-button{border: 0;}
+label {display: inline-block; max-width: 100%; line-height: 25px; letter-spacing: -0.8px; margin-right: 5px; font-weight: bold; vertical-align: top; margin-bottom: 0; font-size: 13px;}
+button, input, select{vertical-align: top; margin: 0; padding: 0;}
+button{border: 0; margin: 0; padding: 0;}
 input{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
 input::-webkit-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input:-ms-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
@@ -1000,7 +1000,9 @@ select {width: 200px; height:25px; padding: 0 7px; border: 1px solid #ddd; borde
 select::-ms-expand {display: none;}
 /*common*/
 .cb{content: ''; display: block; clear: both;}
-.dib{display: inline-block;}`
+.dib{display: inline-block;}
+.poa{position: absolute;}
+.por{position: relative;}
 .poa_r{position: absolute; right: 0; top: 0;}
 .tal{text-align: left !important;}
 .tac{text-align: center;}
@@ -1008,9 +1010,17 @@ select::-ms-expand {display: none;}
 .vat{vertical-align: top;}
 .txt_g{color: #888;}
 .mt3m{margin-top: -3px;}
+.ml_7{margin-left: 7px;}
 .bg_white{background: #fff;}
 .pd_10{padding: 10px;}
 .mask_wrap{opacity: 0.5;}
+
+.tit_80{width: 80px;}
+.tit_100 {width: 100px;}
+.tit_150 {width: 150px;}
+.ml_80 {margin-left: 80px;}
+.ml_100 {margin-left: 100px;}
+.ml_150 {margin-left: 150px;}
 /*text*/
 .tit h3{position: relative; font-size: 13px; font-weight: bold; color: #245490; border-bottom: 1px solid #5c7ba0; padding-bottom: 3px;}
 /*tab*/
@@ -1030,17 +1040,17 @@ select::-ms-expand {display: none;}
 .btn_gray_s{background: #ddd; border: 1px solid #ccc; color:#333; font-weight:bold; padding: 0 7px 2px; height: 25px;}
 
 .input-group-addon{background: #fff; border: 1px solid #ccc; color:#333; line-height: 2px;}
-.btn_calendar{display: inline-block;height: 25px;line-height: 16px;padding: 4px 12px 3px;margin-right: 15px;color: #333;text-align: center;background-color: #fff;border: 1px solid #ccc;}
+.btn_calendar{display: inline-block; font-size: 14px; height: 25px; line-height: 13px; padding: 4px 12px 3px; margin-right: 15px; color: #333; text-align: center; background-color: #fff; border: 1px solid #ccc;}
 /********************************** 
                 layout
 **********************************/
 #header{position: relative; height: 50px; background: #ddd;}
-#wrapper{position: relative;width: 1024px;min-width: 100%;min-height: 100%;/*min-height: calc(100vh - 45px);*/}
+#wrapper{position: relative; width: 1024px; min-width: 100%; min-height: 100%; /*min-height: calc(100vh - 45px);*/}
 /*#wrapper:after{content: ''; display: block; clear: both;}*/
-#wrapper .content{margin: 10px;}
+#wrapper .content{position: relative; margin: 10px; margin-bottom: 0;}
 #history_wrap{position: relative; font-size: 14px; line-height: 14px; font-weight: 500; color: #245490; margin-bottom: 10px;}
 #divContent {width: 580px; background: #f8f8f8; padding: 20px; margin: 0 auto;}
-#footer{position: absolute; bottom: 0; width: 100%; height: 30px; margin-top: 15px; background: #ddd;}
+#footer{position: relative; width: 100%; height: 30px; margin-top: 15px; background: #ddd;}
 #footer ul:after{content: ''; display: block; clear: both;}
 #footer ul li{position: relative; float: left; width: 50%; zoom: 1;}
 #footer ul li.logo_f{text-align: left; padding-left: 15px;}
@@ -1049,7 +1059,7 @@ select::-ms-expand {display: none;}
 /*좌우 반*/
 .half_wrap{position: relative; background: #f6f6f6; padding: 10px;/*border-top: 2px solid #ccc;*/}
 .half_wrap:after{content: ""; clear: both; display: block;}
-.l_wrap{position: relative;float: left;}
+.l_wrap{position: relative; float: left;}
 .r_wrap{position: relative; float: right;}
 /********************************** 
                 게시판
@@ -1083,12 +1093,13 @@ select::-ms-expand {display: none;}
 /*공지사항*/
 #tip {position:absolute; color:#FFFFFF; padding:5px; display:none; background:#FFA200; border-radius: 5px;}
 /*검색 - 테이블상단*/
-.az_search_wrap{display: inline-block;width: 100%;/*height: 47px;*/padding: 10px 0;margin-bottom: 12px;background: #f8f8f8;border-top: 1px solid #ccc;}
-.az_in_wrap{display: block; padding: 0 10px;}
-.sim{margin: 0 7px;}
+.az_search_wrap{display: inline-block; width: 100%; /*height: 47px;*/ padding: 10px 0; margin-bottom: 12px; background: #f8f8f8; border-top: 1px solid #ccc;}
+.az_in_wrap{display: block; padding: 0 10px; font-size: 0;}
+.sim{margin: 0 7px; font-size: 14px;}
 .az_search_wrap div.l_wrap button.btn_basic_s{padding: 1px 7px 2px; margin: 0 7px;}
 .az_search_wrap div.r_wrap .all_num{display: inline-block; color: #245490; padding: 5px 20px 4px 10px;}
 .az_search_wrap div.r_wrap .all_num strong{display: inline-block;}
+.all_num {position: relative; font-size: 12px;}
 /*SR등록*/
 .sr_status div.label{display: inline-block; margin-left: 7px;}
 .sr_status div.r_wrap{text-align: right;}
@@ -1106,10 +1117,19 @@ select::-ms-expand {display: none;}
 .write_wrap .half dl dd{margin-left: 80px;}
 .write_wrap textarea {width: 100%; height: 150px; padding: 12px 20px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px; resize: none;}
 .write_wrap div dl dd span.btn_calendar{margin-right: 0;}
+/*checkout*/
+
+
+/******************************************************************************
+									popup
+******************************************************************************/
+button.close { -webkit-appearance: none; padding: 0; cursor: pointer; background: transparent; border: 0;}
+.close {position: absolute; right: 10px; top: 1px; font-size: 21px; font-weight: bold; line-height: 1; color: #000; text-shadow: 0 1px 0 #fff; filter: alpha(opacity=20); opacity: .2;}
 
 /******************************************************************************
 									ax5
 ******************************************************************************/
+.form-control{border-radius: 0;}
 .ax5select-display .ax5select-display-table [data-ax5select-display="label"]{padding: 0 7px 0 0;}
 .input-sm, .input-group-sm>.form-control, .input-group-sm>.input-group-addon, .input-group-sm>.input-group-btn>.btn{padding: 3px 5px;}
 [data-ax5select] .ax5select-display.input-sm, [data-ax5select] .input-group-sm>.ax5select-display.form-control, [data-ax5select] .input-group-sm>.ax5select-display.input-group-addon, [data-ax5select] .input-group-sm>.input-group-btn>.ax5select-display.btn{
@@ -1153,3 +1173,4 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel][data-ax5grid-panel="top-aside-body"], [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel][data-ax5grid-panel="aside-body"], [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel][data-ax5grid-panel="bottom-aside-body"]{
 	background: #fff;
 }
+#divPicker{font-size: 0;}

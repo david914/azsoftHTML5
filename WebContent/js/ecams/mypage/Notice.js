@@ -126,7 +126,7 @@ noticeGrid.setConfig({
         {key: "CM_NOTIYN", 		label: "팝업",  		width: '8%'},
         {key: "fileCnt", 		label: "첨부파일",  	width: '8%',
          formatter: function(){
-        	 var htmlStr = this.value > 0 ? "<button class='btn-ecams-grid' onclick='openFileDownload("+this.item.CM_ACPTNO+","+this.item.fileCnt+")' >첨부파일다운</button>" : '';
+        	 var htmlStr = this.value > 0 ? "<button class='btn-ecams-grid' onclick='openFileDownload("+this.item.CM_ACPTNO+","+this.item.fileCnt+")' >첨부파일</button>" : '';
         	 return htmlStr;
          }
         }
