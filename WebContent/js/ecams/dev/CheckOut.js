@@ -17,14 +17,14 @@ var reqCd 			  = window.top.reqCd;
 var firstGrid 	 = new ax5.ui.grid();
 var secondGrid = new ax5.ui.grid();
 
-var fileGridData = null;
+var firstGridData = [];
 var sysData 	  = null;
 var srData 	  	  = null;
 var prgData	  = null;
 var treeData 	  = null;
 var confirmData = null;
-var gridSimpleData = null;
-var secondGridList = [];
+var gridSimpleData = [];
+var secondGridData = [];
 
 var options = [];
 var strAcptNo = null;
@@ -140,6 +140,7 @@ secondGrid.setConfig({
     	},
     	onDataChanged: function(){
     		//그리드 새로고침 (스타일 유지)
+    		simpleData();
     	    this.self.repaint();
     	}
     },
@@ -375,18 +376,19 @@ function successGetPrgCbo(data){
 function changeSrId(){
 	
 	$('#reqText').val('');
-	$('#btnSrInfo').attr('enabled','false');
+	$('#btnSrInfo').attr('disabled',true);
 
 	if (getSelectedIndex('cboSrId') < 1) return;
 	
 	$('#reqText').val(getSelectedVal('cboSrId').text);
-	$('#btnSrInfo').attr('enabled','true');
+	$('#btnSrInfo').attr('disabled',false);
 	
 }
 
 function changeSys(){
 	
 	firstGrid.setData([]);
+	fristGridData = [];
 	if (getSelectedVal('cboSys').cm_sysinfo.substr(4,1) == "1" && getSelectedVal('cboSys').cm_stopsw == "1") {
 		showToast('이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.');
 
@@ -640,7 +642,7 @@ function getFileGridData(getFileData) {
 
 function successGetFileGridData(data){
 	if(data != 'ERR') {
-		fileGridData = data;
+		firstGridData = data;
 
 		//컬럼제거하기
 		firstGridColumns = firstGrid.columns;
@@ -648,32 +650,32 @@ function successGetFileGridData(data){
 			firstGrid.removeColumn(2);
 		}
 		
-		if(fileGridData.length == 0 && alertFlag == 1){
+		if(firstGridData.length == 0 && alertFlag == 1){
 			showToast('검색 결과가 없습니다.');
 		}
 		alertFlag = 0;
 		
-		$(fileGridData).each(function(i){
+		$(firstGridData).each(function(i){
 
-			if(fileGridData[i].cm_info.substr(57,1) == '1' &&  fileGridData[i].cm_info.substr(44,1) == '0'){
-				fileGridData[i].selected_flag = '1';
-				fileGridData[i].view_dirpath = '이클립스에서만 체크아웃이 가능합니다.';
+			if(firstGridData[i].cm_info.substr(57,1) == '1' &&  firstGridData[i].cm_info.substr(44,1) == '0'){
+				firstGridData[i].selected_flag = '1';
+				firstGridData[i].view_dirpath = '이클립스에서만 체크아웃이 가능합니다.';
 			}
 			
-			if(fileGridData[i].selected_flag == '1' || fileGridData[i].cr_status != '0' || fileGridData[i].cr_nomodify != '0'){
+			if(firstGridData[i].selected_flag == '1' || firstGridData[i].cr_status != '0' || firstGridData[i].cr_nomodify != '0'){
 				
-				fileGridData[i].filterData = true;
+				firstGridData[i].filterData = true;
 			}
 			else{
-				fileGridData[i].filterData = false;
+				firstGridData[i].filterData = false;
 			}
 		});
-		firstGrid.setData(fileGridData);
+		firstGrid.setData(firstGridData);
 		//fileGrid.refresh(); //체크아웃후 새로운 데이터 안가져옴
-		//changeFileGridStyle(fileGridData);
+		//changeFileGridStyle(firstGridData);
 		
 		secondGrid.setData([]);
-
+		secondGridData = [];
 	}
 }
 
@@ -706,47 +708,46 @@ function addDataRow() {
 
 	var calcnt = 0;
 	var vercnt = 0;
-	var secondGridData = new Array;
+	var secondGridList = new Array;
 	var firstGridSeleted = firstGrid.getList("selected");
 	var ajaxReturnData;
 	
 	alertFlag = 0;
 	localFileDownYN = false;//로컬로 파일 다운 YN 초기화
 	$(firstGridSeleted).each(function(i){
-		var selectIndex = firstGrid.selectedDataIndexs[i];
 		
-		if(firstGrid.list[selectIndex].filterData == true){
+		if(this.filterData == true){
 			return true;
 		}
-//		if (exlSw == true && firstGrid.list[selectIndex].errmsg != "정상") {
+//		if (exlSw == true && this.errmsg != "정상") {
 //		tmpArc.removeItemAt(i--);
 //		continue;
 //		}
 		
 		//RSCHKITEM	[27]-개발툴연계, [04]-동시적용항목CHECK, [47]-디렉토리기준관리, [09] 실행모듈Check
-		if ((firstGrid.list[selectIndex].cm_info.substr(26,1) == "1" || firstGrid.list[selectIndex].cm_info.substr(3,1) == "1" || 
-				firstGrid.list[selectIndex].cm_info.substr(46,1) == "1" || firstGrid.list[selectIndex].cm_info.substr(8,1) == "1") && firstGrid.list[selectIndex].filterData == false){
+		if ((this.cm_info.substr(26,1) == "1" || this.cm_info.substr(3,1) == "1" || 
+				this.cm_info.substr(46,1) == "1" || this.cm_info.substr(8,1) == "1") && this.filterData == false){
 			calcnt++;
 		}
 		//RSCHKITEM	[45]-로컬에서개발, [38]-서버/로컬동시체크아웃
-		if ( firstGrid.list[selectIndex].cm_info.substr(44,1) == "1" && firstGrid.list[selectIndex].filterData == false) {//45:로컬에서개발
+		if ( this.cm_info.substr(44,1) == "1" && this.filterData == false) {//45:로컬에서개발
 			localFileDownYN = true;//로컬로 파일 다운 여부
-			if (firstGrid.list[selectIndex].pcdir1 == null || firstGrid.list[selectIndex].pcdir1 == "") {
+			if (this.pcdir1 == null || this.pcdir1 == "") {
 				showToast("로컬 홈디렉토리를 지정하지 않았습니다. 기본관리>사용자환경설정에서 홈디렉토리지정 후 처리하시기 바랍니다.");
 				return false;
 			}
 		}
 		
 		if (reqCd == "02"){
-			if (firstGrid.list[selectIndex].cr_lstver == "sel"){
+			if (this.cr_lstver == "sel"){
 				vercnt++;
 				calcnt++;
 			}
 		}
 		
-		if(firstGrid.list[selectIndex].filterData!=true){
-			firstGrid.list[selectIndex].filterData = true;
-			secondGridData.push($.extend({}, firstGrid.list[selectIndex], {__index: undefined}));
+		if(this.filterData!=true){
+			this.filterData = true;
+			secondGridList.push($.extend({}, this, {__index: undefined}));
 		}
 	});
 	
@@ -755,14 +756,14 @@ function addDataRow() {
 		showToast("버전을 선택하여 주십시요.");
 		return;
 	}
-	if ((secondGrid.list.length + secondGridData.length) > 300){
+	if ((secondGrid.list.length + secondGridList.length) > 300){
 		showToast("300건까지 신청 가능합니다.");
 		return;
 	}
 	
-	if (secondGridData.length != 0){
+	if (secondGridList.length != 0){
 		if (calcnt > 0){
-			if (secondGridData.length > 0){
+			if (secondGridList.length > 0){
 					var downFileData = new Object();
 					downFileData.strUserId = userId;
 					downFileData.strReqCD = reqCd;
@@ -772,14 +773,14 @@ function addDataRow() {
 					
 					var tmpData = {
 						downFileData : downFileData,
-						removedFileList : secondGridData,
+						removedFileList : secondGridList,
 						requestType : 'getDownFileList'
 					}
 					ajaxReturnData = ajaxCallWithJson('/webPage/dev/CheckOutServlet', tmpData, 'json');
 					checkDuplication(ajaxReturnData);
 				}
 		} else {
-			checkDuplication(secondGridData);
+			checkDuplication(secondGridList);
 		}
 	}
 	
@@ -790,9 +791,9 @@ function deleteDataRow() {
 	var secondGridSeleted = secondGrid.getList("selected");
 	
 	$(secondGridSeleted).each(function(i){
-		$(fileGridData).each(function(j){
-			if(fileGridData[j].cr_itemid == secondGridSeleted[i].cr_itemid && fileGridData[j].cr_rsrcname == secondGridSeleted[i].cr_rsrcname){
-				fileGridData[j].filterData = "";
+		$(firstGridData).each(function(j){
+			if(firstGridData[j].cr_itemid == secondGridSeleted[i].cr_itemid && firstGridData[j].cr_rsrcname == secondGridSeleted[i].cr_rsrcname){
+				firstGridData[j].filterData = "";
 				return false;
 			}
 		});
@@ -836,17 +837,17 @@ function deleteDataRow() {
 			$('#btnReq').prop('disabled',false);
 		}
 	}
+	secondGridData = secondGrid.list;
 }
 
 function checkDuplication(downFileList) {
 
 	var findSw = true;
-	var addedFileList = [];
 	
-	if(secondGrid.length > 0 ){
-		$(secondGrid).each(function(i){
+	if(secondGridData.length > 0 ){
+		$(secondGridData).each(function(i){
 			$(downFileList).each(function(j){
-				if( secondGrid[i].cr_itemid == downFileList[j].cr_itemid ){
+				if( secondGridData[i].cr_itemid == downFileList[j].cr_itemid ){
 					downFileList.splice(j,1);
 					return false;
 				}
@@ -855,7 +856,7 @@ function checkDuplication(downFileList) {
 	}
 	
 	if(downFileList.length > 0) {
-		var secondGridData = new Array;
+		var secondGridList = new Array;
 		$(downFileList).each(function(i){
 			var currentItem = downFileList[i];
 			//하단리스트에 추가한 프로그램중, 로컬 프로그램이 존재하는지 체크 시작  && 바이너리가 아닌거 && 체크아웃 대상인거 && 체크아웃무가 아닌거
@@ -869,10 +870,10 @@ function checkDuplication(downFileList) {
 			}
 			
 			if(currentItem.baseitemid == currentItem.cr_itemid){
-				$(fileGridData).each(function(j){
-					if(fileGridData[j].cr_itemid == currentItem.cr_itemid) {
-						fileGridData[j].filterData = true;
-						secondGridData.push($.extend({}, firstGrid.list[j], {__index: undefined}));
+				$(firstGridData).each(function(j){
+					if(firstGridData[j].cr_itemid == currentItem.cr_itemid) {
+						firstGridData[j].filterData = true;
+						secondGridList.push($.extend({}, firstGrid.list[j], {__index: undefined}));
 						return false;
 					}
 					
@@ -893,7 +894,7 @@ function checkDuplication(downFileList) {
 	}
 	
 	firstGrid.repaint();
-	secondGrid.addRow(secondGridData);	
+	secondGrid.addRow(secondGridList);	
 	
 	if(secondGrid.list.length > 0 ) {
 
@@ -920,7 +921,7 @@ function checkDuplication(downFileList) {
 		})
 	}
 	
-	secondGridList = secondGrid.list;
+	secondGridData = secondGrid.list;
 	simpleData();
 }
 
@@ -1166,6 +1167,7 @@ function ckout_end(){
 	});
 	
 	secondGrid.setData([]);
+	secondGridData = [];
 	
 	upFiles = null;
 	upFiles = new Array();
@@ -1225,7 +1227,7 @@ function firstGridClick(){
 function simpleData(){
 	gridSimpleData = secondGrid.list;
 	if(secondGrid.list.length == 0){
-		secondGridList = secondGrid.list;
+		secondGridData = secondGrid.list;
 		return;
 	}
 	for(var i =0; i < gridSimpleData.length; i++){
@@ -1239,7 +1241,7 @@ function simpleData(){
 		secondGrid.repaint();
 	}
 	else{
-		secondGrid.list = secondGridList;
+		secondGrid.list = secondGridData;
 		secondGrid.repaint();
 	}
 }
@@ -1369,6 +1371,7 @@ function successGetArrayCollection(data){
 	}
 	firstGrid.setConfig();
 	secondGrid.setData([]);
+	secondGridData = [];
 	
 	var fileData = {};
 	fileData.SysCd = getSelectedVal('cboSys').value;
@@ -1418,7 +1421,7 @@ function successGetFileList_excel(data){
 	});
 
 	firstGrid.setData(tmpAry2);
-	fileGridData = tmpAry2;
+	firstGridData = tmpAry2;
 	tmpObj = null;
 	tmpObj2 = null;
 	if (tmpAry2.length == 0){
@@ -1437,8 +1440,8 @@ function cmdDiff_click(){
 	var tmpArray = new Array;
 	var tmpObj = {};
 	
-	for (var i=0;secondGridList.length>i;i++) {
-		var Data = secondGridList[i];
+	for (var i=0;secondGridData.length>i;i++) {
+		var Data = secondGridData[i];
 		if (Data.cr_lstusr != userId 
 		   && Data.cm_info.substr(1,1) == "1"//체크아웃대상
 		   && Data.cm_info.substr(2,1) == "0"//체크아웃무 아닌거

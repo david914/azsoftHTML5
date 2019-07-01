@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.lang.reflect.Type;
 
 import org.apache.log4j.Logger;
 
@@ -38,6 +39,9 @@ import app.thread.ThreadPool;
 import com.ecams.common.dbconn.ConnectionContext;
 import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * @author bigeyes
@@ -5098,7 +5102,16 @@ public class Cmr0200{
 
     	        	    if (!ConfList.get(i).get("cm_gubun").equals("8") || (ConfList.get(i).get("cm_gubun").equals("8") &&
         	        		ConfList.get(i).get("cm_baseuser") != null && ConfList.get(i).get("cm_baseuser") != "")) {
-	    	        	    rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(i).get("arysv");
+    	        	    	
+    	        	    	//*************************************************
+    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+    	        	    	Gson gson = new Gson(); 
+    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(i).get("arysv").toString(), type);
+    	        	    	
+    	        	    	//**************************************************
+    	        	    	rData2 = myMap;
+	    	        	    //rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(i).get("arysv");
 	    					pstmt.setString(++pstmtcount, (String) rData2.get(0).get("SvUser"));
 	    					rData2 = null;
     	        	    }

@@ -31,6 +31,8 @@ import app.common.PrjInfo;
 import app.common.SysInfo;
 import app.eCmr.Cmr0100;
 import app.eCmr.Cmr0101;
+import app.eCmr.Cmr0200;
+import app.eCmr.Confirm_select;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/dev/CheckOutCnlServlet")
@@ -41,6 +43,8 @@ public class CheckOutCnlServlet extends HttpServlet {
 	SysInfo sysinfo = new SysInfo();
 	PrjInfo prjInfo = new PrjInfo();
 	Cmr0101 Cmr0101 = new Cmr0101();
+	Cmr0200 Cmr0200 = new Cmr0200();
+	Confirm_select confirm = new Confirm_select();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -67,6 +71,18 @@ public class CheckOutCnlServlet extends HttpServlet {
 					break;
 				case "getFileList" :
 					response.getWriter().write( getFileList(jsonElement) );
+					break;
+				case "getDownFileList" :
+					response.getWriter().write( getDownFileList(jsonElement) );
+					break;
+				case "confSelect" :
+					response.getWriter().write( confSelect(jsonElement) );
+					break;
+				case "Confirm_Info" :
+					response.getWriter().write( Confirm_Info(jsonElement) );
+					break;
+				case "request_Check_Out_Cancel" :
+					response.getWriter().write( request_Check_Out_Cancel(jsonElement) );
 					break;
 				default:
 					break;
@@ -96,10 +112,41 @@ public class CheckOutCnlServlet extends HttpServlet {
 								sysMap.get("ReqCd")));
 	}
 
-
 	private String getFileList(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>				 fileListMap = null;
 		fileListMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "getFileListData"));
 		return gson.toJson( Cmr0101.getFileList(fileListMap));
+	}
+
+	private String getDownFileList(JsonElement jsonElement) throws SQLException, Exception {
+		ArrayList<HashMap<String, String>>				 fileListMap = null;
+		fileListMap = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement, "fileList"));
+		return gson.toJson( Cmr0101.getDownFileList(fileListMap));
+	}
+	
+	private String confSelect(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String>				 confMap = null;
+		confMap =  ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "confirmInfoData"));
+		return gson.toJson( Cmr0200.confSelect(confMap.get("SysCd"),
+																confMap.get("ReqCd"),
+																confMap.get("RsrcCd"),
+																confMap.get("UserId"),
+																confMap.get("QryCd")));
+	}
+	
+	private String Confirm_Info(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String>			 confInfoMap = null;
+		confInfoMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "confInfoData"));
+		return gson.toJson( confirm.Confirm_Info(confInfoMap));
+	}
+	
+	private String request_Check_Out_Cancel(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String>		 CheckoutCnlMap = null;
+		ArrayList<HashMap<String, String>>			 CheckoutCnlListMap = null;
+		ArrayList<HashMap<String, Object>>			 ConfListMap = null;
+		CheckoutCnlMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "confInfoData"));
+		CheckoutCnlListMap = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement, "CheckOutCnlList"));
+		ConfListMap = ParsingCommon.jsonStrToArrObj(ParsingCommon.jsonEtoStr(jsonElement, "confirmData"));
+		return gson.toJson( Cmr0101.request_Check_Out_Cancel(CheckoutCnlListMap, CheckoutCnlMap, ConfListMap));
 	}
 }

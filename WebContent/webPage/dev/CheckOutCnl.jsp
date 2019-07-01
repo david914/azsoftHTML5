@@ -51,10 +51,8 @@
     	<div class="col-lg-4 col-md-4 col-sm-4 col-12">
 	    	<div class="row">
 		    	<div class="col-lg-3 col-md-3 col-sm-3 col-12">
-		    		<label id="lblRsrccd" class="padding-5-top float-left">프로그램유형</label>
 		    	</div>
 		    	<div class="col-lg-9 col-md-9 col-sm-9 col-12" style="padding-left: 0;">
-			    	<div id="cboRsrccd" data-ax5select="cboRsrccd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 		    	</div>
 	    	</div>
     	</div>
@@ -137,45 +135,29 @@
     	<div class="col-lg-4 col-md-4 col-sm-4 col-12">
 	    	<div class="row">
 		    	<div class="col-lg-3 col-md-12 col-sm-12 col-12">
-		    		<label id="lblReqGbn" class="padding-5-top float-left">*처리구분</label>
 		    	</div>
 		    	<div class="col-lg-9 col-md-9 col-sm-9 col-12" style="padding: 0;">
-			    	<div id="cboReqGbn" data-ax5select="cboReqGbn" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 		    	</div>
 	    	</div>
     	</div>
     	<div class="col-lg-4 col-md-4 col-sm-4 col-12" id="panCal" style="visibility:hidden;">
 	    	<div class="row">
 		    	<div class="col-lg-2 col-md-3 col-sm-3 col-12">
-		    		<label id="lblReqDate" class="padding-5-top float-left">*적용일시</label>
 		    	</div>
 	    		<div class="col-lg-5 col-md-12 col-sm-12 col-12" style="padding: 0;">
-	    			<div class="input-group" data-ax5picker="txtReqDate" >
-			            <input id="txtReqDate" type="text" class="form-control" placeholder="yyyy/mm/dd">
-			            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-			        </div>
 	    		</div>
 	    		<div class="col-lg-5 col-md-12 col-sm-12 col-12" style="padding: 0;">
-			        <!-- <input id="txtReqTime" class="form-control" type="time" name="time"  placeholder="hrs:mins" pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$" ></input> -->
-			        
-		      		<div class="input-group bootstrap-timepicker timepicker" style="width:50%; float:left;">
-						<input  id="txtReqTime"  name="txtReqTime" type="text" class="form-control input-small" required="required" readonly></input>
-						<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-					</div>
 	    		</div>
 	    	</div>
     	</div>
     	<div class="col-lg-4 col-md-4 col-sm-4 col-12">
 	    	<div class="row">
 		    	<div class="col-lg-9 col-md-9 col-sm-9 col-12" style="padding: 0;">
-		    		<div class="float-right" style="padding-top:5px;padding-bottom:3px;">
-	    				<input type="checkbox" class="checkbox-pie" id="chkBefJob" data-label="선행작업"></input>
-	   				</div>
 	   			</div>
 		    	<div class="col-lg-3 col-md-3 col-sm-3 col-12">
 					<div class="float-right">
-						<button id="btnRequest"  class="btn btn-default" >
-							운영배포신청 <span class="glyphicon" aria-hidden="true"></span>
+						<button id="btnReq"  class="btn btn-default" >
+							체크아웃취소 <span class="glyphicon" aria-hidden="true"></span>
 						</button>
 					</div>
 				</div>
