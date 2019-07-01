@@ -115,6 +115,10 @@ $(document).ready(function() {
 	$('#btnReg').bind('click', function() {
 		checkNoticeVal();
 	});
+	
+	$('#btnClose').bind('click', function() {
+		popClose();
+	});
 });
 
 // 화면 초기화

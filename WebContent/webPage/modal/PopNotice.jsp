@@ -5,8 +5,6 @@
 <c:import url="/webPage/common/common.jsp" />
 
 
-
-
 <div class="pop-header">
 	<div>
 		<label id="lbSub">공지사항 등록</label>
@@ -52,7 +50,7 @@
 			<div>
 				<button id="btnRem" name="btnRem" class="btn_basic dib">삭제</button>
 				<button id="btnReg" name="btnReg" class="btn_basic dib">등록</button>
-				<button id="btnClo" name="btnClo" class="btn_basic dib">닫기</button>
+				<button id="btnClose" name="btnClose" class="btn_basic dib">닫기</button>
 			</div>
 		</div>
 	</div>
