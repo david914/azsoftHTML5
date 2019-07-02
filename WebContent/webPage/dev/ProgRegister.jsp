@@ -3,106 +3,187 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp"/>
 
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-4">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">시스템</label>
-		
-			<div class="form-group">
-            	<div id="selSystem" data-ax5select="selSystem" data-ax5select-config="{}"></div>
-        	</div>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">개발 <strong>&gt; 프로그램등록</strong></div>
+        <!-- history E-->   
+		<!-- 검색 S-->    
+		<div class="az_search_wrap">
+			<div class="az_in_wrap sr_status">
+				<!--입력 좌측-->
+				<div class="l_wrap width-70 vat">
+					<div class="row">
+						<!-- 시스템 -->	
+						<div class="width-100 dib por">
+							<div class="tit_100 poa">
+	                        	<label id="lbSystem">*시스템</label>
+	                        </div>
+							<div id="cboSystem" data-ax5select="cboSystem" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-20 ml_100 dib"></div>
+							<!-- 프로그램종류 -->		
+							<div class="dib">
+								<div class="poa_r width-50 tar"> 
+									<div class="tit_100 dib vat">
+				                        <label id="lbJawon">*프로그램종류</label>
+				                    </div>
+									<div id="cboJawon" data-ax5select="cboJawon" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib tal"></div>
+								    <input class="width-30 margin-5-left" id="txtExeName" name="txtExeName" type="text" readonly="readonly" disabled="disabled"><!--수정-->
+								</div>
+							</div>
+						</div>						
+					</div>										 	
+					<div class="row">						
+						<!-- 프로그램명 -->		
+						<div class="width-100">
+							<div class="tit_100 poa">
+	                        	<label id="lbRsrcName">*프로그램명</label>
+	                        </div>
+	                        <div class="ml_100">
+								<input class="width-100" id="txtRsrcName" name="txtRsrcName" type="text" class="form-control">
+							</div>
+						</div>
+					</div>	
+					<div class="row">						
+						<!-- 프로그램설명 -->		
+						<div class="width-100">
+							<div class="tit_100 poa">
+	                        	<label id="lbStory">*프로그램설명</label>
+	                        </div>
+	                        <div class="ml_100">
+								<input class="width-100" id="txtStory" name="txtStory" type="text" class="form-control">
+							</div>
+						</div>
+					</div>									 
+					<div class="row">						
+						<!-- 프로그램경로 -->		
+						<div class="width-100">
+							<div class="tit_100 poa">
+	                        	<label id="lbDir">*프로그램경로</label>
+	                        </div>
+	                        <div class="ml_100">
+								<div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100"></div>
+							</div>
+						</div>
+					</div>											 
+					<div class="row">						
+						<!-- SR-ID -->		
+						<div class="width-100">
+							<div class="tit_100 poa">
+	                        	<label id="lbSRID">SR-ID</label>
+	                       	</div>
+	                        <div class="ml_100">
+								<div id="cboSRID" data-ax5select="cboSRID" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100"></div>
+							</div>
+						</div>
+					</div>	
+					<div class="row">
+						<div class="dib margin-7-top width-100 por">
+							<p>- 프로그램명은 소스파일 기준으로 확장자까지 입력하여 주시기 바랍니다.</p>
+							<p>- 시스템/프로그램종류/프로그램명을 검색조건으로 사용합니다.</p>
+							<strong class="poa_r" id="lbTotalCnt">총 0건</strong>
+						</div>
+					</div>
+				</div>
+				<!--입력 우측-->
+				<div class="r_wrap tar width-30 vat">
+					<div class="row ml_7">							
+						<!-- 업무 -->		
+						<div>
+							<div class="tit_100 poa tar">
+	                        	<label id="lbJob">*업무</label>
+	                        </div>
+							<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" class="ml_100 tal"></div>
+						</div>
+					</div>
+					<div class="row ml_7">							
+						<div class="vat dib">
+							<button id="btnRegist" name="btnRegist" class="btn_basic_s">등록</button>
+						</div>
+						<div class="vat dib margin-5-left"><!--수정-->
+							<button id="btnDevRep" name="btnDevRep" class="btn_basic_s">개발영역연결등록</button>
+						</div>
+					</div>
+					<div class="row ml_7">
+						<div class="vat dib">
+							<button id="btnLocalRep" name=btnLocalRep class="btn_basic_s" disabled="true">로컬영역연결등록</button>
+						</div>
+					</div>
+					<div class="row ml_7">						
+						<div class="vat dib">
+							<button id="btnInit" name="btnInit" class="btn_basic_s">초기화</button>
+						</div>
+						<div class="vat dib margin-5-left"><!--수정-->
+							<button id="btnQry" name="btnQry" class="btn_basic_s" data-grid-control="excel-export">조회</button>
+						</div>
+						<div class="vat dib margin-5-left"><!--수정-->
+							<button id="btnDel" name="btnDel" class="btn_basic_s" data-grid-control="excel-export">삭제</button>
+						</div>
+					</div>
+				</div>		
+			</div>
 		</div>
+		<!-- 게시판 S-->
+	    <div class="az_board_basic" style="height:60%;">
+	    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+		</div>	
+		<!-- 게시판 E -->
 	</div>
-	
-	<div class="col-sm-4">
-		<div class="col-sm-6">
-			<label style="padding-top: 5px;">프로그램종류</label>
-		
-			<div class="form-group">
-            	<div id="selJawon" data-ax5select="selJawon" data-ax5select-config="{}"></div>
-        	</div>
-		</div>
-		<div class="col-sm-6" style="padding-top: 25px;">
-			<input id="txtExeName" name="txtExeName" type="text"></input>
-		</div>
-	</div>
-	
-	<div class="col-sm-4">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">업무</label>
-		
-			<div class="form-group">
-            	<div id="selJob" data-ax5select="selJob" data-ax5select-config="{}"></div>
-        	</div>
-		</div>
-	</div>
+	<!-- Footer-->
+	<footer id="footer">
+	    <ul>
+	        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+	        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+	    </ul>
+	</footer>
 </div>
 
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-8">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">프로그램명</label>
-			<input id="txtRsrcName" name="txtRsrcName" type="text"></input>
-		</div>
-	</div>
-	
-	<div class="col-sm-4">
-		<button class="btn btn-default" id="btnRegist">등록</button>
-		<button class="btn btn-default" id="btnDevRep">개발영역연결등록</button>
-	</div>
-</div>
-
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-8">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">프로그램설명</label>
-			<input id="txtStory" name="txtStory" type="text"></input>
-		</div>
-	</div>
-	
-	<div class="col-sm-4">
-		<button class="btn btn-default" id="btnLocalRep">로컬영역연결등록</button>
-	</div>
-</div>
-
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-8">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">프로그램경로</label>
-			<div class="form-group">
-            	<div id="selDir" data-ax5select="selDir" data-ax5select-config="{}"></div>
-        	</div>
-		</div>
-	</div>
-	
-	<div class="col-sm-4">
-		<button class="btn btn-default" id="btnInit">초기화</button>
-		<button class="btn btn-default" id="btnQry">조회</button>
-		<button class="btn btn-default" id="btnDel">삭제</button>
-	</div>
-</div>
-
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-8">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">SR-ID</label>
-			<div class="form-group">
-            	<div id="selSRID" data-ax5select="selSRID" data-ax5select-config="{}"></div>
-        	</div>
-		</div>
-	</div>
-</div>
-
-<div class="row" style="padding-top: 5px; padding-left: 30px;">
-	<label id="lbTotalCnt" name="lbTotalCnt" style="padding-top: 5px; text-align: right;">총0건</label>
-</div>
-
-<!-- 프로그램 그리드 -->
-<div class="row" style="padding-top: 5px;">
-	<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-		<div data-ax5grid="progGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 50%;"></div>
-	</div>
-</div>
+<!-- contener E -->
 
 <form name="popPam" id="popPam" method="post">
 	<INPUT type="hidden" name="UserId" id="UserId"> 
@@ -111,3 +192,6 @@
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/dev/ProgRegister.js"/>"></script>
+
+</body>
+</html>
