@@ -6,12 +6,24 @@
  * 	버전 : 1.0
  *  수정일 : 2019-01-29
  */
+/*
+ 테스트 사용으로 인하여 값 강제적으로 넣어줌
 var userName 	      = window.top.userName;
 var userId 			  = window.top.userId;
 var adminYN		  = window.top.adminYN;
 var userDeptName = window.top.userDeptName;
 var userDeptCd 	  = window.top.userDeptCd;
 var reqCd 			  = window.top.reqCd;
+*/
+
+var userName 	      = "관리자";
+var userId 			  = "MASTER";
+var adminYN		  = "Y";
+var userDeptName = "AzSoft";
+var userDeptCd 	  = "000000100";
+var reqCd 			  = "01";
+
+console.log(userDeptName, userDeptCd);
 
 //grid 생성
 var firstGrid 	 = new ax5.ui.grid();
@@ -183,9 +195,13 @@ secondGrid.setConfig({
     ]
 });
 
+
+
 $(document).ready(function() {
 	console.log('CheckOut.js load');
 	screenInit();
+	
+	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 	
 	$('#cboSrId').bind('change',function(){
 		changeSrId();
@@ -838,6 +854,7 @@ function deleteDataRow() {
 		}
 	}
 	secondGridData = secondGrid.list;
+	$('#totalCnt').text(secondGrid.list.length);
 }
 
 function checkDuplication(downFileList) {
@@ -1244,6 +1261,7 @@ function simpleData(){
 		secondGrid.list = secondGridData;
 		secondGrid.repaint();
 	}
+	$('#totalCnt').text(secondGrid.list.length);
 }
 
 function fileTypeCheck(obj) {
