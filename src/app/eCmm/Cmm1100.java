@@ -324,7 +324,6 @@ public class Cmm1100{
 		
 		try {
 			conn = connectionContext.getConnection();
-			
 			strQuery.setLength(0);
 			strQuery.append("select cm_userid,cm_username   \n");
 			strQuery.append("  from cmm0040                 \n");

@@ -50,20 +50,20 @@ public class AbsenceRegister extends HttpServlet {
 				case "CodeInfo" :
 					response.getWriter().write( getCodeInfo(jsonElement) );
 					break;
-				case "Cmm1100":
-					response.getWriter().write( getCbo_User(jsonElement) );
+				case "getUserInfo":
+					response.getWriter().write( getUserInfo(jsonElement) );
 					break;
-				case "Cmm1100_1":
-					response.getWriter().write( getCbo_User_Click(jsonElement) );
+				case "getAbsenceInfo":
+					response.getWriter().write( getAbsenceInfo(jsonElement) );
 					break;
-				case "Cmm1100_2":
-					response.getWriter().write( getDaegyulList(jsonElement) );
+				case "getAbsenceList":
+					response.getWriter().write( getAbsenceList(jsonElement) );
 					break;
-				case "Cmm1100_3":
-					response.getWriter().write( getDaegyulState(jsonElement) );
+				case "getAbsenceState":
+					response.getWriter().write( getAbsenceState(jsonElement) );
 					break;
-				case "Cmm1100_4":
-					response.getWriter().write( get_Update(jsonElement) );
+				case "insertAbs":
+					response.getWriter().write( insertAbs(jsonElement) );
 					break;
 				default:
 					break;
@@ -80,33 +80,30 @@ public class AbsenceRegister extends HttpServlet {
 		return gson.toJson(codeinfo.getCodeInfo("DAEGYUL","sel","n"));
 	}
 	
-	private String getCbo_User(JsonElement jsonElement) throws SQLException, Exception {
-		String UserId = null;
-		UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
-		return gson.toJson(cmm1100.getCbo_User(UserId,"Y"));
+	private String getUserInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String Sv_Admin = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Sv_Admin") );
+		return gson.toJson(cmm1100.getCbo_User(UserId,Sv_Admin));
 	}
 	
-	private String getCbo_User_Click(JsonElement jsonElement) throws SQLException, Exception {
-		String cm_userid = null;
-		cm_userid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_userid") );
-		return gson.toJson(cmm1100.getCbo_User_Click(cm_userid,"Y"));
+	private String getAbsenceInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String cm_manid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_manid") );
+		return gson.toJson(cmm1100.getCbo_User_Click(UserId, cm_manid));
 	}
 	
-	private String getDaegyulList(JsonElement jsonElement) throws SQLException, Exception {
-		String cm_userid = null;
-		cm_userid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_userid") );
-		return gson.toJson(cmm1100.getDaegyulList(cm_userid));
+	private String getAbsenceList(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		return gson.toJson(cmm1100.getDaegyulList(UserId));
 	}
 	
-	private String getDaegyulState(JsonElement jsonElement) throws SQLException, Exception {
-		String cm_userid = null;
-		cm_userid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_userid") );
-		return gson.toJson(cmm1100.getDaegyulState(cm_userid));
+	private String getAbsenceState(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		return gson.toJson(cmm1100.getDaegyulState(UserId));
 	}
 	
-	private String get_Update(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String> dataObj = null;
-		dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
+	private String insertAbs(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
 		return gson.toJson(cmm1100.get_Update(dataObj));
 	}
 	
