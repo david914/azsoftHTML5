@@ -19,12 +19,8 @@ var userName 	= '관리자';
 var userId 		= 'MASTER';
 var adminYN 	= 'Y';
 
-var comboDp3;
-var absGridData = null;
-var cm_username;
-var selectedIndex;
-var picker = new ax5.ui.picker();
-var absGrid = new ax5.ui.grid();
+var picker 		= new ax5.ui.picker();
+var absGrid 	= new ax5.ui.grid();
 
 var absGridData = [];
 var cboSayuData = [];

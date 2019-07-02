@@ -35,7 +35,6 @@ public class AbsenceRegister extends HttpServlet {
 		doPost(req, resp);
 	}
 	
-	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		JsonParser jsonParser = new JsonParser();
@@ -47,9 +46,6 @@ public class AbsenceRegister extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
-				case "CodeInfo" :
-					response.getWriter().write( getCodeInfo(jsonElement) );
-					break;
 				case "getUserInfo":
 					response.getWriter().write( getUserInfo(jsonElement) );
 					break;
@@ -75,33 +71,29 @@ public class AbsenceRegister extends HttpServlet {
 		}
 		
 	}
-	
-	private String getCodeInfo(JsonElement jsonElement) throws SQLException, Exception {
-		return gson.toJson(codeinfo.getCodeInfo("DAEGYUL","sel","n"));
-	}
-	
+	// [부재등록] 유저 정보가져오기
 	private String getUserInfo(JsonElement jsonElement) throws SQLException, Exception {
 		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		String Sv_Admin = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Sv_Admin") );
 		return gson.toJson(cmm1100.getCbo_User(UserId,Sv_Admin));
 	}
-	
+	// [부재등록] 부재정보가져오기
 	private String getAbsenceInfo(JsonElement jsonElement) throws SQLException, Exception {
 		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		String cm_manid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_manid") );
 		return gson.toJson(cmm1100.getCbo_User_Click(UserId, cm_manid));
 	}
-	
+	// [부재등록] 대결자 정보 가져오기
 	private String getAbsenceList(JsonElement jsonElement) throws SQLException, Exception {
 		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		return gson.toJson(cmm1100.getDaegyulList(UserId));
 	}
-	
+	// [부재등록] 부재등록 리스트 가져오기
 	private String getAbsenceState(JsonElement jsonElement) throws SQLException, Exception {
 		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		return gson.toJson(cmm1100.getDaegyulState(UserId));
 	}
-	
+	// [부재등록] 부재등록 등록 또는 해제
 	private String insertAbs(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
 		return gson.toJson(cmm1100.get_Update(dataObj));

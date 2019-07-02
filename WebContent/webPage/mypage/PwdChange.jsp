@@ -10,81 +10,67 @@
 	String winPopSw = StringHelper.evl(request.getParameter("winPopSw"),"");
 %>
 
-<style>
-	#lb1 {background: #bdc0c4; border-radius: 50%; color: white; font-style:bold}
-	#btnPw {background: #656970; color:white; font-style:bold;}
-	#divContent {width: 380px; background: #f7f7f7; padding: 20px; margin: 0 auto; border-top: 1px solid #bdc0c4; border-bottom: 1px solid #bdc0c4}
-	.row {margin-top: 10px}
-</style>
+<div id="header"></div>
 
-<section>
-	<div class="container-fluid padding-40-top">
-		<div id="divContent">
-			<div class="row-fluid">
-				<div class="row">
-					<div class="col-xs-12 col-sm-4">
-						<label id="lbUserId">사용자ID</label>
+<div id="wrapper">
+    <div class="content">    	
+	    <div id="history_wrap">기본관리 <strong>&gt; 비밀번호변경</strong></div>
+		<div class="padding-40-top">
+			<div id="divContent">
+				<div class="row-fluid">
+					<div class="row">
+						<div>
+							<label id="lbUserId">사용자ID</label>
+						</div>
+						<div>
+							<input id="txtUserId" name="txtUserId" type="text" class="width-100"></input>
+						</div>
 					</div>
-					<div class="col-xs-12 col-sm-8">
-						<input id="txtUserId" name="txtUserId" type="text" disabled="disabled"></input>
+					<div class="row">
+						<div>
+							<label id="lbUserName">성명</label>
+						</div>
+						<div>
+							<input id="txtUserName" name="txtUserName" type="text" class="width-100"></input>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12 col-sm-4">
-						<label id="lbUserName">성명</label>
+					<div class="row">
+						<div>
+							<label id="lbPw" >변경전비밀번호</label>
+						</div>
+						<div>
+							<input id="txtPw" name="txtPw" type="password"  style="width:100%;"></input>
+						</div>
 					</div>
-					<div class="col-xs-12 col-sm-8">
-						<input id="txtUserName" name="txtUserName" type="text" disabled="disabled"></input>
+					<div class="row">
+						<div>
+							<label id="lbUpdatePw1">변경후비밀번호</label>
+						</div>
+						<div>
+							<input id="txtUpdatePw1" name="txtUpdatePw1" type="password" style="width:100%;"></input>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12 col-sm-4">
-						<label id="lbPw" >변경전비밀번호</label>
+					<div class="row">
+						<div>
+							<label id="lbUpdatePw2">확인비밀번호</label>
+						</div>
+						<div>
+							<input id="txtUpdatePw2" name="txtUpdatePw2" type="password" style="width:100%;"></input>
+						</div>
 					</div>
-					<div class="col-xs-12 col-sm-8">
-						<input id="txtPw" name="txtPw" type="password" minlength="8" maxlength="12" required="required"></input>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12 col-sm-4">
-						<label id="lbUpdatePw1">변경후비밀번호</label>
-					</div>
-					<div class="col-xs-12 col-sm-8">
-						<input id="txtUpdatePw1" name="txtUpdatePw1" type="password" minlength="8" maxlength="12"></input>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12 col-sm-4">
-						<label id="lbUpdatePw2">확인비밀번호</label>
-					</div>
-					<div class="col-xs-12 col-sm-8">
-						<input id="txtUpdatePw2" name="txtUpdatePw2" type="password" minlength="8" maxlength="12"></input>
-					</div>
-				</div>
-				<div class="row margin-15-top">
-					<div class="col-xs-12 col-sm-2">
-						<label id="lb1">TIP</label>
-					</div>
-					<div class="col-xs-12 col-sm-10">
-						<label id="lb2" style="color:#bdc0c4">비밀번호는 숫자/영문/특수기호를 포함하는</label>
-					</div>
-				</div>
-				<div class="row margin-10-top">
-					<div class="col-xs-12 col-sm-2">
-					</div>
-					<div class="col-xs-12 col-sm-10">
-						<label id="lb3" style="color:#bdc0c4" >8-12자리 이어야 합니다. (분기별 패스워드 변경)</label>
+					<div class="row margin-15-top">
+						<div class="col-xs-12 col-sm-12">
+							<p class="txt_g" id="lb2">비밀번호는 숫자/영문/특수기호를 포함하는 8-12자리 이어야 합니다. (분기별 패스워드 변경)</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</section>
-<section>
-	<div id="divPw" class="margin-15-top" style="text-align:center">
-		<button id="btnPw" name="btnPw" class="btn btn-default" onclick="clickBtnPw()">비밀번호변경</button>
-	</div>
-</section>
+		<div id="divPw" class="margin-15-top" style="text-align:center">
+			<button id="btnPw" name="btnPw" class="btn_basic">비밀번호변경</button>
+		</div>
+    </div>
+</div>
 
 <input type="hidden" id="userId" name="userId" value="<%=userId%>"/>
 <input type="hidden" id="winPopSw" name="winPopSw" value="<%=winPopSw%>"/>

@@ -295,11 +295,12 @@ public class PassWdDAO{
     			strQuery.append("   SET CM_PASSWD = ?, ");
     			strQuery.append("       CM_CHANGDT = SYSDATE ");
     			strQuery.append(" WHERE CM_USERID = ? ");
-    			strQuery.append("AND CM_CHANGDT in(SELECT MIN(CM_CHANGDT) FROM CMM0041)");
+    			strQuery.append("AND CM_CHANGDT in(SELECT MIN(CM_CHANGDT) FROM CMM0041 where cm_userid = ?)");
     			pstmt = conn.prepareStatement(strQuery.toString());
     			pstmt = new LoggableStatement(conn,strQuery.toString());
                 pstmt.setString(1, strEnPassWd);
                 pstmt.setString(2, user_id);
+                pstmt.setString(3, user_id);
     			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
                 rtn_cnt = pstmt.executeUpdate();
                 pstmt.close();

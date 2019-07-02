@@ -2,7 +2,6 @@ package html.app.mypage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +33,6 @@ public class PwdChange extends HttpServlet {
 		doPost(req, resp);
 	}
 	
-	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		JsonParser jsonParser = new JsonParser();
@@ -46,21 +44,19 @@ public class PwdChange extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
-				case "MemberDAO" :
+				case "getUserName" :
 					response.getWriter().write(getUserName(jsonElement));
 					break;
-				case "PassWdDAO":
+				case "getPasswdBef":
 					response.getWriter().write( selectPassWd(jsonElement) );
 					break;
-				case "PassWdDAO_1":
-				case "PassWdDAO_3":
-				case "PassWdDAO_4":
+				case "encryptPassWd":
 					response.getWriter().write( encryptPassWd(jsonElement) );
 					break;
-				case "PassWdDAO_2":
+				case "getLastPasswdBef":
 					response.getWriter().write( selectLastPassWord(jsonElement) );
 					break;
-				case "PassWdDAO_5":
+				case "setPassWd":
 					response.getWriter().write( updtPassWd(jsonElement) );
 					break;
 				default:
@@ -71,40 +67,32 @@ public class PwdChange extends HttpServlet {
 		} finally {
 			requestType = null;
 		}
-		
 	}
 	
+	// [비밀번호 초기화] 사용자이름가져오기
 	private String getUserName(JsonElement jsonElement) throws SQLException, Exception {
-		String UserId = null;
-		UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		return gson.toJson(memberdao.selectUserName(UserId));
 	}
-	
+	// [비밀번호 초기화] 이전 비밀번호 가져오기 
 	private String selectPassWd(JsonElement jsonElement) throws SQLException, Exception {
-		String UserId = null;
-		UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		return gson.toJson(passwddao.selectPassWd(UserId));
 	}
-	
+	// [비밀번호 초기화] 
 	private String encryptPassWd(JsonElement jsonElement) throws SQLException, Exception {
-		String usr_passwd = null;
-		ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
-		usr_passwd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "usr_passwd") );
+		String usr_passwd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "usr_passwd") );
 		return gson.toJson(passwddao.encryptPassWd(usr_passwd));
 	}
-	
+	// [비밀번호 초기화] 
 	private String selectLastPassWord(JsonElement jsonElement) throws SQLException, Exception {
-		String UserId = null;
-		UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		return gson.toJson(passwddao.selectLastPassWord(UserId));
 	}
-	
+	// [비밀번호 초기화] 
 	private String updtPassWd(JsonElement jsonElement) throws SQLException, Exception {
-		String UserId = null;
-		UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
-		String usr_passwd = null;
-		usr_passwd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "usr_passwd") );
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String usr_passwd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "usr_passwd") );
 		return gson.toJson(passwddao.updtPassWd(UserId,usr_passwd));
 	}
-
 }
