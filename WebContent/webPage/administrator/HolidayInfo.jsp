@@ -15,6 +15,9 @@
 			<div id="divContent">
 				<div class="row-fluid">
 					<div class="row">
+						<div>
+							<label>년도</label>
+						</div>
 						<div class="input-group" data-ax5picker="basic">
 				            <input id="txtYear" type="text" class="form-control" data-picker-date="year" placeholder="yyyy">
 				            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>

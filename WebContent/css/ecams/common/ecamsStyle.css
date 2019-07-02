@@ -177,7 +177,7 @@ ul.tabs li.active {
 }
 
 .float-right {
-	float: right;
+	/* float: right; */
 }
 
 .float-left {
@@ -920,6 +920,12 @@ ul.tabs li.active {
 
 .fontStyle-error {
 	color: #BE81F7;
+}
+.fontStyle-cncl {
+	color: #FF0000;
+}
+.fontStyle-ing {
+	color: #0013FF;
 }
 
 .ecams-input {

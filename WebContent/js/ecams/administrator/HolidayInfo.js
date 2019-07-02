@@ -83,7 +83,7 @@ picker.bind({
 
 picker.bind({
     target: $('[data-ax5picker="basic2"]'),
-    direction: "top",
+    direction: "bottom",
     content: {
         width: 270,
         margin: 10,
