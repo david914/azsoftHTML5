@@ -44,16 +44,16 @@ public class HolidayInfoServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
-				case "GETHOLIDAY" :
+				case "getHoliDayList" :
 					response.getWriter().write( getHoliDay(jsonElement));
 					break;
-				case "CHKHOLIDAY" :
+				case "checkHoli" :
 					response.getWriter().write( checkHoliday(jsonElement));
 					break;
-				case "ADDHOLIDAY" :
+				case "addHoli" :
 					response.getWriter().write( addHoliday(jsonElement));
 					break;
-				case "DELHOLIDAY" :
+				case "delHoliday" :
 					response.getWriter().write( delHoliday(jsonElement));
 					break;
 				default:
@@ -65,33 +65,29 @@ public class HolidayInfoServlet extends HttpServlet {
 		}
 		
 	}
-
+	// [휴일정보] 휴일정보 리스트 가져오기
 	private String getHoliDay(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> holiInfoMap =  new HashMap<String, String>();
 		holiInfoMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"holiday")); //jsonEtoStr(JsonElement jsonElement, String key)
 		return gson.toJson(cmm1000.getHoliDay(holiInfoMap.get("year")));
 	}
-	
+	// [휴일정보] 이미 있는 휴일인지 체크
 	private String checkHoliday(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String> checkInfoMap = new HashMap<String, String>(); 
-		checkInfoMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"checkInfoData"));
-		return gson.toJson(cmm1000.chkHoliDay(checkInfoMap.get("date")));
+		String nDate = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"nDate"));
+		return gson.toJson(cmm1000.chkHoliDay(nDate));
 	}
-	
+	// [휴일정보] 휴일정보 등록
 	private String addHoliday(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String> addHoliInfoMap = new HashMap<String, String>(); 
-		addHoliInfoMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"addHoliInfoData"));
-		return gson.toJson(cmm1000.addHoliday(	addHoliInfoMap.get("date"), 
-												addHoliInfoMap.get("holidaygbn"), 
-												addHoliInfoMap.get("holidaycase"), 
-												Integer.parseInt(addHoliInfoMap.get("updtSW")))
-							);
+		String nDate 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"nDate"));
+		String holigb 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"holigb"));
+		String holi 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"holi"));
+		String ntype 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"ntype"));
+		return gson.toJson(cmm1000.addHoliday(nDate, holigb, holi, Integer.parseInt(ntype)));
 	}
-	
+	// [휴일정보] 휴일정보 삭제
 	private String delHoliday(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String> delHoliInfoMap = new HashMap<String, String>();  
-		delHoliInfoMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"delHoliInfoData"));
-		return gson.toJson(cmm1000.delHoliday(delHoliInfoMap.get("date")));
+		String nDate = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"nDate"));
+		return gson.toJson(cmm1000.delHoliday(nDate));
 	}
 	
 }
