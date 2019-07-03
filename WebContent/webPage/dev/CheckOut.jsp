@@ -287,10 +287,12 @@ div[class^="row"] {
 		</div>
 		<!--검색E-->
 		<div class="half_wrap margin-10-top">
-			<div class="l_wrap width-40">
-				<ul id="treeDemo" class="ztree"></ul>				
+			<div class="l_wrap width-20">
+				<div style="overflow-y: auto; height: 331px; background-color: white;">
+					<ul id="treeDemo" class="ztree"></ul>				
+				</div>
 			</div>
-			<div class="r_wrap width-60">
+			<div class="r_wrap width-80">
 				<!-- 게시판 S-->
 			    <div class="az_board_basic az_board_basic_in">
 			    	<div data-ax5grid="first-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" id="fileGrid" class="default-grid-height"></div>

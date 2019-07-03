@@ -2,6 +2,7 @@ package html.app.apply;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -48,7 +49,7 @@ public class ApplyRequest extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
-				case "GETSYSINFOLIST" :
+				case "getSysInfoList" :
 					response.getWriter().write( getSysInfoList(jsonElement) );
 					break;
 				case "RSRCOPEN" :
@@ -56,6 +57,9 @@ public class ApplyRequest extends HttpServlet {
 					break;
 				case "PROGRAM_LIST" :
 					response.getWriter().write( getDeployList(jsonElement) );
+					break;
+				case "getDownFileList" :
+					response.getWriter().write( getDownFileList(jsonElement) );
 					break;
 				default:
 					break;
@@ -98,5 +102,13 @@ public class ApplyRequest extends HttpServlet {
 			return gson.toJson(cmr0200.getDeployList(prjMap));
 		}
 	}
-	
+
+	private String getDownFileList(JsonElement jsonElement) throws SQLException, Exception {
+		ArrayList<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
+		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
+		HashMap<String, String> etcData = new HashMap<String, String>();
+		etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"downFileData"));
+		return gson.toJson(cmr0200.getDownFileList(fileList,etcData));
+			
+	}
 }
