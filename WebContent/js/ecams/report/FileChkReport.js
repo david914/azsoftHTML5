@@ -289,7 +289,7 @@ function openFileSumModal(selItem) {
 	DaesaResult.UserId 	= userId;
 	
 	fileSumModal.open({
-        width: 1024,
+        width: 1048,
         height: 600,
         iframe: {
             method: "get",
@@ -298,10 +298,8 @@ function openFileSumModal(selItem) {
         },
         onStateChanged: function () {
             if (this.state === "open") {
-                mask.open();
             }
             else if (this.state === "close") {
-                mask.close();
             }
         }
     }, function () {

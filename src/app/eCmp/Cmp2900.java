@@ -129,7 +129,7 @@ public class Cmp2900 {
 			pstmt = null;
 			conn = null;
 
-			rsval.clear();
+			//rsval.clear();
 
 			return rsval.toArray();
 

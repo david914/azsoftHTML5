@@ -8,9 +8,7 @@
 
 <div id="wrapper">
     <div class="content">    	
-        <!-- history S-->
         <div id="history_wrap">보고서<strong>&gt; 파일대사결과조회</strong></div>
-        <!-- history E-->    
         
         <div class="az_search_wrap">
 			<div class="az_in_wrap">

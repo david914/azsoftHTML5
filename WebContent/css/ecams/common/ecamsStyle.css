@@ -565,6 +565,9 @@ ul.tabs li.active {
 .width-79 {
 	width: 79%;
 }
+.width-78 {
+	width: 78%;
+}
 .width-77 {
 	width: 77%;
 }
@@ -1066,7 +1069,7 @@ select::-ms-expand {display: none;}
 .half_wrap{position: relative; background: #f6f6f6; padding: 10px;/*border-top: 2px solid #ccc;*/}
 .half_wrap:after{content: ""; clear: both; display: block;}
 .l_wrap{position: relative; float: left;}
-.r_wrap{position: relative; float: right;}
+.r_wrap{position: relative;float: right;}
 /********************************** 
                 게시판
 **********************************/

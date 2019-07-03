@@ -17,10 +17,8 @@
 </div>
 <div class="container-fluid">
 	<div class="row">
-		<div>
-			<div class="az_board_basic" style="height: 87%;">
-				<div data-ax5grid="fileSumGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
-			</div>
+		<div class="az_board_basic" style="height: 83%;">
+			<div data-ax5grid="fileSumGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 		</div>
 	</div>
 	
