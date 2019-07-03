@@ -16,7 +16,8 @@ var strReqCD 	= window.top.reqCd;
 
 var cboReqDepartData = null;
 var cboCatTypeData = null;
-var cboQryGbnData = null;
+//var cboQryGbnData = null;
+var cboQryGbnData = window.parent.cboQryGbnData;
 var firstGridData = null;
  
 var firstGrid 	= new ax5.ui.grid();
@@ -196,10 +197,10 @@ function getCboElementPrj() {
 	var codeInfos = getCodeInfoCommon( [new CodeInfo('CATTYPE','ALL','N'),
 										new CodeInfo('QRYGBN','ALL','N')] );
 	cboCatTypeData 	= codeInfos.CATTYPE;
-	cboQryGbnData 	= codeInfos.QRYGBN;
+	//cboQryGbnData 	= codeInfos.QRYGBN;
 	
 	console.log(cboCatTypeData);
-	console.log(cboQryGbnData);
+//	console.log(cboQryGbnData);
 	options = [];
 	$.each(cboCatTypeData,function(key,value) {
 		options.push({value: value.cm_micode, text: value.cm_codename});
@@ -210,12 +211,13 @@ function getCboElementPrj() {
 	});
 	
 	options = [];
-	$.each(cboQryGbnData,function(key,value) {
-		options.push({value: value.cm_micode, text: value.cm_codename});
-	});
+//	$.each(cboQryGbnData,function(key,value) {
+//		options.push({value: value.cm_micode, text: value.cm_codename});
+//	});
 	
 	$('[data-ax5select="cboQryGbn"]').ax5select({
-        options: options
+        //options: options
+		options: cboQryGbnData
 	});
 	
 	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", '01', true);	// select 초기값 셋팅 '01'에는 해당 내용의 value값 입력
