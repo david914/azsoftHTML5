@@ -17,7 +17,7 @@ var strReqCD 	= window.top.reqCd;
 var cboReqDepartData = null;
 var cboCatTypeData = null;
 //var cboQryGbnData = null;
-var cboQryGbnData = window.parent.cboQryGbnData;  
+var cboQryGbnData = window.parent.cboQryGbnData;
 var firstGridData = null;
  
 var firstGrid 	= new ax5.ui.grid();
