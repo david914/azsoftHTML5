@@ -353,11 +353,11 @@ function defaultPickerInfo(dataAx5picker) {
 	});
  *   
  */
-function injectCboDataToArr(cboSysCdData, value, text) {
+function injectCboDataToArr(data, value, text) {
 	var cboOptionObj	= null;
 	var cboOptions 	= [];
 	var keyArr		= [];
-	cboSysCdData.forEach(function(item, index) {
+	data.forEach(function(item, index) {
 		cboOptionObj = new Object();
 		cboOptionObj = item;
 		cboOptionObj.value = item[value];

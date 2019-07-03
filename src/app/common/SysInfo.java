@@ -1529,7 +1529,7 @@ public class SysInfo{
 			rs = null;
 			pstmt = null;
 			conn = null;
-
+			System.out.println(rsval.toString());
 			rtObj =  rsval.toArray();
 			rsval.clear();
 			rsval = null;

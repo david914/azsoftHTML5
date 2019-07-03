@@ -64,7 +64,24 @@ $('input.checkbox-dir').wCheck({theme: 'square-classic red', selector: 'checkmar
 
 $(document).ready(function() {
 	getSysInfo();
+	/*
+	$('#txtPath').css('display','none');
+	$('#txtPath2').css('display','block');
 	
+	$('#txtPath2').bind('keypress', function(evnet) {
+		if(event.keyCode === 13) {
+			$('#txtPath').css('display','block');
+			$('#txtPath2').css('display','none');
+		}
+	})
+	
+	
+	$('#txtPath').bind('keypress', function(evnet) {
+		if(event.keyCode === 13) {
+			$('#txtPath').css('display','none');
+			$('#txtPath2').css('display','block');
+		}
+	})*/
 	
 	// 시스템 콤보 변경
 	$('#cboSysCd').bind('change', function() {

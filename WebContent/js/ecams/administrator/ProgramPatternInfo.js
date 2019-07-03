@@ -92,7 +92,7 @@ cmdGrid.setConfig({
         onDBLClick: function () {},
         trStyleClass: function () {
         	if(this.item.errsw === 'Y'){
-    			return "text-danger";
+    			return "fontStyle-cncl";
     		}
     	},
     	onDataChanged: function(){

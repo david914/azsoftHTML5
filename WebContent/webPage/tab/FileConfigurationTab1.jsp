@@ -4,88 +4,90 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div class="l_wrap width-100 vat write_wrap_100 ">
-	<div class="row">
-		<dl>
-			<dt>
-				<label>작업구분</label>
-			</dt>
-			<dd>
-				<div class="width-47 dib">
+
+<div class="az_search_wrap">
+	<div class="az_in_wrap">
+		<div class="row vat">
+			<div class="width-80 dib">
+				<div class="tit_100 poa">
+					<label>작업구분</label>
+				</div>
+				<div class="ml_100">
 					<div id="cboJobDiv" data-ax5select="cboJobDiv" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
 				</div>
-				<button id="btnSave" name="btnSave" class="btn_basic_s width-3">등록</button>
-			</dd>
-		</dl>
-	</div>
-	<div class="row">
-		<dl>
-			<dt>
-				<label>작업주기</label>
-			</dt>
-			<dd>
-				<input id="txtCycle" name="txtCycle" type="number" class="width-10">
-				<div class="width-40 dib">
-					<div id="cboCycle" data-ax5select="cboCycle" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
+			</div>
+			
+			<div class="vat dib">
+				<button id="btnSave" name="btnSave" class="btn_basic_s">등록</button>
+			</div>
+		</div>
+		
+		<div class="row vat">
+			<div class="width-20 dib">
+				<div class="tit_100 poa">
+					<label>작업주기</label>
 				</div>
-				
-			</dd>
-		</dl>
-	</div>
-	<div class="row">
-		<dl>
-			<dt>
-				<label>작업시간</label>
-			</dt>
-			<dd>
-				<div class="width-10 dib">
-					<input id="txtRunTime" name="txtRunTime" type="text" class="width-70"><span class="btn_calendar poa_r"><i class="fa fa-clock-o"></i></span>
+				<div class="ml_100">
+					<input id="txtRunTime" type="text" class="width-100"> 
 				</div>
-				<label>예)08:00</label>
-			</dd>
-		</dl>
-	</div>
-	<div class="row">
-		<dl>
-			<dt>
-				<label>최종작업일자</label>
-			</dt>
-			<dd>
-				<input id="txtRundate" name="txtRundate" type="text" class="width-10">
-			</dd>
-		</dl>
-	</div>
-	<div class="row">
-		<dl>
-			<dt>
-				<label>삭제주기</label>
-			</dt>
-			<dd>
-				<input id="txtDelCycle" name="txtDelCycle" type="number" class="width-10">
-				<div class="width-40 dib">
-					<div id="cboDelCycle" data-ax5select="cboDelCycle" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
+			</div>
+			<div class="width-60 dib vat">
+				<div id="cboCycle" data-ax5select="cboCycle" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
+			</div>
+		</div>
+		
+		<div class="row vat">
+			<div class="width-40 dib">
+				<div class="tit_100 poa">
+					<label>작업시간</label>
 				</div>
-				<div class="dib float-right margin-3-top">
-					<input type="checkbox" class="checkbox-file" id="chkAllSys" data-label="전체선택"/>
+				<div class="ml_100 vat">
+					<input id="txtRunTime" name="txtRunTime" type="text" class="vat"><span class="btn_calendar vat"><i class="fa fa-clock-o"></i></span>
 				</div>
-			</dd>
-		</dl>
-	</div>
-	<div class="row">
-		<dl>
-			<dt>
-				<label>예외시스템</label>
-			</dt>
-			<dd>
-				<div class="width-100 dib" style="height: 58%; border: 1px dotted gray;; background-color: white; overflow-y: auto;">
-    				<ul class="list-group" id="ulSysInfo">
+			</div>
+		</div>
+		
+		<div class="row vat">
+			<div class="width-20 dib">
+				<div class="tit_100 poa">
+					<label>최종작업일자</label>
+				</div>
+				<div class="ml_100 vat">
+					<input id="txtRundate" type="text" class="width-100"> 
+				</div>
+			</div>
+		</div>
+		
+		<div class="row vat">
+			<div class="width-20 dib">
+				<div class="tit_100 poa">
+					<label>삭제주기</label>
+				</div>
+				<div class="ml_100 vat">
+					<input id="txtDelCycle" type="text" class="width-100"> 
+				</div>
+			</div>
+			<div class="width-60 dib vat">
+				<div id="cboDelCycle" data-ax5select="cboDelCycle" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
+			</div>
+			<div class="width-10 dib vat margin-3-top">
+				<input type="checkbox" class="checkbox-file" id="chkAllSys" data-label="전체선택"/>
+			</div>
+		</div>
+		
+		<div class="row vat">
+			<div class="width-100 dib">
+				<div class="tit_100 poa">
+					<label>예외시스템</label>
+				</div>
+				<div class="ml_100 vat" style="height: 58%; border: 1px dotted gray;; background-color: white; overflow-y: auto;">
+					<ul class="list-group" id="ulSysInfo">
 	    			</ul>
 				</div>
-			</dd>
-		</dl>
+			</div>
+		</div>
 	</div>
 </div>
-
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/FileConfigurationTab1.js"/>"></script>

@@ -979,6 +979,15 @@ div#rMenu ul {
     margin: 0;
     font-size: 13px;
 }
+
+.mw-80{width: 80px;}
+.mw-100 {width: 100px;}
+.mw-150 {width: 150px;}
+.mw-200 {width: 200px;}
+.mw-250 {width: 250px;}
+.mw-300 {width: 300px;}
+.mw-350 {width: 350px;}
+.mw-400 {width: 400px;}
 /* tree right menu css end*/
 
 /****************************************************************************************************************************************
@@ -1002,7 +1011,7 @@ input{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
 input::-webkit-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input:-ms-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input::-moz-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
-input{margin: 0 auto; height: 25px; border: 1px solid #ddd; box-sizing: border-box; padding-left: 10px; font-family: inherit; color: #444;}
+input{margin: 0 auto;height: 25px;border: 1px solid #ddd;box-sizing: border-box;padding-left: 10px;font-family: inherit;color: #444;}
 input[type="radio"]{display: inline-block; width: 20px; height: 20px; vertical-align: middle; margin: 0 7px;}
 input[type="checkbox"]{display: inline-block; width: 20px; height: 20px; vertical-align: middle; margin: 0 7px;}
 select {width: 200px; height:25px; padding: 0 7px; border: 1px solid #ddd; border-radius: 0; font-family: inherit; background: #fff url('../../../img/arrow.png') no-repeat 95% 50%; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
@@ -1094,7 +1103,7 @@ select::-ms-expand {display: none;}
 **********************************/
 /*비밀번호변경*/
 #lb1 {background: #bdc0c4; border-radius: 50%; color: white; font-weight:bold}
-.row {margin-top: 10px}
+.row {margin-top: 5px;}
 /*부재등록*/
 #myGrid1Area {width:100%; height:23%}
 #opt {width: 580px; margin: 0 auto}

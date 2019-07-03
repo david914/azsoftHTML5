@@ -4,38 +4,30 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div id="wrapper">
-	<!-- Header -->
-	<div id="header"></div>
-	
-    <div class="content">    	
-        <!-- history S-->
-        <div id="history_wrap">관리자<strong>&gt; 파일대사환경설정</strong></div>
-        <!-- history E-->    
-        <!-- 하단 S-->
-		<div class="half_wrap margin-10-top">
-			<!-- tab S-->
-			<div class="tab_wrap">
-				<ul class="tabs">
-					<li rel="tabDefault" id="tab1Li" class="on">기본정보</li>
-					<li rel="tabEct" id="tab2Li">예외디렉토리정보</li>
-					<li rel="tabHand" id="tab3Li">수기파일대사</li>
-				</ul>
-			</div>
-			<!-- tab E-->
-			
-			<div class="half_wrap margin-10-top"> <!--  tab_container -->
-		       	<div id="tabDefault" class="tab_content" style="width:100%">
-		       		<iframe src='/webPage/tab/FileConfigurationTab1.jsp' width='100%' height='80%' frameborder="0"></iframe>
-		       	</div>
-		       	<div id="tabEct" class="tab_content" style="width:100%">
-		       		<iframe src='/webPage/tab/FileConfigurationTab2.jsp' width='100%' height='80%' frameborder="0"></iframe>
-		       	</div>
-		       	<div id="tabHand" class="tab_content" style="width:100%">
-		       		<iframe src='/webPage/tab/FileConfigurationTab3.jsp' width='100%' height='80%' frameborder="0"></iframe>
-		       	</div>
-		   	</div>
+<div id="header"></div>
+
+<div class="content">    	
+	<div id="history_wrap">관리자<strong>&gt; 파일대사환경설정</strong></div>
+	<div class="half_wrap margin-10-top">
+		<div class="tab_wrap">
+			<ul class="tabs">
+				<li rel="tabDefault" id="tab1Li" class="on">기본정보</li>
+				<li rel="tabEct" id="tab2Li">예외디렉토리정보</li>
+				<li rel="tabHand" id="tab3Li">수기파일대사</li>
+			</ul>
 		</div>
+		
+		<div class="half_wrap margin-10-top">
+	       	<div id="tabDefault" class="tab_content" style="width:100%">
+	       		<iframe src='/webPage/tab/FileConfigurationTab1.jsp' width='100%' height='80%' frameborder="0"></iframe>
+	       	</div>
+	       	<div id="tabEct" class="tab_content" style="width:100%">
+	       		<iframe src='/webPage/tab/FileConfigurationTab2.jsp' width='100%' height='80%' frameborder="0"></iframe>
+	       	</div>
+	       	<div id="tabHand" class="tab_content" style="width:100%">
+	       		<iframe src='/webPage/tab/FileConfigurationTab3.jsp' width='100%' height='80%' frameborder="0"></iframe>
+	       	</div>
+	   	</div>
 	</div>
 </div>
 
