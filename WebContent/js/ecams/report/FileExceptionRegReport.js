@@ -286,6 +286,14 @@ function successGetDirInfo(data) {
 	$('[data-ax5select="cboDir"]').ax5select({
 		options: injectCboDataToArr(cboDirData, 'cm_dsncd' , 'cm_dirpath')
 	});
+	
+	// 선택된 그리드 있다면 해당 선택된 아이템의 프로그램 경로 세팅
+	var selIn = fileGrid.selectedDataIndexs;
+	var selItem = null;
+	if(selIn.length > 0 ) {
+		selItem = fileGrid.list[selIn];
+		$('[data-ax5select="cboDir"]').ax5select('setValue', selItem.cd_dsncd, true);
+	}
 }
 
 // 프로그램 종류 콤보 가져오기
@@ -304,6 +312,14 @@ function successGetRsrcInfo(data) {
 	$('[data-ax5select="cboPrgDiv"]').ax5select({
 		options: injectCboDataToArr(cboPrgDivData, 'cm_micode' , 'cm_codename')
 	});
+	
+	// 선택된 그리드 있다면 해당 선택된 아이템의 프로그램 종류 세팅
+	var selIn = fileGrid.selectedDataIndexs;
+	var selItem = null;
+	if(selIn.length > 0 ) {
+		selItem = fileGrid.list[selIn];
+		$('[data-ax5select="cboPrgDiv"]').ax5select('setValue', selItem.cd_rsrccd, true);
+	}
 	
 	$('#cboPrgDiv').trigger('change');
 }
@@ -386,6 +402,20 @@ function getCodeInfo() {
 function clickFileGrid(index) {
 	var selItem = fileGrid.list[index];
 	
+	$('#txtPrgName').val(selItem.cd_rsrcname);
+	$('#txtDir').val(selItem.cd_reqdoc);
+	$('#txtSayu').val(selItem.cm_dirpath);
+	
+	$('[data-ax5select="cboSys"]').ax5select('setValue', selItem.cd_syscd, true);
+	$('#cboSys').trigger('change');
+	
+	if(selItem.cd_gubun === 1) {
+		$('#cboDir').css('display', 'block');
+		$('#txtDir').css('display', 'none');
+	} else {
+		$('#cboDir').css('display', 'none');
+		$('#txtDir').css('display', 'block');
+	}
 }
 
 
