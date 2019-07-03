@@ -314,6 +314,13 @@ function elementInit(initDivision) {
     	$('#txtSRID').attr('readonly', true);
     	$('#txtRegUser').attr('readonly', true);
     	$('#txtRegDate').attr('readonly', true);
+    	$('#txtReqSecu').val('');
+    	$('#txtReqSecu').css('display','none');
+    	
+    	$('[data-ax5select="cboCatTypeSR"]').ax5select("setValue", '00', true);	
+		$('[data-ax5select="cboChgType"]').ax5select("setValue", '00', true);
+		$('[data-ax5select="cboWorkRank"]').ax5select("setValue", '00', true);
+		$('[data-ax5select="cboReqSecu"]').ax5select("setValue", '00', true);
     	
     	insertSrIdSw = true;
     	
@@ -537,6 +544,7 @@ function closeModal() {
 
 // sr 리스트 클릭 이벤트
 function firstGridClick(srid){
+	$('#txtReqSecu').css('display','none');
 	// sr 정보 가져오기 
 	var ajaxReturnData = null;
 	var srInfo = {
@@ -560,7 +568,22 @@ function firstGridClick(srid){
 		$('#txtOrg').val(ajaxReturnData[0].reqdept);
 		
 		$('#txtReqSubject').val(ajaxReturnData[0].cc_reqtitle);
+
+		var tempDate = ajaxReturnData[0].cc_reqcompdate.substring(0,4) + "/" + ajaxReturnData[0].cc_reqcompdate.substring(4,6) + "/" + ajaxReturnData[0].cc_reqcompdate.substring(6,8);
+		$('#datReqComDate').val(tempDate);
 		
+		$('#texReqContent').val(ajaxReturnData[0].cc_content);
 		
+		$('[data-ax5select="cboCatTypeSR"]').ax5select("setValue", ajaxReturnData[0].cc_cattype, true);	
+		$('[data-ax5select="cboChgType"]').ax5select("setValue", ajaxReturnData[0].cc_chgtype, true);
+		$('[data-ax5select="cboWorkRank"]').ax5select("setValue", ajaxReturnData[0].cc_workrank, true);
+		$('[data-ax5select="cboReqSecu"]').ax5select("setValue", ajaxReturnData[0].cc_reqsecu, true);
+		
+		if(ajaxReturnData[0].cc_reqsecu === "6"){
+			$('#txtReqSecu').css('display','block');
+			$('#txtReqSecu').val(ajaxReturnData[0].cc_txtreqsecu);
+		}
+		
+		// cmc0100_tab.mxml 1082 라인
 	}
 }
