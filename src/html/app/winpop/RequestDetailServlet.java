@@ -20,8 +20,8 @@ import app.eCmr.Cmr3100;
 import app.eCmr.Cmr3200;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/winpop/RequestDetail")
-public class RequestDetail extends HttpServlet {
+@WebServlet("/webPage/winpop/RequestDetailServlet")
+public class RequestDetailServlet extends HttpServlet {
 	/**
 	 * 
 	 */
