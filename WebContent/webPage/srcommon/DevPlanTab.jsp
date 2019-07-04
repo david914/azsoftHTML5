@@ -54,7 +54,7 @@
 <div id="wrapper">
     <!-- <div class="content"> -->
 		<!-- 하단 S-->
-		<div class="half_wrap margin-10-top">
+		<!--  <div class="half_wrap margin-10-top"> -->
 			<!-- 게시판 S-->
 		    <div class="az_board_basic az_board_basic_in margin-10-bottom" style="height: 35%">
 		    	<div data-ax5grid="grdWorker" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
@@ -64,7 +64,7 @@
 			<div class="l_wrap width-25 vat write_wrap write_wrap_100">
 				<div class="tit">
 					<!-- <h3>&#9642;개발계획</h3> -->
-					<h3><input type="radio" id="rdoPlan" name="group" value="HTML">개발계획</h3>
+					<h3><input type="radio" class="radio-pie" id="rdoPlan" name="group" value="HTML">개발계획</h3>
 				</div>
 				<div class="row">
 					<dl>
@@ -81,27 +81,27 @@
 				<div class="row">
 					<dl>
 						<dt><label>*예상소요시간</label></dt>
-						<dd><input id="txtExpTime" name="txtExpTime" type="text" class="width-30"><em>*시간단위 입력</em></dd>
+						<dd><input id="txtExpTime" name="txtExpTime" type="text" class="width-30" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"><em>*시간단위 입력</em></dd>
 					</dl>
 				</div>
 				<div class="row">
 					<dl>
 						<dt><label>*예상개발시작일</label></dt>
-						<dd><input id="txtExpStdate" name="txtExpStdate" type="text" class="width-80" data-ax5picker="txtExpStdate"><span class="btn_calendar poa_r"><i class="fa fa-calendar-o"></i></span></dd>
+						<dd><input id="txtExpStdate" name="txtExpStdate" type="text" class="width-80" data-ax5picker="txtExpStdate"><span class="btn_calendar poa_r" onClick="txtExpStdate_Click();"><i class="fa fa-calendar-o"></i></span></dd>
 					</dl>
 					
 				</div>
 				<div class="row">
 					<dl>
 						<dt><label>*예상개발종료일</label></dt>
-						<dd><input id="txtExpEnddate" name="txtExpEnddate" type="text" class="width-80" data-ax5picker="txtExpEnddate"><span class="btn_calendar poa_r"><i class="fa fa-calendar-o"></i></span></dd>
+						<dd><input id="txtExpEnddate" name="txtExpEnddate" type="text" class="width-80" data-ax5picker="txtExpEnddate"><span class="btn_calendar poa_r" onClick="txtExpEnddate_Click();"><i class="fa fa-calendar-o"></i></span></dd>
 					</dl>
 				</div>
 				<div class="row">
 				    <dl>
 				    	<dt><label id="lbRate">*기능점수등급</label></dt>
 					    <dd>
-							<div id="cboRate" data-ax5select="cboRate" data-ax5select-config="{size:'sm',theme:'primary'}" style="" onchange="Cbo_User_Click()">
+							<div id="cboRate" data-ax5select="cboRate" data-ax5select-config="{size:'sm',theme:'primary'}" style="">
 						    </div>
 						</dd>
 					</dl>
@@ -114,36 +114,34 @@
 			<div class="r_wrap width-70 vat write_wrap">
 				<div class="tit">
 					<!-- <h3>&#9642;개발실적</h3> -->
-					<h3><input type="radio" id="rdoResult" name="group" value="HTML">개발실적</h3>
+					<h3><input type="radio" class="radio-pie" id="rdoResult" name="group" value="HTML">개발실적</h3>
 				</div>				
 				<div class="bg_white pd_10">						
 					<dl class="dib vat">
 						<dt><label>작업일</label></dt>
-						<dd><input id="txtDevDate" name="txtDevDate" type="text" class="width-70" placeholder="yyyy/mm/dd" data-ax5picker="txtDevDate"><span class="btn_calendar"><i class="fa fa-calendar-o"></i></span></dd>
+						<dd><input id="txtDevDate" name="txtDevDate" type="text" disabled="disabled" class="width-70" data-ax5picker="txtDevDate" style="width:70%"><span class="btn_calendar" onClick="txtDevDate_Click();"><i class="fa fa-calendar-o"></i></span></dd>
 					</dl>
 					<dl class="dib vat">				
 						<dt><label>작업시간</label></dt>
-						<dd><input id="txtDevTime" name="txtDevTime" type="text" disabled="disabled" class="width-70" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"><button class="btn_basic_s" data-grid-control="excel-export">등록</button></dd>
+						<dd><input id="txtDevTime" name="txtDevTime" type="text" class="width-70" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width:70%"><button class="btn_basic_s margin-5-left" id="btnRegResult" data-grid-control="excel-export">등록</button></dd>
 					</dl>
 					<p class="margin-3-top">*일별 투입시간을 시간단위로 입력[개발계획] 등록 후[개발실적]등록가능</p>
 				</div>
 				<div class="row">
 					<div class="row"><label>작업시간내역</label></div>
-					<div class="az_board_basic scroll_h az_board_basic_in" style="height: 27%">
+					<div class="az_board_basic scroll_h az_board_basic_in" style="height: 42%">
 				    	<div data-ax5grid="grdWorkTime" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 				    </div>
 				</div>
 			</div>
-		</div>
+		 <!-- </div> -->
     <!-- </div> -->
 </div>
 	
-<input id="txtSessionID" type="hidden" value="FE5E5695B40130B57F234A35A59EF651">
-
 <!-- contener E -->
-
-</body>
-</html>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/srcommon/DevPlanTab.js"/>"></script>
+
+</body>
+</html>

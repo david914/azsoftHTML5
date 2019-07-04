@@ -12,11 +12,11 @@ var userId 		 	= window.parent.userId;
 var adminYN 		= window.parent.adminYN;
 var userDeptName 	= window.parent.userDeptName;
 var userDeptCd 	 	= window.parent.userDeptCd;
-var strReqCD	 	= "42";
+var strReqCd	 	= window.parent.strReqCd; 
 
 //public
 var strStatus		= "2";			  //SR상태
-var strIsrId		= "R201906-0003"; //R201901-0002
+var strIsrId		= "R201906-0003"; //window.parent.strIsrId; 
 
 var txtExpStdatePicker	= new ax5.ui.picker(); //예상개발시작일
 var txtExpEnddatePicker = new ax5.ui.picker(); //예상개발종료일
@@ -320,6 +320,7 @@ txtDevDatePicker.bind({
     }
 });
 
+$('input.radio-pie').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 
 $(document).ready(function(){
 	getWorkDays();
@@ -388,26 +389,23 @@ function getDevrRate() {
 		new CodeInfo('DEVRATE','SEL','N')
 	]);
 	
-	selOptions = codeInfos.DEVRATE;
-	cboRateData = [];
-	
-	$.each(selOptions,function(key,value) {
-		cboRateData.push({value: value.cm_micode, text: value.cm_codename});
-	});
+	cboRateData = codeInfos.DEVRATE;
 	
 	$('[data-ax5select="cboRate"]').ax5select({
-        options: cboRateData
-	});
+        options: injectCboDataToArr(cboRateData, 'cm_micode' , 'cm_codename')
+   	});
 	
 	initDevPlan();
 }
 
 function screenInit(gbn) {
+	console.log(">>>>>>>>>>>>>>>>>");
+	
 	if(gbn == 'M') {
 		grdWorker.setData([]);
 		grdWorkTime.setData([]);
-		$('#rdoPlan').prop("checked", true);
-		$('#rdoResult').prop("disabled", false);
+		$('#rdoPlan').wRadio("check", true);
+		$('#rdoResult').wRadio("check", false);
 		$('[data-ax5select="cboRate"]').ax5select('setValue','00',true);
 		rdoPlan_click();
 	}
@@ -446,17 +444,17 @@ function rdoPlan_click() {
 	//}
 	
 	if($('#rdoPlan').is(':checked') && $('#btnRegPlan').is(':enabled')) {
-		$('#txtExpTime').prop("readonly", false); 
+		$('#txtExpTime').prop("disabled", false);
 		$('#txtExpStdate').prop("disabled", false);
 		$('#txtExpEnddate').prop("disabled", false);
-		$('#txtDevTime').prop("readonly", true);
+		$('#txtDevTime').prop("disabled", true);
 		$('#txtDevDate').prop("disabled", true);
 		$('[data-ax5select="cboRate"]').ax5select("enable");
 	}else if($('#rdoResult').is(':checked') && $('#btnRegResult').is(':enabled')) {
-		$('#txtExpTime').prop("readonly", true); 
+		$('#txtExpTime').prop("disabled", true);
 		$('#txtExpStdate').prop("disabled", true);
 		$('#txtExpEnddate').prop("disabled", true);
-		$('#txtDevTime').prop("readonly", false);
+		$('#txtDevTime').prop("disabled", false);
 		$('#txtDevDate').prop("disabled", false);
 		$('[data-ax5select="cboRate"]').ax5select("disable");
 	}
@@ -475,7 +473,7 @@ function getWorker() {
 	var SRInfo = new Object();
 	SRInfo.srId = strIsrId;
 	SRInfo.userId = null;
-	SRInfo.reqCd = strReqCD;
+	SRInfo.reqCd = strReqCd;
 	
 	var SRInfoData;
 	SRInfoData = new Object();
@@ -581,14 +579,14 @@ function grdWorker_Click() {
 	
 	if(selectedGridItem.cnt == 0) {
 		if(selectedGridItem.devmm == null || selectedGridItem.devmm == "") {
-			$('#rdoResult').prop("disabled", true);
+			$('#rdoResult').wRadio("disabled", true);
 		}else {
-			$('#rdoResult').prop("disabled", false);
+			$('#rdoResult').wRadio("disabled", false);
 		}
-		$('#rdoPlan').prop("checked", true);
+		$('#rdoPlan').wRadio("check", true);
 	}else {
-		$('#rdoResult').prop("disabled", false);
-		$('#rdoPlan').prop("checked", false);
+		$('#rdoResult').wRadio("disabled", false);
+		$('#rdoPlan').wRadio("check", false);
 	}
 	
 	if(grdWorkerData.length > 0) {
@@ -715,7 +713,7 @@ function btnRegResult_Click() {
 		return;
 	}
 	
-	if($('#"txtExpStdate"').val() > $('#txtDevDate').val()) {
+	if($('#txtExpStdate').val() > $('#txtDevDate').val()) {
 		dialog.alert('작업일은 예상개발시작일보다 커야 합니다.',function(){});
 		return;
 	}
@@ -744,4 +742,17 @@ function successWorkResult(data) {
 	}else {
 		dialog.alert('개발실적등록 중 오류가 발생하였습니다.',function(){});
 	}
+}
+
+function txtExpStdate_Click() {
+	$('[data-ax5picker="txtExpStdate"]').focus();
+}
+
+function txtExpEnddate_Click() {
+	$('[data-ax5picker="txtExpEnddate"]').focus();
+}
+
+
+function txtDevDate_Click() {
+	$('[data-ax5picker="txtDevDate"]').focus();
 }
