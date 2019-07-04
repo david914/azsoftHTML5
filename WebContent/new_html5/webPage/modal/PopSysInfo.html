@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+<div class="pop-header">
+	<div>
+		<label id="lbSub">프로그램종류정보</label>
+	</div>
+	<div>
+		<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div> 
+</div>
+<div class="container-fluid pop_wrap">
+	<div class="row">
+		<div>
+			<label id="lbSub" class="poa tit_80">시스템</label>
+			<div class="ml_80">
+				<input id="txtTitle" name="txtTitle" class="form-control dib" type="text">
+			</div>
+		</div>
+	</div>
+	<div class="row">			
+		<div class="dib width-50 vat">
+			<label id="lbSub" class="poa width-80">프로그램종류</label>
+			<div class="ml_80">
+				<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-100 dib tal">
+					<select tabindex="-1" class="form-control input-sm" name="cboUser">
+						<option value="" selected="selected">프로젝트팀</option>
+						<option value="">전체</option>
+						<option value="">연구개발팀</option>
+						<option value="">영업팀</option>
+						<option value="">프로젝트팀</option>
+					</select>
+					<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+                        <div class="ax5select-display-table" data-els="display-table">
+                            <div data-ax5select-display="label">프로젝트팀</div>
+                            <div data-ax5select-display="addon"> 
+                                <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+                                <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+                            </div>
+                        </div>
+                        <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+                    </a>
+			    </div>
+			</div>
+		</div>
+		<div class="dib width-20">
+			<label id="lbSub" class="poa tit_80">버전관리수</label>
+			<div class="ml_80">
+				<input id="txtTitle" name="txtTitle" class="form-control dib" type="text">
+			</div>
+		</div>
+		<div class="dib width-20">
+			<label id="lbSub" class="poa tit_150">정기배포시간(HHMM)</label>
+			<div class="ml_150">
+				<input id="txtTitle" name="txtTitle" class="form-control dib" type="text">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="half_wrap_cb">
+			<!--처리속성선택-->
+			<div class="l_wrap width-50">
+				<div class="margin-5-right">
+					<div class="width-100 dib vat">
+	                    <label id="lbUser" class="title">[처리속성선택]</label>
+					</div>
+					<div class="scroll">
+						폴더구조 나옵니다.
+					</div>
+				</div>
+			</div>
+			<!--대상확장자-->
+			<div class="r_wrap width-50">
+				<div class="margin-5-left">
+					<div class="row">
+						<label id="lbSub" class="poa tit_80">대상확장자</label>
+						<div class="ml_80">
+							<input id="txtTitle" name="txtTitle" class="form-control dib" type="text">
+						</div>
+					</div>
+					<!--line1 S-->
+					<div class="row">
+						<div class="half_wrap">
+							<div>
+								<ul>
+									<li>
+										<label class="tit_150 dib poa">동시적용프로그램종류</label>
+										<div class="ml_150">
+											<input id="txtUpdatePw1" name="txtUpdatePw1" type="password" minlength="8" maxlength="12" class="width-45">
+											<div class="dib">
+												<label class="tar"><input type="checkbox">커멘트사용</label>
+											</div>
+										</div>						
+									</li>
+									<li class="row">
+										<label class="tit_150 dib poa">동시적용률(기준/변경)</label>
+										<div class="ml_150">
+											<input id="txtUpdatePw1" name="txtUpdatePw1" type="password" minlength="8" maxlength="12" class="width-45"> <input id="txtUpdatePw1" name="txtUpdatePw1" type="password" minlength="8" maxlength="12" class="width-45">
+										</div>
+									</li>
+									<li class="row">
+										<label class="tit_150 dib poa">디렉토리률(기준/변경)</label>
+										<div class="ml_150">
+											<input id="txtUpdatePw1" name="txtUpdatePw1" type="password" minlength="8" maxlength="12" class="width-45"> <input id="txtUpdatePw1" name="txtUpdatePw1" type="password" minlength="8" maxlength="12" class="width-45">
+										</div>
+									</li>
+								</ul>
+							</div>
+							<!--버튼-->
+							<div class="row por">
+								<label><input type="radio">실행모듈정보</label>
+								<label><input type="radio">동시적용항목정보</label>
+								<label><input type="radio">자동생성항복정보</label>
+								<label><input type="radio">확장자변경</label>
+								<button class="btn_basic_s margin-5-left poa_r" data-grid-control="excel-export">동시등록</button>
+							</div>
+							<div class="row">
+								<div class="az_board_basic az_board_basic_in">
+							    	<table>
+								    	<colgroup>
+								    		<col width="5%"><col width="15%"><col width="*"><col width="10%"><col width="10%"><col width="10%">
+								    	</colgroup>
+							    		<tbody>
+							    		<tr>
+							    			<th scope="col">NO</th>
+							    			<th scope="col">동시적용종류</th>
+							    			<th scope="col">파일적용률</th>
+							    			<th scope="col">기준Dir</th>
+							    			<th scope="col">변경Dir</th>
+							    			<th scope="col">커멘드</th>
+							    		</tr>
+							    		<tr>
+							    			<td>1</td>
+							    			<td></td>
+							    			<td></td>
+							    			<td></td>
+							    			<td></td>
+							    			<td></td>
+							    		</tr>
+							    		<tr>
+							    			<td>2</td>
+							    			<td></td>
+							    			<td></td>
+							    			<td></td>
+							    			<td></td>
+							    			<td></td>
+							    		</tr>
+							    		</tbody>
+							    	</table>	
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--버튼영억 S-->
+					<div class="row">
+						<button class="btn_basic_s margin-5-left" data-grid-control="excel-export">프로그램종류 정보등록</button><button class="btn_basic_s margin-5-left" data-grid-control="excel-export">프로그램종류폐기</button><button class="btn_basic_s margin-5-left" data-grid-control="excel-export">조회</button><button class="btn_basic_s margin-5-left" data-grid-control="excel-export">프로그램처리속성 트리구조작성</button>
+					</div>
+					<!--line3 S-->
+					<div class="row">
+						<div class="half_wrap">							
+						<div class="width-100 dib vat">
+		                    <label id="lbUser" class="title">[등록된 프로그램 종류 목록]</label>
+						</div>
+						<div class="row">
+							<div class="az_board_basic az_board_basic_in">
+						    	<table>
+							    	<colgroup>
+							    		<col width="5%"><col width="15%"><col width="*"><col width="10%"><col width="20%">
+							    	</colgroup>
+						    		<tbody>
+						    		<tr>
+						    			<th scope="col">NO</th>
+						    			<th scope="col">프로그램종류</th>
+						    			<th scope="col">버전수</th>
+						    			<th scope="col">정기배포</th>
+						    			<th scope="col">대상확장자</th>
+						    		</tr>
+						    		<tr>
+						    			<td>1</td>
+						    			<td></td>
+						    			<td></td>
+						    			<td></td>
+						    			<td></td>
+						    		</tr>
+						    		<tr>
+						    			<td>2</td>
+						    			<td></td>
+						    			<td></td>
+						    			<td></td>
+						    			<td></td>
+						    		</tr>
+						    		</tbody>
+						    	</table>	
+							</div>
+						</div>
+						<div class="row por">
+							<div class="dib">
+								<label>우선순위적용</label><button class="btn_basic_s margin-5-left md-font" data-grid-control="excel-export">&#9652;</button><button class="btn_basic_s margin-5-left md-font" data-grid-control="excel-export">&#9662;</button></div>
+							<div class="poa_r dib">
+								<button class="btn_basic_s margin-5-left" data-grid-control="excel-export">우선순위적용</button><button class="btn_basic_s margin-5-left" data-grid-control="excel-export">닫기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- contener E -->
+</body>	
+<c:import url="/js/ecams/common/commonscript.jsp" />	
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/FileUp.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/PopNotice.js"/>"></script>
+</html>
