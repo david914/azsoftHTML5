@@ -2,6 +2,7 @@ package html.app.winpop;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -15,6 +16,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import app.eCmr.Cmr0250;
+import app.eCmr.Cmr3100;
+import app.eCmr.Cmr3200;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/winpop/RequestDetail")
@@ -24,6 +27,8 @@ public class RequestDetail extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
+	Cmr3100 cmr3100 = new Cmr3100();
+	Cmr3200 cmr3200 = new Cmr3200();
 	Cmr0250 cmr0250  = new Cmr0250();
 	
 	@Override
@@ -55,6 +60,22 @@ public class RequestDetail extends HttpServlet {
 					break;
 				case "getRstList" :
 					response.getWriter().write( getRstList(jsonElement) );
+					break;
+				case "gyulChk" :
+					response.getWriter().write( gyulChk(jsonElement) );
+					break;
+				case "updtDeploy_2" :
+					response.getWriter().write( updtDeploy_2(jsonElement) );
+					break;
+				case "reqCncl" :
+					response.getWriter().write( reqCncl(jsonElement) );
+					break;
+				case "progCncl_sel" :
+					response.getWriter().write( progCncl_sel(jsonElement) );
+					break;
+				case "updtSeq" :
+					response.getWriter().write( updtSeq(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -67,8 +88,8 @@ public class RequestDetail extends HttpServlet {
 	}
 
 	private String getReqList(JsonElement jsonElement) throws SQLException, Exception {
-		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		
 		return gson.toJson(cmr0250.getReqList(UserId,AcptNo));
 	}
@@ -88,10 +109,60 @@ public class RequestDetail extends HttpServlet {
 	}
 	
 	private String getRstList(JsonElement jsonElement) throws SQLException, Exception {
-		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		String prcSys = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "prcSys") );
 		
 		return gson.toJson(cmr0250.getRstList(UserId,AcptNo,prcSys));
+	}
+	
+	private String gyulChk(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		
+		return gson.toJson(cmr3100.gyulChk(AcptNo, UserId));
+	}
+	
+	private String updtDeploy_2(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String CD = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "priorityCD") );
+		
+		return gson.toJson(cmr0250.updtDeploy_2(AcptNo, CD));
+	}
+	
+	private String reqCncl(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String ConMsg = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "conMsg") );
+		String ConfUsr = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "ConfUsr") );
+		
+		try { 
+			return gson.toJson(cmr3200.reqCncl(AcptNo, UserId, ConMsg, ConfUsr));
+		} catch (SQLException e) {
+			return gson.toJson(e.getMessage());
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		} 
+	}
+	
+	private String progCncl_sel(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		ArrayList<HashMap<String, String>> fileList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "fileList") );
+		String PrcSys = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "PrcSys") );
+		
+		try { 
+			return gson.toJson(cmr0250.progCncl_sel(AcptNo, fileList, PrcSys));
+		} catch (SQLException e) {
+			return gson.toJson(e.getMessage());
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		} 
+	}
+	
+	private String updtSeq(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		ArrayList<HashMap<String, String>> fileList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "fileList") );
+
+		return gson.toJson(cmr0250.updtSeq(AcptNo, fileList));
 	}
 }
