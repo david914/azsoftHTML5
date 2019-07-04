@@ -360,8 +360,8 @@ $(document).ready(function(){
     });
 	
 	//테스트
-	//$('#rdoPlan').prop("checked", true);
-	//rdoPlan_click();
+	$('#rdoPlan').prop("checked", true);
+	rdoPlan_click();
 });
 
 //연도별월근무일수조회 Cmc0200.getWorkDays(new Date().getFullYear());
