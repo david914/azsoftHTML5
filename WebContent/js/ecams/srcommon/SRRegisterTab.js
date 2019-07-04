@@ -156,7 +156,10 @@ grid_fileList.setConfig({
     },
     columns: [
         {key: "fileName", label: "파일명",  width: '100%'} 
-    ]
+    ],
+    page:{
+    	display : false
+    }
 });
 
 devUserGrid.setConfig({
@@ -178,7 +181,10 @@ devUserGrid.setConfig({
         {key: "cm_deptname", label: "소속부서",  width: '30%'},
         {key: "cm_username", label: "담당개발자",  width: '40%'},
         {key: "cm_codename", label: "상태",  width: '30%'}
-    ]
+    ],
+    page:{
+    	display : false
+    }
 });
 
 $('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
@@ -310,10 +316,10 @@ function elementInit(initDivision) {
     	$('#txtSRID').val('신규등록');
     	$('#txtRegUser').val(userName);
     	$('#txtRegDate').val('신규등록');
-    	$('#txtOrg').attr('disabled', false);
-    	$('#txtSRID').attr('readonly', true);
-    	$('#txtRegUser').attr('readonly', true);
-    	$('#txtRegDate').attr('readonly', true);
+    	$('#txtOrg').attr('readonly', true);
+    	$('#txtSRID').attr('disabled', true);
+    	$('#txtRegUser').attr('disabled', true);
+    	$('#txtRegDate').attr('disabled', true);
     	$('#txtReqSecu').val('');
     	$('#txtReqSecu').css('display','none');
     	
@@ -384,9 +390,9 @@ function elementInit(initDivision) {
     	$('#txtRegUser').val('');
     	$('#txtRegDate').val('');
     	
-    	$('#txtSRID').attr('readonly', true);
-    	$('#txtRegUser').attr('readonly', true);
-    	$('#txtRegDate').attr('readonly', true);
+    	$('#txtSRID').attr('disabled', true);
+    	$('#txtRegUser').attr('disabled', true);
+    	$('#txtRegDate').attr('disabled', true);
     }
 	
 	$('#txtDocuNum').val('');

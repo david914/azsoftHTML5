@@ -4,8 +4,18 @@
 
 <c:import url="/webPage/common/common.jsp" />
 <c:import url="/js/ecams/common/commonscript.jsp" />
-<c:import url="/webPage/srcommon/PrjListTab.jsp" />
-<c:import url="/webPage/srcommon/SRRegisterTab.jsp" />
 
+<script type="text/javascript" src="<c:url value="/js/ecams/register/SRRegister.js"/>"></script>
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+    	<div style="height:25%;">
+			<c:import url="/webPage/srcommon/PrjListTab.jsp" />
+    	</div>
+    	<div style="height:75%;">
+			<c:import url="/webPage/srcommon/SRRegisterTab.jsp" />
+    	</div>
+	</div>
+</div>
 
  
