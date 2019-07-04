@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+<!-- Header -->
+<div id="header"></div>
+
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">관리자 <strong>&gt; 메뉴관리</strong></div>
+        <!-- history E-->   
+		<div class="half_wrap_cb">
+			<div class="l_wrap width-30">
+				<div class="margin-5-right">				   
+			        <!-- 검색 S-->    
+					<div class="az_search_wrap">
+						<div class="az_in_wrap">
+							<div class="vat">
+			                    <label id="lbUser" class="tit_80 poa"></label>
+			                    <div class="ml_80">
+									<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-100 dib">
+										<select tabindex="-1" class="form-control input-sm" name="cboUser">
+											<option value="" selected="selected">Agent모니터링</option>
+											<option value="">전체</option>
+											<option value="">연구개발팀</option>
+											<option value="">영업팀</option>
+											<option value="">프로젝트팀</option>							
+										</select>
+										<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+				                            <div class="ax5select-display-table" data-els="display-table">
+				                                <div data-ax5select-display="label">프로젝트팀</div>
+				                                <div data-ax5select-display="addon"> 
+				                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+				                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+				                                </div>
+				                            </div>
+				                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+				                        </a>
+								    </div>
+								</div>
+							</div>
+							<div class="row">
+								<label id="lbUser" class="tit_80 poa">메뉴명</label>
+								<div class="ml_80">
+									<input id="txtSysCd" name="txtTitle" class="form-control width-100 dib" type="text">
+								</div>
+							</div>
+							<div class="row">
+								<label id="lbUser" class="tit_80 poa">링크파일명</label>
+								<div class="ml_80">
+									<input id="txtSysCd" name="txtTitle" class="form-control width-100 dib" type="text">
+								</div>
+							</div>
+							<div class="row">
+			                    <label id="lbUser" class="tit_80 poa">신청코드</label>
+			                    <div class="ml_80">
+									<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-100 dib">
+										<select tabindex="-1" class="form-control input-sm" name="cboUser">
+											<option value="" selected="selected">Agent모니터링</option>
+											<option value="">전체</option>
+											<option value="">연구개발팀</option>
+											<option value="">영업팀</option>
+											<option value="">프로젝트팀</option>							
+										</select>
+										<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+				                            <div class="ax5select-display-table" data-els="display-table">
+				                                <div data-ax5select-display="label">프로젝트팀</div>
+				                                <div data-ax5select-display="addon"> 
+				                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+				                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+				                                </div>
+				                            </div>
+				                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+				                        </a>
+								    </div>
+								</div>
+								<div class="row tar">
+									<button class="btn_basic_s margin-5-left" id="btnFact" data-grid-control="excel-export">수정</button>
+									<button class="btn_basic_s margin-5-left" id="btnFact" data-grid-control="excel-export">폐기</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--검색E-->
+					<!--메뉴체계 S-->					
+					<div class="half_wrap">
+						<div class="vat por">
+						    <label id="lbUser" class="title">[메뉴체계]</label><button class="btn_basic_s poa_r" id="btnFact" data-grid-control="excel-export">조회</button>
+						</div>
+						<div class="scrollBind row" style="height:550px;">
+		    				폴더구조나옵니다.
+		    			</div>
+					</div>
+	    		</div>
+			</div>
+			<div class="r_wrap width-70">
+				<div class="margin-5-left">		   
+			        <!-- 검색 S-->    
+					<div class="az_search_wrap">
+						<div class="az_in_wrap">
+							<!--메뉴트리편집-->
+							<div>
+			                    <label id="lbUser" class="tit_80 poa">메뉴트리편집</label>
+			                    <div class="ml_80">
+									<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-20 dib">
+										<select tabindex="-1" class="form-control input-sm" name="cboUser">
+											<option value="" selected="selected">Agent모니터링</option>
+											<option value="">전체</option>
+											<option value="">연구개발팀</option>
+											<option value="">영업팀</option>
+											<option value="">프로젝트팀</option>							
+										</select>
+										<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+				                            <div class="ax5select-display-table" data-els="display-table">
+				                                <div data-ax5select-display="label">프로젝트팀</div>
+				                                <div data-ax5select-display="addon"> 
+				                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+				                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+				                                </div>
+				                            </div>
+				                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+				                        </a>
+								    </div>
+
+									<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-40 dib margin-5-left">
+										<select tabindex="-1" class="form-control input-sm" name="cboUser">
+											<option value="" selected="selected">Agent모니터링</option>
+											<option value="">전체</option>
+											<option value="">연구개발팀</option>
+											<option value="">영업팀</option>
+											<option value="">프로젝트팀</option>							
+										</select>
+										<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+				                            <div class="ax5select-display-table" data-els="display-table">
+				                                <div data-ax5select-display="label">프로젝트팀</div>
+				                                <div data-ax5select-display="addon"> 
+				                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+				                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+				                                </div>
+				                            </div>
+				                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+				                        </a>
+								    </div>
+								</div>
+							</div>							
+							<!--메뉴구조-->
+							<div class="row">
+								<div class="l_wrap width-50">
+									<div class="l_wrap width-80">										
+										<div class="scrollBind row" style="height:150px;">
+						    				폴더구조나옵니다.
+						    			</div>
+									</div>
+									<div class="r_wrap" style="width:50px; text-align:center;">
+										<span class="fa_wrap margin-5-left"><i class="fas fa-caret-left"></i></span>
+										<span class="fa_wrap margin-5-left"><i class="fas fa-caret-right"></i></span>
+									</div>
+								</div>
+								<div class="r_wrap">
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--검색E-->
+					<div class="row">		
+						폴더구조 나옵니다.
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+
+<!-- Footer-->
+<footer id="footer">
+    <ul>
+        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+    </ul>
+</footer>
+<!-- contener E -->
+
+
+
+
+<!-- Toast UI Chart -->
+<script src="/scripts/tui-code-snippet.min.js" type="text/javascript"></script>
+<script src="/scripts/tui-chart-all.min.js" type="text/javascript"></script>
+
+<!-- Vendor scripts -->
+<script src="/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="/vendor/jquery-flot/jquery.flot.js"></script>
+<script src="/vendor/nestable/jquery.nestable.js"></script>
+<script src="/vendor/wCheck-master/wCheck.js"></script>
+
+<script src="/vendor/metisMenu/dist/metisMenu.min.js"></script>
+<script src="/scripts/sweetalert.min.js"></script>
+
+<!-- ax5ui script -->
+<script src="/scripts/ax5/ax5core.min.js" type="text/javascript"></script>
+<script src="../../scripts/ax5/ax5calendar.min.js" type="text/javascript"></script>
+<script src="/scripts/ax5/ax5picker.min.js" type="text/javascript"></script>
+<script src="/scripts/ax5/ax5formatter.min.js" type="text/javascript"></script>
+<script src="../../scripts/ax5/ax5select.min.js" type="text/javascript"></script>
+<script src="/scripts/ax5/ax5menu.min.js" type="text/javascript"></script>
+<script src="/scripts/ax5/ax5grid.min.js" type="text/javascript"></script>
+<script src="/scripts/ax5/ax5toast.min.js" type="text/javascript"></script>
+<script src="/scripts/ax5/ax5mask.min.js" type="text/javascript"></script>
+<script src="/scripts/ax5/ax5modal.js" type="text/javascript"></script>
+<script src="/scripts/ax5/ax5dialog.js" type="text/javascript"></script>
+<script src="/scripts/ax5/ax5uploader.js" type="text/javascript"></script>
+
+<!-- fileupload script -->
+<script src="/scripts/fileupload/jquery.dm-uploader.min.js"></script>
+<script src="/scripts/fileupload/demo-ui.js"></script>
+
+<!-- FILE TREE -->
+<script src="/scripts/filetree/jquery.ztree.all.js"></script>
+<script src="/scripts/filetree/jquery.ztree.core.js"></script>
+<script src="/scripts/filetree/jquery.ztree.excheck.js"></script>
+<script src="/scripts/filetree/jquery.ztree.exedit.js"></script>
+<script src="/scripts/filetree/jquery.ztree.exhide.js"></script>
+
+<script src="../../js/ecams/common/common.js" type="text/javascript"></script>
+</body>
+
+</html>
