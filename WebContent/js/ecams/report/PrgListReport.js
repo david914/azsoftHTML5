@@ -1,5 +1,6 @@
 
-var userid 		= window.top.userId;
+//var userid 		= window.top.userId;
+var userid 		= "MASTER";
 var mainGrid		= new ax5.ui.grid();
 var SecuYn = null;
 var L_SysCd = null;
@@ -33,7 +34,42 @@ $(document).ready(function() {
 	            this.self.select(this.dindex);
 	        },
 		},
-		columns : columnData
+		columns : columnData,
+		contextMenu: {
+            iconWidth: 20,
+            acceleratorWidth: 100,
+            itemClickAndClose: false,
+            icons: {
+                'arrow': '<i class="fa fa-caret-right"></i>'
+            },
+            items: [
+            	{type: 1, label: "프로그램정보"},
+                {type: 2, label: "소스보기"}
+            ],
+            popupFilter: function (item, param) {
+                //console.log(item, param);
+                if(param.element) {
+                    return true;
+                }else{
+                    return item.type == 1;
+                }
+            },
+            onClick: function (item, param) {
+                console.log(item, param);
+                
+                if(item.type === 1) {
+                	mainGrid.contextMenu.close();
+                	openWindow(item.type, 'win', '', param);
+                } else if(item.type === 2) {
+                	mainGrid.contextMenu.close();
+                	openWindow(item.type, 'win', '', param);                	
+                } else {		                    	
+                	mainGrid.contextMenu.close();
+                	modal();		                    	
+                }
+                //또는 return true;
+            }
+       }
 	}); 
 	
 	//범위 콤보박스 데이터 세팅
@@ -86,6 +122,7 @@ function comboSet() {
 	ajaxData.cnt = "0";
 	ajaxResult.push(ajaxCallWithJson('/webPage/report/PrgListReport', ajaxData, 'json'));
 	
+	console.log(ajaxResult);
 	//콤보박스에 들어갈 데이터 세팅
 	$.each(ajaxResult, function(index, value) {
 		comboData[index] = [];
@@ -200,4 +237,51 @@ $("#btnExcel").on('click', function() {
 
 function enterKey() {
 	if(window.event.keyCode == 13) $("#btnSearch").trigger("click");
+}
+
+function openWindow(type,reqCd,reqNo,rsrcName) {
+	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
+
+	if ( (type+'_'+reqCd) == winName ) {
+		if (myWin != null) {
+	        if (!myWin.closed) {
+	        	myWin.close();
+	        }
+		}
+	}
+
+    winName = type+'_'+reqCd;
+    
+	if (type === 1) {
+		nHeight = screen.height - 300;
+	    nWidth  = screen.width - 400;
+	    cURL = "../winpop/ProgrmInfo.jsp";
+	} else if (type === 2) {
+		nHeight = 400;
+	    nWidth  = 900;
+		cURL = "../winpop/ApprovalInfo.jsp";
+	}
+	
+	var winWidth  = document.body.clientWidth;  // 현재창의 너비
+	var winHeight = document.body.clientHeight; // 현재창의 높이
+	var winX      = window.screenX;// 현재창의 x좌표
+	var winY      = window.screenY; // 현재창의 y좌표
+	nLeft = winX + (winWidth - nWidth) / 2;
+	nTop = winY + (winHeight - nHeight) / 2;
+
+	cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
+
+	var f = document.popPam;   		//폼 name
+    myWin = window.open(cURL,winName,cFeatures);
+    
+//    f.formName.value	= rsrcName.item.cm_username;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+//    f.formId.value	= rsrcName.item.cm_userid;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+//    f.formPosition.value	= rsrcName.item.position;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+//    f.formDuty.value	= rsrcName.item.duty;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+//    
+    f.action		= cURL; 		//이동할 페이지
+    f.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
+    f.method		= "post"; 		//POST방식
+    f.submit();
+    
 }
