@@ -853,13 +853,14 @@ function deleteDataRow() {
 			$('#btnReq').prop('disabled',false);
 		}
 	}
-	secondGridData = secondGrid.list;
+	secondGridData = clone(secondGrid.list);
 	$('#totalCnt').text(secondGrid.list.length);
 }
 
 function checkDuplication(downFileList) {
 
 	var findSw = true;
+	var secondGridList = new Array;
 	
 	if(secondGridData.length > 0 ){
 		$(secondGridData).each(function(i){
@@ -873,7 +874,6 @@ function checkDuplication(downFileList) {
 	}
 	
 	if(downFileList.length > 0) {
-		var secondGridList = new Array;
 		$(downFileList).each(function(i){
 			var currentItem = downFileList[i];
 			//하단리스트에 추가한 프로그램중, 로컬 프로그램이 존재하는지 체크 시작  && 바이너리가 아닌거 && 체크아웃 대상인거 && 체크아웃무가 아닌거
@@ -938,7 +938,7 @@ function checkDuplication(downFileList) {
 		})
 	}
 	
-	secondGridData = secondGrid.list;
+	secondGridData = clone(secondGrid.list);
 	simpleData();
 }
 
@@ -1242,9 +1242,12 @@ function firstGridClick(){
 
 //체크아웃상세보기
 function simpleData(){
-	gridSimpleData = secondGrid.list;
+	
+	if (secondGrid.list.length < 1) return;
+	
+	gridSimpleData = clone(secondGrid.list);
 	if(secondGrid.list.length == 0){
-		secondGridData = secondGrid.list;
+		secondGridData = clone(secondGrid.list);
 		return;
 	}
 	for(var i =0; i < gridSimpleData.length; i++){

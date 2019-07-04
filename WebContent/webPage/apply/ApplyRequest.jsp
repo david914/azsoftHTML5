@@ -21,7 +21,7 @@
 		    		<label id="lblSrId" class="padding-5-top float-left">*SR-ID</label>
 		    	</div>
 		    	<div class="col-lg-10 col-md-10 col-sm-10 col-12" style="padding-left: 0;">
-			    	<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" onchange="cboSRChange()"  ></div>
+			    	<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 		    	</div>
 		    	<div class="col-lg-1 col-md-1 col-sm-1 col-12">
 					<div class="float-right">
@@ -42,7 +42,7 @@
 		    		<label id="lblSysId" class="padding-5-top float-left">*시스템</label>
 		    	</div>
 		    	<div class="col-lg-9 col-md-12 col-sm-12 col-12" style="padding-left: 0;">
-			    	<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" onchange="cboSysChange()" ></div>
+			    	<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 		    	</div>
 	    	</div>
     	</div>
@@ -53,6 +53,7 @@
 		    	</div>
 		    	<div class="col-lg-9 col-md-9 col-sm-9 col-12" style="padding-left: 0;">
 			    	<div id="cboRsrccd" data-ax5select="cboRsrccd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+			    	<div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 		    	</div>
 	    	</div>
     	</div>
@@ -78,7 +79,7 @@
 
 <div class="hpanel">
     <div class="panel-body text-center" id="grid1Div" style="border: 0px;border-style: none;">
-    	<div data-ax5grid="getFileGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 30%;"></div>
+    	<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 30%;"></div>
     </div>
 </div>
 
@@ -88,19 +89,19 @@
 	    	<div class="row">
 		    	<div class="col-lg-1 col-md-1 col-sm-1 col-12">
 		    		<div class="float-left" style="padding-top:5px;padding-bottom:3px;">
-	    				<input type="checkbox" class="checkbox-pie" id="chkDetail" data-label="항목상세보기" onclick="chkDetail_Click();"></input>
+	    				<input type="checkbox" class="checkbox-pie" id="chkDetail" data-label="항목상세보기" checked></input>
 	   				</div>
 				</div>
 		    	<div class="col-lg-5 col-md-5 col-sm-5 col-12" style="padding: 0 1 0 0;">
 					<div class="float-right">
-						<button id="btnAdd"  class="btn btn-default" onclick="btnAdd_Click();">
+						<button id="btnAdd"  class="btn btn-default" >
 							추 가 <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
 						</button>
 					</div>
 				</div>
 		    	<div class="col-lg-6 col-md-6 col-sm-6 col-12" style="padding: 0 0 0 1;">
 					<div class="float-left">
-						<button id="btnDel"  class="btn btn-default" onclick="btnDel_Click();">
+						<button id="btnDel"  class="btn btn-default" >
 							제 거 <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
 						</button>
 					</div>
@@ -112,7 +113,7 @@
 
 <div class="hpanel">
     <div class="panel-body text-center" id="grid2Div" style="border: 0px;border-style: none;">
-    	<div data-ax5grid="reqFileGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 36%;"></div>
+    	<div data-ax5grid="secondGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 36%;"></div>
     </div>
 </div>
 
@@ -138,7 +139,7 @@
 		    		<label id="lblReqGbn" class="padding-5-top float-left">*처리구분</label>
 		    	</div>
 		    	<div class="col-lg-9 col-md-9 col-sm-9 col-12" style="padding: 0;">
-			    	<div id="cboReqGbn" data-ax5select="cboReqGbn" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" onchange="cboReqGbnClick()"></div>
+			    	<div id="cboReqGbn" data-ax5select="cboReqGbn" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 		    	</div>
 	    	</div>
     	</div>
