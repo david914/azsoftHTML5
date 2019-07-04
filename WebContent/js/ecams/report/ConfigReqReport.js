@@ -1,5 +1,6 @@
 
-var userid 		= window.top.userId;
+//var userid 		= window.top.userId;
+var userid 		= "MASTER";
 var mainGrid		= new ax5.ui.grid();
 var picker			= [new ax5.ui.picker(), new ax5.ui.picker()];
 var columnData = 
