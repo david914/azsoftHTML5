@@ -1256,12 +1256,12 @@ function simpleData(){
 			i--;
 		}
 	};
-	if ($('#chkDetail').prop('chekced')){
-		secondGrid.list = gridSimpleData;
+	if (!$('#chkDetail').is(':checked')){
+		secondGrid.list = clone(gridSimpleData);
 		secondGrid.repaint();
 	}
 	else{
-		secondGrid.list = secondGridData;
+		secondGrid.list = clone(secondGridData);
 		secondGrid.repaint();
 	}
 	$('#totalCnt').text(secondGrid.list.length);

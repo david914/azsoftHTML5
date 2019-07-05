@@ -102,7 +102,7 @@ secondGrid.setConfig({
     	    this.self.repaint();
     	},
     	trStyleClass: function () {
-    		if (this.item.cr_itemid != this.item.cr_baseitem){
+    		if (this.item.cr_itemid != this.item.baseitem){
     			return "fontStyle-module";
     		}
     		else {
@@ -437,19 +437,19 @@ function simpleData() {
 		return;
 	}
 	for(var i =0; i < gridSimpleData.length; i++){
-		if(gridSimpleData[i].baseitemid != gridSimpleData[i].cr_itemid || 
-			gridSimpleData[i].cr_itemid == null || girdSimpleData[i].cr_itemid == ''){
+		if(gridSimpleData[i].baseitem != gridSimpleData[i].cr_itemid || 
+			gridSimpleData[i].cr_itemid == null || gridSimpleData[i].cr_itemid == ''){
 			
 			gridSimpleData.splice(i,1);
 			i--;
 		}
 	};
-	if ($('#chkDetail').prop('chekced')){
-		secondGrid.list = gridSimpleData;
+	if (!$('#chkDetail').is(':checked')){
+		secondGrid.list = clone(gridSimpleData);
 		secondGrid.repaint();
 	}
 	else{
-		secondGrid.list = secondGridData;
+		secondGrid.list = clone(secondGridData);
 		secondGrid.repaint();
 	}
 }
@@ -519,7 +519,11 @@ function addDataRow() {
 		showToast("300건까지 신청 가능합니다.");
 		return;
 	}
-
+	
+	if(secondGridList.length == 0 ){
+		return;
+	}
+	
 	if (strRsrcName.length > 0){
 		confirmDialog.confirm({
 			msg: '이전버전으로 체크아웃받은 프로그램이 있습니다. \n"+strRsrcName + "\n계속 진행할까요?',
@@ -566,26 +570,66 @@ function verCheck(){
 
 //신청목록에서 제거
 function deleteDataRow() {
-	// 추가한 데이터 삭제시 firstGrid의 데이터 색상 돌려놓기위한 로직 시작
-	var i = 0 ;
-	for(i=0; i < secondGrid.selectedDataIndexs.length ; i++){
-		var selectIndex2 = secondGrid.selectedDataIndexs[i];
-		for(var z = 0; z < firstGrid.list.length ; z++){
-			//기준프로그램으로 목록제거
-			//if(secondGrid.list[selectIndex2].cr_itemid != secondGrid.list[selectIndex2].cr_baseitem) continue;
-			
-			if(firstGrid.list[z].cr_itemid == secondGrid.list[selectIndex2].cr_baseitem){	// 하위 그리드 데이터 삭제시 상위 그리드 색상 변경 조건
-				firstGrid.list[z].colorsw = "";
+
+	outpos = "";
+	var secondGridSeleted = secondGrid.getList("selected");
+	
+	$(secondGridSeleted).each(function(i){
+		if( this.cm_info.substr(3,1) == '1' || this.cm_info.substr(8,1) == '1'){
+			firstGrid.select($(secondGridSeleted).index(this)+1 );
+			console.log($(secondGridSeleted).index(this));
+			//firstGrid.select(0, );
+		}
+		else if (this.cr_itemid != this.item.baseitem){
+			firstGrid.select($(secondGridSeleted).index(this)-1 );
+		}
+		$(firstGridData).each(function(j){
+			if(firstGridData[j].cr_itemid == secondGridSeleted[i].cr_itemid && firstGridData[j].cr_rsrcname == secondGridSeleted[i].cr_rsrcname){
+				firstGridData[j].selected_flag = "0";
+				return false;
+			}
+		});
+	});
+		
+	secondGrid.removeRow("selected");
+	firstGrid.repaint();
+	secondGridData = clone(secondGrid.list);
+	
+	if (secondGrid.list.length == 0){
+
+		$('[data-ax5select="cboSys"]').ax5select("enable");
+		if(srSw) $('[data-ax5select="cboSrId"]').ax5select('enable');
+		$('#btnReq').prop('disabled',true);
+		$('#chkBefJob').prop('checked','ckecked');
+	}
+	else{
+		for (i=0 ; i<secondGridData.length ; i++){
+//			if(grdLst2_dp.getItemAt(i).chk_selected != "0"){
+//				cmdChk.enabled = false;
+//				break;
+//			}
+			if (secondGridData[i].cm_info.substr(44,1) == "1") {//45	로컬에서개발
+				if ( outpos == "R" ) {
+					outpos = "A";
+				} else if ( outpos != "A" ) {
+					outpos = "L";
+				}
+//				if ( grdLst2_dp.getItemAt(i).cm_info.substr(52,1) == "1" ) {
+//					cmdDiff.visible = true;
+//				}
+			} else {
+				if ( outpos == "L" ){
+					outpos = "A";
+				} else if ( outpos != "A" ) {
+					outpos = "R";
+				}
 			}
 		}
 	}
-	// 추가한 데이터 삭제시 firstGrid의 데이터 색상 돌려놓기위한 로직 끝
+	//$('#totalCnt').text(secondGrid.list.length);
 	
-	secondGrid.removeRow("selected"); // 해당 그리드의 선택한 ROW만 삭제
-	firstGrid.repaint();	// 선택 데이터 컬럼색상 변경하기 위한 그리드 새로 그리기
-	firstGrid.clearSelect();
-	secondGrid.repaint();
-	secondGrid.clearSelect();
+	$('#cboReq').prop('disabled', $('#cboSys').prop('disabled'));
+
 }
 
 function checkDuplication(downFileList){
@@ -597,11 +641,6 @@ function checkDuplication(downFileList){
 		$(secondGridData).each(function(i){
 			if(this.cr_itemid != this.baseitem){
 				secondGridData.splice(i,1);
-			}
-			else{
-				if(this.selected_flag != '0'){
-					this.selected_flag = '0';
-				}
 			}
 		});
 	
@@ -626,6 +665,7 @@ function checkDuplication(downFileList){
 						firstGridData[j].selected_flag = '1';
 					}
 					secondGridList.push($.extend({}, firstGrid.list[j], {__index: undefined}));
+					secondGridData.push(firstGrid.list[j]);
 					return false;
 				}
 				
@@ -633,9 +673,9 @@ function checkDuplication(downFileList){
 		});
 	}
 
+	console.log(firstGrid.list);
 	firstGrid.repaint();
 	secondGrid.addRow(secondGridList);
-	secondGridData = clone(secondGrid.list);
 	
 	exlSw = false;
 	
@@ -645,7 +685,7 @@ function checkDuplication(downFileList){
 		
 		$('#btnRequest').prop('disabled', true);
 		
-		$(secondGridList).each(function(){
+		$(secondGridData).each(function(){
 			if(this.cm_info.substr(3,1) == '1' || this.cm_info.substr(8,1) == '1'){
 				cmdChkClick();
 				return true;
@@ -749,7 +789,6 @@ function cmdReqSubAnal(data){
 			else downFileData.localyn = "N";
 			downFileData.veryn = 'Y';
 			//if (chkVer.selected) downFileData.veryn = "N"; 개발배포만 적용
-			console.log(data);
 			var tmpData = {
 				downFileData : downFileData,
 				fileList : data,
@@ -759,13 +798,31 @@ function cmdReqSubAnal(data){
 			return;
 		}
 	}
-	cmdReqSubSame(secondGridData);
+	cmdReqSubSame(data);
 }
 
 //정적분석 미개발
 function cmdReqSubSame(data){
-	secondGrid.list = data;
-	//secondGird.repaint();
+	var secondGridList = new Array;
+
+	var j = 0; //secondGrid.length
+	$(data).each(function(i){
+		var dataDetail = this;
+		if(secondGrid.list.length <= j){
+			secondGrid.addRow($.extend({}, dataDetail, {__index: undefined}),i);
+			secondGridData.splice(i,0,dataDetail);
+			return false;
+		}
+		if(dataDetail.cr_itemid != secondGrid.list[j].cr_itemid){
+			secondGrid.addRow($.extend({}, dataDetail, {__index: undefined}),i);
+			secondGridData.splice(i,0,dataDetail);
+			return false;
+		}
+		j++;
+	});
+	
+	secondGrid.repaint();
+	ingSw = false;
 	/*
 	if ( !chkJob.visible ){//정적분석확인 사용안함
 		cmdReq.enabled = true;
@@ -785,9 +842,8 @@ function successDownFileData(data){
 		return;
 	}
 	else{
-		secondGridData = data;
 		
-		$(secondGridData).each(function(){
+		$(data).each(function(){
 			if(this.cr_itemid == 'ERROR'){
 				showToast('파일목록 에러 \n파일경로 : '+thiscm_dirpath);
 				ingsw = false;
@@ -813,7 +869,7 @@ function successDownFileData(data){
         PopUpManager.centerPopUp(modPopUp);//팝업을 중앙에 위치하도록 함
         modPopUp.minitApp();		
 	} else {
-		cmdReqSubSame(secondGridData);	
+		cmdReqSubSame(data);	
 	}
 }
 
