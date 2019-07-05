@@ -27,7 +27,7 @@
 <div id="header"></div>
 
 <div class="content">    	
-	<div id="history_wrap" ><strong>상세화면</strong></div>
+	<div id="history_wrap" >변경신청<strong>&gt; 상세화면</strong></div>
 	<div class="half_wrap margin-10-top" id="reqInfoDiv">
     	<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 0;">
 	    	<div class="col-lg-4 col-md-4 col-sm-4 col-12">
@@ -132,10 +132,10 @@
 			    	<div class="row" style="padding-top: 2;">
 				    	<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="float-right">
-								<button id="btnTestDoc"  class="btn btn-default" disabled>
+								<button id="btnTestDoc"  class="btn btn-default" >
 									테스트결과서 <span class="glyphicon" aria-hidden="true"></span>
 								</button>
-								<button id="btnBefJob"  class="btn btn-default" disabled>
+								<button id="btnBefJob"  class="btn btn-default" >
 									선후행작업확인 <span class="glyphicon" aria-hidden="true"></span>
 								</button>
 							</div>
@@ -165,66 +165,63 @@
    	</div>
    	
 	<div class="half_wrap margin-10-top" id="grdDiv">
-		<div class="col-lg-3 col-md-12 col-sm-12 col-12" style="padding: 0;">
-			<ul class="tabs">
-		       	<li class="on" rel="tab1" id="tab1Li">체크인목록</li>
-		       	<li rel="tab2" id="tab2Li">처리결과확인</li>
-		  	</ul>
-		</div>
-		<div class="col-lg-9 col-md-12 col-sm-12 col-12" style="padding: 0;">
-			<div class="float-right">
-				<button id="btnSrcView"  class="btn btn-default" disabled>
+		<div class="rows">
+			<div class="tab_wrap">
+				<ul class="tabs">
+					<li rel="tab1" id="tab1Li" class="on">신청목록</li><li rel="tab2" id="tab2Li">처리결과확인</li>
+				</ul>
+			</div>
+			<div class="r_wrap">
+				<button id="btnSrcView"  class="btn btn-default" >
 					소스보기 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnSrcDiff"  class="btn btn-default" disabled>
+				<button id="btnSrcDiff"  class="btn btn-default" >
 					소스비교 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnAllCncl"  class="btn btn-default" disabled>
+				<button id="btnPriority"  class="btn btn-default">
+					우선적용 <span class="glyphicon" aria-hidden="true"></span>
+				</button>
+				<button id="btnAllCncl"  class="btn btn-default" >
 					전체회수 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnRetry"  class="btn btn-default" disabled>
+				<button id="btnRetry"  class="btn btn-default" >
 					전체재처리 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnNext"  class="btn btn-default" disabled>
+				<button id="btnNext"  class="btn btn-default" >
 					다음단계진행 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnErrRetry"  class="btn btn-default" disabled>
+				<button id="btnErrRetry"  class="btn btn-default" >
 					오류건재처리 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnStepEnd"  class="btn btn-default" disabled>
+				<button id="btnStepEnd"  class="btn btn-default" >
 					단계완료 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnLog"  class="btn btn-default" disabled>
+				<button id="btnLog"  class="btn btn-default" >
 					로그확인 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
 			</div>
+			
 		</div>
 	  	<div class="tab_container" style="height: 40%;">
 	      	<div id="tab1" class="tab_content">
-				<div class="content" style="padding: 5;">
-					<div class="hpanel" style="padding: 10;">
-			    		<div class="row" style="padding-top: 5;padding-bottom: 5;">
-					    	<div class="col-lg-6 col-12" style="padding: 0;">
-								<div class="float-left">
-					    			<input type="checkbox" class="checkbox-pie" id="chkDetail" data-label="항목상세보기"  />
-									<button id="btnSelCncl"  class="btn btn-default" disabled>
-										선택건회수<span class="glyphicon" aria-hidden="true"></span>
-									</button>
-						    	</div>
-						    </div>
-				    		<div class="col-lg-6 col-12" style="padding-right: 5;">
-								<div class="float-right">
-									<button id="btnPriorityOrder"  class="btn btn-default" disabled>
-										우선순위적용<span class="glyphicon" aria-hidden="true"></span>
-									</button>
-									<input style="width: 10;border-style: none;"/>
-					    			<label id="lblCnt" class="padding-5-top">총 0건</label>
-					    		</div>
+				<div class="content">
+					<div class="hpanel">
+			    		<div class="row">
+							<div class="float-left">
+				    			<input type="checkbox" class="checkbox-pie" id="chkDetail" data-label="항목상세보기"  />
+								<button id="btnSelCncl"  class="btn btn-default" >
+									선택건회수<span class="glyphicon" aria-hidden="true"></span>
+								</button>
+					    	</div>
+							<div class="float-right">
+								<button id="btnPriorityOrder"  class="btn btn-default margin-5-left" >
+									우선순위적용<span class="glyphicon" aria-hidden="true"></span>
+								</button>
 				    		</div>
 				    	</div>
-			    		<div class="row" style="padding-top: 5;">
-						    <div class="panel-body text-center" id="gridDiv1">
-						    	<div data-ax5grid="reqGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 82%;">
+			    		<div class="row">
+						    <div class="panel-body text-center" id="gridDiv1" style="height: 82%;">
+						    	<div data-ax5grid="reqGrid" style="height: 100%;">
 						    	</div>
 						    </div>
 					    </div>
@@ -233,14 +230,14 @@
 	       	</div>
 	       	<div id="tab2" class="tab_content">
 				<div class="content" style="padding: 5;">
-					<div class="hpanel" style="padding: 10;">
-			    		<div class="row" style="padding-top: 5;padding-bottom: 5;">
+					<div class="hpanel">
+			    		<div class="row" >
 		    				<label id="lblPrcSys" class="padding-5-top">배포구분</label>
 		    				<div id="cboPrcSys" data-ax5select="cboPrcSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 20%;"></div>
 			    		</div>
-			    		<div class="row" style="padding-top: 5;">
-						    <div class="panel-body text-center" id="gridDiv2">
-						    	<div data-ax5grid="resultGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 82%;">
+			    		<div class="row">
+						    <div class="panel-body text-center" id="gridDiv2" style="height: 82%;">
+						    	<div data-ax5grid="resultGrid"  style="height: 100%;">
 						    	</div>
 						    </div>
 					    </div>
@@ -264,13 +261,10 @@
 				<button id="btnApprovalInfo"  class="btn btn-default">
 					결재정보 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnPriority"  class="btn btn-default">
-					우선적용 <span class="glyphicon" aria-hidden="true"></span>
-				</button>
-				<button id="btnApproval"  class="btn btn-default" disabled>
+				<button id="btnApproval"  class="btn btn-default" >
 					결재 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
-				<button id="btnCncl"  class="btn btn-default" disabled>
+				<button id="btnCncl"  class="btn btn-default" >
 					반려 <span class="glyphicon" aria-hidden="true"></span>
 				</button>
 				<button id="btnClose"  class="btn btn-default">
@@ -281,9 +275,15 @@
 	</div>
 </div>
 
-<form name="reqData">
+<form name="getReqData">
 	<input type="hidden" name="acptno" value="<%=acptNo%>"/>
 	<input type="hidden" name="user" value="<%=userId%>"/>
+</form>
+
+<form name="setReqData">
+	<input type="hidden" name="acptno"/>
+	<input type="hidden" name="user"/>
+	<input type="hidden" name="etcInfo"/>
 </form>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />

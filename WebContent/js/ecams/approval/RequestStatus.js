@@ -107,12 +107,8 @@ firstGrid.setConfig({
          },
          onDBLClick: function () {
          	if (this.dindex < 0) return;
-     		swal({
-                 title: "신청상세팝업",
-                 text: "신청번호 ["+this.item.acptno2+"]["+param.item.qrycd2+"]["+this.dindex+"]"
-            });
      		
- 			openWindow(1, param.item.qrycd2, this.item.acptno2,'');
+ 			openWindow(1, this.item.qrycd2, this.item.acptno2,'');
          },
      	trStyleClass: function () {
      		if(this.item.colorsw === '5'){
@@ -455,7 +451,7 @@ function successGetRquestList(data) {
 
 
 function openWindow(type,reqCd,reqNo,rsrcName) {
-	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
+	var nHeight, nWidth, cURL, winName;
 
 	if ( (type+'_'+reqCd) == winName ) {
 		if (myWin != null) {
@@ -466,36 +462,27 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
 	}
 
     winName = type+'_'+reqCd;
-    
-	if (type === 1) {
-		nHeight = screen.height - 300;
-	    nWidth  = screen.width - 400;
-	    cURL = "../winpop/RequestDetail.jsp";
-	} else if (type === 2) {
-		nHeight = 400;
-	    nWidth  = 900;
-		cURL = "../winpop/ApprovalInfo.jsp";
-	}
-	
-	nTop  = parseInt((window.screen.availHeight/2) - (nHeight/2));
-	nLeft = parseInt((window.screen.availWidth/2) - (nWidth/2));
-	cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
 
 	var f = document.popPam;   		//폼 name
-    myWin = window.open('',winName,cFeatures);
-    
-    console.log('aaaaaaaaa');
     
     f.acptno.value	= reqNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
     f.user.value 	= userid;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
     
+	if (type == 1) {
+		nHeight = screen.height - 300;
+	    nWidth  = screen.width - 400;
 
-    console.log(reqNo+','+userid);
-    
-    
-    f.action		= cURL; 		//이동할 페이지
-    f.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
-    f.method		= "post"; 		//POST방식
-    f.submit();
+		cURL = "/webPage/winpop/PopRequestDetail.jsp";
+	    
+	} else if (type == 2) {
+		nHeight = 400;
+	    nWidth  = 900;
+
+		cURL = "/webPage/winpop/PopApprovalInfo.jsp";
+	}
+	
+	console.log('+++++++++++++++++'+cURL);
+	
+    myWin = winOpen(f, winName, cURL, nHeight, nWidth);
     
 }

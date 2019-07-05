@@ -67,11 +67,17 @@ public class RequestDetailServlet extends HttpServlet {
 				case "updtDeploy_2" :
 					response.getWriter().write( updtDeploy_2(jsonElement) );
 					break;
+				case "updtTemp" :
+					response.getWriter().write( updtTemp(jsonElement) );
+					break;
 				case "reqCncl" :
 					response.getWriter().write( reqCncl(jsonElement) );
 					break;
 				case "progCncl_sel" :
 					response.getWriter().write( progCncl_sel(jsonElement) );
+					break;
+				case "progCncl" :
+					response.getWriter().write( progCncl(jsonElement) );
 					break;
 				case "updtSeq" :
 					response.getWriter().write( updtSeq(jsonElement) );
@@ -130,6 +136,13 @@ public class RequestDetailServlet extends HttpServlet {
 		return gson.toJson(cmr0250.updtDeploy_2(AcptNo, CD));
 	}
 	
+	private String updtTemp(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String ItemId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "ItemId") );
+
+		return gson.toJson(cmr0250.updtTemp(AcptNo, ItemId));
+	}
+	
 	private String reqCncl(JsonElement jsonElement) throws SQLException, Exception {
 		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
 		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
@@ -152,6 +165,20 @@ public class RequestDetailServlet extends HttpServlet {
 		
 		try { 
 			return gson.toJson(cmr0250.progCncl_sel(AcptNo, fileList, PrcSys));
+		} catch (SQLException e) {
+			return gson.toJson(e.getMessage());
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		} 
+	}
+	
+	private String progCncl(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String ItemId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "ItemId") );
+		String PrcSys = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "PrcSys") );
+		
+		try { 
+			return gson.toJson(cmr0250.progCncl(AcptNo, ItemId, PrcSys));
 		} catch (SQLException e) {
 			return gson.toJson(e.getMessage());
 		} catch (Exception e) {
