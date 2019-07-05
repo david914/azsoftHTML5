@@ -1,280 +1,405 @@
-var grid_data;
-var cboSyscd;
-var cboSin;
-var cboSta;
-var cboTeam;
-var cboGbn;
-var cboProc;
+/**
+ * 파일대사결과조회 화면 기능정의
+ * 
+ * <pre>
+ * 	작성자	: 이용문
+ * 	버전 		: 1.0
+ *  수정일 	: 2019-07-03
+ * 
+ */
 
-// userId 및 reqcd 가져오기
-var userid = window.parent.userId;
-var request =  new Request();
-strReqCD = request.getParameter('reqcd');
+/*var userName 	= window.top.userName;		// 접속자 Name
+var userId 		= window.top.userId;			// 접속자 ID
+var adminYN 	= window.top.adminYN;		// 관리자여부
+var userDeptName= window.top.userDeptName;	// 부서명
+var userDeptCd 	= window.top.userDeptCd;		// 부서코드
+*/
+
+var userName 	= '관리자';
+var userId 		= 'MASTER';
+var adminYN 	= 'Y';
+
+var approGrid		= new ax5.ui.grid();
+
+var approGridData 	= [];
+var cboSysData		= [];
+var cboApproData 	= [];
+var cboReqData		= [];
+var cboApproDeData	= [];
+var cboApproStaData = [];
+var cboPrcData		= [];
 
 
-var SBGridProperties = {};
-
-$(document).ready(function(){
-	if(strReqCD != null && strReqCD != ""){
-		getUserInfo();
-	}	
-	SBUxMethod.set('datStD', getDate('DATE',0));
-	SBUxMethod.set('datEdD', getDate('DATE',0));
-	createGrid();
-	getSysInfo();
-	getCodeInfo();
-	getTeamInfoGrid2();
-	cboGbn_set();
+approGrid.setConfig({
+    target: $('[data-ax5grid="approGrid"]'),
+    sortable: true, 
+    multiSort: true,
+    showRowSelector: false,
+    header: {
+        align: "center",
+        columnHeight: 30
+    },
+    body: {
+        columnHeight: 25,
+        onClick: function () {
+        	this.self.clearSelect();
+            this.self.select(this.dindex);
+            clickFileGrid(this.dindex);
+        },
+        onDBLClick: function () {},
+    	trStyleClass: function () {
+    		if(this.item.colorsw === '0'){
+    			return "fontStyle-ing";
+     		} 
+     		if(this.item.colorsw === '3'){
+    			return "fontStyle-cncl";
+     		} 
+     		if(this.item.colorsw === '5'){
+    			return "fontStyle-error";
+     		} 
+    	},
+    	onDataChanged: function(){
+    		this.self.repaint();
+    	}
+    },
+    contextMenu: {
+        iconWidth: 20,
+        acceleratorWidth: 100,
+        itemClickAndClose: false,
+        icons: {
+            'arrow': '<i class="fa fa-caret-right"></i>'
+        },
+        items: [
+            {type: 1, label: "결재요청내용확인"},
+            {type: 2, label: "결재정보"}
+        ],
+        popupFilter: function (item, param) {
+         	approGrid.clearSelect();
+         	approGrid.select(Number(param.dindex));
+       	 
+	       	var selIn = approGrid.selectedDataIndexs;
+	       	if(selIn.length === 0) return;
+       	 
+        	if (param.item == undefined) return false;
+        	if (param.dindex < 0) return false;
+        	
+        	return true;
+        },
+        onClick: function (item, param) {
+        	if(item.type === 1) {
+        		dialog.alert('결재 요청내용 확인 띄워서 보여주기', function() {});
+        	}
+        	if(item.type === 2) {
+        		openApprovalInfo();
+        	}
+        	approGrid.contextMenu.close();
+        }
+    },
+    columns: [
+        {key: "cm_sysmsg", 	label: "시스템",  	width: '5%', align: "left"},
+        {key: "spms",	 	label: "SR-ID",  	width: '15%'},
+        {key: "acptno", 	label: "신청번호",  	width: '8%', align: "left"},
+        {key: "editor", 	label: "신청인",  	width: '5%'},
+        {key: "qrycd",  	label: "신청종류",  	width: '6%', align: "left"},
+        {key: "REQPASS", 	label: "처리구분",  	width: '6%'},
+        {key: "acptdate", 	label: "신청일시",  	width: '8%',  align: "left"},
+        {key: "acptStatus", label: "진행상태",  	width: '5%'},
+        {key: "sta",  		label: "결재상태",  	width: '5%',  align: "left"},
+        {key: "qrycd",  	label: "결재사유",  	width: '6%',  align: "left"},
+        {key: "confdate",  	label: "결재일시",  	width: '8%',  align: "left"},
+        {key: "prcreq",  	label: "적용예정일시", 	width: '8%',  align: "left"},
+        {key: "Sunhang",  	label: "선후행작업",  	width: '6%',  align: "left"},
+        {key: "sayu",  		label: "신청사유",  	width: '8%',  align: "left"},
+    ]
 });
 
-function getUserInfo(){
-	var ajaxResultData = null;
-	var tmpData = {
-			requestType : 'UserInfochk',
-			UserId : userid
-	}	
-	ajaxResultData = ajaxCallWithJson('/webPage/approval/ApprovalStatus', tmpData, 'json');
-	console.log(ajaxResultData);
-	if(ajaxResultData.length > 0){
-		SBUxMethod.set('txtUser', ajaxResultData[0].cm_username);
-	}
-}
+$('[data-ax5select="cboSys"]').ax5select({
+    options: []
+});
+$('[data-ax5select="cboAppro"]').ax5select({
+	options: []
+});
+$('[data-ax5select="cboReq"]').ax5select({
+	options: []
+});
+$('[data-ax5select="cboApproDe"]').ax5select({
+	options: []
+});
+$('[data-ax5select="cboApproSta"]').ax5select({
+	options: []
+});
+$('[data-ax5select="cboPrc"]').ax5select({
+	options: []
+});
 
-function getSysInfo(){
-	var ajaxResultData = null;
-	var tmpData = {
-			requestType : 'SysInfo',
-			UserId : userid
-	}	
-	ajaxResultData = ajaxCallWithJson('/webPage/approval/ApprovalStatus', tmpData, 'json');
-	
-	cboSyscd = ajaxResultData;        	        	        	
-	SBUxMethod.refresh('cboSyscd');
-}
+$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 
-function getCodeInfo(){
-	var ajaxResultData = null;
-	var tmpData = {
-			requestType : 'CodeInfo'
-	}	
-	ajaxResultData = ajaxCallWithJson('/webPage/approval/ApprovalStatus', tmpData, 'json');
+$(document).ready(function() {
+	initDate();
+	$('#optReq').wRadio('check', true);
+	$('#dateSt').prop('disabled', true);
+	$('#dateEd').prop('disabled', true);
+	getCodeInfo();
+	getSysInfo();
+	getTeamInfo();
 	
-	cboSin = ajaxResultData;
-	cboSta = ajaxResultData;
-	
-	cboSin.push({
-		cm_macode : "REQUEST",
-		cm_micode : "94",
-		cm_codename : "테스트폐기"
-	});
-	
-	cboSin = cboSin.filter(function(data) {
-	   return data.cm_macode === "REQUEST";
-	});
-	
-	cboSta = cboSta.filter(function(data) {
-	   return data.cm_macode === "APPROVAL";
-	});
-	
-	SBUxMethod.refresh('cboSin');
-	SBUxMethod.refresh('cboSta');
-}
-
-function cboSta_change_resultHandler(args){
-	if(SBUxMethod.get("cboSta") == "01"){
-		$('#datStD').attr('disabled', true);
-		$('[name="_datStD_sub"]').attr('disabled', true);
-		$('#datEdD').attr('disabled', true);
-		$('[name="_datEdD_sub"]').attr('disabled', true);
-	} else {
-		$('#datStD').attr('disabled', false);
-		$('[name="_datStD_sub"]').attr('disabled', false);
-		$('#datEdD').attr('disabled', false);
-		$('[name="_datEdD_sub"]').attr('disabled', false);
-	}
-}
-
-function getTeamInfoGrid2(){
-	var ajaxResultData = null;
-	var tmpData = {
-			requestType : 'TeamInfo'
-	}	
-	ajaxResultData = ajaxCallWithJson('/webPage/approval/ApprovalStatus', tmpData, 'json');
-	
-	cboTeam = ajaxResultData;
-	SBUxMethod.refresh('cboTeam');
-}
-
-function cboGbn_set(){
-	cboProc = [
-		{cm_codename : "전체", cm_micode : "0"},
-		{cm_codename : "반려+체크인취소", cm_micode : "3"},
-		{cm_codename : "미완료(에러+진행중)", cm_micode : "1"},
-		{cm_codename : "시스템에러", cm_micode : "2"},
-		{cm_codename : "진행중", cm_micode : "4"},
-		{cm_codename : "처리완료", cm_micode : "9"}
-	]
-	
-	cboGbn = [
-		{cm_codename : "전체", cm_micode : "ALL", cm_macode : "REQPASS"},
-		{cm_codename : "일반적용", cm_micode : "4", cm_macode : "REQPASS"},
-		{cm_codename : "수시적용", cm_micode : "0", cm_macode : "REQPASS"},
-		{cm_codename : "긴급적용", cm_micode : "2", cm_macode : "REQPASS"}
-	]
-	
-	SBUxMethod.refresh('cboProc');
-	SBUxMethod.refresh('cboGbn');
-}
-
-function cmdQry_Proc(){
-	var tmpObj = {};
-	var strStD = "";
-	var strEdD = "";
-	var selectedIndex;
-		
-	if(SBUxMethod.get("cboSta") != "01"){
-		strStD = SBUxMethod.get("datStD");
-		strEdD = SBUxMethod.get("datEdD");
-		
-		if(strStD > strEdD){
-			alert("조회기간을 정확하게 선택하여 주십시오.");
-			strStD = "";
-			strEdD = "";
-			return;
-		}  		
-	}
-	
-	tmpObj.strStD = strStD;
-	tmpObj.strEdD = strEdD;
-	
-	selectedIndex = document.getElementById("cboSyscd");
-	
-	if(selectedIndex.selectedIndex > 0){
-		tmpObj.strSys = SBUxMethod.get("cboSyscd");
-		selectedIndex = null;
-	} else {
-		tmpObj.strSys = "0";
-	} 
-	
-	selectedIndex = document.getElementById("cboGbn");
-	
-	if(selectedIndex.selectedIndex > 0){
-		tmpObj.strGbn = SBUxMethod.get("cboGbn");
-		selectedIndex = null;
-	} else {
-		tmpObj.strGbn = "0";
-	}
-	
-	selectedIndex = document.getElementById("cboSin");
-	
-	if(selectedIndex.selectedIndex > 0){
-		tmpObj.strQry = SBUxMethod.get("cboSin");
-		selectedIndex = null;
-	} else {
-		tmpObj.strQry = "0";
-	}
-	
-	selectedIndex = document.getElementById("cboSta");
-	
-	if(selectedIndex.selectedIndex > 0){
-		tmpObj.strSta = SBUxMethod.get("cboSta");
-		selectedIndex = null;
-	} else {
-		tmpObj.strSta = "0";
-	}
-	
-	selectedIndex = document.getElementById("cboTeam");
-	
-	if(selectedIndex.selectedIndex > 0){
-		tmpObj.strTeam = SBUxMethod.get("cboTeam");
-		selectedIndex = null;
-	} else {
-		tmpObj.strTeam = "0";
-	}
-	
-	selectedIndex = document.getElementById("cboProc");
-	
-	if(selectedIndex.selectedIndex > 0){
-		tmpObj.strProc = SBUxMethod.get("cboProc");
-		selectedIndex = null;
-	} else {
-		tmpObj.strProc = "0";
-	}
-	
-	
-	tmpObj.dategbn = SBUxMethod.get("rdoDate");
-	
-	if(SBUxMethod.get("txtUser") !== undefined){
-		tmpObj.txtUser = SBUxMethod.get("txtUser").trim();
-	} else {
-		tmpObj.txtUser = "";
-	}
-	
-	if(SBUxMethod.get("txtSpms") !== undefined){
-		tmpObj.txtSpms = SBUxMethod.get("txtSpms").trim();
-	} else {
-		tmpObj.txtSpms = "";
-	}
-	
-	tmpObj.strUserId = userid;
-	
-	var ajaxResultData = null;
-	var tmpData = {
-			requestType : 'get_SelectList',
-			prjData: JSON.stringify(tmpObj)
-	}	
-	
-	ajaxResultData = ajaxCallWithJson('/webPage/approval/ApprovalStatus', tmpData, 'json');
-	
-	var cnt = Object.keys(ajaxResultData).length;				// json 객체 길이 구하기			
-	SBUxMethod.set('lbTotalCnt', '총'+cnt+'건');	// 총 개수 표현		
-	
-	grid_data = ajaxResultData;
-	datagrid.refresh();	
-	
-	$(ajaxResultData).each(function(i){
-		if(ajaxResultData[i].errflag != "0"){
-			datagrid.setRowStyle(i+1, 'data', 'color', '#BE81F7');	//시스템처리 중 에러발생
-			datagrid.setRowStyle(i+1, 'data', 'font-weight', 'bold');
-		} else if (ajaxResultData[i].cr_status == '3'){
-			datagrid.setRowStyle(i+1, 'data', 'color', '#FF0000');	//반려 또는 취소
-			datagrid.setRowStyle(i+1, 'data', 'font-weight', 'bold');
-		} else if (ajaxResultData[i].cr_status == '0'){
-			datagrid.setRowStyle(i+1, 'data', 'color', '#0000FF');	// 진행중
-			datagrid.setRowStyle(i+1, 'data', 'font-weight', 'bold');
+	// 신청인 엔터
+	$('#txtUser').bind('keypress', function(event) {
+		if(event.keyCode === 13) {
+			$('#btnQry').trigger('click');
 		}
 	});
+	// SRID 엔터
+	$('#txtSr').bind('keypress', function(event) {
+		if(event.keyCode === 13) {
+			$('#btnQry').trigger('click');
+		}
+	});
+	
+	// 결재 상태 콤보 변경
+	$('#cboApproSta').bind('change', function() {
+		if(getSelectedVal('cboApproSta').value === '01') {
+			$('#dateSt').prop('disabled', true);
+			$('#dateEd').prop('disabled', true);
+		} else {
+			$('#dateSt').prop('disabled', false);
+			$('#dateEd').prop('disabled', false);
+		}
+		
+		$('#btnQry').trigger('click');
+	});
+	
+	// 조회 버튼 클릭
+	$('#btnQry').bind('click', function() {
+		getSelectList();
+	});
+	// 엑셀저장
+	$('#btnExcel').bind('click', function() {
+		approGrid.exportExcel('결재현황.xls');
+	});
+	// 초기화 클릭
+	$('#btnInit').bind('click', function() {
+		screenInit();
+	});
+});
+
+// 결재 정보 창 띄우기
+function openApprovalInfo() {
+var nHeight, nWidth;
+	
+	if (BatchMapping != null 
+			&& !BatchMapping.closed ) {
+		BatchMapping.close();
+	}
+	var form = document.popPam;   		//폼 name
+    
+	form.userId.value	= userId;   	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.userName.value	= userName;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.adminYN.value	= adminYN;  	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.strReqCD.value	= strReqCD;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	
+    nHeight = 400;
+    nWidth  = 900;
+	
+	BatchMapping = winOpen(form, 'batchMapping', '/webPage/winpop/ApprovalInfo.jsp', nHeight, nWidth);
 }
 
-function createGrid(){
-	SBGridProperties = {};
-	SBGridProperties.parentid = 'sbGridArea';  // [필수] 그리드 영역의 div id 입니다.            
-	SBGridProperties.id = 'datagrid';          // [필수] 그리드를 담기위한 객체명과 동일하게 입력합니다.                
-	SBGridProperties.jsonref = 'grid_data';    // [필수] 그리드의 데이터를 나타내기 위한 json data 객체명을 입력합니다.
-	SBGridProperties.waitingui = true;
-	// 그리드의 여러 속성들을 입력합니다.
-	SBGridProperties.explorerbar = 'sort';
-	SBGridProperties.extendlastcol = 'scroll';
-	SBGridProperties.tooltip = true;
-	SBGridProperties.ellipsis = true;
-	SBGridProperties.rowheader = 'seq';
-	    			
-	// [필수] 그리드의 컬럼을 입력합니다.  
-	SBGridProperties.columns = [
-		{caption : ['시스템'],	ref : 'cm_sysmsg',width : '100px', style : 'text-align:center',  type : 'output'},
-		{caption : ['SR-ID'],	ref : 'spms', width : '150px', style : 'text-align:center',	type : 'output'},
-		{caption : ['신청번호'],	ref : 'acptno',width : '150px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['신청인'],	ref : 'editor',width : '150px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['신청종류'],	ref : 'qrycd',width : '150px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['처리구분'],	ref : 'REQPASS',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['신청일시'],	ref : 'acptdate',width : '200px',  style : 'text-align:center', type : 'output'},
-		{caption : ['진행상태'],	ref : 'acptStatus',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['결재상태'],	ref : 'sta',width : '150px',  style : 'text-align:center', type : 'output'},
-		{caption : ['결재사유'],	ref : 'qrycd',width : '150px',  style : 'text-align:center', type : 'output'},
-		{caption : ['결재일시'],	ref : 'confdate',width : '150px',  style : 'text-align:center', type : 'output'},		
-		{caption : ['적용예정일시'],	ref : 'prcreq',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['선후행작업'],	ref : 'Sunhang',width : '200px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['신청사유'],	ref : 'sayu', style : 'text-align:center',	type : 'output'}
-	];
-	datagrid = _SBGrid.create(SBGridProperties); // 만들어진 SBGridProperties 객체를 파라메터로 전달합니다.
+// 화면 초기화
+function screenInit() {
+	$('#txtUser').val('');
+	$('#txtSr').val('');
+	$('#optReq').wRadio('check', true);
+	$('[data-ax5select="cboSys"]').ax5select('setValue', cboSysData[0].cm_syscd, true);
+	$('[data-ax5select="cboAppro"]').ax5select('setValue', cboApproData[0].cm_micode, true);
+	$('[data-ax5select="cboReq"]').ax5select('setValue', cboReqData[0].cm_micode, true);
+	$('[data-ax5select="cboApproDe"]').ax5select('setValue', cboApproDeData[0].cm_deptcd, true);
+	$('[data-ax5select="cboApproSta"]').ax5select('setValue', '01', true);
+	$('[data-ax5select="cboPrc"]').ax5select('setValue', cboPrcData[0].cm_micode, true);
+	
+	$('#cboApproSta').trigger('change');
+	initDate();
+}
+
+// 결재 현황 리스트 가져오기
+function getSelectList() {
+	var strSys 	= '0';
+	var strQry 	= '0';
+	var strGbn 	= '0';
+	var strTeam = '0';
+	var strProc = '0';
+	var strSta 	= '0';
+	
+	var txtUser = $('#txtUser').val().trim();
+	var txtSr = $('#txtSr').val().trim();
+	
+	var radioSel = $('input[name="radio"]:checked').val();
+	var dateSt = replaceAllString($('#dateSt').val().trim(),'/','');
+	var dateEd = replaceAllString($('#dateEd').val().trim(),'/','');
+	
+	if(dateSt > dateEd) {
+		dialog.alert('조회기간을 정확하게 선택하여 주십시오.', function() {});
+		return;
+	}
+	
+	strSys  = getSelectedIndex('cboSys') > 0 ?  getSelectedVal('cboSys').value : strSys;
+	strQry  = getSelectedIndex('cboAppro') > 0 ?  getSelectedVal('cboAppro').value : strQry;
+	strGbn  = getSelectedIndex('cboReq') > 0 ?  getSelectedVal('cboReq').value : strGbn;
+	strTeam = getSelectedIndex('cboApproDe') > 0 ?  getSelectedVal('cboApproDe').value : strTeam;
+	strSta = getSelectedIndex('cboApproSta') > 0 ?  getSelectedVal('cboApproSta').value : strSta;
+	strProc  = getSelectedIndex('cboPrc') > 0 ?  getSelectedVal('cboPrc').value : strProc;
+
+	var data = new Object();
+	data = {
+		syscd 		: strSys,
+		gbn 		: strGbn,
+		pReqCd 		: strQry,
+		pTeamCd 	: strTeam,
+		pStateCd 	: strSta,
+		pReqUser 	: txtUser,
+		pStartDt 	: dateSt,
+		pEndDt 		: dateEd,
+		pUserId 	: userId,
+		dategbn 	: radioSel,
+		txtspms 	: txtSr,
+		pProc 		: strProc,
+		requestType	: 'getSelectList'
+	}
+	ajaxAsync('/webPage/approval/ApprovalStatus', data, 'json',successGetSelectList);
+}
+// 결재 현황 리스트 가져오기 완료
+function successGetSelectList(data) {
+	approGridData = data;
+	approGrid.setData(approGridData);
+}
+
+
+// 부서 정보 가져오기
+function getTeamInfo() {
+	var data = new Object();
+	data = {
+		SelMsg 		: 'ALL',
+		cm_useyn 	: 'Y',
+		gubun 		: 'sub',
+		itYn 		: 'N',
+		requestType	: 'getTeamInfo'
+	}
+	ajaxAsync('/webPage/approval/ApprovalStatus', data, 'json',successGetTeamInfo);
+}
+
+// 부서 정보 가져오기 완료
+function successGetTeamInfo(data) {
+	cboApproDeData = data;
+	$('[data-ax5select="cboApproDe"]').ax5select({
+		options: injectCboDataToArr(cboApproDeData, 'cm_deptcd' , 'cm_deptname')
+	});
+}
+
+// 시스템 정보 가져오기
+function getSysInfo() {
+	var data = new Object();
+	data = {
+		UserId 		: userId,
+		SecuYn 		: 'Y',
+		SelMsg 		: 'ALL',
+		CloseYn 	: 'N',
+		ReqCd 		: '',
+		requestType	: 'getSysInfo'
+	}
+	ajaxAsync('/webPage/approval/ApprovalStatus', data, 'json',successGetSysInfo);
+}
+
+// 시스템 정보 가져오기완료
+function successGetSysInfo(data) {
+	cboSysData = data;
+	$('[data-ax5select="cboSys"]').ax5select({
+		options: injectCboDataToArr(cboSysData, 'cm_syscd' , 'cm_sysmsg')
+	});
+}
+
+
+// 콤보정보 가져오기
+function getCodeInfo() {
+	var codeInfos = getCodeInfoCommon([
+			new CodeInfo('REQUEST','ALL','N'),
+			new CodeInfo('APPROVAL','ALL','N'),
+			new CodeInfo('REQPASS','ALL','N'),
+			new CodeInfo('PRCSTATUS','ALL','N')
+	]);
+	cboApproData = codeInfos.REQUEST;
+	cboApproStaData = codeInfos.APPROVAL;
+	cboReqData = codeInfos.REQPASS;
+	cboPrcData = codeInfos.PRCSTATUS;
+	
+	$('[data-ax5select="cboAppro"]').ax5select({
+		options: injectCboDataToArr(cboApproData, 'cm_micode' , 'cm_codename')
+	});
+	
+	$('[data-ax5select="cboApproSta"]').ax5select({
+		options: injectCboDataToArr(cboApproStaData, 'cm_micode' , 'cm_codename')
+	});
+	
+	$('[data-ax5select="cboPrc"]').ax5select({
+		options: injectCboDataToArr(cboPrcData, 'cm_micode' , 'cm_codename')
+	});
+	
+	$('[data-ax5select="cboReq"]').ax5select({
+		options: injectCboDataToArr(cboReqData, 'cm_micode' , 'cm_codename')
+	});
+	
+	$('[data-ax5select="cboApproSta"]').ax5select('setValue', '01', true);
+}
+
+// 달력 초기화
+function initDate(){
+	$('#dateSt').val(getDate('DATE', 0));
+	$('#dateEd').val(getDate('DATE', 0));
+	picker.bind({
+	    target: $('[data-ax5picker="basic"]'),
+	    direction: "top",
+	    content: {
+	        width: 220,
+	        margin: 10,
+	        type: 'date',
+	        config: {
+	            control: {
+	                left: '<i class="fa fa-chevron-left"></i>',
+	                yearTmpl: '%s',
+	                monthTmpl: '%s',
+	                right: '<i class="fa fa-chevron-right"></i>'
+	            },
+	            dateFormat: 'yyyy/MM/dd',
+	            lang: {
+	                yearTmpl: "%s년",
+	                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+	                dayTmpl: "%s"
+	            }
+	        },
+	        formatter: {
+	            pattern: 'date'
+	        }
+	    },
+	    btns: {
+	        today: {
+	            label: "Today", onClick: function () {
+	                var today = new Date();
+	                this.self
+	                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+	                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+	                        .close();
+	            }
+	        },
+	        thisMonth: {
+	            label: "This Month", onClick: function () {
+	                var today = new Date();
+	                this.self
+	                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
+	                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
+	                                + '/'
+	                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+	                        .close();
+	            }
+	        },
+	        ok: {label: "Close", theme: "default"}
+	    }
+	});
 }

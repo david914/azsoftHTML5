@@ -47,13 +47,9 @@ fileGrid.setConfig({
         },
         onDBLClick: function () {},
     	trStyleClass: function () {
-    		if(this.item.cd_syscd === '999'){
-    			return "fontStyle-ing";
-    			
-     		} 
-    		if (this.item.cm_micode === 'FE' || this.item.cm_micode === 'FK' || this.item.cm_micode === 'FZ'){
+    		if(this.item.cd_clsdate !== undefined){
     			return "fontStyle-cncl";
-     		}
+     		} 
     	},
     	onDataChanged: function(){
     		this.self.repaint();
@@ -290,9 +286,11 @@ function successGetDirInfo(data) {
 	// 선택된 그리드 있다면 해당 선택된 아이템의 프로그램 경로 세팅
 	var selIn = fileGrid.selectedDataIndexs;
 	var selItem = null;
-	if(selIn.length > 0 ) {
+	if(selIn.length > 0) {
 		selItem = fileGrid.list[selIn];
-		$('[data-ax5select="cboDir"]').ax5select('setValue', selItem.cd_dsncd, true);
+		if(selItem.cd_gubun === '1') {
+			$('[data-ax5select="cboDir"]').ax5select('setValue', selItem.cd_dsncd, true);
+		}
 	}
 }
 
@@ -316,7 +314,7 @@ function successGetRsrcInfo(data) {
 	// 선택된 그리드 있다면 해당 선택된 아이템의 프로그램 종류 세팅
 	var selIn = fileGrid.selectedDataIndexs;
 	var selItem = null;
-	if(selIn.length > 0 ) {
+	if(selIn.length > 0) {
 		selItem = fileGrid.list[selIn];
 		$('[data-ax5select="cboPrgDiv"]').ax5select('setValue', selItem.cd_rsrccd, true);
 	}
@@ -374,13 +372,6 @@ function successGetSysInfo(data) {
 	$('#btnQry').trigger('click');
 }
 
-
-
-
-
-
-
-
 //불일치 발생사유 가져오기
 function getCodeInfo() {
 	var codeInfos = getCodeInfoCommon([
@@ -403,13 +394,14 @@ function clickFileGrid(index) {
 	var selItem = fileGrid.list[index];
 	
 	$('#txtPrgName').val(selItem.cd_rsrcname);
-	$('#txtDir').val(selItem.cd_reqdoc);
-	$('#txtSayu').val(selItem.cm_dirpath);
+	$('#txtDir').val(selItem.cd_dsncd);
+	$('#txtSayu').val(selItem.cd_reqdoc);
 	
+	$('[data-ax5select="cboDeploy"]').ax5select('setValue', selItem.cd_gubun, true);
+	$('[data-ax5select="cboSayu"]').ax5select('setValue', selItem.cd_sayucd, true);
 	$('[data-ax5select="cboSys"]').ax5select('setValue', selItem.cd_syscd, true);
 	$('#cboSys').trigger('change');
-	
-	if(selItem.cd_gubun === 1) {
+	if(selItem.cd_gubun === '1') {
 		$('#cboDir').css('display', 'block');
 		$('#txtDir').css('display', 'none');
 	} else {

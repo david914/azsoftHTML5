@@ -8,7 +8,7 @@
 <div class="az_search_wrap">
 	<div class="az_in_wrap">
 		<div class="row vat">
-			<div class="width-80 dib">
+			<div class="dib width-80">
 				<div class="tit_100 poa">
 					<label>작업구분</label>
 				</div>

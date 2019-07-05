@@ -2,7 +2,6 @@ package html.app.approval;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ecams.service.list.LoginManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -55,17 +53,17 @@ public class ApprovalStatus extends HttpServlet {
 				case "UserInfochk" :
 					response.getWriter().write( getUserInfo(jsonElement) );
 					break;
-				case "SysInfo" :
+				case "getSysInfo" :
 					response.getWriter().write( getSysInfo(jsonElement) );
 					break;
-				case "CodeInfo" :
-					response.getWriter().write( getCodeInfo(jsonElement) );
-					break;
-				case "TeamInfo" :
-					response.getWriter().write( getTeamInfoGrid2(jsonElement) );
+				case "getTeamInfo" :
+					response.getWriter().write( getTeamInfo(jsonElement) );
 					break;	
-				case "get_SelectList" :
-					response.getWriter().write( get_SelectList(jsonElement) );
+				case "getSelectList" :
+					response.getWriter().write( getSelectList(jsonElement) );
+					break;	
+				case "getTest" :
+					response.getWriter().write( getTest(jsonElement) );
 					break;	
 				default:
 					break;
@@ -77,34 +75,48 @@ public class ApprovalStatus extends HttpServlet {
 		}		
 	}
 	
+	private int getTest(JsonElement jsonElement) throws SQLException, Exception {
+		return 0;
+	}
+	
 	private String getUserInfo(JsonElement jsonElement) throws SQLException, Exception {
 		String user = null;
 		user = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		return gson.toJson(userinfo.getUserInfo(user));
 	}
-	
+	// [결재현황] 시스템 정보 가져오기
 	private String getSysInfo(JsonElement jsonElement) throws SQLException, Exception {
-		String user = null;
-		user = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
-		return gson.toJson(sysinfo.getSysInfo(user,"Y","ALL","N",""));
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String SecuYn = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SecuYn") );
+		String SelMsg = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
+		String CloseYn= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "CloseYn") );
+		String ReqCd  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "ReqCd") );
+		return gson.toJson(sysinfo.getSysInfo(UserId, SecuYn, SelMsg, CloseYn, ReqCd));
+	}
+	// [결재현황] 부서 정보 가져오기
+	private String getTeamInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String SelMsg 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
+		String cm_useyn = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_useyn") );
+		String gubun 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "gubun") );
+		String itYn		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "itYn") );
+		return gson.toJson(teaminfo.getTeamInfoGrid2(SelMsg, cm_useyn, gubun, itYn));
 	}
 	
-	private String getCodeInfo(JsonElement jsonElement) throws SQLException, Exception {
-		return gson.toJson(codeinfo.getCodeInfo("REQUEST,APPROVAL","ALL","N"));
-	}
-	
-	private String getTeamInfoGrid2(JsonElement jsonElement) throws SQLException, Exception {
-		return gson.toJson(teaminfo.getTeamInfoGrid2("All","Y","sub","N"));
-	}
-	
-	private String get_SelectList(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String>	prjDataInfoMap = null;
-		prjDataInfoMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "prjData") );
-		return gson.toJson( cmr3100.get_SelectList(prjDataInfoMap.get("strSys"),prjDataInfoMap.get("strGbn"),
-												   prjDataInfoMap.get("strQry"),prjDataInfoMap.get("strTeam"),
-												   prjDataInfoMap.get("strSta"),prjDataInfoMap.get("txtUser"),
-												   prjDataInfoMap.get("strStD"),prjDataInfoMap.get("strEdD"),
-												   prjDataInfoMap.get("strUserId"),prjDataInfoMap.get("dategbn"),
-												   prjDataInfoMap.get("txtSpms"),prjDataInfoMap.get("strProc")) );
+	// [결재현황] 결재현황 리스트 가져오기
+	private String getSelectList(JsonElement jsonElement) throws SQLException, Exception {
+		String syscd		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "syscd") );
+		String gbn			= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "gbn") );
+		String pReqCd		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pReqCd") );
+		String pTeamCd		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pTeamCd") );
+		String pStateCd		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pStateCd") );
+		String pReqUser		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pReqUser") );
+		String pStartDt		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pStartDt") );
+		String pEndDt		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pEndDt") );
+		String pUserId		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pUserId") );
+		String dategbn		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "dategbn") );
+		String txtspms		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "txtspms") );
+		String pProc		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pProc") );
+		return gson.toJson( cmr3100.get_SelectList(syscd, gbn, pReqCd, pTeamCd, pStateCd, 
+													pReqUser, pStartDt, pEndDt, pUserId, dategbn, txtspms, pProc) );
 	}
 }

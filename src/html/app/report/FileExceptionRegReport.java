@@ -108,7 +108,7 @@ public class FileExceptionRegReport extends HttpServlet {
 		String strId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"strId"));
 		return gson.toJson(cmp3000.get_dirInfo(syscd, jobcd, rsrccd, admin, strId));
 	}
-	// [파일대사예외등록현황] 디렉토리 정보 가져오기
+	// [파일대사예외등록현황] 예외등록 리스트 가져오기
 	private String getResult(JsonElement jsonElement) throws SQLException, Exception {
 		String strSys = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"strSys"));
 		return gson.toJson(cmp3000.get_Result(strSys));
