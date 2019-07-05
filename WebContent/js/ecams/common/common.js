@@ -393,7 +393,18 @@ function winOpen(form, winName, cURL, nHeight, nWidth) {
 	return tmpWindow;
 }
 
-
+function clone(obj){
+	if(Array.isArray(obj)){
+		return obj.slice();
+	}
+	
+	var output = {};
+	for(var i in obj){
+		output[i] = obj[i];
+	}
+	return output
+	
+}
 /*
 function getRegexp(type) {
 	if( type === 'NUM')
