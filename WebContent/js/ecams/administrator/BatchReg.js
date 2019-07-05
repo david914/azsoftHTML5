@@ -151,33 +151,23 @@ $(document).ready(function() {
 
 // 맵핑 새창 열기
 function winOpenMapping() {
-	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
-
+	var nHeight, nWidth;
+	
 	if (BatchMapping != null 
 			&& !BatchMapping.closed ) {
 		BatchMapping.close();
 	}
-
-    winName = 'BatchMapping';
-	nHeight = screen.height;
-    nWidth  = screen.width;
-    cURL = "../winpop/BatchMapping.jsp";
-	
-	nTop  = parseInt((window.screen.availHeight/2) - (nHeight/2));
-	nLeft = parseInt((window.screen.availWidth/2) - (nWidth/2));
-	cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
-
-	var f = document.popPam;   		//폼 name
-	BatchMapping = window.open('',winName,cFeatures);
+	var form = document.popPam;   		//폼 name
     
-    f.userId.value		= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.userName.value	= userName;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.adminYN.value		= adminYN;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.strReqCD.value	= strReqCD;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.action		= cURL; 		//이동할 페이지
-    f.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
-    f.method		= "post"; 		//POST방식
-    f.submit();
+	form.userId.value	= userId;   	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.userName.value	= userName;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.adminYN.value	= adminYN;  	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.strReqCD.value	= strReqCD;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	
+    nHeight = screen.height;
+    nWidth  = screen.width;
+	
+	BatchMapping = winOpen(form, 'batchMapping', '/webPage/winpop/BatchMapping.jsp', nHeight, nWidth);
 }
 
 // 선택된 데이터 그리드에서만 삭제

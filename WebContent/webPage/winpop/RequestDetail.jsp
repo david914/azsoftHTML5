@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page errorPage="error.jsp" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ page import = "com.ecams.common.base.StringHelper"%>
+<%@ page import="com.ecams.common.base.StringHelper"%>
 <%
 	String acptNo = StringHelper.evl(request.getParameter("acptno"),"");
 	String userId = StringHelper.evl(request.getParameter("user"),"");
@@ -22,8 +24,11 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div class="hpanel">
-    <div class="panel-body" id="reqInfoDiv">
+<div id="header"></div>
+
+<div class="content">    	
+	<div id="history_wrap" ><strong>상세화면</strong></div>
+	<div class="half_wrap margin-10-top" id="reqInfoDiv">
     	<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 0;">
 	    	<div class="col-lg-4 col-md-4 col-sm-4 col-12">
 		    	<div class="row">
@@ -94,7 +99,7 @@
 				    	<div class="col-lg-3 col-md-12 col-sm-12 col-12" style="padding: 0;">
 			    			<div id="cboReqPass" data-ax5select="cboReqPass" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 				    	</div>
-				    	<div id="reqgbnDiv" class="col-lg-6 dis-i-b" style="padding: 0;visibility: hidden">
+				    	<div id="reqgbnDiv" class="col-lg-6 dis-i-b" style="padding: 0;">
 				    		<div class="col-lg-6 col-md-12 col-sm-12 col-12" style="padding: 0;">
 				    			<div class="input-group" data-ax5picker="basic" >
 						            <input id="txtReqDate" type="text" class="form-control" placeholder="yyyy/mm/dd">
@@ -108,7 +113,7 @@
 								</div>
 				    		</div>
 			    		</div>
-				    	<div class="col-lg-1 col-md-12 col-sm-12 col-12" style="padding: 0;visibility: hidden;" id="reqBtnDiv">
+				    	<div class="col-lg-1 col-md-12 col-sm-12 col-12" style="padding: 0;" id="reqBtnDiv">
 							<button id="btnUpdate"  class="btn btn-default">
 								수정 <span class="glyphicon" aria-hidden="true"></span>
 							</button>
@@ -137,7 +142,7 @@
 				    	</div>
 			    	</div>
 		    	</div>
-		    	<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 2 0 0 0;visibility: hidden" id="SrDiv">
+		    	<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 2 0 0 0;" id="SrDiv">
 			    	<div class="col-lg-1 col-md-12 col-sm-12 col-12" style="padding-left: 0;width:70px;">
 			    		<label id="lblSR" class="padding-5-top float-left">SR-ID</label>
 			    	</div>
@@ -158,96 +163,93 @@
 		    </div>
 	   </div>
    	</div>
-</div>
-
-<div class="panel-body" id="grdDiv" style="padding-top:0;padding-right:20;">
-	<div class="col-lg-3 col-md-12 col-sm-12 col-12" style="padding: 0;">
-		<ul class="tabs">
-	       	<li class="active" rel="tab1" id="tab1Li">체크인목록</li>
-	       	<li rel="tab2" id="tab2Li">처리결과확인</li>
-	  	</ul>
-	</div>
-	<div class="col-lg-9 col-md-12 col-sm-12 col-12" style="padding: 0;">
-		<div class="float-right">
-			<button id="btnSrcView"  class="btn btn-default" disabled>
-				소스보기 <span class="glyphicon" aria-hidden="true"></span>
-			</button>
-			<button id="btnSrcDiff"  class="btn btn-default" disabled>
-				소스비교 <span class="glyphicon" aria-hidden="true"></span>
-			</button>
-			<button id="btnAllCncl"  class="btn btn-default" disabled>
-				전체회수 <span class="glyphicon" aria-hidden="true"></span>
-			</button>
-			<button id="btnRetry"  class="btn btn-default" disabled>
-				전체재처리 <span class="glyphicon" aria-hidden="true"></span>
-			</button>
-			<button id="btnNext"  class="btn btn-default" disabled>
-				다음단계진행 <span class="glyphicon" aria-hidden="true"></span>
-			</button>
-			<button id="btnErrRetry"  class="btn btn-default" disabled>
-				오류건재처리 <span class="glyphicon" aria-hidden="true"></span>
-			</button>
-			<button id="btnStepEnd"  class="btn btn-default" disabled>
-				단계완료 <span class="glyphicon" aria-hidden="true"></span>
-			</button>
-			<button id="btnLog"  class="btn btn-default" disabled>
-				로그확인 <span class="glyphicon" aria-hidden="true"></span>
-			</button>
+   	
+	<div class="half_wrap margin-10-top" id="grdDiv">
+		<div class="col-lg-3 col-md-12 col-sm-12 col-12" style="padding: 0;">
+			<ul class="tabs">
+		       	<li class="on" rel="tab1" id="tab1Li">체크인목록</li>
+		       	<li rel="tab2" id="tab2Li">처리결과확인</li>
+		  	</ul>
 		</div>
-	</div>
-  	<div class="tab_container" style="height: 60%;">
-      	<div id="tab1" class="tab_content">
-			<div class="content" style="padding: 5;">
-				<div class="hpanel" style="padding: 10;">
-		    		<div class="row" style="padding-top: 5;padding-bottom: 5;">
-				    	<div class="col-lg-6 col-12" style="padding: 0;">
-							<div class="float-left">
-				    			<input type="checkbox" class="checkbox-pie" id="chkDetail" data-label="항목상세보기"  />
-								<button id="btnSelCncl"  class="btn btn-default" disabled>
-									선택건회수<span class="glyphicon" aria-hidden="true"></span>
-								</button>
-					    	</div>
-					    </div>
-			    		<div class="col-lg-6 col-12" style="padding-right: 5;">
-							<div class="float-right">
-								<button id="btnPriorityOrder"  class="btn btn-default" disabled>
-									우선순위적용<span class="glyphicon" aria-hidden="true"></span>
-								</button>
-								<input style="width: 10;border-style: none;"/>
-				    			<label id="lblCnt" class="padding-5-top">총 0건</label>
+		<div class="col-lg-9 col-md-12 col-sm-12 col-12" style="padding: 0;">
+			<div class="float-right">
+				<button id="btnSrcView"  class="btn btn-default" disabled>
+					소스보기 <span class="glyphicon" aria-hidden="true"></span>
+				</button>
+				<button id="btnSrcDiff"  class="btn btn-default" disabled>
+					소스비교 <span class="glyphicon" aria-hidden="true"></span>
+				</button>
+				<button id="btnAllCncl"  class="btn btn-default" disabled>
+					전체회수 <span class="glyphicon" aria-hidden="true"></span>
+				</button>
+				<button id="btnRetry"  class="btn btn-default" disabled>
+					전체재처리 <span class="glyphicon" aria-hidden="true"></span>
+				</button>
+				<button id="btnNext"  class="btn btn-default" disabled>
+					다음단계진행 <span class="glyphicon" aria-hidden="true"></span>
+				</button>
+				<button id="btnErrRetry"  class="btn btn-default" disabled>
+					오류건재처리 <span class="glyphicon" aria-hidden="true"></span>
+				</button>
+				<button id="btnStepEnd"  class="btn btn-default" disabled>
+					단계완료 <span class="glyphicon" aria-hidden="true"></span>
+				</button>
+				<button id="btnLog"  class="btn btn-default" disabled>
+					로그확인 <span class="glyphicon" aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+	  	<div class="tab_container" style="height: 40%;">
+	      	<div id="tab1" class="tab_content">
+				<div class="content" style="padding: 5;">
+					<div class="hpanel" style="padding: 10;">
+			    		<div class="row" style="padding-top: 5;padding-bottom: 5;">
+					    	<div class="col-lg-6 col-12" style="padding: 0;">
+								<div class="float-left">
+					    			<input type="checkbox" class="checkbox-pie" id="chkDetail" data-label="항목상세보기"  />
+									<button id="btnSelCncl"  class="btn btn-default" disabled>
+										선택건회수<span class="glyphicon" aria-hidden="true"></span>
+									</button>
+						    	</div>
+						    </div>
+				    		<div class="col-lg-6 col-12" style="padding-right: 5;">
+								<div class="float-right">
+									<button id="btnPriorityOrder"  class="btn btn-default" disabled>
+										우선순위적용<span class="glyphicon" aria-hidden="true"></span>
+									</button>
+									<input style="width: 10;border-style: none;"/>
+					    			<label id="lblCnt" class="padding-5-top">총 0건</label>
+					    		</div>
 				    		</div>
+				    	</div>
+			    		<div class="row" style="padding-top: 5;">
+						    <div class="panel-body text-center" id="gridDiv1">
+						    	<div data-ax5grid="reqGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 82%;">
+						    	</div>
+						    </div>
+					    </div>
+					</div>
+				</div>
+	       	</div>
+	       	<div id="tab2" class="tab_content">
+				<div class="content" style="padding: 5;">
+					<div class="hpanel" style="padding: 10;">
+			    		<div class="row" style="padding-top: 5;padding-bottom: 5;">
+		    				<label id="lblPrcSys" class="padding-5-top">배포구분</label>
+		    				<div id="cboPrcSys" data-ax5select="cboPrcSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 20%;"></div>
 			    		</div>
-			    	</div>
-		    		<div class="row" style="padding-top: 5;">
-					    <div class="panel-body text-center" id="gridDiv1">
-					    	<div data-ax5grid="reqGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 82%;">
-					    	</div>
+			    		<div class="row" style="padding-top: 5;">
+						    <div class="panel-body text-center" id="gridDiv2">
+						    	<div data-ax5grid="resultGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 82%;">
+						    	</div>
+						    </div>
 					    </div>
-				    </div>
+					</div>
 				</div>
-			</div>
-       	</div>
-       	<div id="tab2" class="tab_content">
-			<div class="content" style="padding-top: 5;padding: 5;">
-				<div class="hpanel" style="padding: 10;">
-		    		<div class="row" style="padding-bottom: 5;">
-	    				<label id="lblPrcSys" class="padding-5-top">배포구분</label>
-	    				<div id="cboPrcSys" data-ax5select="cboPrcSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 20%;"></div>
-		    		</div>
-		    		<div class="row" style="padding-top: 5;">
-					    <div class="panel-body text-center" id="gridDiv2">
-					    	<div data-ax5grid="resultGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 82%;">
-					    	</div>
-					    </div>
-				    </div>
-				</div>
-			</div>
-       	</div>
+	       	</div>
+	   	</div>
    	</div>
-</div>
-
-<div class="hpanel" style="padding: 0;">
-    <div class="panel-body" id="approvalDiv" style="border-style: none;padding: 0;">
+	<div class="half_wrap_cb margin-10-top" id="approvalDiv">
     	<div class="col-lg-1 col-12">
     		<label id="lblApprovalMsg" class="padding-5-top float-left">결재/반려의견</label>
 	    </div>

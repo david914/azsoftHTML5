@@ -372,6 +372,28 @@ String.prototype.trim = function() {
 	return this.replace(/^\s+|\s+$/g,""); 
 }
 
+function winOpen(form, winName, cURL, nHeight, nWidth) {
+	var cFeatures 	= '';
+	var tmpWindow 	= '';
+	var nTop	 	= '';
+	var nLeft 		= '';
+	
+    cURL = 'http://'+location.host + cURL;
+    nTop  = parseInt((window.screen.availHeight/2) - (nHeight/2));
+	nLeft = parseInt((window.screen.availWidth/2) - (nWidth/2));
+	
+    form.action		= cURL; 		//이동할 페이지
+    form.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
+    form.method		= "post"; 		//POST방식
+    
+	cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
+	
+	tmpWindow = window.open('',winName,cFeatures);
+	form.submit();
+	return tmpWindow;
+}
+
+
 /*
 function getRegexp(type) {
 	if( type === 'NUM')

@@ -1393,7 +1393,6 @@ public class Cmr3200{
     public String reqCncl(String AcptNo,String UserId,String conMsg,String ConfUsr) throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
-		ResultSet         rs          = null;
 		StringBuffer      strQuery    = new StringBuffer();
 		SystemPath		  systemPath = new SystemPath();
 		String  binpath;
@@ -1404,7 +1403,7 @@ public class Cmr3200{
 		String retmsg = "0";
 		ConnectionContext connectionContext = new ConnectionResource();
 
-		try {
+//		try {
 			conn = connectionContext.getConnection();
 
 			binpath = systemPath.getTmpDir_conn("15",conn);
@@ -1538,31 +1537,31 @@ public class Cmr3200{
 
         	return retmsg;
 
-		} catch (SQLException sqlexception) {
-			sqlexception.printStackTrace();
-			ecamsLogger.error("## Cmr3200.reqCncl() SQLException START ##");
-			ecamsLogger.error("## Error DESC : ", sqlexception);
-			ecamsLogger.error("## Cmr3200.reqCncl() SQLException END ##");
-			throw sqlexception;
-		} catch (Exception exception) {
-			exception.printStackTrace();
-			ecamsLogger.error("## Cmr3200.reqCncl() Exception START ##");
-			ecamsLogger.error("## Error DESC : ", exception);
-			ecamsLogger.error("## Cmr3200.reqCncl() Exception END ##");
-			throw exception;
-		}finally{
-			if (strQuery != null) 	strQuery = null;
-			if (rs != null)  try{rs.close();}catch (Exception ex2){ex2.printStackTrace();}
-			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
-			if (conn != null){
-				try{
-					conn.close();
-				}catch(Exception ex3){
-					ecamsLogger.error("## Cmr3200.reqCncl() connection release exception ##");
-					ex3.printStackTrace();
-				}
-			}
-		}
+//		} catch (SQLException sqlexception) {
+//			sqlexception.printStackTrace();
+//			ecamsLogger.error("## Cmr3200.reqCncl() SQLException START ##");
+//			ecamsLogger.error("## Error DESC : ", sqlexception);
+//			ecamsLogger.error("## Cmr3200.reqCncl() SQLException END ##");
+//			throw sqlexception;
+//		} catch (Exception exception) {
+//			exception.printStackTrace();
+//			ecamsLogger.error("## Cmr3200.reqCncl() Exception START ##");
+//			ecamsLogger.error("## Error DESC : ", exception);
+//			ecamsLogger.error("## Cmr3200.reqCncl() Exception END ##");
+//			throw exception;
+//		}finally{
+//			if (strQuery != null) 	strQuery = null;
+//			if (rs != null)  try{rs.close();}catch (Exception ex2){ex2.printStackTrace();}
+//			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+//			if (conn != null){
+//				try{
+//					conn.close();
+//				}catch(Exception ex3){
+//					ecamsLogger.error("## Cmr3200.reqCncl() connection release exception ##");
+//					ex3.printStackTrace();
+//				}
+//			}
+//		}
 	}//end of reqCncl() method statement
 
 

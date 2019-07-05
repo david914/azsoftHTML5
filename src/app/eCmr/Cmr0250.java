@@ -2571,16 +2571,14 @@ public class Cmr0250{
 		Connection        conn        = null;
 		ResultSet         rs          = null;
 		PreparedStatement pstmt       = null;
-		PreparedStatement pstmt2      = null;
 		StringBuffer      strQuery    = new StringBuffer();
 		ConnectionContext connectionContext = new ConnectionResource();
 		Runtime  run = null;
 		Process p = null;
 		String          basePgm    = "";
 		String          baseItem   = "";
-		int             baseCnt    = 0;
 
-		try {
+//		try {
 			String  binpath;
 			String[] chkAry;
 			int		cmdrtn;
@@ -2615,7 +2613,6 @@ public class Cmr0250{
 
 			conn.setAutoCommit(false);
 			for (int i=0;fileList.size()>i;i++) {
-				baseCnt = 0;
 				strQuery.setLength(0);
 		    	strQuery.append("select cr_itemid,cr_basepgm,cr_baseitem from cmr1010   \n");
 		    	strQuery.append(" where cr_acptno=? and instr(cr_basepgm,?)>0           \n");
@@ -2626,7 +2623,6 @@ public class Cmr0250{
 		        pstmt.setString(2,fileList.get(i).get("cr_itemid"));
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
-					++baseCnt;
 					basePgm = rs.getString("cr_basepgm").replace(fileList.get(i).get("cr_itemid"), "");
 					basePgm = basePgm.replaceAll(",,", ",");
 					if (basePgm.length()<12) {
@@ -2698,50 +2694,50 @@ public class Cmr0250{
 			return "0";
 
 
-		} catch (SQLException sqlexception) {
-			sqlexception.printStackTrace();
-			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
-			if (conn != null){
-				try{
-					conn.rollback();
-					ConnectionResource.release(conn);
-				}catch(Exception ex3){
-					ecamsLogger.error("## Cmr0250.progCncl_sel() connection release exception ##");
-					ex3.printStackTrace();
-				}
-			}
-			ecamsLogger.error("## Cmr0250.progCncl_sel() SQLException START ##");
-			ecamsLogger.error("## Error DESC : ", sqlexception);
-			ecamsLogger.error("## Cmr0250.progCncl_sel() SQLException END ##");
-			throw sqlexception;
-		} catch (Exception exception) {
-			exception.printStackTrace();
-			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
-			if (conn != null){
-				try{
-					conn.rollback();
-					ConnectionResource.release(conn);
-				}catch(Exception ex3){
-					ecamsLogger.error("## Cmr0250.progCncl_sel() connection release exception ##");
-					ex3.printStackTrace();
-				}
-			}
-			ecamsLogger.error("## Cmr0250.progCncl_sel() Exception START ##");
-			ecamsLogger.error("## Error DESC : ", exception);
-			ecamsLogger.error("## Cmr0250.progCncl_sel() Exception END ##");
-			throw exception;
-		}finally{
-			if (strQuery != null) strQuery = null;
-			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
-			if (conn != null){
-				try{
-					ConnectionResource.release(conn);
-				}catch(Exception ex3){
-					ecamsLogger.error("## Cmr0250.progCncl_sel() connection release exception ##");
-					ex3.printStackTrace();
-				}
-			}
-		}
+//		} catch (SQLException sqlexception) {
+//			sqlexception.printStackTrace();
+//			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+//			if (conn != null){
+//				try{
+//					conn.rollback();
+//					ConnectionResource.release(conn);
+//				}catch(Exception ex3){
+//					ecamsLogger.error("## Cmr0250.progCncl_sel() connection release exception ##");
+//					ex3.printStackTrace();
+//				}
+//			}
+//			ecamsLogger.error("## Cmr0250.progCncl_sel() SQLException START ##");
+//			ecamsLogger.error("## Error DESC : ", sqlexception);
+//			ecamsLogger.error("## Cmr0250.progCncl_sel() SQLException END ##");
+//			throw sqlexception;
+//		} catch (Exception exception) {
+//			exception.printStackTrace();
+//			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+//			if (conn != null){
+//				try{
+//					conn.rollback();
+//					ConnectionResource.release(conn);
+//				}catch(Exception ex3){
+//					ecamsLogger.error("## Cmr0250.progCncl_sel() connection release exception ##");
+//					ex3.printStackTrace();
+//				}
+//			}
+//			ecamsLogger.error("## Cmr0250.progCncl_sel() Exception START ##");
+//			ecamsLogger.error("## Error DESC : ", exception);
+//			ecamsLogger.error("## Cmr0250.progCncl_sel() Exception END ##");
+//			throw exception;
+//		}finally{
+//			if (strQuery != null) strQuery = null;
+//			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+//			if (conn != null){
+//				try{
+//					ConnectionResource.release(conn);
+//				}catch(Exception ex3){
+//					ecamsLogger.error("## Cmr0250.progCncl_sel() connection release exception ##");
+//					ex3.printStackTrace();
+//				}
+//			}
+//		}
 	}//end of progCncl_sel() method statement
 
 	

@@ -141,7 +141,7 @@
 <!-- contener E -->
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
-<script type="text/javascript" src="<c:url value="/js/ecams/srcommon/DevPlanTab.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/tab/DevPlanTab.js"/>"></script>
 
 </body>
 </html>

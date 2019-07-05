@@ -151,6 +151,7 @@ public class Cmp3000 {
 			strQuery.append("  A.CD_DSNCD AS CM_DIRPATH, H.CM_CODENAME AS SCMGUBUN \n");
 			strQuery.append("FROM CMD0028 A,CMM0040 B,CMM0040 C,CMM0102 D,CMM0020 E,CMM0030 F,CMM0020 H,CMM0020 I   \n");
 			strQuery.append("WHERE A.CD_EDITOR = B.CM_USERID AND \n");
+			/*strQuery.append("A.CD_CLSDATE IS NULL AND \n");*/
 			if (!strSys.equals("00000"))
 				strQuery.append("  a.cd_syscd= ?     and   \n");
 			strQuery.append("A.CD_CLSEDITOR = C.CM_USERID(+) \n");

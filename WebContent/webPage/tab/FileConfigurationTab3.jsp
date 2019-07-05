@@ -52,7 +52,7 @@
 			<div class="width-20 dib vat">
 				<div class="vat dib" style="float: right;">
 					<button id="btnRun" name="btnRun" class="btn_basic_s vat">등록</button>
-					<button id="btnDel" name="btnDel" class="btn_basic_s vat">삭제</button>
+					<button id="btnDel" name="btnDel" class="btn_basic_s vat" style="margin-left: 10px;">삭제</button>
 				</div>
 			</div>
 		</div>
