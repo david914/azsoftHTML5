@@ -177,7 +177,7 @@ ul.tabs li.active {
 }
 
 .float-right {
-	/* float: right; */
+	float: right;
 }
 
 .float-left {
@@ -498,7 +498,6 @@ ul.tabs li.active {
 	padding-bottom: 40px;
 }
 
-
 .width-100 {
 	width: 100%;
 }
@@ -560,7 +559,7 @@ ul.tabs li.active {
 	width: 81%;
 }
 .width-80 {
-	width: 80%;
+	/* width: 80%; */
 }
 .width-79 {
 	width: 79%;
@@ -902,6 +901,9 @@ ul.tabs li.active {
 	font-size: 12px;
 }
 
+.md-font {
+	font-size: 15px;
+}
 .pop-header {
 	height: 25px;
 	background-color: #4f6dad;
@@ -922,7 +924,7 @@ ul.tabs li.active {
 }
 
 .fontStyle-error {
-	color: #BE81F7;
+	color: #FF00FF;
 }
 .fontStyle-cncl {
 	color: #FF0000;
@@ -930,7 +932,6 @@ ul.tabs li.active {
 .fontStyle-ing {
 	color: #0013FF;
 }
-
 .ecams-input {
 	box-sizing: border-box;
     display: inline;
@@ -979,7 +980,6 @@ div#rMenu ul {
     margin: 0;
     font-size: 13px;
 }
-
 .mw-80{width: 80px;}
 .mw-100 {width: 100px;}
 .mw-150 {width: 150px;}
@@ -994,7 +994,7 @@ div#rMenu ul {
                 										ver2019 디자인 리뉴얼 퍼블리셔 김수정
 ****************************************************************************************************************************************/
 /*setting*/
-* {margin: 0;padding: 0;border: 0;outline: 0;box-sizing: border-box;}
+* {margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box;}
 html{position: relative; height: 100%;}
 html,body{font-size: 12px; color: #333; margin: 0; padding: 0;}
 body{min-width: 1024px; height: 100%;}
@@ -1006,12 +1006,12 @@ blockquote:before, blockquote:after, q:before, q:after {content: ''; content: no
 table, table tr, table td {border: 0; border-collapse: collapse; border-spacing: 0;}
 label {display: inline-block; max-width: 100%; line-height: 25px; letter-spacing: -0.8px; margin-right: 5px; font-weight: bold; vertical-align: top; margin-bottom: 0; font-size: 13px;}
 button, input, select{vertical-align: top; margin: 0; padding: 0;}
-button{border: 0; margin: 0; padding: 0;}
+button{border: 0; margin: 0; padding: 0; cursor: pointer;}
 input{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
 input::-webkit-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input:-ms-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input::-moz-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
-input{margin: 0 auto;height: 25px;border: 1px solid #ddd;box-sizing: border-box;padding-left: 10px;font-family: inherit;color: #444;}
+input{margin: 0 auto; height: 25px; border: 1px solid #ddd; box-sizing: border-box; padding-left: 10px; font-family: inherit; color: #444;}
 input[type="radio"]{display: inline-block; width: 20px; height: 20px; vertical-align: middle; margin: 0 7px;}
 input[type="checkbox"]{display: inline-block; width: 20px; height: 20px; vertical-align: middle; margin: 0 7px;}
 select {width: 200px; height:25px; padding: 0 7px; border: 1px solid #ddd; border-radius: 0; font-family: inherit; background: #fff url('../../../img/arrow.png') no-repeat 95% 50%; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
@@ -1041,6 +1041,7 @@ select::-ms-expand {display: none;}
 .ml_150 {margin-left: 150px;}
 /*text*/
 .tit h3{position: relative; font-size: 13px; font-weight: bold; color: #245490; border-bottom: 1px solid #5c7ba0; padding-bottom: 3px;}
+.title{position: relative; font-size: 13px; font-weight: 600; color: #fff; background: #888; padding: 0 7px; }
 /*tab*/
 .tab_wrap{position: relative; border-bottom: 1px solid #3473c8; height: 25px; margin-bottom: 3px;}
 .tab_wrap ul li{display: inline-block; border: 1px solid #3473c8; border-bottom: none; color: #3473c8; background: #f8f8f8; height: 25px; padding: 0 15px; line-height: 25px; margin: 0 1px; cursor: pointer;}
@@ -1058,7 +1059,9 @@ select::-ms-expand {display: none;}
 .btn_gray_s{background: #ddd; border: 1px solid #ccc; color:#333; font-weight:bold; padding: 0 7px 2px; height: 25px;}
 
 .input-group-addon{background: #fff; border: 1px solid #ccc; color:#333; line-height: 2px;}
-.btn_calendar{display: inline-block; font-size: 14px; height: 25px; line-height: 13px; padding: 4px 12px 3px; margin-right: 15px; color: #333; text-align: center; background-color: #fff; border: 1px solid #ccc;}
+.btn_calendar{display: inline-block; font-size: 14px; height: 25px; line-height: 13px; padding: 4px 12px 3px;/* margin-right: 15px;*/ color: #333; text-align: center; background-color: #fff; border: 1px solid #ccc;}
+.fa_wrap{display: inline-block; font-size: 12px; height: 25px; line-height: 13px; padding: 4px 12px 3px; color: #333; text-align: center; background-color: #fff; border: 1px solid #ccc; cursor: pointer;}
+.fas:before {font-family: FontAwesome; font-style: normal;}
 /********************************** 
                 layout
 **********************************/
@@ -1067,7 +1070,7 @@ select::-ms-expand {display: none;}
 /*#wrapper:after{content: ''; display: block; clear: both;}*/
 #wrapper .content{position: relative; margin: 10px; margin-bottom: 0;}
 #history_wrap{position: relative; font-size: 14px; line-height: 14px; font-weight: 500; color: #245490; margin-bottom: 10px;}
-#divContent {width: 580px;background: #f8f8f8;padding: 20px;margin: 0 auto;}
+#divContent {width: 580px; background: #f8f8f8; padding: 20px; margin: 0 auto;}
 #footer{position: relative; width: 100%; height: 30px; margin-top: 15px; background: #ddd;}
 #footer ul:after{content: ''; display: block; clear: both;}
 #footer ul li{position: relative; float: left; width: 50%; zoom: 1;}
@@ -1077,8 +1080,11 @@ select::-ms-expand {display: none;}
 /*좌우 반*/
 .half_wrap{position: relative; background: #f6f6f6; padding: 10px;/*border-top: 2px solid #ccc;*/}
 .half_wrap:after{content: ""; clear: both; display: block;}
-.l_wrap{position: relative; float: left;}
-.r_wrap{position: relative;float: right;}
+.half_wrap_w{position: relative; background: #fff;}
+.half_wrap_w:after{content: ""; clear: both; display: block;}
+.half_wrap_cb:after{content: ""; clear: both; display: block;}
+.l_wrap{position: relative; float: left; zoom: 1;}
+.r_wrap{position: relative; float: right; zoom: 1;}
 /********************************** 
                 게시판
 **********************************/
@@ -1103,7 +1109,7 @@ select::-ms-expand {display: none;}
 **********************************/
 /*비밀번호변경*/
 #lb1 {background: #bdc0c4; border-radius: 50%; color: white; font-weight:bold}
-.row {margin-top: 5px;}
+.row {margin-top: 10px}
 /*부재등록*/
 #myGrid1Area {width:100%; height:23%}
 #opt {width: 580px; margin: 0 auto}
@@ -1117,7 +1123,7 @@ select::-ms-expand {display: none;}
 .az_search_wrap div.l_wrap button.btn_basic_s{padding: 1px 7px 2px; margin: 0 7px;}
 .az_search_wrap div.r_wrap .all_num{display: inline-block; color: #245490; padding: 5px 20px 4px 10px;}
 .az_search_wrap div.r_wrap .all_num strong{display: inline-block;}
-.all_num {position: relative; font-size: 12px;}
+.all_num {position: relative; font-size: 12px; color: #245490;}
 /*SR등록*/
 .sr_status div.label{display: inline-block; margin-left: 7px;}
 .sr_status div.r_wrap{text-align: right;}
@@ -1135,15 +1141,24 @@ select::-ms-expand {display: none;}
 .write_wrap .half dl dd{margin-left: 80px;}
 .write_wrap textarea {width: 100%; height: 150px; padding: 12px 20px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px; resize: none;}
 .write_wrap div dl dd span.btn_calendar{margin-right: 0;}
-/*checkout*/
-
-
+/*thumbnail*/
+.thumbnail{position: relative;}
+.thumbnail .r_nail{font-size: 11px; color: #fff; background-color: #c02525; padding: 3px 7px; margin: 0 7px;}
+.thumbnail .p_nail{font-size: 11px; color: #fff; background-color: #b21db2; padding: 3px 7px; margin: 0 7px;}
+.thumbnail .g_nail{font-size: 11px; color: #fff; background-color: #444; padding: 3px 7px; margin: 0 7px;}
+.thumbnail .b_nail{font-size: 11px; color: #fff; background-color: #1a1a8c; padding: 3px 7px; margin: 0 7px;}
+.thumbnail span:first-child{margin-left: 0;}
+.thumbnail span:last-child{margin-left: 0;}
+/*스크롤 영역*/
+.scrollBind{position: relative; height: 185px; border: 1px solid #ddd; background-color: #fff; overflow-y: scroll;}
+.list-group{background-color: #fff; padding: 7px;}
+.list-group .list-group-item{line-height: 30px;}
 /******************************************************************************
 									popup
 ******************************************************************************/
 button.close { -webkit-appearance: none; padding: 0; cursor: pointer; background: transparent; border: 0;}
 .close {position: absolute; right: 10px; top: 1px; font-size: 21px; font-weight: bold; line-height: 1; color: #000; text-shadow: 0 1px 0 #fff; filter: alpha(opacity=20); opacity: .2;}
-
+.pop_wrap{position: relative; padding: 10px;}
 /******************************************************************************
 									ax5
 ******************************************************************************/
