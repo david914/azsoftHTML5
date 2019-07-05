@@ -1,10 +1,10 @@
 /**
- * 파일대사결과조회 화면 기능정의
+ * 결재현황 화면 기능정의
  * 
  * <pre>
  * 	작성자	: 이용문
  * 	버전 		: 1.0
- *  수정일 	: 2019-07-03
+ *  수정일 	: 2019-07-05
  * 
  */
 
@@ -29,6 +29,7 @@ var cboApproDeData	= [];
 var cboApproStaData = [];
 var cboPrcData		= [];
 
+var myWin			= null;
 
 approGrid.setConfig({
     target: $('[data-ax5grid="approGrid"]'),
@@ -44,7 +45,6 @@ approGrid.setConfig({
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
-            clickFileGrid(this.dindex);
         },
         onDBLClick: function () {},
     	trStyleClass: function () {
@@ -86,12 +86,7 @@ approGrid.setConfig({
         	return true;
         },
         onClick: function (item, param) {
-        	if(item.type === 1) {
-        		dialog.alert('결재 요청내용 확인 띄워서 보여주기', function() {});
-        	}
-        	if(item.type === 2) {
-        		openApprovalInfo();
-        	}
+        	openApprovalInfo(item.type, param.item.cr_acptno, param.item.qrycd2);
         	approGrid.contextMenu.close();
         }
     },
@@ -184,24 +179,37 @@ $(document).ready(function() {
 });
 
 // 결재 정보 창 띄우기
-function openApprovalInfo() {
-var nHeight, nWidth;
+function openApprovalInfo(type, acptNo, reqCd) {
+	var nHeight, nWidth, cURL, winName;
 	
-	if (BatchMapping != null 
-			&& !BatchMapping.closed ) {
-		BatchMapping.close();
+	if ( (type+'_'+reqCd) == winName ) {
+		if (myWin != null) {
+	        if (!myWin.closed) {
+	        	myWin.close();
+	        }
+		}
 	}
+
+    winName = type+'_'+reqCd;
+    
 	var form = document.popPam;   		//폼 name
     
-	form.userId.value	= userId;   	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-	form.userName.value	= userName;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-	form.adminYN.value	= adminYN;  	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-	form.strReqCD.value	= strReqCD;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.acptno.value	= acptNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 	
-    nHeight = 400;
-    nWidth  = 900;
-	
-	BatchMapping = winOpen(form, 'batchMapping', '/webPage/winpop/ApprovalInfo.jsp', nHeight, nWidth);
+    if(type === 1) {
+    	nHeight = screen.height - 300;
+	    nWidth  = screen.width - 400;
+	    cURL = "/webPage/winpop/RequestDetail.jsp";
+    }
+    
+    if(type === 2) {
+    	nHeight = 400;
+        nWidth  = 900;
+    	cURL	= '/webPage/winpop/ApprovalInfo.jsp';
+    }
+    
+	myWin = winOpen(form, winName, cURL, nHeight, nWidth);
 }
 
 // 화면 초기화

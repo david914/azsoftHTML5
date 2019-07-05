@@ -13,11 +13,11 @@
 	<div class="az_search_wrap">
 		<div class="az_in_wrap">
 			<div class="row vat">
-				<div class="width-25 dib tar">
+				<div class="width-25 dib">
 					<div class="tit_80 poa">
 						<label>시스템</label>
 					</div>
-					<div class="ml_80 tal">
+					<div class="ml_80">
 						<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 					</div>
 				</div>
@@ -57,11 +57,11 @@
 			</div>
 			
 			<div class="row vat">
-				<div class="width-25 dib tar">
+				<div class="width-25 dib">
 					<div class="tit_80 poa">
 						<label>신청부서</label>
 					</div>
-					<div class="ml_80 tal">
+					<div class="ml_80">
 						<div id="cboApproDe" data-ax5select="cboApproDe" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 					</div>
 				</div>
@@ -95,25 +95,21 @@
 				
 				<div class="width-10 dib tar">
 					<div class="vat dib" style="float: right;">
-						<button id="btnQry" class="btn_basic_s">조회</button>
+						<button id="btnQry" class="btn_basic_s">조&emsp;&emsp;회</button>
 					</div>
 				</div>
 			</div>
 			
 			<div class="row vat">
 				<div class="width-45 dib vat">
-					<div class="dib ml_80" style="background-color: red;; color: white;">
-						<label>반려 또는 취소</label>
-					</div>
-					<div class="dib ml_7" style="background-color: pink;; color: white;">
-						<label>시스템처리 중 에러 발생</label>
-					</div>
-					<div class="dib ml_7" style="background-color: black;; color: white;">
-						<label>처리완료</label>
-					</div>
-					<div class="dib ml_7" style="background-color: blue;; color: white;">
-						<label>진행중</label>
-					</div>
+					<div class="row thumbnail">
+						<div class="ml_80">
+							<span class="r_nail">반려 또는 취소</span>
+							<span class="p_nail">시스템처리 중 에러발생</span>
+							<span class="g_nail">처리완료</span>
+							<span class="b_nail">진행중</span>
+						</div>
+					</div>	
 				</div>
 				
 				<div class="width-45 dib vat  tar">
@@ -135,7 +131,7 @@
 				
 				<div class="width-10 dib tar">
 					<div class="vat dib" style="float: right;">
-						<button id="btnInit" class="btn_basic_s">초기화</button>
+						<button id="btnInit" class="btn_basic_s">초&nbsp;&nbsp;기&nbsp;화</button>
 					</div>
 				</div>
 			</div>

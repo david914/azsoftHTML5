@@ -43,6 +43,10 @@ var addFg2 			= false;
 var closeModifyFg 	= false;
 var selectedSystem 	= null;
 
+var userName 	= '관리자';
+var userId 		= 'MASTER';
+var adminYN 	= 'Y';
+
 sysInfoGrid.setConfig({
     target: $('[data-ax5grid="sysInfoGrid"]'),
     sortable: true, 
@@ -157,8 +161,6 @@ function dateInit() {
 
 
 $(document).ready(function(){
-	
-	
 	dateInit();
 	getSysCodeInfo();
 	getSysInfoCbo();
@@ -962,12 +964,12 @@ function cboSysClick() {
 			$('#datStDateDiv').css('pointer-events','none');
 			$('#datEdDateDiv').css('pointer-events','none');
 		}
-		
 		if(sysInfoStr.substr(5,1) === '1' && selectedGridItem.hasOwnProperty('cm_systime') ) {
 			var txtTimeStr = selectedGridItem.cm_systime;
 			var txtTime = txtTimeStr.substr(0,2) + ':' + txtTimeStr.substr(2,2);
 			$('#txtTime').val(txtTime);
 			$('#txtTime').prop( "disabled", false );
+			console.log('여기안등러오니?');
 		} else {
 			$('#txtTime').val('');
 			$('#txtTime').prop( "disabled", true );
@@ -1069,7 +1071,9 @@ function makeSysInfoUlList() {
 		addId = Number(sysInfoItem.cm_micode);
 		liStr  = '';
 		liStr += '<li class="list-group-item">';
+		liStr += '<div class="margin-3-top">';
 		liStr += '	<input type="checkbox" class="checkbox-sysInfo" id="chkJobName'+addId+'" data-label="'+sysInfoItem.cm_codename+'"  value="'+sysInfoItem.cm_micode+'" />';
+		liStr += '</>';
 		liStr += '</li>';
 		$('#ulSysInfo').append(liStr);
 	});
