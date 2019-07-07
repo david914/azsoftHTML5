@@ -1,3 +1,8 @@
+<!--  
+	* 화면명: 개발영역연결등록
+	* 화면호출: 프로그램등록 -> 개발영역연결등록 버튼
+-->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
