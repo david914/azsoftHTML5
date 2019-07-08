@@ -251,7 +251,7 @@ function openPopNotice(){
         height: 440,
         iframe: {
             method: "get",
-            url: "../modal/PopNotice.jsp",
+            url: "../modal/notice/NoticeModal.jsp",
             param: "callBack=popNoticeModalCallBack"
         },
         onStateChanged: function () {
@@ -288,7 +288,7 @@ function openFileUpload() {
         height: 360,
         iframe: {
             method: "get",
-            url: 	"../modal/FileUp.jsp",
+            url: 	"../modal/notice/FileUpModal.jsp",
             param: "callBack=fileUploadModalCallBack"
         },
         onStateChanged: function () {
@@ -313,7 +313,7 @@ function openFileDownload(acptno,fileCnt) {
         height: 360,
         iframe: {
             method: "get",
-            url: 	"../modal/FileDownload.jsp",
+            url: 	"../modal/notice/FileDownloadModal.jsp",
             param: "callBack=fileDownloadModalCallBack"
         },
         onStateChanged: function () {

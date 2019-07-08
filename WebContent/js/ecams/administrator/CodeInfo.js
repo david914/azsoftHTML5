@@ -126,7 +126,7 @@ function openJobModal() {
         height: 800,
         iframe: {
             method: "get",
-            url: "../modal/JobModal.jsp",
+            url: "../modal/sysinfo/JobModal.jsp",
             param: "callBack=jobModalCallBack"
         },
         onStateChanged: function () {

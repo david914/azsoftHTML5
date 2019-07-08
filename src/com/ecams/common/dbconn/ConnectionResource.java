@@ -66,11 +66,11 @@ public class ConnectionResource implements ConnectionContext {
 					strUrl = oEncryptor.strGetDecrypt(ConfigFactory.getProperties("O_url"));
 					strUsernm = oEncryptor.strGetDecrypt(ConfigFactory.getProperties("O_username"));
 					strUserps = oEncryptor.strGetDecrypt(ConfigFactory.getProperties("O_password"));
-					System.out.println("check DB SECU CONNECTION INFO====");
+					/*System.out.println("check DB SECU CONNECTION INFO====");
 					System.out.println(strUrl);
 					System.out.println(strUsernm);
 					System.out.println(strUserps);
-					System.out.println("check DB SECU CONNECTION INFO====");
+					System.out.println("check DB SECU CONNECTION INFO====");*/
 				} else {
 					strUrl = ConfigFactory.getProperties("O_url");
 					strUsernm = ConfigFactory.getProperties("O_username");

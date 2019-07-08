@@ -16,8 +16,8 @@
 		
 		<div class="row vat por tar">
 			<div class="dib">
-				<label id="lblSysCd" class="dib">시스템코드/시스템명</label>
-				<input id="txtSysCd" name="txtTitle" class="form-control width-50 dib" type="text" />
+				<!-- <label id="lblSysCd" class="dib">시스템코드/시스템명</label>
+				<input id="txtSysCd" name="txtTitle" class="form-control width-50 dib" type="text" /> -->
 			</div>
 			
 			<div class="dib margin-3-top">

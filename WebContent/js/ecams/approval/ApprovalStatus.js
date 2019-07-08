@@ -9,10 +9,10 @@
  */
 
 /*var userName 	= window.top.userName;		// 접속자 Name
-var userId 		= window.top.userId;			// 접속자 ID
+var userId 		= window.top.userId;		// 접속자 ID
 var adminYN 	= window.top.adminYN;		// 관리자여부
 var userDeptName= window.top.userDeptName;	// 부서명
-var userDeptCd 	= window.top.userDeptCd;		// 부서코드
+var userDeptCd 	= window.top.userDeptCd;	// 부서코드
 */
 
 var userName 	= '관리자';
@@ -203,10 +203,11 @@ function openApprovalInfo(type, acptNo, reqCd) {
 	    cURL = "/webPage/winpop/RequestDetail.jsp";
     }
     
+    
     if(type === 2) {
     	nHeight = 400;
         nWidth  = 900;
-    	cURL	= '/webPage/winpop/ApprovalInfo.jsp';
+    	cURL	= '/webPage/winpop/PopApprovalInfo.jsp';
     }
     
 	myWin = winOpen(form, winName, cURL, nHeight, nWidth);

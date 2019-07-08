@@ -17,13 +17,13 @@
 		   	<div class="tab_container">
 		       	<!-- 서버정보 START -->
 		       	<div id="tab1" class="tab_content">
-		       		<iframe src='/webPage/tab/BuildReleaseTab1.jsp' width='100%' height='93%' frameborder="0"></iframe>
+		       		<iframe src='/webPage/tab/buildrelease/TypeRegistrationTab.jsp' width='100%' height='93%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- 서버정보 END -->
 		       	
 		       	<!-- 계정정보 START -->
 		       	<div id="tab2" class="tab_content">
-		       		<iframe src='/webPage/tab/BuildReleaseTab2.jsp' width='100%' height='93%' frameborder="0"></iframe>
+		       		<iframe src='/webPage/tab/buildrelease/TypeConnectionTab.jsp' width='100%' height='93%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- 계정정보 END -->
 		   	</div>

@@ -256,7 +256,7 @@ function openFileHisModal() {
         height: 800,
         iframe: {
             method: "get",
-            url: "../modal/FileHisModal.jsp",
+            url: "../modal/filechkreport/FileHisModal.jsp",
             param: "callBack=fileHisModalCallBack"
         },
         onStateChanged: function () {
@@ -293,7 +293,7 @@ function openFileSumModal(selItem) {
         height: 600,
         iframe: {
             method: "get",
-            url: "../modal/FileSumModal.jsp",
+            url: "../modal/filechkreport/FileSumModal.jsp",
             param: "callBack=fileSumModalCallBack"
         },
         onStateChanged: function () {

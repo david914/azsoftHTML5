@@ -137,22 +137,22 @@
 				   	
 				   	<div class="tab_container">
 				       	<div id="tab1" class="tab_content">
-				       		<iframe src='/webPage/tab/ConfigurationTab1.jsp' width='100%' height='83%' frameborder="0"></iframe>
+				       		<iframe src='/webPage/tab/configuration/OperTimeManageTab.jsp' width='100%' height='83%' frameborder="0"></iframe>
 				       	</div>
 				       	<div id="tab2" class="tab_content">
-				       		<iframe src='/webPage/tab/ConfigurationTab2.jsp' width='100%' height='83%' frameborder="0"></iframe>
+				       		<iframe src='/webPage/tab/configuration/DelCriteriaManageTab.jsp' width='100%' height='83%' frameborder="0"></iframe>
 				       	</div>
 				       	<div id="tab3" class="tab_content">
-				       		<iframe src='/webPage/tab/ConfigurationTab3.jsp' width='100%' height='83%' frameborder="0"></iframe>
+				       		<iframe src='/webPage/tab/configuration/DirectoryPolicyTab.jsp' width='100%' height='83%' frameborder="0"></iframe>
 				       	</div>
 				       	<div id="tab4" class="tab_content">
-				       		<iframe src='/webPage/tab/ConfigurationTab4.jsp' width='100%' height='83%' frameborder="0"></iframe>
+				       		<iframe src='/webPage/tab/configuration/JobServerInfoTab.jsp' width='100%' height='83%' frameborder="0"></iframe>
 				       	</div>
 				       	<div id="tab5" class="tab_content">
-				       		<iframe src='/webPage/tab/ConfigurationTab5.jsp' width='100%' height='83%' frameborder="0"></iframe>
+				       		<iframe src='/webPage/tab/configuration/AlertCriteriaTab.jsp' width='100%' height='83%' frameborder="0"></iframe>
 				       	</div>
 				       	<div id="tab6" class="tab_content">
-				       		<iframe src='/webPage/tab/ConfigurationTab6.jsp' width='100%' height='83%' frameborder="0"></iframe>
+				       		<iframe src='/webPage/tab/configuration/SRTypeManageTab.jsp' width='100%' height='83%' frameborder="0"></iframe>
 				       	</div>
 				   	</div>
         		</div>

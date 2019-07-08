@@ -111,7 +111,7 @@ jobGrid.setConfig({
         },
     	trStyleClass: function () {
     		if(this.item.COLORSW === '5'){
-    			return "fontStyle-error";
+    			return "fontStyle-cncl";
     		} else if (this.item.closeSw === 'Y'){
     			return "text-danger";
     		} else if (this.item.closeSw === 'Y'){
@@ -125,8 +125,8 @@ jobGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_jobcd", 	label: "업무코드",  	width: '20%'},
-        {key: "cm_jobname",	label: "업무명",  	width: '80%'},
+        {key: "cm_jobcd", 	label: "업무코드",  	width: '20%', align: 'left'},
+        {key: "cm_jobname",	label: "업무명",  	width: '80%', align: 'left'},
     ]
 });
 
@@ -331,7 +331,7 @@ $(document).ready(function(){
 	        height: 800,
 	        iframe: {
 	            method: "get",
-	            url: "../modal/ReleaseTimeSetModal.jsp",
+	            url: "../modal/sysinfo/ReleaseTimeSetModal.jsp",
 	            param: "callBack=modalCallBack"
 	        },
 	        onStateChanged: function () {
@@ -354,7 +354,7 @@ $(document).ready(function(){
 	        height: 800,
 	        iframe: {
 	            method: "get",
-	            url: "../modal/JobModal.jsp",
+	            url: "../modal/sysinfo/JobModal.jsp",
 	            param: "callBack=jobModalCallBack"
 	        },
 	        onStateChanged: function () {
@@ -383,7 +383,7 @@ $(document).ready(function(){
 	        height: 600,
 	        iframe: {
 	            method: "get",
-	            url: "../modal/SysDetailModal.jsp",
+	            url: "../modal/sysinfo/SysDetailModal.jsp",
 	            param: "callBack=sysDetailModalCallBack"
 	        },
 	        onStateChanged: function () {
@@ -412,7 +412,7 @@ $(document).ready(function(){
 	        height: 700,
 	        iframe: {
 	            method: "get",
-	            url: "../modal/PrgKindsModal.jsp",
+	            url: "../modal/sysinfo/PrgKindsModal.jsp",
 	            param: "callBack=prgKindsModalCallBack"
 	        },
 	        onStateChanged: function () {
@@ -441,7 +441,7 @@ $(document).ready(function(){
 	        height: 550,
 	        iframe: {
 	            method: "get",
-	            url: "../modal/ComDirModal.jsp",
+	            url: "../modal/sysinfo/ComDirModal.jsp",
 	            param: "callBack=ComDirModalCallBack"
 	        },
 	        onStateChanged: function () {
@@ -464,7 +464,7 @@ $(document).ready(function(){
 	        height: 800,
 	        iframe: {
 	            method: "get",
-	            url: "../modal/SysCopyModal.jsp",
+	            url: "../modal/sysinfo/SysCopyModal.jsp",
 	            param: "callBack=SysCopyModalCallBack"
 	        },
 	        onStateChanged: function () {
@@ -1073,7 +1073,7 @@ function makeSysInfoUlList() {
 		liStr += '<li class="list-group-item">';
 		liStr += '<div class="margin-3-top">';
 		liStr += '	<input type="checkbox" class="checkbox-sysInfo" id="chkJobName'+addId+'" data-label="'+sysInfoItem.cm_codename+'"  value="'+sysInfoItem.cm_micode+'" />';
-		liStr += '</>';
+		liStr += '</div>';
 		liStr += '</li>';
 		$('#ulSysInfo').append(liStr);
 	});

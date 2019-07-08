@@ -167,7 +167,7 @@ function winOpenMapping() {
     nHeight = screen.height;
     nWidth  = screen.width;
 	
-	BatchMapping = winOpen(form, 'batchMapping', '/webPage/winpop/BatchMapping.jsp', nHeight, nWidth);
+	BatchMapping = winOpen(form, 'batchMapping', '/webPage/winpop/PopBatchMapping.jsp', nHeight, nWidth);
 }
 
 // 선택된 데이터 그리드에서만 삭제

@@ -19,13 +19,13 @@
 		
 		<div class="half_wrap margin-10-top">
 	       	<div id="tabDefault" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/FileConfigurationTab1.jsp' width='100%' height='80%' frameborder="0"></iframe>
+	       		<iframe src='/webPage/tab/fileconfiguration/BasicInfoTab.jsp' width='100%' height='80%' frameborder="0"></iframe>
 	       	</div>
 	       	<div id="tabEct" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/FileConfigurationTab2.jsp' width='100%' height='80%' frameborder="0"></iframe>
+	       		<iframe src='/webPage/tab/fileconfiguration/ExceptionDirInfoTab.jsp' width='100%' height='80%' frameborder="0"></iframe>
 	       	</div>
 	       	<div id="tabHand" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/FileConfigurationTab3.jsp' width='100%' height='80%' frameborder="0"></iframe>
+	       		<iframe src='/webPage/tab/fileconfiguration/HandFileInfoTab.jsp' width='100%' height='80%' frameborder="0"></iframe>
 	       	</div>
 	   	</div>
 	</div>

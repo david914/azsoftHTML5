@@ -4,44 +4,67 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div class="row">
-	<div class="col-sm-5">
-		<div class="col-sm-2">
-			<label>직무구분</label>
+<div id="header"></div>
+
+<div id="wrapper">
+    <div class="content">
+        <div id="history_wrap">관리자 <strong>&gt; 권한관리</strong></div>
+		
+		<div class="half_wrap_cb">
+			<div class="l_wrap width-50">
+				<div class="margin-5-right">				   
+					<div class="az_search_wrap">
+						<div class="az_in_wrap">
+							<div class="por">	
+								<div class="vat">
+				                    <label id="lbUser" class="tit_80 poa">직무구분</label>
+				                    <div class="ml_80">
+				                    	<div class="width-50">
+											<div id="cboDuty" data-ax5select="cboDuty" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+				                    	</div>
+									    <div class="dib poa_r margin-3-top">
+											<input type="checkbox" class="checkbox-rgt" id="chkAll" data-label="전체선택"/>
+										</div>
+									</div>
+								</div>
+							</div>	
+						</div>
+					</div>
+					<!--검색E-->
+					<div class="scrollBind row" style="height:750px;">
+	    				<ul id="dutyUlInfo" class="list-group"></ul>
+	    			</div>
+	    		</div>
+			</div>
+			<div class="r_wrap width-50">
+				<div class="margin-5-left">		   
+			        <!-- 검색 S-->    
+					<div class="az_search_wrap">
+						<div class="az_in_wrap">
+							<div class="por">	
+								<div class="vat">
+				                    <label class="tit_80 poa">메뉴체계</label>
+								</div>
+								<div class="tar margin-10-right">
+									<div class="vat dib margin-5-left">
+										<span class="fa_wrap" id="btnPlus"><i class="fas fa-plus"></i></span> 
+										<span class="fa_wrap margin-5-left" id="btnMinus"><i class="fas fa-minus"></i></span>
+									</div>
+									<div class="vat dib margin-5-left">
+										<button class="btn_basic_s" id="btnReq">적용</button>
+									</div>
+								</div>
+							</div>	
+						</div>
+					</div>
+					<!--검색E-->
+					<div class="scrollBind row" style="height:750px;">
+	    				<ul id="tvMenu" class="ztree"></ul>
+	    			</div>
+				</div>
+			</div>
 		</div>
-		<div class="col-sm-8">
-			<div id="cboDuty" data-ax5select="cboDuty" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
-		</div>
-		<div class="col-sm-2">
-			<input type="checkbox" class="checkbox-rgt" id="chkAll" data-label="전체선택"/>
-		</div>
-	</div>
-	<div class="col-sm-7">
-		<div class="col-sm-8">
-			<label id="lbl">메뉴체계</label>
-		</div>
-		<div class="col-sm-4">
-			<button class="btn btn-default" id="btnPlus">
-				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-			</button>
-			<button class="btn btn-default" id="btnMinus">
-				<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-			</button>
-			<button class="btn btn-default" id="btnReq">적용</button>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-sm-5">
-		<div class="scrollBind" style="height: 80%; border: 1px dotted gray;">
-			<ul id="dutyUlInfo" class="ztree"></ul>
-		</div>
-	</div>
-	<div class="col-sm-7">
-		<div class="scrollBind" style="height: 80%; border: 1px dotted gray;">
-			<ul id="tvMenu" class="ztree"></ul>
-		</div>
-	</div>
+    </div>
 </div>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	

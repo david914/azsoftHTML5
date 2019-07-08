@@ -219,7 +219,7 @@ function getAllUserInfo() {
         height: 600,
         iframe: {
             method: "get",
-            url: "../modal/AllUserInfoModal.jsp",
+            url: "../modal/userinfo/AllUserInfoModal.jsp",
             param: "callBack=allUserInfoModalCallBack"
         },
         onStateChanged: function () {
@@ -245,7 +245,7 @@ function openSetUserJob() {
         height: 800,
         iframe: {
             method: "get",
-            url: "../modal/SetUserJobModal.jsp",
+            url: "../modal/userinfo/SetUserJobModal.jsp",
             param: "callBack=setUserJobModalCallBack"
         },
         onStateChanged: function () {
@@ -273,7 +273,7 @@ function openInitPassword() {
         height: 200,
         iframe: {
             method: "get",
-            url: "../modal/InitPassModal.jsp",
+            url: "../modal/userinfo/InitPassModal.jsp",
             param: "callBack=initPassModalCallBack"
         },
         onStateChanged: function () {
@@ -300,7 +300,7 @@ function openJboCopyModal() {
         height: 700,
         iframe: {
             method: "get",
-            url: "../modal/JobCopyModal.jsp",
+            url: "../modal/userinfo/JobCopyModal.jsp",
             param: "callBack=jobCopyModalCallBack"
         },
         onStateChanged: function () {
@@ -355,7 +355,7 @@ function openAllRgtCd() {
         height: 700,
         iframe: {
             method: "get",
-            url: "../modal/RgtCdModal.jsp",
+            url: "../modal/userinfo/RgtCdModal.jsp",
             param: "callBack=rgtCdModalCallBack"
         },
         onStateChanged: function () {
