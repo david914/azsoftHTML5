@@ -130,7 +130,7 @@ function getTempDir() {
 		requestType	: 'GETSYSTEMPATH',
 		pathcd		: '99' 
 	}
-	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfo, 'json', successSystemPath);
+	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfo, 'json', successSystemPath);
 }
 
 
@@ -151,7 +151,7 @@ function getPrjList() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSRID'
 	}
-	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successSRID);
+	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successSRID);
 }
 
 function successSRID(data) {
@@ -190,7 +190,7 @@ function getSysInfo() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSYSINFO'
 	}
-	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successSysInfo);
+	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successSysInfo);
 }
 
 function successSysInfo(data) {
@@ -259,7 +259,7 @@ function selSystem_Change() {
 			tmpInfo		: tmpInfo,
 			requestType	: 'GETJOBINFO'
 		}
-		ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successJobInfo);
+		ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successJobInfo);
 	}
 	//SysInfo.getsvrInfo(strUserId,cboSys.selectedItem.cm_syscd,"Y","");
 	tmpInfo = new Object();
@@ -273,7 +273,7 @@ function selSystem_Change() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSVRINFO'
 	}
-	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successSvrInfo);
+	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successSvrInfo);
 }
 
 function screenInit() {
@@ -323,7 +323,7 @@ function successJobInfo(data) {
 			tmpInfo		: tmpInfo,
 			requestType	: 'GETJAWON'
 		}
-		ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successJawon);
+		ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successJawon);
 	}
 }
 
@@ -400,7 +400,7 @@ function selSvr_click() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETHOMEDIRLIST'
 	}
-	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successHomeDir);
+	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successHomeDir);
 }
 
 function successHomeDir(data) {
@@ -476,7 +476,7 @@ function btnQry_Click() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSVRDIR'
 	}
-	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successSvrDir);
+	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successSvrDir);
 }
 
 /* 디렉토리 트리구조 셋팅 */
@@ -588,7 +588,7 @@ function contextmenu_click() {
 		requestType	: 'GETFILELIST_THREAD'
 	}
 	
-	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successGetFileList);
+	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successGetFileList);
 	
 	fullpath = "";
 }
@@ -777,7 +777,7 @@ function btnRegist_Click() {
 		requestType	: 'REGISTPROG'
 	}
 	
-	ajaxAsync('/webPage/dev/DevRepProgRegisterServlet', tmpInfoData, 'json', successRegistProg);
+	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successRegistProg);
 }
 
 function successRegistProg(data) {

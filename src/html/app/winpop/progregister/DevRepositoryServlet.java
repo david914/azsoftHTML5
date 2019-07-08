@@ -1,4 +1,4 @@
-package html.app.dev;
+package html.app.winpop.progregister;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,8 +22,8 @@ import app.eCmd.Cmd0100;
 import app.eCmd.svrOpen;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/dev/DevRepProgRegisterServlet")
-public class DevRepProgRegisterServlet extends HttpServlet {
+@WebServlet("/webPage/winpop/progregister/DevRepositoryServlet")
+public class DevRepositoryServlet extends HttpServlet {
 	/**
 	 * 
 	 */

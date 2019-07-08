@@ -168,7 +168,7 @@ function cboPos_Change() {
 		requestType	: 'GETBLANKLIST'
 	}
 	
-	ajaxAsync('/webPage/administrator/ApprovalInfoServlet', tmpInfoData, 'json', successGetBlankList);
+	ajaxAsync('/webPage/modal/approvalInfo/SubApprovalRangeServlet', tmpInfoData, 'json', successGetBlankList);
 }
 
 function successGetBlankList(data) {
@@ -265,7 +265,7 @@ function btnQry_Click() {
 		requestType	: 'GETBLANKLIST'
 	}
 	
-	ajaxAsync('/webPage/administrator/ApprovalInfoServlet', tmpInfoData, 'json', successGetBlankList2);
+	ajaxAsync('/webPage/modal/approvalInfo/SubApprovalRangeServlet', tmpInfoData, 'json', successGetBlankList2);
 }
 
 function successGetBlankList2(data) {

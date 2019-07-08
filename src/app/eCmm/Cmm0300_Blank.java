@@ -13,15 +13,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 //import app.common.LoggableStatement;
 
 import org.apache.log4j.Logger;
+
 import com.ecams.common.dbconn.ConnectionContext;
 import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
-import java.util.ArrayList;
-import java.util.HashMap;
+
+import app.common.LoggableStatement;
 
 /**
  * @author bigeyes
@@ -65,14 +68,14 @@ public class Cmm0300_Blank{
 			strQuery.append("   and b.cm_micode=a.cm_rposition                     \n");
 			strQuery.append("   and c.cm_macode=decode(a.cm_gbncd,'0','POSITION','RGTCD') \n");
 			strQuery.append("   and c.cm_micode=a.cm_sposition                     \n");
-			if (GbnCd != null && GbnCd != "") strQuery.append("and a.cm_gbncd=?    \n");
-			if (PosCd != null && PosCd != "") strQuery.append("and a.cm_rposition=?\n");
+			if (GbnCd != null && !"".equals(GbnCd)) strQuery.append("and a.cm_gbncd=?    \n");
+			if (PosCd != null && !"".equals(PosCd)) strQuery.append("and a.cm_rposition=?\n");
 			strQuery.append("order by b.cm_codename,c.cm_codename                  \n");
-			//pstmt = new LoggableStatement(conn,strQuery.toString());
-            pstmt = conn.prepareStatement(strQuery.toString());
-            if (GbnCd != null && GbnCd != "") pstmt.setString(1, GbnCd);
-            if (PosCd != null && PosCd != "") pstmt.setString(2, PosCd);
-            ////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			pstmt = new LoggableStatement(conn,strQuery.toString());
+            //pstmt = conn.prepareStatement(strQuery.toString());
+			if (GbnCd != null && !"".equals(GbnCd)) pstmt.setString(1, GbnCd);
+            if (PosCd != null && !"".equals(PosCd)) pstmt.setString(2, PosCd);
+            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
 			while (rs.next()){
