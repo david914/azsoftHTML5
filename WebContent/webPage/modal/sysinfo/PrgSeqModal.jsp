@@ -1,3 +1,7 @@
+<!--  
+	* 화면명: 프로그램유형별처리속성관리
+	* 화면호출: 프로그램종류정보 -> 프로그램처리속성 트리구조 작성 클릭
+-->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

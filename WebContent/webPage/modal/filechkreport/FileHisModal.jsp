@@ -1,3 +1,8 @@
+<!--  
+	* 화면명: 대사기록조회
+	* 화면호출: 파일대사결과조회 -> 대사기록조회 클릭
+-->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

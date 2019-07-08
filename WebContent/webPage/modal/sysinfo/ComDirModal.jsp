@@ -1,3 +1,7 @@
+<!--  
+	* 화면명: 공통디렉토리정보
+	* 화면호출: 시스템정보 -> 공통디렉토리 클릭
+-->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
