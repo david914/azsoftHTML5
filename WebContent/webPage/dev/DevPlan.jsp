@@ -14,8 +14,7 @@
 	    <div class="az_board_basic" style="height:30%">
 			<div class="l_wrap width-48 dib vat" style="width:100%; height:100%">
     			<!-- <iframe id="frmPrjList" name="frmPrjList" src='/webPage/srcommon/PrjListTab.jsp' width='100%' height='100%' frameborder="0"></iframe> -->
-    			<c:import url="/webPage/tab/PrjListTab.jsp" />
-    			
+    			<c:import url="/webPage/srcommon/PrjListTab.jsp" />
     		</div>
 	    </div>
 	    
@@ -32,13 +31,13 @@
 			<div class="half_wrap margin-10-top" style="height:50%"> <!--  tab_container -->
 		       	<!-- SR등록/접수 START -->
 		       	<div id="tabSRRegister" class="tab_content mask_wrap" style="width:100%">
-		       		<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/tab/DevPlanTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       		<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/tab/SR/SRRegisterTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- SR등록/접수  END -->
 		       	
 		       	<!-- 개발계획/실적등록 START -->
 		       	<div id="tabDevPlan" class="tab_content" style="width:100%">
-		       		<iframe id="frmDevPlan" name="frmDevPlan" src='/webPage/tab/DevPlanTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       		<iframe id="frmDevPlan" name="frmDevPlan" src='/webPage/tab/SR/DevPlanTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- 개발계획/실적등록 END -->
 		   	</div>

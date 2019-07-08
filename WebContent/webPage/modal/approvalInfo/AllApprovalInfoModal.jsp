@@ -1,8 +1,13 @@
+<!--  
+	* 화면명: 전체조회
+	* 화면호출: 결재정보 -> 전체조회 클릭
+-->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:import url="/webPage/common/common.jsp" />
+<c:import url="/webPage/common/common.jsp"/>
 
 <section>
 	<div class="hpanel">
@@ -55,4 +60,4 @@
 </section>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
-<script type="text/javascript" src="<c:url value="/js/ecams/modal/AllApprovalInfoModal.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/approvalInfo/AllApprovalInfoModal.js"/>"></script>

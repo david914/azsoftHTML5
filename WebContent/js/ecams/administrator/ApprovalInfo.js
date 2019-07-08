@@ -40,6 +40,7 @@ var tmpDeptCd		= "";
 
 var allApprovalInfoModal 	= new ax5.ui.modal(); //전체조회 팝업
 var copyApprovalInfoModal	= new ax5.ui.modal(); //결재정보복사 팝업
+var subApprovalRangeModal	= new ax5.ui.modal(); //대결범위등록 팝업
 
 var tmpInfo     	= new Object(); 
 var tmpInfoData 	= new Object(); 
@@ -105,6 +106,10 @@ var allApprovalInfoModalCallBack = function() {
 
 var copyApprovalInfoModalCallBack = function() {
 	copyApprovalInfoModal.close();
+}
+
+var subApprovalRangeModalCallBack = function() {
+	subApprovalRangeModal.close();
 }
 
 $(document).ready(function(){
@@ -176,7 +181,7 @@ $(document).ready(function(){
 	
 	//대결범위등록
 	$("#btnBlank").bind('click', function() {
-		//btnBlank_Click();
+		btnBlank_Click();
 	});
 	
 	//조회
@@ -1319,7 +1324,7 @@ function btnAllQry_Click() {
         height: 700,
         iframe: {
             method: "get",
-            url: "../modal/AllApprovalInfoModal.jsp",
+            url: "../modal/approvalInfo/AllApprovalInfoModal.jsp",
             param: "callBack=allApprovalInfoModalCallBack"
         },
         onStateChanged: function () {
@@ -1340,8 +1345,29 @@ function btnCopy_Click() {
         height: 700,
         iframe: {
             method: "get",
-            url: "../modal/CopyApprovalInfoModal.jsp",
+            url: "../modal/approvalInfo/CopyApprovalInfoModal.jsp",
             param: "callBack=copyApprovalInfoModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+            }
+        }
+    }, function () {
+    });
+}
+
+function btnBlank_Click() {
+	subApprovalRangeModal.open({
+        width: 800,
+        height: 750,
+        iframe: {
+            method: "get",
+            url: "../modal/approvalInfo/SubApprovalRangeModal.jsp",
+            param: "callBack=subApprovalRangeModalCallBack"
         },
         onStateChanged: function () {
             if (this.state === "open") {

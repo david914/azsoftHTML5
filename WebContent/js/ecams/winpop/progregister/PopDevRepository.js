@@ -1,3 +1,13 @@
+/**
+ * 개발영역연결등록 팝업 기능 정의
+ * <pre>
+ * <b>History</b>
+ * 	작성자: 방지연
+ * 	버전 : 1.0
+ *  수정일 : 2019-06-00
+ */
+
+	
 var userName 	 	= window.top.userName;
 var userId 		 	= window.top.userId;
 var adminYN 		= window.top.adminYN;

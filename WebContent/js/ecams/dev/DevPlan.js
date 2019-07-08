@@ -69,30 +69,16 @@ function initScreen() {
 }
 
 function setTabMenu(){
-	$(".tab_content").hide();
-	$("#tabDevPlan").fadeIn(); //개발계획실적탭
+	$("#tabDevPlan").show(); //개발계획실적탭
 	
 	$("ul.tabs li").click(function () {
 		$(".tab_content").hide();
-		
-		//클릭에 따라 tab메뉴 색상 변경
-		$("ul.tabs li").removeClass();
-		$(this).addClass('on');
-		
 		var activeTab = $(this).attr("rel");
 		
-		// 페이지를 처음 불러올때 미리 불러오면 셀 width 깨짐 현상이 있어 클릭후 처움 ifram 을 새로 불러오도록 수정
-		// 수정 후 첫 페이지 load 시에 fadeIn이 매끄럽지 않아 추후 수정이 필요함
+		//tab메뉴 클릭에 따라 색상 변경
+		$("ul.tabs li").removeClass('on');
+		$(this).addClass("on");
 		
-		if(urlArr[$(this).index()] == null && $(this).index() > 0){
-			urlArr[$(this).index()] = $("#" + activeTab).children("iframe");
-			$("#" + activeTab).children("iframe").attr("src",$("#" + activeTab).children("iframe").attr("src"));
-			
-			$("#" + activeTab).children("iframe").on('load',function(){
-				$("#" + activeTab).fadeIn();
-			});
-			return;
-		}
 		$("#" + activeTab).fadeIn();
 	});
 	

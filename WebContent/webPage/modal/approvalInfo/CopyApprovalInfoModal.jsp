@@ -1,3 +1,8 @@
+<!--  
+	* 화면명: 결재정보복사
+	* 화면호출: 결재정보 -> 결재정보복사 클릭
+-->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -94,4 +99,4 @@
 </section>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
-<script type="text/javascript" src="<c:url value="/js/ecams/modal/CopyApprovalInfoModal.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/approvalInfo/CopyApprovalInfoModal.js"/>"></script>

@@ -19,6 +19,7 @@ import app.common.SysInfo;
 import app.common.TeamInfo;
 import app.eCmm.Cmm0200_Copy;
 import app.eCmm.Cmm0300;
+import app.eCmm.Cmm0300_Blank;
 import app.eCmm.Cmm0300_Copy;
 import html.app.common.ParsingCommon;
 
@@ -28,12 +29,13 @@ public class ApprovalInfoServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Gson 		 gson 		  = new Gson();
-	SysInfo      sysinfo 	  = new SysInfo();
-	Cmm0200_Copy cmm0200_copy = new Cmm0200_Copy();
-	TeamInfo	 teamInfo 	  = new TeamInfo();
-	Cmm0300 	 cmm0300	  = new Cmm0300();
-	Cmm0300_Copy cmm0300_copy = new Cmm0300_Copy();
+	Gson 		  gson 		    = new Gson();
+	SysInfo       sysinfo 	    = new SysInfo();
+	Cmm0200_Copy  cmm0200_copy  = new Cmm0200_Copy();
+	TeamInfo	  teamInfo 	    = new TeamInfo();
+	Cmm0300 	  cmm0300	    = new Cmm0300();
+	Cmm0300_Copy  cmm0300_copy  = new Cmm0300_Copy();
+	Cmm0300_Blank cmm0300_blank = new Cmm0300_Blank();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -72,6 +74,9 @@ public class ApprovalInfoServlet extends HttpServlet {
 					break;
 				case "COPYAPPROVALINFO" :
 					response.getWriter().write( copyApprovalInfo(jsonElement) );
+					break;
+				case "GETBLANKLIST" :
+					response.getWriter().write( getBlankList(jsonElement) );
 					break;
 				default:
 					break;
@@ -124,5 +129,11 @@ public class ApprovalInfoServlet extends HttpServlet {
 		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
 		ArrayList<HashMap<String, String>> DataArray = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "tmpArray") );
 		return gson.toJson(cmm0300_copy.confCopy(DataMap, DataArray));
+	}
+	
+	private String getBlankList(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		return gson.toJson(cmm0300_blank.getBlankList(DataMap.get("gbnCd"),
+													  DataMap.get("posCd")));
 	}
 }

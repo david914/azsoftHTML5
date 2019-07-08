@@ -689,7 +689,7 @@ function openWindow(type, syscd, reqNo, rsrcName) {
     nWidth  	= screen.width - 200;
 	nTop  		= parseInt((window.screen.availHeight/2) - (nHeight/2));
 	nLeft 		= parseInt((window.screen.availWidth/2) - (nWidth/2));
-	cURL 		= "../winpop/DevRepProgRegister.jsp";
+	cURL 		= "../winpop/progregister/PopDevRepository.jsp";
 	cFeatures 	= "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
 
 	var f = document.popPam;   		//폼 name

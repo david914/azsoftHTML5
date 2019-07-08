@@ -1,3 +1,10 @@
+<!--  
+	* 화면명: 개발계획/실적 등록
+	* 화면호출:
+	 1) 개발계획/실적 -> 개발계획/실적 탭
+	 2) 체크아웃, 체크인 등 SR정보 버튼 클릭 -> 개발계획/실적 탭 
+-->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -141,7 +148,7 @@
 <!-- contener E -->
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
-<script type="text/javascript" src="<c:url value="/js/ecams/tab/DevPlanTab.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/tab/SR/DevPlanTab.js"/>"></script>
 
 </body>
 </html>

@@ -77,4 +77,4 @@
 </section>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
-<script type="text/javascript" src="<c:url value="/js/ecams/modal/SubApprovalRangeModal.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/approvalInfo/SubApprovalRangeModal.js"/>"></script>
