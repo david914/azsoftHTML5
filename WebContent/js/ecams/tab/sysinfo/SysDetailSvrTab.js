@@ -120,7 +120,6 @@ $(document).ready(function(){
 			$('#txtAftIp').css('visibility','visible');
 		} 
 		if(!$('#chkIp').is(':checked') && !$('#chkIpC').is(':checked')){
-			console.log('check2');
 			$('#lblAftIp').css('visibility','hidden');
 			$('#txtAftIp').css('visibility','hidden');
 		}
@@ -220,7 +219,7 @@ function closeSvr() {
 		SeqNo 	: tmpSeq,
 		requestType	: 'closeSvr'
 	}
-	ajaxAsync('/webPage/administrator/SvrServlet', svrCloseData, 'json',successSvrClose);
+	ajaxAsync('/webPage/tab/sysinfo/SvrServlet', svrCloseData, 'json',successSvrClose);
 }
 
 function successSvrClose(data) {
@@ -351,15 +350,15 @@ function checkSvrVal(gbnCd) {
 	}
 	
 	if(rquestType === 'svrInAnUp') {
-		ajaxAsync('/webPage/administrator/SvrServlet', svrReqInfoData, 'json',successSvrInAnUp);
+		ajaxAsync('/webPage/tab/sysinfo/SvrServlet', svrReqInfoData, 'json',successSvrInAnUp);
 	} 
 	
 	if(rquestType === 'svrCopy') {
-		ajaxAsync('/webPage/administrator/SvrServlet', svrReqInfoData, 'json',successSvrCopy);
+		ajaxAsync('/webPage/tab/sysinfo/SvrServlet', svrReqInfoData, 'json',successSvrCopy);
 	}
 	
 	if(rquestType === 'svrIn') {
-		ajaxAsync('/webPage/administrator/SvrServlet', svrReqInfoData, 'json',successSvrIn);
+		ajaxAsync('/webPage/tab/sysinfo/SvrServlet', svrReqInfoData, 'json',successSvrIn);
 	}
 	
 };
@@ -396,7 +395,7 @@ function getSvrInfoList() {
 		svrInfoStr	: svrInfoStr,
 		requestType	: 'getSvrInfoList'
 	}
-	ajaxAsync('/webPage/administrator/SvrServlet', svrInfo, 'json',successGetSvrInfoList);
+	ajaxAsync('/webPage/tab/sysinfo/SvrServlet', svrInfo, 'json',successGetSvrInfoList);
 }
 
 function successGetSvrInfoList(data) {

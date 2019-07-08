@@ -76,9 +76,22 @@ function ajaxCallWithJson(url, requestData, dataType) {
 	else return 'ERR';
 };
 
+function $F(caller) { 
+    var f = caller;
+    if(caller) f = f.caller;
+    var pat = /^function\s+([a-zA-Z0-9_]+)\s*\(/i;
+
+    pat.exec(f);  //메서드가 일치하는 부분을 찾으면 배열변수를 반환하고, 검색 결과를 반영하도록 RegExp 개체가 업데이트된다.
+
+    var func = new Object(); 
+    func.name = RegExp.$1; 
+    
+    return func; 
+}
 
 
 function ajaxAsync(url, requestData, dataType,successFunc,callbackFunc) {
+	var calleeFuncName = $F(arguments.callee);
 	var requestJson = JSON.stringify(requestData);
 	var ajax = $.ajax({
 		type 	: 'POST',
@@ -86,15 +99,13 @@ function ajaxAsync(url, requestData, dataType,successFunc,callbackFunc) {
 		data 	: requestJson,
 		dataType: dataType,
 		async 	: true
-	}).then(successFunc,defaultErrorFunction)
-		.then(callbackFunc);
-}
-
-function defaultErrorFunction(err) {
-	console.log('============================ajax 통신중 error 발생============================');
-	console.log('============================Error message START============================');
-	console.log(err);
-	console.log('============================Error message END============================');
+	}).then(successFunc, function(err) {
+		console.log('============================에러발생가 발생한 호출 함수명 [' +calleeFuncName.name + ']==================');
+		console.log('============================Ajax 통신중 error 발생 Error message START============================');
+		console.log(err);
+		console.log('============================Error message END============================');
+		
+	}).then(callbackFunc);
 }
 
 function Request(){

@@ -10,17 +10,17 @@
 	<div class="content">
 		<div id="history_wrap">관리자 <strong>&gt; 시스템정보</strong></div>
 
-		<div class="az_board_basic" style="height: 40%">
+		<div class="az_board_basic" style="height: 44%">
 	    	<div data-ax5grid="sysInfoGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 		</div>
 		
 		<div class="row vat por tar">
 			<div class="dib">
-				<!-- <label id="lblSysCd" class="dib">시스템코드/시스템명</label>
-				<input id="txtSysCd" name="txtTitle" class="form-control width-50 dib" type="text" /> -->
+				<label class="dib">시스템코드/시스템명</label>
+				<input id="txtFindSys" class="form-control width-50 dib" type="text" />
 			</div>
 			
-			<div class="dib margin-3-top">
+			<div class="dib vat">
 				<input type="checkbox" class="checkbox-pie" id="chkCls" data-label="폐기포함"/>
 			</div>
 			
@@ -131,7 +131,7 @@
 					<label class="tit_80 dib poa">업무</label>
 					<input id="txtJobname" name="txtJobname" type="text" class="width-0 ml_80" />
 					
-					<div class="az_board_basic scroll_h az_board_basic_in row" style="height: 27%">
+					<div class="az_board_basic scroll_h az_board_basic_in row" style="height: 25%">
 						<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 					</div>
 				</div>
@@ -146,7 +146,7 @@
 						<input id="txtTime" name="txtTime" type="text" class="width-30 ml_80"><span class="btn_calendar vat"><i class="fa fa-clock-o"></i></span> 
 					</li>
 				</ul>
-				<div class="scrollBind row">
+				<div class="scrollBind row" style="height: 18%">
     				<ul class="list-group" id="ulSysInfo">
 	    			</ul>
     			</div>
@@ -154,33 +154,23 @@
     			<div class="row">
 	    			<label class="tit_80 dib poa">중단시작</label>
 					<div class="ml_80">
-						<div id="divPicker" class="az_input_group dib" data-ax5picker="datStDate">
-							<input id="datStDate" type="text" placeholder="yyyy/mm/dd" style="width:100px;" ><span class="btn_calendar margin-5-left"><i class="fa fa-calendar-o"></i></span>
-						</div>
-						<div class="dib vat">
-							<input id="timeDeploy" name="timeDeploy" type="text" class="width-30 ml_80"><span class="btn_calendar vat"><i class="fa fa-clock-o"></i></span>
-						</div>
-					</div>
-    			</div>
-   				<!-- <div class="row">
-					<label class="tit_80 dib poa">중단시작</label>
-					<div class="ml_80">
-						<div id="divPicker" class="az_input_group dib" data-ax5picker="datStDate">
-							<input id="datStDate" type="text" placeholder="yyyy/mm/dd" class="width-70" >
+						<div id="divPicker" data-ax5picker="datStDate" class="dib">
+							<input id="datStDate" type="text" placeholder="yyyy/mm/dd">
 							<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 						</div>
-						<input id="timeDeploy" name="timeDeploy" type="text" class="width-30 ml_80"><span class="btn_calendar vat"><i class="fa fa-clock-o"></i></span>		
+						<input id="timeDeploy" type="text"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
 					</div>
-				</div> -->
+    			</div>
    				
    				<div class="row">
 					<label class="tit_80 dib poa">중단종료</label>
 					<div class="ml_80">
-						<div id="divPicker" class="az_input_group dib" data-ax5picker="datEdDate">
-							<input id="datEdDate" type="text" placeholder="yyyy/mm/dd" class="width-70" >
+					
+						<div id="divPicker" data-ax5picker="datEdDate" class="dib">
+							<input id="datEdDate" type="text" placeholder="yyyy/mm/dd">
 							<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 						</div>
-						<input id="timeDeployE" name="timeDeployE" type="text" class="width-30 ml_80"><span class="btn_calendar vat"><i class="fa fa-clock-o"></i></span>
+						<input id="timeDeployE" type="text"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
 					</div>
 				</div>
 			</div>

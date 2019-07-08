@@ -1,4 +1,4 @@
-package html.app.administrator;
+package html.app.tab.sysinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,7 +20,7 @@ import app.eCmm.Cmm0200_Copy;
 import app.eCmm.Cmm0200_Svr;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/administrator/SvrUsrServlet")
+@WebServlet("/webPage/tab/sysinfo/SvrUsrServlet")
 public class SvrUsrServlet extends HttpServlet {
 	/**
 	 * 

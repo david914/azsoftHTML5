@@ -186,7 +186,7 @@ function getSvrList() {
 		SysCd		: sysCd,
 		requestType	: 'getSvrList'
 	}
-	ajaxAsync('/webPage/administrator/SvrPrgServlet', svrListData, 'json',successGetSvrList);
+	ajaxAsync('/webPage/tab/sysinfo/SvrPrgServlet', svrListData, 'json',successGetSvrList);
 }
 
 function successGetSvrList(data) {
@@ -208,7 +208,7 @@ function getSvrItemGrid() {
 		SvrCd		: null,
 		requestType	: 'getSvrItemGrid'
 	}
-	ajaxAsync('/webPage/administrator/SvrPrgServlet', cboSvrData, 'json',successGetSvrItemGrid);
+	ajaxAsync('/webPage/tab/sysinfo/SvrPrgServlet', cboSvrData, 'json',successGetSvrItemGrid);
 }
 
 function successGetSvrItemGrid(data) {
@@ -234,7 +234,7 @@ function getUlItemInfo() {
 		SysCd		: sysCd,
 		requestType	: 'getUlItemInfo'
 	}
-	ajaxAsync('/webPage/administrator/SvrPrgServlet', ulItemData, 'json',successGetUlItemInfo);
+	ajaxAsync('/webPage/tab/sysinfo/SvrPrgServlet', ulItemData, 'json',successGetUlItemInfo);
 }
 
 function successGetUlItemInfo(data) {
@@ -264,7 +264,7 @@ function getItemList() {
 		SysCd		: sysCd,
 		requestType	: 'getItemList'
 	}
-	ajaxAsync('/webPage/administrator/SvrPrgServlet', itemData, 'json',successGetItemList);
+	ajaxAsync('/webPage/tab/sysinfo/SvrPrgServlet', itemData, 'json',successGetItemList);
 }
 
 function successGetItemList(data) {
@@ -351,7 +351,7 @@ function checkValItem(kinds) {
 		etcData		: tmpObj,
 		requestType	: requestType
 	}
-	ajaxAsync('/webPage/administrator/SvrPrgServlet', insertItemData, 'json', 
+	ajaxAsync('/webPage/tab/sysinfo/SvrPrgServlet', insertItemData, 'json', 
 				kinds === 'insert'?successInsertItem : successClosetItem);
 }
 
