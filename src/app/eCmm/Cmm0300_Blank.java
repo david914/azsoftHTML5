@@ -62,6 +62,7 @@ public class Cmm0300_Blank{
 		try {
 			conn = connectionContext.getConnection();
 			strQuery.append("select a.cm_gbncd,a.cm_teamck,a.cm_sposition,         \n");
+			strQuery.append("       b.cm_micode rposcd,c.cm_micode sposcd,         \n");
 			strQuery.append("       b.cm_codename rpos,c.cm_codename spos          \n");
 			strQuery.append("  from cmm0020 c,cmm0020 b,cmm0046 a                  \n");
 			strQuery.append(" where b.cm_macode=decode(a.cm_gbncd,'0','POSITION','RGTCD') \n");
@@ -87,6 +88,9 @@ public class Cmm0300_Blank{
 				rst.put("cm_teamck", rs.getString("cm_teamck"));
 				rst.put("cm_rpos", rs.getString("rpos"));
 				rst.put("cm_spos", rs.getString("spos"));
+				rst.put("rposcd", rs.getString("rposcd"));
+				rst.put("sposcd", rs.getString("sposcd"));
+				
 				rsval.add(rst);
 				rst = null;
 			}//end of while-loop statement

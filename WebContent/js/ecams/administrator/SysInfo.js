@@ -74,7 +74,7 @@ sysInfoGrid.setConfig({
         },
     	trStyleClass: function () {
     		if(this.item.closeSw === 'Y'){
-    			return "text-danger";
+    			return "fontStyle-cncl";
     		}
     	},
     	onDataChanged: function(){
@@ -110,15 +110,6 @@ jobGrid.setConfig({
         	doubleClickGrid();
         },
     	trStyleClass: function () {
-    		if(this.item.COLORSW === '5'){
-    			return "fontStyle-cncl";
-    		} else if (this.item.closeSw === 'Y'){
-    			return "text-danger";
-    		} else if (this.item.closeSw === 'Y'){
-    			return "text-info";
-    		} else {
-    			return "text-secondary"
-    		}
     	},
     	onDataChanged: function(){
     		this.self.repaint();
@@ -167,6 +158,13 @@ $(document).ready(function(){
 	getSysInfoList('');
 	screenInit();
 	
+	// 시스템 코드/ 시스템명 찾기
+	$('#txtFindSys').bind('keypress', function(event) {
+		if(event.keyCode === 13 ) {
+			$('#btnQry').trigger('click');
+		}
+	});
+	
 	// 조회 클릭시
 	$('#btnQry').bind('click', function() {
 		var strDay = getDate('DATE',0);
@@ -203,7 +201,7 @@ $(document).ready(function(){
 		$('#datStDateDiv').css('pointer-events','none');
 		$('#datEdDateDiv').css('pointer-events','none');
 		
-		getSysInfoList('');
+		getSysInfoList($('#txtFindSys').val().trim());
 		getSysInfoCbo();
 	});
 	
@@ -283,7 +281,7 @@ $(document).ready(function(){
 		var factUpInfoData;
 		factUpInfoData = new Object();
 		factUpInfoData = {
-			requestType	: 	'FACTUP'
+			requestType	: 	'factUp'
 		}
 		ajaxAsync('/webPage/administrator/SysInfoServlet', factUpInfoData, 'json',successFactUpdt);
 	});
@@ -312,7 +310,7 @@ $(document).ready(function(){
 				sysInfoData = new Object();
 				sysInfoData = {
 					sysInfo		: sysInfo,
-					requestType	: 'CLOSESYS'
+					requestType	: 'closeSys'
 				}
 				ajaxAsync('/webPage/administrator/SysInfoServlet', sysInfoData, 'json',successSysClose);
 			}
@@ -409,7 +407,7 @@ $(document).ready(function(){
 		selectedSystem = sysInfoGrid.list[gridSelectedIndex];
 		prgKindsModal.open({
 	        width: 1200,
-	        height: 700,
+	        height: 900,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/sysinfo/PrgKindsModal.jsp",
@@ -691,7 +689,7 @@ function updateSystem(isNew) {
 	var systemInfoDta = new Object(); 
 	systemInfoDta = {
 		systemInfo	: 	systemInfo,
-		requestType	: 	'UPDATESYSTEM'
+		requestType	: 	'updateSystem'
 	}
 	
 	
@@ -763,7 +761,7 @@ function getSysInfoList(sysCd) {
 	sysListInfoData = new Object();
 	sysListInfoData = {
 		sysInfo	: 	sysListInfo,
-		requestType	: 	'GETSYSINFOLIST'
+		requestType	: 	'getSysInfoList'
 	}
 	
 	ajaxAsync('/webPage/administrator/SysInfoServlet', sysListInfoData, 'json',successGetSysInfoList);
@@ -814,7 +812,7 @@ function getJobList() {
 	jobInfoCboData = new Object();
 	jobInfoCboData = {
 		jobInfoCbo	: 	jobInfoCbo,
-		requestType	: 	'GETJOBLIST'
+		requestType	: 	'getJobList'
 	}
 	ajaxAsync('/webPage/administrator/SysInfoServlet', jobInfoCboData, 'json',successGetJobList);
 }
@@ -837,8 +835,8 @@ function getSysInfoCbo() {
 	
 	sysInfoCboData = new Object();
 	sysInfoCboData = {
-		sysInfoCbo	: 	sysInfoCbo,
-		requestType	: 	'GETSYSINFOCBO'
+		sysInfoCbo	: sysInfoCbo,
+		requestType	: 'getSysInfoCbo'
 	}
 	ajaxAsync('/webPage/administrator/SysInfoServlet', sysInfoCboData, 'json',successGetSysInfoCbo);
 }
@@ -1003,7 +1001,7 @@ function getSysJobInfo(sysCd) {
 	sysJobInfoData = new Object();
 	sysJobInfoData = {
 		sysJobInfo	: sysJobInfo,
-		requestType	: 'GETJOBINFO'
+		requestType	: 'getJobInfo'
 	}
 	ajaxAsync('/webPage/administrator/SysInfoServlet', sysJobInfoData, 'json',successGetSysJobInfo);
 }

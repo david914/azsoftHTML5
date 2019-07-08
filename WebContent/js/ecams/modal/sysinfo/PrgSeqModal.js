@@ -80,7 +80,7 @@ $(document).ready(function(){
     		dataObj : dataObj,
     		requestType	: 'updateProgInfo'
     	}
-    	ajaxAsync('/webPage/administrator/PrgSeqServlet', data, 'json',successUpdateProgInfo);
+    	ajaxAsync('/webPage/modal/sysinfo/PrgSeqServlet', data, 'json',successUpdateProgInfo);
 	});
 	
 	// 닫기
@@ -187,7 +187,7 @@ function addMenu() {
         		dataObj : dataObj,
         		requestType	: 'insertNewDir'
         	}
-        	ajaxAsync('/webPage/administrator/PrgSeqServlet', data, 'json',successInsertNewDir);
+        	ajaxAsync('/webPage/modal/sysinfo/PrgSeqServlet', data, 'json',successInsertNewDir);
         }
     });
 }
@@ -228,7 +228,7 @@ function addSubMenu() {
         		dataObj : dataObj,
         		requestType	: 'insertNewDir'
         	}
-        	ajaxAsync('/webPage/administrator/PrgSeqServlet', data, 'json',successInsertNewSubDir);
+        	ajaxAsync('/webPage/modal/sysinfo/PrgSeqServlet', data, 'json',successInsertNewSubDir);
         }
     });
 }
@@ -270,7 +270,7 @@ function delMenu() {
 				dataObj		: dataObj,
 				requestType	: 'checkDelDir'
 			}
-			ajaxAsync('/webPage/administrator/PrgSeqServlet', data, 'json',successCheckDelDir);
+			ajaxAsync('/webPage/modal/sysinfo/PrgSeqServlet', data, 'json',successCheckDelDir);
 		} else {
 			selectedNode 	= null;
 			insertNode 		= null;
@@ -307,7 +307,7 @@ function deleteDir() {
 		dataObj		: dataObj,
 		requestType	: 'delDir'
 	}
-	ajaxAsync('/webPage/administrator/PrgSeqServlet', data, 'json',successDelDir);
+	ajaxAsync('/webPage/modal/sysinfo/PrgSeqServlet', data, 'json',successDelDir);
 }
 
 // 트리 구분 삭제 완료
@@ -336,7 +336,7 @@ function reMenu() {
         		dataObj : dataObj,
         		requestType	: 'reNameDir'
         	}
-        	ajaxAsync('/webPage/administrator/PrgSeqServlet', data, 'json',successReNameDir);
+        	ajaxAsync('/webPage/modal/sysinfo/PrgSeqServlet', data, 'json',successReNameDir);
         }
     });
 }
@@ -352,7 +352,7 @@ function getProgInfoTree() {
 	data = {
 		requestType	: 'getProgInfoTree'
 	}
-	ajaxAsync('/webPage/administrator/PrgSeqServlet', data, 'json',successGetProgInfoTree);
+	ajaxAsync('/webPage/modal/sysinfo/PrgSeqServlet', data, 'json',successGetProgInfoTree);
 	
 }
 
@@ -370,7 +370,7 @@ function getCodeSelInfo(res) {
 		res			: res,
 		requestType	: 'getCodeSelInfo'
 	}
-	ajaxAsync('/webPage/administrator/PrgSeqServlet', data, 'json',successGetCodeSelInfo);
+	ajaxAsync('/webPage/modal/sysinfo/PrgSeqServlet', data, 'json',successGetCodeSelInfo);
 }
 
 // 처리속성 리스트 가져오기 완료

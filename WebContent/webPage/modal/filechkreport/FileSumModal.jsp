@@ -1,3 +1,7 @@
+<!--  
+	* 화면명: 대사내용합계표
+	* 화면호출: 대사기록조회 -> 대사기록리스트 더블클릭
+-->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

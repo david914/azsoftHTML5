@@ -129,7 +129,7 @@ function getAllUserRgtCd() {
 		userId 		: userId,
 		requestType	: 'getAllUserRgtCd'
 	}
-	ajaxAsync('/webPage/administrator/RgtCdServlet', data, 'json',successGetAllUserRgtCd);
+	ajaxAsync('/webPage/modal/userinfo/RgtCdServlet', data, 'json',successGetAllUserRgtCd);
 }
 
 // 조회 완료
@@ -145,7 +145,7 @@ function getUserId() {
 		UserName 	: $('#txtUser').val().trim(),
 		requestType	: 'getUserId'
 	}
-	ajaxAsync('/webPage/administrator/RgtCdServlet', data, 'json',successGetUserId);
+	ajaxAsync('/webPage/modal/userinfo/RgtCdServlet', data, 'json',successGetUserId);
 }
 
 // 사용자 정보 가져오기 완료
@@ -168,7 +168,7 @@ function getJobInfo() {
 		sortCd 		: 'NAME',
 		requestType	: 'getJobInfo'
 	}
-	ajaxAsync('/webPage/administrator/RgtCdServlet', data, 'json',successGetJobInfo);
+	ajaxAsync('/webPage/modal/userinfo/RgtCdServlet', data, 'json',successGetJobInfo);
 }
 
 // 업무정보 가져오기 완료
@@ -196,7 +196,7 @@ function getSysInfo() {
 		ReqCd 		: '',
 		requestType	: 'getSysInfo'
 	}
-	ajaxAsync('/webPage/administrator/RgtCdServlet', data, 'json',successGetSysInfo);
+	ajaxAsync('/webPage/modal/userinfo/RgtCdServlet', data, 'json',successGetSysInfo);
 }
 
 // 시스템정보 가져오기 완료

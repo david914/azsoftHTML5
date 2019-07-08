@@ -1,4 +1,4 @@
-package html.app.administrator;
+package html.app.modal.sysinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,7 +20,7 @@ import app.eCmm.Cmm0200_Copy;
 import app.eCmm.Cmm0200_Prog;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/administrator/PrgKindsServlet")
+@WebServlet("/webPage/modal/sysinfo/PrgKindsServlet")
 public class PrgKindsInfoServlet extends HttpServlet {
 	/**
 	 * 

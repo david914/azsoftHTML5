@@ -153,7 +153,7 @@ function delJobInfo(selectedItems) {
 		delJobList 	: selectedItems,
 		requestType	: 'delJobInfo',
 	}
-	ajaxAsync('/webPage/modal/Job', delJobInfoData, 'json',successDelJobInfo);
+	ajaxAsync('/webPage/modal/sysinfo/Job', delJobInfoData, 'json',successDelJobInfo);
 }
 
 function successDelJobInfo(data) {
@@ -173,7 +173,7 @@ function getJobList() {
 	jobInfoData = {
 		requestType		: 'getJobList',
 	}
-	ajaxAsync('/webPage/modal/Job', jobInfoData, 'json',successgetJobList);
+	ajaxAsync('/webPage/modal/sysinfo/Job', jobInfoData, 'json',successgetJobList);
 }
 
 function successgetJobList(data) {

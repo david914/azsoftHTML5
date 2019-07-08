@@ -102,7 +102,7 @@ function getAllUserInfo() {
 		Option		: Option,
 		requestType	: 'getAllUserInfo'
 	}
-	ajaxAsync('/webPage/modal/AllUserInfoServlet', data, 'json',successGetAllUserInfo);
+	ajaxAsync('/webPage/modal/userinfo/AllUserInfoServlet', data, 'json',successGetAllUserInfo);
 }
 
 // 전체 사용자 조회 완료
@@ -118,7 +118,7 @@ function getTeamList() {
 	data = {
 		requestType	: 	'getTeamList'
 	}
-	ajaxAsync('/webPage/modal/AllUserInfoServlet', data, 'json',successGetTeamList);
+	ajaxAsync('/webPage/modal/userinfo/AllUserInfoServlet', data, 'json',successGetTeamList);
 }
 
 // 팀 리스트 가져오기 완료

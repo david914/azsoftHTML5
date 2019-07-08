@@ -134,6 +134,7 @@ $(document).ready(function() {
 					getProgInfoChk();
 				}
 			} else {
+				prgGrid.clearSelect();
 				if(cmdGrid.columns.length === 2) {
 					cmdGrid.removeColumn(1);
 					cmdGrid.addColumn({key: "gbncd", 		label: "구분",  		width: '8%', align: "left"}, 0);

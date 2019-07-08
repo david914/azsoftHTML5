@@ -1,4 +1,4 @@
-package html.app.administrator;
+package html.app.modal.sysinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,12 +19,15 @@ import app.eCmm.Cmm0200_Copy;
 import app.eCmm.Cmm0200_Prog;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/administrator/PrgSeqServlet")
+@WebServlet("/webPage/modal/sysinfo/PrgSeqServlet")
 public class PrgSeqServlet extends HttpServlet {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	Gson gson = new Gson();
 	Cmm0100 cmm0100 = new Cmm0100();
 	Cmm0200_Copy cmm0200_copy = new Cmm0200_Copy();

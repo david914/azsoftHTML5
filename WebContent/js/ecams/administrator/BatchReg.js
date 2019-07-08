@@ -52,9 +52,9 @@ batchGrid.setConfig({
         onDBLClick: function () {},
         trStyleClass: function () {
     		if(this.item.errsw === '1'){
-    			return "text-danger";
+    			return "fontStyle-cncl";
     		} else if(this.item.errsw === '0'){
-    			return "text-prog";
+    			return "fontStyle-ing";
     		}
     	},
     	onDataChanged: function(){

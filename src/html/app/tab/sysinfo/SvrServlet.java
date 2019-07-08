@@ -1,4 +1,4 @@
-package html.app.administrator;
+package html.app.tab.sysinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ import com.google.gson.JsonParser;
 import app.eCmm.Cmm0200_Svr;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/administrator/SvrServlet")
+@WebServlet("/webPage/tab/sysinfo/SvrServlet")
 public class SvrServlet extends HttpServlet {
 	/**
 	 * 

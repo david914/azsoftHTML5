@@ -1,8 +1,7 @@
-package html.app.modal;
+package html.app.modal.sysinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -15,15 +14,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import app.common.SysInfo;
-import app.eCmm.Cmm0400;
+import app.eCmm.Cmm0200;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/modal/AllUserInfoServlet")
-public class AllUserInfoServlet extends HttpServlet {
+@WebServlet("/webPage/modal/sysinfo/ReleaseTimeSet")
+public class ReleaseTimeSetServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
-	Cmm0400 cmm0400 = new Cmm0400();
+	Cmm0200 cmm0200 = new Cmm0200();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,14 +38,14 @@ public class AllUserInfoServlet extends HttpServlet {
 		try {
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
-			switch (requestType) {
-				case "getTeamList" :
-					response.getWriter().write( getTeamList(jsonElement) );
-					break;
-				case "getAllUserInfo" :
-					response.getWriter().write( getAllUserInfo(jsonElement) );
-					break;
 			
+			switch (requestType) {
+				case "getReleaseTime" :
+					response.getWriter().write( getReleaseTime() );
+					break;
+				case "setReleaseTime" :
+					response.getWriter().write( setReleaseTime(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -57,16 +55,12 @@ public class AllUserInfoServlet extends HttpServlet {
 		}
 	}
 
-	// [사용자정보 > 전체사용자조회] 팀 리스트 가져오기
-	private String getTeamList(JsonElement jsonElement) throws SQLException, Exception {
-		return gson.toJson(cmm0400.getTeamList());
+	private String getReleaseTime() throws SQLException, Exception {
+		return gson.toJson(cmm0200.getReleaseTime());
 	}
 	
-	// [사용자정보 > 전체사용자조회] 전체사용자 가져오기
-	private String getAllUserInfo(JsonElement jsonElement) throws SQLException, Exception {
-		String Cbo_Team = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Cbo_Team") );
-		String Option 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Option") );
-		return gson.toJson(cmm0400.getAllUserInfo(Cbo_Team, Integer.parseInt(Option)));
+	private String setReleaseTime(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "etcData") );
+		return gson.toJson(cmm0200.setReleaseTime(etcData));
 	}
-	
 }

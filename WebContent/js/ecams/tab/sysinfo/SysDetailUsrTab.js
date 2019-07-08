@@ -147,7 +147,7 @@ $(document).ready(function(){
 			SvrCd 	: getSelectedVal('cboSvrUsr').value ,
 			requestType	: 'getSvrUsrInfo'
 		}
-		ajaxAsync('/webPage/administrator/SvrUsrServlet', svrUsrInfoData, 'json',successGetSvrUsrInfo);
+		ajaxAsync('/webPage/tab/sysinfo/SvrUsrServlet', svrUsrInfoData, 'json',successGetSvrUsrInfo);
 
 	});
 	
@@ -210,7 +210,7 @@ $(document).ready(function(){
 			JobCd 		: tmpJob,
 			requestType	: 'closeSvrUsr'
 		}
-		ajaxAsync('/webPage/administrator/SvrUsrServlet', svrUsrCloseData, 'json',successCloseSvrUsr);
+		ajaxAsync('/webPage/tab/sysinfo/SvrUsrServlet', svrUsrCloseData, 'json',successCloseSvrUsr);
 		
 	});
 	
@@ -344,7 +344,7 @@ function checkValUsr() {
 		svrList 	: svrArry,
 		requestType	: 'insertSecuInfo'
 	}
-	ajaxAsync('/webPage/administrator/SvrUsrServlet', usrReqData, 'json',successUsrReq);
+	ajaxAsync('/webPage/tab/sysinfo/SvrUsrServlet', usrReqData, 'json',successUsrReq);
 	
 }
 
@@ -363,7 +363,7 @@ function getSecuList() {
 		sysInfo 	: sysInfo,
 		requestType	: 'getSecuList'
 	}
-	ajaxAsync('/webPage/administrator/SvrUsrServlet', secuInfoData, 'json',successGetSecuList);
+	ajaxAsync('/webPage/tab/sysinfo/SvrUsrServlet', secuInfoData, 'json',successGetSecuList);
 }
 
 function successGetSecuList(data) {
@@ -421,7 +421,7 @@ function getUlSvrInfo() {
 		SelMsg : '',
 		requestType	: 'getUlSvrInfo'
 	}
-	ajaxAsync('/webPage/administrator/SvrUsrServlet', ulSvrInfoData, 'json',successGetUlSvrInfo);
+	ajaxAsync('/webPage/tab/sysinfo/SvrUsrServlet', ulSvrInfoData, 'json',successGetUlSvrInfo);
 }
 
 function successGetUlSvrInfo(data) {

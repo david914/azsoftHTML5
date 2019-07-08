@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+<!-- Header -->
+<div id="header"></div>
+
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">관리자 <strong>&gt; 사용자정보</strong></div>
+        <!-- history E-->
+        <!-- 검색 S-->
+		<div class="az_search_wrap">
+			<div class="az_in_wrap checkout_tit">
+				<div class="row vat cb">	
+                    <!--cell1-->
+                    <div class="width-25 float-left">
+                    	<div class="margin-10-right">
+	                    	<div>
+		                    	<label id="lbUser" class="tit_80 poa">사원번호</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+									<div class="row">
+										<label><input type="radio" />직원</label> <label><input type="radio" />외주직원</label>
+									</div>
+								</div>
+							</div>
+	                    	<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">소속조직</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+								</div>
+							</div>
+	                    	<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">소속(겸직)</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+								</div>
+							</div>
+						</div>
+					</div>
+                    <!--cell2-->
+                    <div class="width-25 float-left">
+                    	<div class="margin-10-right">
+	                    	<div>
+		                    	<label id="lbUser" class="tit_80 poa">성명</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+									<div class="row">
+										<label><input type="checkbox" />시스템관리자</label>
+									</div>
+									<div class="row">
+										<label><input type="checkbox" />동기화제외사용자</label>
+									</div>
+								</div>
+							</div>
+	                    	<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">최종로그인</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+								</div>
+							</div>
+						</div>
+					</div>	
+                    <div class="width-25 float-left">
+                    	<div class="margin-10-right">
+	                    	<div>
+	                        	<label id="lbUser" class="tit_80 poa">직급</label>
+		                        <div class="ml_80 tal">
+									<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-100">
+										<select tabindex="-1" class="form-control input-sm" name="cboUser">
+											<option value="" selected="selected">프로젝트팀</option>
+											<option value="">전체</option>
+											<option value="">연구개발팀</option>
+											<option value="">영업팀</option>
+											<option value="">프로젝트팀</option>							
+										</select>
+										<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+				                            <div class="ax5select-display-table" data-els="display-table">
+				                                <div data-ax5select-display="label">프로젝트팀</div>
+				                                <div data-ax5select-display="addon"> 
+				                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+				                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+				                                </div>
+				                            </div>
+				                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+				                        </a>
+								    </div>
+								</div>
+							</div>
+	                    	<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">IP Address</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+								</div>
+							</div>
+	                    	<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">전화번호1</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+								</div>
+							</div>
+	                    	<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">*전화번호2</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+								</div>
+							</div>
+						</div>
+					</div>
+                    <div class="width-25 float-left">
+                    	<div class="margin-10-right">
+	                    	<div>
+	                        	<label id="lbUser" class="tit_80 poa">직위</label>
+		                        <div class="ml_80 tal">
+									<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-100">
+										<select tabindex="-1" class="form-control input-sm" name="cboUser">
+											<option value="" selected="selected">프로젝트팀</option>
+											<option value="">전체</option>
+											<option value="">연구개발팀</option>
+											<option value="">영업팀</option>
+											<option value="">프로젝트팀</option>							
+										</select>
+										<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+				                            <div class="ax5select-display-table" data-els="display-table">
+				                                <div data-ax5select-display="label">프로젝트팀</div>
+				                                <div data-ax5select-display="addon"> 
+				                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+				                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+				                                </div>
+				                            </div>
+				                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+				                        </a>
+								    </div>
+								</div>
+							</div>
+	                    	<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">E-mail</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+								</div>
+							</div>
+	                    	<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">비번오류횟수</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+								</div>
+							</div>
+	                    	<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">활성여부</label>
+		                        <div class="ml_80">
+									<label><input type="radio" />활성화</label> <label><input type="radio" />비횔성화</label>
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>	
+			</div>
+		</div>    
+        <!-- 검색 E-->
+        <!-- 리스트 S-->
+        <div class="cb">
+        	<!--담당직무-->
+			<div class="float-left width-25">
+				<div class="margin-10-right">
+					<div>
+						<label id="lbUser" class="title">[담장직무]</label>
+					</div>
+					<div class="scrollBind row" style="height:550px;">
+						<ul class="list-group" id="ulSysInfo">
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="프로그램없음"> 본부장</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="개별배포허용(사용안함)"> 소장</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="반입허용"> 실장</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="사용중지"> 배포관리자</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> QA</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 기본사용자</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 책임자</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> eCAMS Admin</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 파일전송</label></li>
+		    			</ul>
+					</div>
+				</div>
+			</div>
+        	<!--담당업무추가-->
+			<div class="float-left width-25">
+				<div class="margin-10-right">
+					<div>
+						<label id="lbUser" class="title">[담당업무추가]</label>
+					</div>
+	            	<div class="row">
+	                	<label id="lbUser" class="tit_80 poa">시스템</label>
+	                    <div class="ml_80 tal">
+							<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-100">
+								<select tabindex="-1" class="form-control input-sm" name="cboUser">
+									<option value="" selected="selected">프로젝트팀</option>
+									<option value="">전체</option>
+									<option value="">연구개발팀</option>
+									<option value="">영업팀</option>
+									<option value="">프로젝트팀</option>							
+								</select>
+								<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+		                            <div class="ax5select-display-table" data-els="display-table">
+		                                <div data-ax5select-display="label">프로젝트팀</div>
+		                                <div data-ax5select-display="addon"> 
+		                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+		                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+		                                </div>
+		                            </div>
+		                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+		                        </a>
+						    </div>
+						</div>
+					</div>
+					<div class="por">
+						<label id="lbUser" class="dib">업무</label>
+						<div class="poa_r">
+							<label><input type="checkbox" id="" > 전체선택</label>
+						</div>
+					</div>
+					<div class="scrollBind" style="height:500px;">
+						<ul class="list-group" id="ulSysInfo">
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="프로그램없음"> 본부장</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="개별배포허용(사용안함)"> 소장</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="반입허용"> 실장</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="사용중지"> 배포관리자</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> QA</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 기본사용자</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 책임자</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> eCAMS Admin</label></li>
+		    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 파일전송</label></li>
+		    			</ul>
+					</div>
+				</div>
+			</div>
+			<div class="float-left width-50">
+				<div class="cb">
+					<!--부재등록정보-->
+					<div class="float-left width-50">
+						<div class="margin-5-right">
+							<label id="lbUser" class="title">부재등록정보</label>
+							<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">대결지정</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+								</div>
+							</div>
+							<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">부재기간</label>
+		                        <div class="ml_80">
+									<input id="Txt_Find" name="Txt_Find" type="text" onkeypress="if(event.keyCode==13) {Search_click();}" placeholder="" class="width-100">
+								</div>
+							</div>
+							<div class="row">
+		                    	<label id="lbUser" class="tit_80 poa">부재사유</label>
+		                        <div class="ml_80">
+		                        	<textarea class="width-100" rows="8" ></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--사용자조회결과-->
+					<div class="float-left width-50">
+						<div>
+							<label id="lbUser" class="title">사용자조회결과</label>
+							<div class="az_board_basic az_board_basic_in row">
+						    	<table>
+							    	<colgroup>
+							    		<col width="10%"><col width="10%"><col width="*%">
+							    	</colgroup>
+						    		<tbody>
+							    		<tr>
+							    			<th scope="col">사번</th>
+							    			<th scope="col">성명</th>
+							    			<th scope="col">부서</th>
+							    		</tr>
+							    		<tr>
+							    			<td></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    		</tr>
+							    		<tr>
+							    			<td></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    		</tr>
+							    		<tr>
+							    			<td></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    		</tr>
+							    		<tr>
+							    			<td></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    		</tr>
+							    		<tr>
+							    			<td></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    		</tr>
+							    		<tr>
+							    			<td></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    		</tr>
+							    	</tbody>
+						    	</table>	
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row dib width-100">
+					<!--등록된담당업무 S-->
+					<div>
+						<label id="lbUser" class="title">등록된담당업무</label>
+						<div class="az_board_basic az_board_basic_in row">
+					    	<table>
+						    	<colgroup>
+						    		<col width="10%"><col width="10%"><col width="*%">
+						    	</colgroup>
+					    		<tbody>
+						    		<tr>
+						    			<th scope="col">NO</th>
+						    			<th scope="col">시스템</th>
+						    			<th scope="col">업무명(업무코드)</th>
+						    		</tr>
+						    		<tr>
+						    			<td></td>
+						    			<td class="tal"></td>
+						    			<td class="tal"></td>
+						    		</tr>
+						    		<tr>
+						    			<td></td>
+						    			<td class="tal"></td>
+						    			<td class="tal"></td>
+						    		</tr>
+						    		<tr>
+						    			<td></td>
+						    			<td class="tal"></td>
+						    			<td class="tal"></td>
+						    		</tr>
+						    		<tr>
+						    			<td></td>
+						    			<td class="tal"></td>
+						    			<td class="tal"></td>
+						    		</tr>
+						    		<tr>
+						    			<td></td>
+						    			<td class="tal"></td>
+						    			<td class="tal"></td>
+						    		</tr>
+						    		<tr>
+						    			<td></td>
+						    			<td class="tal"></td>
+						    			<td class="tal"></td>
+						    		</tr>
+						    		<tr>
+						    			<td></td>
+						    			<td class="tal"></td>
+						    			<td class="tal"></td>
+						    		</tr>
+						    		<tr>
+						    			<td></td>
+						    			<td class="tal"></td>
+						    			<td class="tal"></td>
+						    		</tr>
+						    		<tr>
+						    			<td></td>
+						    			<td class="tal"></td>
+						    			<td class="tal"></td>
+						    		</tr>
+						    		<tr>
+						    			<td></td>
+						    			<td class="tal"></td>
+						    			<td class="tal"></td>
+						    		</tr>
+						    	</tbody>
+					    	</table>	
+						</div>
+					</div>		
+					<!--등록된담당업무 E-->			
+				</div>
+			</div>
+		</div>
+        <!-- 리스트 E-->                  
+        <!-- 페이지버튼 S-->
+        <div class="row tar dib width-100">
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">사용자직무조회</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">사용자일괄등록</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">조직정보등록</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">권한복사</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">비밀번호초기화</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">업무권한일괄등록</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">전체사용자조회</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">저장</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">폐기</button>
+		</div>
+		<!-- 페이지버튼 E-->
+	</div>
+</div>
+
+<!-- Footer-->
+<footer id="footer">
+    <ul>
+        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+    </ul>
+</footer>
+<!-- contener E -->
+
+</body>
+</html>

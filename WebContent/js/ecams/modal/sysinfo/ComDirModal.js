@@ -107,7 +107,7 @@ function closeDir() {
 		DirCd		: selItem.cm_dircd,
 		requestType	: 'closeDir'
 	}
-	ajaxAsync('/webPage/administrator/ComDirServlet', data, 'json',successCloseDir);
+	ajaxAsync('/webPage/modal/sysinfo/ComDirServlet', data, 'json',successCloseDir);
 }
 
 function successCloseDir(data) {
@@ -151,7 +151,7 @@ function checkVal(){
 		etcData 	: etcData,
 		requestType	: 'insertDir'
 	}
-	ajaxAsync('/webPage/administrator/ComDirServlet', data, 'json',successInsertDir);
+	ajaxAsync('/webPage/modal/sysinfo/ComDirServlet', data, 'json',successInsertDir);
  }
 
 // 등록 완료
@@ -182,7 +182,7 @@ function getDirList() {
 		SysCd 		: sysCd,
 		requestType	: 'getDirList'
 	}
-	ajaxAsync('/webPage/administrator/ComDirServlet', data, 'json',successGetDirlist);
+	ajaxAsync('/webPage/modal/sysinfo/ComDirServlet', data, 'json',successGetDirlist);
 }
 
 // 공통 디렉토리 리스트 가져오기 완료

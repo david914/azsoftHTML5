@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+<!-- Header -->
+<div id="header"></div>
+
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">프로그램 <strong>&gt; 빌드/릴리즈정보</strong></div>
+        <!-- history E-->
+		<!-- tab_기본정보 S-->
+		<div class="tab_wrap">
+			<ul>
+				<li>1.빌드/릴리즈유형등록</li><li class="on">2.빌드/릴리즈유형연결</li><li>3.프로그램별 실행 쉘연결</li>
+			</ul>
+		</div>   
+		<!-- tab_기본정보 E--> 
+		<div class="cb">
+			<div class="float-left width-60">
+			    <!-- 검색 S-->    
+				<div class="az_search_wrap row">
+					<div class="az_in_wrap por">
+						<!-- 시스템 -->		
+		                <div class="width-40 dib">
+		                    <label id="lbUser" class="tit_50 poa">시스템</label>
+		                    <div class="ml_50">
+								<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+									<select tabindex="-1" class="form-control input-sm" name="cboUser">
+										<option value="" selected="selected">프로젝트팀</option>
+										<option value="">전체</option>
+										<option value="">연구개발팀</option>
+										<option value="">영업팀</option>
+										<option value="">프로젝트팀</option>							
+									</select>
+									<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+			                            <div class="ax5select-display-table" data-els="display-table">
+			                                <div data-ax5select-display="label">프로젝트팀</div>
+			                                <div data-ax5select-display="addon"> 
+			                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+			                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+			                                </div>
+			                            </div>
+			                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+			                        </a>
+							    </div>
+							</div>
+						</div>
+					    <!-- 요청구분 -->
+		                <div class="width-60 dib">
+		                    <label id="lbUser" class="tit_60 poa">요청구분</label>
+		                    <div class="ml_60">
+								<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" style="" onchange="Cbo_User_Click()" class="width-60 dib">
+									<select tabindex="-1" class="form-control input-sm" name="cboUser">
+										<option value="" selected="selected">장애처리1</option>
+										<option value="">전체</option>
+										<option value="">장애처리1</option>
+										<option value="">변경요청</option>
+										<option value="">불만사항</option>
+										<option value="">신규개발</option>
+									</select>
+									<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+			                            <div class="ax5select-display-table" data-els="display-table">
+			                                <div data-ax5select-display="label">장애처리1</div>
+			                                <div data-ax5select-display="addon"> 
+			                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+			                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+			                                </div>
+			                            </div>
+			                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+			                        </a>
+							    </div>
+								<label><input type="checkbox" />전체선택</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			    <!-- 검색 E-->
+			    <!-- 게시판 S-->
+			    <div class="az_board_basic">
+			    	<table>
+				    	<colgroup>
+				    		<col width="3%"/><col width="*%"/><col width="10%"/><col width="10%"/><col width="10%"/><col width="10%"/><col width="10%"/><col width="10%"/><col width="10%"/><col width="10%"/>
+				    	</colgroup>
+			    		<tr>
+							<th scope="col"></th>
+			    			<th scope="col">업무명</th>
+			    			<th scope="col">프로그램종류</th>
+			    			<th scope="col">처리단계</th>
+			    			<th scope="col">스크립트유형</th>
+			    			<th scope="col">실행시점</th>
+			    			<th scope="col">쉘실행위치</th>
+			    			<th scope="col">쉘순차실행</th>
+			    			<th scope="col">일괄쉘실행</th>
+			    			<th scope="col">실행여부선택</th>
+			    		</tr>
+			    		<tr>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    		</tr>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    		</tr>
+			    		<tr>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    		</tr>
+			    		<tr>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    		</tr>
+			    		<tr>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    		</tr>
+			    		<tr>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    		</tr>
+			    		<tr>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    			<td></td>
+			    		</tr>
+			    	</table>	
+				</div>									
+				<div class="tar row">
+					 <button id="btnReg" name="btnReg" class="btn_basic_s" onclick="new_Click()">삭제</button>
+				</div>
+				<!-- 게시판 E -->
+			</div>
+			<div class="float-right width-40 row">
+				<div class="l_wrap width-50">
+					<div class="margin-5-left">
+						<label class="title_s">프로그램종류</label>
+						<div class="poa_r dib">
+							<label><input type="checkbox"/>전체선택</label>
+						</div>
+						<div class="scrollBind row" style="height:210px;">
+							<ul class="list-group" id="ulSysInfo">
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="프로그램없음"> 본부장</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="개별배포허용(사용안함)"> 소장</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="반입허용"> 실장</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="사용중지"> 배포관리자</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> QA</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 기본사용자</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 책임자</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> eCAMS Admin</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 파일전송</label></li>
+			    			</ul>
+						</div>
+						<div class="row font_11">							
+			    			<label class="title_s">등록순서</label>
+			    			<p>시스템선택&gt;요청구분선택&gt;프로그램종류선택&gt;업무선택&gt;실행구분선택&gt;스크립트유형선택&gt;등록버튼클릭</p>
+						</div>
+					</div>
+				</div>
+				<div class="l_wrap width-50">
+					<div class="margin-5-left">
+						<label class="title_s">업무</label>
+						<div class="poa_r dib">
+							<label><input type="checkbox"/>전체선택</label>
+						</div>
+						<div class="scrollBind row mask_wrap" style="height:210px;">
+							<ul class="list-group" id="ulSysInfo">
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="프로그램없음"> 본부장</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="개별배포허용(사용안함)"> 소장</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="반입허용"> 실장</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="사용중지"> 배포관리자</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> QA</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 기본사용자</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 책임자</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> eCAMS Admin</label></li>
+			    				<li class="list-group-item"><label><input type="checkbox" id="chkJobName" data-label="정기배포사용"> 파일전송</label></li>
+			    			</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!-- 검색 S-->    
+		<div class="az_search_wrap row">
+			<div class="az_in_wrap por cb">
+				<!-- line1 -->	
+				<div class="dib width-100">	
+	                <div class="width-40 float-left">
+	                    <label id="lbUser" class="tit_80 poa">실행구분</label>
+	                    <div class="ml_80">
+							<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+								<select tabindex="-1" class="form-control input-sm" name="cboUser">
+									<option value="" selected="selected">프로젝트팀</option>
+									<option value="">전체</option>
+									<option value="">연구개발팀</option>
+									<option value="">영업팀</option>
+									<option value="">프로젝트팀</option>							
+								</select>
+								<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+		                            <div class="ax5select-display-table" data-els="display-table">
+		                                <div data-ax5select-display="label">프로젝트팀</div>
+		                                <div data-ax5select-display="addon"> 
+		                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+		                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+		                                </div>
+		                            </div>
+		                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+		                        </a>
+						    </div>
+						</div>
+					</div>
+					<div class="width-60 float-right">
+						<div class="dib">
+							<label><input type="checkbox"/>실행여부선택</label><label><input type="checkbox"/>형상관리서버에서 실행</label><label><input type="checkbox"/>쉘순차 실행</label>
+						</div>
+						<div class="dib bg_gray">
+							<label><input type="radio"/>파일송수신전</label><label><input type="radio"/>파일송수신후</label>
+						</div>
+					</div>
+				</div>
+				<!-- line2 -->	
+				<div class="dib width-100 row">	
+	                <div class="width-40 float-left">
+	                    <label id="lbUser" class="tit_80 poa">스크립트유형</label>
+	                    <div class="ml_80">
+							<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+								<select tabindex="-1" class="form-control input-sm" name="cboUser">
+									<option value="" selected="selected">프로젝트팀</option>
+									<option value="">전체</option>
+									<option value="">연구개발팀</option>
+									<option value="">영업팀</option>
+									<option value="">프로젝트팀</option>							
+								</select>
+								<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+		                            <div class="ax5select-display-table" data-els="display-table">
+		                                <div data-ax5select-display="label">프로젝트팀</div>
+		                                <div data-ax5select-display="addon"> 
+		                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+		                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+		                                </div>
+		                            </div>
+		                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+		                        </a>
+						    </div>
+						</div>
+					</div>
+					<div class="width-60 float-right por">
+						<div class="dib">
+							<label><input type="checkbox"/> 일괄쉘 실행</label>
+						</div>
+						<div class="dib bg_gray">
+							<label><input type="radio"/>신청건별</label><label><input type="radio"/>프로그램유형별</label><label><input type="radio"/>디렉토리별</label><label><input type="radio"/>업무별</label><button id="btnReg" name="btnReg" class="btn_basic_s poa_r" onclick="new_Click()">등록</button>
+						</div>						
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!-- 검색 E-->
+	    <!-- 게시판 S-->
+	    <div class="az_board_basic">
+	    	<table>
+		    	<colgroup>
+		    		<col width="10%"/><col width="5%"/><col width="*%"/>
+		    	</colgroup>
+	    		<tr>
+	    			<th scope="col">빌드패턴</th>
+	    			<th scope="col">순서</th>
+	    			<th scope="col">수행명령</th>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    	</table>	
+		</div>	
+		<!-- 게시판 E -->
+    </div>
+</div>
+<!-- Footer-->
+<footer id="footer">
+    <ul>
+        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+    </ul>
+</footer>
+<input id="txtSessionID" type="hidden" value="FE5E5695B40130B57F234A35A59EF651">
+
+<!-- contener E -->
+
+</body>
+</html>

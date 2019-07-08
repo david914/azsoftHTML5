@@ -6,31 +6,32 @@
 
 <div id="header"></div>
 
-<div class="content">    	
-	<div id="history_wrap">관리자<strong>&gt; 파일대사환경설정</strong></div>
-	<div class="half_wrap margin-10-top">
-		<div class="tab_wrap">
-			<ul class="tabs">
-				<li rel="tabDefault" id="tab1Li" class="on">기본정보</li>
-				<li rel="tabEct" id="tab2Li">예외디렉토리정보</li>
-				<li rel="tabHand" id="tab3Li">수기파일대사</li>
-			</ul>
-		</div>
-		
+<div id="wrapper">
+	<div class="content">    	
+		<div id="history_wrap">관리자<strong>&gt; 파일대사환경설정</strong></div>
 		<div class="half_wrap margin-10-top">
-	       	<div id="tabDefault" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/fileconfiguration/BasicInfoTab.jsp' width='100%' height='80%' frameborder="0"></iframe>
-	       	</div>
-	       	<div id="tabEct" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/fileconfiguration/ExceptionDirInfoTab.jsp' width='100%' height='80%' frameborder="0"></iframe>
-	       	</div>
-	       	<div id="tabHand" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/fileconfiguration/HandFileInfoTab.jsp' width='100%' height='80%' frameborder="0"></iframe>
-	       	</div>
-	   	</div>
+			<div class="tab_wrap">
+				<ul class="tabs">
+					<li rel="tabDefault" id="tab1Li" class="on">기본정보</li>
+					<li rel="tabEct" id="tab2Li">예외디렉토리정보</li>
+					<li rel="tabHand" id="tab3Li">수기파일대사</li>
+				</ul>
+			</div>
+			
+			<div class="half_wrap margin-10-top">
+		       	<div id="tabDefault" class="tab_content" style="width:100%">
+		       		<iframe src='/webPage/tab/fileconfiguration/BasicInfoTab.jsp' width='100%' height='80%' frameborder="0"></iframe>
+		       	</div>
+		       	<div id="tabEct" class="tab_content" style="width:100%">
+		       		<iframe src='/webPage/tab/fileconfiguration/ExceptionDirInfoTab.jsp' width='100%' height='80%' frameborder="0"></iframe>
+		       	</div>
+		       	<div id="tabHand" class="tab_content" style="width:100%">
+		       		<iframe src='/webPage/tab/fileconfiguration/HandFileInfoTab.jsp' width='100%' height='80%' frameborder="0"></iframe>
+		       	</div>
+		   	</div>
+		</div>
 	</div>
 </div>
-
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/administrator/FileConfiguration.js"/>"></script>
 	

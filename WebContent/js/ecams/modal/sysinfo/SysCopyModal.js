@@ -253,7 +253,7 @@ function checkVal() {
 		dirList 	: dirList,
 		requestType	: 'copySys'
 	}
-	ajaxAsync('/webPage/administrator/SysCopyServlet', data, 'json',successCopySys);
+	ajaxAsync('/webPage/modal/sysinfo/SysCopyServlet', data, 'json',successCopySys);
 }
 
 // 복사 완료
@@ -272,7 +272,7 @@ function getProgInfo(sysCd){
 		SysCd 	: sysCd, 
 		requestType	: 'getPrgInfo'
 	}
-	ajaxAsync('/webPage/administrator/SysCopyServlet', data, 'json',successGetProgInfo);
+	ajaxAsync('/webPage/modal/sysinfo/SysCopyServlet', data, 'json',successGetProgInfo);
 }
 
 // 프로그램종류 가져오기 완료
@@ -301,7 +301,7 @@ function getDetailSvrInfo(sysCd) {
 		SvrCd	: null,
 		requestType	: 'getDetailSvrInfo'
 	}
-	ajaxAsync('/webPage/administrator/SysCopyServlet', data, 'json',successGetDetailSvrInfo);
+	ajaxAsync('/webPage/modal/sysinfo/SysCopyServlet', data, 'json',successGetDetailSvrInfo);
 }
 
 // 시스템상세정보 가져오기 완료
@@ -317,7 +317,7 @@ function getDirInfo(sysCd) {
 		SysCd 	: sysCd, 
 		requestType	: 'getDirInfo'
 	}
-	ajaxAsync('/webPage/administrator/SysCopyServlet', data, 'json',successGetDirInfo);
+	ajaxAsync('/webPage/modal/sysinfo/SysCopyServlet', data, 'json',successGetDirInfo);
 }
 
 // 공통디렉토리정보 가져오기 완료
@@ -337,7 +337,7 @@ function getSysCbo() {
 		SysCd 	: null,
 		requestType	: 'getSysCbo'
 	}
-	ajaxAsync('/webPage/administrator/SysCopyServlet', data, 'json',successGetSysCbo);
+	ajaxAsync('/webPage/modal/sysinfo/SysCopyServlet', data, 'json',successGetSysCbo);
 }
 
 // From system cbo 가져오기 완료

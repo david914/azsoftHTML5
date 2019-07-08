@@ -1,3 +1,7 @@
+<!--  
+	* 화면명: 사용자직무조회
+	* 화면호출: 사용자정보 -> 사용자직무조회 클릭
+-->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

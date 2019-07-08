@@ -1,4 +1,4 @@
-package html.app.administrator;
+package html.app.modal.sysinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ import app.common.SysInfo;
 import app.eCmm.Cmm0200_Copy;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/administrator/SysCopyServlet")
+@WebServlet("/webPage/modal/sysinfo/SysCopyServlet")
 public class SysCopyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();

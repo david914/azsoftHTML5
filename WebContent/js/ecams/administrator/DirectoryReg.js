@@ -51,9 +51,9 @@ dirGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_dirpath", label: "디렉토리",  		width: '50%'},
-        {key: "jobNames",	label: "업무",  			width: '20%'},
-        {key: "jawonNames", label: "프로그램종류",  	width: '30%'},
+        {key: "cm_dirpath", label: "디렉토리",  	width: '60%', align: 'left'},
+        {key: "jobNames",	label: "업무",  		width: '10%', align: 'left'},
+        {key: "jawonNames", label: "프로그램종류", 	width: '30%', align: 'left'},
     ]
 });
 

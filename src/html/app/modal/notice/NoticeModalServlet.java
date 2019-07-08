@@ -1,4 +1,4 @@
-package html.app.modal;
+package html.app.modal.notice;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,8 +17,8 @@ import com.google.gson.JsonParser;
 import app.eCmm.Cmm2101;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/modal/PopNotice")
-public class PopNotice extends HttpServlet {
+@WebServlet("/webPage/modal/notice/NoticeModal")
+public class NoticeModalServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
 	Cmm2101 cmm2101 = new Cmm2101();

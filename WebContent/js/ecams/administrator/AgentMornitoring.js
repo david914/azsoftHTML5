@@ -83,8 +83,6 @@ $(document).ready(function() {
 
 // 조회
 function getAgentState() {
-	$('html').css({'cursor':'wait'});
-	$('body').css({'cursor':'wait'});
 	var data = new Object();
 	data = {
 		sysCD 		: getSelectedVal('cboSysCd').value,
@@ -98,8 +96,6 @@ function getAgentState() {
 function successGetAgentState(data) {
 	agentGridData = data;
 	agentGrid.setData(agentGridData);
-	$('html').css({'cursor':'auto'});
-	$('body').css({'cursor':'auto'});
 }
 
 // 시스템 콤보 가져오기

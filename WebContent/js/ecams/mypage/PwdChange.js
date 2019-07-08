@@ -81,7 +81,6 @@ function getPasswdBef() {
 
 // 변경전 비밀번호 가져오기 완료
 function successGetPasswdBef(data) {
-	console.log(data);
 	befPass = data;
 	$("#txtPw").focus();
 	if (befPass.length != 64) { //기존 암호화가 안되어 있으면

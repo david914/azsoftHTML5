@@ -233,7 +233,7 @@ function setReleaseTime(txtTime) {
 		requestType		: 'setReleaseTime',
 		etcData 		: etcData,
 	}
-	ajaxAsync('/webPage/modal/ReleaseTimeSet', systemInfoDta, 'json',successSetReleaseTime);
+	ajaxAsync('/webPage/modal/sysinfo/ReleaseTimeSet', systemInfoDta, 'json',successSetReleaseTime);
 }
 
 function successSetReleaseTime(data) {
@@ -259,7 +259,7 @@ function getReleaseTime() {
 	systemInfoDta = {
 		requestType	: 	'getReleaseTime'
 	}
-	ajaxAsync('/webPage/modal/ReleaseTimeSet', systemInfoDta, 'json',successgetReleaseTime);
+	ajaxAsync('/webPage/modal/sysinfo/ReleaseTimeSet', systemInfoDta, 'json',successgetReleaseTime);
 }
 
 // 정기배포 설정값 조회 결과

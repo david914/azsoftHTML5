@@ -396,7 +396,7 @@ $(document).ready(function(){
 			sameList : sameGridArr,
 			requestType	: 'insertPrgInfo'
 		}
-		ajaxAsync('/webPage/administrator/PrgKindsServlet', data, 'json',successInsertPrgInfo);
+		ajaxAsync('/webPage/modal/sysinfos/PrgKindsServlet', data, 'json',successInsertPrgInfo);
 		return;
 		
 	});
@@ -432,7 +432,7 @@ $(document).ready(function(){
 					RsrcCd 		: selItem.cm_rsrccd,
 					requestType	: 'closePrgInfo'
 				}
-				ajaxAsync('/webPage/administrator/PrgKindsServlet', data, 'json',successClosePrgInfo);
+				ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successClosePrgInfo);
 			}
 		});
 	});
@@ -594,7 +594,7 @@ $(document).ready(function(){
 			SysCd 		: sysCd,
 			requestType	: 'setPrgSeq'
 		}
-		ajaxAsync('/webPage/administrator/PrgKindsServlet', data, 'json',successSetPrgSeq);
+		ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successSetPrgSeq);
 		
 	});
 	
@@ -663,7 +663,7 @@ function getProcInfoInit() {
 	data = {
 		requestType	: 'getProcInfoInit'
 	}
-	ajaxAsync('/webPage/administrator/PrgKindsServlet', data, 'json',successGetProcInfoInit);
+	ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successGetProcInfoInit);
 }
 
 function successGetProcInfoInit(data) {
@@ -677,7 +677,7 @@ function getSameList() {
 		SysCd : sysCd,
 		requestType	: 'getSameList'
 	}
-	ajaxAsync('/webPage/administrator/PrgKindsServlet', data, 'json',successGetSameList);
+	ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successGetSameList);
 }
 
 function successGetSameList(data) {
@@ -708,7 +708,7 @@ function getProgList() {
 		SysCd : sysCd,
 		requestType	: 'getProgList'
 	}
-	ajaxAsync('/webPage/administrator/PrgKindsServlet', data, 'json',successGetProgList);
+	ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successGetProgList);
 }
 
 function successGetProgList(data) {
@@ -739,7 +739,7 @@ function getSameCbo() {
 		SysCd : sysCd,
 		requestType	: 'getSameCbo'
 	}
-	ajaxAsync('/webPage/administrator/PrgKindsServlet', data, 'json',successGetSameCbo);
+	ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successGetSameCbo);
 }
 
 function successGetSameCbo(data) {
@@ -762,7 +762,7 @@ function getProgInfoTree() {
 	data = {
 		requestType	: 'getProgInfoTree'
 	}
-	ajaxAsync('/webPage/administrator/PrgKindsServlet', data, 'json',successGetProgInfoTree);
+	ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successGetProgInfoTree);
 	
 }
 

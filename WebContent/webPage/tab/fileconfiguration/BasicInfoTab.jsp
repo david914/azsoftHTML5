@@ -28,7 +28,7 @@
 					<label>작업주기</label>
 				</div>
 				<div class="ml_100">
-					<input id="txtRunTime" type="text" class="width-100"> 
+					<input id="txtCycle" type="text" class="width-100"> 
 				</div>
 			</div>
 			<div class="width-60 dib vat">
@@ -70,7 +70,7 @@
 			<div class="width-60 dib vat">
 				<div id="cboDelCycle" data-ax5select="cboDelCycle" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
 			</div>
-			<div class="width-10 dib vat margin-3-top">
+			<div class="width-10 dib vat">
 				<input type="checkbox" class="checkbox-file" id="chkAllSys" data-label="전체선택"/>
 			</div>
 		</div>

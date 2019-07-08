@@ -1,4 +1,4 @@
-package html.app.modal;
+package html.app.modal.userinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ import app.common.SysInfo;
 import app.eCmm.Cmm0400;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/modal/SetUserJobServlet")
+@WebServlet("/webPage/modal/userinfo/SetUserJobServlet")
 public class SetUserJobServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();

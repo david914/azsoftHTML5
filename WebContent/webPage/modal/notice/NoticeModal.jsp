@@ -1,3 +1,7 @@
+<!--  
+	* 화면명: 공지사항등록/수정
+	* 화면호출: 공지사항 -> 공지사항등록 클릭 또는 공지사항 리스트 더블클릭
+-->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
