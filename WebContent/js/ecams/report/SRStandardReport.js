@@ -96,6 +96,7 @@ $(document).ready(function() {
      	    this.self.repaint();
      	},
 		columns : columnData
+			
 	});
 	isAdmin();
 	comboSet();
