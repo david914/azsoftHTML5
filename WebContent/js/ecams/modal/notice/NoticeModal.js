@@ -240,7 +240,7 @@ function updateNotice(){
 		UserId : userId,
 		dataObj : updateData
 	}
-	ajaxAsync('/webPage/modal/PopNotice', data, 'json',successUpdateNotice);
+	ajaxAsync('/webPage/modal/notice/NoticeModal', data, 'json',successUpdateNotice);
 }
 
 // 공지사항 수정 및 등록 완료
@@ -295,7 +295,7 @@ function del() {
 				UserId 	: userId,
 				dataObj : delData
 			}
-			ajaxAsync('/webPage/modal/PopNotice', data, 'json',successDel);
+			ajaxAsync('/webPage/modal/notice/NoticeModal', data, 'json',successDel);
 		}
 	});
 }

@@ -1,8 +1,7 @@
-package html.app.administrator;
+package html.app.modal.sysinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -15,16 +14,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import app.common.CodeInfo;
-import app.common.SysInfo;
-import app.eCmm.Cmm0100;
-import app.eCmm.Cmm0200;
-import app.eCmm.Cmm0200_Copy;
 import app.eCmm.Cmm0200_Dir;
-import app.eCmm.Cmm0200_Prog;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/administrator/ComDirServlet")
+@WebServlet("/webPage/modal/sysinfo/ComDirServlet")
 public class ComDirServlet extends HttpServlet {
 	/**
 	 * 

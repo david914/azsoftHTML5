@@ -1,9 +1,7 @@
-package html.app.modal;
+package html.app.modal.userinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,17 +13,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import app.eCmm.Cmm0100;
-import app.eCmm.Cmm0200;
-import app.eCmm.Cmm2101;
+import app.eCmm.Cmm0400;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/modal/Job")
-public class JobServlet extends HttpServlet {
+@WebServlet("/webPage/modal/userinfo/AllUserInfoServlet")
+public class AllUserInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
-	
-	Cmm0100 cmm0100 = new Cmm0100();
+	Cmm0400 cmm0400 = new Cmm0400();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,17 +37,14 @@ public class JobServlet extends HttpServlet {
 		try {
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
-			
 			switch (requestType) {
-				case "getJobList" :
-					response.getWriter().write( getJobList() );
+				case "getTeamList" :
+					response.getWriter().write( getTeamList(jsonElement) );
 					break;
-				case "setJobInfo" :
-					response.getWriter().write( setJobInfo(jsonElement) );
+				case "getAllUserInfo" :
+					response.getWriter().write( getAllUserInfo(jsonElement) );
 					break;
-				case "delJobInfo" :
-					response.getWriter().write( delJobInfo(jsonElement) );
-					break;
+			
 				default:
 					break;
 			}
@@ -62,19 +54,16 @@ public class JobServlet extends HttpServlet {
 		}
 	}
 
-	
-	private String getJobList() throws SQLException, Exception {
-		return gson.toJson(cmm0100.getJobList());
+	// [사용자정보 > 전체사용자조회] 팀 리스트 가져오기
+	private String getTeamList(JsonElement jsonElement) throws SQLException, Exception {
+		return gson.toJson(cmm0400.getTeamList());
 	}
 	
-	private String setJobInfo(JsonElement jsonElement) throws SQLException, Exception {
-		String code = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "code") );
-		String value = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "value") );
-		
-		return gson.toJson(cmm0100.setJobInfo_individual(code, value));
+	// [사용자정보 > 전체사용자조회] 전체사용자 가져오기
+	private String getAllUserInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String Cbo_Team = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Cbo_Team") );
+		String Option 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Option") );
+		return gson.toJson(cmm0400.getAllUserInfo(Cbo_Team, Integer.parseInt(Option)));
 	}
-	private String delJobInfo(JsonElement jsonElement) throws SQLException, Exception {
-		ArrayList<HashMap<String, String>> delJobList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "delJobList") );
-		return gson.toJson(cmm0100.delJobInfo(delJobList));
-	}
+	
 }

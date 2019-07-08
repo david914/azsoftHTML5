@@ -53,7 +53,7 @@ function jobValCheck() {
 		value 		: value,
 		requestType	: 'setJobInfo',
 	}
-	ajaxAsync('/webPage/modal/Job', jobInfoData, 'json',successSetJobInfo);
+	ajaxAsync('/webPage/modal/sysinfo/Job', jobInfoData, 'json',successSetJobInfo);
 }
 
 function successSetJobInfo(data) {

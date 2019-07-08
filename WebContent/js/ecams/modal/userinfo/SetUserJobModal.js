@@ -174,7 +174,7 @@ function delUserJob() {
 				JobList 	: JobList,
 				requestType	: 'delUserJob'
 			}
-			ajaxAsync('/webPage/modal/SetUserJobServlet', data, 'json', successDelUserJob);
+			ajaxAsync('/webPage/modal/userinfo/SetUserJobServlet', data, 'json', successDelUserJob);
 		}
 	});
 }
@@ -242,7 +242,7 @@ function setAllUserJob() {
 		JobList 	: JobList,
 		requestType	: 'setAllUserJob'
 	}
-	ajaxAsync('/webPage/modal/SetUserJobServlet', data, 'json', successSetAllUserJob);
+	ajaxAsync('/webPage/modal/userinfo/SetUserJobServlet', data, 'json', successSetAllUserJob);
 }
 
 // 업무권한 일괄등록 완료
@@ -263,7 +263,7 @@ function getUserJobList(){
 		UserId 	: getSelectedVal('cboUser').code,
 		requestType	: 'getUserJobList'
 	}
-	ajaxAsync('/webPage/modal/SetUserJobServlet', data, 'json', successGetUserJobList);
+	ajaxAsync('/webPage/modal/userinfo/SetUserJobServlet', data, 'json', successGetUserJobList);
 }
 
 // 사용자/팀의 업무정보 리스트 가져오기 완료
@@ -284,7 +284,7 @@ function getJobInfo() {
 		sortCd 		: 'NAME',
 		requestType	: 'getJobInfo'
 	}
-	ajaxAsync('/webPage/modal/SetUserJobServlet', data, 'json', successGetJobInfo);
+	ajaxAsync('/webPage/modal/userinfo/SetUserJobServlet', data, 'json', successGetJobInfo);
 }
 
 // 시스템 업무정보 가져오기 완료
@@ -305,7 +305,7 @@ function getUserList() {
 		UserName 		: UserName,
 		requestType		: 'getUserList'
 	}
-	ajaxAsync('/webPage/modal/SetUserJobServlet', data, 'json', successGetUserList);
+	ajaxAsync('/webPage/modal/userinfo/SetUserJobServlet', data, 'json', successGetUserList);
 }
 
 //유저 리스트 가져오기 완료
@@ -343,7 +343,7 @@ function getTeamUserList() {
 		Cbo_Sign 	: getSelectedVal('cboUser').code,
 		requestType	: 'getTeamUserList'
 	}
-	ajaxAsync('/webPage/modal/SetUserJobServlet', data, 'json', successGetTeamUserList);
+	ajaxAsync('/webPage/modal/userinfo/SetUserJobServlet', data, 'json', successGetTeamUserList);
 }
 
 // 팀의 유저리스트 가져오기 완료
@@ -363,7 +363,7 @@ function getSysInfo() {
 		ReqCd 		: '',
 		requestType	: 'getSysInfo'
 	}
-	ajaxAsync('/webPage/modal/SetUserJobServlet', data, 'json', successGetSysInfo);
+	ajaxAsync('/webPage/modal/userinfo/SetUserJobServlet', data, 'json', successGetSysInfo);
 }
 
 // 시스템정보가져오기 완료

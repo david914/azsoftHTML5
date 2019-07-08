@@ -170,7 +170,7 @@ function copyJob() {
 		RgtList 		: RgtList,
 		requestType	: 'copyJob'
 	}
-	ajaxAsync('/webPage/administrator/JobCopyServlet', data, 'json', successCopyJob);
+	ajaxAsync('/webPage/modal/userinfo/JobCopyServlet', data, 'json', successCopyJob);
 }
 
 function successCopyJob(data) {
@@ -201,7 +201,7 @@ function getUserRgtCd() {
 		UserId 		: getSelectedVal('cboFromUser').value,
 		requestType	: 'getUserRgtCd'
 	}
-	ajaxAsync('/webPage/administrator/JobCopyServlet', data, 'json', successGetUserRgtCd, getUserJobList);
+	ajaxAsync('/webPage/modal/userinfo/JobCopyServlet', data, 'json', successGetUserRgtCd, getUserJobList);
 }
 
 // 사용자 권한 가져오기 완료
@@ -219,7 +219,7 @@ function getUserJobList() {
 		UserId 		: getSelectedVal('cboFromUser').value,
 		requestType	: 'getUserJobList'
 	}
-	ajaxAsync('/webPage/administrator/JobCopyServlet', data, 'json', successGetUserJobList);
+	ajaxAsync('/webPage/modal/userinfo/JobCopyServlet', data, 'json', successGetUserJobList);
 }
 
 // 사용자 업무리스트 가져오기 완료
@@ -234,7 +234,7 @@ function getAllUser() {
 	data = {
 		requestType	: 'getAllUser'
 	}
-	ajaxAsync('/webPage/administrator/JobCopyServlet', data, 'json',successGetAllUser);
+	ajaxAsync('/webPage/modal/userinfo/JobCopyServlet', data, 'json',successGetAllUser);
 }
 
 // 직무가져오기

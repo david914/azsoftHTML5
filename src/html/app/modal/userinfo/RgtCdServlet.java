@@ -1,4 +1,4 @@
-package html.app.administrator;
+package html.app.modal.userinfo;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,7 +20,7 @@ import app.eCmm.Cmm0400;
 
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/administrator/RgtCdServlet")
+@WebServlet("/webPage/modal/userinfo/RgtCdServlet")
 public class RgtCdServlet extends HttpServlet {
 	/**
 	 * 
