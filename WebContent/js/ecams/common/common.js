@@ -91,6 +91,7 @@ function $F(caller) {
 
 
 function ajaxAsync(url, requestData, dataType,successFunc,callbackFunc) {
+	changeCursor(true);
 	var calleeFuncName = $F(arguments.callee);
 	var requestJson = JSON.stringify(requestData);
 	var ajax = $.ajax({
@@ -98,14 +99,26 @@ function ajaxAsync(url, requestData, dataType,successFunc,callbackFunc) {
 		url 	: url,
 		data 	: requestJson,
 		dataType: dataType,
-		async 	: true
+		async 	: true,
+		complete : function() {
+			changeCursor(false);
+		}
 	}).then(successFunc, function(err) {
 		console.log('============================에러발생가 발생한 호출 함수명 [' +calleeFuncName.name + ']==================');
 		console.log('============================Ajax 통신중 error 발생 Error message START============================');
 		console.log(err);
 		console.log('============================Error message END============================');
-		
 	}).then(callbackFunc);
+}
+
+function changeCursor(cursorSw) {
+	if(cursorSw) {
+		$('html').css({'cursor':'wait'});
+		$('body').css({'cursor':'wait'});
+	} else {
+		$('html').css({'cursor':'auto'});
+		$('body').css({'cursor':'auto'});
+	}
 }
 
 function Request(){

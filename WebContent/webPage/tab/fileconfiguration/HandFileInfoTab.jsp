@@ -21,7 +21,7 @@
 			<div class="dib vat">
 				<input id="txtDeploy" name="txtDeploy" type="text" class="width-70"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
 			</div>
-			<div class="dib vat margin-3-top">
+			<div class="dib vat">
 				<input type="checkbox" class="checkbox-file" id="chkTime" data-label="즉시실행"/>
 			</div>
 		</div>

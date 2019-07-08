@@ -4,18 +4,6 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<style>
-#tip {
-	position:absolute;
-  	color:#FFFFFF;
-	padding:5px;
-	display:none;
-	background:#FFA200;
-  	border-radius: 5px;
-}
-</style>
-
-<!-- contener -->
 <div id="wrapper">
 	<div class="content">
 	    <!-- history S-->
@@ -30,7 +18,7 @@
 					<div class="width-30 vat dib">
 						<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
 					</div>
-					<div class="dib margin-3-top">
+					<div class="dib vat">
 						<input id="optQry"  type="radio" name="radio" value="1"/>
 						<label for="optQry">조회</label>
 						<input id="optChk" type="radio" name="radio" value="2"/>
