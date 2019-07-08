@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+<!-- Header -->
+<div id="header"></div>
+
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">프로그램 <strong>&gt; 프로그램정보</strong></div>
+        <!-- history E-->         
+	    <!-- 검색 S-->    
+		<div class="az_search_wrap">
+			<div class="az_in_wrap por">
+				<!-- 시스템 -->		
+                <div class="width-33 dib">
+                    <label id="lbUser" class="tit_80 poa">시스템</label>
+                    <div class="ml_80">
+						<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+							<select tabindex="-1" class="form-control input-sm" name="cboUser">
+								<option value="" selected="selected">프로젝트팀</option>
+								<option value="">전체</option>
+								<option value="">연구개발팀</option>
+								<option value="">영업팀</option>
+								<option value="">프로젝트팀</option>							
+							</select>
+							<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+	                            <div class="ax5select-display-table" data-els="display-table">
+	                                <div data-ax5select-display="label">프로젝트팀</div>
+	                                <div data-ax5select-display="addon"> 
+	                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+	                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+	                                </div>
+	                            </div>
+	                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+	                        </a>
+					    </div>
+					</div>
+				</div>
+			    <!-- 프로그램종류 -->
+                <div class="width-33 dib">
+                    <label id="lbUser" class="tit_80 poa">프로그램종류</label>
+                    <div class="ml_80">
+						<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" style="" onchange="Cbo_User_Click()" class="width-80 dib">
+							<select tabindex="-1" class="form-control input-sm" name="cboUser">
+								<option value="" selected="selected">장애처리1</option>
+								<option value="">전체</option>
+								<option value="">장애처리1</option>
+								<option value="">변경요청</option>
+								<option value="">불만사항</option>
+								<option value="">신규개발</option>
+							</select>
+							<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+	                            <div class="ax5select-display-table" data-els="display-table">
+	                                <div data-ax5select-display="label">장애처리1</div>
+	                                <div data-ax5select-display="addon"> 
+	                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+	                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+	                                </div>
+	                            </div>
+	                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+	                        </a>
+					    </div>
+					</div>
+				</div>
+			    <!-- 프로그램명 -->
+                <div class="width-33 dib vat">
+                    <label id="lbUser" class="tit_80 poa">프로그램명</label>
+                    <div class="ml_80">
+						<input id="" name="" type="text" class="width-80">
+					</div>
+				</div>
+				<button class="btn_basic_s margin-5-left margin-10-right poa_r" data-grid-control="excel-export">등록</button>
+				<div class="row">
+				    <!-- 프로그램경로 -->
+                    <div class="vat">
+                        <label id="lbUser" class="tit_80 poa">프로그램경로</label>
+						<div class="ml_80">
+							<input id="" name="" type="text" class="width-100">
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+	    <!-- 검색 E-->
+	    <!-- 게시판 S-->
+	    <div class="az_board_basic">
+	    	<table>
+		    	<colgroup>
+		    		<col width="3%"/><col width="20%"/><col width="*"/><col width="7%"/><col width="10%"/>
+		    	</colgroup>
+	    		<tr>
+	    			<th scope="col">NO</th>
+	    			<th scope="col">시스템명</th>
+	    			<th scope="col">프로그램경로</th>
+	    			<th scope="col">프로그램종류</th>
+	    			<th scope="col">프로그램명</th>
+	    			<th scope="col">버전</th>
+	    			<th scope="col">프로그램상태</th>
+	    		</tr>
+	    		<tr>
+	    			<td>1</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>2</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>3</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>4</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>5</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>6</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>7</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    	</table>	
+		</div>	
+		<!-- 게시판 E -->
+		<!-- 하단 S-->
+		<div class="half_wrap margin-10-top">
+			<!-- tab_기본정보 S-->
+			<div class="tab_wrap">
+				<ul>
+					<li class="on">기본정보</li><li>변경내역</li>
+				</ul>
+			</div>
+			<!-- tab E-->
+			<!-- 하단 입력 S-->
+			<div class="row">
+			    <!-- 시스템 -->
+                <div class="width-33 dib vat">
+                    <label id="lbUser" class="tit_80 poa">시스템</label>
+                    <div class="ml_80">
+						<input id="" name="" type="text" class="width-80">
+					</div>
+				</div>	
+			    <!-- 프로그램 종류 -->
+                <div class="width-33 dib vat">
+                    <label id="lbUser" class="tit_80 poa">프로그램종류</label>
+                    <div class="ml_80">
+						<input id="" name="" type="text" class="width-80">
+					</div>
+				</div>				
+			</div>
+			<div class="row">
+			    <!-- 프로그램명 -->
+                <div class="width-33 dib vat">
+                    <label id="lbUser" class="tit_80 poa">프로그램명</label>
+                    <div class="ml_80">
+						<input id="" name="" type="text" class="width-80">
+					</div>
+				</div>	
+			    <!-- 상태 -->
+                <div class="width-33 dib vat">
+                    <label id="lbUser" class="tit_80 poa">상태</label>
+                    <div class="ml_80">
+						<input id="" name="" type="text" class="width-80">
+					</div>
+				</div>
+			    <!-- SR-ID -->
+                <div class="width-33 dib vat">
+                    <label id="lbUser" class="tit_80 poa">SR-ID</label>
+                    <div class="ml_80">
+						<input id="" name="" type="text" class="width-20 dib" >
+						<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" style="" onchange="Cbo_User_Click()" class="width-45 dib">
+							<select tabindex="-1" class="form-control input-sm" name="cboUser">
+								<option value="" selected="selected">장애처리1</option>
+								<option value="">전체</option>
+								<option value="">장애처리1</option>
+								<option value="">변경요청</option>
+								<option value="">불만사항</option>
+								<option value="">신규개발</option>
+							</select>
+							<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+	                            <div class="ax5select-display-table" data-els="display-table">
+	                                <div data-ax5select-display="label">장애처리1</div>
+	                                <div data-ax5select-display="addon"> 
+	                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+	                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+	                                </div>
+	                            </div>
+	                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+	                        </a>
+					    </div>
+					</div>
+				</div>		
+			</div>
+			<div class="row">
+			    <!-- 프로그램설명 -->
+                <label id="lbUser" class="tit_80 poa">프로그램설명</label>
+                <div class="ml_80">
+					<input id="" name="" type="text" class="width-90">
+				</div>
+			</div>			
+			<div class="row por">
+                <label id="lbUser" class="tit_80 poa">프로그램경로</label>
+                <div class="ml_80">
+					<input id="" name="" type="text" class="width-90">
+				</div>
+				<button class="btn_basic_s margin-5-left margin-10-right poa_r" data-grid-control="excel-export">경로복사</button>
+			</div>
+			<div class="row"></div>
+			<div class="row">
+				<div class="half_wrap_cb">
+					<!--left-->
+					<div class="l_wrap width-40">
+						<div>
+						    <!-- 신규등록인 -->
+			                <div class="width-40 dib vat">
+			                    <label id="lbUser" class="tit_80 poa">신규등록인</label>
+			                    <div class="ml_80">
+									<input id="" name="" type="text" class="width-80">
+								</div>
+							</div>				
+						    <!-- 최종변경인 -->
+			                <div class="width-50 dib vat">
+			                    <label id="lbUser" class="tit_80 poa">최종변경인</label>
+			                    <div class="ml_80">
+									<input id="" name="" type="text" class="width-40 dib">
+									<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" style="" onchange="Cbo_User_Click()" class="width-30 dib">
+										<select tabindex="-1" class="form-control input-sm" name="cboUser">
+											<option value="" selected="selected">장애처리1</option>
+											<option value="">전체</option>
+											<option value="">장애처리1</option>
+											<option value="">변경요청</option>
+											<option value="">불만사항</option>
+											<option value="">신규개발</option>
+										</select>
+										<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+				                            <div class="ax5select-display-table" data-els="display-table">
+				                                <div data-ax5select-display="label">장애처리1</div>
+				                                <div data-ax5select-display="addon"> 
+				                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+				                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+				                                </div>
+				                            </div>
+				                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+				                        </a>
+								    </div>
+								</div>
+							</div>
+						</div>						
+						<div class="row">
+						    <!-- 신규등록인 -->
+			                <div class="width-40 dib vat">
+			                    <label id="lbUser" class="tit_80 poa">신규등록일</label>
+			                    <div class="ml_80">
+									<input id="" name="" type="text" class="width-80">
+								</div>
+							</div>				
+						    <!-- 최종변경인 -->
+			                <div class="width-50 dib vat">
+			                    <label id="lbUser" class="tit_80 poa">최종변경일</label>
+			                    <div class="ml_80">
+									<input id="" name="" type="text" class="width-40">
+								</div>
+							</div>
+						</div>						
+					</div>
+					<!--right-->
+					<div class="r_wrap width-60">						
+						<div class="half_wrap_cb">
+							<div class="l_wrap">
+								<div>
+								    <!-- 신규등록인 -->
+					                <div class="dib vat">
+					                    <label id="lbUser" class="tit_80 poa">변경인</label>
+					                    <div class="ml_80">
+											<label class="title_s">개발</label><input id="" name="" type="text" class="width-20">
+											<label class="title_s">테스트</label><input id="" name="" type="text" class="width-20">
+											<label class="title_s">운영</label><input id="" name="" type="text" class="width-20">
+										</div>
+									</div>
+								</div>						
+								<div class="row">
+								    <!-- 신규등록인 -->
+					                <div class="dib vat">
+					                    <label id="lbUser" class="tit_80 poa">변경일</label>
+					                    <div class="ml_80">
+											<label class="title_s">개발</label><input id="" name="" type="text" class="width-20">
+											<label class="title_s">테스트</label><input id="" name="" type="text" class="width-20">
+											<label class="title_s">운영</label><input id="" name="" type="text" class="width-20">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 하단 입력 E-->
+		</div>
+		<!-- 하단 S-->
+		<div class="half_wrap margin-10-top">
+			<!-- tab_변경내역 S-->
+			<div class="tab_wrap">
+				<ul>
+					<li>기본정보</li><li class="on">변경내역</li>
+				</ul>
+			</div>
+			<!-- tab E-->
+			<!-- 하단 입력 S-->
+			<div class="row">
+			    <!-- 시스템 -->
+                <div class="width-45 dib vat">
+                    <label id="lbUser" class="tit_100 poa">프로그램명</label>
+                    <div class="ml_100">
+						<input id="" name="" type="text" class="width-100">
+					</div>
+				</div>	
+			    <!-- 프로그램 종류 -->
+                <div class="width-45 dib vat">
+                    <label id="lbUser" class="tit_100 poa">프로그램한글명</label>
+                    <div class="ml_100">
+						<input id="" name="" type="text" class="width-100">
+					</div>
+				</div>				
+			</div>		
+			<div class="row por">
+                <label id="lbUser" class="tit_80 poa">의뢰구분</label>
+                <div class="ml_80">
+					<input id="" name="" type="text" class="width-90">
+				</div>
+				<button class="btn_basic_s margin-5-left margin-10-right poa_r" data-grid-control="excel-export">조회</button>
+			</div>
+			<!-- 하단 입력 E-->			
+		    <!-- 게시판 S-->
+		    <div class="row az_board_basic az_board_basic_in">
+		    	<table>
+			    	<colgroup>
+			    		<col width="3%"/><col width="10%"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="10%"/><col width="7%"/><col width="*%"/>
+			    	</colgroup>
+		    		<tr>
+		    			<th scope="col">NO</th>
+		    			<th scope="col">신청일시</th>
+		    			<th scope="col">신청인</th>
+		    			<th scope="col">신청종류</th>
+		    			<th scope="col">신청번호</th>
+		    			<th scope="col">배포구분</th>
+		    			<th scope="col">완료일시</th>
+		    			<th scope="col">SR-ID</th>
+		    			<th scope="col">변경사유</th>
+		    		</tr>
+		    		<tr>
+		    			<td>1</td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>2</td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>3</td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>4</td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>5</td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>6</td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>7</td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    	</table>	
+			</div>	
+			<!-- 게시판 E -->
+		</div>
+		<!-- 페이지버튼 S-->
+		<div class="tar margin-10-top">
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">삭제</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">소스비교</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">소스보기</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">수정</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">폐기</button>
+			<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">닫기</button>
+		</div>
+		<!--페이지버튼 E-->
+    </div>
+</div>
+<!-- Footer-->
+<footer id="footer">
+    <ul>
+        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+    </ul>
+</footer>
+<input id="txtSessionID" type="hidden" value="FE5E5695B40130B57F234A35A59EF651">
+
+<!-- contener E -->
+
+</body>
+</html>
