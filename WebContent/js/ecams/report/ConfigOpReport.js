@@ -159,7 +159,6 @@ $(function() {
 //조회 클릭 시
 $("#btnSearch").bind('click', function() {
 	
-	
 	var strDate = '';
 	var endDate = '';
 	
@@ -171,6 +170,32 @@ $("#btnSearch").bind('click', function() {
 		strDate = replaceAllString($("#datStD").val(), '/', '');
 		endDate = replaceAllString($("#datEdD").val(), '/', '');
 	}
+	
+	//유효성검사
+	if($("[data-ax5select='dateStd']").ax5select("getValue")[0].value === null) {
+		alert("조회구분을 선택해주세요.");
+		return;
+	}
+	if($("[data-ax5select='step1']").ax5select("getValue")[0].value === null) {
+		alert("1단계 조건을 선택해주세요.");
+		return;
+	}
+	if($("[data-ax5select='step2']").ax5select("getValue")[0].value === null) {
+		alert("2단계 조건을 선택해주세요.");
+		return;
+	}
+	if($("[data-ax5select='step3']").ax5select("getValue")[0].value === null) {
+		alert("3단계 조건을 선택해주세요.");
+		return;
+	}
+	if($("[data-ax5select='step4']").ax5select("getValue")[0].value === null) {
+		alert("4단계 조건을 선택해주세요.");
+		return;
+	}
+	if(strDate > endDate) {
+		alert("조회기간을 정확히 입력해주십시오.");
+		return;
+	}	
 	
 	var columnData = [];	
 	var inputData = {	
