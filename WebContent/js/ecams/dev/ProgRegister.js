@@ -17,8 +17,9 @@ var cboJawonData	= null;	//프로그램종류 데이터
 var cboJobData		= null;	//업무 데이터
 var cboDirData		= null;	//프로그램경로 데이터
 var cboSRIDData		= null;	//SRID 데이터
-var grdProgListData 	= null; //프로그램그리드 데이터
-var myWin 			= null;
+var grdProgListData = null; //프로그램그리드 데이터
+
+var winDevRep 		= null; //개발영역연결등록 새창
 
 var selSw = false;
 
@@ -670,35 +671,18 @@ function btnDevRep_Click() {
 		return;
 	}
 	
-	openWindow('D02', getSelectedVal('cboSystem').value, '', '');
-}
-
-function openWindow(type, syscd, reqNo, rsrcName) {
-	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
-
-	if ( (type+'_'+syscd) == winName ) {
-		if (myWin != null) {
-	        if (!myWin.closed) {
-	        	myWin.close();
-	        }
-		}
-	}
-
-    winName 	= type+'_'+syscd;
-	nHeight 	= screen.height - 200;
-    nWidth  	= screen.width - 200;
-	nTop  		= parseInt((window.screen.availHeight/2) - (nHeight/2));
-	nLeft 		= parseInt((window.screen.availWidth/2) - (nWidth/2));
-	cURL 		= "../winpop/progregister/PopDevRepository.jsp";
-	cFeatures 	= "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
-
-	var f = document.popPam;   		//폼 name
-    myWin = window.open('',winName,cFeatures);
+	var nHeight, nWidth;
+	if(winDevRep != null
+			&& !winDevRep.closed) {
+		winDevRep.close();
+	}	
+	
+	var form = document.popPam; 							//폼 name
+	form.UserId.value = userId;   							//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.SysCd.value  = getSelectedVal('cboSystem').value;  //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	
+	nHeight	= screen.height - 200;
+    nWidth = screen.width - 200;
     
-    f.UserId.value	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.SysCd.value 	= syscd;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.action		= cURL; 		//이동할 페이지
-    f.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
-    f.method		= "post"; 		//POST방식
-    f.submit();
+    winDevRep = winOpen(form, 'devRep', '/webPage/winpop/progregister/PopDevRepository.jsp', nHeight, nWidth);
 }
