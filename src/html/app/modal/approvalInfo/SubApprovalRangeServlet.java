@@ -46,6 +46,12 @@ public class SubApprovalRangeServlet extends HttpServlet {
 				case "GETBLANKLIST" :
 					response.getWriter().write( getBlankList(jsonElement) );
 					break;
+				case "UPDATEBLANKLIST" : 
+					response.getWriter().write( updateBlankList(jsonElement) );
+					break;
+				case "DELETEBLANKLIST" : 
+					response.getWriter().write( deleteBlankList(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -55,9 +61,22 @@ public class SubApprovalRangeServlet extends HttpServlet {
 		}
 	}
 	
+	/* 대결범위 조회 */
 	private String getBlankList(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
 		return gson.toJson(cmm0300_blank.getBlankList(DataMap.get("gbnCd"),
 													  DataMap.get("posCd")));
+	}
+	
+	/* 대결범위 등록 */
+	private String updateBlankList(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		return gson.toJson(cmm0300_blank.blankUpdt(DataMap));
+	}
+	
+	/* 대결범위 폐기 */
+	private String deleteBlankList(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		return gson.toJson(cmm0300_blank.blankClose(DataMap));
 	}
 }

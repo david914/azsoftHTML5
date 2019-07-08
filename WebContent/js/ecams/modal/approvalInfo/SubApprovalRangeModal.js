@@ -33,6 +33,7 @@ grdRangeList.setConfig({
     target: $('[data-ax5grid="grdRangeList"]'),
     sortable: true, 
     multiSort: true,
+    multipleSelect: false,
     showRowSelector: false,
     showLineNumber: false,
     header: {
@@ -119,14 +120,14 @@ function getCodeInfo(){
 	lstPosData = cboPosData;
 	lstRgtData = cboRgtData;
 	
-	if($('#rdoRgt').is(':checked')) {
+	if($('#rdoRgt').is(':checked')) { //직무
 		$('[data-ax5select="cboPos"]').ax5select({
 	        options: injectCboDataToArr(cboRgtData, 'cm_micode' , 'cm_codename')
 	   	});
 		
 		setLstPos(lstRgtData);
 		rdoRgt_Click();
-	}else {
+	}else { //직위
 		$('[data-ax5select="cboPos"]').ax5select({
 	        options: injectCboDataToArr(cboPosData, 'cm_micode' , 'cm_codename')
 	   	});
@@ -181,7 +182,6 @@ function successGetBlankList(data) {
 		if($('#rdoPos').is(':checked')) { 
 			for(i=0; i<lstPosData.length; i++) {
 				if(tmpData[j].cm_sposition == lstPosData[i].cm_micode) {
-					consol.log("cm_position: " + tmpData[j].cm_sposition + ", m")
 					addId = lstPosData[i].cm_macode + "_" + lstPosData[i].cm_micode;
 					$('#lstPos'+addId).wCheck('check', true);
 					if(i>k) {
@@ -221,12 +221,6 @@ function successGetBlankList(data) {
 			}
 		}
 	}
-	
-	if($('#rdoPos').is(':checked')) { 
-		setLstPos(lstPosData);
-	}else {
-		setLstPos(lstRgtData);
-	}
 }
 
 function rdoPos_Click() {
@@ -248,6 +242,11 @@ function rdoRgt_Click() {
 	setLstPos(lstRgtData);
 	$('#chkAll').wCheck("check", false);
 	$('#chkAll').wCheck("disabled", true);
+	
+	if(getSelectedIndex('cboPos') > -1) {
+		cboPos_Change();
+	}
+	
 	btnQry_Click();
 }
 
@@ -277,12 +276,129 @@ function btnClose_Click() {
 	window.parent.subApprovalRangeModal.close();
 }
 
+//등록버튼 클릭 이벤트
 function btnReg_Click() {
+	var strGbn = "";
+	var strTeam = "";
+	var strPos = "";
+	var i = 0;
 	
+	if(!$('#rdoRgt').is(':checked') && !$('#rdoPos').is(':checked')) {
+		dialog.alert('직위/직무여부를 선택하여 주시기 바랍니다.',function(){});
+		return;
+	}
+	
+	if(getSelectedIndex('cboPos') < 0) {
+		dialog.alert('직위/직무구분을 선택하여 주시기 바랍니다.',function(){});
+		$('#cboPos').focus();
+		return;
+	}
+	
+	if($('#rdoRgt').is(':checked')) {
+		for(i=0; i<lstRgtData.length; i++) {
+			if($('#lstPos'+lstRgtData[i].cm_macode+"_"+lstRgtData[i].cm_micode).is(':checked')) break;
+		}
+		
+		if(i>=lstRgtData.length) {
+			dialog.alert('대결가능범위를 선택하여 주시기 바랍니다.',function(){});
+			return;
+		}
+	}else {
+		for(i=0; i<lstPosData.length; i++) {
+			if($('#lstPos'+lstPosData[i].cm_macode+"_"+lstPosData[i].cm_micode).is(':checked')) break;
+		}
+		
+		if(i>=lstPosData.length) {
+			dialog.alert('대결가능범위를 선택하여 주시기 바랍니다.',function(){});
+			return;
+		}
+	}
+	
+	if($('#rdoRgt').is(':checked')) strGbn = "1";
+	else strGbn = "0";
+	
+	if($('#chkTeam').is(':checked')) strTeam = "Y";
+	else strTeam = "N";
+	
+	tmpPos = "";
+	if($('#rdoRgt').is(':checked')) {
+		for(i=0; i<lstRgtData.length; i++) {
+			if($('#lstPos'+lstRgtData[i].cm_macode+"_"+lstRgtData[i].cm_micode).is(':checked')) {
+				if(tmpPos.length > 0) tmpPos = tmpPos + ",";
+				tmpPos = tmpPos + lstRgtData[i].cm_micode;
+			}
+		}
+	}else {
+		for(i=0; i<lstPosData.length; i++) {
+			if($('#lstPos'+lstPosData[i].cm_macode+"_"+lstPosData[i].cm_micode).is(':checked')) {
+				if(tmpPos.length > 0) tmpPos = tmpPos + ",";
+				tmpPos = tmpPos + lstPosData[i].cm_micode;
+			}
+		}
+	}
+
+	//Cmm0300_Blank.blankUpdt(tmpObj);
+	tmpInfo = new Object();
+	tmpInfo.cm_gbncd = strGbn;
+	tmpInfo.cm_teamck = strTeam;
+	tmpInfo.userid = userId;
+	tmpInfo.cm_rposition = getSelectedVal('cboPos').value;
+	tmpInfo.cm_sposition = tmpPos;
+	
+	tmpInfoData = new Object();
+	tmpInfoData = {
+		tmpInfo		: tmpInfo,
+		requestType	: 'UPDATEBLANKLIST'
+	}
+	
+	ajaxAsync('/webPage/modal/approvalInfo/SubApprovalRangeServlet', tmpInfoData, 'json', successUpdateBlankList);
 }
 
+function successUpdateBlankList(data) {
+	dialog.alert('대결범위정보 등록처리를 완료하였습니다.',function(){
+		btnQry_Click();
+		cboPos_Change();
+	});
+}
+
+//폐기이벤트 클릭 이벤트
 function btnDel_Click() {
+	var strGbn = "";
+	var i = 0;
 	
+	var gridSelectedIndex = grdRangeList.selectedDataIndexs;
+	var selectedGridItem = grdRangeList.list[grdRangeList.selectedDataIndexs];
+	var j = 0;
+	
+	if(gridSelectedIndex == "" || gridSelectedIndex < 0) {
+		dialog.alert('폐기할 대결범위를 그리드에서 선택하여 주시기 바랍니다.',function(){});
+		return;
+	}
+	
+	if(selectedGridItem.gbncd == "직무") strGbn = "1";
+	else strGbn = "0";
+	
+	//Cmm0300_Blank.blankClose(tmpObj);
+	tmpInfo = new Object();
+	tmpInfo.cm_gbncd = strGbn;
+	tmpInfo.userid = userId;
+	tmpInfo.cm_rposition = selectedGridItem.rposcd;
+	tmpInfo.cm_sposition = selectedGridItem.sposcd;
+	
+	tmpInfoData = new Object();
+	tmpInfoData = {
+		tmpInfo		: tmpInfo,
+		requestType	: 'DELETEBLANKLIST'
+	}
+	
+	ajaxAsync('/webPage/modal/approvalInfo/SubApprovalRangeServlet', tmpInfoData, 'json', successDELETEBlankList);
+}
+
+function successDELETEBlankList(data) {
+	dialog.alert('대결범위정보에 대한 폐기처리를 완료하였습니다.',function(){
+		btnQry_Click();
+		cboPos_Change();
+	});
 }
 
 function setLstPos(data) {
