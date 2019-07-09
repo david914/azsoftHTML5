@@ -3,51 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp"/>
 
-<html lang="ko">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>azsoft_형상관리시스템</title>
-
-<!-- Vendor styles -->
-<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
-<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
-<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
-<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
-<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
-
-<!-- App styles -->
-<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
-<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
-<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
-
-<!--  AX5UI -->
-<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
-<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
-
-<!-- Toast UI Chart -->
-<link rel="stylesheet" href="../../styles/tui-chart.css" />
-
-<!-- FILE TREE -->
-<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
-
-<link rel="stylesheet" href="../../styles/jquery-ui.css">
-<!-- eCAMS js, css -->
-<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
-<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
-<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
-</head>
-
-<body>
-
 <!-- contener S -->
 <div id="wrapper">
     <div class="content">
@@ -65,15 +20,15 @@
 							<div class="tit_100 poa">
 	                        	<label id="lbSystem">*시스템</label>
 	                        </div>
-							<div id="cboSystem" data-ax5select="cboSystem" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-20 ml_100 dib"></div>
-							<!-- 프로그램종류 -->		
+							<div id="cboSystem" data-ax5select="cboSystem" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-25 ml_100 dib"></div>
+							<!-- 프로그램종류 -->
 							<div class="dib">
 								<div class="poa_r width-50 tar"> 
 									<div class="tit_100 dib vat">
 				                        <label id="lbJawon">*프로그램종류</label>
 				                    </div>
-									<div id="cboJawon" data-ax5select="cboJawon" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib tal"></div>
-								    <input class="width-30 margin-5-left" id="txtExeName" name="txtExeName" type="text" readonly="readonly" disabled="disabled"><!--수정-->
+									<div id="cboJawon" data-ax5select="cboJawon" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-30 dib tal"></div>
+								    <input class="width-50 margin-5-left" id="txtExeName" name="txtExeName" type="text" readonly="readonly" disabled="disabled"><!--수정-->
 								</div>
 							</div>
 						</div>						
@@ -174,13 +129,6 @@
 		</div>	
 		<!-- 게시판 E -->
 	</div>
-	<!-- Footer-->
-	<footer id="footer">
-	    <ul>
-	        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
-	        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
-	    </ul>
-	</footer>
 </div>
 
 <!-- contener E -->
@@ -192,6 +140,3 @@
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/dev/ProgRegister.js"/>"></script>
-
-</body>
-</html>

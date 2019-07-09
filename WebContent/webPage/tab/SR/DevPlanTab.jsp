@@ -11,59 +11,12 @@
 
 <c:import url="/webPage/common/common.jsp"/>
 
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>azsoft_형상관리시스템</title>
-
-<!-- Vendor styles -->
-<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
-<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
-<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
-<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
-<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
-
-<!-- App styles -->
-<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
-<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
-<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
-
-<!--  AX5UI -->
-<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
-<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
-<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
-
-<!-- Toast UI Chart -->
-<link rel="stylesheet" href="../../styles/tui-chart.css" />
-
-<!-- FILE TREE -->
-<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
-
-<link rel="stylesheet" href="../../styles/jquery-ui.css">
-<!-- eCAMS js, css -->
-<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
-<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
-<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
-</head>
-
-<body>
 <!-- contener S -->
-<div id="wrapper">
+<div id="wrapper" style="height:100%">
     <!-- <div class="content"> -->
 		<!-- 하단 S-->
-		<!--  <div class="half_wrap margin-10-top"> -->
 			<!-- 게시판 S-->
-		    <div class="az_board_basic az_board_basic_in margin-10-bottom" style="height: 35%">
+		    <div class="az_board_basic az_board_basic_in margin-10-bottom" style="height: 30%">
 		    	<div data-ax5grid="grdWorker" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 			</div>	
 			<!-- 게시판 E -->
@@ -136,12 +89,11 @@
 				</div>
 				<div class="row">
 					<div class="row"><label>작업시간내역</label></div>
-					<div class="az_board_basic scroll_h az_board_basic_in" style="height: 42%">
+					<div class="az_board_basic scroll_h az_board_basic_in" style="height: 40%">
 				    	<div data-ax5grid="grdWorkTime" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 				    </div>
 				</div>
 			</div>
-		 <!-- </div> -->
     <!-- </div> -->
 </div>
 	
@@ -149,6 +101,3 @@
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/SR/DevPlanTab.js"/>"></script>
-
-</body>
-</html>

@@ -15,8 +15,8 @@ var userDeptCd 	 	= window.parent.userDeptCd;
 var strReqCd	 	= window.parent.strReqCd; 
 
 //public
-var strStatus		= "2";			  //SR상태
-var strIsrId		= "R201906-0003"; //window.parent.strIsrId; 
+var strStatus		= window.parent.strStatus; //SR상태 "2";
+var strIsrId		= window.parent.strIsrId; //"R201906-0003";  
 
 var txtExpStdatePicker	= new ax5.ui.picker(); //예상개발시작일
 var txtExpEnddatePicker = new ax5.ui.picker(); //예상개발종료일
@@ -360,8 +360,8 @@ $(document).ready(function(){
     });
 	
 	//테스트
-	$('#rdoPlan').prop("checked", true);
-	rdoPlan_click();
+//	$('#rdoPlan').prop("checked", true);
+//	rdoPlan_click();
 });
 
 //연도별월근무일수조회 Cmc0200.getWorkDays(new Date().getFullYear());
@@ -399,7 +399,7 @@ function getDevrRate() {
 }
 
 function screenInit(gbn) {
-	console.log(">>>>>>>>>>>>>>>>>");
+	console.log("screenInit");
 	
 	if(gbn == 'M') {
 		grdWorker.setData([]);
