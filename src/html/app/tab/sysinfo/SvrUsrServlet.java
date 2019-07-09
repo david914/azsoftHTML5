@@ -86,11 +86,8 @@ public class SvrUsrServlet extends HttpServlet {
 	
 	// [시스템상세정보 > 계정정보] 사용업무 가져오기
 	private String getUlSvrInfo(JsonElement jsonElement) throws SQLException, Exception {
-		String UserID 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserID") );
-		String SysCd 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SysCd") );
-		String CloseYn 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "CloseYn") );
-		String SelMsg 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
-		return gson.toJson(sysinfo.getJobInfo_Rpt(UserID, SysCd, CloseYn, SelMsg));
+		HashMap<String, String> etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "etcData") );
+		return gson.toJson(sysinfo.getJobInfo_Rpt(etcData));
 	}
 	
 	// [시스템상세정보 > 계정정보] 계정연결정보 리스트 가져오기

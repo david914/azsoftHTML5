@@ -71,11 +71,8 @@ public class SysCopyServlet extends HttpServlet {
 	
 	// [시스템정보 > 시스템정보복사]  From system cbo 가져오기
 	private String getSysCbo(JsonElement jsonElement) throws SQLException, Exception {
-		String UserId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
-		String SelMsg 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
-		String CloseYn 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "CloseYn") );
-		String SysCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "SysCd") );
-		return gson.toJson(sysinfo.getSysInfo_Rpt(UserId, SelMsg, CloseYn, SysCd));
+		HashMap<String, String> etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "etcData") );
+		return gson.toJson(sysinfo.getSysInfo_Rpt(etcData));
 	}
 	
 	// [시스템정보 > 시스템정보복사]  프로그램종류가져오기

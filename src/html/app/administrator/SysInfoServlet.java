@@ -84,10 +84,7 @@ public class SysInfoServlet extends HttpServlet {
 	// [시스템정보] 시스템 콤보 정보 가져오기
 	private String getSysInfoCbo(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> sysInfoCbo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"sysInfoCbo"));
-		return gson.toJson(sysInfo.getSysInfo_Rpt(sysInfoCbo.get("UserId"), 
-													sysInfoCbo.get("SelMsg"), 
-													sysInfoCbo.get("CloseYn"), 
-													sysInfoCbo.get("SysCd")));
+		return gson.toJson(sysInfo.getSysInfo_Rpt(sysInfoCbo));
 	}
 	// [시스템정보] 업무 리스트 가져오기
 	private String getJobList(JsonElement jsonElement) throws SQLException, Exception {

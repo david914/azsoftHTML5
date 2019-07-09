@@ -329,12 +329,16 @@ function successGetDirInfo(data) {
 
 // From system cbo 가져오기
 function getSysCbo() {
+	var etcData = new Object();
+	
+	etcData.UserId 	= userId;
+	etcData.SelMsg 	= 'SEL';
+	etcData.CloseYn ='N';
+	etcData.SysCd 	= null;
+	
 	var data = new Object();
 	data = {
-		UserId 	: userId, 
-		SelMsg 	: 'SEL', 
-		CloseYn : 'N', 
-		SysCd 	: null,
+		etcData 	: etcData, 
 		requestType	: 'getSysCbo'
 	}
 	ajaxAsync('/webPage/modal/sysinfo/SysCopyServlet', data, 'json',successGetSysCbo);

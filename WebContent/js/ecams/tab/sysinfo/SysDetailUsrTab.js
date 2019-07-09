@@ -413,12 +413,16 @@ function successGetSvrUsrInfo(data) {
 
 // 사용업무 
 function getUlSvrInfo() {
+	
+	var etcData = new Object();
+	etcData.UserId 	= userId;
+	etcData.SelMsg 	= '';
+	etcData.CloseYn ='N';
+	etcData.SysCd 	= sysCd;
+	
 	var ulSvrInfoData = new Object();
 	ulSvrInfoData = {
-		UserID	: userId,
-		SysCd 	: sysCd ,
-		CloseYn : 'N',
-		SelMsg : '',
+		etcData 	: etcData ,
 		requestType	: 'getUlSvrInfo'
 	}
 	ajaxAsync('/webPage/tab/sysinfo/SvrUsrServlet', ulSvrInfoData, 'json',successGetUlSvrInfo);
