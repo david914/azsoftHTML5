@@ -13,12 +13,12 @@ $(document).ready(function(){
 	
 	// 선택완료
 	$('#selectBtn').bind('click', function() {
-	    window.parent.fileUploadModal.minimize('bottom-right');
-	});
-
-	
-	$('#btnChoice').bind('click', function(){
-		choiceClick();
+		if(srSw) {
+			choiceClick();
+			window.parent.fileUploadModal.close();
+		} else {
+			window.parent.fileUploadModal.minimize('bottom-right');
+		}
 	});
 });
 

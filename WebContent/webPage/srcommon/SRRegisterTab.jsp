@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:import url="/webPage/common/common.jsp" />
+<c:import url="/js/ecams/common/commonscript.jsp" />
 
 <div class="half_wrap margin-10-top">
 	<!--하단 좌측-->
@@ -38,7 +40,7 @@
 				<dt><label>*상세내용</label></dt>
 				<dd>
 					<form>
-								<textarea id="texReqContent" name="texReqContent" style="align-content:left;width:100%;height:265px;resize: none;"></textarea>
+						<textarea id="texReqContent" name="texReqContent" style="align-content:left;width:100%;height:265px;resize: none;"></textarea>
 					</form>
 				</dd>
 			</dl>

@@ -9,13 +9,16 @@
 <!-- contener S -->
 <div id="wrapper">
     <div class="content">
-    	<div style="height:25%;">
-			<c:import url="/webPage/srcommon/PrjListTab.jsp" />
-    	</div>
-    	<div style="height:75%;">
-			<c:import url="/webPage/srcommon/SRRegisterTab.jsp" />
-    	</div>
+    	<iframe src='/webPage/srcommon/PrjListTab.jsp' width='100%' frameborder="0" style="height: 30vh;"></iframe>
+    	<iframe src='/webPage/srcommon/SRRegisterTab.jsp' width='100%' frameborder="0" style="height: 65vh;"></iframe>
 	</div>
 </div>
 
- 
+<!--   Footer
+<footer id="footer">
+    <ul>
+        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+    </ul>
+</footer>
+ -->

@@ -40,7 +40,7 @@ var txtUserId = "";
 var txtUserName = "";
 var deptName = "";
 var deptCd = "";
-
+var srSw = true;
 // 그리드 테스트
 var fileGrid = true;
 
@@ -62,7 +62,8 @@ var fileUploadModal = new ax5.ui.modal({
             },
             close: {
                 label: '<i class="fa fa-times-circle" aria-hidden="true"></i>', onClick: function(){
-                	fileUploadModal.minimize('bottom-right');
+                	fileUploadModal.close();
+                	//fileUploadModal.minimize('bottom-right');
                 }
             }
         }
@@ -412,14 +413,13 @@ function fileOpen() {
         height: 360,
         iframe: {
             method: "get",
-            url: 	"../modal/FileUp.jsp",
+            url: 	"../modal/notice/FileUpModal.jsp",
             param: "callBack=fileUploadModalCallBack"
         },
         onStateChanged: function () {
             if (this.state === "open") {
             }
             else if (this.state === "close") {
-            	$('#btnQry').trigger('click');
             }
         }
     }, function () {
