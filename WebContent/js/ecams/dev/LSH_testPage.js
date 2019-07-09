@@ -153,7 +153,7 @@ function Cmd_Ip_Click(){
 			requestType : 'setMenuList',
 			selectLabel : $('[data-ax5select="Cbo_selMenu"]').ax5select("getValue")[0].text,
 			menucd		: menucd,
-			tmpList		: JSON.stringify(tmpList)
+			tmpList		: tmpList
 	}	
 	ajaxResultData = ajaxCallWithJson('/webPage/test/LSH_testPage', tmpData, 'json');
 	// 임시 alert 창

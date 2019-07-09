@@ -4,6 +4,8 @@ var fileArr = [];
 
 var fileGrid = false;
 
+var srSw = window.parent.srSw;
+
 $(document).ready(function(){
 	window.parent.fileUploadBtn = $('#btnStartUpload');
 	
@@ -15,7 +17,8 @@ $(document).ready(function(){
 	$('#selectBtn').bind('click', function() {
 		if(srSw) {
 			choiceClick();
-			window.parent.fileUploadModal.close();
+			//window.parent.fileUploadModal.close();
+			window.parent.fileUploadModal.minimize('bottom-right');
 		} else {
 			window.parent.fileUploadModal.minimize('bottom-right');
 		}
@@ -24,6 +27,8 @@ $(document).ready(function(){
 
 function choiceClick(){
 	var tmpFile = new Object();
+	// filelist 그리드의 내용을 보여주는 콘솔로 모달이 close되면 데이터가 삭제되서 콘솔확인 불가능 그래서 위에 하단으로 내리는걸로 해놈
+	console.log(window.parent.grid_fileList.list);
 	if(fileGrid){
 		var tmp =  $('#files').find('li.media');
 		var allText = "";
