@@ -207,6 +207,7 @@
 					<!--등록된담당업무 S-->
 					<div>
 						<label class="title">등록된담당업무</label>
+						<button class="btn_basic_s float-right" id="btnDelJob">담당업무삭제</button>
 						<div class="az_board_basic az_board_basic_in row" style="height: 312px;">
 					    	<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>	
 						</div>

@@ -669,7 +669,7 @@ function successGetUserInfo(data) {
 	if(userInfo.cm_active === '1') {
 		$('#optActCheck').wRadio('check', true);
 	} else {
-		$('#optDiCheck').wRadio('check', false);
+		$('#optDiCheck').wRadio('check', true);
 	}
 	
 	getUserRgtCd();

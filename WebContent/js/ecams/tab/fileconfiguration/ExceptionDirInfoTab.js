@@ -41,8 +41,8 @@ dirGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_sysmsg", 	label: "시스템",   width: '35%', align: "left"},
-        {key: "cm_dirpath",	label: "디렉토리",  width: '65%', align: "left"},
+        {key: "cm_sysmsg", 	label: "시스템",   width: '25%', align: "left"},
+        {key: "cm_dirpath",	label: "디렉토리",  width: '75%', align: "left"},
     ]
 });
 
@@ -67,8 +67,8 @@ dirEtcGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_sysmsg", 	label: "시스템",   width: '35%', align: "left"},
-        {key: "cm_dirpath",	label: "디렉토리",  width: '65%', align: "left"},
+        {key: "cm_sysmsg", 	label: "시스템",   width: '25%', align: "left"},
+        {key: "cm_dirpath",	label: "디렉토리",  width: '75%', align: "left"},
     ]
 });
 

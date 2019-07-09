@@ -14,6 +14,10 @@ var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
+var userName 	= '관리자';
+var userId 		= 'MASTER';
+var adminYN 	= 'Y';
+
 var editScriptGrid		= new ax5.ui.grid();
 var scriptGrid			= new ax5.ui.grid();
 
@@ -51,8 +55,8 @@ editScriptGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_seq", 	label: "순서",  		width: 60 },
-        {key: "cm_cmdname", label: "수행명령",  	width: 1650},
+        {key: "cm_seq", 	label: "순서",  		width: '5%' },
+        {key: "cm_cmdname", label: "수행명령",  	width: '95%', align: 'left'},
     ]
 });
 
@@ -78,9 +82,9 @@ scriptGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "빌드패턴",  	width: 150 },
-        {key: "cm_seq", 		label: "순서",  		width: 60 },
-        {key: "cm_cmdname", 	label: "수행명령",  	width: 1120},
+        {key: "cm_codename", 	label: "빌드패턴",  	width: '10%'},
+        {key: "cm_seq", 		label: "순서",  		width: '5%' },
+        {key: "cm_cmdname", 	label: "수행명령",  	width: '85%', align: 'left'},
     ]
 });
 

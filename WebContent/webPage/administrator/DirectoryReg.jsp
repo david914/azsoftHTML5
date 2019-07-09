@@ -13,7 +13,7 @@
 		<div class="half_wrap">
 			<div class="l_wrap dib width-38 vat">
 				<label class="tit_80 dib">시스템</label>
-				<div class="ml-80 dib width-70">
+				<div class="dib width-70">
 					<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
 				</div>
 			</div>
@@ -31,14 +31,14 @@
 				
 			<div class="l_wrap dib width-38 vat">
 				<label class="tit_80 dib">Directory</label>
-				<div class="ml-80 dib vat width-70">
+				<div class="dib vat width-70">
 					<input id="txtPath" name="txtPath" type="text" class="width-100">
 				</div>
 			</div>
 					
 			<div class="l_wrap dib width-38 vat">
 				<label class="tit_80 dib">업무</label>
-				<div class="ml-80 dib width-70">
+				<div class="dib width-70">
 					<div class="margin-3-top" style="float: right;">
 						<input type="checkbox" class="checkbox-dir float-right" id="chkAllJob" data-label="전체선택"/>
 					</div>

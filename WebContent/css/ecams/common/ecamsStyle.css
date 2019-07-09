@@ -44,8 +44,6 @@ ul.tabs li.active {
     width:100%;
 }
 .tab_content {
-    padding: 5px;
-    font-size: 12px;
     display: none;
 }
 .tab_container .tab_content ul {
@@ -559,7 +557,7 @@ ul.tabs li.active {
 	width: 81%;
 }
 .width-80 {
-	/* width: 80%; */
+	width: 80%;
 }
 .width-79 {
 	width: 79%;
@@ -1043,7 +1041,7 @@ select::-ms-expand {display: none;}
 .tit h3{position: relative; font-size: 13px; font-weight: bold; color: #245490; border-bottom: 1px solid #5c7ba0; padding-bottom: 3px;}
 .title{position: relative; font-size: 13px; font-weight: 600; color: #fff; background: #888; padding: 0 7px; }
 /*tab*/
-.tab_wrap{position: relative; border-bottom: 1px solid #3473c8; height: 25px; margin-bottom: 3px;}
+.tab_wrap{position: relative;border-bottom: 1px solid #3473c8;height: 25px;margin-bottom: 3px;}
 .tab_wrap ul li{display: inline-block; border: 1px solid #3473c8; border-bottom: none; color: #3473c8; background: #f8f8f8; height: 25px; padding: 0 15px; line-height: 25px; margin: 0 1px; cursor: pointer;}
 .tab_wrap ul li.on{background: #3473c8; color: #fff;}
 .tab_wrap ul li:disabled{background: #c7cbd1; color:#d5e0ef; border: 1px solid #ccc; color: #ddd;}

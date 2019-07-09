@@ -40,10 +40,10 @@ handGrid.setConfig({
     	}
     },
     columns: [
-        {key: "lastdt", 	label: "등록일시",		width: '15%', align: "left"},
-        {key: "diffday",	label: "작업일시",  	width: '15%', align: "left"},
+        {key: "lastdt", 	label: "등록일시",		width: '15%', align: "center"},
+        {key: "diffday",	label: "작업일시",  	width: '15%', align: "center"},
         {key: "sysmsg",		label: "대상시스템",  	width: '35%', align: "left"},
-        {key: "svrip",		label: "대상서버",   	width: '30%', align: "left"},
+        {key: "svrip",		label: "대상서버",   	width: '35%', align: "left"},
     ]
 });
 

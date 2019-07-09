@@ -14,6 +14,10 @@ var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
+var userName 	= '관리자';
+var userId 		= 'MASTER';
+var adminYN 	= 'Y';
+
 var conInfoGrid			= new ax5.ui.grid();
 var scriptGrid			= new ax5.ui.grid();
 
@@ -90,8 +94,8 @@ scriptGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_seq", 	label: "순서",  		width: '10%' },
-        {key: "cm_cmdname", label: "수행명령",  	width: '90%' },
+        {key: "cm_seq", 	label: "순서",  		width: '5%' , align: "center"},
+        {key: "cm_cmdname", label: "수행명령",  	width: '95%' , align: "left"},
     ]
 });
 
@@ -129,11 +133,11 @@ $(document).ready(function() {
 		
 		if(selSysInfo.substr(7,1) === '1') {
 			$('#chkJobAll').wCheck('disabled',false);
-			$('#scrollBindJob').css('background-color','white');
+			$('#divJob').removeClass('mask_wrap');
 			getJobInfo();
 		} else {
 			$('#chkJobAll').wCheck('disabled',true);
-			$('#scrollBindJob').css('background-color','gray');
+			$('#divJob').addClass('mask_wrap');
 		}
 		getQryCd();
 	});
@@ -164,8 +168,9 @@ $(document).ready(function() {
 			$('[data-ax5select="cboBldCd"]').ax5select('setValue', selBldCdVal, true);
 			selBldCdVal = null;
 		}
-		
-		$('#cboBldCd').trigger('change');
+		if(bldCdData.length > 0 ) {
+			$('#cboBldCd').trigger('change');
+		}
 	});
 	
 	// 스크립트유형 cbo 변경 이벤트
@@ -448,25 +453,48 @@ function cboBldCdFilter() {
 	var bldCdArr 	= [];
 	var prcSysVal 	= null;
 	var bldGbn		= null;
-	cboBldCdData.forEach(function(item, index) {
+	var item		= null;
+	
+	for(var i=0; i<cboBldCdData.length; i++) {
 		prcSysVal 	= getSelectedVal('cboPrcSys').cm_jobcd;
+		item		= cboBldCdData[i];
 		bldGbn 		= item.cm_bldgbn;
 		if(item.cm_codename !== '유형신규등록') {
-			if (prcSysVal === 'SYSDN' && bldGbn === '1') {
-				bldCdArr.push(item);
-			} else if (prcSysVal === 'SYSUP' && bldGbn === '5') {
-				bldCdArr.push(item);
-			} else if ((prcSysVal === 'SYSCB' || prcSysVal === 'SYSUA'|| prcSysVal === 'SYSPC') && bldGbn === '2') {
-				bldCdArr.push(item);
-			} else if ((prcSysVal === 'SYSED' || prcSysVal === 'SYSCED') && bldGbn === '3') {
-				bldCdArr.push(item);
-			} else if (prcSysVal === 'SYSRC' && bldGbn === '6') {
-				bldCdArr.push(item);
+			if (prcSysVal === 'SYSDN') {
+				if(bldGbn === '1') {
+					bldCdArr.push(item);
+				} else {
+					continue;
+				}
+			} else if (prcSysVal === 'SYSUP' ) {
+				if(bldGbn === '5') {
+					bldCdArr.push(item);
+				} else {
+					continue;
+				}
+			} else if ((prcSysVal === 'SYSCB' || prcSysVal === 'SYSUA'|| prcSysVal === 'SYSPC')) {
+				if(bldGbn === '2') {
+					bldCdArr.push(item);
+				} else {
+					continue;
+				}
+			} else if ((prcSysVal === 'SYSED' || prcSysVal === 'SYSCED')) {
+				if(bldGbn === '3') {
+					bldCdArr.push(item);
+				} else {
+					continue;
+				}
+			} else if (prcSysVal === 'SYSRC') {
+				if(bldGbn === '6') {
+					bldCdArr.push(item);
+				} else {
+					continue;
+				}
 			} else if(bldGbn === '4'){
 				bldCdArr.push(item);
 			}
 		}
-	});
+	}
 	return bldCdArr;
 }
 
@@ -509,7 +537,7 @@ function makePrgInfoUlList() {
 	ulPrgInfoData.forEach(function(prgItem, index) {
 		addId = prgItem.cm_micode;
 		liStr  = '';
-		liStr += '<li class="list-group-item">';
+		liStr += '<li class="list-group-item dib width-33">';
 		liStr += '	<input type="checkbox" class="checkbox-prg" id="chkPrg'+addId+'" data-label="'+prgItem.cm_codename+'"  value="'+prgItem.cm_micode+'" />';
 		liStr += '</li>';
 		$('#ulPrgInfo').append(liStr);
@@ -543,7 +571,7 @@ function successGetJobInfo(data) {
 	ulJobInfoData.forEach(function(jobItem, index) {
 		addId = jobItem.cm_jobcd;
 		liStr  = '';
-		liStr += '<li class="list-group-item">';
+		liStr += '<li class="list-group-item dib width-50">';
 		liStr += '	<input type="checkbox" class="checkbox-job" id="chkJob'+addId+'" data-label="'+jobItem.cm_jobname+'"  value="'+addId+'" />';
 		liStr += '</li>';
 		$('#ulJobInfo').append(liStr);
