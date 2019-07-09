@@ -575,10 +575,31 @@ function checkDuplication(downFileList) {
 function deleteDataRow() {
 
 	var secondGridSeleted = secondGrid.getList("selected");
+	var originalData = null;
 	
 	$(secondGridSeleted).each(function(i){
+		originalData = null;
+		if( this.cm_info.substr(3,1) == '1' || this.cm_info.substr(8,1) == '1'){
+			if($('#chkDetail').is(':checked')){
+				for(var x=0; x<secondGrid.list.length; x++){
+					if(secondGrid.list[x].baseitemid == this.cr_itemid){
+						secondGrid.select(x,{selected:true} );
+					}
+				}
+			}
+		}
+		else if (this.cr_itemid != this.baseitemid){
+			for(var x=0; x<secondGrid.list.length; x++){
+				if(secondGrid.list[x].cr_itemid == this.baseitemid){
+					secondGrid.select(x,{selected:true} );
+					originalData = secondGrid.list[x].baseitemid;
+				}
+			}
+		}
 		$(firstGridData).each(function(j){
-			if(firstGridData[j].baseitemid == secondGridSeleted[i].baseitemid){
+			if(firstGridData[j].cr_itemid == secondGridSeleted[i].cr_itemid || 
+				firstGridData[j].cr_itemid == originalData && originalData != null){
+				
 				firstGridData[j].selected_flag = "0";
 				return false;
 			}
@@ -704,10 +725,6 @@ function confCall(GbnCd)
 	confInfoData.JobCd = "";
 	confInfoData.deployCd = "0";
 	confInfoData.PrjNo = strIsrId;
-	var tmpData = {
-			requestType : 'Confirm_Info',
-			confInfoData : confInfoData
-	}	
 	// 결재팝업 미개발
 	if (GbnCd == "Y") {
 		gyulPopUp = Confirm_select(PopUpManager.createPopUp(this, Confirm_select, true));
@@ -718,10 +735,15 @@ function confCall(GbnCd)
         gyulPopUp.minitApp();
         
 	} else if (GbnCd == "N") {
+		
+		var tmpData = {
+				requestType : 'Confirm_Info',
+				confInfoData : confInfoData
+		}	
+		
 		ajaxReturnData = ajaxCallWithJson('/webPage/dev/CheckOutCnlServlet', tmpData, 'json');
 		successConfInfo(ajaxReturnData);
 	}
-	etcObj = null;
 }
 
 function successConfInfo(data){

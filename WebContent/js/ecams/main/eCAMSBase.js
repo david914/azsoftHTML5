@@ -117,7 +117,7 @@ function clickSideMenu(event) {
 	// 접속 메뉴 request code 가져오기 수정.
 	var findReqCd = false;
 	for(var i=0; i<menuData.length; i++) {
-		if(menuData[i].link === event.target.pathname) {
+		if(menuData[i].link === event.target.pathname && event.target.innerText === menuData[i].text) {
 			reqCd = menuData[i].reqcd;
 			findReqCd = true;
 			break;

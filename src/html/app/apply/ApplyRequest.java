@@ -61,6 +61,11 @@ public class ApplyRequest extends HttpServlet {
 				case "getDownFileList" :
 					response.getWriter().write( getDownFileList(jsonElement) );
 					break;
+				case "confSelect" :
+					response.getWriter().write( confSelect(jsonElement) );
+					break;
+				case "Confirm_Info" :
+					response.getWriter().write( Confirm_Info(jsonElement) );
 				default:
 					break;
 			}
@@ -110,5 +115,18 @@ public class ApplyRequest extends HttpServlet {
 		etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"downFileData"));
 		return gson.toJson(cmr0200.getDownFileList(fileList,etcData));
 			
+	}
+	private String confSelect(JsonElement jsonElement) throws SQLException, Exception {
+		ArrayList<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
+		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
+		HashMap<String, String> etcData = new HashMap<String, String>();
+		etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"downFileData"));
+		return gson.toJson(cmr0200.getDownFileList(fileList,etcData));
+			
+	}
+	
+	private String Confirm_Info(JsonElement jsonElement) throws SQLException, Exception{
+		
+		return "";
 	}
 }

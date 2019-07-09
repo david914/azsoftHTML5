@@ -6,8 +6,8 @@
  *  수정일 : 2019-05-27
  * 
  */
-var userId = window.parent.userId;
-var reqCd = window.parent.reqCd;
+var userId = window.top.userId;
+var reqCd = window.top.reqCd;
 console.log("!!!reqCd:"+reqCd);
 
 var firstGrid		= new ax5.ui.grid();
@@ -34,6 +34,7 @@ var qrySw = false;
 var outpos = '';
 var ingSw = false;
 var closeSw = false;
+var confirmData = null;
 
 
 firstGrid.setConfig({
@@ -52,7 +53,9 @@ firstGrid.setConfig({
         	this.self.select(this.dindex);
         },
         onDBLClick: function () {
-        	DownClickGrid();
+        	this.self.clearSelect();
+        	this.self.select(this.dindex);
+        	addDataRow();
         },
     	onDataChanged: function(){
     		//그리드 새로고침 (스타일 유지)
@@ -65,6 +68,32 @@ firstGrid.setConfig({
     		else {
     		}
     	}
+    },
+    contextMenu: {
+        iconWidth: 20,
+        acceleratorWidth: 100,
+        itemClickAndClose: false,
+        icons: {
+            'arrow': '<i class="fa fa-caret-right"></i>'
+        },
+        items: [
+            {type: 1, label: "추가"}
+        ],
+        popupFilter: function (item, param) {
+         	//firstGrid.clearSelect();
+         	//firstGrid.select(Number(param.dindex));
+        	if(firstGrid.getList('selected').length < 1){
+        		return false;
+        	}
+         	return true;
+       	 
+        },
+        onClick: function (item, param) {
+	        	
+	        addDataRow();
+	        firstGrid.contextMenu.close();//또는 return true;
+        	
+        }
     },
     columns: [
         {key: "cr_rsrcname", label: "프로그램명",  width: '7%'},
@@ -95,10 +124,13 @@ secondGrid.setConfig({
         	this.self.select(this.dindex);
         },
         onDBLClick: function () {
-        	UpClickGrid();
+        	this.self.clearSelect();
+        	this.self.select(this.dindex);
+        	deleteDataRow();
         },
     	onDataChanged: function(){
     		//그리드 새로고침 (스타일 유지)
+    		simpleData();
     	    this.self.repaint();
     	},
     	trStyleClass: function () {
@@ -108,6 +140,32 @@ secondGrid.setConfig({
     		else {
     		}
     	}
+    },
+    contextMenu: {
+        iconWidth: 20,
+        acceleratorWidth: 100,
+        itemClickAndClose: false,
+        icons: {
+            'arrow': '<i class="fa fa-caret-right"></i>'
+        },
+        items: [
+            {type: 1, label: "제거"}
+        ],
+        popupFilter: function (item, param) {
+        	//secondGrid.clearSelect();
+        	//secondGrid.select(Number(param.dindex));
+        	if(secondGrid.getList('selected').length < 1){
+        		return false;
+        	}
+         	return true;
+       	 
+        },
+        onClick: function (item, param) {
+	        	
+	        deleteDataRow();
+	        secondGrid.contextMenu.close();//또는 return true;
+        	
+        }
     },
     columns: [
         {key: "cr_rsrcname", label: "프로그램명",  width: '7%'},
@@ -159,6 +217,10 @@ $(document).ready(function(){
 	
 	$('#cboSys').bind('change',function(){
 		changeSys();
+	});
+	
+	$('#btnRequest').bind('click',function(){
+		btnRequestClick();
 	});
 	
 	dateInit();
@@ -389,7 +451,6 @@ function findProc() {
 	
 	var tmpObj = new Object();
 	tmpObj.UserId = userId;
-	
 	tmpObj.SysCd = getSelectedVal('cboSys').value;
 	tmpObj.SinCd = reqCd;
 	tmpObj.TstSw = getSelectedVal('cboSys').tstsw;
@@ -573,18 +634,32 @@ function deleteDataRow() {
 
 	outpos = "";
 	var secondGridSeleted = secondGrid.getList("selected");
+	var originalData = null;
 	
 	$(secondGridSeleted).each(function(i){
+		originalData = null;
+		
 		if( this.cm_info.substr(3,1) == '1' || this.cm_info.substr(8,1) == '1'){
-			firstGrid.select($(secondGridSeleted).index(this)+1 );
-			console.log($(secondGridSeleted).index(this));
-			//firstGrid.select(0, );
+			if($('#chkDetail').is(':checked')){
+				for(var x=0; x<secondGrid.list.length; x++){
+					if(secondGrid.list[x].baseitem == this.cr_itemid){
+						secondGrid.select(x,{selected:true} );
+					}
+				}
+			}
 		}
-		else if (this.cr_itemid != this.item.baseitem){
-			firstGrid.select($(secondGridSeleted).index(this)-1 );
+		else if (this.cr_itemid != this.baseitem){
+			for(var x=0; x<secondGrid.list.length; x++){
+				if(secondGrid.list[x].cr_itemid == this.baseitem){
+					secondGrid.select(x,{selected:true} );
+					originalData = secondGrid.list[x].baseitem;
+				}
+			}
 		}
 		$(firstGridData).each(function(j){
-			if(firstGridData[j].cr_itemid == secondGridSeleted[i].cr_itemid && firstGridData[j].cr_rsrcname == secondGridSeleted[i].cr_rsrcname){
+			if((firstGridData[j].cr_itemid == secondGridSeleted[i].baseitem) || 
+				firstGridData[j].cr_itemid == originalData && originalData != null){
+				
 				firstGridData[j].selected_flag = "0";
 				return false;
 			}
@@ -600,23 +675,18 @@ function deleteDataRow() {
 		$('[data-ax5select="cboSys"]').ax5select("enable");
 		if(srSw) $('[data-ax5select="cboSrId"]').ax5select('enable');
 		$('#btnReq').prop('disabled',true);
-		$('#chkBefJob').prop('checked','ckecked');
+		$('#chkBefJob').prop('checked',true);
+	} else if ($('#btnDiff').css('display') != 'none'){
+		
 	}
 	else{
 		for (i=0 ; i<secondGridData.length ; i++){
-//			if(grdLst2_dp.getItemAt(i).chk_selected != "0"){
-//				cmdChk.enabled = false;
-//				break;
-//			}
 			if (secondGridData[i].cm_info.substr(44,1) == "1") {//45	로컬에서개발
 				if ( outpos == "R" ) {
 					outpos = "A";
 				} else if ( outpos != "A" ) {
 					outpos = "L";
 				}
-//				if ( grdLst2_dp.getItemAt(i).cm_info.substr(52,1) == "1" ) {
-//					cmdDiff.visible = true;
-//				}
 			} else {
 				if ( outpos == "L" ){
 					outpos = "A";
@@ -673,7 +743,6 @@ function checkDuplication(downFileList){
 		});
 	}
 
-	console.log(firstGrid.list);
 	firstGrid.repaint();
 	secondGrid.addRow(secondGridList);
 	
@@ -809,12 +878,16 @@ function cmdReqSubSame(data){
 	$(data).each(function(i){
 		var dataDetail = this;
 		if(secondGrid.list.length <= j){
-			secondGrid.addRow($.extend({}, dataDetail, {__index: undefined}),i);
+			if ($('#chkDetail').is(':checked')){
+				secondGrid.addRow($.extend({}, dataDetail, {__index: undefined}),i);
+			}
 			secondGridData.splice(i,0,dataDetail);
 			return false;
 		}
 		if(dataDetail.cr_itemid != secondGrid.list[j].cr_itemid){
-			secondGrid.addRow($.extend({}, dataDetail, {__index: undefined}),i);
+			if ($('#chkDetail').is(':checked')){
+				secondGrid.addRow($.extend({}, dataDetail, {__index: undefined}),i);
+			}
 			secondGridData.splice(i,0,dataDetail);
 			return false;
 		}
@@ -871,11 +944,6 @@ function successDownFileData(data){
 	} else {
 		cmdReqSubSame(data);	
 	}
-}
-
-//신청
-function btnRequest_Click() {
-	
 }
 
 function sysDataFilter(){
@@ -1013,16 +1081,443 @@ function successGetDevHome(data){
 }
 
 
+//파일비교버튼 미개발
+/*
+function btnDiffClick(){
+	var tmpArray = new ArrayCollection();
+	var tmpObj = new Object();
+	
+	for (var x=0;x<grdLst2_dp.length;x++) {
+		if (grdLst2_dp.getItemAt(x).cm_info.substr(44,1) == "1") {  //45 로컬에서 개발
+			tmpObj = {};
+			tmpObj = grdLst2_dp.getItemAt(x);
+			tmpObj.errflag = "0";
+			tmpObj.sendflag = "0";
+			tmpObj.cm_dirpath = grdLst2_dp.getItemAt(x).pcdir;
+			tmpObj.pcdir = grdLst2_dp.getItemAt(x).localdir;
+			tmpArray.addItem(tmpObj);
+			tmpObj = null;
+		}
+	}
+	tmpObj = null;
+	if (tmpArray.length>0) {
+		fileUpDownPop = progFileUpDown_Agent(PopUpManager.createPopUp(this, progFileUpDown_Agent, true));
+        PopUpManager.centerPopUp(fileUpDownPop);//팝업을 중앙에 위치하도록 함
+        fileUpDownPop.acptNo = cboSys.selectedItem.cm_syscd;
+        fileUpDownPop.UserId = strUserId;
+        fileUpDownPop.acptNo = "999999999999";
+        fileUpDownPop.progFile_dp = tmpArray;
+        fileUpDownPop.popType = "F";
+        fileUpDownPop.parentFunc = FileUpLoad_Handler_diff;
+	    fileUpDownPop.initApp();
+		} else {
+			diffNext();
+		}
+}
 
+// 파일업다운 미개발
+function FileUpLoad_Handler_diff(ret){
+	var findSw = false;
+	var tmpMsg = "";
+	
+	if (ret){
+		for (var i=0;fileUpDownPop.listgrid_dp.length>i;i++) {
+			if (fileUpDownPop.listgrid_dp.getItemAt(i).errflag == "ERROR") {
+				if (tmpMsg.length>0) tmpMsg = tmpMsg + ",";
+				tmpMsg = tmpMsg + fileUpDownPop.listgrid_dp.getItemAt(i).cr_rsrcname;
+				findSw = true;
+			}	
+		}
+	}
+	PopUpManager.removePopUp(fileUpDownPop);
+	if (findSw) {
+		Alert.show("로컬에 파일이 없습니다. 확인 후 진행하여 주시기 바랍니다. \n"+tmpMsg);
+	} else {
+		diffNext();	
+	}
+}
 
+function deffNext(){
 
+	griddiff.visible = true; 
+	Cmr0200.diffList(strUserId,cboSys.selectedItem.cm_syscd,grdLst2_dp.toArray());	
+}
 
+function difflist_resultHandler(event){
+	
+	grdLst2_dp.source = event.result ;
+	grdLst2_dp.refresh();
 
+	for (var i=0;grdLst2_dp.length>i;i++) {
+		if (grdLst2_dp.getItemAt(i).diffrstcd != null) {
+			if (grdLst2_dp.getItemAt(i).diffrstcd != "0") {
+				Alert.show("체크인이 가능하지 않은 파일이 있습니다. 목록에서 확인 후 진행하시기 바랍니다.");
+				return;
+			}
+		}
+	}
+	cmdReq_DiffNext();
+		
+}
 
+function cmdReq_DiffNext() {
+	var tmpObj = {};
+	var tmpArray = new ArrayCollection();
+	var findSw = false;
+	
+	for (var x=0;x<grdLst2_dp.length;x++) {
+		if (!chkSvr.selected && 
+		    (grdLst2_dp.getItemAt(x).cm_info.substr(38,1) == "1" || 
+		      grdLst2_dp.getItemAt(x).cm_info.substr(50,1) == "1")) {
+		    findSw = true;
+		    tmpObj = {};
+		    tmpObj.cr_itemid = grdLst2_dp.getItemAt(x).cr_itemid;
+		    tmpObj.baseitem = grdLst2_dp.getItemAt(x).baseitem;
+		    tmpObj.cm_dirpath = grdLst2_dp.getItemAt(x).cm_dirpath;
+		    tmpObj.cr_rsrcname = grdLst2_dp.getItemAt(x).cr_rsrcname;
+		    tmpObj.cr_rsrccd = grdLst2_dp.getItemAt(x).cr_rsrccd;
+		    tmpObj.cr_syscd = grdLst2_dp.getItemAt(x).cr_syscd;
+		    if (grdLst2_dp.getItemAt(x).cm_info.substr(38,1) == "1") tmpObj.compyes = "Y";
+		    else tmpObj.compyes = "N";
+		    if (grdLst2_dp.getItemAt(x).cm_info.substr(50,1) == "1") tmpObj.deployyes = "Y";
+		    else tmpObj.deployyes = "N";
+		    if (grdLst2_dp.getItemAt(x).cm_info.substr(28,1) == "1") tmpObj.progshl = "1";
+		    else tmpObj.progshl = "0";
+		    tmpArray.addItem(tmpObj);
+		    tmpObj = null;
+		}
+	}
+	editRowBlank();
+	if (findSw) { //빌드 및 배포스크립트실행관련
+		tmpObj = {};
+		tmpObj.reqcd  = strReqCD;
+		tmpObj.syscd  = cboSys.selectedItem.cm_syscd;
+		scriptPopUp = Script_Sel(PopUpManager.createPopUp(this, Script_Sel, true));
+		scriptPopUp.width = screen.width - 80;
+		scriptPopUp.height = screen.height - 200;
+		scriptPopUp.progList_dp.source = tmpArray.toArray();
+		scriptPopUp.parentfuc = scriptRequest;
+		scriptPopUp.parentvar = tmpObj;
+        PopUpManager.centerPopUp(scriptPopUp);//팝업을 중앙에 위치하도록 함
+        scriptPopUp.minitApp();	
+		tmpObj = null;	
+	} else {
+		cmdReqSub();
+	}	
+}
+*/
+function checkInClick(){
+	var tmpSayu = $("#txtSayu").val().trim();
+	
+	if (ingSw) {
+		showToast("현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.");
+		return;
+	}
+	
+	if (getSelectedIndex('cboSys') < 1) {
+		showToast('시스템을 선택하여 주십시오.');
+		return;
+	}
+	if (srSw && getSelectedIndex('cboSrId') < 1) {
+		showToast('SR-ID를 선택하여 주십시오.');
+		return;
+	}
+	if (srSw && tmpSayu.length == 0){
+		showToast('신청사유를 입력하여 주십시오.');
+		return;
+	}
+	if (secondGrid.list.length == 0){
+		showToast('신청 할 파일을 추가하여 주십시오.');
+		return;
+	}
+	
+//	cmdChk.enabled = false;
+	if (getSelectedVal('cboReqGbn').cm_micode != '05') {				
+		for (var x=0;x<secondGridData.length;x++) {
+			if (secondGridData[x].cm_info.substr(52,1) == "1" && secondGridData[x].cr_lstver != "0") {
+				cmdDiff_Click();
+				return;
+			}
+		}	
+	}
+	cmdReq_DiffNext();
+}
 
+function editRowBlank() {
+	var iCnt = gridSimpleData.length; //항목상세보기를 제외한 모듈단위의 목록
+	for(var i=0; i<iCnt; i++) {
+		if(gridSimpleData[i].prcseq == "") { //컴파일순서에 값이 없으면
+			var jCnt = firstGridData.length; //전체프로그램 목록
+			for(var j=0; j<jCnt; j++) {
+				if(gridSimpleData[i].cr_itemid == firstGridData[j].cr_itemid) { //프로그램경로와 프로그램명이 같으면
+					gridSimpleData[i].prcseq = firstGridData[j].prcseq; //상단 그리드에 값을 가져옴
+					break;
+				}
+			}
+		}
+	}			
+}
 
+//빌드스크립트 팝업 미개발
+function scriptRequest()
+{
+	var closeFlag = scriptPopUp.closeFlag;
+	if (closeFlag) {
+		script_dp = new ArrayCollection(scriptPopUp.grdLst_dp.source);
+	}
+	PopUpManager.removePopUp(scriptPopUp);
 
+	if (closeFlag){
+		cmdReqSub();
+	}
+	else{
+		ingSw = false;
+	}
+	
+}
 
+function cmdReqSub(){
+	var strRsrcCd = "";
+	var strQry = "";
+	ingSw = true;
+	var x=0;
+	for (x=0 ; x<secondGridData.length ; x++) {
+		if (strQry.length > 0) {
+			if (strQry.indexOf(secondGridData[x].reqcd) < 0) {
+				strQry = strQry + ",";
+				strQry = strQry + secondGridData[x].reqcd;
+			}
+		} else strQry = secondGridData[x].reqcd;
+
+		if (strRsrcCd.length > 0) {
+			if (strRsrcCd.indexOf(secondGridData[x].cr_rsrccd) < 0) {
+				strRsrcCd = strRsrcCd + ",";
+				strRsrcCd = strRsrcCd + secondGridData[x].cr_rsrccd;
+			}
+		} else strRsrcCd = secondGridData[x].cr_rsrccd;
+	}
+	
+	var confirmInfoData = new Object();
+	confirmInfoData.sysCd = getSelectedVal('cboSys').value;
+	confirmInfoData.strReqCd = reqCd;
+	confirmInfoData.strRsrcCd = strRsrcCd;
+	confirmInfoData.ReqCd = reqCd;
+	confirmInfoData.userId = userId;
+	confirmInfoData.strQry = strQry;
+	
+	var tmpData = {
+			requestType : 'confSelect',
+			confirmInfoData : confirmInfoData
+	}	
+	ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
+	
+	if (ajaxReturnData == "X") {
+		showToast("로컬PC에서 파일을 전송하는 결재단계가 지정되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
+	} else	if (ajaxReturnData == "C") {
+		confirmDialog.confirm({
+			msg: '결재자를 지정하시겠습니까?',
+		}, function(){
+			if(this.key === 'ok') {
+				confCall("Y");
+			}
+			else{
+				confCall("N");
+			}
+		});
+	} else if (ajaxReturnData == "Y") {
+		confCall("Y");
+    } else if (ajaxReturnData != "N") {
+    	showToast("결재정보가 등록되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
+    } else {
+		confCall("N");
+    }
+	
+	//Cmr0200.confSelect(cboSys.selectedItem.cm_syscd,reqCd,strRsrcCd,userId,strQry);
+}
+
+function confCall(GbnCd){
+	var strQry = "";
+	var emgSw = "0";
+	var tmpRsrc = "";
+	var tmpJobCd = "";
+	var tmpPrjNo = "";
+	var strDeploy = "0";
+	//retMsg = "Y";
+	strQry = "";
+	for (var x=0;x<secondGridData.length;x++) {
+		if (tmpRsrc.length > 0) {
+			if (tmpRsrc.indexOf(secondGridData[x].cr_rsrccd) < 0)
+	            tmpRsrc = tmpRsrc + "," + secondGridData[x].cr_rsrccd;
+		} else tmpRsrc = secondGridData[x].cr_rsrccd;
+	
+		if (tmpJobCd.length > 0) {
+			if (tmpJobCd.indexOf(secondGridData[x].cr_jobcd) < 0)
+	            tmpJobCd = tmpJobCd + "," + secondGridData[x].cr_jobcd;
+		} else tmpJobCd = secondGridData[x].cr_jobcd;
+	
+		if (strQry.length > 0) {
+			if (strQry.indexOf(secondGridData[x].reqcd) < 0) {
+				strQry = strQry + "," + secondGridData[x].reqcd;
+			}
+		} else strQry = secondGridData[x].reqcd;
+	}
+	
+	if (swEmg) {
+		emgSw = "2"
+	} else {
+		emgSw = "0";
+	}
+	strDeploy = "Y";
+	if (getSelectedIndex('cboSrId')>0) tmpPrjNo = getSelectedVal('cboSrId').cc_srid;
+	var confirmInfoData = new Object();
+	confirmInfoData.UserID = strUserId;
+	confirmInfoData.ReqCD  = strReqCD;
+	confirmInfoData.SysCd  = getSelectedVal('cboSys').cm_syscd;
+	confirmInfoData.Rsrccd = tmpRsrc;
+	confirmInfoData.QryCd = strQry;
+	confirmInfoData.EmgSw = emgSw;
+	confirmInfoData.JobCd = tmpJobCd;
+	confirmInfoData.deployCd = strDeploy;
+	confirmInfoData.PrjNo = tmpPrjNo;
+	//if (optPos1.selected) confirmInfoData.OutPos = "R";
+	//else confirmInfoData.OutPos = "L";
+	confirmInfoData.OutPos = outpos;
+	if ($('#chkSvr').is(':checked')) confirmInfoData.svryn = "N";
+	else confirmInfoData.svryn = "Y";
+	
+	if (GbnCd == "Y") {
+		gyulPopUp = Confirm_select(PopUpManager.createPopUp(this, Confirm_select, true));
+		gyulPopUp.parentfuc = reqQuest;
+		gyulPopUp.parentvar = confirmInfoData;
+	    PopUpManager.centerPopUp(gyulPopUp);//팝업을 중앙에 위치하도록 함
+	    gyulPopUp.minitApp();		  		
+	} else if (GbnCd == "N") {
+
+		var tmpData = {
+			confirmInfoData: 	confirmInfoData,
+			requestType: 	'Confirm_Info'
+		}
+		
+		ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
+		confirmData = ajaxReturnData;
+		
+		for(var i=0; i<confirmData.length ; i++){
+			if (confirmData[i].arysv[0].SvUser == null || confirmData[i].arysv[0].SvUser == "") {
+				confirmData.splice(i,1);
+				i--;
+			}
+		}
+
+		reqQuest_Conf();
+	}
+}
+
+function requestCheckOut(){
+
+	var ajaxReturnStr = null;
+	var requestData = {};
+	requestData.UserID = userId;
+	requestData.ReqCD  = reqCd;
+	requestData.Sayu	  = $('#txtSayu').val().trim();
+	requestData.Deploy = "0";
+	requestData.EmgCd = "0";
+	requestData.AplyDate = "";
+	requestData.TstSw = getSelectedVal('cboSys').TstSw;
+	requestData.emrgb = "0";
+	requestData.emrcd = "";
+	requestData.emrmsg = "";
+	requestData.reqday = "";
+	requestData.reqdept = "";
+	requestData.reqdoc = "";
+	requestData.reqtit = "";
+	requestData.ReqSayu = "9";
+	requestData.txtSayu = $('#txtSayu').val().trim();
+	requestData.reqetc = "";
+	if (getSelectedIndex('cboIsrId')>0){
+		requestData.srid = getSelectedIndex('cboIsrId').cc_srid;
+		requestData.cc_reqtitle = getSelectedVal('cboIsrId').cc_reqtitle;
+	} else {
+		requestData.srid = "";
+		requestData.cc_reqtitle = "";
+	}
+//	if (optPos1.selected) requestData.outpos = "R";
+//	else requestData.outpos = "L";
+	requestData.outpos = outpos;
+	if ($('#chkSvr').is(':checked')) requestData.svryn = "N";
+	else requestData.svryn = "Y";
+	if ($('#chkVer').is(':checked')) requestData.veryn = "N";
+	else requestData.veryn = "Y";
+
+	var tmpData = {
+		requestData: 	requestData,
+		requestFiles:	secondGridData,
+		requestConfirmData:	confirmData,
+		requestType: 	'request_Check_In'
+	}
+	ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
+	
+	if(ajaxReturnData == 'ERR' || ajaxReturnData.substr(0,5) == 'ERROR'){
+		showToast('ERROR');
+		return;
+	}
+	
+	if ( outpos == "A" || outpos == "L" ){
+		//Alert.show("Filelist");
+		//파일 업다운 미개발
+		Cmr0100.getProgFileList(strAcptNo,"F");
+	} else {
+		confirmDialog.confirm({
+			msg: '체크인 신청완료! 상세 정보를 확인하시겠습니까?',
+		}, function(){
+			if(this.key === 'ok') {
+				ckin_end(); //미개발
+			}
+		});
+	}
+	
+	secondGrid.setData([]);
+	secondGridData = [];
+	changeSys();
+}
+
+function btnRequestClick(){
+var tmpSayu = $('#txtSayu').val().trim();
+	
+	if(ingSw){
+		showToast('현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.');
+		return;
+	}
+	
+	if (getSelectedIndex('cboSys') < 1) {
+		showToast('시스템을 선택하여 주십시오.');
+		return;
+	}
+	
+	if (srSw && getSelectedIndex('cboSrId') < 1) {
+		showToast('SR-ID를 선택하여 주십시오.');
+		return;
+	}
+	
+	if (srSw && tmpSayu.length == 0) {
+		showToast('신청사유를 입력하여 주십시오.');
+		return;
+	}
+	
+	if (secondGrid.list.length == 0) {
+		showToast('신청 할 파일을 추가하여 주십시오.');
+		return;
+	}
+	
+	if (getSelectedVal('cboReq').cm_micode != "05") {				
+		for (var x=0;x<secondGridData.length;x++) {
+			if (secondGridData[x].cm_info.substr(52,1) == "1" && secondGridData[x].cr_lstver != "0") {
+				btnDiffClick();
+				return;
+			}
+		}	
+	}
+	cmdReq_DiffNext();
+}
 
 
 

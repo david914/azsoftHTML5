@@ -228,12 +228,12 @@ $(document).ready(function() {
 	});
 	
 	$('#btnReq').bind('click',function(){
-		checkoutClick();
+		checkOutClick();
 	});
 	
 	$('#reqText').bind('keypress',function(event){
 		if(event.keyCode == 13){
-			checkoutClick();
+			checkOutClick();
 		}
 	});
 	
@@ -592,7 +592,7 @@ function makeFileDir(fullpath, dsncd, fileinfo, hasChild, sysgb, rsrccd, sysCd){
 	var devToolCon 	= false;
 	var getFileData = {};
 	var rsrcname = $('#txtRsrcName').val().trim();
-	var selectedSubnode = $('#chkbox_subnode').prop('checked');
+	var selectedSubnode = $('#chkbox_subnode').is(':checked');
 	
 	if(!devToolCon && fileinfo != undefined && fileinfo.substr(26,1) == '1') {
 		devToolCon = true;
@@ -805,10 +805,32 @@ function addDataRow() {
 function deleteDataRow() {
 
 	var secondGridSeleted = secondGrid.getList("selected");
+	var originalData = null;
 	
 	$(secondGridSeleted).each(function(i){
+		originalData = null;
+		
+		if( this.cm_info.substr(3,1) == '1' || this.cm_info.substr(8,1) == '1'){
+			if($('#chkDetail').is(':checked')){
+				for(var x=0; x<secondGrid.list.length; x++){
+					if(secondGrid.list[x].baseitemid == this.cr_itemid){
+						secondGrid.select(x,{selected:true} );
+					}
+				}
+			}
+		}
+		else if (this.cr_itemid != this.baseitemid){
+			for(var x=0; x<secondGrid.list.length; x++){
+				if(secondGrid.list[x].cr_itemid == this.baseitemid){
+					secondGrid.select(x,{selected:true} );
+					originalData = secondGrid.list[x].baseitemid;
+				}
+			}
+		}
 		$(firstGridData).each(function(j){
-			if(firstGridData[j].cr_itemid == secondGridSeleted[i].cr_itemid && firstGridData[j].cr_rsrcname == secondGridSeleted[i].cr_rsrcname){
+			if(firstGridData[j].cr_itemid == secondGridSeleted[i].cr_itemid && firstGridData[j].cr_rsrcname == secondGridSeleted[i].cr_rsrcname || 
+				firstGridData[j].cr_itemid == originalData && originalData != null){
+				
 				firstGridData[j].filterData = "";
 				return false;
 			}
@@ -816,14 +838,15 @@ function deleteDataRow() {
 	});
 	secondGrid.removeRow("selected");
 	firstGrid.repaint();
+	secondGridData = clone(secondGrid.list);
 	
 	if (secondGrid.list.length == 0){
 
 		$('[data-ax5select="cboSys"]').ax5select("enable");
 		$('#btnReq').prop('disabled',true);
-		$('#btndiff').hide();
+		$('#btnDiff').hide();
 		outpos = "";
-	} else if ($('#btndiff').css('display') != 'none') {
+	} else if ($('#btnDiff').css('display') != 'none') {
 		findSw = false;
 		for (i=0;secondGrid.list.length>i;i++) {
 			var secondGridItem = secondGrid.list[i];
@@ -849,11 +872,10 @@ function deleteDataRow() {
 			}
 		}
 		if ( !findSw ) {
-			$('#btndiff').hide();
+			$('#btnDiff').hide();
 			$('#btnReq').prop('disabled',false);
 		}
 	}
-	secondGridData = clone(secondGrid.list);
 	$('#totalCnt').text(secondGrid.list.length);
 }
 
@@ -916,7 +938,7 @@ function checkDuplication(downFileList) {
 	if(secondGrid.list.length > 0 ) {
 
 		$('[data-ax5select="cboSys"]').ax5select("disable");
-		$('#btndiff').show();
+		$('#btnDiff').show();
 		
 		secondGrid.list.forEach(function(requestFileGridData, requestFileGridDataIndex) {
 			// grid row header 달기
@@ -943,7 +965,7 @@ function checkDuplication(downFileList) {
 }
 
 /* 등록 버튼을 누른 경우 처리 이벤트 헨들러 */
-function checkoutClick()
+function checkOutClick()
 {
 	if( !$('#cboSrId').prop('disabled') && getSelectedIndex('cboSrId') < 1){
 		showToast("SR-ID를 선택하여 주십시오.");
@@ -1008,6 +1030,9 @@ function ckoConfirm(){
 			if(this.key === 'ok') {
 				confCall("Y");
 			}
+			else{
+				confCall('N');
+			}
 		});
 	} else if (ajaxReturnData == "Y") {
 		confCall("Y");
@@ -1023,11 +1048,11 @@ function confCall(GbnCd){
 	var tmpRsrc = "";
 	var ajaxReturnData;
 	strQry = reqCd;
-	for (var x=0;x<secondGrid.list.length;x++) {
+	for (var x=0;x<secondGridData.length;x++) {
 		if (tmpRsrc != null && tmpRsrc != "") {
-			if (tmpRsrc.indexOf(secondGrid.list[x].cr_rsrccd) < 0)
-                tmpRsrc = tmpRsrc + "," + secondGrid.list[x].cr_rsrccd;
-		} else tmpRsrc = secondGrid.list[x].cr_rsrccd;
+			if (tmpRsrc.indexOf(secondGridData[x].cr_rsrccd) < 0)
+                tmpRsrc = tmpRsrc + "," + secondGridData[x].cr_rsrccd;
+		} else tmpRsrc = secondGridData[x].cr_rsrccd;
 	}
 	
 
@@ -1044,11 +1069,6 @@ function confCall(GbnCd){
 	confirmInfoData.OutPos = outpos;
 	if (getSelectedIndex('cboSrId') > 0) confirmInfoData.PrjNo = getSelectedVal('cboSrId').value;
 	
-	var tmpData = {
-		confirmInfoData: 	confirmInfoData,
-		requestType: 	'Confirm_Info'
-	}
-
   	if (GbnCd == "Y") {//결재팝업
 		gyulPopUp = Confirm_select(PopUpManager.createPopUp(this, Confirm_select, true));
 		gyulPopUp.parentfuc = reqQuest;
@@ -1057,11 +1077,16 @@ function confCall(GbnCd){
         gyulPopUp.minitApp();
        
 	} else if (GbnCd == "N") {
+
+		var tmpData = {
+			confirmInfoData: 	confirmInfoData,
+			requestType: 	'Confirm_Info'
+		}
+		
 		ajaxReturnData = ajaxCallWithJson('/webPage/dev/CheckOutServlet', tmpData, 'json');
 		confirmData = ajaxReturnData;
 		requestCheckOut();
 	}
-	 etcObj = null;
 }
 
 function reqQuest() //결재팝업
@@ -1097,7 +1122,7 @@ function requestCheckOut(){
 	requestData.ckoutpos = outpos;
 	var tmpData = {
 		requestData: 	requestData,
-		requestFiles:	secondGrid.list,
+		requestFiles:	secondGridData,
 		requestConfirmData:	confirmData,
 		requestType: 	'request_Check_Out'
 	}
@@ -1191,7 +1216,7 @@ function ckout_end(){
 	
 	$('[data-ax5select="cboSys"]').ax5select("disable");
 	
-	$('#btndiff').hide();
+	$('#btnDiff').hide();
 	$('#btnReq').prop('disabled',true);
 	outpos = "";
 
@@ -1245,7 +1270,7 @@ function simpleData(){
 	
 	if (secondGrid.list.length < 1) return;
 	
-	gridSimpleData = clone(secondGrid.list);
+	gridSimpleData = clone(secondGridData);
 	if(secondGrid.list.length == 0){
 		secondGridData = clone(secondGrid.list);
 		return;

@@ -169,10 +169,14 @@
 		    	<div class="col-lg-9 col-md-9 col-sm-9 col-12" style="padding: 0;">
 		    		<div class="float-right" style="padding-top:5px;padding-bottom:3px;">
 	    				<input type="checkbox" class="checkbox-pie" id="chkBefJob" data-label="선행작업"></input>
+	    				<input type="checkbox" class="checkbox-pie" id="chkSvr" data-label="버전UP만적용" style='display:none'></input>
 	   				</div>
 	   			</div>
 		    	<div class="col-lg-3 col-md-3 col-sm-3 col-12">
 					<div class="float-right">
+						<button id="btnDiff"  class="btn btn-default" onclick="btnRequest_Click();">
+							파일비교 <span class="glyphicon" aria-hidden="true"></span>
+						</button>
 						<button id="btnRequest"  class="btn btn-default" onclick="btnRequest_Click();">
 							운영배포신청 <span class="glyphicon" aria-hidden="true"></span>
 						</button>
