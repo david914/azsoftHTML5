@@ -537,7 +537,7 @@ function makePrgInfoUlList() {
 	ulPrgInfoData.forEach(function(prgItem, index) {
 		addId = prgItem.cm_micode;
 		liStr  = '';
-		liStr += '<li class="list-group-item dib width-33">';
+		liStr += '<li class="list-group-item dib width-33" style="min-width: 80px;">';
 		liStr += '	<input type="checkbox" class="checkbox-prg" id="chkPrg'+addId+'" data-label="'+prgItem.cm_codename+'"  value="'+prgItem.cm_micode+'" />';
 		liStr += '</li>';
 		$('#ulPrgInfo').append(liStr);
@@ -571,7 +571,7 @@ function successGetJobInfo(data) {
 	ulJobInfoData.forEach(function(jobItem, index) {
 		addId = jobItem.cm_jobcd;
 		liStr  = '';
-		liStr += '<li class="list-group-item dib width-50">';
+		liStr += '<li class="list-group-item dib width-50" style="min-width: 150px;">';
 		liStr += '	<input type="checkbox" class="checkbox-job" id="chkJob'+addId+'" data-label="'+jobItem.cm_jobname+'"  value="'+addId+'" />';
 		liStr += '</li>';
 		$('#ulJobInfo').append(liStr);

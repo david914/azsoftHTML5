@@ -1068,7 +1068,7 @@ function makeSysInfoUlList() {
 	sysInfoData.forEach(function(sysInfoItem, sysInfoIndex) {
 		addId = Number(sysInfoItem.cm_micode);
 		liStr  = '';
-		liStr += '<li class="list-group-item">';
+		liStr += '<li class="list-group-item dib width-50" style="min-width: 200px;">';
 		liStr += '<div class="margin-3-top">';
 		liStr += '	<input type="checkbox" class="checkbox-sysInfo" id="chkJobName'+addId+'" data-label="'+sysInfoItem.cm_codename+'"  value="'+sysInfoItem.cm_micode+'" />';
 		liStr += '</div>';

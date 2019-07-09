@@ -169,7 +169,7 @@ function makeDutyUlList() {
 		addId = item.cm_micode;
 		liStr  = '';
 		liStr += '<li class="list-group-item">';
-		liStr += '<div class="maring-3-top" style="padding: 5px 0; border-bottom:  1px dotted #ddd;">';
+		liStr += '<div class="maring-3-top" style="padding: 5px 0;">';
 		liStr += '	<input type="checkbox" class="checkbox-duty" id="chkDuty'+addId+'" data-label="'+item.cm_codename+'"  value="'+addId+'" />';
 		liStr += '</div>';
 		liStr += '</li>';

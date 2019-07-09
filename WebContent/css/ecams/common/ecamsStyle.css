@@ -922,13 +922,13 @@ ul.tabs li.active {
 }
 
 .fontStyle-error {
-	color: #FF00FF;
+	color: #BE81F7;
+}
+.fontStyle-ing {
+	color: #0000FF;
 }
 .fontStyle-cncl {
 	color: #FF0000;
-}
-.fontStyle-ing {
-	color: #0013FF;
 }
 .ecams-input {
 	box-sizing: border-box;
