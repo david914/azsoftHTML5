@@ -43,59 +43,87 @@
 </head>
 
 <body>
-	<div class="pop-header">
-		<div>
-			<label id="lbSub">공지사항 등록</label>
-		</div>
-		<div>
-			<button type="button" class="close" aria-label="닫기" onclick="popClose()">
-			  <span aria-hidden="true">&times;</span>
-			</button>
-		</div> 
+<div class="pop-header">
+	<div>
+		<label id="lbSub">업무정보</label>
 	</div>
-	<div class="container-fluid pop_wrap">
-		<div class="row">
-			<div>
-				<label id="lbSub">제목</label>
-				<input id="txtTitle" name="txtTitle" class="form-control" type="text"></input>
-			</div>
+	<div>
+		<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div> 
+</div>
+<div class="container-fluid pop_wrap">
+	<!--line1 S-->
+	<div>					
+		<div class="width-100 dib vat">
+            <label id="lbUser" class="title">[업무리스트]</label>
 		</div>
-		<!--CM_TITLE -->
 		<div class="row">
-			<div>
-				<textarea id="textareaContents" name="textareaContents" class="form-control margin-15-top" rows="12"></textarea>
-			</div>
-		</div>
-		<div class="row">
-			<div class="dib">
-				<div class="form-check margin-5-top" id="chkNotice">
-					<input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="notiClick()">
-		    		<label class="form-check-label" for="exampleCheck1" style="vertical-align: middle;" >팝업공지</label>
-				</div>
-			</div>
-			<div class="dib">
-				<div id="divPicker" class="az_input_group" data-ax5picker="basic">
-		            <input id="start_date" name="start_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;"><span class="sim">∼</span><input id="end_date" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;"><span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="l_wrap">
-				<button id="btnFile" name="btnFile" class="btn_basic" onclick="fileOpen()">파일첨부</button>
-			</div>
-			<div class="r_wrap">
-				<div>
-					<button id="btnRem" name="btnRem" class="btn_basic dib" onclick="del()">삭제</button>
-					<button id="btnReg" name="btnReg" class="btn_basic dib" onclick="update()">등록</button>
-					<button id="btnClo" name="btnClo" class="btn_basic dib" onclick="popClose()">닫기</button>
-				</div>
+			<div class="az_board_basic az_board_basic_in">
+		    	<table>
+			    	<colgroup>
+			    		<col width="5%"><col width="40%"><col width="*%">
+			    	</colgroup>
+		    		<tbody>
+		    		<tr>
+		    			<th scope="col">NO</th>
+		    			<th scope="col">업무코드</th>
+		    			<th scope="col">업무명</th>
+		    		</tr>
+		    		<tr>
+		    			<td>1</td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>2</td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>3</td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>4</td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>5</td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>6</td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>7</td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td>8</td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		</tbody>
+		    	</table>	
 			</div>
 		</div>
 	</div>
-
+	<div class="row tac">
+		<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">새로만들기</button>
+		<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic margin-5-left">편집</button>
+		<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic margin-5-left">삭제</button>
+		<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic margin-5-left">닫기</button>
+	</div>
+</div>
 <!-- contener E -->
-
 </body>	
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/modal/FileUp.js"/>"></script>

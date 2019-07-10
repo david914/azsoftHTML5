@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+<!-- Header -->
+<div id="header"></div>
+
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">관리자 <strong>&gt; 결재정보</strong></div>
+        <!-- history E-->         
+	    <!-- 검색 S-->    
+		<div class="az_search_wrap">
+			<div class="az_in_wrap por">
+				<!-- cell1 -->		
+                <div class="width-25 dib vat">
+                	<div>
+	                    <label id="lbUser" class="tit_80 poa">결재종류</label>
+	                    <div class="ml_80">
+							<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+								<select tabindex="-1" class="form-control input-sm" name="cboUser">
+									<option value="" selected="selected">프로젝트팀</option>
+									<option value="">전체</option>
+									<option value="">연구개발팀</option>
+									<option value="">영업팀</option>
+									<option value="">프로젝트팀</option>							
+								</select>
+								<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+		                            <div class="ax5select-display-table" data-els="display-table">
+		                                <div data-ax5select-display="label">프로젝트팀</div>
+		                                <div data-ax5select-display="addon"> 
+		                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+		                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+		                                </div>
+		                            </div>
+		                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+		                        </a>
+						    </div>
+						</div>
+					</div>
+                	<div class="row">
+	                    <label id="lbUser" class="tit_80 poa">시스템</label>
+	                    <div class="ml_80">
+							<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+								<select tabindex="-1" class="form-control input-sm" name="cboUser">
+									<option value="" selected="selected">프로젝트팀</option>
+									<option value="">전체</option>
+									<option value="">연구개발팀</option>
+									<option value="">영업팀</option>
+									<option value="">프로젝트팀</option>							
+								</select>
+								<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+		                            <div class="ax5select-display-table" data-els="display-table">
+		                                <div data-ax5select-display="label">프로젝트팀</div>
+		                                <div data-ax5select-display="addon"> 
+		                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+		                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+		                                </div>
+		                            </div>
+		                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+		                        </a>
+						    </div>
+						</div>
+					</div>
+                	<div class="row">
+	                    <label id="lbUser" class="tit_80 poa">정상결재시</label>
+	                    <div class="ml_80">
+							<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+								<select tabindex="-1" class="form-control input-sm" name="cboUser">
+									<option value="" selected="selected">프로젝트팀</option>
+									<option value="">전체</option>
+									<option value="">연구개발팀</option>
+									<option value="">영업팀</option>
+									<option value="">프로젝트팀</option>							
+								</select>
+								<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+		                            <div class="ax5select-display-table" data-els="display-table">
+		                                <div data-ax5select-display="label">프로젝트팀</div>
+		                                <div data-ax5select-display="addon"> 
+		                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+		                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+		                                </div>
+		                            </div>
+		                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+		                        </a>
+						    </div>
+						</div>
+					</div>
+                	<div class="row">
+	                    <label id="lbUser" class="tit_80 poa">결재조직</label>
+	                    <div class="ml_80">
+							<input id="" name="" type="text" class="width-80">
+						</div>
+					</div>
+					<div class="row view_g" style="height:150px;">
+						관련 내용 나옵니다.
+					</div>
+					<p class="font_12">(주) 조회는 결재종류/시스템/직원/외주를 검색조건으로 하여 조회합니다.</p>
+				</div>
+				<!-- cell2 -->		
+                <div class="width-25 dib vat">
+                	<div class="margin-10-left margin-5-right">
+	                	<div>
+		                    <label id="lbUser" class="tit_80 poa">결재단계</label>
+		                    <div class="ml_80">
+								<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+									<select tabindex="-1" class="form-control input-sm" name="cboUser">
+										<option value="" selected="selected">프로젝트팀</option>
+										<option value="">전체</option>
+										<option value="">연구개발팀</option>
+										<option value="">영업팀</option>
+										<option value="">프로젝트팀</option>							
+									</select>
+									<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+			                            <div class="ax5select-display-table" data-els="display-table">
+			                                <div data-ax5select-display="label">프로젝트팀</div>
+			                                <div data-ax5select-display="addon"> 
+			                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+			                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+			                                </div>
+			                            </div>
+			                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+			                        </a>
+							    </div>
+							</div>
+						</div>
+	                	<div class="row">
+		                    <label id="lbUser" class="font_11">시스템과관련없음 <input type="checkbox" /></label><label id="lbUser" class="font_11">직원 <input type="checkbox" /></label><label id="lbUser" class="font_11">외주 <input type="checkbox" /></label>
+						</div>
+	                	<div class="row">
+		                    <label id="lbUser" class="tit_80 poa">부재처리시</label>
+		                    <div class="ml_80">
+								<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+									<select tabindex="-1" class="form-control input-sm" name="cboUser">
+										<option value="" selected="selected">프로젝트팀</option>
+										<option value="">전체</option>
+										<option value="">연구개발팀</option>
+										<option value="">영업팀</option>
+										<option value="">프로젝트팀</option>							
+									</select>
+									<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+			                            <div class="ax5select-display-table" data-els="display-table">
+			                                <div data-ax5select-display="label">프로젝트팀</div>
+			                                <div data-ax5select-display="addon"> 
+			                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+			                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+			                                </div>
+			                            </div>
+			                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+			                        </a>
+							    </div>
+							</div>
+						</div>
+	                	<div class="row por">
+		                    <label id="lbUser" class="tit_80 poa">결재직무</label>
+		                    <div class="tar">
+								<label id="lbUser">전체선택 <input type="checkbox" /></label>
+							</div>
+						</div>
+						<div class="row view_g" style="height:150px;">
+							관련 내용 나옵니다.
+						</div>
+	                    <div class="tar">
+							<label id="lbUser">완료처리단계 <input type="checkbox" /></label>
+						</div>
+					</div>
+				</div>
+				<!-- cell3 -->		
+                <div class="width-25 dib">
+                	<div class="margin-5-left margin-10-right">
+	                	<div>
+		                    <label id="lbUser" class="tit_80 poa">단계명칭</label>
+		                    <div class="ml_80">
+								<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+									<select tabindex="-1" class="form-control input-sm" name="cboUser">
+										<option value="" selected="selected">프로젝트팀</option>
+										<option value="">전체</option>
+										<option value="">연구개발팀</option>
+										<option value="">영업팀</option>
+										<option value="">프로젝트팀</option>							
+									</select>
+									<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+			                            <div class="ax5select-display-table" data-els="display-table">
+			                                <div data-ax5select-display="label">프로젝트팀</div>
+			                                <div data-ax5select-display="addon"> 
+			                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+			                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+			                                </div>
+			                            </div>
+			                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+			                        </a>
+							    </div>
+							</div>
+						</div>
+	                	<div class="row">
+		                    <label id="lbUser" class="tit_80 poa">전상(업무후)</label>
+		                    <div class="ml_80">
+								<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+									<select tabindex="-1" class="form-control input-sm" name="cboUser">
+										<option value="" selected="selected">프로젝트팀</option>
+										<option value="">전체</option>
+										<option value="">연구개발팀</option>
+										<option value="">영업팀</option>
+										<option value="">프로젝트팀</option>							
+									</select>
+									<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+			                            <div class="ax5select-display-table" data-els="display-table">
+			                                <div data-ax5select-display="label">프로젝트팀</div>
+			                                <div data-ax5select-display="addon"> 
+			                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+			                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+			                                </div>
+			                            </div>
+			                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+			                        </a>
+							    </div>
+							</div>
+						</div>
+	                	<div class="row">
+		                    <label id="lbUser" class="tit_80 poa">긴급(업무후)</label>
+		                    <div class="ml_80">
+								<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+									<select tabindex="-1" class="form-control input-sm" name="cboUser">
+										<option value="" selected="selected">프로젝트팀</option>
+										<option value="">전체</option>
+										<option value="">연구개발팀</option>
+										<option value="">영업팀</option>
+										<option value="">프로젝트팀</option>							
+									</select>
+									<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+			                            <div class="ax5select-display-table" data-els="display-table">
+			                                <div data-ax5select-display="label">프로젝트팀</div>
+			                                <div data-ax5select-display="addon"> 
+			                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+			                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+			                                </div>
+			                            </div>
+			                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+			                        </a>
+							    </div>
+							</div>
+						</div>
+	                	<div class="row por">
+		                    <label id="lbUser">프로그램등급선택 <input type="checkbox" /></label>
+		                    <div class="poa_r">
+								<label id="lbUser">전체선택 <input type="checkbox" /></label>
+							</div>
+						</div>
+						<div class="row view_g" style="height:150px;">
+							관련 내용 나옵니다.
+						</div>
+					</div>
+				</div>
+				<!-- cell4 -->		
+                <div class="width-25 dib">
+                	<div>
+	                    <label id="lbUser" class="tit_80 poa">결재구분</label>
+	                    <div class="ml_80">
+							<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+								<select tabindex="-1" class="form-control input-sm" name="cboUser">
+									<option value="" selected="selected">프로젝트팀</option>
+									<option value="">전체</option>
+									<option value="">연구개발팀</option>
+									<option value="">영업팀</option>
+									<option value="">프로젝트팀</option>							
+								</select>
+								<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+		                            <div class="ax5select-display-table" data-els="display-table">
+		                                <div data-ax5select-display="label">프로젝트팀</div>
+		                                <div data-ax5select-display="addon"> 
+		                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+		                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+		                                </div>
+		                            </div>
+		                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+		                        </a>
+						    </div>
+						</div>
+					</div>
+                	<div class="row">
+	                    <label id="lbUser" class="tit_80 poa">자동처리</label>
+	                    <div class="ml_80">
+							<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+								<select tabindex="-1" class="form-control input-sm" name="cboUser">
+									<option value="" selected="selected">프로젝트팀</option>
+									<option value="">전체</option>
+									<option value="">연구개발팀</option>
+									<option value="">영업팀</option>
+									<option value="">프로젝트팀</option>							
+								</select>
+								<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+		                            <div class="ax5select-display-table" data-els="display-table">
+		                                <div data-ax5select-display="label">프로젝트팀</div>
+		                                <div data-ax5select-display="addon"> 
+		                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+		                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+		                                </div>
+		                            </div>
+		                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+		                        </a>
+						    </div>
+						</div>
+					</div>
+                	<div class="row">
+	                    <label id="lbUser" class="tit_80 poa">긴급(업무중)</label>
+	                    <div class="ml_80">
+							<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+								<select tabindex="-1" class="form-control input-sm" name="cboUser">
+									<option value="" selected="selected">프로젝트팀</option>
+									<option value="">전체</option>
+									<option value="">연구개발팀</option>
+									<option value="">영업팀</option>
+									<option value="">프로젝트팀</option>							
+								</select>
+								<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+		                            <div class="ax5select-display-table" data-els="display-table">
+		                                <div data-ax5select-display="label">프로젝트팀</div>
+		                                <div data-ax5select-display="addon"> 
+		                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+		                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+		                                </div>
+		                            </div>
+		                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+		                        </a>
+						    </div>
+						</div>
+					</div>
+                	<div class="row por">
+	                    <label id="lbUser">프로그램등급선택 <input type="checkbox" /></label>
+	                    <div class="poa_r">
+							<label id="lbUser">전체선택 <input type="checkbox" /></label>
+						</div>
+					</div>
+					<div class="row view_g" style="height:150px;">
+						관련 내용 나옵니다.
+					</div>
+				</div>
+				<!--컨텐츠버튼 S-->
+				<div class="tar">
+					<button class="btn_basic_s margin-5-left" data-grid-control="excel-export">등록</button>
+					<button class="btn_basic_s margin-5-left" data-grid-control="excel-export">폐기</button>
+					<button class="btn_basic_s margin-5-left" data-grid-control="excel-export">조회</button>
+					<button class="btn_basic_s margin-5-left" data-grid-control="excel-export">전체조회</button>
+					<button class="btn_basic_s margin-5-left" data-grid-control="excel-export">결재정보복사</button>
+					<button class="btn_basic_s margin-5-left" data-grid-control="excel-export">대결범위등록</button>
+				</div>
+				<!--컨텐츠버튼 E-->
+			</div>
+		</div>
+	    <!-- 검색 E-->
+	    <!-- 게시판 S-->
+	    <div class="az_board_basic">
+	    	<table>
+		    	<colgroup>
+		    		<col width="3%"/><col width="3%"/><col width="*"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="7%"/><col width="7%"/>
+		    	</colgroup>
+	    		<tr>
+	    			<th scope="col">구분</th>
+	    			<th scope="col">순서</th>
+	    			<th scope="col">단계명칭</th>
+	    			<th scope="col">결재구분</th>
+	    			<th scope="col">정상</th>
+	    			<th scope="col">부재</th>
+	    			<th scope="col">업무후</th>
+	    			<th scope="col">긴급</th>
+	    			<th scope="col">긴급(후)</th>
+	    			<th scope="col">결재조직</th>
+	    			<th scope="col">결재직무</th>
+	    			<th scope="col">삭제기능</th>
+	    			<th scope="col">프로그램종류</th>
+	    			<th scope="col">프로그램등급</th>
+	    		</tr>
+	    		<tr>
+	    			<td>1</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>2</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>3</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>4</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>5</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>6</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>7</td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    	</table>	
+		</div>	
+		<!-- 게시판 E -->
+    </div>
+</div>
+<!-- Footer-->
+<footer id="footer">
+    <ul>
+        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+    </ul>
+</footer>
+<input id="txtSessionID" type="hidden" value="FE5E5695B40130B57F234A35A59EF651">
+
+<!-- contener E -->
+
+</body>
+</html>
