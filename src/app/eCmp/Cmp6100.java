@@ -67,10 +67,10 @@ public class Cmp6100{
 			strQuery.append("   where to_char(c.cc_compdate,'yyyymm')=? 		  							   \n");
 			strQuery.append("   and c.cc_status = '9'					 		  							   \n");
 			strQuery.append("	and a.cm_project = b.cm_deptcd   				 		  					   \n");
-			if( deptCd != "" ){
+			if( !deptCd.equals("") ){
 				strQuery.append(" and a.cm_project=? \n");
 			}
-			if( userId != "" ){
+			if( !userId.equals("") ){
 				strQuery.append(" and (a.cm_userid=? or a.cm_username=? )\n");
 			}
 			strQuery.append("	and a.cm_userid = d.cc_userid   				 		  					   \n");
@@ -80,10 +80,10 @@ public class Cmp6100{
 			//pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmt.setString(++parmCnt, selMonth);
-			if( deptCd != "" ){
+			if( !deptCd.equals("") ){
 				pstmt.setString(++parmCnt, deptCd);
 			}
-			if( userId != "" ){
+			if( !userId.equals("") ){
 				pstmt.setString(++parmCnt, userId);
 				pstmt.setString(++parmCnt, userId);
 			}
@@ -115,13 +115,13 @@ public class Cmp6100{
 			strQuery.append("   and c.cc_status = '9'					 		  							 \n");
 			strQuery.append("   and d.cc_rate = e.cm_micode					 		  						 \n");
 			strQuery.append("   and a.cm_project = b.cm_deptcd					 		  					 \n");
-			if( deptCd != "" ){
+			if( !deptCd.equals("") ){
 				strQuery.append(" and a.cm_project=? \n");
 			}
 			if( !rateCd.equals("00") ){
 				strQuery.append(" and d.cc_rate = ? \n");
 			}
-			if( userId != "" ){
+			if( !userId.equals("") ){
 				strQuery.append(" and (a.cm_userid=? or a.cm_username=? ) \n");
 			}
 			
@@ -132,13 +132,13 @@ public class Cmp6100{
 			//pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmt.setString(++parmCnt, selMonth);
-			if( deptCd != "" ){
+			if( !deptCd.equals("") ){
 				pstmt.setString(++parmCnt, deptCd);
 			}
 			if( !rateCd.equals("00") ){
 				pstmt.setString(++parmCnt, rateCd);
 			}
-			if( userId != "" ){
+			if( !userId.equals("") ){
 				pstmt.setString(++parmCnt, userId);
 				pstmt.setString(++parmCnt, userId);
 			}
@@ -174,10 +174,10 @@ public class Cmp6100{
 			strQuery.append("	 and cr_qrycd='04' and cr_status='9' )						 		\n");
 			strQuery.append("	and b.cr_itemid = cr_baseitem						 				\n");
 			strQuery.append("	and b.cr_status = '9'						 						\n");
-			if( deptCd != "" ){
+			if( !deptCd.equals("") ){
 				strQuery.append(" and d.cm_project=? \n");
 			}
-			if( userId != "" ){
+			if( !userId.equals("") ){
 				strQuery.append(" and (d.cm_userid=? or d.cm_username=? ) \n");
 			}
 			strQuery.append("	and d.cm_userid = c.cc_userid   				 		  			\n");
@@ -186,10 +186,10 @@ public class Cmp6100{
 			//pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmt.setString(++parmCnt, selMonth);
-			if( deptCd != "" ){
+			if( !deptCd.equals("") ){
 				pstmt.setString(++parmCnt, deptCd);
 			}
-			if( userId != "" ){
+			if( !userId.equals("") ){
 				pstmt.setString(++parmCnt, userId);
 				pstmt.setString(++parmCnt, userId);
 			}
