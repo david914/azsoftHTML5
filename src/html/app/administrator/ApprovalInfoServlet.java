@@ -84,10 +84,7 @@ public class ApprovalInfoServlet extends HttpServlet {
 	
 	private String getSysInfo_Rpt(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
-		return gson.toJson(sysinfo.getSysInfo_Rpt(DataMap.get("userId"),
-											  DataMap.get("selMsg"),
-											  DataMap.get("closeYn"),
-											  DataMap.get("sysCd")));
+		return gson.toJson(sysinfo.getSysInfo_Rpt(DataMap));
 	}
 	
 	private String getProgInfo(JsonElement jsonElement) throws SQLException, Exception {

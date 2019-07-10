@@ -286,10 +286,10 @@ function getCodeInfo(){
 function getSysInfo() {
 	//SysInfo_cbo.getSysInfo_Rpt(strUserId,"SEL","N",""); 
 	tmpInfo = new Object();
-	tmpInfo.userId = userId;
-	tmpInfo.selMsg = "SEL";
-	tmpInfo.closeYn = "N";
-	tmpInfo.sysCd = "";
+	tmpInfo.UserId = userId;
+	tmpInfo.SelMsg = "SEL";
+	tmpInfo.CloseYn = "N";
+	tmpInfo.SysCd = "";
 	
 	tmpInfoData = new Object();
 	tmpInfoData = {
