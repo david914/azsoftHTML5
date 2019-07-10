@@ -13,11 +13,11 @@
 		<div class="az_search_wrap">
 			<div class="az_in_wrap">
 				<div class="row vat">
-					<div class="width-30 dib tar">
-						<div class="tit_100 poa">
+					<div class="width-30 dib">
+						<div class="tit_80 poa">
 							<label>시스템</label>
 						</div>
-						<div class="ml_100 tal">
+						<div class="ml_80">
 							<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 				
 				<div class="row vat">
 					<div class="width-30 dib margin-5-top">
-						<div class="ml_100">
+						<div class="ml_80">
 							<input id="optBase1"  type="radio" name="optradio"  value="1"/>
 							<label for="optBase1">최초등록(버전:1)</label>
 							<input id="optBase2" type="radio"  name="optradio"  value="2"/>
@@ -55,7 +55,7 @@
 						</div>
 					</div>
 					<div class="width-30 dib vat">
-						<div class="ml_100">
+						<div class="ml_80">
 							<input id="optNomal"  type="radio" name="radio"  value="normal"/>
 							<label for="optNomal">정상건</label>
 							<input id="optErr" type="radio"  name="radio"  value="err"/>
