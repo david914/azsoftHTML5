@@ -1,13 +1,68 @@
-var clickedPrjInfo;
-var cboQryGbnData;
+/**
+ * SR등록 화면 기능 정의
+ * <pre>
+ * <b>History</b>
+ * 	작성자:
+ * 	버전 : 1.0
+ *  수정일 : 2019-00-00
+ */
 
-getCboElementPrj();
+var userName 	 	= window.top.userName;
+var userId 		 	= window.top.userId;
+var adminYN 		= window.top.adminYN;
+var userDeptName 	= window.top.userDeptName;
+var userDeptCd 	 	= window.top.userDeptCd;
+var strReqCd	 	= window.top.reqCd;
 
-function SRRegisterTabInit(initDivision){
-	//elementInit(initDivision);
+var testFlag = false;
+var cboQryGbnData = [];
+
+/******************** eCmc0100.mxml ********************/
+
+$(document).ready(function(){
+	strReqCd = "41";
+	
+	//tab0.initApp();
+	//tab1.initApp();
+	
+	setCbo();
+});
+
+//PrjListTab 대상구분 콤보박스 데이터
+function setCbo() {
+	cboQryGbnData.push({value: "00", text: "전체", dateyn: "Y"});
+	cboQryGbnData.push({value: "01", text: "SR수정대상", dateyn: "N"});
+	
+	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", cboQryGbnData[1].value, true);
+	
+	var tmpTab = $('#frmPrjList').get(0).contentWindow;
+	tmpTab.changeQryGbn(); //tab0.cboQryGbn_click();
+	//tab0.screenInit();
 }
 
-function getCboElementPrj() {
-	var codeInfos = getCodeInfoCommon( [new CodeInfo('QRYGBN','ALL','N')] );
-	cboQryGbnData 	= codeInfos.QRYGBN;
+function subScreenInit() {
+	$('#frmSRRegister').get(0).contentWindow.elementInit("NEW"); //tab1.screenInit("NEW");
+}
+
+function subCmdQry_Click() {
+	$('#frmPrjList').get(0).contentWindow.getPrjList(); //tab0.cmdQry_click();
+}
+
+//PrjListTab 에서 그리드 클릭 이벤트
+function iSRID_Click(data) {
+	var tmpTab = $('#frmSRRegister').get(0).contentWindow;
+	
+	tmpTab.strEditor = data.cc_createuser;
+	tmpTab.strStatus = data.cc_status;
+	tmpTab.strIsrId = data.cc_srid;
+	
+	tmpTab.elementInit("S"); //tab1.screenInit("S");
+	
+	if(testFlag) {
+		tmpTab.firstGridClick(data.cc_srid); //tab1.grdPrj_click(grdPrj_dp.cc_srid);
+	}else {
+		$('#frmSRRegister').contents().find('#btnUpdate').attr('disabled', true);
+		$('#frmSRRegister').contents().find('#btnRegister').attr('disabled', true);
+	}
+	testFlag = true;
 }
