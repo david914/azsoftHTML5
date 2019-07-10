@@ -12,11 +12,12 @@ var userid 		= window.top.userId;
 var adminYN 	= window.top.adminYN;
 var userDeptName= window.top.userDeptName;
 var userDeptCd 	= window.top.userDeptCd;
-var strReqCD 	= window.top.reqCd;
+
+var strReqCD 	= window.parent.strReqCd;
+var cboQryGbnData = window.parent.cboQryGbnData;
 
 var cboReqDepartData = null;
 var cboCatTypeData = null;
-var cboQryGbnData = window.parent.cboQryGbnData;;
 var firstGridData = null;
  
 var firstGrid 	= new ax5.ui.grid();
@@ -104,9 +105,10 @@ firstGrid.setConfig({
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
-            if(strReqCD == "41"){
-             	firstGridClick(this.item.cc_srid);
-        	 }
+//          if(strReqCD == "41"){
+//             	firstGridClick(this.item.cc_srid);
+//        	}
+            window.parent.iSRID_Click(this.item);
         }
     },
     columns: [
@@ -209,13 +211,15 @@ function getCboElementPrj() {
 	});
 	
 	options = [];
-	$.each(cboQryGbnData,function(key,value) {
-		options.push({value: value.cm_micode, text: value.cm_codename});
-	});
+//	$.each(cboQryGbnData,function(key,value) {
+//		options.push({value: value.cm_micode, text: value.cm_codename});
+//	});
 	
 	$('[data-ax5select="cboQryGbn"]').ax5select({
-        options: options
+        //options: options
+		options: cboQryGbnData
 	});
+	
 	
 	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", '01', true);	// select 초기값 셋팅 '01'에는 해당 내용의 value값 입력
 }
@@ -262,8 +266,12 @@ function getPrjList() {
 	console.log(ajaxReturnData);
 	if(ajaxReturnData !== 'ERR') {
 		firstGridData = ajaxReturnData;
-		
 		firstGrid.setData(firstGridData);
+		
+		if(firstGridData.length > 0) {
+			firstGrid.select(0);
+			window.parent.iSRID_Click(firstGrid.list[firstGrid.selectedDataIndexs]);
+		}
 	}
 }
 
