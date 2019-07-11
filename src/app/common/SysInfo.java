@@ -1316,7 +1316,7 @@ public class SysInfo{
 			strQuery.append("from cmm0036 a,cmm0020 b                                    \n");
 			strQuery.append(" where a.cm_syscd=? and a.cm_closedt is null                \n");
 			strQuery.append("   and b.cm_macode='JAWON' and b.cm_micode=a.cm_rsrccd      \n");
-			strQuery.append("order by b.cm_seqno                                         \n");
+			strQuery.append("order by b.cm_codename                                      \n");
 
             pstmt = conn.prepareStatement(strQuery.toString());
             pstmt.setString(1, etcData.get("sysCd"));
@@ -1325,7 +1325,7 @@ public class SysInfo{
             rsval.clear();
 
 			while (rs.next()){
-				if (rs.getRow() ==1 && strSelMsg != "" && !strSelMsg.equals("") && strSelMsg.length() > 0) {
+				if (rs.getRow() ==1 && !"".equals(strSelMsg) && strSelMsg.length() > 0) {
 				   rst = new HashMap<String, String>();
 				   rst.put("cm_micode", "0000");
 				   rst.put("cm_codename", strSelMsg);
@@ -1345,12 +1345,12 @@ public class SysInfo{
 			conn.close();
 			rs = null;
 			pstmt = null;
-			conn = null;
+			conn = null;			
 
+			//ecamsLogger.debug(rsval.toString());
 			returnObjectArray = rsval.toArray();
 			rsval.clear();
 			rsval = null;
-			//ecamsLogger.debug(rsval.toString());
 			return returnObjectArray;
 
 
