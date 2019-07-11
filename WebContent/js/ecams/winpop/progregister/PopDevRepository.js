@@ -93,7 +93,7 @@ $(document).ready(function(){
 	
 	//tmpAry.filterFunction = selectedFilters;
 	
-	$('#chkAll').prop("checked", true);
+	//$('#chkAll').prop("checked", true);
 	
 	//디렉토리조회 클릭
 	$("#btnQry").bind('click', function() {
@@ -529,7 +529,7 @@ function hideRMenu() {
 }
 
 /* 파일추출 클릭 이벤트 */
-function contextmenu_click() {
+function contextmenu_click(gbn) {
 	hideRMenu();
 	
 	//console.log("treeObj: " + treeObj.getSelectedNodes()[0].name);
@@ -549,11 +549,14 @@ function contextmenu_click() {
 	var tmpExe1 = "";
 	var tmpExe2 = "";
 	
-	if($('#chkAll').is(':checked')) {
-		tmpStr = "9";
-	}else {
-		tmpStr = "1";
-	}
+//	if($('#chkAll').is(':checked')) {
+//		tmpStr = "9";
+//	}else {
+//		tmpStr = "1";
+//	}
+	
+	tmpStr = gbn;
+	console.log("tmpStr: " + tmpStr);
 	
 	if($('#txtExe').val($('#txtExe').val().trim()).length > 0) tmpExe1 = $('#txtExe').val().trim();
 	else tmpExe1 = "";

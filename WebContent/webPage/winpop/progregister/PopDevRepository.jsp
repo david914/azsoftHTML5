@@ -43,24 +43,34 @@
                     <div class="width-50 float-left">
 						<div class="margin-5-right">
 							<label id="lbSvr" class="tit_100 poa">*2. 서버선택</label>
-	                        <div class="ml_150 tal">
+	                        <div class="ml_100 tal">
 								<div id="cboSvr" data-ax5select="cboSvr" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100">
 							    </div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row por">					
-					<!-- 요청부서 -->		
-                    <div class="tit_100 poa">
-                        <label id="lbDir">*3. 기준디렉토리</label>
-                    </div>
-                    <div class="ml_100 tal">
-						<div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
-					    </div><label class="dib tar"><input type="checkbox" style="margin-bottom:4px;"> 하위폴더 포함하여 조회</label>
+				<div class="row vat cb">					
+					<!-- 기준디렉토리 -->		
+					<div class="width-50 float-left">
+						<div class="margin-5-right">
+	                    	<label class="tit_100 poa">*3. 기준디렉토리</label>
+	                        <div class="ml_100">
+								<div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100"></div>
+							</div>
+						</div>
 					</div>
-					<div class="vat poa_r">
-						<button id="btnQry" name="btnQry" class="btn_basic_s margin-5-left">디렉토리조회</button>
+					<div class="width-50 float-left">
+						<div class="margin-5-left">
+	                        <div class="tit_100 poa">
+								<input id="txtDir" name="txtDir" type="text" style="width: 820px;"></input> <!-- class="width-200" -->
+							</div>
+						</div>
+						<div class="margin-5-left">
+							<div style="margin-left: 820px;">
+								<button id="btnQry" name="btnQry" class="btn_basic_s margin-5-left">디렉토리조회</button> <!-- class="ml_300" -->
+							</div>
+						</div>
 					</div>
 					<p class="txt_r font_12 margin-5-top ml_100">1. 개발서버기준으로 조회할 디렉토리 선택 또는 디렉토리 입력 후 엔터</p>
 				</div>				
@@ -134,7 +144,7 @@
 		                    	<div class="tit_100 poa">
 		                        	<label id="lbJob">*업무</label>
 		                        </div>
-		                        <div class="ml_100 tal">
+		                        <div class="ml_60 tal">
 									<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100">
 								    </div>
 								</div>
@@ -178,7 +188,8 @@
 
 <div id="rMenu"> 
  	<ul> 
- 		<li id="contextmenu" onclick="contextmenu_click();">파일추출</li> 
+ 		<li id="contextmenu1" onclick="contextmenu_click('1');">파일추출</li> 
+ 		<li id="contextmenu2" onclick="contextmenu_click('9');">파일추출(하위폴더포함)</li>
  	</ul> 
 </div>
 

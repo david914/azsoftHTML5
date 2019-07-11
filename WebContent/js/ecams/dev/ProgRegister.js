@@ -113,7 +113,6 @@ function screenInit() {
 	});
 	
 	grdProgList.setData([]);
-	$("#lbTotalCnt").text("총0건");
 	$('#txtRsrcName').val("");
 	$('#txtStory').val("");
 	$('#btnDevRep').prop("disabled", true);
@@ -414,8 +413,6 @@ function successProgList(data) {
 	grdProgList.setData(grdProgListData);
 	
 	grdProgList.setColumnSort({cr_rsrcname:{seq:0, orderBy:"asc"}});
-	
-	$("#lbTotalCnt").text("총" + grdProgListData.length + "건");
 }
 
 function grdProgList_Click() {
