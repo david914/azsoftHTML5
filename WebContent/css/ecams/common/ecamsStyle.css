@@ -923,7 +923,6 @@ ul.tabs li.active {
     margin: 0 0 10px 20px;
     border-radius: 2px;
 }
-
 .fontStyle-error {
 	color: #BE81F7;
 }
@@ -933,7 +932,6 @@ ul.tabs li.active {
 .fontStyle-cncl {
 	color: #FF0000;
 }
-
 .ecams-input {
 	box-sizing: border-box;
     display: inline;

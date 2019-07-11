@@ -30,7 +30,7 @@ var cboApproStaData = [];
 var cboPrcData		= [];
 
 var myWin			= null;
-
+ 
 approGrid.setConfig({
     target: $('[data-ax5grid="approGrid"]'),
     sortable: true, 
