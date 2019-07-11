@@ -8,37 +8,35 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<section>
-	<div class="hpanel">
-		 <div class="panel-heading">
-            <div class="panel-tools width-5">
-                <a class="closebox width-100" onclick="popClose()"><i class="fa fa-times"></i></a>
-            </div>
-			[업무정보]
-        </div>
-        
-        <div class="panel-body text-center">
-        	<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 85%;"></div>
-        </div>
-        <div class="panel-body">
-        	<div class="float-right">
-	        	<button class="btn btn-default" id="btnIn">
-					새로만들기<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				</button>
-	        	<button class="btn btn-default" id="btnUp">
-					편집<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				</button>
-	        	<button class="btn btn-default" id="btnDel">
-					삭제 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-				</button>
-	        	<button class="btn btn-default" id="btnClose">
-					닫기 <span class="fa fa-times" aria-hidden="true"></span>
-				</button>
-        	
-        	</div>
-       	</div>
+<div class="pop-header">
+	<div>
+		<label>[업무정보]</label>
 	</div>
-</section>
-		
+	<div>
+		<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div> 
+</div>
+<div class="container-fluid pop_wrap">
+	<!--line1 S-->
+	<div>					
+		<div class="width-100 dib vat">
+            <label id="lbUser" class="title">업무리스트</label>
+		</div>
+		<div class="row">
+			<div class="az_board_basic az_board_basic_in" style="height: 85%">
+		    	<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+			</div>
+		</div>
+	</div>
+	<div class="row tar">
+		<button id="btnIn" class="btn_basic">새로만들기</button>
+		<button id="btnUp" class="btn_basic margin-5-left">편집</button>
+		<button id="btnDel" class="btn_basic margin-5-left">삭제</button>
+		<button id="btnClose" class="btn_basic margin-5-left">닫기</button>
+	</div>
+</div>
+
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/modal/sysinfo/JobModal.js"/>"></script>

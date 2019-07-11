@@ -23,8 +23,10 @@
 	    <!-- 프로그램 종류 -->
         <div class="width-33 dib vat">
             <label id="lbRsrcCd" class="tit_80 poa">프로그램종류</label>
-            <div class="ml_80">
+            <div class="ml_80" id="divPrgTxt">
 				<input id="txtRsrcCd" name="txtRsrcCd" type="text" class="width-80">
+			</div>
+			<div class="ml_80" id="divPrgCbo">
 				<div id="cboRsrcCd" data-ax5select="cboRsrcCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="" class="width-80 dib"></div>
 			</div>
 		</div>	

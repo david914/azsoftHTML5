@@ -4,11 +4,65 @@ var toast = new ax5.ui.toast();				//토스트사용
 var confirmDialog = new ax5.ui.dialog();	//알럿,확인창
 var confirmDialog2 = new ax5.ui.dialog();
 var dialog = new ax5.ui.dialog({title: "알림창입니다."});	//알럿창
+
+var jobGrid 		= new ax5.ui.grid();
+
+
+
+jobGrid.setConfig({
+    target: $('[data-ax5grid="jobGrid"]'),
+    sortable: false, 
+    multiSort: true,
+    showRowSelector: true,
+    multipleSelect: true,
+    header: {
+        align: "center",
+        columnHeight: 30
+    },
+    body: {
+        columnHeight: 25,
+        onClick: function () {
+        	//this.self.clearSelect();
+            this.self.select(this.dindex);
+        },
+        onDBLClick: function () {},
+    	trStyleClass: function () {},
+    	onDataChanged: function(){
+    		this.self.repaint();
+    	}
+    },
+    columns: [
+        {key: "cm_jobcd", label: "업무코드",  width: '30%'},
+        {key: "cm_jobname", label: "업무명",  width: '70%'},
+        {
+            key: "check", label:'<input type="checkbox" id="testChk" data-ax5grid-editor="checkbox">', width: 50, sortable: false, align: "center",editor: {
+            	type: "checkbox", config: {height: 17, trueValue: "Y", falseValue: "N"}
+            }
+        }
+    ]
+});
+
+var obj = new Object();
+obj.cm_jobcd = '90001';
+obj.cm_jobname = '90001';
+obj.check = 'Y';
+
+var objArr = [];
+
+objArr.push(obj);
+
+jobGrid.setData(objArr);
+
+
 $(document).ready(function() {
 	//config 설정은 꼭 ready함수에서 해주세요.
 	toast.setConfig({
 		containerPosition: "top-right",
 		displayTime:10000
+	});
+	
+	$('#testChk').bind('click', function() {
+		console.log('클릭 체크박스' + $('#testChk').is(':checked') );
 	});
 	
 	confirmDialog.setConfig({

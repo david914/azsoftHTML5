@@ -19,6 +19,7 @@ var tmpInfo = new Object();
 var tmpInfoData = new Object();
 
 $(document).ready(function(){	
+	
 	//업무
 	$('#cboJob').bind('change', function() {
 		cboJob_Change();
@@ -64,7 +65,14 @@ function screenInit(gbn) {
 		$('[data-ax5select="cboRsrcCd"]').ax5select({
 	        options: []
 		});
-	}	
+		$('#divPrgCbo').css('display', 'none');
+		$('#divPrgTxt').css('display', 'block');
+	}
+	
+	if(gbn == 'S') {
+		$('#divPrgCbo').css('display', 'block');
+		$('#divPrgTxt').css('display', 'none');
+	}
 
 	$('#txtSysMsg').val('');
 	$('#txtProgId').val('');

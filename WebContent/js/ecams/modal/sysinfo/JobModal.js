@@ -57,8 +57,8 @@ $(document).ready(function(){
 	// 새로만들기
 	$('#btnIn').bind('click',function() {
 		jobUpModal.open({
-	        width: 450,
-	        height: 150,
+	        width: 1024,
+	        height: 180,
 	        iframe: {
 	            method: "get",
 	            url: "./JobUpModal.jsp",
@@ -95,8 +95,8 @@ $(document).ready(function(){
 		
 		
 		jobUpModal.open({
-	        width: 450,
-	        height: 150,
+	        width: 1024,
+	        height: 180,
 	        iframe: {
 	            method: "get",
 	            url: "./JobUpModal.jsp",

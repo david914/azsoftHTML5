@@ -8,46 +8,42 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-
-<section>
-	<div class="hpanel">
-		 <div class="panel-heading">
-            <div class="panel-tools width-5">
-                <a class="closebox width-100" onclick="popClose('jobUpModal')"><i class="fa fa-times"></i></a>
-            </div>
-			[업무정보편집]
-        </div>
-        
-        <div class="panel-body">
-	       	<div class="row padding-5-top">
-	       		<div class="col-xs-3">
-		    		<label id="lblSysMsg">업무코드</label>
-		    	</div>
-		    	<div class="col-xs-9">
-		    		<label id="lblSysMsg">업무명</label>
-		    	</div>
-	       	</div>
-	       	<div class="row padding-5-top">
-	       		<div class="col-xs-3">
-		    		<input id="txtCode" name="txtCode" class="form-control" type="text"></input>
-		    	</div>
-	       		<div class="col-xs-9">
-		    		<input id="txtVal" name="txtVal" class="form-control" type="text"></input>
-		    	</div>
-	       	</div>
-	        
-	       	<div class="float-right padding-5-top">
-	        	<button class="btn btn-default" id="btnJobUp">
-					적용<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				</button>
-	        	<button class="btn btn-default" id="btnJobUpClose">
-					취소 <span class="fa fa-times" aria-hidden="true"></span>
-				</button>
-	       	
-	       	</div>
-        </div>
+<div class="pop-header">
+	<div>
+		<label>[업무정보편집]</label>
 	</div>
-</section>
+	<div>
+		<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div> 
+</div>
+<div class="container-fluid pop_wrap">
+	<!--line1 S-->
+	<div class="row">					
+		<div class="width-30 dib vat">
+            <label class="title">업무코드</label>
+		</div>
+		<div class="width-68 dib vat">
+            <label class="title">업무명</label>
+		</div>
+	</div>
+	
+	<div class="row">					
+		<div class="width-30 dib vat">
+           <input id="txtCode" name="txtCode" class="width-100" type="text"></input>
+		</div>
+		<div class="width-68 dib vat">
+            <input id="txtVal" name="txtVal" class="width-100" type="text"></input>
+		</div>
+	</div>
+	
+	<div class="row tar">
+		<button id="btnJobUp" class="btn_basic">적용</button>
+		<button id="btnJobUpClose" class="btn_basic margin-5-left">취소</button>
+	</div>
+</div>
+
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/modal/sysinfo/JobUpModal.js"/>"></script>

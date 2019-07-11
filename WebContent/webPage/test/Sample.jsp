@@ -206,6 +206,13 @@
 </section>
 
 
+<div class="container-fluid padding-40-top">
+	<div class="az_board_basic az_board_basic_in" style="height: 50%">
+		<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+	</div>
+</div>
+
+
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/dev/Sample.js"/>"></script>

@@ -348,7 +348,7 @@ $(document).ready(function(){
 	// 업무등록
 	$('#btnJob').bind('click', function() {
 		jobModal.open({
-	        width: 600,
+	        width: 1045,
 	        height: 800,
 	        iframe: {
 	            method: "get",
