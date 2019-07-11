@@ -86,19 +86,19 @@ label {
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-3 col-md-3 col-sm-3">SR-ID/SR명</label>
 				<div class="col-lg-9 col-md-9 col-sm-9">
-					<input type="text" class="form-control" data-ax-path="srId" id="srId" onkeyup="enterKey()">
+					<input type="text" class="form-control" data-ax-path="srId" id="srId">
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-3 col-md-3 col-sm-3">신청자</label>
 				<div class="col-lg-9 col-md-9 col-sm-9">
-					<input type="text" class="form-control" data-ax-path="reqUser" id="reqUser" onkeyup="enterKey()">
+					<input type="text" class="form-control" data-ax-path="reqUser" id="reqUser">
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 div1">
 				<label class="col-lg-3 col-md-3 col-sm-3">프로그램명/설명</label>
 				<div class="col-lg-9 col-md-9 col-sm-9">
-						<input type="text" class="form-control" data-ax-path="descript" id="descript" onkeyup="enterKey()">
+						<input type="text" class="form-control" data-ax-path="descript" id="descript">
 				</div>
 			</div>				
 		</div>
@@ -108,23 +108,23 @@ label {
 					<div>
 						<div class="col-sm-10" style="margin-bottom: 5px;">
 							<label class="wLabel-left" style="width: 0px;"></label>
-							<input id="radioCkOut" tabindex="8" type="radio" name="radioStd" value="optCkOut" checked="checked"/>
+							<input id="radioCkOut" tabindex="8" type="radio" value="optCkOut" checked="checked"/>
 							<label for="radioCkOut" style="margin-right: 10px;">신청일기준</label>
-							<input id="radioCkIn" tabindex="8" type="radio" name="radioStd" value="optCkIn"/>
+							<input id="radioCkIn" tabindex="8" type="radio" value="optCkIn"/>
 							<label for="radioCkIn">완료일기준</label>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-5 col-md-5 col-sm-5 div1">
 					<div class="input-group" data-ax5picker="picker1">
-			            <input id="datStD" name="datStD" type="text" class="form-control" value="2018/01/01">
+			            <input id="datStD" type="text" class="form-control" value="2018/01/01">
 			            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
 			        </div>
 				</div>
  			           <span class="input-group-addon col-lg-2 col-md-2 col-sm-2 div1" style="background: white; border: 0px; width:20px; margin-top: 5px;">~</span>
 				<div class="col-lg-5 col-md-5 col-sm-5 div1">
 					<div class="input-group" data-ax5picker="picker2">
-			            <input id="datEdD" name="datEdD" type="text" class="form-control">
+			            <input id="datEdD" type="text" class="form-control">
 			            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
 			        </div>
 				</div>

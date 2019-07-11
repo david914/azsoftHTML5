@@ -244,9 +244,9 @@ $("#btnExcel").on('click', function() {
 })
 
 //엔터키
-function enterKey() {
+$("#conditionText").bind('keypress', function(event) {
 	if(window.event.keyCode == 13) $("#btnSearch").trigger("click");
-}
+});
 
 //컨텍스트메뉴 팝업
 function openWindow(type,reqCd,reqNo,rsrcName) {

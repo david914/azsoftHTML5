@@ -116,7 +116,7 @@ function comboSet() {
 	}) 	
 }
 
-$("#btnSearch").bind('click', function() {
+$("#btnSearch, #reset").bind('click', function() {
 	var date = replaceAllString($("#date").val(), '-', '');
 	var ajaxData = {
 		requestType : 'getRowList',
@@ -142,14 +142,9 @@ $(function() {
 })
 
 //엔터키입력시
-function enterKey() {
+$("#developerId").bind('keypress', function(event) {	
 	if(window.event.keyCode == 13) $("#btnSearch").trigger("click");
-}
-
-//초기화버튼
-function reset() {
-	$("#btnSearch").trigger("click");
-}
+});
 
 //엑셀저장
 $("#btnExcel").on('click', function() {

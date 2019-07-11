@@ -194,6 +194,7 @@ $("#btnExcel").on('click', function() {
 	mainGrid.exportExcel("형상관리신청현황 " + today + ".xls");
 })
 
-function enterKey() {
+//텍스트박스에서 엔터키 입력 시
+$("#srId, #requser, #descript").bind('keypress', function(event) {
 	if(window.event.keyCode == 13) $("#btnSearch").trigger("click");
-}
+})

@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
+<style>
+.sel {
+	min-width: 215px;
+}
+</style>
 
 <div id="header"></div>
 <div id="wrapper">
@@ -18,7 +23,7 @@
 							<div class="width-60 dib" id="systemSel" data-ax5select="systemSel" data-ax5select-config="{}">
 							</div>
 						</div>
-						<div class="width-15 dib">
+						<div class="width-15 dib sel">
 							<div class="tit_100 dib vat">
 								<label>*조건선택1</label>
 							</div>
@@ -27,10 +32,10 @@
 							<div class="tit_100 dib vat margin-5-top">
 								<label id="prgStatusLabel"></label>
 							</div>
-							<div class="width-50 dib margin-5-top"" id="prgStatusSel" data-ax5select="prgStatusSel" data-ax5select-config="{}">
+							<div class="width-50 dib margin-5-top" id="prgStatusSel" data-ax5select="prgStatusSel" data-ax5select-config="{}">
 							</div>
 						</div>
-						<div class="width-15 dib vat">
+						<div class="width-15 dib sel vat">
 							<div class="tit_100 dib vat">
 								<label>*조건선택2</label>
 							</div>
@@ -40,10 +45,10 @@
 								<label></label>
 							</div>
 							<div class="width-50 dib margin-5-top">
-								<input type="text" class="width-100" data-ax-path="conditionText" id="conditionText" onkeyup="enterKey()" disabled="disabled">
+								<input type="text" class="width-100" data-ax-path="conditionText" id="conditionText" disabled="disabled">
 							</div>
 						</div>
-						<div class="width-15 dib vat">
+						<div class="width-15 dib sel vat">
 							<div class="tit_100 dib vat">
 								<label>*범위</label>
 							</div>
@@ -51,7 +56,7 @@
 							</div>
 							<div class="width-50 dib margin-10-top">
 								<label class="wLabel-left" style="width: 0px;"></label>
-								<input id="checkDetail" tabindex="8" type="checkbox" name="checkStd" value="optCkOut" style="margin-top: 5px;" checked="checked"/>
+								<input id="checkDetail" tabindex="8" type="checkbox" value="optCkOut" style="margin-top: 5px;" checked="checked"/>
 								<label for="radioCkOut" style="margin-top: -5px;">세부항목포함</label>
 							</div>
 						</div>

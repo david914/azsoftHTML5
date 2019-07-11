@@ -14,26 +14,25 @@
 					<div>
 						<div class="width-15 dib por">
 							<div class="poa">
-	                        	<label id="lbUser">*연구소 실 별</label>
+	                        	<label>*연구소 실 별</label>
 						    </div>
 						</div>
 						<div class="width-15 dib por">
 							<div class="poa">
-	                        	<label id="lbUser">*SR등급</label>
+	                        	<label>*SR등급</label>
 						    </div>
 						</div>
 						<div class="width-30 dib por">
 							<div class="poa">
-	                        	<label id="lbUser">*개발자ID/개발자명</label>
+	                        	<label>*개발자ID/개발자명</label>
 	                        </div>
 							<div id="step3" data-ax5select="step3" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 ml_80 dib">
 						    </div>						    
 						</div>
 						<div class="width-40 dib vat">
-							<div class="width-60 dib"></div>
-							<label id="lbUser">*월 별</label>
 
 							<div class="vat dib margin-10-right float-right"><!--수정-->
+								<label style="margin-right: 195px;">*월 별</label>
 								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
 							</div>
 						</div>
@@ -52,23 +51,24 @@
 						</div>
 						<!-- 개발자ID/개발자명 -->
 						<div class="width-30 dib por vat">
-							<input class="width-90" id="developerId" name="developerId" type="text" placeholder="" onkeypress="enterKey()">
+							<input class="width-90" id="developerId" type="text" placeholder="">
 						</div>
 
 						<div class="width-40 dib vat">
-							<div class="width-60 dib"></div>
-							<div id="picker" data-ax5picker="picker" class="az_input_group dib">
-					            <input id="date" name="date" type="text" placeholder="yyyy-mm" style="width:150px;"><span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>						
-							</div>
-							<div class="vat dib margin-10-right float-right"><!--수정-->
-								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnExcel">엑셀저장</button>
+							<div id="picker" data-ax5picker="picker" class="az_input_group dib float-right">
+								<div class="dib margin-40-right">
+					            <input id="date" type="text" placeholder="yyyy-mm" style="width:150px;"><span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>						
+								</div>
+								<div class="vat dib margin-10-right float-right"><!--수정-->
+									<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnExcel">엑셀저장</button>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="margin-10-bottom">
+					<div>
 						<div class="dib por width-100">
 							<div class="vat dib margin-10-right float-right"><!--수정-->
-								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="reset" onclick="reset()">초기화</button>
+								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="reset">초기화</button>
 							</div>
 						</div>
 					</div>
@@ -83,7 +83,6 @@
 		</div>
 	</div>
 </div>
-
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/report/ProgrammerReport.js"/>"></script>
