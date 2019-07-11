@@ -34,7 +34,7 @@
 		</div>
 		<div class="row vat">
 			<div class="width-100 dib">
-				<div class="az_board_basic" style="height: 65%;">
+				<div class="az_board_basic" style="height: 45%;">
 					<div data-ax5grid="approvalGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 				</div>
 			</div>
@@ -72,50 +72,5 @@
 <input type="hidden" id="userId" name="userId" 	value="<%=userId%>"/>
 <input type="hidden" id="acptNo" name="acptNo"  value="<%=acptNo%>"/>
 
-<!-- 
-<div class="hpanel">
-    <div class="panel-body" id="chgApprovalDiv">
-    	<div class="col-lg-3 col-md-3 col-sm-3 col-12">
-	    	<div class="row">
-		    	<div class="col-lg-3 col-md-12 col-sm-12 col-12">
-		    		<label id="lblBefApproval" class="padding-5-top float-left">변경후결재</label>
-		    	</div>
-		    	<div class="col-lg-9 col-md-12 col-sm-12 col-12" style="padding-left: 0;">
-			    	<div id="cboBefApproval" data-ax5select="cboBefApproval" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
-		    	</div>
-	    	</div>
-	    </div>
-    	<div class="col-lg-3 col-md-3 col-sm-3 col-12">
-	    	<div class="row">
-		    	<div class="col-lg-3 col-md-12 col-sm-12 col-12">
-		    		<label id="lblSayu" class="padding-5-top float-left">사유구분</label>
-		    	</div>
-		    	<div class="col-lg-9 col-md-12 col-sm-12 col-12" style="padding-left: 0;">
-			    	<div id="cboSayu" data-ax5select="cboSayu" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
-		    	</div>
-	    	</div>
-	    </div>
-    	<div class="col-lg-3 col-md-3 col-sm-3 col-12">
-	    	<div class="row">
-		    	<div class="col-lg-3 col-md-12 col-sm-12 col-12">
-		    		<label id="lblAftApproval" class="padding-5-top float-left">대결재</label>
-		    	</div>
-		    	<div class="col-lg-9 col-md-12 col-sm-12 col-12" style="padding-left: 0;">
-			    	<div id="cboAftApproval" data-ax5select="cboAftApproval" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
-		    	</div>
-	    	</div>
-	    </div>
-    	<div class="col-lg-3 col-md-3 col-sm-3 col-12">
-	    	<div class="row">
-				<div class="float-right">
-					<button id="btnUpdate"  class="btn btn-default">
-						수정 <span class="glyphicon" aria-hidden="true"></span>
-					</button>
-				</div>
-	    	</div>
-	    </div>
-   	</div>
-</div>
- -->
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript"	src="<c:url value="/js/ecams/winpop/PopApprovalInfo.js"/>"></script>
