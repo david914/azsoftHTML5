@@ -19,133 +19,159 @@
     String SysCd = request.getParameter("SysCd"); 
 %> 
 
-<body>
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-4">
-		<div class="col-sm-6">
-			<label style="padding-top: 5px;">시스템</label>
-		
-			<div class="form-group">
-            	<div id="selSystem" data-ax5select="selSystem" data-ax5select-config="{}"></div>
-        	</div>
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">	프로그램등록 <strong>&gt; 개발영역연결등록</strong></div>
+        <!-- history E-->
+        <!-- 검색 S-->    
+		<div class="az_search_wrap">
+			<div class="az_in_wrap">
+				<div class="cb">
+					<!-- 시스템 -->		
+                    <div class="width-50 float-left">
+						<div class="margin-5-right">
+							<label id="lbSystem" class="tit_100 poa">*1. 시스템</label>
+	                        <div class="ml_100">
+								<div id="cboSystem" data-ax5select="cboSystem" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 서버선택 -->		
+                    <div class="width-50 float-left">
+						<div class="margin-5-right">
+							<label id="lbSvr" class="tit_100 poa">*2. 서버선택</label>
+	                        <div class="ml_150 tal">
+								<div id="cboSvr" data-ax5select="cboSvr" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100">
+							    </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row por">					
+					<!-- 요청부서 -->		
+                    <div class="tit_100 poa">
+                        <label id="lbDir">*3. 기준디렉토리</label>
+                    </div>
+                    <div class="ml_100 tal">
+						<div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
+					    </div><label class="dib tar"><input type="checkbox" style="margin-bottom:4px;"> 하위폴더 포함하여 조회</label>
+					</div>
+					<div class="vat poa_r">
+						<button id="btnQry" name="btnQry" class="btn_basic_s margin-5-left">디렉토리조회</button>
+					</div>
+					<p class="txt_r font_12 margin-5-top ml_100">1. 개발서버기준으로 조회할 디렉토리 선택 또는 디렉토리 입력 후 엔터</p>
+				</div>				
+				<div class="row vat cb">
+					<!-- 추출대상확장자 -->		
+                    <div class="width-50 float-left">
+						<div class="margin-5-right">
+	                    	<label id="lbExe" class="tit_100 poa">추출대상확장자</label>
+	                        <div class="ml_100">
+								<input id="txtExe" name="txtExe" class="width-100" type="text"></input>
+							</div>
+						</div>
+					</div>
+					<!-- 추출제외확장자 -->		
+                    <div class="width-50 float-left">
+						<div class="margin-5-left">
+	                    	<label id="lbNoExe" class="tit_100 poa">추출제외확장자</label>
+	                        <div class="ml_100">
+								<input id="txtNoExe" name="txtNoExe" class="width-100" type="text"></input>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-	
-	<div class="col-sm-4">
-		<div class="col-sm-8">
-			<label style="padding-top: 5px;">기준디렉토리</label>
-		
-			<div class="form-group">
-            	<div id="selDir" data-ax5select="selDir" data-ax5select-config="{}"></div>
-        	</div>
+		<!--검색E-->
+		<div class="half_wrap margin-10-top">
+			<div class="l_wrap width-40" style="height: 495px;"> <!-- scrollBind -->
+				<!-- 디렉토리 트리 -->	
+				<div class="scrollBind" style="height: 100%; border: 1px dotted gray;">
+					<ul id="treeDir" class="ztree"></ul>
+				</div>
+			</div>
+			<div class="r_wrap width-60">
+				<!-- 게시판 S-->
+				<div class="scroll_x">
+				    <div class="az_board_basic az_board_basic_in margin-10-left">
+				    	<!-- 프로그램목록 그리드 -->
+				    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 495px; width:100%"></div>
+					</div>	
+				</div>
+				<!-- 게시판 E -->
+			</div>
 		</div>
-		
-		<button class="btn btn-default" id="btnQry">디렉토리조회</button>
+		<!-- info S -->
+		<div class="row">
+			<p class="txt_r font_12">2. 디렉토리선택 후 오른쪽마우스 클릭 [파일추출] : 추출대상확장자 입력 후 추출 시 입력한 확장자를 가진 파일만 추출</p>
+			<p class="txt_r font_12">3. 추출된 파일목록에서 등록할 파일선택(프로그램설명은 목록에서 직접입력 가능)</p>
+			<p class="txt_r font_12">4. 업무, 프로그램종류, 프로그램설명 입력 후 등록버트 클릭, 단! 프로그램 설명은 목록에 입력한 경우 목록의 내용으로 등록</p>
+		</div>
+		<!-- info E -->
+		<!-- 검색 S -->
+		<div class="az_search_wrap row">
+			<div class="az_in_wrap">
+				<div class="cb">
+					<!--left-->
+					<div class="float-left width-90">
+						<div class="row vat cb">
+							<!-- line1 -->		
+		                    <div class="width-50 float-left">
+		                    	<div class="tit_100 poa">
+		                        	<label id="lbJawon">*프로그램종류</label>
+		                        </div>
+		                        <div class="ml_100">
+									<div id="cboJawon" data-ax5select="cboJawon" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-50 dib">
+								    </div><input id="txtExeName" name="txtExeName" type="text" placeholder="" class="width-45 margin-5-left">
+								</div>
+							</div>
+							<!-- 업무 -->		
+		                    <div class="width-50 float-right">
+		                    	<div class="tit_100 poa">
+		                        	<label id="lbJob">*업무</label>
+		                        </div>
+		                        <div class="ml_100 tal">
+									<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100">
+								    </div>
+								</div>
+							</div>
+						</div>
+						<div class="row">					
+							<!-- 프로그램설명 -->		
+		                    <div class="tit_100 poa">
+		                        <label id="lbStory">*프로그램설명</label>
+		                    </div>
+		                    <div class="ml_100">
+		                        <input id="txtStory" name="txtStory" type="text" placeholder="" class="width-100">
+		                    </div>
+						</div>				
+						<div class="row vat">
+							<div class="tit_100 poa">
+	                        	<label id="lbSRID">*SR-ID</label>
+	                        </div>
+	                        <div class="ml_100">
+								<div id="cboSRID" data-ax5select="cboSRID" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100">
+							    </div>
+							</div>
+						</div>
+					</div>
+					<!--right-->
+					<div class="float-right tar width-10">
+						<div class="row"><button id="btnInit" name="btnInit" class="btn_basic_s" style="width:90px">초기화</button></div>
+						<div class="row"><button id="btnExcel" name="btnExcel" class="btn_basic_s margin-5-left" style="width:90px">엑셀저장</button></div>
+						<div class="row"><button id="btnRegist" name="btnRegist" class="btn_basic_s margin-5-left" style="width:90px">등록</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 검색 E -->
 	</div>
 </div>
-
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-4">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">서버선택</label>
-		
-			<div class="form-group">
-            	<div id="selSvr" data-ax5select="selSvr" data-ax5select-config="{}"></div>
-        	</div>
-		</div>
-	</div>
-	
-	<div class="col-sm-4">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">추출대상확장자</label>
-			<input id="txtExe" name="txtExe" type="text"/>
-		</div>
-	</div>
-</div>
-
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-4">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-			<label><input type="checkbox" id="chkAll"/>하위폴더포함조회</label>
-		</div>	
-	</div>
-	
-	<div class="col-sm-8">
-		<label style="padding-top: 5px;">추출제외확장자</label>
-		<input id="txtNoExe" name="txtNoExe" type="text"/>
-	</div>
-</div>
-
-
-<div class="row" style="padding-top: 5px;">
-	<!-- 디렉토리 트리 -->
-	<div class="col-sm-3">
-		<div class="scrollBind" style="height: 495px; border: 1px dotted gray;">
-			<ul id="treeDir" class="ztree"></ul>
-		</div>
-	</div>
-	
-	<!-- 프로그램목록 그리드 -->
-	<div class="col-sm-9">
-		<div data-ax5grid="proglistGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 495px;"></div>
-	</div>
-</div>
-
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-4">
-		<label style="padding-top: 5px;">프로그램종류</label>
-	
-		<div class="form-group">
-           	<div id="selJawon" data-ax5select="selJawon" data-ax5select-config="{}"></div>
-       	</div>
-	</div>
-	
-	<div class="col-sm-2" style="padding-top: 25px;">
-		<input id="txtExeName" name="txtExeName" type="text"></input>
-	</div>
-	
-	<div class="col-sm-4">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">업무</label>
-		
-			<div class="form-group">
-            	<div id="selJob" data-ax5select="selJob" data-ax5select-config="{}"></div>
-        	</div>
-		</div>
-	</div>
-	
-	<div class="col-sm-2">
-		<button class="btn btn-default" id="btnInit">초기화</button>
-	</div>
-</div>
-
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-8">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">프로그램설명</label>
-			<input id="txtStory" name="txtStory" type="text"></input>
-		</div>
-	</div>
-	
-	<div class="col-sm-4">
-		<button class="btn btn-default" id="btnExcel">엑셀저장</button>
-	</div>
-</div>
-
-<div class="row" style="padding-top: 5px;">
-	<div class="col-sm-8">
-		<div class="col-sm-12">
-			<label style="padding-top: 5px;">SR-ID</label>
-			<div class="form-group">
-            	<div id="selSRID" data-ax5select="selSRID" data-ax5select-config="{}"></div>
-        	</div>
-		</div>
-	</div>
-	
-	<div class="col-sm-4">
-		<button class="btn btn-default" id="btnRegist">등록</button>
-	</div>
-</div>
+<!-- contener E -->
 
 <input type=hidden name="UserId" id="UserId" value=<%=UserId%>>
 <input type=hidden name="SysCd" id="SysCd" value=<%=SysCd%>>
@@ -155,9 +181,6 @@
  		<li id="contextmenu" onclick="contextmenu_click();">파일추출</li> 
  	</ul> 
 </div>
-
-</body> 
-
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/winpop/progregister/PopDevRepository.js"/>"></script>
