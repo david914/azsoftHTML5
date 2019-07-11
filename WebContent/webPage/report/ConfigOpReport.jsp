@@ -18,6 +18,16 @@
 .font-red {
 	color: red;
 }
+
+.btn-default {
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #333;
+    font-weight: bold;
+    padding: 0 7px 2px;
+    height: 25px;
+}
+
 </style>
 
 </head>

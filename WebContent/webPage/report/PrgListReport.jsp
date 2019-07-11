@@ -1,16 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <c:import url="/webPage/common/common.jsp" />
-<style>
-.div1 {
-	background: lightgray;
-}
-.div2 {
-	background: lightgreen;
-}
-</style>
+
 <div id="header"></div>
 <div id="wrapper">
 	<div class="content">
@@ -33,7 +25,7 @@
 							<div class="width-50 dib" id="reqDeptSel" data-ax5select="conditionSel1" data-ax5select-config="{}">
 							</div>
 							<div class="tit_100 dib vat margin-5-top">
-								<label id="prgStatusLabel">*프로그램상태</label>
+								<label id="prgStatusLabel"></label>
 							</div>
 							<div class="width-50 dib margin-5-top"" id="prgStatusSel" data-ax5select="prgStatusSel" data-ax5select-config="{}">
 							</div>
@@ -68,11 +60,9 @@
 							<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
 						</div>
 					</div>					
-				</div>
-						
+				</div>						
 			</div>
 		</div>
-	
 	</div>
 	
 	<div class="az_board_basic">
