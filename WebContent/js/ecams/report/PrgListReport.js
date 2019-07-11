@@ -72,17 +72,6 @@ $(document).ready(function() {
        }
 	}); 
 	
-	//범위 콤보박스 데이터 세팅
-	$('[data-ax5select="rangeSel"]').ax5select({
-		options: [
-			{value: "0", cm_macode: "OPTION", text: "전체"},
-			{value: "1", cm_macode: "OPTION", text: "신규중 제외"},
-			{value: "2", cm_macode: "OPTION", text: "신규중"},
-			{value: "3", cm_macode: "OPTION", text: "폐기분 제외"},
-			{value: "4", cm_macode: "OPTION", text: "폐기분"}
-		]
-	});
-		
 	isAdmin();
 	comboSet();	
 })
@@ -103,6 +92,17 @@ function comboSet() {
 	var comboData = new Array();
 	var ajaxData = new Object();
 	var selectMenu = ["systemSel", "conditionSel1",  "conditionSel2", "prgStatusSel"];
+	
+	//범위
+	$('[data-ax5select="rangeSel"]').ax5select({
+		options: [
+			{value: "0", cm_macode: "OPTION", text: "전체"},
+			{value: "1", cm_macode: "OPTION", text: "신규중 제외"},
+			{value: "2", cm_macode: "OPTION", text: "신규중"},
+			{value: "3", cm_macode: "OPTION", text: "폐기분 제외"},
+			{value: "4", cm_macode: "OPTION", text: "폐기분"}
+		]
+	});
 	
 	//시스템
 	ajaxData = {
@@ -163,10 +163,15 @@ function comboSet() {
 			}
 		});	
 	}	
-	$('[data-ax5select="prgStatusSel"]').ax5select("disable");
+	
+	//첫 화면 디폴트 출력값 세팅
+	prgOptionSet('90001', '2');
+	$('[data-ax5select="conditionSel1"]').ax5select("setValue", '2', true);
+	$('[data-ax5select="prgStatusSel"]').ax5select("setValue", '5', true);
+	$("#btnSearch").trigger('click');
 }
 
-//조건선택1의 값에 따른 프로그램상태 콤보박스 세팅
+//조건선택1의 값에 따른 프로그램종류/상태 콤보박스 세팅
 function prgOptionSet(sysCd, condCd) {
 	
 	$("#prgStatusLabel").text($('[data-ax5select="conditionSel1"').ax5select("getValue")[0].text);
@@ -200,34 +205,37 @@ $("#btnSearch").bind('click', function() {
 		
 	if($('[data-ax5select="conditionSel1"]').ax5select("getValue")[0].value == 0) {
 		dialog.alert('조건을 먼저 선택해주세요.',function(){});
-	} else {
-		var inputData = new Object();
-		var tmpObj = {};
-		
-		tmpObj = {	
-				UserId : userid,
-				SecuYn : SecuYn,
-				L_SysCd : $('[data-ax5select="systemSel"]').ax5select("getValue")[0].value,
-				L_JobCd : "0000",
-				Cbo_Cond10_code : $('[data-ax5select="conditionSel1"]').ax5select("getValue")[0].value,
-				Cbo_Cond11_code : $('[data-ax5select="conditionSel2"]').ax5select("getValue")[0].value,
-				Cbo_Cond2_code : $('[data-ax5select="prgStatusSel"]').ax5select("getValue")[0].value,
-				Txt_Cond : $("#conditionText").val(),
-				Cbo_Option : $('[data-ax5select="rangeSel"]').ax5select("getValue")[0].value,
-				Chk_Aply : $("#checkDetail").is(':checked')
-		}
-		
-		ajaxData = {
-				prjData : tmpObj,
-				UserId : userid,
-				requestType : "getSql_Qry"
-		}
-		var ajaxResult = ajaxCallWithJson('/webPage/report/PrgListReport', ajaxData, 'json');
-		mainGrid.setData(ajaxResult);
+		return;
+	} 
+	
+	var inputData = new Object();
+	var tmpObj = {};
+	
+	tmpObj = {	
+			UserId : userid,
+			SecuYn : SecuYn,
+			L_SysCd : $('[data-ax5select="systemSel"]').ax5select("getValue")[0].value,
+			L_JobCd : "0000",
+			Cbo_Cond10_code : $('[data-ax5select="conditionSel1"]').ax5select("getValue")[0].value,
+			Cbo_Cond11_code : $('[data-ax5select="conditionSel2"]').ax5select("getValue")[0].value,
+			Cbo_Cond2_code : $('[data-ax5select="prgStatusSel"]').ax5select("getValue")[0].value,
+			Txt_Cond : $("#conditionText").val(),
+			Cbo_Option : $('[data-ax5select="rangeSel"]').ax5select("getValue")[0].value,
+			Chk_Aply : $("#checkDetail").is(':checked')
 	}
+	
+	ajaxData = {
+			prjData : tmpObj,
+			UserId : userid,
+			requestType : "getSql_Qry"
+	}
+	var ajaxResult = ajaxCallWithJson('/webPage/report/PrgListReport', ajaxData, 'json');
+	mainGrid.setData(ajaxResult);
+	
 	
 })
 
+//엑셀저장
 $("#btnExcel").on('click', function() {
 	var st_date = new Date().toLocaleString();
 	var today = st_date.substr(0, st_date.indexOf("오"));
@@ -235,10 +243,12 @@ $("#btnExcel").on('click', function() {
 	mainGrid.exportExcel("프로그램목록 " + today + ".xls");
 })
 
+//엔터키
 function enterKey() {
 	if(window.event.keyCode == 13) $("#btnSearch").trigger("click");
 }
 
+//컨텍스트메뉴 팝업
 function openWindow(type,reqCd,reqNo,rsrcName) {
 	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
 

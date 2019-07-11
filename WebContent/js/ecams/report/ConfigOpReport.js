@@ -3,6 +3,7 @@ var userid 		= 'MASTER';
 //var userid 		= window.top.userId;
 var picker = [new ax5.ui.picker(), new ax5.ui.picker()];
 var mainGrid = new ax5.ui.grid();
+var dialog = new ax5.ui.dialog({title: "경고"});
 
 
 //picker세팅
@@ -173,27 +174,27 @@ $("#btnSearch").bind('click', function() {
 	
 	//유효성검사
 	if($("[data-ax5select='dateStd']").ax5select("getValue")[0].value === null) {
-		alert("조회구분을 선택해주세요.");
+		dialog.alert("조회구분을 선택해주세요.");
 		return;
 	}
 	if($("[data-ax5select='step1']").ax5select("getValue")[0].value === null) {
-		alert("1단계 조건을 선택해주세요.");
+		dialog.alert("1단계 조건을 선택해주세요.");
 		return;
 	}
 	if($("[data-ax5select='step2']").ax5select("getValue")[0].value === null) {
-		alert("2단계 조건을 선택해주세요.");
+		dialog.alert("2단계 조건을 선택해주세요.");
 		return;
 	}
 	if($("[data-ax5select='step3']").ax5select("getValue")[0].value === null) {
-		alert("3단계 조건을 선택해주세요.");
+		dialog.alert("3단계 조건을 선택해주세요.");
 		return;
 	}
 	if($("[data-ax5select='step4']").ax5select("getValue")[0].value === null) {
-		alert("4단계 조건을 선택해주세요.");
+		dialog.alert("4단계 조건을 선택해주세요.");
 		return;
 	}
 	if(strDate > endDate) {
-		alert("조회기간을 정확히 입력해주십시오.");
+		dialog.alert("조회기간을 정확히 입력해주십시오.");
 		return;
 	}	
 	
@@ -259,3 +260,12 @@ $("#btnSearch").bind('click', function() {
 	mainGrid.setData(ajaxResult);
 })
 
+$(".btn-default").hover(function() {
+	$(this).fadeIn(1000, function() {
+		$(this).css('background', 'lightgray');
+	});
+}, function() {
+	$(this).fadeIn(1000, function() {
+		$(this).css('background', 'white');
+	})
+});

@@ -29,10 +29,11 @@
 							<div id="step3" data-ax5select="step3" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 ml_80 dib">
 						    </div>						    
 						</div>
-						<div class="width-20 dib vat">
-							<label id="lbUser">월별</label>
+						<div class="width-40 dib vat">
+							<div class="width-60 dib"></div>
+							<label id="lbUser">*월 별</label>
 
-							<div class="vat dib margin-5-right float-right"><!--수정-->
+							<div class="vat dib margin-10-right float-right"><!--수정-->
 								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
 							</div>
 						</div>
@@ -54,18 +55,19 @@
 							<input class="width-90" id="developerId" name="developerId" type="text" placeholder="" onkeypress="enterKey()">
 						</div>
 
-						<div class="width-20 dib vat">
+						<div class="width-40 dib vat">
+							<div class="width-60 dib"></div>
 							<div id="picker" data-ax5picker="picker" class="az_input_group dib">
 					            <input id="date" name="date" type="text" placeholder="yyyy-mm" style="width:150px;"><span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>						
 							</div>
-							<div class="vat dib margin-5-right float-right"><!--수정-->
+							<div class="vat dib margin-10-right float-right"><!--수정-->
 								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnExcel">엑셀저장</button>
 							</div>
 						</div>
 					</div>
 					<div class="margin-10-bottom">
-						<div class="dib por" style="width: 80%;">
-							<div class="vat dib margin-5-right float-right"><!--수정-->
+						<div class="dib por width-100">
+							<div class="vat dib margin-10-right float-right"><!--수정-->
 								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="reset" onclick="reset()">초기화</button>
 							</div>
 						</div>
