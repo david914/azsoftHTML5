@@ -24,7 +24,16 @@ var strReqCD = '32';
 //grid 생성
 var firstGrid = new ax5.ui.grid();
 var cboRequestData;
+var treeObj			= null;
+var treeObjData		= null;
 
+var setting = {
+	data: {
+		simpleData: {
+			enable: true
+		}
+	}	
+};
 
 $(document).ready(function(){
 	if(strReqCD != null && strReqCD != ""){
@@ -36,8 +45,7 @@ $(document).ready(function(){
 	setGrid();
 	setCboMenu();
 	CboMaCode();
-	getMenuAllList();
-	
+
 	// 상위메뉴 이벤트
 	$('#Cbo_selMenu').bind('change', function() {
 		cbo_selMenu_click();
@@ -66,6 +74,11 @@ $(document).ready(function(){
 	$('#btnDelete').bind('click', function() {
 		Cmd_Ip_Click(1);
 	});
+	
+	// 조회버튼 클릭 이벤트
+	$('#btnFact').bind('click', function(){
+		Cmd_Ip_Click(2);
+	});
 });
 
 function Cbo_reqcd(){
@@ -87,7 +100,6 @@ function CboMaCode(){
 			temp		: 'NEW'
 	}	
 	ajaxResultData = ajaxCallWithJson('/webPage/administrator/MenuManage', tmpData, 'json');
-	
 	// 메뉴 리스트 셀렉트박스에 넣기
 	$('[data-ax5select="Cbo_MaCode"]').ax5select({
         options: injectCboDataToArr(ajaxResultData, 'cm_menucd' , 'cm_maname')
@@ -236,10 +248,58 @@ function Cbo_Menu_Click(){
 function Cmd_Ip_Click(num){
 	switch (num) {
 		case 0:
+			if($('#Txt_MaCode').val() === "" || $('#Txt_MaCode').val() == null){
+				alert("메뉴명을 입력하세요.");
+				return;
+			}
+			
+			if($('#Txt_MaFile').val() === "" || $('#Txt_MaFile').val() == null){
+				alert("링크파일명을 입력하세요.");
+				return;
+			}
+			
+			var ajaxResultData = null;
+	    	var tmpData = {
+	    			requestType : 'setMenuInfo',
+	    			cm_menucd : $('[data-ax5select="Cbo_MaCode"]').ax5select("getValue")[0].cm_menucd,
+	    			Txt_MaCode		: $('#Txt_MaCode').val(),
+	    			Txt_MaFile		: $('#Txt_MaFile').val(),
+	    			cm_micode		: $('[data-ax5select="Cbo_reqcd"]').ax5select("getValue")[0].cm_micode
+	    	}	
+	    	ajaxResultData = ajaxCallWithJson('/webPage/administrator/MenuManage', tmpData, 'json');
+	    	// 임시 alert 창
+	    	if(ajaxResultData == ""){
+	    		alert("저장완료");
+	    		CboMaCode();
+	    		Cbo_MaCode_click();
+	    	}else{
+	    		alert("저장실패");
+	    	}
 			break;
 	    case 1:
+	    	if($('[data-ax5select="Cbo_MaCode"]').ax5select("getValue")[0].cm_menucd === "000"){
+	    		alert("삭제할 메뉴명을 선택하여주세요.");
+	    		return;
+	    	}
+	    	
+			var ajaxResultData = null;
+	    	var tmpData = {
+	    			requestType : 'delMenuInfo',
+	    			cm_menucd : $('[data-ax5select="Cbo_MaCode"]').ax5select("getValue")[0].cm_menucd,
+	    	}	
+	    	ajaxResultData = ajaxCallWithJson('/webPage/administrator/MenuManage', tmpData, 'json');
+	    	// 임시 alert 창
+	    	if(ajaxResultData == ""){
+	    		alert("삭제완료");
+	    		CboMaCode();
+	    		Cbo_MaCode_click();
+	    	}else{
+	    		alert("삭제실패");
+	    	}
 	    	break;
 	    case 2:
+	    	getMenuAllList();
+	    	getMenuTree();
 	    	break;
 	    case 3:
 	    	if($("#tmpTest2").children().length == 0) return;
@@ -267,19 +327,20 @@ function Cmd_Ip_Click(num){
 	    	// 임시 alert 창
 	    	if(ajaxResultData == ""){
 	    		alert("적용완료");
+	    		Cmd_Ip_Click(2);
 	    	}else{
 	    		alert("적용실패");
 	    	}
 	    	break;
 	}
 }
+
 function getMenuAllList(){
 	var ajaxResultData = null;
 	var tmpData = {
 			requestType : 'getMenuAllList',
 	}	
 	ajaxResultData = ajaxCallWithJson('/webPage/administrator/MenuManage', tmpData, 'json');
-	console.log(ajaxResultData);
 	
 	//첫번째 tree만 닫기
 	//ajaxResultData[0].collapse = true;
@@ -291,6 +352,22 @@ function getMenuAllList(){
 	
 	firstGrid.setData(ajaxResultData);
 }
+
+//트리정보 가져오기
+function getMenuTree() {
+	var data = new Object();
+	data = {
+		requestType	: 'getMenuTree'
+	}
+	ajaxAsync('/webPage/administrator/MenuManage', data, 'json',successGetTreeInfo);
+}
+
+// 트리정보 가져오기 완료
+function successGetTreeInfo(data) {
+	$.fn.zTree.init($("#treeMenu"), setting, data);
+	treeObj = $.fn.zTree.getZTreeObj("treeMenu");
+}
+
 
 function setGrid(){
 	firstGrid.setConfig({

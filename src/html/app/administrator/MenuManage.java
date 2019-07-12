@@ -53,6 +53,15 @@ public class MenuManage extends HttpServlet {
 				case "getMenuAllList":
 					response.getWriter().write( getMenuAllList(jsonElement) );
 					break;
+				case "getMenuTree":
+					response.getWriter().write( getMenuTree(jsonElement) );
+					break;
+				case "setMenuInfo":
+					response.getWriter().write( setMenuInfo(jsonElement) );
+					break;
+				case "delMenuInfo":
+					response.getWriter().write( delMenuInfo(jsonElement) );
+					break;	
 				default : 
 					break;
 			}
@@ -82,5 +91,22 @@ public class MenuManage extends HttpServlet {
 	
 	private String getMenuAllList(JsonElement jsonElement) throws SQLException, Exception {
 		return gson.toJson(cmm0500.getMenuAllList());
+	}
+	
+	private String getMenuTree(JsonElement jsonElement) throws SQLException, Exception {
+		return gson.toJson(cmm0500.getMenuZTree());
+	}
+	
+	private String setMenuInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String cm_menucd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_menucd") );
+		String Txt_MaCode = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "Txt_MaCode")  );
+		String Txt_MaFile = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "Txt_MaFile")  );
+		String cm_micode = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "cm_micode")  );
+		return gson.toJson(cmm0500.setMenuInfo(cm_menucd, Txt_MaCode, Txt_MaFile,cm_micode));
+	}
+	
+	private String delMenuInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String cm_menucd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_menucd") );
+		return gson.toJson(cmm0500.delMenuInfo(cm_menucd));
 	}
 }

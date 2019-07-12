@@ -254,8 +254,8 @@
 						<div class="vat por">
 						    <label id="lbUser" class="title">[메뉴체계]</label><button class="btn_basic_s poa_r" id="btnFact">조회</button>
 						</div>
-						<div class="scrollBind row" style="height:550px;">
-		    				폴더구조나옵니다.
+						<div class="scrollBind row" style="height:550px; border: 1px dotted gray;">
+							<ul id="treeMenu" class="ztree"></ul>
 		    			</div>
 					</div>
 	    		</div>
