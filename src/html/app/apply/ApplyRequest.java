@@ -83,7 +83,7 @@ public class ApplyRequest extends HttpServlet {
 		String ReqCd = null;
 		ReqCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "ReqCd") );
 		
-		return gson.toJson(sysInfo.getSysInfo(UserId,"Y","SEL","N",ReqCd));
+		return gson.toJson(sysInfo.getSysInfo(UserId,"Y","SEL","n",ReqCd));
 	}
 	
 	private String getRsrcOpen(JsonElement jsonElement) throws SQLException, Exception {
