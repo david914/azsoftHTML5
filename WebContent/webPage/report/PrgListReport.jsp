@@ -55,9 +55,9 @@
 							<div class="width-50 dib" id="rangeSel" data-ax5select="rangeSel" data-ax5select-config="{}">
 							</div>
 							<div class="width-50 dib margin-10-top">
-								<label class="wLabel-left" style="width: 0px;"></label>
-								<input id="checkDetail" tabindex="8" type="checkbox" value="optCkOut" style="margin-top: 5px;" checked="checked"/>
-								<label for="radioCkOut" style="margin-top: -5px;">세부항목포함</label>
+								<label class="wLabel-left" style="width: 5px;"></label>
+								<input id="checkDetail" name="checkDetail" tabindex="8" type="checkbox" value="optCkOut" style="margin-top: 5px;" checked="checked"/>
+								<label for="radioCkOut" style="margin-top: -5px;">&nbsp;세부항목포함</label>
 							</div>
 						</div>
 						<div class="width-5 float-right margin-20-right">

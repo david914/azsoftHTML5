@@ -16,6 +16,32 @@
 label {
 	min-width: 54px;
 }
+
+.pic-wid {
+	width: 140px;
+}
+
+@media ( min-width: 1420px ) {
+	.search_field {
+		width: 1280px;
+	}
+}
+
+@media ( max-width: 1420px ) {
+	.search_field {
+		width: 93%;
+	}
+}
+
+.block1 {
+	width: calc(30% - 200px);
+	min-width: 90px;
+	margin-right: 20px;
+}
+
+.sys {
+	min-width: 140px;
+}
 </style>
 
 <div id="header"></div>
@@ -26,86 +52,73 @@ label {
 			<div class="az_in_wrap sr_status">
 				<div class="l-wrap width-100 vat">
 					<div class="row">
-						<div class="width-18 dib por">
-							<div class="width-25 dib vat">
+						<div class="dib search_field">
+							<div class="dib vat">
 	                        	<label>*조회구분</label>
 	                        </div>
-							<div id="dateStd" data-ax5select="dateStd" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-65 dib">
+							<div id="dateStd" data-ax5select="dateStd" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="block1 dib por">
 						    </div>
-						    
-						</div>
-						<div class="width-17 dib por">
-							<div class="width-20 dib vat">
+							<div class="dib vat">
 	                        	<label>*1단계</label>
 	                        </div>
-							<div id="step1" data-ax5select="step1" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 dib">
+							<div id="step1" data-ax5select="step1" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="block1 dib por">
 						    </div>
-						    
-						</div>
-						<div class="width-17 dib por">
-							<div class="width-20 dib vat">
+							<div class="dib vat">
 	                        	<label>*3단계</label>
 	                        </div>
-							<div id="step3" data-ax5select="step3" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 dib">
+							<div id="step3" data-ax5select="step3" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="block1 dib por">
 						    </div>						    
-						</div>
-						<div class="width-17 dib por">
-							<div class="width-20 dib vat">
+							<div class="dib vat">
 	                        	<label>*시스템</label>
 	                        </div>
-							<div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 dib">
+							<div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="block1 dib por sys">
 						    </div>						    
+							<div class="dib vat" style="width: 220px;">
+								<label>개발시작월</label>
+								<div id="picker1" data-ax5picker="picker1" class="az_input_group dib margin-10-left pic-wid">
+						            <input id="datStD" type="text" placeholder="yyyy/mm/dd" class="width-70 dib">
+						            <span class="btn_calendar width-25"><i class="fa fa-calendar-o"></i></span>						
+								</div>
+							</div>
 						</div>
-						<div class="width-25 dib vat" style="margin-left: 5%;">
-							<label>개발시작월</label>
-							<div id="picker1" data-ax5picker="picker1" class="az_input_group dib margin-10-left width-40">
-					            <input id="datStD" type="text" placeholder="yyyy/mm/dd" class="width-70 dib">
-					            <span class="btn_calendar width-25"><i class="fa fa-calendar-o"></i></span>						
-							</div>
-							<div class="vat dib margin-5-right float-right width-20"><!--수정-->
-								<button class="btn_basic_s" data-grid-control="excel-export" id="btnSearch">　조회　</button>
-							</div>
+						<div class="vat dib margin-5-right float-right"><!--수정-->
+							<button class="btn_basic_s" data-grid-control="excel-export" id="btnSearch">　조회　</button>
 						</div>
 					</div>
 					
 					<div class="row margin-10-bottom">
-						<div class="width-18 dib por">
-						    
-						</div>
-						<div class="width-17 dib por">
-							<div class="width-20 dib vat">
+						<div class="dib search_field">
+							<div class="dib vat"><label></label></div>
+							<div class="block1 dib por">						    
+							</div>
+							<div class="dib vat">
 	                        	<label>*2단계</label>
 	                        </div>
-							<div id="step2" data-ax5select="step2" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 dib">
-						    </div>						    
-						</div>
-						<div class="width-17 dib por">
-							<div class="width-20 dib vat">
+							<div id="step2" data-ax5select="step2" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="block1 dib por">
+							</div>
+							<div class="dib vat">
 	                        	<label>*4단계</label>
 	                        </div>
-							<div id="step4" data-ax5select="step4" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 dib">
-						    </div>						    
-						</div>
-						<div class="width-17 dib por">
-					    
-						</div>
-
-						<div class="width-25 dib vat" style="margin-left: 5%;">
-							<label>개발종료월</label>
-							<div id="picker2" data-ax5picker="picker2" class="az_input_group dib margin-10-left width-40">
-					            <input id="datEdD" type="text" placeholder="yyyy/mm/dd" class="width-70 dib">
-					            <span class="btn_calendar width-25"><i class="fa fa-calendar-o"></i></span>						
+							<div id="step4" data-ax5select="step4" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="block1 dib por">
 							</div>
-							<div class="vat dib margin-5-right float-right width-20"><!--수정-->
-								<button class="btn_basic_s" data-grid-control="excel-export" id="btnExcel">엑셀저장</button>
+							<div class="dib vat"><label></label></div>
+							<div class="block1 dib por sys">		    
 							</div>
+							<div class="dib vat" style="width: 220px;">
+								<label>개발종료월</label>
+								<div id="picker2" data-ax5picker="picker2" class="az_input_group dib margin-10-left pic-wid">
+						            <input id="datEdD" type="text" placeholder="yyyy/mm/dd" class="width-70 dib">
+						            <span class="btn_calendar width-25"><i class="fa fa-calendar-o"></i></span>						
+								</div>
+							</div>
+						</div>
+						<div class="vat dib margin-5-right float-right"><!--수정-->
+							<button class="btn_basic_s" data-grid-control="excel-export" id="btnExcel">엑셀저장</button>
 						</div>
 					</div>
-				</div>
-						
+				</div>						
 			</div>
-		</div>
-	
+		</div>	
 	</div>
 	
 	<div class="az_board_basic">

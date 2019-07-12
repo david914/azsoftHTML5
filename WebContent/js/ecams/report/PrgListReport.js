@@ -19,7 +19,7 @@ var columnData =
 
 $(document).ready(function() {
 	
-	$('input:checkBox[name=checkStd]').wCheck({theme: 'circle-classic blue', selector: 'checkmark', highlightLabel: true});
+	$('input:checkBox[name=checkDetail]').wCheck({theme: 'circle-classic blue', selector: 'checkmark', highlightLabel: true});
 	mainGrid.setConfig({
 		target : $('[data-ax5grid="mainGrid"]'),
 		showLineNumber : true,
