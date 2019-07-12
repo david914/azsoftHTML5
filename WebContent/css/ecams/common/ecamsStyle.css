@@ -932,6 +932,12 @@ ul.tabs li.active {
 .fontStyle-cncl {
 	color: #FF0000;
 }
+.f-cal {
+    width : 70%; /* 구식 브라우저를 위한 대비책(fallback) */
+    width : -webkit-calc(100% - 40px); /* for Chrome, Safari */
+    width :    -moz-calc(100% - 40px); /* for Firefox */
+    width :         calc(100% - 40px); /* for IE */
+}
 .ecams-input {
 	box-sizing: border-box;
     display: inline;
@@ -989,7 +995,7 @@ div#rMenu ul {
 * {margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box;}
 html{position: relative; height: 100%;}
 html,body{font-size: 12px; color: #333; margin: 0; padding: 0; font-family: "Malgun Gothic", "굴림", "Gulim", "Arial";}
-body{min-width: 1024px; height: 100%;}
+body{min-width: 1024px;height: 100%;}
 ul, ol, dl {list-style: none;}
 a {text-decoration: none; cursor: pointer;}
 em{font-style: normal;}
@@ -1068,7 +1074,7 @@ textarea{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
                 layout
 **********************************/
 #header{position: relative; height: 50px; background: #ddd;}
-#wrapper{position: relative; width: 1024px; min-width: 100%; min-height: 100%; /*min-height: calc(100vh - 45px);*/}
+#wrapper{position: relative;width: 1024px;min-width: 100%;min-height: 100%;/*min-height: calc(100vh - 45px);*/}
 /*#wrapper:after{content: ''; display: block; clear: both;}*/
 #wrapper .content{position: relative; margin: 10px; margin-bottom: 0;}
 #history_wrap{position: relative; font-size: 14px; line-height: 14px; font-weight: 500; color: #245490; margin-bottom: 10px;}

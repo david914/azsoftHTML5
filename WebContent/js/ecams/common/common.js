@@ -8,37 +8,10 @@
  */
 
 
-/*
- * SBUxAlert에 필요한 Option객체를 미리 정의해놨음.
- * js 파일에서 사용시  
- * 
- * 1-1.var alertObj = new Alert('this is title', 'this is text', 'info Or light' ,  ...... );
- * 1-2.SBUxMethod.openAlert(alertObj);
- * 
- * 2. SBUxMethod.openAlert(new Alert('this is title', 'this is text', 'info Or light'));
- * 
- * 위 두가지 방법중 편한방법 사용.
- * 앞에 파라미터 3개는 필수입니다. 
- */
-/*
- * 객체 대입시 참조하는 주소가 같기 때문에 객체안의 값이 같이 변경 됩니다.
- * 주소참조 없이 복사할 때 사용하세요.
- * ex)  copyArr = arr; 
- * 		 ===>  copyArr = copyReferenceNone(arr);
- * 
- */
-
-
-var toast 			= new ax5.ui.toast();
 var dialog 			= new ax5.ui.dialog({title: "확인"});
 var confirmDialog 	= new ax5.ui.dialog();	//알럿,확인창
 var mask 			= new ax5.ui.mask();
 var picker			= new ax5.ui.picker();
-toast.setConfig({
-	containerPosition: "top-right",
-	displayTime:10000
-});
-
 confirmDialog.setConfig({
     title: "선택창",
     theme: "info"
@@ -276,25 +249,13 @@ function beForAndAfterDataLoading(beForAndAfter,msg){
 	if(beForAndAfter === 'BEFORE'){
 		$('html').css({'cursor':'wait'});
 		$('body').css({'cursor':'wait'});
-		showToast(msg);
 	}
 	
 	if(beForAndAfter === 'AFTER'){
 		$('html').css({'cursor':'auto'});
 		$('body').css({'cursor':'auto'});
-		showToast(msg);
 	}
 	
-}
-
-function showToast(msg) {
-	toast.push({
-        theme: 'info',
-        icon:  '<i class="fa fa-bell"></i>',
-        msg:   msg,
-        closeIcon: '<i class="fa fa-times"></i>',
-        displayTime : 100
-    });
 }
 
 function defaultPickerInfo(dataAx5picker) {

@@ -8,41 +8,43 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div class="pop-header">
-	<div>
-		<label>[업무정보편집]</label>
-	</div>
-	<div>
-		<button type="button" class="close" aria-label="닫기" onclick="popClose()">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div> 
-</div>
-<div class="container-fluid pop_wrap">
-	<!--line1 S-->
-	<div class="row">					
-		<div class="width-30 dib vat">
-            <label class="title">업무코드</label>
+<body style="width: 100% !important; min-width: 0px !important">
+	<div class="pop-header">
+		<div>
+			<label>[업무정보편집]</label>
 		</div>
-		<div class="width-68 dib vat">
-            <label class="title">업무명</label>
+		<div>
+			<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div> 
+	</div>
+	<div class="container-fluid pop_wrap">
+		<!--line1 S-->
+		<div class="row">					
+			<div class="width-30 dib vat">
+	            <label class="title">업무코드</label>
+			</div>
+			<div class="width-68 dib vat">
+	            <label class="title">업무명</label>
+			</div>
+		</div>
+		
+		<div class="row">					
+			<div class="width-30 dib vat">
+	           <input id="txtCode" name="txtCode" class="width-100" type="text"></input>
+			</div>
+			<div class="width-68 dib vat">
+	            <input id="txtVal" name="txtVal" class="width-100" type="text"></input>
+			</div>
+		</div>
+		
+		<div class="row tar">
+			<button id="btnJobUp" class="btn_basic">적용</button>
+			<button id="btnJobUpClose" class="btn_basic margin-5-left">취소</button>
 		</div>
 	</div>
-	
-	<div class="row">					
-		<div class="width-30 dib vat">
-           <input id="txtCode" name="txtCode" class="width-100" type="text"></input>
-		</div>
-		<div class="width-68 dib vat">
-            <input id="txtVal" name="txtVal" class="width-100" type="text"></input>
-		</div>
-	</div>
-	
-	<div class="row tar">
-		<button id="btnJobUp" class="btn_basic">적용</button>
-		<button id="btnJobUpClose" class="btn_basic margin-5-left">취소</button>
-	</div>
-</div>
+</body>
 
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	

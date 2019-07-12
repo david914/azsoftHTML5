@@ -4,10 +4,10 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div id="header"></div>
 
 <!-- contener S -->
 <div id="wrapper">
+	<div id="header"></div>
     <div class="content">
         <!-- history S-->
         <div id="history_wrap">관리자 <strong>&gt; 사용자정보</strong></div>

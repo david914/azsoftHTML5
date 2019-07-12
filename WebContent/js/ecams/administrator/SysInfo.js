@@ -165,6 +165,26 @@ $(document).ready(function(){
 		}
 	});
 	
+	// 업무 엔터
+	$('#txtJobname').bind('keypress', function(event) {
+		var txtJobName = '';
+		if(event.keyCode === 13 ) {
+			jobGrid.clearSelect();
+			txtJobName = $('#txtJobname').val().trim();
+			if(txtJobName.length === 0) {
+				jobGrid.select(0);
+			} else {
+				for(var i=0; i<jobGridData.length; i++) {
+					if(jobGridData[i].cm_jobname.indexOf(txtJobName) >= 0 ) {
+						jobGrid.select(i);
+						jobGrid.focus(i);
+						break;
+					}
+				}
+			}
+		}
+	});
+	
 	// 조회 클릭시
 	$('#btnQry').bind('click', function() {
 		var strDay = getDate('DATE',0);
@@ -348,7 +368,7 @@ $(document).ready(function(){
 	// 업무등록
 	$('#btnJob').bind('click', function() {
 		jobModal.open({
-	        width: 1045,
+	        width: 800,
 	        height: 800,
 	        iframe: {
 	            method: "get",
