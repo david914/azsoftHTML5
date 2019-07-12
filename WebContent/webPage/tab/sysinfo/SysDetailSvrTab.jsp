@@ -3,137 +3,122 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
+<div class="half_wrap">
+	<!--left wrap-->
+	<div class="l_wrap width-50">
+		<div class="margin-5-right">
+			<div class="row">
+				<label class="tit_80 poa">서버종류</label>
+                <div class="ml_80">
+					<div id="cboSvr" data-ax5select="cboSvr" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+				</div>
+			</div>
+	 		<div class="row por">
+			 	<label class="tit_80 poa">서버명/OS</label>
+                <div class="ml_80">
+                	<input id="txtSvrName" class="vat width-45 dib vat" type="text"></input>
+					<div id="cboOs" data-ax5select="cboOs" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-45 dib poa_r"></div>
+				</div>
+			</div>
+		 			
+		 	<div class="row half_wrap_cb">
+		 		<label class="tit_80 poa">IP/PORT/순서</label>
+			 	<div class="ml_80 por">
+			 		<div class="l_wrap width-45">
+			 			<input id="txtSvrIp" class="width-100" type="text" />
+			 		</div>
+			 		<div class="l_wrap width-25 tar" style="margin-left: 12px;">
+						<input id="txtPort" class="width-100" type="text" />
+			 		</div>
+			 		<div class="r_wrap width-25 tar">
+						<input id="txtSeq" class="width-100" type="text" />
+			 		</div>
+			 	</div>
+			</div>
+		 			
+		 	<div class="row por">
+		 		<label class="tit_80 poa">계정/비밀번호</label>
+			 	<div class="ml_80">
+			 		<input id="txtUser" class="width-45" type="text" />
+			 		<input id="txtPass" class="width-45 poa_r" type="text" />
+			 	</div>
+			</div>
+		 			
+		 	<div class="row">
+		 		<label class="tit_80 poa">Home-Dir</label>
+			 	<div class="ml_80">
+		 			<input id="txtHome" class="width-100" type="text"></input>
+		 		</div>
+		 	</div>
+		 			
+		 	<div class="row">
+		 		<label class="tit_80 poa">Agent-Dir</label>
+			 	<div class="ml_80">
+		 			<input id="txtDir" class="width-100" type="text"></input>
+		 		</div>
+		 	</div>
 
-<div class="row">
-	<div class="col-sm-7">
-		<div class="col-sm-2">
-			<label id="lblSvr">서버종류</label>
+		 	<div class="row">
+		 		<label class="tit_80 poa">버퍼사이즈</label>
+                <div class="ml_80">
+					<div id="cboBuffer" data-ax5select="cboBuffer" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+				</div>		 		
+		 	</div>
+		 			
+			<div class="row">
+		 		<label class="tit_80 poa">동기화홈경로</label>
+		 		<div class="ml_80">
+		 			<input id="txtTmp" class="width-100" type="text"></input>
+		 		</div>
+		 	</div>
+	 		<div class="row">
+	 			<div class="l_wrap width-50">
+		 			<input type="checkbox" class="checkbox-IP" id="chkIp" data-label="IP만변경"  />
+			 		<input type="checkbox" class="checkbox-IPC" id="chkIpC" data-label="IP변경하여 복사"  />
+	 			</div>
+				<div class="r_wrap width-50">
+			 		<label id="lblAftIp" class="tit_60 poa">변경IP</label>
+			 		<div class="ml_60">
+				 		<input id="txtAftIp"class="width-100" type="text"></input>
+			 		</div>
+				</div>		 		
+	 		</div>
 		</div>
-		<div class="col-sm-10">
-			<div 	id="cboSvr" data-ax5select="cboSvr" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" >
-			</div>
-		</div>
- 			
-	 	<div class="col-sm-2">
-			<label id="lblSvrName">서버명/OS</label>
-	 	</div>
-	 	<div class="col-sm-5">
-	 		<input id="txtSvrName" name="txtSvrName" class="form-control" type="text"></input>
-	 	</div>
-	 	<div class="col-sm-5">
-	 		<div 	id="cboOs" data-ax5select="cboOs" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" >
-			</div>
-	 	</div>
-	 			
-	 	<div class="col-sm-2">
-	 		<label id="lblIp">IP/PORT/순서</label>
-	 	</div>
-	 	<div class="col-sm-5">
-	 		<input id="txtSvrIp" name="txtSvrIp" class="form-control" type="text"></input>
-	 	</div>
-	 	<div class="col-sm-3">
-	 		<input id="txtPort" name="txtPort" class="form-control" type="text"></input>
-	 	</div>
-	 	<div class="col-sm-2">
-	 		<input id="txtSeq" name="txtSeq" class="form-control" type="text"></input>
-	 	</div>
-	 			
-	 	<div class="col-sm-2">
-	 		<label id="lblUser">계정/비밀번호</label>
-	 	</div>
-	 	<div class="col-sm-5">
-	 		<input id="txtUser" name="txtTitle" class="form-control" type="text"></input>
-	 	</div>
-	 	<div class="col-sm-5">
-	 		<input id="txtPass" name="txtTitle" class="form-control" type="password"></input>
-	 	</div>
-	 			
-	 	<div class="col-sm-2">
-	 		<label id="lblHome">Home-Dir</label>
-	 	</div>
-	 	<div class="col-sm-10">
-	 		<input id="txtHome" name="txtHome" class="form-control" type="text"></input>
-	 	</div>
-	 			
-	 	<div class="col-sm-2">
-	 		<label id="lblDir">Agent-Dir</label>
-	 	</div>
-	 	<div class="col-sm-10">
-	 		<input id="txtDir" name="txtDir" class="form-control" type="text"></input>
-	 	</div>
-	 			
-	 	<div class="col-sm-2">
-	 		<label id="lblBuffer">버퍼사이즈</label>
-	 	</div>
-	 	<div class="col-sm-10">
-	 		<div 	id="cboBuffer" data-ax5select="cboBuffer" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;">
-			</div>
-	 	</div>
-	 			
-		<div class="col-sm-2">
-	 		<label id="lblTmp">동기화홈경로</label>
-	 	</div>
-		<div class="col-sm-10">
-	 		<input id="txtTmp" name="txtTmp" class="form-control" type="text"></input>
-	 	</div>
-	 	
-	 	<div class="col-sm-8">
-	 		<input type="checkbox" class="checkbox-IP" id="chkIp" data-label="IP만변경"  />
-	 		<input type="checkbox" class="checkbox-IPC" id="chkIpC" data-label="IP변경하여 복사"  />
-	 		<label id="lblAftIp">변경IP</label>
-	 		<input id="txtAftIp" name="txtDir" class="ecams-input" type="text"></input>
-	 	</div>
-	 	<div class="col-sm-4">
-	 	</div>
  	</div>
- 	<div class="col-sm-5">
- 		<div class="col-sm-7">
- 			<label id="lblSvrList">서버속성</label>
- 		</div>
- 		<div class="col-sm-5">
- 			<input type="checkbox" class="checkbox-IP" id="chkAllSvr" data-label="전체선택"  />
- 		</div>
- 		
- 		<div class="col-sm-12">
-	 		<div class="scrollBind">
-   				<ul class="list-group" id="ulSyrInfo">
-    			</ul>
-   			</div>
- 		</div>
- 		
- 		<div class="col-sm-12">
- 			<input type="checkbox" class="checkbox-IP" id="chkBase" data-label="기준서버"  />
- 			<input type="checkbox" class="checkbox-IP" id="chkErr" data-label="장애"  />
- 			<input type="checkbox" class="checkbox-IP" id="chkStop" data-label="일시정지"  />
- 		</div>
- 		
- 		<div class="col-sm-12">
- 			<button class="btn btn-default" id="btnReq">
-				등록 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-			</button>
- 			<button class="btn btn-default" id="btnUpdt">
-				수정 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-			</button>
- 			<button class="btn btn-default" id="btnCls">
-				폐기 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-			</button>
- 			<button class="btn btn-default" id="btnQry">
-				조회 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-			</button>
- 			<button class="btn btn-default" data-grid-control="excel-export" id="btnExl">
-				엑셀저장 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-			</button>
- 			<button class="btn btn-default" id="btnExit">
-				닫기 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-			</button>
- 		</div>
- 	</div>
- 	
- 	<div class="col-sm-12">
- 		<div data-ax5grid="svrInfoGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 45%;"></div>
- 	</div>
+ 	<!--right wrap-->
+ 	<div class="r_wrap width-50">
+ 		<div class="margin-5-left">
+	 		<div class="por">
+	 			<label class="title_s">[서버속성]</label> 
+	 			<div class="poa_r">
+		 			<input type="checkbox" class="checkbox-IP" id="chkAllSvr" data-label="전체선택"  />
+	 			</div>
+	 		</div>
+	 		<div class="scrollBind row" style="height:221px;">
+				<ul class="list-group" id="ulSyrInfo"></ul>
+			</div>
+	 		<div class="tar">
+	 			<input type="checkbox" class="checkbox-IP" id="chkBase" data-label="기준서버"  />
+	 			<input type="checkbox" class="checkbox-IP" id="chkErr" data-label="장애"  />
+	 			<input type="checkbox" class="checkbox-IP" id="chkStop" data-label="일시정지"  />
+	 		</div>
+	 		<div class="row tar">
+				<button id="btnReq" class="btn_basic_s">등록</button>
+				<button id="btnUpdt" class="btn_basic_s margin-5-left">수정</button>
+				<button id="btnCls" class="btn_basic_s margin-5-left">폐기</button>
+				<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
+				<button id="btnExl" class="btn_basic_s margin-5-left">엑셀저장</button>
+				<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
+	 		</div>
+	 	</div>
+	</div>
 </div>
-
+<!--테이블 S-->
+<div class="scroll_x row">
+	<div class="az_board_basic" style="height: 45%;">
+		<div data-ax5grid="svrInfoGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+	</div>
+</div>
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/sysinfo/SysDetailSvrTab.js"/>"></script>
 

@@ -398,7 +398,7 @@ $(document).ready(function(){
 		selectedSystem = sysInfoGrid.list[gridSelectedIndex];
 		sysDetailModal.open({
 	        width: 1200,
-	        height: 600,
+	        height: 800,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/sysinfo/SysDetailModal.jsp",

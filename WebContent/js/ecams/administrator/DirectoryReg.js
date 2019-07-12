@@ -399,7 +399,7 @@ function makePrgInfoUlList() {
 	ulPrgInfoData.forEach(function(prgItem, sysInfoIndex) {
 		addId = prgItem.cm_micode;
 		liStr  = '';
-		liStr += '<li class="list-group-item">';
+		liStr += '<li class="list-group-item dib width-33" style="min-width: 180px;">';
 		liStr += '	<input type="checkbox" class="checkbox-prg" id="chkPrg'+addId+'" data-label="'+prgItem.cm_codename+'"  value="'+addId+'" />';
 		liStr += '</li>';
 		$('#ulPrgInfo').append(liStr);

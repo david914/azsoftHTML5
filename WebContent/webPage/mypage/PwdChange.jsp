@@ -10,9 +10,9 @@
 	String winPopSw = StringHelper.evl(request.getParameter("winPopSw"),"");
 %>
 
-<div id="header"></div>
 
 <div id="wrapper">
+	<div id="header"></div>
     <div class="content">    	
 	    <div id="history_wrap">기본관리 <strong>&gt; 비밀번호변경</strong></div>
 		<div class="padding-40-top">

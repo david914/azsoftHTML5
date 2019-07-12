@@ -4,10 +4,9 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<!-- Header -->
-<div id="header"></div>
-
 <div id="wrapper">
+	<!-- Header -->
+	<div id="header"></div>
 	<div class="content">    	
 		<div id="history_wrap">결재확인<strong>&gt; 결재현황</strong></div>
 		

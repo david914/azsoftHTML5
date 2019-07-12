@@ -72,19 +72,19 @@ svrInfoGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "서버구분",		width: 120 },
-        {key: "cm_svrname", 	label: "서버명",  	width: 120 },
-        {key: "sysos", 			label: "OS",  		width: 80 , align: "center"},
-        {key: "cm_svrip", 		label: "IP Address",width: 120 },
-        {key: "cm_portno", 		label: "Port",  	width: 80, 	align: "center"},
-        {key: "cm_prcseq", 		label: "순서",  		width: 80, 	align: "center"},
-        {key: "cm_svrusr", 		label: "계정",  		width: 80, 	align: "center"},
-        {key: "cm_volpath", 	label: "Home_Dir",  width: 150 },
-        {key: "cm_dir", 		label: "Agent_Dir", width: 130 },
-        {key: "ab", 			label: "버퍼사이즈", 	width: 80  },
-        {key: "svrinfo", 		label: "속성",  		width: 150, align: "center"},
-        {key: "agent", 			label: "장애",  		width: 80, 	align: "center"},
-        {key: "svrstop", 		label: "정지",  		width: 80, 	align: "center"}
+        {key: "cm_codename", 	label: "서버구분",		width: 120 , align: "left"},
+        {key: "cm_svrname", 	label: "서버명",  	width: 120 , align: "left"},
+        {key: "sysos", 			label: "OS",  		width: 80},
+        {key: "cm_svrip", 		label: "IP Address",width: 120},
+        {key: "cm_portno", 		label: "Port",  	width: 80},
+        {key: "cm_prcseq", 		label: "순서",  		width: 80},
+        {key: "cm_svrusr", 		label: "계정",  		width: 80},
+        {key: "cm_volpath", 	label: "Home_Dir",  width: 150, align: "left" },
+        {key: "cm_dir", 		label: "Agent_Dir", width: 130, align: "left" },
+        {key: "ab", 			label: "버퍼사이즈", 	width: 80 , align: "left" },
+        {key: "svrinfo", 		label: "속성",  		width: 150, align: "left"},
+        {key: "agent", 			label: "장애",  		width: 80},
+        {key: "svrstop", 		label: "정지",  		width: 80}
     ]
 });
 $('input.checkbox-IP').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});

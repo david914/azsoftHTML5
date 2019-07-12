@@ -3,10 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
-<!-- Header -->
-<div id="header"></div>
 
 <div id="wrapper">
+	<!-- Header -->
+	<div id="header"></div>
     <div class="content">    	
         <!-- history S-->
         <div id="history_wrap">관리자<strong>&gt; 프로퍼티관리</strong></div>

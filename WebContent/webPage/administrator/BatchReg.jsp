@@ -3,10 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
-<!-- Header -->
-<div id="header"></div>
 
 <div id="wrapper">
+	<!-- Header -->
+	<div id="header"></div>
 	<div class="content">    	
 		<div id="history_wrap">관리자<strong>&gt; 일괄등록</strong></div>
 		     
@@ -84,7 +84,7 @@
 		
 		<div class="row vat">
 			<div class="width-100 dib">
-				<div class="az_board_basic" style="height: 80%;">
+				<div class="az_board_basic" style="height: 75%;">
 					<div data-ax5grid="batchGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 				</div>
 			</div>

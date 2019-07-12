@@ -50,9 +50,9 @@ dirGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "디렉토리구분", width: 100 	},
-        {key: "cm_dirpath", 	label: "디렉토리",  	width: 220	},
-        {key: "cm_shell", 		label: "실행파일",  	width: 80 	},
+        {key: "cm_codename", 	label: "디렉토리구분", width: 100 , align: "left"	},
+        {key: "cm_dirpath", 	label: "디렉토리",  	width: 220, align: "left"	},
+        {key: "cm_shell", 		label: "실행파일",  	width: 80 , align: "left"	},
         {key: "cm_svrip", 		label: "서버IP",  	width: 120, align: "center"},
         {key: "cm_port", 		label: "Port",  	width: 70, 	align: "center"},
         {key: "cm_svrusr", 		label: "계정",  		width: 70, 	align: "center"},

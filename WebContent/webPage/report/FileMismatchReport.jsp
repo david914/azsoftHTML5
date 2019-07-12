@@ -3,10 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
-<!-- Header -->
-<div id="header"></div>
 
 <div id="wrapper">
+	<!-- Header -->
+	<div id="header"></div>
 	<div class="content">    	
 		<div id="history_wrap">보고서<strong>&gt; 파일대사불일치현황</strong></div>
 		     

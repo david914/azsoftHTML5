@@ -46,7 +46,7 @@ svrUsrGrid.setConfig({
         columnHeight: 30
     },
     body: {
-        columnHeight: 20,
+        columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
         },
@@ -57,10 +57,10 @@ svrUsrGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", label: "서버종류",  width: 120 },
-        {key: "cm_svrname", label: "서버명/OS",  width: 120},
-        {key: "cm_svrip", label: "IP Address",  width: 120},
-        {key: "cm_portno", label: "Port",  width: 80, align: "center"}
+        {key: "cm_codename", 	label: "서버종류",  		width: 120},
+        {key: "cm_svrname", 	label: "서버명/OS",  		width: 120},
+        {key: "cm_svrip", 		label: "IP Address",  	width: 120},
+        {key: "cm_portno", 		label: "Port",  		width: 80 }
     ]
 });
 
@@ -74,7 +74,7 @@ accGrid.setConfig({
         columnHeight: 30
     },
     body: {
-        columnHeight: 20,
+        columnHeight: 25,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);

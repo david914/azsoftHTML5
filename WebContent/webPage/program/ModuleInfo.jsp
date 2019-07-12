@@ -3,32 +3,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
-<!-- Header -->
-<div id="header"></div>
 
 <div id="wrapper">
+	<!-- Header -->
+	<div id="header"></div>
     <div class="content">    	
         <!-- history S-->
         <div id="history_wrap">관리자<strong>&gt; 실행모듈정보</strong></div>
         <!-- history E-->    
         
         <div class="half_wrap">
-			<div class="l_wrap dib width-50 vat"><!--ver2-->
+			<div class="l_wrap width-50"><!--ver2-->
 				<label class="width-30">[프로그램목록]</label>
 				<label class="width-10">프로그램종류</label>
 				<div class="width-45 dib">
 					<div id="cboRsrc" data-ax5select="cboRsrc" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
 				</div>
-				<div class="width-10 dib vat margin-5-top">
+				<div class="width-10 dib vat">
 					<input type="checkbox" class="checkbox-module" id="chkNoPrg" data-label="미연결건"/>
 				</div>
 			</div>
 			
-			<div class="r_wrap dib width-50 vat"><!--ver2-->
+			<div class="r_wrap width-50"><!--ver2-->
 				<label class="width-100">[맵핑프로그램목록]</label>
 			</div>
 			
-			<div class="l_wrap dib width-50 vat"><!--ver2-->
+			<div class="width-50"><!--ver2-->
 				<label class="width-7">시스템</label>
 				<div class="width-23 dib">
 					<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
@@ -38,15 +38,14 @@
 				<button id="btnQryPrg" name="btnQryPrg" class="width-5 btn_basic_s" style="cursor: pointer;">적용</button>
 			</div>
 			
-			<div class="r_wrap dib width-50 vat"><!--ver2-->
+			<div class="r_wrap width-50"><!--ver2-->
 				<label class="width-9">프로그램명</label>
 				<input id="txtMod" name="txtMod" type="text" class="width-50">
 				<button id="btnQryMod" name="btnQryMod" class="width-5 btn_basic_s" style="cursor: pointer;">검색</button>
-				<div class="width-10 dib float-right margin-5-top">
+				<div class="width-10 dib float-right">
 					<input type="checkbox" class="checkbox-module" id="chkNoMod" data-label="미연결건"/>
 				</div>
 			</div>
-		
 		</div>
 
 		<div class="l_wrap dib width-50 vat"><!--ver2-->
@@ -67,7 +66,7 @@
 					<div class="vat dib">
 						<label class="dib">[연관등록목록]</label>
 					</div>
-					<div class="dib margin-5-top">
+					<div class="dib">
 						<input id="optAll"  type="radio" name="radio" value="all"/>
 						<label for="optAll">전체</label>
 						<input id="optPrg" type="radio" name="radio" value="prg"/>

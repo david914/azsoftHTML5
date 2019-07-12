@@ -4,11 +4,8 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-
-<div id="header"></div>
-
-
 <div id="wrapper">
+	<div id="header"></div>
     <div class="content">    	
 	    <div id="history_wrap">관리자 <strong>&gt; 휴일정보</strong></div>
 		<div class="padding-40-top">

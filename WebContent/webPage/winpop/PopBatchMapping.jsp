@@ -43,7 +43,7 @@
 			</div>
 		</div>
 	        
-		<div class="az_board_basic margin-10-top" style="height: 85%;">
+		<div class="az_board_basic margin-10-top" style="height: 80%;">
 			<div data-ax5grid="mapGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 		</div>
 	</div>

@@ -9,8 +9,7 @@
 	String userId = StringHelper.evl(request.getParameter("user"),"");
 	String acptNo = StringHelper.evl(request.getParameter("acptno"),"");
 %>
-
-<div id="wrapper">
+<body style="width: 100% !important; min-width: 0px !important">
 	<div class="content">    	
 		<div id="history_wrap">공통<strong>&gt; 결재정보</strong></div>
 		     
@@ -34,7 +33,7 @@
 		</div>
 		<div class="row vat">
 			<div class="width-100 dib">
-				<div class="az_board_basic" style="height: 45%;">
+				<div class="az_board_basic" style="height: 60%;">
 					<div data-ax5grid="approvalGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 				</div>
 			</div>
@@ -58,7 +57,7 @@
 					<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 				</div>
 			</div>
-			<div class="width-23 dib vat">
+			<div class="width-23 dib vat margin-10-bottom">
 				<div class="vat dib" style="float: right;">
 					<button class="btn_basic_s" id="btnUpdate">수정</button>
 					<button class="btn_basic_s" id="btnClose">닫기</button>
@@ -67,7 +66,7 @@
 		</div>
 		
 	</div> 
-</div>
+</body>
 
 <input type="hidden" id="userId" name="userId" 	value="<%=userId%>"/>
 <input type="hidden" id="acptNo" name="acptNo"  value="<%=acptNo%>"/>

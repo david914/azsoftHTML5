@@ -56,10 +56,10 @@ svrItemGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "서버종류",  		width: 120},
-        {key: "cm_svrname", 	label: "서버명",  		width: 120},
-        {key: "cm_svrip", 		label: "IP Address",  	width: 250},
-        {key: "cm_portno", 		label: "Port",  		width: 120, align: "center"}
+        {key: "cm_codename", 	label: "서버종류",  		width: '20%'},
+        {key: "cm_svrname", 	label: "서버명",  		width: '20%'},
+        {key: "cm_svrip", 		label: "IP Address",  	width: '50%', align: "left"},
+        {key: "cm_portno", 		label: "Port",  		width: '10%'}
     ]
 });
 
@@ -249,7 +249,7 @@ function successGetUlItemInfo(data) {
 		value = item.cm_codename;
 		addId = item.cm_micode;
 		liStr  = '';
-		liStr += '<li class="list-group-item">';
+		liStr += '<li class="list-group-item dib width-50" style="min-width: 50px;">';
 		liStr += '	<input type="checkbox" class="checkbox-prginfo" id="chkPrg'+addId+'" data-label="'+value+'"  value="'+addId+'" />';
 		liStr += '</li>';
 		$('#ulItemInfo').append(liStr);

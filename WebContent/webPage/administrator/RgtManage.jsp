@@ -4,9 +4,8 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div id="header"></div>
-
 <div id="wrapper">
+	<div id="header"></div>
     <div class="content">
         <div id="history_wrap">관리자 <strong>&gt; 권한관리</strong></div>
 		

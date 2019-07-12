@@ -4,9 +4,9 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div id="header"></div>
 
 <div id="wrapper">
+	<div id="header"></div>
 	<div class="content">    	
 		<div id="history_wrap">관리자<strong>&gt; 파일대사환경설정</strong></div>
 		<div class="half_wrap margin-10-top">

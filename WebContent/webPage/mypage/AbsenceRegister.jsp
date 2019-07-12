@@ -4,10 +4,10 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<!-- Header -->
-<div id="header"></div>
 
 <div id="wrapper">
+	<!-- Header -->
+	<div id="header"></div>
     <div class="content">
         <div id="history_wrap">기본관리 <strong>&gt; 부재등록</strong></div>
         
