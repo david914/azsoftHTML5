@@ -60,6 +60,12 @@ $(document).ready(function(){
 	userId = "MASTER";
 	
 	//tab메뉴
+
+	$('#tab1Li').width($('#tab1Li').width()+10);
+	$('#tab2Li').width($('#tab2Li').width()+10);
+	
+	setTabMenu();
+	
 	$('#tabProgBase').width($('#tabProgBase').width()+10);
 	$('#tabProgHistory').width($('#tabProgHistory').width()+10);
 	$("#tabProgBase").show(); //기본정보
@@ -77,6 +83,19 @@ $(document).ready(function(){
 	clickTabMenu();
 	getSysInfo();
 });
+
+function setTabMenu(){
+	$(".tab_content:first").show();
+	
+	$("ul.tabUl li").click(function () {
+		$(".tab_content").hide();
+		var activeTab = $(this).attr("rel");
+		$("ul.tabUl li").removeClass('on');
+		$(this).addClass("on");
+		$("#" + activeTab + " iframe").attr('src', $("#" + activeTab + " iframe").attr('src'));
+		$("#" + activeTab).fadeIn();
+	});
+}
 //탭메뉴 클릭 이벤트
 function clickTabMenu() {
 	$("ul.tabs li").click(function () {
@@ -111,6 +130,12 @@ function screenInit() {
 } 
 function screenInit_prog(gbn) {
 	
+	$("#tab1").unbind("click");
+	$("#tab2").unbind("click");
+	
+	if (gbn == 'S') {
+		$("#tab1").bind("click", clickTabMenu());
+    }
 	tmpTab1 = $('#frmProgBase').get(0).contentWindow;
 	tmpTab2 = $('#frmProgHistory').get(0).contentWindow;
 	

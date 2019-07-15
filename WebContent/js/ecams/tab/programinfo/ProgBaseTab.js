@@ -20,6 +20,8 @@ var tmpInfoData = new Object();
 
 $(document).ready(function(){	
 	
+	reSize();
+	
 	//업무
 	$('#cboJob').bind('change', function() {
 		cboJob_Change();
@@ -55,7 +57,12 @@ $(document).ready(function(){
 		btnClose_Click();
 	});
 });
-
+function reSize() {
+	console.log("job width="+$("#divJobTxt").width());
+	console.log("story="+$("#txtStory").width());
+	console.log("job left="+$("#divJobTxt").left);
+	$("#divJobTxt").width($("#txtStory").width()-$("#divJobTxt").left());
+}
 function screenInit(gbn) {	
 	if(gbn == 'M') {
 		$('[data-ax5select="cboJob"]').ax5select({
@@ -65,15 +72,20 @@ function screenInit(gbn) {
 		$('[data-ax5select="cboRsrcCd"]').ax5select({
 	        options: []
 		});
-		$('#divPrgCbo').css('display', 'none');
-		$('#divPrgTxt').css('display', 'block');
-	}
-	
-	if(gbn == 'S') {
-		$('#divPrgCbo').css('display', 'block');
-		$('#divPrgTxt').css('display', 'none');
 	}
 
+	$('#divPrgCbo').css('display', 'none');
+	$('#divPrgTxt').css('display', 'block');
+	
+	$('#divJobCbo').css('display', 'none');
+	$('#divJobTxt').css('display', 'block');
+	
+	$('#divSRCbo').css('display', 'none');
+	$('#divSRTxt').css('display', 'block');
+	
+	$('#divDirCbo').css('display', 'none');
+	$('#divDirTxt').css('display', 'block');
+	
 	$('#txtSysMsg').val('');
 	$('#txtProgId').val('');
 	$('#txtProgSta').val('');
@@ -113,10 +125,7 @@ function screenInit(gbn) {
 		$('[data-ax5select="cboRsrcCd"]').ax5select('setValue', 	'0', 	true); 	// 프로그램유형 초기화
 	}
 	
-	$('#cboSR').prop('disabled', true);
-	$('#cboRsrcCd').prop('disabled', true);
 	$('#cboEditor').prop('disabled', true);
-	$('#cboDir').prop('disabled', true);
 }
 
 function setTabMenu(){
@@ -223,10 +232,10 @@ function successProgInfo(data,selectedGrid) {
 		strInfo = selectedGridItem.cm_info;
 		$('#txtSysMsg').val(selectedGridItem.cm_sysmsg);
 		$('#txtJawon').val(progInfoData[0].RsrcName);
-		$('#txtProgId').val(progInfoData[0].cr_rsrcname);
-		$('#txtProgSta').val(progInfoData[0].sta);
+		$('#txtProgId').val(selectedGridItem.cr_rsrcname);
+		$('#txtProgSta').val(selectedGridItem.sta);
 		$('#txtStory').val(progInfoData[0].Lbl_ProgName);
-		$('#txtDir').val(progInfoData[0].cm_dirpath);
+		$('#txtDir').val(selectedGridItem.cm_dirpath);
 		$('#txtCreator').val(progInfoData[0].Lbl_Creator);
 		$('#txtEditor').val(progInfoData[0].Lbl_Editor);
 		$('#txtCreatDt').val(progInfoData[0].Lbl_CreatDt);
@@ -242,26 +251,28 @@ function successProgInfo(data,selectedGrid) {
 		
 		$('[data-ax5select="cboJob"]').ax5select('setValue',progInfoData[0].WkJobCd,true);
 		$('[data-ax5select="cboRsrcCd"]').ax5select('setValue',progInfoData[0].WkRsrcCd,true);
+		
 		if (progInfoData[0].cr_isrid != null && progInfoData[0].cr_isrid != '') {
 			$('#txtSRID').val(progInfoData[0].cr_isrid); 
-			$('[data-ax5select="cboSR"]').ax5select('setValue',progInfoData[0].cr_isrid,true);
+			
 			if (progInfoData[0].WkSta == '3' && progInfoData[0].WkSecu == 'true') {
-				$('#cboSR').prop('disabled', false);
-			}
+				$('[data-ax5select="cboSR"]').ax5select('setValue',progInfoData[0].cr_isrid,true);
+				
+				$('#divSRCbo').css('display', 'block');
+				$('#divSRTxt').css('display', 'none');
+			} 
 		}
 		if (progInfoData[0].WkSecu == 'true' || adminYN) {
-			$('#cboRsrcCd').prop('disabled', false);
-			$('#cboDir').prop('disabled', false);
 			$('#cboEditor').prop('disabled', false);
 						
-			$('#txtDir').css('disploy','none');
-			$('#cboDir').css('disploy','block');
+			$('#divPrgCbo').css('display', 'block');
+			$('#divPrgTxt').css('display', 'none');
 			
-			$('#txtRsrcCd').css('disploy','none');
-			$('#cboRsrcCd').css('disploy','block');
+			$('#divJobCbo').css('display', 'block');
+			$('#divJobTxt').css('display', 'none');
 			
-			$('#txtJob').css('disploy','none');
-			$('#cboJob').css('disploy','block');
+			$('#divDirCbo').css('display', 'block');
+			$('#divDirTxt').css('display', 'none');
 			
 			getDirList(progInfoData[0].wkRsrcCd);
 			getEditorList(progInfoData[0].cr_editor);
@@ -284,16 +295,7 @@ function successProgInfo(data,selectedGrid) {
 			}
 			if (Number(progInfoData[0].WkVer) > 1) $('#btnDiff').prop('disabled', false);        //소스비교버튼 활성화
 			if (Number(progInfoData[0].WkVer) > 0) $('#btnView').prop('disabled', false);       //소스보기버튼 활성화
-		} else {			
-			$('#txtDir').css('disploy','block');
-			$('#cboDir').css('disploy','none');
-			
-			$('#txtRsrcCd').css('disploy','block');
-			$('#cboRsrcCd').css('disploy','none');
-			
-			$('#txtJob').css('disploy','block');
-			$('#cboJob').css('disploy','none');
-		}
+		} 
 	}
 }
 

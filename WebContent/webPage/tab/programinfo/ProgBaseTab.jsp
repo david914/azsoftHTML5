@@ -10,9 +10,9 @@
 
 <c:import url="/webPage/common/common.jsp" />
 <!-- contener S -->
-<div id="wrapper">
+<div id="wrapper" style="height:100%">
 	<!-- 하단 입력 S-->
-	<div class="row">
+	<div class="margin-5-top">
 	    <!-- 시스템 -->
         <div class="width-33 dib vat">
             <label id="lbSysMsg" class="tit_80 poa">시스템</label>
@@ -33,12 +33,15 @@
 	    <!-- 업무  -->
         <div class="width-33 dib vat">
             <label id="lbJob" class="tit_80 poa">업무</label>
-            <div class="ml_80">
+            <div class="ml_80" id="divJobTxt">
+				<input id="txtJob" name="txtRsrcCd" type="text" class="width-80">
+			</div>
+            <div class="ml_80" id="divJobCbo">
 				<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" style="" class="width-80 dib"></div>
 			</div>
 		</div>				
 	</div>
-	<div class="row">
+	<div class="margin-5-top">
 	    <!-- 프로그램명 -->
         <div class="width-33 dib vat">
             <label id="lbProgId" class="tit_80 poa">프로그램명</label>
@@ -56,28 +59,32 @@
 	    <!-- SR-ID -->
         <div class="width-33 dib vat">
             <label id="lbSRID" class="tit_80 poa">SR-ID</label>
-            <div class="ml_80">
-				<input id="txtSR" name="txtSR" type="text" class="width-20 dib" >
-			    <div id="cboSR" data-ax5select="cboSR" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-45 dib"></div>
+            <div class="ml_80" id="divSRTxt">
+				<input id="txtSR" name="txtSR" type="text" class="width-80 dib" >
+			</div>
+            <div class="ml_80" id="divSRCbo">
+			    <div id="cboSR" data-ax5select="cboSR" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib"></div>
 			</div>
 		</div>		
 	</div>
-	<div class="row">
+	<div class="margin-5-top">
 	    <!-- 프로그램설명 -->
         <label id="lbStory" class="tit_80 poa">프로그램설명</label>
         <div class="ml_80">
-			<input id="txtStory" name="txtStory" type="text" class="width-90">
+			<input id="txtStory" name="txtStory" type="text" class="width-100">
 		</div>
 	</div>			
-	<div class="row por">
+	<div class="margin-5-top por">
         <label id="lbDir" class="tit_80 poa">프로그램경로</label>
-        <div class="ml_80">
-			<input id="txtDir" name="txtDir" type="text" class="width-90">
+        <div class="ml_80" id="divDirTxt">
+			<input id="txtDir" name="txtDir" type="text" class="width-100">
+		</div>
+        <div class="ml_80" id="divDirCbo">
+		    <div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
 		</div>
 		<!-- <button class="btn_basic_s margin-5-left margin-10-right poa_r" data-grid-control="excel-export">경로복사</button>-->
 	</div>
-	<div class="row"></div>
-	<div class="row">
+	<div class="margin-5-top">
 		<div class="half_wrap_cb">
 			<!--left-->
 			<div class="l_wrap width-40">
@@ -110,7 +117,7 @@
 	                <div class="width-50 dib vat">
 	                    <label id="lbLastDt" class="tit_80 poa">최종변경일</label>
 	                    <div class="ml_80">
-							<input id="txtLastDt" name="txtLastDt" type="text" class="width-40">
+							<input id="txtLastDt" name="txtLastDt" type="text" class="width-70">
 						</div>
 					</div>
 				</div>						
@@ -124,10 +131,10 @@
 			                <div class="dib vat">
 			                    <label id="lbLastEditor" class="tit_80 poa">변경인</label>
 			                    <div class="ml_80">
-									<label class="title_s">체크인</label><input id="txtCkInEditor" name="txtCkInEditor" type="text" class="width-20">
-									<label class="title_s">개발</label><input id="txtDevEditor" name="txtDevEditor" type="text" class="width-20">
-									<label class="title_s">테스트</label><input id="txtTestEditor" name="txtTestEditor" type="text" class="width-20">
-									<label class="title_s">운영</label><input id="txtRealEditor" name="txtRealEditor" type="text" class="width-20">
+									<label class="title_s">체크인</label><input id="txtCkInEditor" name="txtCkInEditor" type="text" class="width-15">
+									<label class="title_s">개발</label><input id="txtDevEditor" name="txtDevEditor" type="text" class="width-15">
+									<label class="title_s">테스트</label><input id="txtTestEditor" name="txtTestEditor" type="text" class="width-15">
+									<label class="title_s">운영</label><input id="txtRealEditor" name="txtRealEditor" type="text" class="width-15">
 								</div>
 							</div>
 						</div>						
@@ -136,10 +143,10 @@
 			                <div class="dib vat">
 			                    <label id="lbLastDate" class="tit_80 poa">변경일</label>
 			                    <div class="ml_80">
-									<label class="title_s">체크인</label><input id="txtCkInLastDt" name="txtCkInLastDt" type="text" class="width-20">
-									<label class="title_s">개발</label><input id="txtDevLastDt" name="txtDevLastDt" type="text" class="width-20">
-									<label class="title_s">테스트</label><input id="txtTestLastDt" name="txtTestLastDt" type="text" class="width-20">
-									<label class="title_s">운영</label><input id="txtRealLastDt" name="txtRealLastDt" type="text" class="width-20">
+									<input id="txtCkInLastDt" name="txtCkInLastDt" type="text" class="width-25">
+									<input id="txtDevLastDt" name="txtDevLastDt" type="text" class="width-25">
+									<input id="txtTestLastDt" name="txtTestLastDt" type="text" class="width-25">
+									<input id="txtRealLastDt" name="txtRealLastDt" type="text" class="width-25">
 								</div>
 							</div>
 						</div>

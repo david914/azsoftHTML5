@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<button id="btnQry" name="btnQry" class="btn_basic_s margin-5-left margin-10-right poa_r" data-grid-control="excel-export">조회</button>
-				<div class="row">
+				<div class="margin-5-top">
 				    <!-- 프로그램경로 -->
                     <div class="vat">
                         <label id="lbDirPath" class="tit_80 poa">프로그램경로</label>
@@ -47,7 +47,7 @@
 		</div>
 	    <!-- 검색 E-->
 	    <!-- 게시판 S-->
-	    <div class="az_board_basic" style="height:60%;">
+	    <div class="az_board_basic" style="height:50%;">
 	    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 		</div>	
 		<!-- 게시판 E -->
@@ -55,20 +55,21 @@
 		<div class="half_wrap margin-10-top">
 			<!-- tab_기본정보 S-->
 			<div class="tab_wrap">
-				<ul>
-					<li rel="tabProgBase" id="tab1Li">기본정보</li><li rel="tabHistory" id="tab2Li" class="on">변경내역</li>
+				<ul class="tabUl">
+					<li rel="tab1" id="tab1Li" class="on">기본정보</li>
+					<li rel="tab2" id="tab2Li">변경내역</li>
 				</ul>
 			</div>
 			<!-- tab E-->			
-			<div class="half_wrap margin-10-top" style="height:50%"> <!--  tab_container -->
+			<div style="height:30%"> <!--  tab_container -->
 		       	<!-- 프로그램기본정보 -->
-		       	<div id="tabProgBase" class="tab_content mask_wrap" style="width:100%">
+		       	<div id="tab1" class="tab_content" style="width:100%">
 		       		<iframe id="frmProgBase" name="frmProgBase" src='/webPage/tab/programinfo/ProgBaseTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- 프로그램기본정보  END -->
 		       	
 		       	<!-- 변경내역 START -->
-		       	<div id="tabProgHistory" class="tab_content" style="width:100%">
+		       	<div id="tab2" class="tab_content" style="width:100%">
 		       		<iframe id="frmProgHistory" name="frmProgHistory" src='/webPage/tab/programinfo/ProgHistoryTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- 변경내역 END -->
