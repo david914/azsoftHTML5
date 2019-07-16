@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+<div class="pop-header">
+	<div>
+		<label id="lbSub">시스템정보복사</label>
+	</div>
+	<div>
+		<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div> 
+</div>
+<div class="container-fluid pop_wrap">
+	<!--line1-->
+	<div>
+		<label id="lblSvr" class="tit_80 poa">시스템[from]</label>
+        <div class="ml_80">
+			<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-70 dib">
+				<select tabindex="-1" class="form-control input-sm" name="cboUser">
+					<option value="" selected="selected">프로젝트팀</option>
+					<option value="">전체</option>
+					<option value="">연구개발팀</option>
+					<option value="">영업팀</option>
+					<option value="">프로젝트팀</option>							
+				</select>
+				<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+                    <div class="ax5select-display-table" data-els="display-table">
+                        <div data-ax5select-display="label">프로젝트팀</div>
+                        <div data-ax5select-display="addon"> 
+                            <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+                            <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+                        </div>
+                    </div>
+                    <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+                </a>
+		    </div>
+            <span class="dib vat margin-5-top margin-5-left">시스템속성은 선택한 내용 그대로 복사됩니다.</span>
+		</div>
+	</div>
+	<!--line2-->					
+	<div class="row half_wrap_cb">
+		<!--left wrap-->
+		<div class="l_wrap width-70">
+			<div class="l_wrap width-50">
+				<div class="margin-5-right">
+					<div class="por">
+						<label id="lblSvrUsr" class="title_s">시스템-TO</label>
+						<label class="poa_r"><input type="checkbox" class="checkbox-usr" id="chkAllSvrJob" data-label="전체선택" />전체선택</label>
+					</div>
+					<div class="scrollBind row" style="height: 195px;">
+		   				<ul class="list-group" id="ulSvrInfo">
+		    			</ul>
+		   			</div>
+				</div>
+			</div>
+			<div class="r_wrap width-50">
+				<div class="margin-5-left">
+					<div class="por">
+						<label id="lblSvrUsr" class="title_s">시스템속성</label>
+						<div class="poa_r">
+							<label><input type="checkbox" class="checkbox-usr" id="chkAllSvrJob" data-label="전체선택" />복사</label>
+							<label><input type="checkbox" class="checkbox-usr" id="chkAllSvrJob" data-label="전체선택" />전체선택</label>
+						</div>
+					</div>
+					<div class="scrollBind row" style="height: 195px;">
+		   				<ul class="list-group" id="ulSvrInfo">
+		    			</ul>
+		   			</div>
+		   		</div>
+			</div>
+	 	</div>
+	 	<!--right wrap-->
+	 	<div class="r_wrap width-30">
+	 		<div class="margin-10-left">
+				<div class="por">
+					<label id="lblSvrUsr" class="title_s">프로그램종류</label>
+					<div class="poa_r">
+						<label><input type="checkbox" class="checkbox-usr" id="chkAllSvrJob" data-label="전체선택" />전체선택</label>
+					</div>
+				</div>
+				<div class="scrollBind row" style="height: 195px;">
+	   				<ul class="list-group" id="ulSvrInfo">
+	    			</ul>
+	   			</div>
+			</div>
+		</div>
+	</div>
+	<!--line3-->
+	<div class="row half_wrap_cb">
+		<!--left-->
+		<div class="l_wrap width-50">
+			<div class="margin-5-right">
+				<div class="width-100 dib vat">
+                    <label id="lbUser" class="title">시스템상세정보</label>
+                    <label class="poa_r"><input type="checkbox" class="checkbox-usr" id="chkAllSvrJob" data-label="전체선택" />전체선택</label>
+				</div>				
+				<div class="row">
+					<div class="az_board_basic az_board_basic_in">
+				    	<table>
+					    	<colgroup>
+					    		<col width="5%"><col width="*"><col width="20%"><col width="20%">
+					    	</colgroup>
+				    		<tbody>
+				    		<tr>
+				    			<th scope="col"></th>
+				    			<th scope="col">서버종류</th>
+				    			<th scope="col">서버명</th>
+				    			<th scope="col">IP Address</th>
+				    		</tr>
+				    		<tr>
+				    			<td>1</td>
+				    			<td></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>2</td>
+				    			<td></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>3</td>
+				    			<td></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>4</td>
+				    			<td></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>5</td>
+				    			<td></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		</tbody>
+				    	</table>	
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--right-->
+		<div class="r_wrap width-50">
+			<div class="margin-5-right">
+				<div class="width-100 dib vat">
+                    <label id="lbUser" class="title">공통디렉토리</label>
+                    <label class="poa_r"><input type="checkbox" class="checkbox-usr" id="chkAllSvrJob" data-label="전체선택" />전체선택</label>
+				</div>				
+				<div class="row">
+					<div class="az_board_basic az_board_basic_in">
+				    	<table>
+					    	<colgroup>
+					    		<col width="5%"><col width="*"><col width="20%">
+					    	</colgroup>
+				    		<tbody>
+				    		<tr>
+				    			<th scope="col">NO</th>
+				    			<th scope="col">구분</th>
+				    			<th scope="col">디렉토리</th>
+				    		</tr>
+				    		<tr>
+				    			<td>1</td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>2</td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>3</td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>4</td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>5</td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		</tbody>
+				    	</table>	
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+	<!--line4-->	
+	<div class="row">
+		<label><input type="checkbox" class="checkbox-usr" id="chkAllSvrJob" data-label="전체선택" />선택한 서버에 대한 형상항목 연결정보도 복사합니다.</label>
+		<label><input type="checkbox" class="checkbox-usr" id="chkAllSvrJob" data-label="전체선택" />선택한 시스템에 대한 모니터링 체크리스트도 복사합니다.</label>
+	</div>
+	<!--button-->
+	<div class="row tac">
+		<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">복사</button>
+		<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic margin-5-left">닫기</button>
+	</div>
+</div>
+
+<!-- contener E -->
+</body>	
+<c:import url="/js/ecams/common/commonscript.jsp" />	
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/SysDetailModal.js"/>"></script>
+</html>
