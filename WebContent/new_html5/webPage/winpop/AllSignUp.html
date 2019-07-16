@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+<div class="pop-header">
+	<div>
+		<label> 관리자 ㅣ 사용자일괄등록</label>
+	</div>
+	<div>
+		<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div> 
+</div>
+<div class="container-fluid pop_wrap">
+	<!--line1-->					
+	<div class="half_wrap_cb">
+		<!--left wrap-->
+		<div class="l_wrap width-50">
+			<div class="margin-5-right">
+				<label><input type="radio" />전체</label>
+				<label><input type="radio" />정상</label>
+				<label><input type="radio" />장애</label>
+			</div>
+	 	</div>
+	 	<!--right wrap-->
+	 	<div class="r_wrap width-50">
+	 		<div class="margin-5-left">
+				<!--button-->
+				<div class="vat dib poa_r">
+					<button class="btn_basic_s">엑셀열기</button>
+					<button class="btn_basic_s margin-5-left">셀추가</button>
+					<button class="btn_basic_s margin-5-left">엑셀저장</button>
+					<button class="btn_basic_s margin-5-left">디비저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--line2-->				
+	<div class="row">
+		<div class="scroll_x">
+			<div class="az_board_basic">
+		    	<table>
+			    	<colgroup>
+			    		<col width="10%"><col width="5%"><col width="7%"><col width="7%"><col width="7%"><col width="7%"><col width="*%"><col width="7%"><col width="7%"><col width="7%"><col width="7%">
+			    	</colgroup>
+		    		<tbody>
+		    		<tr>
+		    			<th scope="col">*사용자ID</th>
+		    			<th scope="col">*이름</th>
+		    			<th scope="col">*본부명</th>
+		    			<th scope="col">*부서명</th>
+		    			<th scope="col">*직위명</th>
+		    			<th scope="col">직무명</th>
+		    			<th scope="col">시스템명</th>
+		    			<th scope="col">업무명</th>
+		    			<th scope="col">이메일주소</th>
+		    			<th scope="col">전화번호</th>
+		    			<th scope="col">핸드폰번호</th>
+		    		</tr>
+		    		<tr>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		<tr>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    			<td></td>
+		    		</tr>
+		    		</tbody>
+		    	</table>	
+			</div>
+		</div>
+	</div>
+	<!--button-->
+	<div class="row tac">
+		<button class="btn_basic margin-5-left">닫기</button>
+	</div>
+</div>
+
+<!-- contener E -->
+</body>	
+<c:import url="/js/ecams/common/commonscript.jsp" />	
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/SysDetailModal.js"/>"></script>
+</html>
