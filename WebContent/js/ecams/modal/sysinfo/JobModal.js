@@ -95,7 +95,7 @@ $(document).ready(function(){
 		
 		
 		jobUpModal.open({
-	        width: 1024,
+	        width: 400,
 	        height: 180,
 	        iframe: {
 	            method: "get",

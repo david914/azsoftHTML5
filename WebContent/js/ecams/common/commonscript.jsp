@@ -9,6 +9,18 @@
 
 <!-- Vendor scripts -->
 <script src="<c:url value="/scripts/jquery-3.3.1.min.js"/>" type="text/javascript"></script>
+
+<!-- full calendar -->
+<script src="<c:url value="/scripts/fullcalendar/core/main.js"/>"></script>
+<script src="<c:url value="/scripts/fullcalendar/moment/main.js"/>"></script>
+<script src="<c:url value="/scripts/fullcalendar/interaction/main.js"/>"></script>
+<script src="<c:url value="/scripts/fullcalendar/daygrid/main.js"/>"></script>
+<script src="<c:url value="/scripts/fullcalendar/timegrid/main.js"/>"></script>
+<script src="<c:url value="/scripts/fullcalendar/list/main.js"/>"></script>
+<script src="<c:url value="/scripts/fullcalendar/rrule/main.js"/>"></script>
+<script src="<c:url value="/scripts/fullcalendar/rrule.js"/>"></script>
+<script src="<c:url value="/scripts/fullcalendar/locales-all.js"/>"></script>
+
 <script src="<c:url value="/vendor/jquery-flot/jquery.flot.js"/>"></script>
 <script src="<c:url value="/vendor/nestable/jquery.nestable.js"/>"></script>
 <script src="<c:url value="/vendor/wCheck-master/wCheck.js"/>"></script>
@@ -44,6 +56,5 @@
 
 <!-- time picker -->
 <script src="<c:url value="/scripts/bootstrap-timepicker.min.js"/>"></script>
-
 
 <script src="<c:url value="/js/ecams/common/common.js" />" type="text/javascript"></script>

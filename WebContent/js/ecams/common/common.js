@@ -390,6 +390,17 @@ function clone(obj){
 	return output
 	
 }
+
+/**
+ * 캘린더 선택시 앞의 input 창에 클릭 이벤트를 주어 달력이 켜지도록
+ * @returns
+ */
+$('.btn_calendar').bind('click', function() {
+	if($(this).css('background-color') === 'rgb(255, 255, 255)') {
+		var inputs = $(this).siblings().prevAll('input');
+		$(inputs[0]).trigger('click');
+	}
+});
 /*
 function getRegexp(type) {
 	if( type === 'NUM')

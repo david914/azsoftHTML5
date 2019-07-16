@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import app.common.MenuList;
 import app.eCmr.Cmr3200;
 import html.app.common.ParsingCommon;
 
@@ -28,6 +29,7 @@ public class eCAMSMainServlet extends HttpServlet {
 	Gson gson = new Gson();
 	LoginManager loginManager = LoginManager.getInstance();
 	Cmr3200 cmr3200 = new Cmr3200();
+	MenuList menuList = new MenuList();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,6 +59,9 @@ public class eCAMSMainServlet extends HttpServlet {
 					break;
 				case "GETBARCHART":
 					response.getWriter().write( getMainBar(jsonElement) );
+					break;
+				case "getCalendarInfo":
+					response.getWriter().write( getCalendarInfo(jsonElement) );
 					break;
 				default : 
 					break;
@@ -91,5 +96,10 @@ public class eCAMSMainServlet extends HttpServlet {
 	private String getMainBar(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> applyInfo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"applyInfo"));
 		return gson.toJson(cmr3200.getMainBar(applyInfo));
+	}
+	private String getCalendarInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String userId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"userId"));
+		String month 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"month"));
+		return gson.toJson(menuList.getCalendarInfo(userId, month));
 	}
 }

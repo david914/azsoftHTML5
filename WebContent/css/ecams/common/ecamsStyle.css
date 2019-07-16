@@ -944,6 +944,9 @@ ul.tabs li.active {
 .ax-button-wrap button {
 	background: #fff; border: 1px solid #ccc; color:#333; font-weight:bold; padding: 0 7px 2px; height: 25px;
 }
+.ax-picker-buttons button {
+	background: #fff; border: 1px solid #ccc; color:#333; font-weight:bold; padding: 0 7px 2px; height: 25px;
+}
 .ecams-input {
 	box-sizing: border-box;
     display: inline;

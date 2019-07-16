@@ -122,7 +122,7 @@ $(document).ready(function() {
 // 업무정보 모달 오픈
 function openJobModal() {
 	jobModal.open({
-        width: 600,
+        width: 800,
         height: 800,
         iframe: {
             method: "get",

@@ -134,6 +134,7 @@ $(document).ready(function() {
 	$('#optReq').wRadio('check', true);
 	$('#dateSt').prop('disabled', true);
 	$('#dateEd').prop('disabled', true);
+	$('.btn_calendar').css('background-color','#ddd');
 	getCodeInfo();
 	getSysInfo();
 	getTeamInfo();
@@ -156,9 +157,11 @@ $(document).ready(function() {
 		if(getSelectedVal('cboApproSta').value === '01') {
 			$('#dateSt').prop('disabled', true);
 			$('#dateEd').prop('disabled', true);
+			$('.btn_calendar').css('background-color','#ddd');
 		} else {
 			$('#dateSt').prop('disabled', false);
 			$('#dateEd').prop('disabled', false);
+			$('.btn_calendar').css('background-color','#fff');
 		}
 		
 		$('#btnQry').trigger('click');

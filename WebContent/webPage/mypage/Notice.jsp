@@ -30,6 +30,7 @@
 				<div class="l_wrap">
 					<div id="divPicker" class="az_input_group dib" data-ax5picker="basic">
 			            <input id="start_date" name="start_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+						<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 						<span class="sim">&sim;</span>
 						<input id="end_date" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
 			            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
@@ -43,9 +44,6 @@
 					</div>
 					<div class="vat dib">
 						<button class="btn_basic_s" data-grid-control="excel-export" id="btnExcel">엑셀저장</button>
-					</div>
-					<div class="all_num">
-			      		<span id="lbCnt">조회건수 : <strong>총 0건</strong></span>
 					</div>
 				</div>
 			</div>

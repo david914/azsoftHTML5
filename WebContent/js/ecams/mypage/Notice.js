@@ -240,8 +240,6 @@ function getNoticeInfo() {
 function successGetNoticeInfo(data) {
 	noticeGridData = data;
 	noticeGrid.setData(noticeGridData);
-	// 조회건수 : <strong>총 0건</strong></span>
-	$('#lbCnt').html('조회건수 : <strong>총'+data.length+'건</strong>');
 }
 
 // 공지사항 등록 /수정 오픈

@@ -1008,9 +1008,8 @@ function cboSysClick() {
 
 //	선택된 시스템 JOB
 function getSysJobInfo(sysCd) {
-	var sysJobInfo;
-	var sysJobInfoData;
-	sysJobInfo 			= new Object();
+	var sysJobInfo		= new Object();;
+	var sysJobInfoData  = new Object();
 	sysJobInfo.UserID 	= userId;
 	sysJobInfo.SysCd 	= sysCd;
 	sysJobInfo.SecuYn 	= 'N';
@@ -1018,7 +1017,6 @@ function getSysJobInfo(sysCd) {
 	sysJobInfo.SelMsg 	= '';
 	sysJobInfo.sortCd 	= 'CD';
 	
-	sysJobInfoData = new Object();
 	sysJobInfoData = {
 		sysJobInfo	: sysJobInfo,
 		requestType	: 'getJobInfo'

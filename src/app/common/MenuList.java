@@ -496,4 +496,288 @@ public class MenuList{
 			}
 		}
 	}//end of getSecuList() method statement
+    
+    
+    public ArrayList<HashMap<String, String>> getCalendarInfo(String userId, String month) throws SQLException, Exception {
+  		Connection        conn        = null;
+  		PreparedStatement pstmt       = null;
+  		ResultSet         rs          = null;
+  		StringBuffer      strQuery    = new StringBuffer();
+  		HashMap<String, String>	rst		  			= null;
+  		ArrayList<HashMap<String, String>> rtList	= new ArrayList<HashMap<String, String>>();
+  		ArrayList<HashMap<String, String>> dateArr	= new ArrayList<HashMap<String, String>>();
+  		ConnectionContext connectionContext 		= new ConnectionResource();
+  		
+  		String prcDay 		= null;
+  		int[] prcDayCnt 	= null;
+  		String startDate 	= null;
+  		try {
+  			conn = connectionContext.getConnection();
+  			
+  			strQuery.append("SELECT TO_CHAR(BASE_DATE+NO,'YYYY-MM-DD') AS YYYYMMDD, to_char(BASE_DATE+NO, 'd') AS DATEDIV			\n");
+  			strQuery.append("  FROM (SELECT (TO_DATE(? || '01', 'YYYYMMDD') - 1) AS BASE_DATE FROM DUAL) A	\n");
+  			strQuery.append(" 	    ,(SELECT LEVEL NO FROM DUAL CONNECT BY LEVEL < 50) B					\n");
+  			strQuery.append(" WHERE (BASE_DATE+NO) <= LAST_DAY(TO_DATE(? || '01', 'YYYYMMDD'))				\n");
+  			strQuery.append(" ORDER BY YYYYMMDD																\n");
+  			
+  			pstmt = conn.prepareStatement(strQuery.toString());	
+  			pstmt.setString(1, month);
+  			pstmt.setString(2, month);
+  			rs = pstmt.executeQuery();			
+  			
+  			while (rs.next()){
+  				rst = new HashMap<String, String>();
+  				rst.put("YYYYMMDD", rs.getString("YYYYMMDD"));
+  				rst.put("DATEDIV", rs.getString("DATEDIV"));
+  				dateArr.add(rst);
+  				rst = null;
+  				
+  			}//end of while-loop statement			
+  			rs.close();
+  			pstmt.close();
+  			
+  			
+  			System.out.println(dateArr.toString());
+  			
+  			strQuery.setLength(0);
+  			strQuery.append("SELECT  A.CM_SYSCD						\n");
+  			strQuery.append("		,A.CM_SYSMSG					\n");
+  			strQuery.append("		,C.CM_PRCSYS					\n");
+  			strQuery.append("		,D.CM_CODENAME					\n");
+  			strQuery.append("		,C.CM_SUN						\n");
+  			strQuery.append("		,C.CM_MON						\n");
+  			strQuery.append("		,C.CM_TUE						\n");
+  			strQuery.append("		,C.CM_WED						\n");
+  			strQuery.append("		,C.CM_THU						\n");
+  			strQuery.append("		,C.CM_FRI						\n");
+  			strQuery.append("		,C.CM_SAT						\n");
+  			strQuery.append("		,C.CM_SUN || C.CM_MON || C.CM_TUE || C.CM_WED || C.CM_THU || C.CM_FRI || C.CM_SAT AS PRCDAY		\n");
+  			strQuery.append("		,A.CM_SYSMSG || ' ' || '\n정기' || D.CM_CODENAME 	AS TITLE										\n");
+  			strQuery.append("		,C.CM_PRCTIME																					\n");
+  			strQuery.append("		,SUBSTR(C.CM_PRCTIME,0,2) || ':' || SUBSTR(C.CM_PRCTIME,3,2) AS PRCTIME							\n");
+  			strQuery.append("  FROM CMM0030 A, 						\n");
+  			strQuery.append("		(								\n");
+  			strQuery.append("		SELECT DISTINCT CM_SYSCD		\n");
+  			strQuery.append("		  FROM CMM0044					\n");
+  			strQuery.append("		 WHERE CM_USERID = ?			\n");
+  			strQuery.append("		   AND CM_CLOSEDT IS NULL		\n");
+  			strQuery.append("		) B, CMM0030_TIME C, CMM0020 D	\n");
+  			strQuery.append(" WHERE A.CM_CLOSEDT IS NULL			\n");
+  			strQuery.append("   AND SUBSTR(A.CM_SYSINFO,6,1) = '1'	\n");
+  			strQuery.append("   AND A.CM_SYSCD = B.CM_SYSCD			\n");
+  			strQuery.append("   AND A.CM_SYSCD = C.CM_SYSCD			\n");
+  			strQuery.append("   AND D.CM_MACODE = 'SYSGBN'			\n");
+  			strQuery.append("   AND D.CM_MICODE = C.CM_PRCSYS		\n");
+  			
+  			pstmt = conn.prepareStatement(strQuery.toString());	
+  			pstmt.setString(1, userId);
+  			rs = pstmt.executeQuery();			
+  			
+  			while (rs.next()){
+  				
+  				if(rs.getString("CM_SUN").equals("Y") || rs.getString("CM_MON").equals("Y")
+  						|| rs.getString("CM_TUE").equals("Y") || rs.getString("CM_WED").equals("Y")
+  						|| rs.getString("CM_THU").equals("Y") || rs.getString("CM_FRI").equals("Y")
+  						|| rs.getString("CM_SAT").equals("Y")) {
+  					prcDay = rs.getString("PRCDAY");
+  					prcDayCnt = new int[7];
+  					
+  					for(int i = 0; i< prcDay.length(); i++) {
+  						if(prcDay.charAt(i) == 'Y') {
+  							prcDayCnt[i] = 1;
+  						} else {
+  							prcDayCnt[i] = 0;
+  						}
+  					}
+  					// title: 'Repeating Event',
+  		            // start: '2019-06-09T16:00:00'
+  					startDate = null;
+  					
+  					for(int i = 0; i < dateArr.size(); i++) {
+  						for( int j = 0 ; j < prcDayCnt.length; j++) {
+  							
+  							if(Integer.parseInt(dateArr.get(i).get("DATEDIV")) == (j+1) &&  prcDayCnt[j] == 1) {
+  								startDate = dateArr.get(i).get("YYYYMMDD") +"T" + rs.getString("PRCTIME");
+  								rst = new HashMap<String, String>();
+  								rst.put("title", rs.getString("TITLE"));
+  								rst.put("start", startDate);
+  								rst.put("color", rs.getString("CM_PRCSYS").equals("SYSCB") 
+  													? "#FF5733" : "#FFC300");
+  								rtList.add(rst);
+  							}
+  						}
+  					}
+  				}
+  			}//end of while-loop statement			
+  			rs.close();
+  			pstmt.close();
+  			
+  			
+  			rtList.addAll(getUserReqCalInfo(userId, month+"01"));
+  			
+  			conn.close();
+  			rs = null;
+  			pstmt = null;
+  			conn = null;
+  			
+  			return rtList;		
+  			
+  		} catch (SQLException sqlexception) {
+  			sqlexception.printStackTrace();
+  			ecamsLogger.error("## MenuList.getCalendarInfo() SQLException START ##");
+  			ecamsLogger.error("## Error DESC : ", sqlexception);	
+  			ecamsLogger.error("## MenuList.getCalendarInfo() SQLException END ##");			
+  			throw sqlexception;
+  		} catch (Exception exception) {
+  			exception.printStackTrace();
+  			ecamsLogger.error("## MenuList.getCalendarInfo() Exception START ##");				
+  			ecamsLogger.error("## Error DESC : ", exception);	
+  			ecamsLogger.error("## MenuList.getCalendarInfo() Exception END ##");				
+  			throw exception;
+  		}finally{
+  			if (rtList != null) rtList = null;
+  			if (strQuery != null) 	strQuery = null;
+  			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+  			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+  			if (conn != null){
+  				try{
+  					ConnectionResource.release(conn);
+  				}catch(Exception ex3){
+  					ecamsLogger.error("## MenuList.getCalendarInfo() connection release exception ##");
+  					ex3.printStackTrace();
+  				}
+  			}
+  		}
+  	}//end of getCalendarInfo() method statement
+    
+    public ArrayList<HashMap<String, String>> getUserReqCalInfo(String userId, String date) throws SQLException, Exception {
+		Connection        	conn        = null;
+		PreparedStatement 	pstmt       = null;
+		ResultSet         	rs          = null;
+		StringBuffer      	strQuery    = new StringBuffer();
+		int 				pstmtCnt 	= 1;
+		HashMap<String, String>			  	rst	 	= null;
+		ConnectionContext connectionContext = new ConnectionResource();
+		ArrayList<HashMap<String, String>>  rtList	= new ArrayList<HashMap<String, String>>();
+		
+		try {
+
+			conn = connectionContext.getConnection();
+			
+			pstmtCnt = 1;
+			strQuery.setLength(0);
+			strQuery.append("SELECT  B.CM_SYSMSG                                                                                                \n");
+			strQuery.append("		,C.CC_SRID                                                                                                  \n");
+			strQuery.append("		,C.CC_REQTITLE                                                                                              \n");
+			strQuery.append("		,A.CR_ACPTNO                                                                                                \n"); 
+			strQuery.append("		,D.CM_USERNAME                                                                                              \n");
+			strQuery.append("		,TO_CHAR(A.CR_ACPTDATE,'YYYY/MM/DD HH24:MI') AS CR_ACPTDATE                                                 \n");
+			strQuery.append("		,TO_CHAR(A.CR_PRCDATE,'YYYY/MM/DD HH24:MI') AS CR_PRCDATE                                                   \n");
+			strQuery.append("		,NVL(E.CM_CODENAME,'신청종류 없음') AS REQUESTNAME                                                           	\n");
+			strQuery.append("		,NVL(F.CM_CODENAME,'처리구분없음') AS PASSOK                                                                 	\n");
+			strQuery.append("		,GETCONFNAME(A.CR_ACPTNO,'CONF') AS CONFNAME                                                                \n");
+			strQuery.append("		,GETCONFNAME(A.CR_ACPTNO,'COLOR') AS COLORSW                                                                \n");
+			strQuery.append("		,GETCONFNAME(A.CR_ACPTNO,'PRG') AS PRGNAME                                                                	\n");
+			strQuery.append("		,GETCONFNAME(A.CR_ACPTNO,'PRGLIST') AS PRGLIST                                                              \n");
+			strQuery.append("		,TO_CHAR(A.CR_ACPTDATE,'YYYY-MM-DD') ||  'T'  ||TO_CHAR(A.CR_ACPTDATE,'HH24:MI') AS STARTDATE               \n");
+			strQuery.append("  FROM	 CMR1000 A                                                                                              	\n");
+			strQuery.append("  		,CMM0030 B                                                                                                  \n");
+			strQuery.append("  		,CMC0100 C                                                                                                  \n");
+			strQuery.append("  		,CMM0040 D                                                                                                  \n");
+			strQuery.append("  		,CMM0020 E                                                                                                  \n");
+			strQuery.append("  		,CMM0020 F                                                                                                  \n");
+			strQuery.append(" WHERE A.CR_ACPTDATE BETWEEN TO_CHAR(TRUNC(TO_DATE(?),'MM'),'YYYYMMDD') AND TO_CHAR(LAST_DAY(TO_DATE(?)), 'YYYYMMDD')				\n");
+			strQuery.append("   AND A.CR_EDITOR = ?                                                                                      		\n");
+			strQuery.append("   AND A.CR_SYSCD = B.CM_SYSCD                                                                                     \n");
+			strQuery.append("   AND B.CM_CLOSEDT IS NULL	                                                                                    \n");
+			strQuery.append("   AND A.CR_ITSMID = C.CC_SRID(+)                                                                                  \n");
+			strQuery.append("   AND A.CR_EDITOR = D.CM_USERID                                                                                   \n");
+			strQuery.append("   AND E.CM_MACODE = 'REQUEST'                                                                                     \n");
+			strQuery.append("   AND E.CM_USEYN = 'Y'                                                                                            \n");
+			strQuery.append("   AND A.CR_QRYCD = E.CM_MICODE(+)                                                                                 \n");
+			strQuery.append("   AND F.CM_MACODE = 'REQPASS'                                                                                     \n");
+			strQuery.append("   AND F.CM_USEYN = 'Y'                                                                                            \n");
+			strQuery.append("   AND A.CR_PASSOK = F.CM_MICODE                                                                                   \n");
+			strQuery.append(" ORDER BY A.CR_ACPTDATE DESC                                                                                       \n");
+			
+			pstmt = conn.prepareStatement(strQuery.toString());
+			pstmt.setString(pstmtCnt++, date);
+			pstmt.setString(pstmtCnt++, date);
+			pstmt.setString(pstmtCnt++, userId);
+			
+            rs = pstmt.executeQuery();
+             
+			while (rs.next()){
+	            rst = new HashMap<String, String>();
+        		/*rst.put("CM_SYSMSG",    rs.getString("CM_SYSMSG"));
+        		rst.put("CC_SRID",rs.getString("CC_SRID"));
+        		rst.put("CC_REQTITLE",rs.getString("CC_REQTITLE"));
+        		rst.put("CR_ACPTNO",rs.getString("CR_ACPTNO"));
+        		rst.put("CM_USERNAME",rs.getString("CM_USERNAME"));
+        		rst.put("REQUESTNAME",rs.getString("REQUESTNAME"));
+        		rst.put("PASSOK",rs.getString("PASSOK"));
+        		rst.put("CONFNAME",rs.getString("CONFNAME"));
+        		rst.put("COLORSW",rs.getString("COLORSW"));
+        		rst.put("CR_ACPTDATE",rs.getString("CR_ACPTDATE"));
+        		rst.put("CR_PRCDATE",rs.getString("CR_PRCDATE"));
+        		rst.put("PRGNAME",rs.getString("PRGNAME"));
+        		rst.put("PRGLIST",rs.getString("PRGLIST"));*/
+        		
+        		rst.put("title", "["+rs.getString("CR_ACPTNO")+"]\n"+rs.getString("CONFNAME"));
+				rst.put("start", rs.getString("STARTDATE"));
+        		if(rs.getString("COLORSW").equals("0")) {
+        			rst.put("color", "#0000FF");
+        		}
+        		if(rs.getString("COLORSW").equals("3")) {
+        			rst.put("color", "#FF0000");
+        		}
+        		if(rs.getString("COLORSW").equals("5")) {
+        			rst.put("color", "#E719FF");
+        		}
+        		if(rs.getString("COLORSW").equals("9")) {
+        			rst.put("color", "#000000");
+        		}
+        		
+    			rtList.add(rst);
+        		rst = null;
+			}
+
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
+			rs = null;
+			pstmt = null;
+			conn = null;
+
+			return rtList;
+
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## Cmr3200.getUserReqCalInfo() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## Cmr3200.getUserReqCalInfo() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## Cmr3200.getUserReqCalInfo() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## Cmr3200.getUserReqCalInfo() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (rtList != null)	rtList = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					conn.close();
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmr3200.getUserReqCalInfo() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+	}//end of SelectList() method statement
+    
 }//end of MenuList class statement

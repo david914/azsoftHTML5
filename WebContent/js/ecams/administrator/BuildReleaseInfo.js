@@ -19,6 +19,8 @@ $(document).ready(function(){
 	$('#tab1Li').width($('#tab1Li').width()+10);
 	$('#tab2Li').width($('#tab2Li').width()+10);
 	setTabMenu();
+	
+	console.log($('#tab1Li').offset());
 })
 
 function setTabMenu(){

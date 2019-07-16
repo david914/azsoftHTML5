@@ -30,6 +30,9 @@ var getBarprogressSw 	= false;
 var applyGrid 		= new ax5.ui.grid();
 var picker 			= new ax5.ui.picker();
 
+var calendar 	= null;
+var calendarEl 	= null;
+var calMonthArr	= [];
 var defaultColor =[
     '#83b14e', '#458a3f', '#295ba0', '#2a4175', '#289399',
     '#289399', '#617178', '#8a9a9a', '#516f7d', '#dddddd'
@@ -255,7 +258,103 @@ $(document).ready(function(){
 	});
 	
 	getApplyList();
+	getCalInfo();
+	$('body').on('click', 'button.fc-prev-button', function() {
+		getAddCalInfo();
+	});
+
+	$('body').on('click', 'button.fc-next-button', function() {
+		getAddCalInfo();
+	});
+	
 });
+
+// 이미 추가되어있는 캘린더 정보 인지 확인 후 추가 가능 또는 불가 판단 리턴
+function checkCalInfo(month) {
+	if(calMonthArr.includes(month)) {
+		return false;
+	} else {
+		calMonthArr.push(month);
+		return true;
+	}
+}
+
+// 캘린더 인포 추가
+function getAddCalInfo() {
+	if(!checkCalInfo(getCalFullDate()) ) {
+		return;
+	}
+	var data = new Object();
+	data = {
+		userId		: 	userId,
+		month		: 	getCalFullDate(),
+		requestType	: 	'getCalendarInfo'
+	}
+	
+	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetAddCalInfo);
+}
+
+// 캘린더 인포 추가 가져오기 완료
+function successGetAddCalInfo(data) {
+	calendar.addEventSource(data);
+}
+
+// 캘린더 현재 월 구해오기 YYYYMM 까지
+function getCalFullDate() {
+	var calMon 		= '';
+	var calYear 	= '';
+	var fullDate 	= '';
+	calYear = calendar.getDate().getFullYear();
+	calMon = calendar.getDate().getMonth();
+	calMon += 1;
+	calMon = (calMon < 10 ? '0' : '') + calMon; 
+	fullDate = calYear + calMon;
+	
+	return fullDate; 
+}
+
+// 처음 캘린더 인포 가져오기
+function getCalInfo() {
+	var data = new Object();
+	data = {
+		userId		: 	userId,
+		month		: 	getDate('DATE',0).substr(0,6),
+		requestType	: 	'getCalendarInfo'
+	}
+	
+	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetCalInfo);
+}
+
+// 처음 캘린더 인포 가져오기 완료
+function successGetCalInfo(data) {
+	if(!checkCalInfo(getDate('DATE',0).substr(0,6)) ) {
+		return;
+	}
+	var defaultDate = getDate('DATE',0).substr(0,4) + '-' + getDate('DATE',0).substr(4,2) + '-' + getDate('DATE',0).substr(6,2);
+	
+	calendarEl= document.getElementById('calendar');
+	calendar =  new FullCalendar.Calendar(calendarEl, {
+	    plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list', 'rrule' ],
+	    defaultDate: defaultDate,
+	    editable: false,
+	    eventLimit: true,
+	    /*height: 450,*/
+	    header: {
+	        left: 'prev,next today',
+	        center: 'title',
+	        right: 'dayGridMonth,listMonth'
+	    },
+	    locale: 'ko', 
+	    events:  data,
+	    /*eventClick: function(arg) {
+	        if (confirm('delete event?')) {
+	          arg.event.remove()
+	        }
+	    }*/
+    });
+	calendar.render();
+}
+
 
 function makeMsg(afterStr) {
 	var message = '';

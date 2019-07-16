@@ -7,13 +7,13 @@
 <link rel="stylesheet" href="<c:url value="/vendor/fontawesome/css/font-awesome.css"/>" />
 <link rel="stylesheet" href="<c:url value="/vendor/metisMenu/dist/metisMenu.css"/>" />
 <link rel="stylesheet" href="<c:url value="/vendor/animate.css/animate.css"/>" />
-<%-- <link rel="stylesheet" href="<c:url value="/vendor/bootstrap/dist/css/bootstrap.css"/>" /> --%>
+<link rel="stylesheet" href="<c:url value="/vendor/bootstrap/dist/css/bootstrap.css"/>" />
 <link rel="stylesheet" href="<c:url value="/vendor/wCheck-master/wCheck.css"/>" />
 
 <!-- App styles -->
 <link rel="stylesheet" href="<c:url value="/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css"/>" />
 <link rel="stylesheet" href="<c:url value="/fonts/pe-icon-7-stroke/css/helper.css"/>" />
-<%-- <link rel="stylesheet" href="<c:url value="/styles/style.css"/>"> --%>
+<link rel="stylesheet" href="<c:url value="/styles/style.css"/>">
 
 <!--  AX5UI -->
 <link rel="stylesheet" href="<c:url value="/styles/ax5/ax5calendar.css"/>">
@@ -38,5 +38,11 @@
 <!-- eCAMS js, css -->
 <link rel="stylesheet" href="<c:url value="/css/ecams/common/ecamsStyle.css" />">
 <link rel="stylesheet" href="<c:url value="/css/ecams/common/toolTip2.css" />">
+
+<!-- full calendar -->
+<link rel="stylesheet" href="<c:url value="/styles/fullcalendar/core/main.css" />">
+<link rel="stylesheet" href="<c:url value="/styles/fullcalendar/daygrid/main.css" />">
+<link rel="stylesheet" href="<c:url value="/styles/fullcalendar/timegrid/main.css" />">
+<link rel="stylesheet" href="<c:url value="/styles/fullcalendar/list/main.css" />">
 
 <%-- <link rel="stylesheet" href="<c:url value="/styles/jquery-ui.css"/>"> --%>
