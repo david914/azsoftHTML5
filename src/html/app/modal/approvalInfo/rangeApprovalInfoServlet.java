@@ -17,8 +17,8 @@ import com.google.gson.JsonParser;
 import app.eCmm.Cmm0300_Blank;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/modal/approvalInfo/SubApprovalRangeServlet")
-public class SubApprovalRangeServlet extends HttpServlet {
+@WebServlet("/webPage/modal/approvalInfo/rangeApprovalInfoServlet")
+public class rangeApprovalInfoServlet extends HttpServlet {
 	/**
 	 * 
 	 */

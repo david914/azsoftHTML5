@@ -36,7 +36,7 @@ grdApprovalInfo.setConfig({
     header: {
         align: "center",
         columnHeight: 30,
-        selector: false
+        selector: true
     },
     body: {
         columnHeight: 25,
@@ -71,7 +71,6 @@ $(document).ready(function() {
 	
 	$('#chkMember').wCheck("check", false);
 	$('#chkOutsourcing').wCheck("check", false);
-	$('#chkAllInfo').wCheck("check", false);
 	$('#chkAllSys').wCheck("check", false);
 	
 	// 조회
@@ -87,11 +86,6 @@ $(document).ready(function() {
 	// 복사
 	$('#btnCopy').bind('click', function() {
 		btnCopy_Click();
-	});
-	
-	// 결재정보 전체선택
-	$('#chkAllInfo').bind('click', function() {
-		chkAllInfo_Click();
 	});
 	
 	// 시스템전체선택
@@ -129,10 +123,10 @@ function getCodeInfo(){
 
 function getSysInfo() {
 	tmpInfo = new Object();
-	tmpInfo.userId = userId;
-	tmpInfo.selMsg = "SEL";
-	tmpInfo.closeYn = "N";
-	tmpInfo.sysCd = "";
+	tmpInfo.UserId = userId;
+	tmpInfo.SelMsg = "SEL";
+	tmpInfo.CloseYn = "N";
+	tmpInfo.SysCd = "";
 	
 	tmpInfoData = new Object();
 	tmpInfoData = {
@@ -224,15 +218,6 @@ function successApprovalInfo(data) {
 	grdApprovalInfo.setData(grdApprovalInfoData);
 }
 
-//결재정보 전체선택
-function chkAllInfo_Click() {
-	if($('#chkAllInfo').is(':checked')) {
-		grdApprovalInfo.selectAll({selected: true});
-	}else {
-		grdApprovalInfo.selectAll({selected: false});
-	}
-}
-
 //시스템전체선택
 function chkAllSys_Click() {
 	var addId = null;
@@ -284,17 +269,13 @@ function chkAllCopy_Click() {
 		$('[data-ax5select="cboToReqCd"]').ax5select('setValue',cboToReqCdData[0].value,true); //value값으로
 		$('#chkNoSys').wCheck("disabled", true);
 		$('#chkNoSys').wCheck('check', false);
-		$('#chkAllInfo').wCheck("disabled", true);
-		$('#chkAllInfo').wCheck('check', false);
 	}else {
 		$('[data-ax5select="cboFromReqCd"]').ax5select("enable");
 		$('[data-ax5select="cboToReqCd"]').ax5select("enable");
 		$('#chkNoSys').wCheck("disabled", false);
-		$('#chkAllInfo').wCheck("disabled", false);
 	}
 	
 	chkNoSys_Click();
-	chkAllInfo_Click();
 }
 
 function btnCopy_Click() {

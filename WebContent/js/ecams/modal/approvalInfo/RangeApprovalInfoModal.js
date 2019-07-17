@@ -169,7 +169,7 @@ function cboPos_Change() {
 		requestType	: 'GETBLANKLIST'
 	}
 	
-	ajaxAsync('/webPage/modal/approvalInfo/SubApprovalRangeServlet', tmpInfoData, 'json', successGetBlankList);
+	ajaxAsync('/webPage/modal/approvalInfo/rangeApprovalInfoServlet', tmpInfoData, 'json', successGetBlankList);
 }
 
 function successGetBlankList(data) {
@@ -264,7 +264,7 @@ function btnQry_Click() {
 		requestType	: 'GETBLANKLIST'
 	}
 	
-	ajaxAsync('/webPage/modal/approvalInfo/SubApprovalRangeServlet', tmpInfoData, 'json', successGetBlankList2);
+	ajaxAsync('/webPage/modal/approvalInfo/rangeApprovalInfoServlet', tmpInfoData, 'json', successGetBlankList2);
 }
 
 function successGetBlankList2(data) {
@@ -273,7 +273,7 @@ function successGetBlankList2(data) {
 }
 
 function btnClose_Click() {
-	window.parent.subApprovalRangeModal.close();
+	window.parent.rangeApprovalInfoModal.close();
 }
 
 //등록버튼 클릭 이벤트
@@ -351,7 +351,7 @@ function btnReg_Click() {
 		requestType	: 'UPDATEBLANKLIST'
 	}
 	
-	ajaxAsync('/webPage/modal/approvalInfo/SubApprovalRangeServlet', tmpInfoData, 'json', successUpdateBlankList);
+	ajaxAsync('/webPage/modal/approvalInfo/rangeApprovalInfoServlet', tmpInfoData, 'json', successUpdateBlankList);
 }
 
 function successUpdateBlankList(data) {
@@ -391,7 +391,7 @@ function btnDel_Click() {
 		requestType	: 'DELETEBLANKLIST'
 	}
 	
-	ajaxAsync('/webPage/modal/approvalInfo/SubApprovalRangeServlet', tmpInfoData, 'json', successDELETEBlankList);
+	ajaxAsync('/webPage/modal/approvalInfo/rangeApprovalInfoServlet', tmpInfoData, 'json', successDELETEBlankList);
 }
 
 function successDELETEBlankList(data) {
