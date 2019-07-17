@@ -938,7 +938,8 @@ function checkDuplication(downFileList) {
 	if(secondGrid.list.length > 0 ) {
 
 		$('[data-ax5select="cboSys"]').ax5select("disable");
-		$('#btnDiff').show();
+		$('#btnReq').show();
+		//$('#btnDiff').show();
 		
 		secondGrid.list.forEach(function(requestFileGridData, requestFileGridDataIndex) {
 			// grid row header 달기

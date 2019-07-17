@@ -4313,7 +4313,7 @@ public class Cmr0200{
                 	pstmt.setString(pstmtcount++, etcData.get("txtSayu"));
                 	pstmt.setString(pstmtcount++, etcData.get("PassCd"));
                 	pstmt.setString(pstmtcount++, etcData.get("outpos"));
-                	pstmt.setString(pstmtcount++, etcData.get("srid"));
+                	pstmt.setString(pstmtcount++, etcData.get("cc_srid"));
                 	if (etcData.get("svryn") != null && !"".equals(etcData.get("svryn"))) pstmt.setString(pstmtcount++, etcData.get("svryn"));
                 	else pstmt.setString(pstmtcount++, "Y");
                 	if (etcData.get("veryn") != null && !"".equals(etcData.get("veryn"))) pstmt.setString(pstmtcount++, etcData.get("veryn"));

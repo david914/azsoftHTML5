@@ -175,7 +175,7 @@
 		    	<div class="col-lg-3 col-md-3 col-sm-3 col-12">
 					<div class="float-right">
 						<button id="btnDiff"  class="btn btn-default" onclick="btnRequest_Click();">
-							파일비교 <span class="glyphicon" aria-hidden="true"></span>
+							파일비교 <span class="glyphicon" aria-hidden="true" style='display:none;'></span>
 						</button>
 						<button id="btnRequest"  class="btn btn-default" onclick="btnRequest_Click();">
 							운영배포신청 <span class="glyphicon" aria-hidden="true"></span>

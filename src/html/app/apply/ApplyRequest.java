@@ -66,6 +66,10 @@ public class ApplyRequest extends HttpServlet {
 					break;
 				case "Confirm_Info" :
 					response.getWriter().write( Confirm_Info(jsonElement) );
+					break;
+				case "requestConf" :
+					response.getWriter().write( requestConf(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -92,7 +96,6 @@ public class ApplyRequest extends HttpServlet {
 		String SelMsg = null;
 		SelMsg = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
 		
-		System.out.println(SysCd+":"+SelMsg);
 		return gson.toJson(cmd0100.getRsrcOpen(SysCd,SelMsg));
 	}
 	
@@ -108,12 +111,45 @@ public class ApplyRequest extends HttpServlet {
 		}
 	}
 
+	private String requestConf(JsonElement jsonElement) throws SQLException, Exception {
+		
+		ArrayList<HashMap<String, String>> secondGridData = new ArrayList<HashMap<String, String>>();
+		secondGridData = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"secondGridData"));
+
+		HashMap<String, String> requestData = new HashMap<String, String>();
+		requestData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"requestData"));
+		
+		ArrayList<HashMap<String, Object>> requestConfirmData = new ArrayList<HashMap<String, Object>>();
+		requestConfirmData = ParsingCommon.jsonStrToArrObj(ParsingCommon.jsonEtoStr(jsonElement,"requestConfirmData"));
+		
+		ArrayList<HashMap<String, String>> scriptData = new ArrayList<HashMap<String, String>>();
+		scriptData = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"scriptData"));
+		
+		if ("07".equals(requestData.get("SinCd"))) {//체크인
+			return gson.toJson(cmr0200.request_Check_In(secondGridData, requestData, requestConfirmData, "Y", scriptData ));
+			
+		} else { //SinCd=03(테스트적용) or 04(운영적용) 
+			ArrayList<HashMap<String, String>> befJobData = new ArrayList<HashMap<String, String>>();
+			befJobData = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"befJobData"));
+			
+			return gson.toJson(cmr0200.request_Deploy(secondGridData, requestData, befJobData, requestConfirmData, "Y", scriptData));
+		}
+			
+	}
 	private String getDownFileList(JsonElement jsonElement) throws SQLException, Exception {
+		
 		ArrayList<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
 		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
+		
 		HashMap<String, String> etcData = new HashMap<String, String>();
 		etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"downFileData"));
-		return gson.toJson(cmr0200.getDownFileList(fileList,etcData));
+
+		if ("07".equals(etcData.get("SinCd"))) {//체크인
+			return gson.toJson(cmr0200.getDownFileList(fileList,etcData));
+			
+		} else { //SinCd=03(테스트적용) or 04(운영적용) 
+			return gson.toJson(cmr0200.getDownFileList_Deploy(fileList,etcData));
+		}
 			
 	}
 	private String confSelect(JsonElement jsonElement) throws SQLException, Exception {

@@ -502,7 +502,8 @@ function addDataRow() {
 				
 		if(this.selected_flag!='1'){
 			this.selected_flag = '1';
-			secondGridList.push($.extend({}, this, {__index: undefined}));
+			var copyData = this;
+			secondGridList.push($.extend({}, copyData, {__index: undefined}));
 		}
 	});
 	
@@ -551,7 +552,8 @@ function checkDuplication(downFileList) {
 				$(firstGridData).each(function(j){
 					if(firstGridData[j].cr_itemid == currentItem.cr_itemid) {
 						firstGridData[j].selected_flag = '1';
-						secondGridList.push($.extend({}, firstGrid.list[j], {__index: undefined}));
+						var copyData = clone(firstGrid.list[j]); //리스트의 주소지를 가져오므로 clone 을 해서 add 해줘야함
+						secondGridList.push($.extend({}, copyData, {__index: undefined}));
 						return false;
 					}
 					
