@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
 encoding//WebContent/webPage/main/menuBar.jsp=UTF-8
-encoding//WebContent/webPage/modal/sysdetail/SysDetailSvr.jsp=UTF-8
-encoding//WebContent/webPage/modal/sysdetail/SysDetailUsr.jsp=UTF-8
+encoding//WebContent/webPage/tab/sysinfo/SysDetailSvrTab.jsp=UTF-8
+encoding//WebContent/webPage/tab/sysinfo/SysDetailUsrTab.jsp=UTF-8

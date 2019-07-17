@@ -32,7 +32,7 @@ $(document).ready(function() {
 	
 	// eCAMS Main Load
 	$('#eCAMSFrame').empty();
-	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="/webPage/main/eCAMSMain.jsp" style=" width:100%; height: 92vh"></IFRAME>');
+	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="/webPage/main/eCAMSMainNew.jsp" style=" width:100%; height: 92vh"></IFRAME>');
 	$iFrm.appendTo('#eCAMSFrame');
 	
 });

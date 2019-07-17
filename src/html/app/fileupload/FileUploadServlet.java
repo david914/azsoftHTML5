@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import app.common.SystemPath;
 import html.app.fileupload.vo.FileMeta;
 
 //this to be used with Java Servlet 3.0 API

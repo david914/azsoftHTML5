@@ -156,21 +156,6 @@ document.body.onresize = function() {
 	
 	if(chartHeight < 300) chartHeight = 300;
 	
-/*	pieChart.resize({
-		width 	: pieWidth - 10,
-		height	: chartHeight	
-	});
-	
-	piePChart.resize({
-		width 	: piePWidth - 10,
-		height	: chartHeight	
-	});
-	
-	barChart.resize({
-		width 	: barWidth - 10,
-		height	: chartHeight	
-	});*/
-	
 };
 
 function changeApplyLabel() {
@@ -338,7 +323,7 @@ function successGetCalInfo(data) {
 	    defaultDate: defaultDate,
 	    editable: false,
 	    eventLimit: true,
-	    /*height: 450,*/
+	    height: 450,
 	    header: {
 	        left: 'prev,next today',
 	        center: 'title',

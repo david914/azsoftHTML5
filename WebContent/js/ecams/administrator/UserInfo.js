@@ -220,7 +220,7 @@ $(document).ready(function() {
 function getAllUserInfo() {
 	allUserInfoModal.open({
         width: 1100,
-        height: 600,
+        height: 800,
         iframe: {
             method: "get",
             url: "../modal/userinfo/AllUserInfoModal.jsp",
@@ -245,7 +245,7 @@ var allUserInfoModalCallBack = function(){
 // 업무권한 일괄등록
 function openSetUserJob() {
 	setUserJobModal.open({
-        width: 800,
+        width: 1100,
         height: 800,
         iframe: {
             method: "get",
@@ -274,7 +274,7 @@ function openInitPassword() {
 	txtUserIdP = $('#txtUserId').val().trim();
 	initPassModal.open({
         width: 400,
-        height: 200,
+        height: 250,
         iframe: {
             method: "get",
             url: "../modal/userinfo/InitPassModal.jsp",
@@ -336,7 +336,7 @@ function winOpenSignUp() {
     winName = 'allSingUp';
 	nHeight = screen.height - 300;
     nWidth  = screen.width - 400;
-    cURL = "../winpop/AllSignUp.jsp";
+    cURL = "../winpop/PopAllSignUp.jsp";
 	
 	nTop  = parseInt((window.screen.availHeight/2) - (nHeight/2));
 	nLeft = parseInt((window.screen.availWidth/2) - (nWidth/2));
@@ -355,7 +355,7 @@ function winOpenSignUp() {
 // 사용자 직무조회 
 function openAllRgtCd() {
 	rgtCdModal.open({
-        width: 1200,
+        width: 1040,
         height: 700,
         iframe: {
             method: "get",

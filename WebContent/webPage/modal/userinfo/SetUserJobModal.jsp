@@ -8,77 +8,75 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<section>
-	<div class="hpanel">
-		<div class="panel-heading">
-            <div class="panel-tools width-5">
-                <a class="closebox width-100" onclick="popClose()"><i class="fa fa-times"></i></a>
-            </div>
-			[업무권한일괄등록]
-        </div>
-        <div class="panel-body">
-			<div class="row">
-			
-				<div class="col-xs-6">
-					<div class="col-xs-8">
-						<div id="cboUserDiv" data-ax5select="cboUserDiv" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+<body>
+	<div class="pop-header">
+		<div>
+			<label>[업무권한일괄등록]</label>
+		</div>
+		<div>
+			<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		</div> 
+	</div>
+	<div class="container-fluid pop_wrap">
+		<!--line1-->					
+		<div class="half_wrap_cb">
+			<!--left wrap-->
+			<div class="l_wrap width-50">
+				<div class="margin-5-right">
+					<div>
+						<div id="cboUserDiv" data-ax5select="cboUserDiv" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-50 dib" ></div>
+						<input id="txtUser" type="text" class="width-49">
 					</div>
-					<div class="col-xs-4">
-						<input id="txtUser" name="txtUser" class="form-control" type="text"></input>
-					</div>
-					<div class="col-xs-8">
-						<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
-					</div>
-					<div class="col-xs-4">
-						<button class="btn btn-default float-right" id="btnSel">선택</button>
-					</div>
-					<div class="col-xs-12">
-						<div class="float-right">
-							<input type="checkbox" class="checkbox-setjob float-right" id="chkAllUser" data-label="전체선택"/>
-						</div>
-					</div>
+					<div class="row">
+						<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-50 dib" ></div>
+					    <button id="btnSel" class="btn_basic_s">선택</button>
+					</div>		
 					
-					<div class="col-xs-12">
-						<div class="scrollBind" style="height: 30%; border: 1px dotted gray;;">
-				  			<ul class="list-group" id="ulUserInfo"></ul>
-				 		</div>
+					<div class="row scrollBind">
+				     	<ul class="list-group" id="ulUserInfo"></ul>
+					</div>	
+					<div class="row">
+						<input type="checkbox" class="checkbox-setjob float-right" id="chkAllUser" data-label="전체선택"/>
 					</div>
 				</div>
-				
-				<div class="col-xs-6">
-					<div class="col-xs-12">
+		 	</div>
+		 	<!--right wrap-->
+		 	<div class="r_wrap width-50">
+		 		<div class="margin-5-left">
+					<label class="tit_80 poa">시스템</label>
+					<div class="ml_80">
 						<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 					</div>
-					<div class="col-xs-12">
-						<div class="float-right">
-							<input type="checkbox" class="checkbox-setjob float-right" id="chkAllJob" data-label="전체선택"/>
+					<div class="row half_wrap_cb">
+						<label class="poa tit_80">업무</label>
+						<div class="r_wrap width-100">
+							<div class="scrollBind ml_80" style="height: 224px;">
+						     	<ul class="list-group" id="ulJobInfo"></ul>
+							</div>
 						</div>
+					</div>	
+					<div class="row tar">
+						<input type="checkbox" class="checkbox-setjob float-right" id="chkAllJob" data-label="전체선택"/>
 					</div>
-					<div class="col-xs-12">
-						<div class="scrollBind" style="height: 30%; border: 1px dotted gray;;">
-				  			<ul class="list-group" id="ulJobInfo"></ul>
-				 		</div>
-					</div>
-					
-					<div class="col-xs-12">
-						<div class="float-right">
-							<button class="btn btn-default" id="btnReq">등록</button>
-							<button class="btn btn-default" id="btnDel">폐기</button>
-							<button class="btn btn-default" id="btnQry">조회</button>
-							<button class="btn btn-default" id="btnExit">닫기</button>
-						</div>
-					</div>
+		 			
 				</div>
 			</div>
-			
-			<div class="row">
-				<div class="col-xs-12">
-					<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 50%;"></div>
-				</div>
-			</div>
-        </div>
-    </div>
-</section>
+		</div>
+		<!--line2-->
+		<div class="row az_board_basic" style="height: 50%">
+			<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+		</div>
+		<!--button-->
+		<div class="row tar">
+			<button id="btnReq" class="btn_basic">등록</button>
+			<button id="btnDel" class="btn_basic margin-5-left">폐기</button>
+			<button id="btnQry" class="btn_basic margin-5-left">조회</button>
+			<button id="btnExit" class="btn_basic margin-5-left">닫기</button>
+		</div>
+	</div>
+</body>	
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/modal/userinfo/SetUserJobModal.js"/>"></script>

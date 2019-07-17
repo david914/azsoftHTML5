@@ -97,6 +97,8 @@ public class eCAMSMainServlet extends HttpServlet {
 		HashMap<String, String> applyInfo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"applyInfo"));
 		return gson.toJson(cmr3200.getMainBar(applyInfo));
 	}
+	
+	// [메인화면] 달력 정보 가져오기
 	private String getCalendarInfo(JsonElement jsonElement) throws SQLException, Exception {
 		String userId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"userId"));
 		String month 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"month"));

@@ -5,51 +5,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <c:import url="/webPage/common/common.jsp" />
 
-<section>
-	<div class="hpanel">
-		<div class="panel-heading">
-            <div class="panel-tools width-5">
-                <a class="closebox width-100" onclick="popClose()"><i class="fa fa-times"></i></a>
-            </div>
-			[비밀번호 초기화]
-        </div>
-        <div class="panel-body">
-			<div class="row">
-				<div class="col-xs-6">
-					<label>사용자ID</label>
-				</div>
-				<div class="col-xs-6">
-					<input id="txtUserId" name="txtUserId" class="form-control" type="text"></input>
-				</div>
+<body style="width: 100% !important; min-width: 0px !important">
+	<div class="pop-header">
+		<div>
+			<label>[비밀번호 초기화]</label>
+		</div>
+		<div>
+			<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		</div> 
+	</div>
+	<div class="container-fluid pop_wrap">
+		<!--line1-->					
+		<div class="row">
+			<label>사용자ID</label>
+	        <div>
+	        	<input id="txtUserId" type="text" class="width-100" />
 			</div>
-			<div class="row">
-				<div class="col-xs-6">
-					<label>비밀번호 4자리</label>
-				</div>
-				<div class="col-xs-6">
-					<input id="txtPasswd" name="txtPasswd" class="form-control" type="password"></input>
-				</div>
+		</div>
+		<!--line2-->					
+		<div class="row">
+			<label>비밀번호 4자리</label>
+	        <div>
+	        	<input id="txtPasswd" type="text" class="width-100" />
 			</div>
-			
-			<div class="row">
-				<div class="col-xs-12">
-					<label>초기화시 비밀번호 4자리로 세팅됩니다.</label>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-xs-12">
-					<button class="btn btn-default" id="btnReq">등록</button>
-					<button class="btn btn-default" id="btnExit">닫기</button>
-				</div>
-			</div>
-			        	
-        </div>
-    </div>
-</section>
+		</div>
+		<!--line3-->					
+		<div class="row txt_r">초기화시 비밀번호 4자리로 세팅됩니다.</div>
+		<!--button-->
+		<div class="row tac">
+			<button id="btnReq" class="btn_basic">등록</button>
+			<button id="btnExit" class="btn_basic margin-5-left">닫기</button>
+		</div>
+	</div>
+</body>	
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/modal/userinfo/InitPassModal.js"/>"></script>

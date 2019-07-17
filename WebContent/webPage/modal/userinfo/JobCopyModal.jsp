@@ -8,71 +8,70 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<section>
-	<div class="hpanel">
-		<div class="panel-heading">
-            <div class="panel-tools width-5">
-                <a class="closebox width-100" onclick="popClose()"><i class="fa fa-times"></i></a>
-            </div>
-			[사용자권한복사]
-        </div>
-        <div class="panel-body">
-			<div class="row">
-				<div class="col-xs-2">
-					<label>사용자[From]</label>
-				</div>
-				<div class="col-xs-4">
-					<input id="txtFromUser" name="txtFromUser" class="form-control" type="text"></input>
-				</div>
-				<div class="col-xs-4">
-					<div id="cboFromUser" data-ax5select="cboFromUser" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+<body>
+	<div class="pop-header">
+		<div>
+			<label>[사용자권한복사]</label>
+		</div>
+		<div>
+			<button type="button" class="close" aria-label="닫기" onclick="popClose()">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		</div> 
+	</div>
+	<div class="container-fluid pop_wrap">
+		<!--line1-->					
+		<div class="row por">
+			<label class="tit_80 poa">사용자[From]</label>
+	        <div class="ml_80">
+	        	<input id="txtFromUser" type="text" class="width-40 margin-left-5" />
+	        	<div id="cboFromUser" data-ax5select="cboFromUser" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib width-40" ></div>
+				<div class="dib poa_r vat">
+					
 				</div>
 			</div>
-			
-			<div class="row">
-				<div class="col-xs-5">
-					<div class="col-xs-6">
-						<label>[담당직무]</label>
+		</div>
+		<!--line2-->					
+		<div class="row half_wrap_cb">
+			<!--left wrap-->
+			<div class="l_wrap width-30">
+				<div class="margin-5-right">
+					<label class="title_s">담당직무</label>
+					
+					<div class="poa_r">
+						<input type="checkbox" class="checkbox-jobcopy" id="chkAllDuty" data-label="전체선택"/>
 					</div>
-					<div class="col-xs-6">
-						<input type="checkbox" class="checkbox-jobcopy float-right" id="chkAllDuty" data-label="전체선택"/>
+					
+					<div class="row scrollBind" style="height: 72%;">
+				     	<ul class="list-group" id="ulDutyInfo"></ul>
 					</div>
 				</div>
-				<div class="col-xs-7">
-					<label>[담당업무]</label>
+		 	</div>
+		 	<!--right wrap-->
+		 	<div class="r_wrap width-70">
+		 		<div class="margin-5-left">
+					<label class="title_s">담당업무</label>
+					<div class="row az_board_basic" style="height: 72%;">
+						<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+					</div>
 				</div>
 			</div>
-			
-			<div class="row">
-				<div class="col-xs-5">
-					<div class="scrollBind" style="height: 72%; border: 1px dotted gray;;">
-			  			<ul class="list-group" id="ulDutyInfo"></ul>
-			 		</div>
-				</div>
-				<div class="col-xs-7">
-					<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 72%;"></div>
-				</div>
+		</div>
+		<!--line3-->					
+		<div class="row por">
+			<label class="tit_80 poa">사용자[To]</label>
+	        <div class="ml_80">
+	        	<input id="txtToUser" type="text" class="width-40 margin-left-5" />
+	        	<div id="cboToUser" data-ax5select="cboToUser" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib width-40" ></div>
 			</div>
-			
-			<div class="row">
-				<div class="col-xs-2">
-					<label>사용자[From]</label>
-				</div>
-				<div class="col-xs-4">
-					<input id="txtToUser" name="txtToUser" class="form-control" type="text"></input>
-				</div>
-				<div class="col-xs-4">
-					<div id="cboToUser" data-ax5select="cboToUser" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
-				</div>
-				<div class="col-xs-2">
-					<button class="btn btn-default float-right" id="btnExit">닫기</button>
-					<button class="btn btn-default float-right" id="btnCopy">복사</button>
-				</div>
+			<div class="poa_r dib vat">
+				<button id="btnCopy" class="btn_basic">복사</button>
+				<button id="btnExit" class="btn_basic margin-5-left">닫기</button>
 			</div>
-			        	
-        </div>
-    </div>
-</section>
-
+		</div>
+	</div>
+	
+	<!-- contener E -->
+</body>	
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/modal/userinfo/JobCopyModal.js"/>"></script>

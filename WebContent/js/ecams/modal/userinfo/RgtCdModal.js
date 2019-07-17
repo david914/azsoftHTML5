@@ -47,11 +47,11 @@ userGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_userid", 		label: "사번",  		width: 150},
-        {key: "cm_username",	label: "성명",  		width: 150},
-        {key: "cm_sysmsg", 		label: "시스템",  	width: 220},
-        {key: "cm_jobname", 	label: "업무",  		width: 180},
-        {key: "cm_rgtcdname", 	label: "직무",  		width: 380},
+        {key: "cm_userid", 		label: "사번",  		width: '10%'},
+        {key: "cm_username",	label: "성명",  		width: '10%'},
+        {key: "cm_sysmsg", 		label: "시스템",  	width: '20%', align: 'left'},
+        {key: "cm_jobname", 	label: "업무",  		width: '10%', align: 'left'},
+        {key: "cm_rgtcdname", 	label: "직무",  		width: '50%', align: 'left'},
     ]
 });
 
