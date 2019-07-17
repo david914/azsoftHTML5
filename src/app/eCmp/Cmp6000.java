@@ -120,7 +120,8 @@ public class Cmp6000{
 				strQuery.append(" (select cm_deptcd,cm_deptname from cmm0100         		  		\n");
 				strQuery.append("   where cm_useyn = 'Y' and cm_updeptcd is not null 		  		\n");
 				strQuery.append("   start with cm_updeptcd = 						 		  		\n");
-				strQuery.append("    (select cm_deptcd from cmm0100 where cm_updeptcd is null)		\n");
+				strQuery.append("    (select cm_deptcd from cmm0100 where cm_deptcd = '000000100')	\n");
+//				strQuery.append("    (select cm_deptcd from cmm0100 where cm_updeptcd is null)		\n");
 				strQuery.append("   connect by prior cm_updeptcd = cm_deptcd ) d     		  		\n");
 				strQuery.append(" where to_char(c.cc_compdate,'yyyymm')=?          		  		\n");
 				strQuery.append("  and a.cc_rate is not null						 		  		\n");

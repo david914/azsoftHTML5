@@ -71,12 +71,26 @@ public class Cmp1400{
 			
 			int i=0;
 			
-			strQuery.setLength(0);
+			strQuery.setLength(0);			
 			
+			//2019.07.15 기간별 검색 시 종료기간 관련 쿼리 안 들어가서 쿼리문 추가(김대호)
+			//--------------------------------------------------------------------------------------------------------------------------
 			if ("01".equals(ReqCd)) { 
-				strQuery.append("SELECT OWNERDEPT, DEPT1, DEPTCD1, DEPT2, DEPTCD2, CM_SYSMSG, CHKSTR, COUNT(CR_ITSMID) CntSum					\n");
-				strQuery.append("FROM(						\n");
+				if("02".equals(etcData.get("dateGbn"))) {					
+					strQuery.append("SELECT OWNERDEPT, DEPT1, DEPTCD1, DEPT2, DEPTCD2, CM_SYSMSG, CHKSTR, CHKEND, COUNT(CR_ITSMID) CntSum					\n");
+					strQuery.append("FROM(						\n");
+				} else {					
+					strQuery.append("SELECT OWNERDEPT, DEPT1, DEPTCD1, DEPT2, DEPTCD2, CM_SYSMSG, CHKSTR, COUNT(CR_ITSMID) CntSum					\n");
+					strQuery.append("FROM(						\n");
+				}
 			}
+			//--------------------------------------------------------------------------------------------------------------------------
+			
+			//수정 전 기존 코드
+//			if ("01".equals(ReqCd)) { 			
+//				strQuery.append("SELECT OWNERDEPT, DEPT1, DEPTCD1, DEPT2, DEPTCD2, CM_SYSMSG, CHKSTR, COUNT(CR_ITSMID) CntSum					\n");
+//				strQuery.append("FROM(						\n");
+//			}
 			
 			strQuery.append(" SELECT TOPDEPTNAME(A.CC_REQDEPT) ownerdept                                                                 \n");
 			strQuery.append("        ,B.CM_DEPTNAME dept1, b.cm_deptcd deptcd1                                              \n");
@@ -187,6 +201,13 @@ public class Cmp1400{
 				strQuery.append("          GROUP BY  OWNERDEPT, DEPT1, DEPTCD1, DEPT2, DEPTCD2, CM_SYSMSG, CHKSTR			\n");
 			}
 			
+			//2019.07.15 기간별 검색 시 종료기간 쿼리 안 들어가서 쿼리문 추가(김대호)
+			//-------------------------------------------------------------------------------------------------------------------
+			if ("02".equals(etcData.get("dateGbn"))) { 
+				strQuery.append("          ,CHKEND																			\n");
+			}
+			//-------------------------------------------------------------------------------------------------------------------
+			
 			strQuery.append(" ORDER BY ownerdept,dept1,dept2,			                      								\n");
 			
 			if("02".equals(ReqCd) || "04".equals(ReqCd)){
@@ -197,7 +218,7 @@ public class Cmp1400{
 			}else {
 				strQuery.append("          E.CM_SYSMSG,chkstr			                      									\n");
 			}
-			
+
 			if ("02".equals(etcData.get("dateGbn"))) { 
 				strQuery.append("      ,chkend                              												\n");
 			}				
