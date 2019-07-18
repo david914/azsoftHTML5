@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta  name="input1" model-name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>azsoft_형상관리시스템</title>
+
+<!-- Vendor styles -->
+<link rel="stylesheet" href="../../vendor/fontawesome/css/font-awesome.css" />
+<link rel="stylesheet" href="../../vendor/metisMenu/dist/metisMenu.css" />
+<link rel="stylesheet" href="../../vendor/animate.css/animate.css" />
+<!-- <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.css" /> -->
+<link rel="stylesheet" href="../../vendor/wCheck-master/wCheck.css" />
+
+<!-- App styles -->
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+<link rel="stylesheet" href="../../fonts/pe-icon-7-stroke/css/helper.css" />
+<!-- <link rel="stylesheet" href="../../styles/style.css"> -->
+
+<!--  AX5UI -->
+<link rel="stylesheet" href="../../styles/ax5/ax5calendar.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5select.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5menu.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5grid.css"><!-- openGrid -->
+<link rel="stylesheet" href="../../styles/ax5/ax5toast.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5modal.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5mask.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5dialog.css">
+<link rel="stylesheet" href="../../styles/ax5/ax5picker.css">
+
+<!-- Toast UI Chart -->
+<link rel="stylesheet" href="../../styles/tui-chart.css" />
+
+<!-- FILE TREE -->
+<link rel="stylesheet" href="../../styles/filetree/zTreeStyle.css">
+
+<link rel="stylesheet" href="../../styles/jquery-ui.css">
+<!-- eCAMS js, css -->
+<link rel="stylesheet" href="../../css/ecams/common/ecamsStyle.css">
+<link rel="stylesheet" href="../../css/ecams/common/toolTip2.css">
+<link rel="stylesheet" href="../../css/ecams/login/loginPage.css">
+</head>
+
+<body>
+<!-- Header -->
+<div id="header"></div>
+
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">관리자 <strong>&gt; 환경설정</strong></div>
+        <!-- history E-->         
+	    <!-- 검색 S-->    
+		<div class="az_search_wrap">
+			<div class="az_in_wrap por">
+				<!-- cell1 -->		
+                <div class="width-25 dib vat">
+                	<div>
+	                    <label class="tit_150 poa">IP Address(내부망)</label>
+	                    <div class="ml_150">
+							<input type="text" class="width-100">
+						</div>
+					</div>
+                	<div class="row">
+	                    <label class="tit_150 poa">IP Address(외부망)</label>
+	                    <div class="ml_150">
+							<input type="text" class="width-100">
+						</div>
+					</div>
+                	<div class="row">
+	                    <label class="tit_150 poa">PORT</label>
+	                    <div class="ml_150">
+							<input type="text" class="width-100">
+						</div>
+					</div>
+				</div>
+				<!-- cell2 -->		
+                <div class="width-25 dib vat">
+                	<div class="margin-5-left">
+	                	<div>
+		                    <label class="tit_150 poa">비밀번호변경주기</label>
+		                    <div class="ml_150 por">
+								<input type="text" class="width-45 dib">
+			                    <div class="poa_r width-50 dib">
+									<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-100">
+										<select tabindex="-1" class="form-control input-sm" name="cboUser">
+											<option value="" selected="selected">프로젝트팀</option>
+											<option value="">전체</option>
+											<option value="">연구개발팀</option>
+											<option value="">영업팀</option>
+											<option value="">프로젝트팀</option>							
+										</select>
+										<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+				                            <div class="ax5select-display-table" data-els="display-table">
+				                                <div data-ax5select-display="label">프로젝트팀</div>
+				                                <div data-ax5select-display="addon"> 
+				                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+				                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+				                                </div>
+				                            </div>
+				                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+				                        </a>
+								    </div>
+								</div>
+							</div>
+						</div>
+	                	<div class="row">
+		                    <label class="tit_150 poa">비밀번호입력제한횟수</label>
+		                    <div class="ml_150">
+								<input type="text" class="width-100">
+							</div>
+						</div>
+	                	<div class="row">
+		                    <label class="tit_150 poa">이전비밀번호보관횟수</label>
+		                    <div class="ml_150">
+								<input type="text" class="width-100">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- cell3 -->		
+                <div class="width-25 dib vat">
+                	<div class="margin-5-left">
+	                	<div>
+		                    <label class="tit_150 poa">초기비밀번호</label>
+		                    <div class="ml_150">
+								<input type="text" class="width-100">
+							</div>
+						</div>
+	                	<div class="row">
+		                    <label class="tit_150 poa">관리자용비밀번호</label>
+		                    <div class="ml_150">
+								<input type="text" class="width-100">
+							</div>
+						</div>
+	                	<div class="row">
+		                    <label class="tit_150 poa">사용금지특수문자</label>
+		                    <div class="ml_150">
+								<input type="text" class="width-100">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- cell4 -->		
+                <div class="width-25 dib vat">
+                	<div class="margin-5-left">
+	                	<div>
+		                    <label class="tit_150 poa">미사용ID잠금기준일</label>
+		                    <div class="ml_150">
+								<input type="text" class="width-100">
+							</div>
+						</div>
+	                	<div class="row">
+		                    <label class="tit_150 poa">로그인이력보관기간</label>
+		                    <div class="ml_150">
+								<input type="text" class="width-100">
+							</div>
+						</div>
+	                	<div class="row">
+		                    <label class="tit_150 poa">프로세스총갯수</label>
+		                    <div class="ml_150">
+								<input type="text" class="width-100">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--컨텐츠버튼 S-->
+				<div class="row tar">
+					<button class="btn_basic_s margin-5-left" data-grid-control="excel-export">환경설정등록</button>
+				</div>
+				<!--컨텐츠버튼 E-->
+			</div>
+		</div>
+	    <!-- 검색 E-->
+	    <!-- tab S-->
+	    <div class="tab_wrap">
+			<ul>
+				<li>운영시간관리</li><li class="on">삭제기준관리</li><li>디렉토리정책</li><li>작업서버정보</li><li>알림기준정보</li><li>SR유형관리</li>
+			</ul>
+		</div>
+		<!-- tab E-->
+		<!--시간관리 S-->
+		<div class="row half_wrap_cb">			
+			<div class="l_wrap width-20">
+	            <label class="tit_150 poa">삭제대상디렉토리구분</label>
+	            <div class="ml_150 por">
+	                <div>
+						<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-100">
+							<select tabindex="-1" class="form-control input-sm" name="cboUser">
+								<option value="" selected="selected">프로젝트팀</option>
+								<option value="">전체</option>
+								<option value="">연구개발팀</option>
+								<option value="">영업팀</option>
+								<option value="">프로젝트팀</option>							
+							</select>
+							<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+	                            <div class="ax5select-display-table" data-els="display-table">
+	                                <div data-ax5select-display="label">프로젝트팀</div>
+	                                <div data-ax5select-display="addon"> 
+	                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+	                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+	                                </div>
+	                            </div>
+	                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+	                        </a>
+					    </div>
+					</div>
+				</div>
+			</div>
+			<div class="r_wrap width-50">
+	            <label class="tit_80 poa">삭제주기</label>
+	            <div class="ml_80 por">
+					<input type="text" class="dib" style="width:70px;">
+		            <div class="dib">
+		                <div>
+							<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-30">
+								<select tabindex="-1" class="form-control input-sm" name="cboUser">
+									<option value="" selected="selected">프로젝트팀</option>
+									<option value="">전체</option>
+									<option value="">연구개발팀</option>
+									<option value="">영업팀</option>
+									<option value="">프로젝트팀</option>							
+								</select>
+								<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+		                            <div class="ax5select-display-table" data-els="display-table">
+		                                <div data-ax5select-display="label">프로젝트팀</div>
+		                                <div data-ax5select-display="addon"> 
+		                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+		                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+		                                </div>
+		                            </div>
+		                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+		                        </a>
+						    </div>
+						</div>
+					</div>	
+					<div class="dib poa_r">
+						<button class="btn_basic_s margin-20-left" data-grid-control="excel-export">등록</button><button class="btn_basic_s margin-5-left" data-grid-control="excel-export">폐기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--시간관리 E-->
+	    <!-- 게시판 S-->
+	    <div class="row az_board_basic">
+	    	<table>
+		    	<colgroup>
+		    		<col width="50%"/><col width="50%"/>
+		    	</colgroup>
+	    		<tr>
+	    			<th scope="col">디렉토리구분</th>
+	    			<th scope="col">삭제주기</th>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    	</table>	
+		</div>	
+		<!-- 게시판 E -->
+    </div>
+</div>
+<!-- Footer-->
+<footer id="footer">
+    <ul>
+        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+    </ul>
+</footer>
+<input id="txtSessionID" type="hidden" value="FE5E5695B40130B57F234A35A59EF651">
+
+<!-- contener E -->
+
+</body>
+</html>
