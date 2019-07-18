@@ -6,8 +6,10 @@ var reqGrid     = new ax5.ui.grid();
 var resultGrid  = new ax5.ui.grid();
 var picker 		= new ax5.ui.picker();
 
-var confirmDialog = new ax5.ui.dialog();	//확인,취소 창
+var confirmDialog  = new ax5.ui.dialog();	//확인,취소 창
 var confirmDialog2 = new ax5.ui.dialog();   //확인 창
+
+var befJobModal    = new ax5.ui.modal();	//선후행작업확인 modal
 
 var options 	   = [];
 
@@ -403,14 +405,14 @@ $(document).ready(function(){
 	//처리구분 콤보선택
 	$('#cboReqPass').bind('change', function() {
 		if (getSelectedVal('cboReqPass').value == '4') {
-			document.getElementById('reqgbnDiv').style.visibility = "visible";
+			//document.getElementById('reqgbnDiv').style.visibility = "visible";
 			
 			if (reqInfoData == null || reqInfoData.length < 1 || reqInfoData[0].cr_passok != '4') {
 				$('#txtReqDate').val(getDate('DATE',0).substr(0,4)+'/'+getDate('DATE',0).substr(4,2)+'/'+getDate('DATE',0).substr(6));
 				$('#txtReqTime').val(getTime().substr(0,2)+':'+getTime().substr(2,2));
 			}
 		} else {
-			document.getElementById('reqgbnDiv').style.visibility = "hidden";
+			//document.getElementById('reqgbnDiv').style.visibility = "hidden";
 		}
 	});
 	//배포구분 콤보선택
@@ -728,7 +730,24 @@ $(document).ready(function(){
 	});
 	//선후행작업확인 클릭
 	$('#btnBefJob').bind('click', function() {
-		
+		befJobModal.open({
+	        width: 800,
+	        height: 400,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/request/BefJobListModal.jsp",
+	            param: "callBack=befJobModalCallBack"
+	        },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	            }
+	        }
+	    }, function () {
+	    });
 	});
 	
 	/**
@@ -797,7 +816,9 @@ function resetScreen(){
 	resultGrid.setData([]);
 	resultGrid.repaint();
 }
-
+var befJobModalCallBack = function() {
+	befJobModal.close();
+}
 //항목상세보기
 function gridData_Filter(){
 	if (reqGridOrgData.length < 1) return;

@@ -283,8 +283,8 @@
 <form name="setReqData">
 	<input type="hidden" name="acptno"/>
 	<input type="hidden" name="user"/>
-	<input type="hidden" name="etcInfo"/>
+	<input type="hidden" name="etcinfo"/>
 </form>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
-<script type="text/javascript"	src="<c:url value="/js/ecams/winpop/RequestDetail.js"/>"></script>
+<script type="text/javascript"	src="<c:url value="/js/ecams/winpop/PopRequestDetail.js"/>"></script>
