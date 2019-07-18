@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp"/>
 
+<body style="width: 100% !important; min-width: 0px !important; height: 100%; min-height: 0px !important;">
 <!-- contener S -->
 <div id="wrapper">
     <div class="content">
@@ -129,8 +130,8 @@
 		<!-- 게시판 E -->
 	</div>
 </div>
-
 <!-- contener E -->
+</body>
 
 <form name="popPam" id="popPam" method="post">
 	<INPUT type="hidden" name="UserId" id="UserId"> 

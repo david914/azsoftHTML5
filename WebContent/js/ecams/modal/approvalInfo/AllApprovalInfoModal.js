@@ -96,10 +96,10 @@ function getCodeInfo(){
 
 function getSysInfo() {
 	tmpInfo = new Object();
-	tmpInfo.userId = userId;
-	tmpInfo.selMsg = "ALL";
-	tmpInfo.closeYn = "N";
-	tmpInfo.sysCd = "";
+	tmpInfo.UserId = userId;
+	tmpInfo.SelMsg = "ALL";
+	tmpInfo.CloseYn = "N";
+	tmpInfo.SysCd = "";
 	
 	tmpInfoData = new Object();
 	tmpInfoData = {
