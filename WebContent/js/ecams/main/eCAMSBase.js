@@ -19,23 +19,39 @@ var menuData	= null;
 
 $(document).ready(function() {
 	screenInit();
-	$('#side-menu').click(clickSideMenu);
-	$('.hide-menu').on('click', function(event){
-        event.preventDefault();
-        if ($(window).width() < 769) {
-            $("body").toggleClass("show-sidebar");
-        } else {
-            $("body").toggleClass("hide-sidebar");
-        }
-    });
-	
-	
+	var $iFrm = '';
 	// eCAMS Main Load
 	$('#eCAMSFrame').empty();
-	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="/webPage/main/eCAMSMainNew.jsp" style=" width:100%; height: 92vh"></IFRAME>');
+	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="/webPage/main/eCAMSMainNew.jsp" style=" width:100%; height: 100vh;" marginwidth="0" marginheight="0" ></IFRAME>');
 	$iFrm.appendTo('#eCAMSFrame');
 	
+	
+	// ifrmae contents의 height에 맞게 height 값 추가
+	/*$("#iFrm").on("load resize",function(){
+		//$("#iFrm").css("height","");
+		console.log("load height : "+$("#iFrm").contents().height());
+		if(iframeHeight != $("#iFrm").contents().height() + 20){
+			iframeHeight = resizeIframe($("#iFrm"));
+		}
+	})*/
 });
+
+function lang_open(){
+	  var $gnb = jQuery(".lang_menu > ul > li");
+	  $gnb.find("> a").mouseenter(function(){
+	      var $this = jQuery(this);
+	      $this.css('color','#2471c8')
+	      $this.parent('li').children('div').addClass("active");
+	      $gnb.find("> div").hide();
+	      $this.parent('li').children('div').show();
+	   }),
+	  $gnb.mouseleave(function(){
+	      var $this = jQuery(this);
+	      $this.children('a').css('color','')
+	      $this.children('div').removeClass("active");
+	  });
+}
+	
 
 function screenInit() {
 	if( sessionID === null ) sessionID =$('#txtSessionID').val();
@@ -70,54 +86,59 @@ function getSession() {
 	meneSet();
 }
 
-function meneSet() {
-	var ajaxUserData = null;
+
+// 메뉴데이터 가져오기 완료
+function successGetMenuData(data) {
+	menuData = data;
+	console.log(menuData);
 	
-	var userInfo = {
-		requestType : 'MenuList',
-		UserId 	: userId
-	}   
-	ajaxUserData = ajaxCallWithJson('/webPage/main/eCAMSBaseServlet', userInfo, 'json');
-	
-	menuData = ajaxUserData;
+	$('#ulMenu').empty();
 	var menuHtmlStr = '';
 	menuData.forEach(function(menuItem, menuItemIndex) {
 		if(menuItem.link === undefined || menuItem.link === null) {
 			if(menuHtmlStr.length > 1) {
-				menuHtmlStr += '</ul>\n';
+				menuHtmlStr += '</div>\n';
 				menuHtmlStr += '</li>\n';
 			}
-			menuHtmlStr += '<li>\n';
-			menuHtmlStr += '<a href="doneMove"><span class="nav-label">'+menuItem.text+'</span><span class="fa arrow"></span> </a>\n';
-			menuHtmlStr += '<ul class="nav nav-second-level">\n';
+			menuHtmlStr += '<li class="lang_open">\n';
+			menuHtmlStr += '	<a href="#" link="doneMove">'+menuItem.text+'</a>\n';
+			menuHtmlStr += '	<div class="menu_box">\n';
 		}else if(menuItem.link !== null) {
-			menuHtmlStr += '<li><a href="'+menuItem.link+'">'+menuItem.text+'</a></li>\n';
+			menuHtmlStr += '<p onclick="clickSideMenu(event)" link="'+menuItem.link+'">'+menuItem.text+'</p>\n';
 		}
 		
 		if((menuItemIndex+1) === menuData.length) {
-			menuHtmlStr += '</ul>\n';
+			menuHtmlStr += '</div>\n';
 			menuHtmlStr += '</li>\n';
 		}
 	});
 	
-	$('#side-menu').html(menuHtmlStr);
-	$('#side-menu').metisMenu();
+	$('#ulMenu').html(menuHtmlStr);
+	
+	lang_open();
+}
+
+// 메뉴데이터 가져오기
+function meneSet() {
+	var data = new Object();
+	data = {
+		UserId 		: userId,
+		requestType	: 'MenuList'
+	}
+	ajaxAsync('/webPage/main/eCAMSBaseServlet', data, 'json',successGetMenuData);
 }
 
 function clickSideMenu(event) {
 	event.preventDefault();
 	
-	// 사이드메뉴 선택된 영역 a태크 아닐시 반환
-	if( event.target.pathname === undefined) return;
-	
 	var $iFrm = '';
-	var pathName = event.target.pathname;
+	var pathName = event.target.getAttribute('link');
 	var parentMenuName = '';
 	
 	// 접속 메뉴 request code 가져오기 수정.
 	var findReqCd = false;
 	for(var i=0; i<menuData.length; i++) {
-		if(menuData[i].link === event.target.pathname && event.target.innerText === menuData[i].text) {
+		if(menuData[i].link === event.target.link && event.target.innerText === menuData[i].text) {
 			reqCd = menuData[i].reqcd;
 			findReqCd = true;
 			break;
@@ -125,26 +146,18 @@ function clickSideMenu(event) {
 	} 
 	if(!findReqCd) reqCd = null;
 	
+	
 	// 하위 메뉴일시만 이동
 	if( pathName.indexOf('doneMove') < 0) {
 		//IFRAME 지워준후 다시그리기
 		$('#eCAMSFrame').empty();
-		$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="'+event.target.href+'" style=" width:100%; height: 92vh"></IFRAME>');
+		$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="'+pathName+'" style=" width:100%; height: 100vh;" marginwidth="0" marginheight="0" ></IFRAME>');
 		$iFrm.appendTo('#eCAMSFrame');
 		
 		//상위 TITLE TEXT SET
-		parentMenuName = $(event.target).closest('ul').closest('li').children('a')[0].innerText;
-		$('#ecamsTitleText').html('['+parentMenuName+'] '+event.target.innerText);
+		//parentMenuName = $(event.target).closest('ul').closest('li').children('a')[0].innerText;
+		//$('#ecamsTitleText').html('['+parentMenuName+'] '+event.target.innerText);
 	}
-	
-	// ifrmae contents의 height에 맞게 height 값 추가
-/*	$("#iFrm").on("load resize",function(){
-		$("#iFrm").css("height","");
-		console.log("load height : "+$("#iFrm").contents().height());
-		if(iframeHeight != $("#iFrm").contents().height() + 20){
-			iframeHeight = resizeIframe($("#iFrm"));
-		}
-	})*/
 }
 
 function goHome() {
@@ -156,13 +169,16 @@ function logOut() {
 }
 
 function resizeIframe(iframe) {
+	console.log(window.innerHeight);
+	console.log(iframe.contents().height());
     var addHeight = 20;
     
-    //var h = window. innerHeight; document. getElementById("top"). style. height = (h - 90) + "px";
+    //var h = window. innerHeight; document.getElementById("top"). tyle.height = (h - 90) + "px";
     
     /*console.log("window.innerHeight : "+window.innerHeight);
     console.log("document.getEflementById('header').style.heght : "+document.getElementById('header').style.height);*/
     
-    iframe.css("height",iframe.contents().height() + addHeight + "px");
+    //iframe.css("height",iframe.contents().height() + addHeight + "px");
+    iframe.css("height", (window.innerHeight -85) + "px");
     return iframe.contents().height() + addHeight;
   }

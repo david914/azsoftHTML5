@@ -3,14 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
 
-<div id="wrapper">
-	<div id="header"></div>
-	<div class="row">
-		<div class="width-70">
-			<div id='calendar'></div>
+<body style="width: 100% !important; min-width: 0px !important; height: 98% !important; min-height: 0px !important">
+	<div id="wrapper">
+		<div class="row">
+			<div class="width-50">
+				<div id='calendar'></div>
+			</div>
 		</div>
 	</div>
-</div>
+</body>
 
 <form name="popPam">
 	<input type="hidden" name="acptno"/>

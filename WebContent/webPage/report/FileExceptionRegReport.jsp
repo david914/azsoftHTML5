@@ -5,7 +5,6 @@
 <c:import url="/webPage/common/common.jsp" />
 <div id="wrapper">
 	<!-- Header -->
-	<div id="header"></div>
 	<div class="content">    	
 		<div id="history_wrap">보고서<strong>&gt; 파일대사예외등록현황</strong></div>
 	     

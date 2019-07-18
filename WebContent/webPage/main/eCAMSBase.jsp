@@ -8,12 +8,53 @@
 	<c:import url="/webPage/common/common.jsp" />
 	<title>형상관리 시스템</title>
 </head>
+
+<style type="text/css">
+  	h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 45px; margin-left: 15px; color: #2471c8;}
+	.lang_menu {position: absolute; top: 0; margin-left: 100px; height: 50px; width: 1024px; z-index: 10000;}
+  	.lang_menu:after{content: ''; display: block; zoom: 1;}
+	.lang_menu ul li{float: left; width: 82px; text-align: center;}
+  	.lang_menu ul li a{display: block; font-size: 14px; font-weight: bold; color: #333; padding-top: 15px; height: 50px;}
+    .lang_menu ul li div.active{display: block; border-top: solid 3px #2471c8;}
+    .lang_menu ul li .menu_box{display: none; width: 135px; background-color: #fff; margin-top: -3px; z-index: 1000; -webkit-box-shadow: 0 6px 16px rgba(0,0,0,.175); box-shadow: 0 6px 16px rgba(0,0,0,.175);}
+    .lang_menu ul li .menu_box p{display: block; padding: 10px 5px; border-bottom: 1px solid #eee; text-align: left; font-size: 12px; cursor: pointer;}
+    .lang_menu ul li .menu_box p:last-child{border-bottom: 0;}
+    .lang_menu ul li .menu_box p img{margin-top: 2px;}
+    footer {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+</style>
+
 <body>
 
 <!-- Header -->
+<div id="header">	
+	<h1 class="logo">azsoft</h1>
+	<div class="lang_menu">
+		<ul id="ulMenu"></ul>
+	</div>
+</div>
+
+<!-- contener -->
+<div class="wrapper">
+	<div id="eCAMSFrame" class="content">
+	</div>
+</div>
+
+<!-- Footer-->
+<footer id="footer">
+    <ul>
+        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+    </ul>
+</footer>
+
+
+<%-- 
 <div id="header">
-    <!-- <div class="color-line">
-    </div> -->
     <div id="logo" class="light-version">
     	<img src="<c:url value="/img/top_log.gif"/>" alt="logo" onclick="goHome()">
     </div>
@@ -26,12 +67,6 @@
         <form role="search" class="navbar-title-text-main" method="post" action="#">
         	<span id="ecamsTitleText">eCAMS MAIN PAGE</span>
         </form> 
-      <!--  	<form role="search" class="navbar-form-custom" method="post" action="#">
-            <div class="form-group">
-                <input type="text" placeholder="검색하세요." class="form-control" name="search">
-               
-            </div>
-        </form> -->
         <div class="mobile-menu">
             <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
                 <i class="fa fa-chevron-down"></i>
@@ -65,33 +100,8 @@
     </nav>
 </div>
 
-<!-- Navigation -->
 <aside id="menu" style="overflow:auto;">
     <div id="navigation" >
-        <%-- 
-        	사이드 메뉴 상단에 프로필(접속자 사진 , 접속자명 등) 주석.. 
-        <div class="profile-picture">
-            <a href="index.jsp">
-                <img src="<c:url value="/img/profile.jpg"/>" class="img-circle m-b" alt="logo">
-            </a>
-
-            <div class="stats-label text-color">
-                <span class="font-extra-bold font-uppercase" id="loginUserName">접속자이름여기에</span>
-
-                <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                        <small class="text-muted">개인정보(로그아웃,프로필등) <b class="caret"></b></small>
-                    </a>
-                    <ul class="dropdown-menu animated flipInX m-t-xs">
-                        <li><a href="contacts.html">Contacts</a></li>
-                        <li><a href="profile.html">Profile</a></li>
-                        <li><a href="analytics.html">Analytics</a></li>
-                        <li class="divider"></li>
-                        <li><a href="login.html">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div> --%>
         <ul class="nav" id="side-menu">
         </ul>
     </div>
@@ -101,13 +111,16 @@
 	<div id="eCAMSFrame">
 	</div>
 </div>
-<!-- Footer-->
+
 <footer class="footer">
     <span class="pull-right">
         Copyright ⓒ AZSoft Corp. All Right Reserved
     </span>
 	<img src="<c:url value="/img/azsoft.jpg"/>">
 </footer>
+
+ --%>
+
 <input id="txtSessionID" type="hidden" value="${sessionID}">
 
 <c:import url="/js/ecams/common/commonscript.jsp" />

@@ -3,9 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
 
-<div id="wrapper">
-	<div id="header"></div>
-	
+<body style="width: 100% !important; min-width: 0px !important; height: 100%; min-height: 0px !important;">
 	<div class="content">
 		<div id="history_wrap">관리자 <strong>&gt; 시스템정보</strong></div>
 		
@@ -183,7 +181,7 @@
 									<input id="txtJobname" name="txtJobname" type="text" class="width-100" />
 								</div>
 								
-								<div class="az_board_basic scroll_h az_board_basic_in row" style="height: 23%">
+								<div class="az_board_basic scroll_h az_board_basic_in row" style="height: 17%">
 									<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 								</div>
 							</div>
@@ -208,7 +206,8 @@
 		</div>
 		
 	</div>
-</div>
-	    
+
+</body>
+
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/administrator/SysInfo.js"/>"></script>

@@ -14,9 +14,6 @@
   	border-radius: 5px;
 }
 </style>
-<!-- Header -->
-<div id="header"></div>
-
 <!-- contener -->
 <div id="wrapper">
 	<div class="content">

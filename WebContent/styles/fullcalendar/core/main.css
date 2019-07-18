@@ -190,7 +190,9 @@ temporary rendered events).
   /* extra precedence to prevent theme-provided backgrounds */
   background: none;
   /* in case <td>s are globally styled */
-  border-color: transparent; }
+  border-color: transparent;
+  /* background-color: black; */
+  }
 
 .fc-row .fc-content-skeleton td,
 .fc-row .fc-mirror-skeleton td {
@@ -200,7 +202,8 @@ temporary rendered events).
 .fc-row .fc-content-skeleton tbody td,
 .fc-row .fc-mirror-skeleton tbody td {
   /* don't put a border between event cells */
-  border-top: 0; }
+  border-top: 0;
+  }
 
 /* Scrolling Container
 --------------------------------------------------------------------------------------------------*/

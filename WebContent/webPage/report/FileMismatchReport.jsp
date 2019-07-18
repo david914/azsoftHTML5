@@ -6,7 +6,6 @@
 
 <div id="wrapper">
 	<!-- Header -->
-	<div id="header"></div>
 	<div class="content">    	
 		<div id="history_wrap">보고서<strong>&gt; 파일대사불일치현황</strong></div>
 		     

@@ -32,11 +32,17 @@ $(document).ready(function(){
 	getCalInfo();
 	
 	$('body').on('click', 'button.fc-prev-button', function() {
+		$('td.fc-more-cell').css('background-color', '#FDFF7F');
 		getAddCalInfo();
 	});
 
 	$('body').on('click', 'button.fc-next-button', function() {
+		$('td.fc-more-cell').css('background-color', '#FDFF7F');
 		getAddCalInfo();
+	});
+	
+	$('body').on('click', 'button.fc-dayGridMonth-button', function() {
+		$('td.fc-more-cell').css('background-color', '#FDFF7F');
 	});
 	
 });
@@ -69,6 +75,7 @@ function getAddCalInfo() {
 // 캘린더 인포 추가 가져오기 완료
 function successGetAddCalInfo(data) {
 	calendar.addEventSource(data);
+	$('td.fc-more-cell').css('background-color', '#FDFF7F');
 }
 
 // 캘린더 현재 월 구해오기 YYYYMM 까지
@@ -125,6 +132,7 @@ function successGetCalInfo(data) {
 	    }
     });
 	calendar.render();
+	$('td.fc-more-cell').css('background-color', '#FDFF7F');
 }
 
 //결재 정보 창 띄우기
