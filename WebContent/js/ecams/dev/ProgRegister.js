@@ -679,7 +679,7 @@ function btnDevRep_Click() {
 	form.SysCd.value  = getSelectedVal('cboSystem').value;  //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 	
 	nHeight	= screen.height;
-    nWidth = screen.width - 200;
+    nWidth = screen.width;
     
     winDevRep = winOpen(form, 'devRep', '/webPage/winpop/progregister/PopDevRepository.jsp', nHeight, nWidth);
 }

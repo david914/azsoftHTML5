@@ -28,7 +28,7 @@ var cboSvrData		= null;	//서버 데이터
 var cboJawonData	= null;	//프로그램종류 데이터
 var cboJobData		= null;	//업무 데이터
 var cboSRIData		= null;	//SRID 데이터
-var grdProgListData= null; //프로그램목록그리드 데이터
+var grdProgListData = null; //프로그램목록그리드 데이터
 
 var treeObj			= null;
 var treeObjData		= null; //디렉토리트리 데이터
@@ -93,8 +93,6 @@ $(document).ready(function(){
 	
 	//tmpAry.filterFunction = selectedFilters;
 	
-	//$('#chkAll').prop("checked", true);
-	
 	//디렉토리조회 클릭
 	$("#btnQry").bind('click', function() {
 		btnQry_Click();
@@ -120,7 +118,12 @@ $(document).ready(function(){
 		cboJawon_Change();
 	});
 	
-	//경로변경 (입력할 수 있는 select box)
+	//경로입력
+	$('#txtDir').bind('keypress', function(event){
+		if(event.keyCode==13) {
+			btnQry_Click();
+		}
+	});
 });
 
 //SystemPath.getTmpDir("99");
@@ -457,14 +460,37 @@ function btnQry_Click() {
 	
 	if(selectedIndex < 0) return;
 	
-	//svrOpen_svr.getSvrDir(strUserId,cboSys.selectedItem.cm_syscd,cboSvr.selectedItem.cm_svrip,cboSvr.selectedItem.cm_portno,strBaseDir,cboSvr.selectedItem.cm_dir,cboSvr.selectedItem.cm_sysos,cboSvr.selectedItem.cm_volpath,cboSvr.selectedItem.cm_svrname,cboSvr.selectedItem.cm_buffsize);
+	//기준디렉토리 뒤에 슬래쉬 o + 입력디렉토리 앞에 슬래쉬 o > 슬래쉬빼주기
+	//기준디렉토리 뒤에 슬래쉬 o + 입력디렉토리 앞에 슬래쉬 x
+	//기준디렉토리 뒤에 슬래쉬 x + 입력디렉토리 앞에 슬래쉬 o
+	//기준디렉토리 뒤에 슬래쉬 x + 입력디렉토리 앞에 슬래쉬 x > 슬래쉬 붙여주기
 	
+	//입력디렉토리 앞에 슬래쉬 o
+	if($('#txtDir').val() != "") {
+		if($('#txtDir').val().substr(0,1) == "/" || $('#txtDir').val().substr(0,1) == "\\") {
+			if(baseDir.substr(baseDir.length-1,1) == "/" || baseDir.substr(baseDir.length-1,1) == "\\") {
+				$('#txtDir').val($('#txtDir').val().substr(1,$('#txtDir').val().length-1))
+			}
+		}
+		
+		//입력디렉토리 앞에 슬래쉬 x
+		if($('#txtDir').val().substr(0,1) != "/" && $('#txtDir').val().substr(0,1) != "\\") {
+			if(baseDir.substr(baseDir.length-1,1) != "/" || baseDir.substr(baseDir.length-1,1) != "\\") {
+				$('#txtDir').val("/" + $('#txtDir').val())
+			}
+		}
+	}
+	
+	//console.log("txtDir: " + baseDir + $('#txtDir').val());
+	
+	//svrOpen_svr.getSvrDir(strUserId,cboSys.selectedItem.cm_syscd,cboSvr.selectedItem.cm_svrip,cboSvr.selectedItem.cm_portno,strBaseDir,cboSvr.selectedItem.cm_dir,cboSvr.selectedItem.cm_sysos,cboSvr.selectedItem.cm_volpath,cboSvr.selectedItem.cm_svrname,cboSvr.selectedItem.cm_buffsize);
 	tmpInfo = new Object();
 	tmpInfo.UserId = strUserId;
 	tmpInfo.SysCd = $('[data-ax5select="cboSystem"]').ax5select("getValue")[0].value;
 	tmpInfo.SvrIp = selectedItem.cm_svrip;
 	tmpInfo.SvrPort = selectedItem.cm_portno;
-	tmpInfo.BaseDir = baseDir;
+	//tmpInfo.BaseDir = baseDir;
+	tmpInfo.BaseDir = baseDir + $('#txtDir').val();
 	tmpInfo.AgentDir = selectedItem.cm_dir;
 	tmpInfo.SysOs = selectedItem.cm_sysos;
 	tmpInfo.HomeDir = selectedItem.cm_volpath;
@@ -486,26 +512,31 @@ function successSvrDir(data) {
 	treeObj = $.fn.zTree.getZTreeObj("treeDir");
 }
 
-/* 트리 노트 마우스 우클릭 이벤트 */
+/* 트리 노드 마우스 우클릭 이벤트 */
 function OnRightClick(event, treeId, treeNode) { 
+	var treeId = treeNode.id;
+	
 	if (!treeNode && event.target.tagName.toLowerCase() != "button" && $(event.target).parents("a").length == 0) {
-		console.log("root");
 		treeObj.cancelSelectedNode();
-		showRMenu("root", event.clientX, event.clientY); 
+		
+		showRMenu("root", event.clientX, event.clientY);
+		selectedNode = treeNode;
 	} else if (treeNode && !treeNode.noR) {
-		console.log("node");
 		treeObj.selectNode(treeNode);
-		showRMenu("node", event.clientX, event.clientY); 
-	} 
+		showRMenu("node", event.clientX, event.clientY);
+		selectedNode = treeNode;
+	}
 } 
 
 /* context menu 설정 */
 function showRMenu(type, x, y) { 
 	$("#rMenu ul").show(); 
 	if (type=="root") { 
-		$("#contextmenu").hide(); 
+		$("#contextmenu1").hide();
+		$("#contextmenu2").hide();
 	} else { 
-		$("#contextmenu").show(); 
+		$("#contextmenu1").show();
+		$("#contextmenu2").show();
  	} 
   
      y += document.body.scrollTop; 
@@ -517,9 +548,9 @@ function showRMenu(type, x, y) {
 
 /* 노드 이외 영역 클릭시 context menu 숨기기 */
 function onBodyMouseDown(event){ 
-	if (!(event.target.id == "rMenu" || $(event.target).parents("#rMenu").length>0)) { 
-		$("#rMenu").css({"visibility" : "hidden"}); 
-	} 
+	if (!(event.target.id == "rMenu" || $(event.target).parents("#rMenu").length>0)) {
+		$("#rMenu").css({"visibility" : "hidden"});
+	}
 } 
 
 /* context menu 숨기기 */
@@ -549,14 +580,8 @@ function contextmenu_click(gbn) {
 	var tmpExe1 = "";
 	var tmpExe2 = "";
 	
-//	if($('#chkAll').is(':checked')) {
-//		tmpStr = "9";
-//	}else {
-//		tmpStr = "1";
-//	}
-	
 	tmpStr = gbn;
-	console.log("tmpStr: " + tmpStr);
+	//console.log("tmpStr: " + tmpStr);
 	
 	if($('#txtExe').val($('#txtExe').val().trim()).length > 0) tmpExe1 = $('#txtExe').val().trim();
 	else tmpExe1 = "";
