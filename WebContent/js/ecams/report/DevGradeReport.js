@@ -66,9 +66,12 @@ function getRowList() {
 	var ajaxData = new Object();
 	var ajaxResult = [];
 	var gridData = [[],[],[]];
+	var month = $("#month").text().slice(0, -1);
+	var year = $("#year").text().slice(0, -1);
+	if(month.length <= 1) month = '0' + month;
 		
 	ajaxData.requestType = "getRowList";
-	ajaxData.date = "201702";
+	ajaxData.date = year + month;
 	
 	ajaxData.data = "reqDept";
 	ajaxResult.push(ajaxCallWithJson('/webPage/report/DevGradeReport', ajaxData, 'json'));
@@ -94,4 +97,34 @@ function getRowList() {
 	for(var i = 0; i <= 2; i++) {		
 		mainGrid[i].setData(gridData[i]);
 	}
+}
+
+//날짜버튼 클릭 시
+$(".dateBtn").bind('click', function() {
+	var clicked = $(this).attr('id');
+	dateSet(clicked);
+});
+
+function dateSet(value) {
+	
+	var month = parseInt($("#month").text().slice(0, -1));
+	var year = parseInt($("#year").text().slice(0, -1));
+	
+	switch(value) {
+	case 'year-prev' :
+		console.log("prevyeaer")
+		year--;
+		break;
+	case 'year-next' :
+		year++;
+		break;
+	case 'month-prev' :
+		month = month == 1 ? 12 : month - 1; 
+		break;
+	case 'month-next' :
+		month = month == 12 ? 1 : month + 1; 
+		break;
+	}
+	$("#month").text(month + "월");
+	$("#year").text(year + "년");
 }
