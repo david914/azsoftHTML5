@@ -17,28 +17,28 @@
                 	<div>
 	                    <label class="tit_80 poa">결재종류</label>
 	                    <div class="ml_80">
-							<div id="cboReqCd" data-ax5select="cboReqCd" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+							<div id="cboReqCd" data-ax5select="cboReqCd" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 						    </div>
 						</div>
 					</div>
                 	<div class="row">
 	                    <label class="tit_80 poa">시스템</label>
 	                    <div class="ml_80">
-							<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+							<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 						    </div>
 						</div>
 					</div>
                 	<div class="row">
 	                    <label class="tit_80 poa">정상결재시</label>
 	                    <div class="ml_80">
-							<div id="cboCommon" data-ax5select="cboCommon" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+							<div id="cboCommon" data-ax5select="cboCommon" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 						    </div>
 						</div>
 					</div>
                 	<div class="row">
 	                    <label class="tit_80 poa">결재조직</label>
 	                    <div class="ml_80">
-							<input id="txtDept" type="text" class="width-80"></input>
+							<input id="txtDept" type="text" class="width-100"></input>
 						</div>
 					</div>
 					<div class="row view_g font_12" style="height:150px">
@@ -57,7 +57,7 @@
 	                	<div>
 		                    <label class="tit_80 poa">결재단계</label>
 		                    <div class="ml_80">
-								<div id="cboSignStep" data-ax5select="cboSignStep" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+								<div id="cboSignStep" data-ax5select="cboSignStep" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 							    </div>
 							</div>
 						</div>
@@ -67,7 +67,7 @@
 	                	<div class="row">
 		                    <label class="tit_80 poa">부재처리시</label>
 		                    <div class="ml_80">
-								<div id="cboBlank" data-ax5select="cboBlank" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+								<div id="cboBlank" data-ax5select="cboBlank" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 							    </div>
 							</div>
 						</div>
@@ -98,20 +98,20 @@
 	                	<div>
 		                    <label class="tit_80 poa">단계명칭</label>
 		                    <div class="ml_80">
-							<input id="txtStepName" type="text" class="width-80"></input>
+							<input id="txtStepName" type="text" class="width-100"></input>
 							</div>
 						</div>
 	                	<div class="row">
 		                    <label class="tit_80 poa">정상(업무후)</label>
 		                    <div class="ml_80">
-								<div id="cboComAft" data-ax5select="cboComAft" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+								<div id="cboComAft" data-ax5select="cboComAft" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 							    </div>
 							</div>
 						</div>
 	                	<div class="row">
 		                    <label class="tit_80 poa">긴급(업무후)</label>
 		                    <div class="ml_80">
-								<div id="cboEmgAft" data-ax5select="cboEmgAft" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+								<div id="cboEmgAft" data-ax5select="cboEmgAft" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 							    </div>
 							</div>
 						</div>
@@ -135,21 +135,21 @@
                 	<div>
 	                    <label class="tit_80 poa">결재구분</label>
 	                    <div class="ml_80">
-							<div id="cboSgnGbn" data-ax5select="cboSgnGbn" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+							<div id="cboSgnGbn" data-ax5select="cboSgnGbn" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 						    </div>
 						</div>
 					</div>
                 	<div class="row">
 	                    <label class="tit_80 poa">자동처리</label>
 	                    <div class="ml_80">
-							<div id="cboSysGbn" data-ax5select="cboSysGbn" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+							<div id="cboSysGbn" data-ax5select="cboSysGbn" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 						    </div>
 						</div>
 					</div>
                 	<div class="row">
 	                    <label class="tit_80 poa">긴급(업무중)</label>
 	                    <div class="ml_80">
-							<div id="cboEmg" data-ax5select="cboEmg" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+							<div id="cboEmg" data-ax5select="cboEmg" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 							</div>
 						</div>
 					</div>
