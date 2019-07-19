@@ -615,31 +615,6 @@ public class MenuList{
   			rs.close();
   			pstmt.close();
   			
-  			strQuery.setLength(0);
-  			strQuery.append("SELECT B.CM_CODENAME, TO_CHAR(TO_DATE(A.CM_HOLIDAY),'YYYY-MM-DD') AS CM_HOLIDAY							\n");
-  			strQuery.append("  FROM CMM0050 A, CMM0020 B								\n");
-			strQuery.append(" WHERE A.CM_HOLIDAY BETWEEN ? AND TO_CHAR(LAST_DAY(TO_DATE(?)), 'YYYYMMDD')\n");
-  			strQuery.append("   AND B.CM_MACODE = 'HOLIDAY'								\n");
-  			strQuery.append("   AND A.CM_MSGCD = B.CM_MICODE							\n");
-  			
-  			pstmt = conn.prepareStatement(strQuery.toString());	
-  			pstmt.setString(1, month + "01");
-  			pstmt.setString(2, month + "01");
-  			rs = pstmt.executeQuery();			
-  			
-  			while (rs.next()){
-  				rst = new HashMap<String, String>();
-				rst.put("title", rs.getString("CM_CODENAME"));
-				rst.put("start", rs.getString("CM_HOLIDAY"));
-				rst.put("textColor", "#FF0000");
-				rst.put("color", "#FFF");
-				rst.put("holiday", "Y");
-				System.out.println(rst.toString());
-				rtList.add(rst);
-  			}
-  			rs.close();
-  			pstmt.close();
-  			
   			rtList.addAll(getUserReqCalInfo(userId, month+"01"));
   			
   			conn.close();
@@ -676,6 +651,88 @@ public class MenuList{
   			}
   		}
   	}//end of getCalendarInfo() method statement
+    
+    /**
+     * 달력에 표시할 휴일정보 가져오기
+     * @param userId
+     * @param month
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
+    public ArrayList<HashMap<String, String>> getHoliday(String month) throws SQLException, Exception {
+    	Connection        conn        = null;
+    	PreparedStatement pstmt       = null;
+    	ResultSet         rs          = null;
+    	StringBuffer      strQuery    = new StringBuffer();
+    	HashMap<String, String>	rst		  			= null;
+    	ArrayList<HashMap<String, String>> rtList	= new ArrayList<HashMap<String, String>>();
+    	ConnectionContext connectionContext 		= new ConnectionResource();
+    	
+    	try {
+    		conn = connectionContext.getConnection();
+    		
+    		
+    		strQuery.setLength(0);
+    		strQuery.append("SELECT B.CM_CODENAME, TO_CHAR(TO_DATE(A.CM_HOLIDAY),'YYYY-MM-DD') AS CM_HOLIDAY							\n");
+    		strQuery.append("  FROM CMM0050 A, CMM0020 B								\n");
+    		strQuery.append(" WHERE A.CM_HOLIDAY BETWEEN ? AND TO_CHAR(LAST_DAY(TO_DATE(?)), 'YYYYMMDD')\n");
+    		strQuery.append("   AND B.CM_MACODE = 'HOLIDAY'								\n");
+    		strQuery.append("   AND A.CM_MSGCD = B.CM_MICODE							\n");
+    		
+    		pstmt = conn.prepareStatement(strQuery.toString());	
+    		pstmt.setString(1, month + "01");
+    		pstmt.setString(2, month + "01");
+    		rs = pstmt.executeQuery();			
+    		
+    		while (rs.next()){
+    			rst = new HashMap<String, String>();
+    			rst.put("title", rs.getString("CM_CODENAME"));
+    			rst.put("start", rs.getString("CM_HOLIDAY"));
+    			rst.put("textColor", "#FF0000");
+    			rst.put("color", "#FFF");
+    			rst.put("holiday", "Y");
+    			System.out.println(rst.toString());
+    			rtList.add(rst);
+    		}
+    		rs.close();
+    		pstmt.close();
+    		
+    		
+    		conn.close();
+    		rs = null;
+    		pstmt = null;
+    		conn = null;
+    		
+    		return rtList;		
+    		
+    	} catch (SQLException sqlexception) {
+    		sqlexception.printStackTrace();
+    		ecamsLogger.error("## MenuList.getHoliday() SQLException START ##");
+    		ecamsLogger.error("## Error DESC : ", sqlexception);	
+    		ecamsLogger.error("## MenuList.getHoliday() SQLException END ##");			
+    		throw sqlexception;
+    	} catch (Exception exception) {
+    		exception.printStackTrace();
+    		ecamsLogger.error("## MenuList.getHoliday() Exception START ##");				
+    		ecamsLogger.error("## Error DESC : ", exception);	
+    		ecamsLogger.error("## MenuList.getHoliday() Exception END ##");				
+    		throw exception;
+    	}finally{
+    		if (rtList != null) rtList = null;
+    		if (strQuery != null) 	strQuery = null;
+    		if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+    		if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+    		if (conn != null){
+    			try{
+    				ConnectionResource.release(conn);
+    			}catch(Exception ex3){
+    				ecamsLogger.error("## MenuList.getHoliday() connection release exception ##");
+    				ex3.printStackTrace();
+    			}
+    		}
+    	}
+    }//end of getCalendarInfo() method statement
     
     /**
      * 접속한 사용자가 신청한 신청건 가져오기(달력)

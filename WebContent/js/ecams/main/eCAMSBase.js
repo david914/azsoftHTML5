@@ -30,9 +30,13 @@ $(document).ready(function() {
 	
 	
 	// ifrmae contents의 height에 맞게 height 값 추가
-	
 	$(window).resize(function(){
 		resize();
+	});
+	
+	// azsoft 로고 클릭시 메인 페이지 이동
+	$('#logo').bind('click', function() {
+		goHome();
 	});
 });
 

@@ -4,9 +4,8 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div class="content">
+<div class="contentFrame">
 	<div id="history_wrap">관리자 <strong>&gt; 시스템정보</strong></div>
-	
 	
 	<div class="row vat por">
 		<div class="width-50 float-left">
@@ -204,8 +203,6 @@
 			<button id="btnCopy" name="btnReg" class="btn_basic">시스템정보복사</button>
 		</div>
 	</div>
-	
 </div>
-
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/administrator/SysInfo.js"/>"></script>

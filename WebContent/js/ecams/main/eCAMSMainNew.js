@@ -23,6 +23,7 @@ var adminYN 	= 'Y';
 var calendar 	= null;
 var calendarEl 	= null;
 var calMonthArr	= [];
+var calMonthArrHoli = [];
 
 var myWin		= null;
 
@@ -30,18 +31,19 @@ var myWin		= null;
 $(document).ready(function(){
 	
 	getCalInfo();
+	
 	$('body').on('click', 'button.fc-prev-button', function() {
-		//$('td.fc-more-cell').css('background-color', '#FDFF7F');
 		getAddCalInfo();
+		getHoliday();
 	});
 
 	$('body').on('click', 'button.fc-next-button', function() {
-		//$('td.fc-more-cell').css('background-color', '#FDFF7F');
 		getAddCalInfo();
+		getHoliday();
 	});
 	
 	$('body').on('click', 'button.fc-dayGridMonth-button', function() {
-		//$('td.fc-more-cell').css('background-color', '#FDFF7F');
+		getHoliday();
 	});
 	
 });
@@ -52,6 +54,16 @@ function checkCalInfo(month) {
 		return false;
 	} else {
 		calMonthArr.push(month);
+		return true;
+	}
+}
+
+// 이미 추가되어있는 캘린더 휴일인지 확인
+function checkCalInfoHoli(month) {
+	if(calMonthArrHoli.includes(month)) {
+		return false;
+	} else {
+		calMonthArrHoli.push(month);
 		return true;
 	}
 }
@@ -74,20 +86,32 @@ function getAddCalInfo() {
 // 캘린더 인포 추가 가져오기 완료
 function successGetAddCalInfo(data) {
 	calendar.addEventSource(data);
-	checkHoliday(data);
-	//$('td.fc-more-cell').css('background-color', '#FDFF7F');
 }
 
-function checkHoliday(data) {
-	console.log(data);
+// 달력 휴일정보 가져오기
+function getHoliday() {
+	if(!checkCalInfoHoli(getCalFullDate()) ) {
+		return;
+	}
+	
+	var data = new Object();
+	data = {
+		month		: 	getCalFullDate(),
+		requestType	: 	'getHoliday'
+	}
+	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetHoliday);
+}
+
+// 달력 휴일정보 가져오기 완료
+function successGetHoliday(data) {
+	calendar.addEventSource(data);
 	data.forEach(function(item, index) {
-		console.log(item.holiday);
 		if(item.holiday !== undefined && item.holiday === 'Y') {
-			console.log('있다');
-			console.log();
-			$('[data-date="' + data.start + '"]').addClass('holiday');
+			$('[data-date="' + item.start + '"]').addClass('holiday');
 		}
-	})
+	});
+	
+	console.log(calendar.getEvents());
 }
 
 // 캘린더 현재 월 구해오기 YYYYMM 까지
@@ -144,8 +168,6 @@ function successGetCalInfo(data) {
 	    }
     });
 	calendar.render();
-	
-	//$('td.fc-more-cell').css('background-color', '#FDFF7F');
 }
 
 //결재 정보 창 띄우기

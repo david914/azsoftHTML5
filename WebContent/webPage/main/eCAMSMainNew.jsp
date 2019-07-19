@@ -31,7 +31,7 @@
 	}
 </style>
 
-<body style="height: 98% !important; min-height: 0px !important">
+<div class="contentFrame">
 	<div id="wrapper">
 		<div class="row">
 			<div class="width-50 dib">
@@ -39,7 +39,7 @@
 			</div>
 		</div>
 	</div>
-</body>
+</div>
 
 <form name="popPam">
 	<input type="hidden" name="acptno"/>
