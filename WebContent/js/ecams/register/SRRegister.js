@@ -21,10 +21,6 @@ var cboQryGbnData = [];
 
 $(document).ready(function(){
 	strReqCd = "41";
-	
-	//tab0.initApp();
-	//tab1.initApp();
-	
 	setCbo();
 });
 
@@ -34,10 +30,7 @@ function setCbo() {
 	cboQryGbnData.push({value: "01", text: "SR수정대상", dateyn: "N"});
 	
 	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", cboQryGbnData[1].value, true);
-	
-	var tmpTab = $('#frmPrjList').get(0).contentWindow;
-	tmpTab.changeQryGbn(); //tab0.cboQryGbn_click();
-	//tab0.screenInit();
+	$('#cboQryGbn').trigger('change');
 }
 
 function subScreenInit() {
@@ -52,17 +45,20 @@ function subCmdQry_Click() {
 function iSRID_Click(data) {
 	var tmpTab = $('#frmSRRegister').get(0).contentWindow;
 	
-	tmpTab.strEditor = data.cc_createuser;
-	tmpTab.strStatus = data.cc_status;
-	tmpTab.strIsrId = data.cc_srid;
-	
-	tmpTab.elementInit("S"); //tab1.screenInit("S");
-	
-	if(testFlag) {
-		tmpTab.firstGridClick(data.cc_srid); //tab1.grdPrj_click(grdPrj_dp.cc_srid);
-	}else {
-		$('#frmSRRegister').contents().find('#btnUpdate').attr('disabled', true);
-		$('#frmSRRegister').contents().find('#btnRegister').attr('disabled', true);
+	if(tmpTab != null) {
+		tmpTab.strEditor = data.cc_createuser;
+		tmpTab.strStatus = data.cc_status;
+		tmpTab.strIsrId = data.cc_srid;
+		
+		tmpTab.elementInit("S"); //tab1.screenInit("S");
+		
+		if(testFlag) {
+			console.log("call child function")
+			tmpTab.firstGridClick(data.cc_srid); //tab1.grdPrj_click(grdPrj_dp.cc_srid);
+		}else {
+			$('#frmSRRegister').contents().find('#btnUpdate').attr('disabled', true);
+			$('#frmSRRegister').contents().find('#btnRegister').attr('disabled', true);
+		}
+		testFlag = true;
 	}
-	testFlag = true;
 }
