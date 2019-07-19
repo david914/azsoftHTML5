@@ -10,6 +10,7 @@ var confirmDialog  = new ax5.ui.dialog();	//확인,취소 창
 var confirmDialog2 = new ax5.ui.dialog();   //확인 창
 
 var befJobModal    = new ax5.ui.modal();	//선후행작업확인 modal
+var befJobSetModal = new ax5.ui.modal();	//선행작업연결 modal
 
 var options 	   = [];
 
@@ -731,7 +732,7 @@ $(document).ready(function(){
 	//선후행작업확인 클릭
 	$('#btnBefJob').bind('click', function() {
 		befJobModal.open({
-	        width: 800,
+	        width: 1045,
 	        height: 400,
 	        iframe: {
 	            method: "get",
@@ -1369,37 +1370,30 @@ function openWindow(type,acptNo, etcInfo) {
 
     winName = type+'_'+pReqCd;
 
+    nWidth  = 1045;
     if (type === 1) {//프로그램정보
 		nHeight = 630;
-	    nWidth  = 1020;
 	    cURL = "/webPage/winpop/.jsp";
 	} else if (type === 2) {//처리결과확인
 		nHeight = 700;
-	    nWidth  = 1020;
 		cURL = "/webPage/winpop/PrcResultLogView.jsp";
 	} else if (type === 3) {//스크립트확인
 		nHeight = 400;
-	    nWidth  = 900;
 		cURL = "/webPage/winpop/ScriptView.jsp";
 	} else if (type === 4) {//SR정보확인
 		nHeight = 530;
-	    nWidth  = 1020;
 		cURL = "/webPage/winpop/.jsp";
 	} else if (type === 5) {//소스보기
 		nHeight = 700;
-	    nWidth  = 1020;
 		cURL = "/webPage/winpop/.jsp";
 	} else if (type === 6) {//소스비교
 		nHeight = 700;
-	    nWidth  = 1020;
 		cURL = "/webPage/winpop/.jsp";
 	} else if (type === 7) {//로그확인
 		nHeight = 700;
-	    nWidth  = 1020;
 		cURL = "/webPage/winpop/ServerLogView.jsp";
 	} else if (type === 8) {//결재정보
 		nHeight = 700;
-	    nWidth  = 1020;
 		cURL = "/webPage/winpop/PopApprovalInfo.jsp";
 	} else {
 		confirmDialog2.alert('window open - popup: invalid type ['+type+'] error', function(){return;});
@@ -1420,4 +1414,29 @@ function openWindow(type,acptNo, etcInfo) {
     
     myWin = winOpen(f, winName, cURL, nHeight, nWidth);
     
+}
+
+//선행작업연결 모달
+function openBefJobSetModal() {
+	befJobSetModal.open({
+	    width: 1000,
+	    height: 500,
+	    iframe: {
+	        method: "get",
+	        url: "../modal/request/BefJobSetModal.jsp",
+	        param: "callBack=befJobSetModalCallBack"
+	    },
+	    onStateChanged: function () {
+	        if (this.state === "open") {
+	            mask.open();
+	        }
+	        else if (this.state === "close") {
+	            mask.close();
+	        }
+	    }
+	}, function () {
+	});
+}
+var befJobSetModalCallBack = function() {
+	befJobSetModal.close();
 }

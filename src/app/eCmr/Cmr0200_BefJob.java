@@ -542,6 +542,8 @@ public class Cmr0200_BefJob {
 			conn = connectionContext.getConnection();
 			conn.setAutoCommit(false);
 			
+			int retCode = 0;
+			
 			strQuery.setLength(0);
 			strQuery.append("delete cmr1030      \n");
 			strQuery.append(" where cr_acptno=?  \n");
@@ -549,7 +551,7 @@ public class Cmr0200_BefJob {
 			pstmt = conn.prepareStatement(strQuery.toString());
             pstmt.setString(1,AcptNo);
             pstmt.setString(2,befAcpt);
-            pstmt.executeUpdate();
+            retCode = pstmt.executeUpdate();
             pstmt.close();
             
             conn.commit();
@@ -557,7 +559,7 @@ public class Cmr0200_BefJob {
 			pstmt = null;
 			conn = null;
 
-            return "0";
+            return Integer.toString(retCode);
 
 		} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();
