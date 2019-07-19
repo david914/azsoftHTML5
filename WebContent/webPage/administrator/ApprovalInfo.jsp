@@ -4,10 +4,9 @@
 <c:import url="/webPage/common/common.jsp"/>
 
 <!-- contener S -->
-<div id="wrapper">
-    <div class="content">
+    <div class="contentFrame">
         <!-- history S-->
-        <div id="history_wrap">관리자 <strong>&gt; 결재정보</strong></div>
+         <div id="history_wrap"></div>
         <!-- history E-->         
 	    <!-- 검색 S-->    
 		<div class="az_search_wrap">
@@ -186,7 +185,6 @@
 		</div>	
 		<!-- 게시판 E -->
     </div>
-</div>
 <!-- contener E -->
 
 <c:import url="/js/ecams/common/commonscript.jsp" />

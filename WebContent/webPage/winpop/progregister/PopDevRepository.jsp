@@ -20,10 +20,9 @@
 %> 
 
 <!-- contener S -->
-<div id="wrapper">
-    <div class="content">
+    <div class="contentFrame">
         <!-- history S-->
-        <div id="history_wrap">	프로그램등록 <strong>&gt; 개발영역연결등록</strong></div>
+        <div id="history_wrap"></div>
         <!-- history E-->
         <!-- 검색 S-->    
 		<div class="az_search_wrap">
@@ -180,7 +179,6 @@
 		</div>
 		<!-- 검색 E -->
 	</div>
-</div>
 <!-- contener E -->
 
 <input type=hidden id="UserId" value=<%=UserId%>>
