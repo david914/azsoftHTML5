@@ -25,7 +25,7 @@
     }
 </style>
 
-<body style="width: 100% !important; min-width: 0px !important; overflow-y:hidden;">
+<body style="width: 100% !important; min-width: 0px !important;">
 <!-- Header -->
 <div id="header">	
 	<h1 class="logo" id="logo" style="cursor: pointer;">azsoft</h1>
