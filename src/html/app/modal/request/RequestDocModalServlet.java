@@ -13,17 +13,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import app.eCmr.Cmr0200_BefJob;
+import app.common.SystemPath;
+import app.eCmr.Cmr0150;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/modal/request/BefJobListModalServlet")
-public class BefJobListModalServlet extends HttpServlet {
+@WebServlet("/webPage/modal/request/RequestDocModalServlet")
+public class RequestDocModalServlet extends HttpServlet {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
-	Cmr0200_BefJob cmr0200_BefJob = new Cmr0200_BefJob();
+	SystemPath systemPath = new SystemPath();
+	Cmr0150 cmr0150 = new Cmr0150();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,11 +45,11 @@ public class BefJobListModalServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
-				case "delBefJob" :
-					response.getWriter().write( delBefJob(jsonElement) );
+				case "getTmpDir" :
+					response.getWriter().write( getTmpDir(jsonElement) );
 					break;
-				case "befJob_List" :
-					response.getWriter().write( befJob_List(jsonElement) );
+				case "getFileList" :
+					response.getWriter().write( getFileList(jsonElement) );
 					break;
 				default:
 					break;
@@ -60,17 +62,15 @@ public class BefJobListModalServlet extends HttpServlet {
 		
 	}
 
-	private String delBefJob(JsonElement jsonElement) throws SQLException, Exception {
-		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
-		String befAcpt = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "befAcpt") );
+	private String getTmpDir(JsonElement jsonElement) throws SQLException, Exception {
+		String pathCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "pathCd") );
 		
-		return gson.toJson(cmr0200_BefJob.delBefJob(AcptNo,befAcpt));
+		return gson.toJson(systemPath.getTmpDir(pathCd));
 	}
-
-	private String befJob_List(JsonElement jsonElement) throws SQLException, Exception {
+	private String getFileList(JsonElement jsonElement) throws SQLException, Exception {
 		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
-		
-		return gson.toJson(cmr0200_BefJob.befJob_List(AcptNo));
-	}
+		String GbnCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "GbnCd") );
 
+		return gson.toJson(cmr0150.getFileList(AcptNo,GbnCd));
+	}
 }

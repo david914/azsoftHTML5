@@ -11,6 +11,7 @@ var confirmDialog2 = new ax5.ui.dialog();   //확인 창
 
 var befJobModal    = new ax5.ui.modal();	//선후행작업확인 modal
 var befJobSetModal = new ax5.ui.modal();	//선행작업연결 modal
+var requestDocModal= new ax5.ui.modal();	//테스트결과서 modal
 
 var options 	   = [];
 
@@ -727,7 +728,24 @@ $(document).ready(function(){
 	 */
 	//테스트결과서 클릭
 	$('#btnTestDoc').bind('click', function() {
-		
+		requestDocModal.open({
+	        width: 700,
+	        height: 350,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/request/RequestDocModal.jsp",
+	            param: "callBack=requestDocModalCallBack"
+	        },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	            }
+	        }
+	    }, function () {
+	    });
 	});
 	//선후행작업확인 클릭
 	$('#btnBefJob').bind('click', function() {
@@ -819,6 +837,9 @@ function resetScreen(){
 }
 var befJobModalCallBack = function() {
 	befJobModal.close();
+}
+var requestDocModalCallBack = function() {
+	requestDocModal.close();
 }
 //항목상세보기
 function gridData_Filter(){
