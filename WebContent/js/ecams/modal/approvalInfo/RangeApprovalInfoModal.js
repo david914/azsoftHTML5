@@ -270,6 +270,8 @@ function btnQry_Click() {
 function successGetBlankList2(data) {
 	grdRangeListData = data;
 	grdRangeList.setData(grdRangeListData);
+	
+	cboPos_Change();
 }
 
 function btnClose_Click() {
