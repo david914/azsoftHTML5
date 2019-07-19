@@ -21,6 +21,7 @@ var theme = {
 	    }
 	};
 
+//피커세팅
 picker.bind({
 	target: $('[data-ax5picker="picker"]'),
 	direction: "top",
@@ -98,6 +99,7 @@ $(document).ready(function() {
 	getSysinfo();
 })
 
+//시스템 콤보박스 세팅
 function getSysinfo() {
 	
 	var ajaxData = new Object();
@@ -119,12 +121,22 @@ function getSysinfo() {
 	comboData.shift();
 }
 
+//조회 클릭 시
+$("#btnSearch").bind('click', function() {	
+	if($("#btnExcel").length < 1) {
+		$("#btnDiv").append('<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnExcel">엑셀저장</button>');
+	}
+	getRsrcCd();
+});
+
+//그리드 컬럼 세팅
 function getRsrcCd() {
 	var ajaxData = new Object();
 	var ajaxResult = new Object();
 	
 	var syscd = $('[data-ax5select="sysInfo"]').ax5select("getValue")[0].value;
 	
+	//시스템선택값이 전체일 시 모든 시스템 코드 통합해서 전달
 	if(syscd == '00000') {
 		syscd = "";
 		$.each(comboData, function(i, value) {
@@ -154,6 +166,7 @@ function getRsrcCd() {
 	getProgList(syscd);
 }
 
+//그리드 데이터 세팅
 function getProgList(syscd) {
 	var ajaxData = new Object();
 	var ajaxResult = new Object();
@@ -172,15 +185,21 @@ function getProgList(syscd) {
 	successGetBarData(ajaxResult);
 }
 
-$("#btnSearch").bind('click', function() {	
-	getRsrcCd();
-});
-
+//피커에 오늘 날짜 세팅
 $(function() {
 	var today = new Date().toISOString().substring(0,10).replace(/-/gi, "/");
 	$("#date").val(today);
 })
 
+//엑셀저장
+$("#btnDiv").on('click', '#btnExcel', function() {
+	var st_date = new Date().toLocaleString();
+	var today = st_date.substr(0, st_date.indexOf("오"));
+	
+	mainGrid.exportExcel("프로그램보유현황 " + today + ".xls");
+})
+
+//파이차트 세팅
 function successGetPieData(data) {
 	var temp = [];
 	$.each(data, function(i, value) {
@@ -192,12 +211,6 @@ function successGetPieData(data) {
 	}
 	
 	var width = $('#pieDiv').width();
-//	var divMainUpHeight = parseInt($('#divMainUp').height());
-//	var minusHeight = 115;
-//	if(parseInt(window.innerHeight) < 690) { 
-//		minusHeight += 690 - parseInt(window.innerHeight);
-//	}
-//	var pieChartHeight = parseInt(window.innerHeight) - divMainUpHeight - minusHeight;
 	var pieChartHeight = 370;
 		
 	if($('#pieAppliKinds').length > 0) $('#pieAppliKinds').empty();
@@ -229,19 +242,14 @@ function successGetPieData(data) {
 	tui.chart.registerTheme('myTheme', theme);
 	pieChart = tui.chart.pieChart(container, data, options);
 	
-//	beForAndAfterDataLoading('AFTER', makeMsg(' 신청 별 종류 가져오기를 완료했습니다.'));
 	getPieprogressSw = false;
 }
 
+//바차트 세팅
 function successGetBarData(data) {
 	var temp = [{data : [], name : "개수"}];
 	var categories = [];
-	console.log(data);
 	
-//	$.each(data, function(i, value) {
-//		temp.push({data : value.rowhap, name : value.cm_sysmsg});
-//	})
-	console.log(columnData);
 	$.each(data, function(i, value) {
 		delete value.rowhap;
 		delete value.cm_sysmsg;
@@ -255,13 +263,11 @@ function successGetBarData(data) {
 	columnData = [];
 	
 	data = temp;
-	console.log(data);
 	if(data.length === 0 ){
 		data = makeFakeData('BAR');
 	}
 	
 	var width = $('#barDiv').width();
-//	var divMainUpHeight = parseInt($('#divMainUpD
 	var barChartHeight = 370;
 	
 	
@@ -285,21 +291,14 @@ function successGetBarData(data) {
 			},
 			legend: {
 				visible: false,
-//				align: 'bottom'
 			}
 	};
 	
-	console.log(data);
-//	for(var i = 0; i <= categories.length; i++) {		
-//		theme.series.series.colors.push(getRandomColorHex(chartData.series.length));
-//	}
 	theme.series.series.colors = getRandomColorHex(chartData.series.length);
 	options.theme = 'myTheme';
 	tui.chart.registerTheme('myTheme', theme);
 	barChart = tui.chart.columnChart(container, chartData, options);
 	
-	console.log(theme);
-//	beForAndAfterDataLoading('AFTER', makeMsg(' 신청 별 종류 가져오기를 완료했습니다.'));
 	getPieprogressSw = false;
 }
 

@@ -76,6 +76,8 @@ for(var i = 0; i <= 1; i++) {
 
 $(document).ready(function() {
 	
+	$('input:radio[name=radioGroup]').wCheck({theme: 'circle-radial blue', selector: 'checkmark', highlightLabel: true});
+	
 	mainGrid.setConfig({
 		target : $('[data-ax5grid="mainGrid"]'),
 		showLineNumber : true,

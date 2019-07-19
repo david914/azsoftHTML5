@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:import url="/webPage/common/common.jsp" />
 
 <style>
@@ -38,7 +37,7 @@
 							</div>													    
 						</div>
 						<div class="width-30 dib vat">
-							<div class="vat dib margin-10-right float-right"><!--수정-->
+							<div class="vat dib margin-10-right float-right" id="btnDiv">
 								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
 							</div>
 						</div>

@@ -21,12 +21,12 @@
 }
 
 .dateBtn:hover {
-	text-shadow: 0 0 2px blue;
+	text-shadow: 0 0 2px red;
 }
 
 .dateBtn:active {
 	padding-top : 2px;
-	color: lightgray;
+	color: #fff;
 }
 </style>
 
@@ -35,7 +35,7 @@
 <div id="header"></div>
 <div id="wrapper">
 	<div class="content">
-		<div id="history_wrap">보고서 <strong>&gt; 개발자별현황</strong></div>
+		<div id="history_wrap">보고서 <strong>&gt; 개발실적등급별보고서</strong></div>
 		<div class="az_search_wrap">
 			<div class="az_in_wrap sr_status">
 				<div class="l-wrap width-100 vat">

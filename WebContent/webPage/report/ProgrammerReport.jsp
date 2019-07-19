@@ -3,6 +3,38 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
+<style>
+.year-btn {
+	height: 12px; 
+	width: 15px; 
+	font-size: 1pt;
+	background: inherit;
+}
+.month-btn {
+	height: 25px;
+	width: 25px; 
+	background: inherit;
+	border: 1px;
+	border-radius: 50%;
+}
+
+.dateBtn:hover {
+	text-shadow: 0 0 2px red;
+}
+
+.dateBtn:active {
+	padding-top : 2px;
+	color: #fff;
+}
+.date-div {
+	background: #fff;
+	border: 1px solid lightgray;
+	text-align: center;
+}
+.mb-div {
+	padding-bottom: 3px;
+}
+</style>
 
 <div id="header"></div>
 <div id="wrapper">
@@ -31,8 +63,8 @@
 						</div>
 						<div class="width-40 dib vat">
 
-							<div class="vat dib margin-10-right float-right"><!--수정-->
-								<label style="margin-right: 195px;">*월 별</label>
+							<div class="vat dib margin-10-right float-right">
+								<label style="margin-right: 180px;">*월 별</label>
 								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
 							</div>
 						</div>
@@ -55,19 +87,26 @@
 						</div>
 
 						<div class="width-40 dib vat">
-							<div id="picker" data-ax5picker="picker" class="az_input_group dib float-right">
-								<div class="dib margin-40-right">
-					            <input id="date" type="text" placeholder="yyyy-mm" style="width:150px;"><span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>						
+							<div class="dib float-right">
+								<div class="dib margin-40-right date-div">
+									<button type="button" class="month-btn dateBtn" id="month-prev"><div class="mb-div">◀</div></button>
+									<label style="margin-right: 10px; margin-left: 10px; width: 26px;" id="month">7월</label>
+									<label id="year">2019년</label>
+									<div class="por width-10 dib">
+			                        	<button type="button" class="dib year-btn dateBtn" id="year-next">▲</button>
+			                        	<button type="button" class="dib year-btn dateBtn" id="year-prev">▼</button>
+			                        </div>
+									<button type="button" class="month-btn dateBtn" id="month-next"><div class="mb-div">▶</div></button>
 								</div>
-								<div class="vat dib margin-10-right float-right"><!--수정-->
-									<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnExcel">엑셀저장</button>
+								<div class="vat dib margin-10-right float-right">
+									<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px; margin-top: 1px;" id="btnExcel">엑셀저장</button>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div>
 						<div class="dib por width-100">
-							<div class="vat dib margin-10-right float-right"><!--수정-->
+							<div class="vat dib margin-10-right float-right">
 								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="reset">초기화</button>
 							</div>
 						</div>

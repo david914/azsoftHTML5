@@ -1,5 +1,4 @@
 var mainGrid = [new ax5.ui.grid(), new ax5.ui.grid(), new ax5.ui.grid()];
-var columns = [[],[],[]];
 
 $(document).ready(function() {
 	
@@ -27,12 +26,12 @@ $(document).ready(function() {
 //조회
 $("#btnSearch").bind('click', function() {	
 	getColHeader();
-	getRowList();
 })
 
 //그리드 헤더 세팅
 function getColHeader() {
 	
+	var columns = [[],[],[]];
 	var ajaxData = new Object();
 	var ajaxResult = [];
 	
@@ -57,11 +56,11 @@ function getColHeader() {
 			columns : columns[i]
 		})
 	});
-	console.log(columns);
+	getRowList(columns);
 }
 
 //그리드 데이터 세팅
-function getRowList() {
+function getRowList(columns) {
 	
 	var ajaxData = new Object();
 	var ajaxResult = [];

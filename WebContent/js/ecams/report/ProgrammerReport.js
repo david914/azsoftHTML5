@@ -117,11 +117,14 @@ function comboSet() {
 }
 
 $("#btnSearch, #reset").bind('click', function() {
-	var date = replaceAllString($("#date").val(), '-', '');
+	var month = $("#month").text().slice(0, -1);
+	var year = $("#year").text().slice(0, -1);
+	if(month.length <= 1) month = '0' + month;
+	
 	var ajaxData = {
 		requestType : 'getRowList',
 		inputData : {
-			date : date,
+			date : year + month,
 			dept : $("[data-ax5select='dept']").ax5select("getValue")[0].value,
 			rate : $("[data-ax5select='rate']").ax5select("getValue")[0].value,
 			devId : $("#developerId").val()
@@ -130,16 +133,9 @@ $("#btnSearch, #reset").bind('click', function() {
 	console.log(ajaxData.inputData);
 	
 	var ajaxResult = ajaxCallWithJson('/webPage/report/ProgrammerReport', ajaxData, 'json');
-	console.log(ajaxResult);
 	mainGrid.setData(ajaxResult);
 
 });
-
-//picker에 오늘 날짜 디폴트로 세팅
-$(function() {
-	var today = new Date().toISOString().substring(0,7);
-	$("#date").val(today);
-})
 
 //엔터키입력시
 $("#developerId").bind('keypress', function(event) {	
@@ -153,3 +149,33 @@ $("#btnExcel").on('click', function() {
 	
 	mainGrid.exportExcel("개발자별현황 " + today + ".xls");
 })
+
+//날짜버튼 클릭 시
+$(".dateBtn").bind('click', function() {
+	var clicked = $(this).attr('id');
+	dateSet(clicked);
+});
+
+function dateSet(value) {
+	
+	var month = parseInt($("#month").text().slice(0, -1));
+	var year = parseInt($("#year").text().slice(0, -1));
+	
+	switch(value) {
+	case 'year-prev' :
+		console.log("prevyeaer")
+		year--;
+		break;
+	case 'year-next' :
+		year++;
+		break;
+	case 'month-prev' :
+		month = month == 1 ? 12 : month - 1; 
+		break;
+	case 'month-next' :
+		month = month == 12 ? 1 : month + 1; 
+		break;
+	}
+	$("#month").text(month + "월");
+	$("#year").text(year + "년");
+}
