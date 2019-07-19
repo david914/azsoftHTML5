@@ -13,12 +13,3 @@
     	<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/srcommon/SRRegisterTab.jsp' width='100%' frameborder="0" style="height: 65vh;"></iframe>
 	</div>
 </div>
-
-<!--   Footer
-<footer id="footer">
-    <ul>
-        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
-        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
-    </ul>
-</footer>
- -->
