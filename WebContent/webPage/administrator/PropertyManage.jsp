@@ -5,8 +5,6 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <div id="wrapper">
-	<!-- Header -->
-	<div id="header"></div>
     <div class="content">    	
         <!-- history S-->
         <div id="history_wrap">관리자<strong>&gt; 프로퍼티관리</strong></div>

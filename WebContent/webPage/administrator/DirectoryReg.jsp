@@ -5,8 +5,6 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <div  id="wrapper">
-	<!-- Header -->
-	<div id="header"></div>
 	<div class="content">    	
 		<div id="history_wrap">관리자<strong>&gt; 디렉토리등록</strong></div>
 	             

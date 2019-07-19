@@ -30,19 +30,18 @@ var myWin		= null;
 $(document).ready(function(){
 	
 	getCalInfo();
-	
 	$('body').on('click', 'button.fc-prev-button', function() {
-		$('td.fc-more-cell').css('background-color', '#FDFF7F');
+		//$('td.fc-more-cell').css('background-color', '#FDFF7F');
 		getAddCalInfo();
 	});
 
 	$('body').on('click', 'button.fc-next-button', function() {
-		$('td.fc-more-cell').css('background-color', '#FDFF7F');
+		//$('td.fc-more-cell').css('background-color', '#FDFF7F');
 		getAddCalInfo();
 	});
 	
 	$('body').on('click', 'button.fc-dayGridMonth-button', function() {
-		$('td.fc-more-cell').css('background-color', '#FDFF7F');
+		//$('td.fc-more-cell').css('background-color', '#FDFF7F');
 	});
 	
 });
@@ -75,7 +74,20 @@ function getAddCalInfo() {
 // 캘린더 인포 추가 가져오기 완료
 function successGetAddCalInfo(data) {
 	calendar.addEventSource(data);
-	$('td.fc-more-cell').css('background-color', '#FDFF7F');
+	checkHoliday(data);
+	//$('td.fc-more-cell').css('background-color', '#FDFF7F');
+}
+
+function checkHoliday(data) {
+	console.log(data);
+	data.forEach(function(item, index) {
+		console.log(item.holiday);
+		if(item.holiday !== undefined && item.holiday === 'Y') {
+			console.log('있다');
+			console.log();
+			$('[data-date="' + data.start + '"]').addClass('holiday');
+		}
+	})
 }
 
 // 캘린더 현재 월 구해오기 YYYYMM 까지
@@ -132,7 +144,8 @@ function successGetCalInfo(data) {
 	    }
     });
 	calendar.render();
-	$('td.fc-more-cell').css('background-color', '#FDFF7F');
+	
+	//$('td.fc-more-cell').css('background-color', '#FDFF7F');
 }
 
 //결재 정보 창 띄우기

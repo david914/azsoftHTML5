@@ -4,9 +4,6 @@
 <c:import url="/webPage/common/common.jsp" />
 <c:import url="/js/ecams/common/commonscript.jsp" />
 
-<!-- Header -->
-<div id="header"></div>
-
 <!-- contener S -->
 <div id="wrapper">
     <div class="content">

@@ -46,7 +46,7 @@ ul.tabs li.active {
 .tab_content {
     padding: 5px;
     font-size: 12px;
-    display: none;
+    /* display: none; */
 }
 .tab_container .tab_content ul {
     width:100%;

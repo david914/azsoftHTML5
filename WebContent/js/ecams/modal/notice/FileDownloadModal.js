@@ -64,7 +64,7 @@ function successGetFileList(data) {
 		var appendStr = '';
 		appendStr += '<tr id="file_'+item.orgname+'">';
 		appendStr += '	<td>';
-		appendStr += '		<a href="/webPage/fileupload/upload?f='+item.orgname+'&folderPath='+noticeFolderPath+'\\'+downAcptno+'">'+item.orgname+'</a>';
+		appendStr += '		<a href="/webPage/fileupload/upload?&folderPath='+noticeFolderPath+'\\'+downAcptno+'\\'+item.orgname+'">'+item.orgname+'</a>';
 		appendStr += '		<button onclick="delFile(\''+item.orgname+'\')" class="btn btn-sm btn-danger cancel" role="button" style="float: right;">삭제</button>';
 		appendStr += '	</td>';
 		appendStr +='</tr>';

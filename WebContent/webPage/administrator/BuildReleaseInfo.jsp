@@ -5,7 +5,6 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <div id="wrapper">
-	<div id="header"></div>
 	<div class="content">
 		<div id="history_wrap">프로그램 <strong>&gt; 빌드/릴리즈정보</strong></div>
 

@@ -68,14 +68,15 @@ public class FileUploadServlet extends HttpServlet {
 	 ****************************************************/
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException{
-		String fileName 		= request.getParameter("f");
 		String setFileName		= null;
-		String folderPath 	= request.getParameter("folderPath");
-		String pullPath			= null;
+		String fileName			= null;
+		String folderPath 		= request.getParameter("folderPath");
 		String userAgent 		= request.getHeader("User-Agent");
 		
 		boolean ie = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
 		
+		fileName = folderPath.substring(folderPath.lastIndexOf("\\"), folderPath.length());
+		System.out.println(fileName);
 		if(ie) {
 			setFileName = URLEncoder.encode( fileName, "UTF-8" ).replaceAll("\\+", "%20");
 		} else{
@@ -87,10 +88,8 @@ public class FileUploadServlet extends HttpServlet {
 		response.setHeader("Connection", "close");
 		
 		try {	
-			System.out.println(folderPath);
-			pullPath = folderPath+File.separator+fileName;
 			
-			FileInputStream input 	= new FileInputStream(pullPath); 
+			FileInputStream input 	= new FileInputStream(folderPath); 
 			OutputStream output = response.getOutputStream();
 			byte[] buffer = new byte[1024*10];
 			

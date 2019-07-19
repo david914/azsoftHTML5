@@ -522,10 +522,10 @@ public class MenuList{
   			conn = connectionContext.getConnection();
   			
   			strQuery.append("SELECT TO_CHAR(BASE_DATE+NO,'YYYY-MM-DD') AS YYYYMMDD, to_char(BASE_DATE+NO, 'd') AS DATEDIV			\n");
-  			strQuery.append("  FROM (SELECT (TO_DATE(? || '01', 'YYYYMMDD') - 1) AS BASE_DATE FROM DUAL) A	\n");
-  			strQuery.append(" 	    ,(SELECT LEVEL NO FROM DUAL CONNECT BY LEVEL < 50) B					\n");
-  			strQuery.append(" WHERE (BASE_DATE+NO) <= LAST_DAY(TO_DATE(? || '01', 'YYYYMMDD'))				\n");
-  			strQuery.append(" ORDER BY YYYYMMDD																\n");
+  			strQuery.append("  FROM (SELECT (TO_DATE(? || '01', 'YYYYMMDD') - 1) AS BASE_DATE FROM DUAL) A							\n");
+  			strQuery.append(" 	    ,(SELECT LEVEL NO FROM DUAL CONNECT BY LEVEL < 50) B											\n");
+  			strQuery.append(" WHERE (BASE_DATE+NO) <= LAST_DAY(TO_DATE(? || '01', 'YYYYMMDD'))										\n");
+  			strQuery.append(" ORDER BY YYYYMMDD																						\n");
   			
   			pstmt = conn.prepareStatement(strQuery.toString());	
   			pstmt.setString(1, month);
@@ -578,7 +578,6 @@ public class MenuList{
   			rs = pstmt.executeQuery();			
   			
   			while (rs.next()){
-  				
   				if(rs.getString("CM_SUN").equals("Y") || rs.getString("CM_MON").equals("Y")
   						|| rs.getString("CM_TUE").equals("Y") || rs.getString("CM_WED").equals("Y")
   						|| rs.getString("CM_THU").equals("Y") || rs.getString("CM_FRI").equals("Y")
@@ -613,6 +612,31 @@ public class MenuList{
   				}
   			}
   			
+  			rs.close();
+  			pstmt.close();
+  			
+  			strQuery.setLength(0);
+  			strQuery.append("SELECT B.CM_CODENAME, TO_CHAR(TO_DATE(A.CM_HOLIDAY),'YYYY-MM-DD') AS CM_HOLIDAY							\n");
+  			strQuery.append("  FROM CMM0050 A, CMM0020 B								\n");
+			strQuery.append(" WHERE A.CM_HOLIDAY BETWEEN ? AND TO_CHAR(LAST_DAY(TO_DATE(?)), 'YYYYMMDD')\n");
+  			strQuery.append("   AND B.CM_MACODE = 'HOLIDAY'								\n");
+  			strQuery.append("   AND A.CM_MSGCD = B.CM_MICODE							\n");
+  			
+  			pstmt = conn.prepareStatement(strQuery.toString());	
+  			pstmt.setString(1, month + "01");
+  			pstmt.setString(2, month + "01");
+  			rs = pstmt.executeQuery();			
+  			
+  			while (rs.next()){
+  				rst = new HashMap<String, String>();
+				rst.put("title", rs.getString("CM_CODENAME"));
+				rst.put("start", rs.getString("CM_HOLIDAY"));
+				rst.put("textColor", "#FF0000");
+				rst.put("color", "#FFF");
+				rst.put("holiday", "Y");
+				System.out.println(rst.toString());
+				rtList.add(rst);
+  			}
   			rs.close();
   			pstmt.close();
   			

@@ -152,11 +152,17 @@ function dateInit() {
 
 
 $(document).ready(function(){
+	
 	dateInit();
 	getSysCodeInfo();
 	getSysInfoCbo();
 	getSysInfoList('');
 	screenInit();
+	
+	/*$(window).resize(function() {
+		$('#divSysInfoGrid').css('height', ($('#divRight').height() -28) + 'px' );
+		sysInfoGrid.repaint();
+	});*/
 	
 	// 시스템 코드/ 시스템명 찾기
 	$('#txtFindSys').bind('keypress', function(event) {
@@ -499,7 +505,6 @@ $(document).ready(function(){
 	});
 
 });
-
 
 var modalCallBack = function(){
 	relModal.close();
