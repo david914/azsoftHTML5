@@ -7,6 +7,27 @@
 	color: red;
 	font-weight: bold;
 }
+
+.year-btn {
+	height: 12px; 
+	width: 15px; 
+	font-size: 1pt;
+	background: inherit;
+}
+.month-btn {
+	height: 25px;
+	width: 25px; 
+	background: inherit;
+}
+
+.dateBtn:hover {
+	text-shadow: 0 0 2px blue;
+}
+
+.dateBtn:active {
+	padding-top : 2px;
+	color: lightgray;
+}
 </style>
 
 <c:import url="/webPage/common/common.jsp" />
@@ -22,9 +43,14 @@
 						<div class="width-43 dib por"></div>
 
 						<div class="width-30 dib por">
-							<div class="poa">
-	                        	<label>[날짜선택 컴포넌트 들어갈 자리]</label>
+							<button type="button" class="month-btn dateBtn" id="month-prev">◀</button>
+							<label style="margin-right: 10px; margin-left: 10px; width: 26px;" id="month">7월</label>
+							<label id="year">2019년</label>
+							<div class="por width-4 dib">
+	                        	<button type="button" class="dib year-btn dateBtn" id="year-next">▲</button>
+	                        	<button type="button" class="dib year-btn dateBtn" id="year-prev">▼</button>
 	                        </div>
+							<button type="button" class="month-btn dateBtn" id="month-next">▶</button>
 						</div>
 						<div class="width-20 dib vat">
 							<div class="vat dib margin-10-right float-right"><!--수정-->

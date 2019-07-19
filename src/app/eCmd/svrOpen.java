@@ -1661,19 +1661,12 @@ public class svrOpen{
 			ArrayList<HashMap<String, String>> rtArr 	= new ArrayList<>();
 
 			try {
-				/*
 				strBinPath = ecamsinfo.getFileInfo("14");
-				//////////// 테스트 ////////////
-				//strBinPath = "/home/azhtml5/bin";
-				//////////// 테스트 ////////////
 				ErrSw = false;
 				if (strBinPath == "" || strBinPath == null)
 					throw new Exception("관리자에게 연락하여 주시기 바랍니다. (형상관리환경설정 - 실행디렉토리)");
 
 				strTmpPath = ecamsinfo.getFileInfo("99");
-				//////////// 테스트 //////////// 
-				//strTmpPath = "/home/azhtml5/bin/tmp";
-				//////////// 테스트 ////////////
 				if (strTmpPath == "" || strTmpPath == null)
 					throw new Exception("관리자에게 연락하여 주시기 바랍니다. (형상관리환경설정 - 실행디렉토리)");
 
@@ -1728,8 +1721,8 @@ public class svrOpen{
 							rst.put("cm_seqno",Integer.toString(maxSeq));
 							rsval.add(maxSeq - 1, rst);
 							upSeq = maxSeq;
-
-				            while ((str = in.readLine()) != null) {
+							
+							while ((str = in.readLine()) != null) {
 				                if (str.length() > 0) {
 				                	dirSw = false;
 				                	if (SysOs.equals("03")) {
@@ -1814,6 +1807,7 @@ public class svrOpen{
 			        if (mFile.isFile() && mFile.exists()) mFile.delete();
 	            }
 	            String strBran = "";
+	            
 	            if (rsval.size() > 0) {
 					for (int i = 0;rsval.size() > i;i++) {
 						strBran = "false";
@@ -1827,85 +1821,25 @@ public class svrOpen{
 						}
 						
 						rtMap = new HashMap<>();
-		            	rtMap.put("ID", rsval.get(i).get("cm_seqno"));
-		            	rtMap.put("cm_seqno", rsval.get(i).get("cm_seqno"));
-		            	rtMap.put("cm_dirpath", rsval.get(i).get("cm_dirpath"));
-		            	rtMap.put("cm_upseq", rsval.get(i).get("cm_upseq"));
+		            	rtMap.put("id", rsval.get(i).get("cm_seqno"));
+		            	rtMap.put("name", rsval.get(i).get("cm_dirpath"));
+		            	rtMap.put("pId", rsval.get(i).get("cm_upseq"));
 		            	rtMap.put("cm_fullpath", rsval.get(i).get("cm_fullpath"));
-		            	rtMap.put("cm_dsncd", rsval.get(i).get("cm_dsncd"));
-		            	rtMap.put("isBranch", strBran);
-		            	rtMap.put("isParent", strBran);
-		            	//rtMap.put("isParent", rsval.get(i).get("cm_upseq"));
+		            	//rtMap.put("isParent", strBran);
+		            	rtMap.put("isParent", "true"); //트리구조 아이콘 때문에 true로 셋팅
+		            	
+		            	rtArr.add(rtMap);
 					}
 				}
-	    		*/
 				
-				rtMap = new HashMap<>();
-            	rtMap.put("id", "1");
-            	rtMap.put("name", "[개발서버]/SW2/nice/ecamsdev");
-            	rtMap.put("pId", "0");
-            	rtMap.put("cm_fullpath", "/SW2/nice/ecamsdev");
-            	rtMap.put("isParent", "true");
-            	
-            	rtArr.add(rtMap);
-            	rtMap = new HashMap<>();
-            	rtMap.put("id", "2");
-            	rtMap.put("name", "ecamsweb");
-            	rtMap.put("pId", "1");
-            	rtMap.put("cm_fullpath", "/SW2/nice/ecamsdev/ecamsweb");
-            	rtMap.put("isParent", "true");
-            	
-            	rtArr.add(rtMap);
-            	rtMap = new HashMap<>();
-            	rtMap.put("id", "3");
-            	rtMap.put("name", "ROOT");
-            	rtMap.put("pId", "2");
-            	rtMap.put("cm_fullpath", "/SW2/nice/ecamsdev/ecamsweb/ROOT");
-            	rtMap.put("isParent", "true");
-            	
-            	rtArr.add(rtMap);
-            	rtMap = new HashMap<>();
-            	rtMap.put("id", "4");
-            	rtMap.put("name", "WEB-INF");
-            	rtMap.put("pId", "3");
-            	rtMap.put("cm_fullpath", "/SW2/nice/ecamsdev/ecamsweb/ROOT/WEB-INF");
-            	rtMap.put("isParent", "true");
-            	
-            	rtArr.add(rtMap);
-            	rtMap = new HashMap<>();
-            	rtMap.put("id", "5");
-            	rtMap.put("name", "classes");
-            	rtMap.put("pId", "4");
-            	rtMap.put("cm_fullpath", "/SW2/nice/ecamsdev/ecamsweb/ROOT/WEB-INF/classes");
-            	rtMap.put("isParent", "true");
-            	
-            	rtArr.add(rtMap);
-            	rtMap = new HashMap<>();
-            	rtMap.put("id", "6");
-            	rtMap.put("name", "app");
-            	rtMap.put("pId", "5");
-            	rtMap.put("cm_fullpath", "/SW2/nice/ecamsdev/ecamsweb/ROOT/WEB-INF/classes/app");
-            	rtMap.put("isParent", "true");
-            	
-            	rtArr.add(rtMap);
-            	rtMap = new HashMap<>();
-            	rtMap.put("id", "7");
-            	rtMap.put("name", "common");
-            	rtMap.put("pId", "6");
-            	rtMap.put("cm_fullpath", "/SW2/nice/ecamsdev/ecamsweb/ROOT/WEB-INF/classes/app/common");
-            	//rtMap.put("isParent", "false");
-            	rtMap.put("isParent", "true");
-				
-	    		rtArr.add(rtMap);
-	    		ecamsLogger.error("rtArr: " + rtArr.toString());
 	    		return rtArr;
 
-//			} catch (SQLException sqlexception) {
-//				sqlexception.printStackTrace();
-//				ecamsLogger.error("## SystemPath.getSvrDir() SQLException START ##");
-//				ecamsLogger.error("## Error DESC : ", sqlexception);
-//				ecamsLogger.error("## SystemPath.getSvrDir() SQLException END ##");
-//				throw sqlexception;
+			} catch (SQLException sqlexception) {
+				sqlexception.printStackTrace();
+				ecamsLogger.error("## SystemPath.getSvrDir() SQLException START ##");
+				ecamsLogger.error("## Error DESC : ", sqlexception);
+				ecamsLogger.error("## SystemPath.getSvrDir() SQLException END ##");
+				throw sqlexception;
 			} catch (Exception exception) {
 				exception.printStackTrace();
 				ecamsLogger.error("## SystemPath.getSvrDir() Exception START ##");
@@ -1913,7 +1847,6 @@ public class svrOpen{
 				ecamsLogger.error("## SystemPath.getSvrDir() Exception END ##");
 				throw exception;
 			}finally{
-				//if (returnObjectArray != null)	returnObjectArray = null;
 			}
 
 		}//end of getDirPath() method statement
@@ -1922,61 +1855,381 @@ public class svrOpen{
 											String SvrCd,String GbnCd,String exeName1,String exeName2,String SysInfo,String AgentDir,String SysOs,
 											String buffSize,String svrInfo,String svrSeq) throws SQLException, Exception {
 		
+		Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		ResultSet         rs          = null;
+		StringBuffer      strQuery    = new StringBuffer();
+		eCAMSInfo         ecamsinfo   = new eCAMSInfo();
 		ArrayList<HashMap<String, String>>  rsval = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String>			  rst		  = null;
-		Object[] returnObjectArray = null;
+		boolean           findSw      = false;
+		boolean           fileSw      = false;
+		boolean           ErrSw       = false;
+		String            strFile     = "";
+		int               i           = 0;
+		int               svCnt       = 0;
+		boolean           overSw      = false;
+		int               ret = 0;
 		
+		String       	shFileName = "";
+		String       	strParm = "";
+		String       	svrHome = "";
+		String       	sysHome = "";
+		int             j = 0;
+		
+		ConnectionContext connectionContext = new ConnectionResource();
+
 		try {
+			eCAMSInfo ecamsinf = new eCAMSInfo();
+			String  noNameAry[] = ecamsinf.getNoName();
 			
-			rst = new HashMap<String, String>();
-			rst.put("enable1", "1");
-			rst.put("rsrccd", "");
-			//rst.put("pcdir", null);
-			rst.put("filename", "test1.java");
-			rst.put("dirpath", "/WEB-INF/classes/app/common");
-			//rst.put("dirpath", "/SW2/nice/ecamsdev/WEB-INF/classes/app/common");
-			rst.put("cm_dsncd", "");
-			rst.put("jobcd", "");
-			rst.put("errmsg", "");
-			rst.put("error", "");
-			rst.put("cm_dirpath", "/SW2/nice/ecamsdev/WEB-INF/classes/app/common");
-			rst.put("selected", "0");
-			rsval.add(rst);
-			rst = null;
+			conn = connectionContext.getConnection();
+			String  strTmpPath  = "";
+			strTmpPath = ecamsinfo.getFileInfo("99");
+			if (strTmpPath == "" || strTmpPath == null)
+				throw new Exception("관리자에게 연락하여 주시기 바랍니다. (형상관리환경설정 - 실행디렉토리)");
 			
-			rst = new HashMap<String, String>();
-			rst.put("enable1", "1");
-			rst.put("rsrccd", "");
-			//rst.put("pcdir", null);
-			rst.put("filename", "test2.java");
-			rst.put("dirpath", "/WEB-INF/classes/app/common");
-			//rst.put("dirpath", "/SW2/nice/ecamsdev/WEB-INF/classes/app/common");
-			rst.put("cm_dsncd", "");
-			rst.put("jobcd", "");
-			rst.put("errmsg", "");
-			rst.put("error", "");
-			rst.put("cm_dirpath", "/SW2/nice/ecamsdev/WEB-INF/classes/app/common");
-			rst.put("selected", "0");
-			rsval.add(rst);
+			Cmr0200 cmr0200 = new Cmr0200();
+			shFileName = "filelist"+ UserID + "." + SysCd + ".ih.cs.sh";
+			strFile = strTmpPath + "/filelist"+ UserID + "." + SysCd + ".ih.cs";
+			strTmpPath = null;
+			if (SysOs.equals("03")) {
+				BaseDir = BaseDir.replace("/", "\\");
+				BaseDir = BaseDir.replace("\\\\", "\\");
+				BaseDir = BaseDir.replace("\\", "\\\\");
+			}
+			strParm = "./ecams_ih_cs " + SysCd + " " + SvrIp + " "  + SvrPort + " " + buffSize + " "+ BaseDir +  " filelist" + UserID + " " + GbnCd + " " + AgentDir;
+			ret = cmr0200.execShell(shFileName, strParm, false);
+			cmr0200 = null;
+
+			if (ret != 0) {
+				throw new Exception("신규대상목록 추출을 위한 작업에 실패하였습니다. run=["+strParm +"]" + " return=[" + ret + "]" );
+			}
 			
+            if ( ErrSw == false ) {
+				File mFile = new File(strFile);
+		        if (!mFile.isFile() || !mFile.exists()) {
+					ErrSw = true;
+					throw new Exception("신규대상목록 추출을 위한 작업에 실패하였습니다 [작성된 파일 없음] ["+ strFile+"]");
+		        } else {
+			        BufferedReader in = null;
+			        fileSw = true;
+
+			        try {
+			            in = new BufferedReader(new InputStreamReader(new FileInputStream(mFile),"MS949"));
+			            String str = null;
+			            String wkF = "";
+			            String wkB = "";
+			            String wkDir = "";
+			            String wkExe   = "";
+			            ThreadPool pool = new ThreadPool(10);
+			            String[] strExe1 = exeName1.split(",");
+			            String[] strExe2 = exeName2.split(",");
+			            int z = 0;
+			            int k = 0;
+			            if (svrInfo.substring(4,5).equals("1")) {
+			            	svrHome = HomeDir.replace("##USER##", UserID);
+			            	sysHome = HomeDir.replace("/##USER##","");
+			            } else {
+			            	svrHome = HomeDir;
+			            	sysHome = HomeDir;
+			            }
+			            String baseSvr = "01";
+			            
+			            strQuery.setLength(0);
+			            strQuery.append("select nvl(cm_dirbase,'01') dirbase \n");
+			            strQuery.append("  from cmm0030                      \n");
+			            strQuery.append(" where cm_syscd=?                   \n");
+			            pstmt = conn.prepareStatement(strQuery.toString());
+			            pstmt.setString(1, SysCd);
+			            rs = pstmt.executeQuery();
+			            if (rs.next()) {
+			            	baseSvr = rs.getString("dirbase");
+			            }
+			            rs.close();
+			            pstmt.close();
+			            
+			            while ( (str = in.readLine()) != null ) {
+			                fileSw = false;
+			                //ecamsLogger.error("+++++++str:"+str);
+			            	if (str.length() > 0) {
+			                	if ( SysOs.equals("03") ) {
+			                		if (str.indexOf("디렉터리")>0) {
+			                			wkDir = str.substring(0,str.indexOf("디렉터리"));
+			                			wkDir = wkDir.trim();
+			                			do {
+			                				wkDir = wkDir.replace("\\", "/");
+			                			} while (wkDir.indexOf("\\")>=0);
+			                		} else if (str.indexOf("<DIR>")<0 && !str.substring(0,1).equals(" ")) {
+			                			//ecamsLogger.error("++++++++wkDir,str1++++"+wkDir + " " + str);
+			                			for (k=0;4>k;k++) {
+			                				if (str.indexOf(" ")>=0) {
+			                					str = str.substring(str.indexOf(" ")).trim();
+			                				} else str = "";
+			                			}
+
+			                			//ecamsLogger.error("++++++++wkDir,str2++++"+wkDir + " " + str);
+			                			if (str.length()>0) {
+				                			wkF = str;
+				                			wkB = str;
+				                			fileSw = true;
+			                			}
+			                		}
+			                	} else if ( SysOs.equals("04") ) {//04=Linux
+//			                		ecamsLogger.error("+++++++str++++++++[1]"+str);
+//			                		if ( !str.substring(0,1).equals("d") ) {
+				                		if ( str.substring(0,1).equals("/") ) {
+				                			//ecamsLogger.error("[00]wkDir:"+wkDir); 
+				                			wkDir = str.substring(0, str.length() - 1);
+				                			//ecamsLogger.error("[01]wkDir:"+wkDir);
+				                		} else if ( str.substring(0,1).equals("-") ) {
+				                			wkF = str;
+				                			int Y = 0;
+				                			int X = 0;
+
+				                			//20151112 neo. 마지막 탭을 파일명으로 사용하도록 로직 수정
+				                			wkB = str.substring(str.lastIndexOf(" "));
+//				                			ecamsLogger.error("+++++++wkB++++++++[2]"+wkB);
+				                			fileSw = true;
+				                		}
+//			                		}
+			                	} else {
+			                		if (!str.substring(0,1).equals("d")) {
+				                		if (str.substring(0,1).equals("/")) {
+				                			wkDir = str.substring(0, str.length() - 1);
+				                		} else if (str.substring(0,1).equals("-")) {
+				                			wkF = str;
+				                			int Y = 0;
+				                			int X = 0;
+				                			while (wkF.length() > 0) {
+				                				Y = Y + 1;
+				                				X = wkF.indexOf(" ");
+				                				if (X >= 0) {
+				                					wkB = wkF.substring(0,X).trim();
+				                					wkF = wkF.substring(X).trim();
+				                				} else {
+				                					wkB = wkF.trim();
+				                					wkF = "";
+				                				}
+				                				//ecamsLogger.error("+++++++str,wkDir,wkB++++++++[3]"+wkDir+" "+wkB);
+				                				if (Y == 9 && wkDir.length()>0 && wkB.length()>0) {
+				                					//ecamsLogger.error("+++++++str,wkDir,wkB++++++++[4]"+wkDir+" "+wkB);
+				                					fileSw = true;
+				                					break;
+				                				}
+				                			}
+				                		}
+			                		}
+			                	}
+			                	
+			                	if ( fileSw ) {
+                					findSw = false;
+                					if (exeName1 == null || "".equals(exeName1)) {
+                						if (exeName2 == null || "".equals(exeName2)) findSw = true;
+                						else {
+                							findSw = true;
+                							wkExe = "";
+                    						if (wkB.indexOf(".")>0) {
+                    							wkExe = wkB.substring(wkB.lastIndexOf("."));
+                    						}
+    	                					for (z=0;strExe2.length>z;z++) {
+    	                						if (strExe2[z] == null || strExe2[z].equals("")) {
+    	                							if (wkExe == null || wkExe.equals("")) {
+    		                							findSw = false;
+    		                							break;
+    	                							}
+    	                						} else {
+    	                							if (strExe2[z].equals(wkExe)) {
+    		                							findSw = false;
+    		                							break;
+    		                						}
+    	                						}
+    	                					}
+                						}
+                					} else {
+                						wkExe = "";
+                						if (wkB.indexOf(".")>0) {
+                							wkExe = wkB.substring(wkB.lastIndexOf("."));
+                						}
+	                					for (z=0;strExe1.length>z;z++) {
+	                						if (strExe1[z] == null || strExe1[z].equals("")) {
+	                							if (wkExe == null || wkExe.equals("")) {
+		                							findSw = true;
+		                							break;
+	                							}
+	                						} else {
+	                							if (strExe1[z].equals(wkExe)) {
+		                							findSw = true;
+		                							break;
+		                						}
+	                						}
+	                					}
+                					}
+                					
+                					//ecamsLogger.error("+++++++findSw++++++++"+findSw);
+                					
+                					if ( findSw ) {
+	                					rst = new HashMap<String, String>();
+	                					rst.put("syscd", SysCd);
+	                					rst.put("cm_dirpath", wkDir.replace(svrHome, ""));
+	                					rst.put("filename", wkB);
+	                					if (baseSvr.equals(SvrCd)) {
+	                						rst.put("svrchg", "N");
+	                					} else {
+	                						rst.put("svrchg", "Y");
+	                						rst.put("basesvr", baseSvr);
+	                						rst.put("svrcd", SvrCd);
+	                						rst.put("svrseq", svrSeq);
+	                					}
+	                					if (svrInfo.substring(4,5).equals("1")) {	                						
+	                						rst.put("dirpath", wkDir.replace(svrHome, sysHome));
+	                					} else {
+	                						rst.put("dirpath", wkDir);
+	                					}
+	                					for (j=0;noNameAry.length>j;j++) {
+											if (wkDir.indexOf(noNameAry[j])>=0){
+								            	rst.put("enable1", "0");
+												rst.put("selected", "0");
+												rst.put("error", "1");
+												rst.put("errmsg", "경로명에 ["+noNameAry[j]+"] 존재");
+												rst.put("cm_dirpath", rst.get("dirpath"));
+												rst.put("dirpath", rst.get("cm_dirpath"));
+												rsval.add(rst);
+												findSw = false;
+											}
+										}
+	                					if (findSw) {
+	                						for (j=0;noNameAry.length>j;j++) {
+												if (wkB.indexOf(noNameAry[j])>=0){
+									            	rst.put("enable1", "0");
+													rst.put("selected", "0");
+													rst.put("error", "1");
+													rst.put("errmsg", "파일명에 ["+noNameAry[j]+"] 존재");
+													rst.put("cm_dirpath", rst.get("dirpath"));
+													rst.put("dirpath", rst.get("cm_dirpath"));
+													rsval.add(rst);
+													findSw = false;
+												}
+	                						}
+	                					}
+	                					if (findSw) {
+		                					++svCnt;
+		                					//ecamsLogger.error("++++fileList+++++"+wkDir+", "+rst.toString());
+	                						pool.assign( new svrOpen_thread_file(rst,rsval,conn) );
+	                						if ( svCnt%10 == 0 ){
+	                							Thread.sleep(30);
+	                						}
+	                						if ( rsval.size()>1000 ) {
+	                							overSw = true;
+	                							rst = null;
+	                							break;
+	                						}
+	                					}
+                						rst = null;
+                					}
+			                	}
+			                }
+			            }
+			            if (svCnt>0) {
+			            	pool.complete();
+			            }
+			        } finally {
+			            if (in != null)
+			                in.close();
+			        }
+		        }
+		        // if (mFile.isFile() && mFile.exists()) mFile.delete();
+            }
+            
+            conn.close();
+            String wkExe1 = "";
+            String wkExe2 = "";
+            String wkB1 = "";
+            String wkB2 = "";
+            
+            ecamsLogger.error("+++++++rsval:"+rsval.size());
+            
+            for (i=0;rsval.size()>i;i++) {
+            	if (i >= rsval.size()) break;
+            	if ( null != rsval.get(i).get("filename")  && "" != rsval.get(i).get("filename") ) {
+	            	wkExe1 = "";
+	            	wkB1 = rsval.get(i).get("filename");
+					if (wkB1.indexOf(".")>0) {
+						wkExe1 = wkB1.substring(wkB1.lastIndexOf("."));
+						wkB1 = wkB1.substring(0,wkB1.lastIndexOf("."));
+					} 
+					//ecamsLogger.error("+++ base name ++"+wkB1+", "+ wkExe1);
+					if (wkExe1.equals(".c") || wkExe1.equals(".pc")) {
+		            	for (j=i+1;rsval.size()>j;j++) {
+		            		if (j>=rsval.size()) break;
+		            		if (!rsval.get(i).get("cm_dirpath").equals(rsval.get(j).get("cm_dirpath"))) break;
+		            		wkExe2 = "";
+		                	wkB2 = rsval.get(j).get("filename");
+		    				if (wkB2.indexOf(".")>0) {
+		    					wkExe2 = wkB2.substring(wkB2.lastIndexOf("."));
+		    					wkB2 = wkB2.substring(0,wkB2.lastIndexOf("."));
+		    				}
+		    				//ecamsLogger.error("+++ same name ++"+wkB1+", "+ wkExe1+"==>"+wkB2+", "+ wkExe2);
+		    				if (wkB1.equals(wkB2) && (wkExe2.equals(".c") || wkExe2.equals(".pc"))) {
+		    					if (wkExe1.equals(".c")) {
+		    						rsval.remove(i--);
+		    						break;
+		    					}
+		    					if (wkExe2.equals(".c")) {
+		    						rsval.remove(j);
+		    						break;
+		    					}
+		    				}
+		            	}
+					}
+            	} else {
+            		rsval.remove(i--);
+            	}
+            }
+            if ( overSw ) {
+            	rst = new HashMap<String, String>();
+				rst.put("cm_dirpath", "등록대상 파일의 갯수가 많아서 일부만 먼저 추출하였습니다. 등록하신 후 계속 추출하여 등록하시기 바랍니다.");
+				rst.put("filename", "");
+				rst.put("cm_dsncd", "");
+				rst.put("enable1", "1");
+				rst.put("selected", "0");
+				rst.put("error", "W");
+				rsval.add(0,rst);
+				rst = null;
+            }
+            
+    		conn.close();
+			rs = null;
+			pstmt = null;
+			conn = null;
 			
-			rst = null;
-    		
-    		returnObjectArray = rsval.toArray();
-			rsval.clear();
-			rsval = null;
-			
-			return returnObjectArray;
+    		return rsval.toArray();
 	
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## svrOpen.getFileList_thread_HTML5() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## svrOpen.getFileList_thread_HTML5() SQLException END ##");
+			throw sqlexception;
 		} catch (Exception exception) {
 			exception.printStackTrace();
-			ecamsLogger.error("## svrOpen.getFileList_thread() Exception START ##");
+			ecamsLogger.error("## svrOpen.getFileList_thread_HTML5() Exception START ##");
 			ecamsLogger.error("## Error DESC : ", exception);
-			ecamsLogger.error("## svrOpen.getFileList_thread() Exception END ##");
+			ecamsLogger.error("## svrOpen.getFileList_thread_HTML5() Exception END ##");
 			throw exception;
 		}finally{
 			if (rsval != null)	rsval = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## svrOpen.getFileList_thread_HTML5() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
 		}
-	}//end of getFileList_thread() method statement
+	}//end of getFileList_thread_HTML5() method statement
 
 }//end of svrOpen class statement

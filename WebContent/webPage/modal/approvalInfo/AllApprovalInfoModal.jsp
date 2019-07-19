@@ -24,26 +24,27 @@
 	<!--line1-->					
 	<div class="row half_wrap_cb">
 		<!--left wrap-->
-		<div class="l_wrap width-50">
+		<div class="l_wrap width-30">
 			<div class="margin-5-right">
 				<label class="tit_80 poa">시스템</label>
 		        <div class="ml_80">
-					<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-70 dib">
+					<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 					</div>
 				</div>
 			</div>
 	 	</div>
 	 	<!--right wrap-->
-	 	<div class="r_wrap width-50">
+	 	<div class="r_wrap width-70">
 	 		<div class="margin-5-left">
 				<label class="tit_80 poa">결재종류</label>
 		        <div class="ml_80">
-					<div id="cboReqCd" data-ax5select="cboReqCd" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-70 dib">
+					<div id="cboReqCd" data-ax5select="cboReqCd" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-40 dib">
 				    </div>
-				</div>
-				<div class="dib poa_r">
-					<input type="checkbox" class="checkbox-pie" id="chkMember" data-label="직원"/>
-				    <input type="checkbox" class="checkbox-pie" id="chkOutsourcing" data-label="외주"/>
+					<div class="vat dib">
+						<input type="checkbox" class="checkbox-pie" id="chkMember" data-label="직원"/>
+					    <input type="checkbox" class="checkbox-pie" id="chkOutsourcing" data-label="외주"/>
+					</div>
+					<button id="btnQry" class="btn_basic_s poa_r">조회</button>
 				</div>
 			</div>
 		</div>
@@ -58,7 +59,7 @@
 	</div>
 	<!--button-->
 	<div class="row tac">
-		<button id="btnQry" class="btn_basic">조회</button>
+		<!-- <button id="btnQry" class="btn_basic">조회</button>  -->
 		<button id="btnClose" class="btn_basic margin-5-left">닫기</button>
 	</div>
 </div>

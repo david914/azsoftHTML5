@@ -1,17 +1,52 @@
 <!-- 
-È­¸é ¸í: ¼±/ÈÄÇàÀÛ¾÷È®ÀÎ
-È­¸éÈ£Ãâ:
-1) ÇöÈ² È­¸é -> Ã¼Å©ÀÎ»ó¼¼ -> ¼±ÈÄÇàÀÛ¾÷È®ÀÎ ¹öÆ°
+í™”ë©´ ëª…: ì„ /í›„í–‰ì‘ì—…í™•ì¸
+í™”ë©´í˜¸ì¶œ:
+1) í˜„í™© í™”ë©´ -> ì²´í¬ì¸ìƒì„¸ -> ì„ í›„í–‰ì‘ì—…í™•ì¸ ë²„íŠ¼
  -->
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-</body>
-</html>
+<style>
+.fontStyle-ing {
+	color: #0000FF;
+}
+.fontStyle-cncl {
+	color: #FF0000;
+}
+.fontStyle-eror {
+	color: #FF00FF;
+}
+</style>
+
+<c:import url="/webPage/common/common.jsp" />
+
+<body style="width: 100% !important; min-width: 0px !important">
+<div class="pop-header">
+	<div>
+		<label>ì„ /í›„í–‰ ì‘ì—…í™•ì¸</label>
+	</div>
+	<div>
+		<button type="button" class="close" aria-label="ë‹«ê¸°" id="btnExit">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	</div> 
+</div>
+
+<div class="container-fluid pop_wrap">
+	<div class="row">
+		<div>
+			<div class="az_board_basic" style="height:75%">
+		    	<div data-ax5grid="grdBefJob" style="height: 100%;"></div>
+			</div>
+		</div>
+	</div>
+	<div class="row tac">
+		<button class="btn_basic" id="btnBefJob">ì„ í–‰ì‘ì—…ì—°ê²°</button>
+		<button class="btn_basic margin-5-left" id="btnClose">ë‹«ê¸°</button>
+	</div>
+</div>
+
+
+<c:import url="/js/ecams/common/commonscript.jsp" />	
+<script type="text/javascript" src="<c:url value="/js/ecams/modal/request/BefJobListModal.js"/>"></script>
