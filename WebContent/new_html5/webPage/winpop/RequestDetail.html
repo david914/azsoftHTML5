@@ -43,26 +43,268 @@
 </head>
 
 <body>
-<div class="pop-header">
-	<div>
-		<label id="lbSub">문서확인</label>
-	</div>
-	<div>
-		<button type="button" class="close" aria-label="닫기" onclick="popClose()">
-		  <span aria-hidden="true">&times;</span>
-		</button>
-	</div> 
-</div>
-<div class="container-fluid pop_wrap">
-	<div class="row">
-		<div class="scrollBind">
-	     폴더구조 나옵니다.
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">	변경신청 <strong>&gt; 체크인요청상세</strong></div>
+        <!-- history E-->
+		<div class="az_search_wrap">
+			<div class="az_in_wrap">			
+				<div class="row vat cb">
+					<!-- line1 -->		
+                    <div class="width-30 float-left">
+						<div class="margin-5-right">
+	                    	<label class="tit_80 poa">신청번호</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+					</div>	
+                    <div class="width-70 float-left">
+						<div>
+	                    	<label class="tit_80 poa">신청사유</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+					</div>
+				</div>							
+				<div class="row vat cb">
+					<!-- line2 -->		
+                    <div class="width-30 float-left">
+						<div class="margin-5-right">
+	                    	<label class="tit_80 poa">시스템</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+					</div>	
+                    <div class="width-70 float-left por">
+						<div class="dib width-30">
+	                    	<label class="tit_80 poa">신청일시</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+						<div class="dib width-30 margin-10-left">
+	                    	<label class="tit_80 poa">완료일시</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+						<div class="dib poa_r">
+							<button class="btn_basic_s">테스트결과서</button><button class="btn_basic_s margin-5-left">선후행작업확인</button>
+						</div>
+					</div>
+				</div>						
+				<div class="row vat cb">
+					<!-- line3 -->		
+                    <div class="width-30 float-left">
+						<div class="margin-5-right">
+	                    	<label class="tit_80 poa">신청자</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+					</div>	
+                    <div class="width-70 float-left por">
+						<div class="dib width-30">
+	                    	<label class="tit_80 poa">처리구분</label>
+	                        <div class="ml_80">
+								<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-100 dib">
+									<select tabindex="-1" class="form-control input-sm" name="cboUser">
+										<option value="" selected="selected">프로젝트팀</option>
+										<option value="">전체</option>
+										<option value="">연구개발팀</option>
+										<option value="">영업팀</option>
+										<option value="">프로젝트팀</option>							
+									</select>
+									<a href="#ax5select-ax5select-25" class="form-control input-sm ax5select-display primary" data-ax5select-display="ax5select-25" data-ax5select-instance="6" style="min-width: 100px;">
+			                            <div class="ax5select-display-table" data-els="display-table">
+			                                <div data-ax5select-display="label">프로젝트팀</div>
+			                                <div data-ax5select-display="addon"> 
+			                                    <span class="addon-icon-closed"><span class="addon-icon-arrow"></span></span>
+			                                    <span class="addon-icon-opened"><span class="addon-icon-arrow"></span></span>
+			                                </div>
+			                            </div>
+			                            <input type="text" tabindex="-1" data-ax5select-display="input" style="position:absolute;z-index:0;left:0px;top:0px;font-size:1px;opacity: 0;width:1px;border: 0px none;color : transparent;text-indent: -9999em;">
+			                        </a>
+							    </div>
+							</div>
+						</div>
+						<div class="dib margin-10-left vat width-30">
+	                    	<label class="tit_80 poa">신청구분</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+						<div class="dib margin-10-left vat width-30">
+	                    	<label class="tit_80 poa">기타</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+					</div>
+				</div>						
+				<div class="row vat cb">
+					<!-- line4 -->		
+                    <div class="width-30 float-left">
+						<div class="margin-5-right">
+	                    	<label class="tit_80 poa">진행상태</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+					</div>	
+				</div>				
+				<div class="row vat cb">
+					<!-- line5 -->		
+                    <div class="width-30 float-left">
+						<div class="margin-5-right">
+	                    	<label class="tit_80 poa">SR-ID</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+					</div>	
+                    <div class="width-70 float-left por">
+						<div>
+	                        <input class="width-80" type="text">
+							<button class="btn_basic_s poa_r">SR정보확인</button>
+						</div>
+					</div>
+				</div>					
+			</div>
 		</div>
-	</div>
-	<div class="row tac">
-		<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">파일추가</button>
-		<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic margin-5-left">파일제거</button>
-		<button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic margin-5-left">닫기</button>
+		<!--tab-->
+        <div class="tab_wrap">
+			<ul>
+				<li class="on">체크인목록</li><li>처리결과확인</li>
+			</ul>
+		</div>
+		<!-- 버튼 S -->
+		<div class="row half_wrap_cb">
+			<div class="l_wrap">
+				<label><input type="checkbox" />항목상세보기</label>
+				<label><input type="checkbox" />전체선택</label>
+			</div>
+			<div class="r_wrap">
+				<button class="btn_basic_s">소스보기</button>
+				<button class="btn_basic_s margin-5-left">소스비교</button>
+				<button class="btn_basic_s margin-5-left">전체회수</button>
+				<button class="btn_basic_s margin-5-left">전체재처리</button>
+				<button class="btn_basic_s margin-5-left">다음단계진행</button>
+				<button class="btn_basic_s margin-5-left">오류건재처리</button>
+				<button class="btn_basic_s margin-5-left">단계완료</button>
+				<button class="btn_basic_s margin-5-left">로그확인</button>
+			</div>
+		</div>
+		<!-- 버튼 E -->
+		<!-- 게시판 S-->
+		<div class="row">
+			<div class="scroll_x">
+			    <div class="az_board_basic">
+			    	<table>
+				    	<colgroup>
+				    		<col width="3%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="10%"><col width="*%"><col width="10%">
+				    	</colgroup>
+			    		<tbody>
+				    		<tr>
+				    			<th scope="col">NO</th>
+				    			<th scope="col">프로그램명</th>
+				    			<th scope="col">프로그램설명</th>
+				    			<th scope="col">프로그럼종류</th>
+				    			<th scope="col">업무명</th>
+				    			<th scope="col">체크인버전</th>
+				    			<th scope="col">프로그램경로</th>
+				    			<th scope="col">우선순위</th>
+				    		</tr>
+				    		<tr>
+				    			<td>1</td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>2</td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>3</td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>4</td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>5</td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>6</td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    		<tr>
+				    			<td>7</td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td class="tal"></td>
+				    			<td></td>
+				    			<td></td>
+				    		</tr>
+				    	</tbody>
+			    	</table>	
+				</div>	
+			</div>
+		</div>
+		<!-- 게시판 E -->
+		<!-- 버튼 S -->
+		<div class="row tar">
+			<button class="btn_basic">새로고침</button>
+			<button class="btn_basic margin-5-left">결재정보</button>
+			<button class="btn_basic margin-5-left">우선적용</button>
+			<button class="btn_basic margin-5-left">결재</button>
+			<button class="btn_basic margin-5-left">반려</button>
+			<button class="btn_basic margin-5-left">닫기</button>
+		</div>
+		<!-- 버튼 E -->
 	</div>
 </div>
 <!-- contener E -->
