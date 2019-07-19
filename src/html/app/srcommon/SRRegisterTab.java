@@ -56,6 +56,12 @@ public class SRRegisterTab extends HttpServlet {
 				case "selectSRInfo" :
 					response.getWriter().write( selectSRInfo(jsonElement) );
 					break;
+				case "getDocList" :
+					response.getWriter().write( getDocList(jsonElement) );
+					break;
+				case "getDevUserList" :
+					response.getWriter().write( getDevUserList(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -76,4 +82,15 @@ public class SRRegisterTab extends HttpServlet {
 		return gson.toJson(cmc0100.selectSRInfo(srid));
 	}
 	
+	private String getDocList(JsonElement jsonElement) throws SQLException, Exception {
+		String srid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "srInfoData") );
+		String strReqCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strReqCd") );
+		return gson.toJson(cmc0100.getDocList(srid, strReqCd));
+	}
+	
+	private String getDevUserList(JsonElement jsonElement) throws SQLException, Exception {
+		String srid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "srInfoData") );
+		String userId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userid") );
+		return gson.toJson(cmc0100.getDevUserList(srid, userId));
+	}
 }

@@ -12,7 +12,7 @@ var userid 		= window.top.userId;
 var adminYN 	= window.top.adminYN;
 var userDeptName= window.top.userDeptName;
 var userDeptCd 	= window.top.userDeptCd;
-var strReqCD 	= window.top.reqCd;
+var strReqCd 	= window.parent.strReqCd;
 
 var organizationModal 	= new ax5.ui.modal();    // 조직도 팝업
 
@@ -156,7 +156,7 @@ grid_fileList.setConfig({
         }
     },
     columns: [
-        {key: "fileName", label: "파일명",  width: '100%'} 
+        {key: "name", label: "파일명",  width: '100%'} 
     ],
     page:{
     	display : false
@@ -267,8 +267,6 @@ function openOranizationModal() {
 
 var modalCallBack = function(){
 	organizationModal.close();
-	
-	
 };
 
 function changeCboReqSecu() {
@@ -334,7 +332,6 @@ function elementInit(initDivision) {
     	setCboDevUser();
 		
     } else if(strIsrId !== null && strIsrId !== '') {
-    	
     	if(initDivision === 'M'){
     		$('#chkNew').wCheck('check', false);
     		$('#btnRegister').attr('disabled', true);
@@ -395,7 +392,6 @@ function elementInit(initDivision) {
     	$('#txtRegUser').attr('disabled', true);
     	$('#txtRegDate').attr('disabled', true);
     }
-	
 	$('#txtDocuNum').val('');
 	$('#txtReqSubject').val('');
 	$('#texReqContent').val('');
@@ -466,7 +462,6 @@ function setCboElement() {
 	cboChgTypeData= codeInfos.CHGTYPE;
 	cboWorkRankData= codeInfos.WORKRANK;
 	cboReqSecuData= codeInfos.REQSECU;
-	
 	options = [];
 	$.each(cboCatTypeSRData,function(key,value) {
 		options.push({value: value.cm_micode, text: value.cm_codename});
@@ -570,7 +565,6 @@ function firstGridClick(srid){
 		$('#txtRegDate').val(ajaxReturnData[0].createdate);
 		strDept = ajaxReturnData[0].cc_reqdept;
 		$('#txtDocuNum').val(ajaxReturnData[0].cc_docid);
-		$('#txtOrg').attr('disabled', true);
 		$('#txtOrg').val(ajaxReturnData[0].reqdept);
 		
 		$('#txtReqSubject').val(ajaxReturnData[0].cc_reqtitle);
@@ -583,13 +577,42 @@ function firstGridClick(srid){
 		$('[data-ax5select="cboCatTypeSR"]').ax5select("setValue", ajaxReturnData[0].cc_cattype, true);	
 		$('[data-ax5select="cboChgType"]').ax5select("setValue", ajaxReturnData[0].cc_chgtype, true);
 		$('[data-ax5select="cboWorkRank"]').ax5select("setValue", ajaxReturnData[0].cc_workrank, true);
-		$('[data-ax5select="cboReqSecu"]').ax5select("setValue", ajaxReturnData[0].cc_reqsecu, true);
+		if(ajaxReturnData[0].cc_reqsecu !== "0"){
+			$('[data-ax5select="cboReqSecu"]').ax5select("setValue", ajaxReturnData[0].cc_reqsecu, true);
+		} else {
+			$('[data-ax5select="cboReqSecu"]').ax5select("setValue", "00", true);
+		}
 		
 		if(ajaxReturnData[0].cc_reqsecu === "6"){
 			$('#txtReqSecu').css('display','block');
 			$('#txtReqSecu').val(ajaxReturnData[0].cc_txtreqsecu);
 		}
 		
+		
 		// cmc0100_tab.mxml 1082 라인
+		ajaxReturnData = null;
+		var docSr = {
+			srInfoData: 	srid,
+			strReqCd: 		strReqCd,
+			requestType: 	'getDocList'
+		}
+		
+		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', docSr, 'json');
+		if(ajaxReturnData !== 'ERR'){
+			grid_fileList.setData(ajaxReturnData);
+		}
+		
+		ajaxReturnData = null;
+		var devUser = {
+			srInfoData: 	srid,
+			userid: 		userid,
+			requestType: 	'getDevUserList'
+		}
+		
+		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', devUser, 'json');
+		console.log(ajaxReturnData);
+		if(ajaxReturnData !== 'ERR'){
+			devUserGrid.setData(ajaxReturnData);
+		}
 	}
 }
