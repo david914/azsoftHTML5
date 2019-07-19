@@ -2026,12 +2026,13 @@ public class Cmd0100{
         	ecamsLogger.error("findSw:"+findSw + ", ItemId:" + ItemId);
 
         	if ( !findSw ) {
-		       /* strQuery.setLength(0);
-		        strQuery.append("delete cmr0022 where cr_baseitem=?  ");
+		        strQuery.setLength(0);
+		        strQuery.append("delete cmr0022 where cr_itemid=?  ");
 				pstmt = conn.prepareStatement(strQuery.toString());
 		  	    pstmt.setString(1, ItemId);
 		  		pstmt.executeUpdate();
-		  		pstmt.close();*/
+		  		pstmt.close();
+		  		
         		strQuery.setLength(0);
 		        strQuery.append("delete cmr0027 where cr_itemid=?  ");
 				pstmt = conn.prepareStatement(strQuery.toString());
