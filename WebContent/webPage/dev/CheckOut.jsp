@@ -222,8 +222,7 @@ div[class^="row"] {
 	</div>
 </section>
 -->
-<div id='wrapper'>
-	<div class="content">
+	<div class="contentFrame">
 	        <!-- history S-->
 	        <div id="history_wrap">개발 <strong>&gt; 체크아웃</strong></div>
 	        <!-- history E-->      
@@ -277,7 +276,7 @@ div[class^="row"] {
 								name="txtRsrcName"
 								class="width-60 dib tal" 
 								placeholder="프로그램설명 을 입력"/>
-							    <label class="dib tar"><input type="checkbox" class='checkbox-pie' name = 'chkbox_subnode' id ='chkbox_subnode' data-label="하위폴더 포함하여 조회" checked> </label>
+							    <div class="dib vat"><input type="checkbox" class='checkbox-pie' name = 'chkbox_subnode' id ='chkbox_subnode' data-label="하위폴더 포함하여 조회" checked> </div>
 							</div>						
 							<div class="vat dib">
 								 <button id="btnSearch" name="btnReg" class="btn_basic_s poa_r" >검색</button>
@@ -331,14 +330,13 @@ div[class^="row"] {
 			</div>
 			<div class="ml_80">
 				<input id="reqText" name="Txt_Find" type="text" placeholder="" class="width-84">
-				<div class='ml150 tal'>
+				<div class='ml150 tal' style="display:inline;">
 					<button id="btnDiff" class="btn_basic_s margin-5-left" style='display:none;'>파일비교</button>
 					<button id="btnReq" class="btn_basic_s margin-5-left">체크아웃</button>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/dev/CheckOut.js"/>"></script>

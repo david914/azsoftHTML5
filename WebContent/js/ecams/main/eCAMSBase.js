@@ -19,22 +19,71 @@ var menuData	= null;
 
 $(document).ready(function() {
 	screenInit();
-	var $iFrm = '';
 	// eCAMS Main Load
 	$('#eCAMSFrame').empty();
-	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="/webPage/main/eCAMSMainNew.jsp" style=" width:100%; height: 100vh;" marginwidth="0" marginheight="0" ></IFRAME>');
+	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="/webPage/main/eCAMSMainNew.jsp" style=" width:100%; min-width:1024px;" marginwidth="0" marginheight="0" onload="frameLoad()"></IFRAME>');
 	$iFrm.appendTo('#eCAMSFrame');
 	
 	
 	// ifrmae contents의 height에 맞게 height 값 추가
-	/*$("#iFrm").on("load resize",function(){
-		//$("#iFrm").css("height","");
-		console.log("load height : "+$("#iFrm").contents().height());
-		if(iframeHeight != $("#iFrm").contents().height() + 20){
-			iframeHeight = resizeIframe($("#iFrm"));
-		}
-	})*/
+	
+	$(window).resize(function(){
+		resize();
+	});
 });
+
+
+function resize(){
+	 if($('#iFrm').contents().find(".contentFrame").length == 0){
+		 return;
+	 }
+	 
+	var addHeight = 0;
+	 var intervalck = 1;
+	 var contentFrameHeight = 0;
+	 var frameHeight = 0;
+	 var contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
+
+	 contentFrameHeight = Math.round($('#iFrm').contents().find(".contentFrame").height()+addHeight); // 프레임 내부에 컨텐츠 div 높이 구해오기
+	 
+	 if(contentHeight > contentFrameHeight){
+		 frameHeight = contentHeight;
+	 }
+	 else{
+		 frameHeight = contentFrameHeight;
+	 }
+
+	 if($('#iFrm').height() != frameHeight ){
+		 $('#iFrm').css("height",frameHeight+ "px");
+	 }
+}
+
+// 프레임을 불러오고나서 height 가 변하는 부분이 있을경우 사용
+function frameLoad(){
+	if($('#iFrm').contents().find(".contentFrame").length == 0){
+		return;
+	}
+	
+	var frameHeight = 0;
+	var addHeight = 0;
+	var contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
+
+	var resize_test = setInterval(function(){
+		resize();	
+		contentFrameHeight = Math.round($('#iFrm').contents().find(".contentFrame").height()+addHeight); // 프레임 내부에 컨텐츠 div 높이 구해오기
+		 if(contentHeight > contentFrameHeight){
+			 frameHeight = contentHeight;
+		 }
+		 else{
+			 frameHeight = contentFrameHeight;
+		 }
+
+		 if($('#iFrm').height() == frameHeight ){
+			 clearInterval(resize_test);
+			 return;
+		 }
+	 },300);
+}
 
 function lang_open(){
 	  var $gnb = jQuery(".lang_menu > ul > li");
@@ -151,7 +200,7 @@ function clickSideMenu(event) {
 	if( pathName.indexOf('doneMove') < 0) {
 		//IFRAME 지워준후 다시그리기
 		$('#eCAMSFrame').empty();
-		$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="'+pathName+'" style=" width:100%; height: 100vh;" marginwidth="0" marginheight="0" ></IFRAME>');
+		$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="'+pathName+'" style=" width:100%; min-width:1024px;" marginwidth="0" marginheight="0"  onload="frameLoad()"></IFRAME>');
 		$iFrm.appendTo('#eCAMSFrame');
 		
 		//상위 TITLE TEXT SET
@@ -169,16 +218,14 @@ function logOut() {
 }
 
 function resizeIframe(iframe) {
-	console.log(window.innerHeight);
-	console.log(iframe.contents().height());
-    var addHeight = 20;
+    var addHeight = 0;
     
     //var h = window. innerHeight; document.getElementById("top"). tyle.height = (h - 90) + "px";
     
     /*console.log("window.innerHeight : "+window.innerHeight);
     console.log("document.getEflementById('header').style.heght : "+document.getElementById('header').style.height);*/
     
-    //iframe.css("height",iframe.contents().height() + addHeight + "px");
-    iframe.css("height", (window.innerHeight -85) + "px");
-    return iframe.contents().height() + addHeight;
+    iframe.css("height",iframe.contents().find(".contentFrame").height() + addHeight + "px");
+    //iframe.css("height", (window.innerHeight -85) + "px");
+    return iframe.contents().find(".contentFrame").height() + addHeight;
   }
