@@ -35,7 +35,7 @@
 </div>
 
 <!-- contener -->
-<div class="wrapper">
+<div id="wrapper">
 	<div id="eCAMSFrame" class="content">
 	</div>
 </div>
