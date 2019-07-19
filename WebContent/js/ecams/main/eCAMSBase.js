@@ -17,6 +17,7 @@ var reqCd		= null;
 var iframeHeight= 0;
 var menuData	= null;
 var contentHeight = 0;
+var contentHistory = "";
 
 $(document).ready(function() {
 	
@@ -63,6 +64,10 @@ function resize(){
 
 // 프레임을 불러오고나서 height 가 변하는 부분이 있을경우 사용
 function frameLoad(){
+	
+	$('#iFrm').contents().find('#history_wrap').html(contentHistory);
+	console.log(contentHistory);
+	
 	if($('#iFrm').contents().find(".contentFrame").length == 0){
 		return;
 	}
@@ -142,7 +147,6 @@ function getSession() {
 // 메뉴데이터 가져오기 완료
 function successGetMenuData(data) {
 	menuData = data;
-	console.log(menuData);
 	
 	$('#ulMenu').empty();
 	var menuHtmlStr = '';
@@ -182,10 +186,8 @@ function meneSet() {
 
 function clickSideMenu(event) {
 	event.preventDefault();
-	
 	var $iFrm = '';
 	var pathName = event.target.getAttribute('link');
-	var parentMenuName = '';
 	
 	// 접속 메뉴 request code 가져오기 수정.
 	var findReqCd = false;
@@ -206,9 +208,10 @@ function clickSideMenu(event) {
 		$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="'+pathName+'" style=" width:100%;  height:'+contentHeight+'px; min-width:1024px;" marginwidth="0" marginheight="0"  onload="frameLoad()"></IFRAME>');
 		$iFrm.appendTo('#eCAMSFrame');
 		
+
 		//상위 TITLE TEXT SET
-		//parentMenuName = $(event.target).closest('ul').closest('li').children('a')[0].innerText;
-		//$('#ecamsTitleText').html('['+parentMenuName+'] '+event.target.innerText);
+		var selectePtag = $(event.target);
+		contentHistory = selectePtag.parent('div.menu_box').siblings('a').text() + "<strong> &gt; "+ selectePtag.text()+"</strong>";
 	}
 }
 

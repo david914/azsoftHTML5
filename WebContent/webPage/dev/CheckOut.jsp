@@ -224,7 +224,7 @@ div[class^="row"] {
 --> 
 	<div class="contentFrame">
 	        <!-- history S-->
-	        <div id="history_wrap">개발 <strong>&gt; 체크아웃</strong></div>
+	        <div id="history_wrap"></div>
 	        <!-- history E-->      
 	        <!-- 검색 S-->    
 			<div class="az_search_wrap">
