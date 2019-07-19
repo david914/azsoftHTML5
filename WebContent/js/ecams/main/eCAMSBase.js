@@ -16,12 +16,15 @@ var sessionID 	= null;
 var reqCd		= null;
 var iframeHeight= 0;
 var menuData	= null;
+var contentHeight = 0;
 
 $(document).ready(function() {
+	
+	contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
 	screenInit();
 	// eCAMS Main Load
 	$('#eCAMSFrame').empty();
-	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="/webPage/main/eCAMSMainNew.jsp" style=" width:100%; min-width:1024px;" marginwidth="0" marginheight="0" onload="frameLoad()"></IFRAME>');
+	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="/webPage/main/eCAMSMainNew.jsp" style=" width:100%; height:'+contentHeight+'px; min-width:1024px;" marginwidth="0" marginheight="0" onload="frameLoad()"></IFRAME>');
 	$iFrm.appendTo('#eCAMSFrame');
 	
 	
@@ -42,7 +45,7 @@ function resize(){
 	 var intervalck = 1;
 	 var contentFrameHeight = 0;
 	 var frameHeight = 0;
-	 var contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
+	 contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
 
 	 contentFrameHeight = Math.round($('#iFrm').contents().find(".contentFrame").height()+addHeight); // 프레임 내부에 컨텐츠 div 높이 구해오기
 	 
@@ -66,7 +69,7 @@ function frameLoad(){
 	
 	var frameHeight = 0;
 	var addHeight = 0;
-	var contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
+	contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
 
 	var resize_test = setInterval(function(){
 		resize();	
@@ -200,7 +203,7 @@ function clickSideMenu(event) {
 	if( pathName.indexOf('doneMove') < 0) {
 		//IFRAME 지워준후 다시그리기
 		$('#eCAMSFrame').empty();
-		$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="'+pathName+'" style=" width:100%; min-width:1024px;" marginwidth="0" marginheight="0"  onload="frameLoad()"></IFRAME>');
+		$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="'+pathName+'" style=" width:100%;  height:'+contentHeight+'px; min-width:1024px;" marginwidth="0" marginheight="0"  onload="frameLoad()"></IFRAME>');
 		$iFrm.appendTo('#eCAMSFrame');
 		
 		//상위 TITLE TEXT SET
@@ -217,15 +220,3 @@ function logOut() {
 	window.location.replace('/webPage/login/ecamsLogin.jsp');
 }
 
-function resizeIframe(iframe) {
-    var addHeight = 0;
-    
-    //var h = window. innerHeight; document.getElementById("top"). tyle.height = (h - 90) + "px";
-    
-    /*console.log("window.innerHeight : "+window.innerHeight);
-    console.log("document.getEflementById('header').style.heght : "+document.getElementById('header').style.height);*/
-    
-    iframe.css("height",iframe.contents().find(".contentFrame").height() + addHeight + "px");
-    //iframe.css("height", (window.innerHeight -85) + "px");
-    return iframe.contents().find(".contentFrame").height() + addHeight;
-  }
