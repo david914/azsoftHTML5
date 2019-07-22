@@ -92,9 +92,6 @@
 								<input class="width-100" type="text">
 							</div>
 						</div>
-						<div class="dib poa_r">
-							<button class="btn_basic_s">테스트결과서</button><button class="btn_basic_s margin-5-left">선후행작업확인</button>
-						</div>
 					</div>
 				</div>						
 				<div class="row vat cb">
@@ -132,22 +129,42 @@
 							    </div>
 							</div>
 						</div>
-						<div class="dib margin-10-left vat width-30">
-	                    	<label class="tit_80 poa">신청구분</label>
-	                        <div class="ml_80">
-								<input class="width-100" type="text">
-							</div>
+						<div class="dib margin-10-left vat width-30 por">
+							<div id="divPicker" class="az_input_group" data-ax5picker="basic">
+				            <input id="start_date" name="start_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;"><span class="sim">∼</span><input id="end_date" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;"><span class="btn_calendar margin-5-left"><i class="fa fa-calendar-o"></i></span>
+				            <button class="btn_basic_s margin-5-left poa_r">수정</button>
 						</div>
-						<div class="dib margin-10-left vat width-30">
-	                    	<label class="tit_80 poa">기타</label>
-	                        <div class="ml_80">
-								<input class="width-100" type="text">
-							</div>
+						</div>
+						<div class="dib poa_r">
+							<button class="btn_basic_s">테스트결과서</button><button class="btn_basic_s margin-5-left">선후행작업확인</button>
 						</div>
 					</div>
 				</div>						
 				<div class="row vat cb">
 					<!-- line4 -->		
+                    <div class="width-30 float-left">
+						<div class="margin-5-right">
+	                    	<label class="tit_80 poa">신청구분</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text">
+							</div>
+						</div>
+					</div>			
+					<div class="width-70 float-left por">
+						<!-- line5 -->	
+						<div class="margin-5-right">
+	                    	<label class="tit_80 poa">SR-ID</label>
+	                        <div class="ml_80">
+								<input class="width-90" type="text">
+							</div>
+						</div>
+						<div>
+							<button class="btn_basic_s poa_r">SR정보확인</button>
+						</div>
+					</div>
+				</div>				
+				<div class="row vat cb">
+					<!-- line5 -->		
                     <div class="width-30 float-left">
 						<div class="margin-5-right">
 	                    	<label class="tit_80 poa">진행상태</label>
@@ -156,22 +173,8 @@
 							</div>
 						</div>
 					</div>	
-				</div>				
-				<div class="row vat cb">
-					<!-- line5 -->		
-                    <div class="width-30 float-left">
-						<div class="margin-5-right">
-	                    	<label class="tit_80 poa">SR-ID</label>
-	                        <div class="ml_80">
-								<input class="width-100" type="text">
-							</div>
-						</div>
-					</div>	
                     <div class="width-70 float-left por">
-						<div>
-	                        <input class="width-80" type="text">
-							<button class="btn_basic_s poa_r">SR정보확인</button>
-						</div>
+                    	<span class="txt_r font_12">ERROR MSG</span>
 					</div>
 				</div>					
 			</div>
@@ -180,23 +183,26 @@
         <div class="tab_wrap">
 			<ul>
 				<li class="on">체크인목록</li><li>처리결과확인</li>
+				<div class="r_wrap">
+					<button class="btn_basic_s">소스보기</button>
+					<button class="btn_basic_s margin-5-left">소스비교</button>
+					<button class="btn_basic_s margin-5-left">전체회수</button>
+					<button class="btn_basic_s margin-5-left">전체재처리</button>
+					<button class="btn_basic_s margin-5-left">다음단계진행</button>
+					<button class="btn_basic_s margin-5-left">오류건재처리</button>
+					<button class="btn_basic_s margin-5-left">단계완료</button>
+					<button class="btn_basic_s margin-5-left">로그확인</button>
+				</div>
 			</ul>
 		</div>
 		<!-- 버튼 S -->
 		<div class="row half_wrap_cb">
 			<div class="l_wrap">
 				<label><input type="checkbox" />항목상세보기</label>
-				<label><input type="checkbox" />전체선택</label>
+				<button class="btn_basic_s margin-5-left">선택건회수</button>
 			</div>
 			<div class="r_wrap">
-				<button class="btn_basic_s">소스보기</button>
-				<button class="btn_basic_s margin-5-left">소스비교</button>
-				<button class="btn_basic_s margin-5-left">전체회수</button>
-				<button class="btn_basic_s margin-5-left">전체재처리</button>
-				<button class="btn_basic_s margin-5-left">다음단계진행</button>
-				<button class="btn_basic_s margin-5-left">오류건재처리</button>
-				<button class="btn_basic_s margin-5-left">단계완료</button>
-				<button class="btn_basic_s margin-5-left">로그확인</button>
+				<button class="btn_basic_s">우선순위적용</button>
 			</div>
 		</div>
 		<!-- 버튼 E -->
@@ -295,14 +301,24 @@
 			</div>
 		</div>
 		<!-- 게시판 E -->
-		<!-- 버튼 S -->
-		<div class="row tar">
-			<button class="btn_basic">새로고침</button>
-			<button class="btn_basic margin-5-left">결재정보</button>
-			<button class="btn_basic margin-5-left">우선적용</button>
-			<button class="btn_basic margin-5-left">결재</button>
-			<button class="btn_basic margin-5-left">반려</button>
-			<button class="btn_basic margin-5-left">닫기</button>
+		<!-- 버튼 S -->								
+		<div class="row vat cb">
+			<!-- line4 -->		
+            <div class="width-50 float-left">
+				<div class="margin-5-right">
+                	<label class="tit_100 poa">결재/반려의견</label>
+                    <div class="ml_100">
+						<input class="width-100" type="text">
+					</div>
+				</div>
+			</div>
+			<div class="width-50 float-right tar">
+				<button class="btn_basic">새로고침</button>
+				<button class="btn_basic margin-5-left">결재정보</button>
+				<button class="btn_basic margin-5-left">결재</button>
+				<button class="btn_basic margin-5-left">반려</button>
+				<button class="btn_basic margin-5-left">닫기</button>
+			</div>
 		</div>
 		<!-- 버튼 E -->
 	</div>
