@@ -37,15 +37,11 @@ grdProgHistory.setConfig({
         },
         onDBLClick: function () {
         	if (this.dindex < 0) return;
-    		swal({
-                title: '신청상세팝업',
-                text: '신청번호 ['+this.item.acptno2+']['+param.item.qrycd2+']['+this.dindex+']'
-           });
-    		
-			openWindow(1, param.item.qrycd2, this.item.acptno2,'');
+     	
+        	openWindow(this.item.cr_qrycd, this.item.cr_acptno,'');
         },
     	trStyleClass: function () {
-    		if (this.item.SubItems9 === '3'){
+    		if (this.item.cr_status === '3'){
     			return 'fontStyle-cncl';
     		} else {
     		}
@@ -59,11 +55,11 @@ grdProgHistory.setConfig({
         {key: 'cm_username',    label: '신청인',   	width:  '8%',	align: 'center'},
         {key: 'REQUEST', 	    label: '신청구분',    	width: '10%',	align: 'left'},
         {key: 'acptno', 	    label: '신청번호',	  	width: '10%',	align: 'center'},
-        {key: 'passok', 	    label: '배포구분',   	width: '10%',	align: 'center'},
+        {key: 'passok', 	    label: '배포구분',   	width:  '8%',	align: 'center'},
         {key: 'prcdate',   	    label: '완료일시',  	width: '11%',	align: 'center'},
         {key: 'cr_aftviewver',	label: '버전',    	width: '10%',	align: 'center'},
         {key: 'srinfo'   , 	    label: 'SR-ID',   	width: '15%',	align: 'center'},
-        {key: 'cr_sayu', 	    label: '변경사유',   	width: '15%',	align: 'left'}
+        {key: 'cr_sayu', 	    label: '변경사유',   	width: '25%',	align: 'left'}
     ]
 });
 $(document).ready(function(){
@@ -99,8 +95,8 @@ function getCodeInfo(){
 	cboReqData      = [];
 	
 	selOptions = selOptions.filter(function(data) {
-		if(data.cm_micode > '20') return true;
-		else return false;
+		if(data.cm_micode > '20') return false;
+		else return true;
 	});
 	
 	if (selOptions.length > 0) {		
@@ -121,7 +117,8 @@ function successProgInfo(data,selectedGridItem) {
 	progInfoData = data;
 	
 	if (progInfoData.length > 0) {
-		$('#txtProgId2').val(progInfoData[0].cr_rsrcname);
+		$('#btnQry2').prop('disabled','false');
+		$('#txtProgId2').val(selectedGridItem.cr_rsrcname);
 		$('#txtStory2').val(progInfoData[0].Lbl_ProgName);	
 		
 		getHistoryList(selectedGridItem.cr_syscd,selectedGridItem.cr_jobcd,selectedGridItem.cr_itemid,'ALL');
@@ -152,10 +149,10 @@ function successHistory(data) {
 	grdProgHistory.setData(grdProgHistoryData);
 	
 }
-function openWindow(type, syscd, reqNo, rsrcName) {
-	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
+function openWindow(reqCd,reqNo,itemId) {
+	var nHeight, nWidth, cURL, winName;
 
-	if ( (type+'_'+syscd) == winName ) {
+	if ( ('proginfo_'+reqCd) == winName ) {
 		if (myWin != null) {
 	        if (!myWin.closed) {
 	        	myWin.close();
@@ -163,21 +160,18 @@ function openWindow(type, syscd, reqNo, rsrcName) {
 		}
 	}
 
-    winName 	= type+'_'+syscd;
-	nHeight 	= screen.height - 200;
-    nWidth  	= screen.width - 200;
-	nTop  		= parseInt((window.screen.availHeight/2) - (nHeight/2));
-	nLeft 		= parseInt((window.screen.availWidth/2) - (nWidth/2));
-	cURL 		= '../winpop/DevRepProgRegister.jsp';
-	cFeatures 	= 'top=' + nTop + ',left=' + nLeft + ',height=' + nHeight + ',width=' + nWidth + ',help=no,menubar=no,status=yes,resizable=yes,scroll=no';
+    winName = 'proginfo_'+reqCd;
 
 	var f = document.popPam;   		//폼 name
-    myWin = window.open('',winName,cFeatures);
     
-    f.UserId.value	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.SysCd.value 	= syscd;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.action		= cURL; 		//이동할 페이지
-    f.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
-    f.method		= 'post'; 		//POST방식
-    f.submit();
+    f.acptno.value	= reqNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.itemid.value	= itemId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+
+    nHeight = screen.height - 300;
+    nWidth  = screen.width - 400;
+
+	cURL = "/webPage/winpop/PopRequestDetail.jsp";
+    myWin = winOpen(f, winName, cURL, nHeight, nWidth);
+    
 }

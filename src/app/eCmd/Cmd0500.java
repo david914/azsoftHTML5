@@ -205,6 +205,7 @@ public class Cmd0500{
 			strQuery.append("select a.cr_syscd,a.cr_dsncd,a.cr_rsrcname,a.cr_jobcd,   \n");
 			strQuery.append("       a.cr_itemid,a.cr_lstver,b.cm_dirpath,a.cr_status, \n");
 			strQuery.append("       a.cr_viewver,a.cr_rsrccd,g.cm_info,c.cm_sysmsg,   \n");
+			strQuery.append("       c.cm_sysinfo,                                     \n");
 			strQuery.append("       (select cm_jobname from cmm0102                   \n");
 			strQuery.append("          where cm_jobcd=a.cr_jobcd) cm_jobname,         \n");
 			strQuery.append("       (select cm_codename from cmm0020                  \n");
@@ -268,6 +269,7 @@ public class Cmd0500{
 				rst.put("baseitem",rs.getString("cr_itemid"));
 				rst.put("cm_info", rs.getString("cm_info"));
 				rst.put("cr_status", rs.getString("cr_status"));
+				rst.put("cm_sysinfo", rs.getString("cm_sysinfo"));
 				rst.put("subset", "N");
 				rst.put("base","0");
 				rtList.add(rst);
@@ -714,9 +716,10 @@ public class Cmd0500{
     }//end of getSql_Qry_Hist() method statement
 
 
-    public int getTbl_Update(String L_ItemId,String L_JobCd,String L_RsrcCd,
+    /*public int getTbl_Update(String L_ItemId,String L_JobCd,String L_RsrcCd,
     		String Txt_ProgName,String Cbo_Dir_Code,
-    		String Cbo_Editor,String SvRsrc,String svDsnCd, String srid) throws SQLException, Exception {
+    		String Cbo_Editor,String SvRsrc,String svDsnCd, String srid) throws SQLException, Exception {*/
+    public int getTbl_Update(HashMap<String, String> etcData) throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		StringBuffer      strQuery    = new StringBuffer();
@@ -732,46 +735,50 @@ public class Cmd0500{
 
 			//String      strJob[] = L_JobCd.split(",");
 			strQuery.setLength(0);
-			strQuery.append("update cmr0020 set cr_jobcd=?, \n");//L_JobCd
-			strQuery.append(" cr_rsrccd=?,cr_story=?,       \n");//Txt_ProgName
-		    if (Cbo_Editor.length() > 0) strQuery.append(" cr_editor=?, \n");//Cbo_Editor
-		    if (!"N".equals(srid)) strQuery.append(" cr_isrid=?, \n");//cboSr
-		    strQuery.append(" cr_lastdate=SYSDATE               \n");
-		    strQuery.append(" where cr_itemid=?                 \n");//L_ItemId
+			strQuery.append("update cmr0020                 \n");//L_JobCd
+			strQuery.append("   set cr_editor=?             \n");
+			strQuery.append("      ,cr_lastdate=SYSDATE     \n");
+		    if (etcData.get("editor").length() > 0) {
+		    	strQuery.append("  ,cr_editor=?             \n");//Cbo_Editor
+		    }
+		    if (etcData.get("srid").length() > 0) {
+		    	strQuery.append("  ,cr_isrid=?              \n");//cboSr
+		    }
+		    if (etcData.get("jobcd").length() > 0) {
+		    	strQuery.append("  ,cr_jobcd=?              \n");//jobcd
+		    }
+		    if (etcData.get("rsrccd").length() > 0) {
+		    	strQuery.append("  ,cr_rsrccd=?             \n");//rsrccd
+		    }
+		    if (etcData.get("dsncd").length() > 0) {
+		    	strQuery.append("  ,cr_dsncd=?              \n");//dsncd
+		    }
+		    if (etcData.get("story").length() > 0) {
+		    	strQuery.append("  ,cr_story=?              \n");//story
+		    }
+		    strQuery.append(" where cr_itemid=?             \n");//L_ItemId
 			pstmt = conn.prepareStatement(strQuery.toString());
 			parmCnt = 0;
-			pstmt.setString(++parmCnt, L_JobCd);
-            pstmt.setString(++parmCnt, L_RsrcCd);
-            pstmt.setString(++parmCnt, Txt_ProgName);
-            
-            if (Cbo_Editor.length() > 0) pstmt.setString(++parmCnt, Cbo_Editor);
-            if (!"N".equals(srid)) {
-            	if("P".equals(srid)) pstmt.setString(++parmCnt, "");
-            	else pstmt.setString(++parmCnt, srid);
-            }
-            pstmt.setString(++parmCnt, L_ItemId);
+
+            pstmt.setString(++parmCnt, etcData.get("userid"));
+			if (etcData.get("editor").length() > 0) pstmt.setString(++parmCnt, etcData.get("editor"));
+			if (etcData.get("srid").length() > 0) pstmt.setString(++parmCnt, etcData.get("srid"));
+			if (etcData.get("jobcd").length() > 0) pstmt.setString(++parmCnt, etcData.get("jobcd"));
+			if (etcData.get("rsrccd").length() > 0) pstmt.setString(++parmCnt, etcData.get("rsrccd"));
+			if (etcData.get("dsncd").length() > 0) pstmt.setString(++parmCnt, etcData.get("dsncd"));
+			if (etcData.get("story").length() > 0) pstmt.setString(++parmCnt, etcData.get("story"));
+            pstmt.setString(++parmCnt, etcData.get("itemId"));
             rtn_cnt = pstmt.executeUpdate();
             pstmt.close();
 
-            if (!svDsnCd.equals(Cbo_Dir_Code)) {
-		    	strQuery.setLength(0);
-		    	strQuery.append("update cmr0020 set cr_dsncd=? \n");//Cbo_Dir_code
-		    	strQuery.append(" where cr_itemid=?            \n");//L_ItemId
-				pstmt = conn.prepareStatement(strQuery.toString());
-				//pstmt =  new LoggableStatement(conn, strQuery.toString());
-	            pstmt.setString(1, Cbo_Dir_Code);
-	            pstmt.setString(2, L_ItemId);
-	            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
-	            rtn_cnt = pstmt.executeUpdate();
-	            pstmt.close();
-
+            if (etcData.get("dsncd").length() > 0) {
 		    	strQuery.setLength(0);
 		    	strQuery.append("update cmr1010 set cr_dsncd=? \n");//Cbo_Dir_code
 		    	strQuery.append(" where cr_itemid=?            \n");//L_ItemId
 				pstmt = conn.prepareStatement(strQuery.toString());
 				//pstmt =  new LoggableStatement(conn, strQuery.toString());
-	            pstmt.setString(1, Cbo_Dir_Code);
-	            pstmt.setString(2, L_ItemId);
+	            pstmt.setString(1, etcData.get("dsncd"));
+	            pstmt.setString(2, etcData.get("itemid"));
 	            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	            rtn_cnt = pstmt.executeUpdate();
 	            pstmt.close();
@@ -818,218 +825,42 @@ public class Cmd0500{
 		}
     }//end of getTbl_Update() method statement
 
-    public int getItem_Delete(String L_ItemId) throws SQLException, Exception {
+    public int getItem_Delete(String UserId,String L_ItemId) throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
-		PreparedStatement pstmt2      = null;
-		ResultSet         rs2         = null;
 		StringBuffer      strQuery    = new StringBuffer();
-		String            SysCd       = "";
-		String            DsnCd       = "";
-		String            RsrcName    = "";
-		String            RsrcCd      = "";
-		String            strItemId   = null;
-		String            strBefDsn   = null;
-		String            strAftDsn   = null;
-		String            strWork1    = null;
-		String            strWork3    = null;
-		String            strDevPath  = null;
-		String            strRsrcCd   = null;
-		String            strRsrcName = null;
-		int               j           = 0;
-		ArrayList<String> qryAry = null;
-		int				  nRet1 = 0;
-		int				  nRet2 = 0;
-		int				  qryFlag = 0;
 		ConnectionContext connectionContext = new ConnectionResource();
 
 		try {
 			conn = connectionContext.getConnection();
-
+			
+			Cmd0100 cmd0100 = new Cmd0100();
+			
 			strQuery.setLength(0);
-			strQuery.append("select a.cr_syscd,a.cr_rsrccd,a.cr_rsrcname,b.cm_dirpath \n");
-			strQuery.append("  from cmm0070 b,cmr0020 a                               \n");
-			strQuery.append(" where a.cr_itemid=? and a.cr_syscd=b.cm_syscd           \n");
-			strQuery.append("   and a.cr_dsncd=b.cm_dsncd                             \n");
+			strQuery.append("select a.cr_itemid,a.cr_baseitem,b.cr_status \n");
+			strQuery.append("  from cmr0022 a,cmr0020 b                   \n");
+			strQuery.append(" where a.cr_baseitem=?                       \n");
+			strQuery.append("   and a.cr_itemid=b.cr_itemid               \n");
+			strQuery.append("   and not exists (select 1 from cmr0022     \n");
+			strQuery.append("                    where cr_itemid=b.cr_itemid \n");
+			strQuery.append("                      and cr_baseitem<>a.cr_baseitem) \n");
+			strQuery.append("   and not exists (select 1 from cmr1010     \n");
+			strQuery.append("                    where cr_itemid=b.cr_itemid \n");
+			strQuery.append("                      and cr_prcdate is null) \n");
 			pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt.setString(1, L_ItemId);
 			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				SysCd = rs.getString("cr_syscd");
-				DsnCd = rs.getString("cm_dirpath");
-				RsrcName = rs.getString("cr_rsrcname");
-				RsrcCd = rs.getString("cr_rsrccd");
+			while (rs.next()) {
+				cmd0100.cmr0020_Delete_sub(UserId, rs.getString("cr_itemid"), conn);
 			}
 			rs.close();
 			pstmt.close();
 
-        	Cmd0100 cmd0100 = new Cmd0100();
-
-            strQuery.setLength(0);
-	        strQuery.append("select b.cm_samename,b.cm_samersrc,b.cm_basedir,         \n");
-			strQuery.append("       b.cm_samedir,b.cm_basename,b.cm_cmdyn,a.cm_info   \n");
-			strQuery.append("  from cmm0036 a,cmm0037 b                               \n");
-			strQuery.append(" where b.cm_syscd=? and b.cm_rsrccd=?                    \n");
-			strQuery.append("   and b.cm_factcd='04'                                  \n");
-			strQuery.append("   and b.cm_syscd=a.cm_syscd                             \n");
-			strQuery.append("   and b.cm_samersrc=a.cm_rsrccd                         \n");
-
-	        pstmt = conn.prepareStatement(strQuery.toString());
-	        pstmt.setString(1, SysCd);
-	        pstmt.setString(2, RsrcCd);
-	        rs = pstmt.executeQuery();
-
-	        while (rs.next()) {
-	        	strBefDsn = "";
-	        	strAftDsn = "";
-
-	        	if (rs.getString("cm_basedir") != null) strBefDsn = rs.getString("cm_basedir");
-	        	if (RsrcName.indexOf(".") > -1) {
-	        		strWork1 = RsrcName.substring(0,RsrcName.indexOf("."));
-	        	}
-	        	else strWork1 = RsrcName;
-	        	//ecamsLogger.debug("+++++++++++++++cm_basedir,strWork1=========>"+strBefDsn+ ","+strWork1);
-	        	if (!rs.getString("cm_basename").equals("*")) {
-	        		strWork3 = rs.getString("cm_basename");
-	        		while (strWork3 == "") {
-	        			j = strWork3.indexOf("*");
-	        			if (j > -1) {
-	        				//strWork2 = strWork3.substring(0, j);
-	        				strWork3 = strWork3.substring(j + 1);
-	        				if (strWork3.equals("*")) strWork3 = "";
-	        			} else {
-	        				//strWork2 = strWork3;
-	        				strWork3 = "";
-	        			}
-	        			if (strWork3 == "") break;
-	        		}
-	        	}
-	        	strQuery.setLength(0);
-	        	strQuery.append("select \n");
-	        	if (rs.getString("cm_cmdyn").equals("Y")) {
-	        		strWork1 = rs.getString("cm_samename").replace("*",strWork1);
-			   		qryAry = new ArrayList<String>();
-			   		nRet1 = 0;
-			   		nRet2 = 0;
-
-			   		while( (nRet2 = strWork1.indexOf("'")) != -1){
-			   			if (qryFlag == 0){
-			   				strQuery.append(strWork1.substring(0, nRet2)+ " \n");
-			   				strWork1 = strWork1.substring(nRet2+1);
-			   				qryFlag = 1;
-			   			}
-			   			else{
-			   				qryAry.add(strWork1.substring(0, nRet2));
-			   				strWork1 = strWork1.substring(nRet2+1);
-			   				strQuery.append(" ? \n");
-			   				qryFlag = 0;
-			   			}
-			   		}
-			   		strQuery.append(strWork1+ " \n");
-	        	}
-	        	else{
-	        		strQuery.append(" ? \n");
-	        	}
-	        	strQuery.append("as relatId  from dual \n");
-
-	        	//pstmt2 = conn.prepareStatement(strQuery.toString());
-	        	pstmt2 = new LoggableStatement(conn, strQuery.toString());
-
-			   	nRet1 = 1;
-				if (rs.getString("cm_cmdyn").equals("Y")){
-	        		for (nRet2 = 0;nRet2<qryAry.size();nRet2++){
-	        			pstmt2.setString(nRet1++,qryAry.get(nRet2));
-	        		}
-	        	}
-	        	else{
-			   		strWork1 = rs.getString("cm_samename").replace("*",strWork1);
-			   		pstmt2.setString(nRet1++,strWork1);
-	        	}
-
-				ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
-    	        rs2 = pstmt2.executeQuery();
-    	        if (rs2.next()) {
-    	        	strWork1 = rs2.getString("relatId");
-    	        }
-    	        else{
-    	        	strWork1 = "";
-    	        }
-    	        rs2.close();
-    	        pstmt2.close();
-
-	        	strRsrcName = strWork1;
-	        	strRsrcCd = rs.getString("cm_samersrc");
-	        	if (rs.getString("cm_samedir") != null) strAftDsn = rs.getString("cm_samedir");
-
-	        	if (rs.getString("cm_samersrc").equals("52")) {
-	        		strQuery.setLength(0);
-	        		strQuery.append("select a.cm_volpath  from cmm0038 a,cmm0031 b  \n");
-	        		strQuery.append(" where a.cm_syscd=? and a.cm_svrcd='01'        \n");
-	        		strQuery.append("   and a.cm_rsrccd=? and a.cm_syscd=b.cm_syscd \n");
-	        		strQuery.append("   and a.cm_svrcd=b.cm_svrcd and a.cm_seqno=b.cm_seqno  \n");
-	        		strQuery.append("   and b.cm_closedt is null                    \n");
-	        		pstmt2 = conn.prepareStatement(strQuery.toString());
-	        		pstmt2.setString(1, SysCd);
-	        		pstmt2.setString(2, RsrcCd);
-	    	        rs2 = pstmt2.executeQuery();
-	    	        if (rs2.next()) {
-	    	        	strDevPath = rs2.getString("cm_volpath");
-	    	        }
-
-	    	        rs2.close();
-	    	        pstmt2.close();
-	        	} else strDevPath = DsnCd.replace(strBefDsn, strAftDsn);
-	        	//ecamsLogger.debug("+++++++++++++++strRsrcCd,strDevPath=========>"+strRsrcCd+ ","+strDevPath);
-
-	        	strQuery.setLength(0);
-        		strQuery.append("select cm_dsncd from cmm0070            \n");
-        		strQuery.append(" where cm_syscd=? and cm_dirpath=?      \n");
-        		pstmt2 = conn.prepareStatement(strQuery.toString());
-        		pstmt2.setString(1, SysCd);
-        		pstmt2.setString(2, strDevPath);
-    	        rs2 = pstmt2.executeQuery();
-    	        if (rs2.next()) {
-    	        	strAftDsn = rs2.getString("cm_dsncd");
-    	        }
-    	        rs2.close();
-    	        pstmt2.close();
-
-    	        strItemId = "";
-    	        strQuery.setLength(0);
-    	        strQuery.append("select cr_itemid from cmr0020        \n");
-    	        strQuery.append(" where cr_syscd=?                    \n");
-    	        strQuery.append("   and upper(cr_rsrcname)=upper(?)   \n");
-    	        if (strAftDsn != "" && strAftDsn != null) {
-    	        	strQuery.append("and cr_dsncd=?                   \n");
-    	        } else {
-    	        	strQuery.append("and cr_rsrccd=?                  \n");
-    	        }
-    	        strQuery.append("   and cr_status='3'                 \n");
-    	        pstmt2 = conn.prepareStatement(strQuery.toString());
-    	        //pstmt2 =  new LoggableStatement(conn, strQuery.toString());
-    	        pstmt2.setString(1, SysCd);
-        		pstmt2.setString(2, strRsrcName);
-        		if (strAftDsn != "" && strAftDsn != null)
-        			pstmt2.setString(3, strAftDsn);
-        		else pstmt2.setString(3, strRsrcCd);
-        		//ecamsLogger.debug(((LoggableStatement)pstmt2).getQueryString());
-    	        rs2 = pstmt2.executeQuery();
-    	        if (rs2.next()) {
-    	        	strItemId = rs2.getString("cr_itemid");
-    	        }
-    	        rs2.close();
-    	        pstmt2.close();
-
-    	        if (strItemId !="" && strItemId != null) {
-    	        	cmd0100.cmr0020_Delete_sub("",strItemId,conn);
-    	        }
-	        }
-	        rs.close();
-	        pstmt.close();
-
-			cmd0100.cmr0020_Delete_sub("", L_ItemId, conn);
-
+			cmd0100.cmr0020_Delete_sub(UserId, L_ItemId, conn);
+			
+			cmd0100 = null;
+			
             conn.commit();
             conn.close();
 		    pstmt = null;
@@ -1062,63 +893,42 @@ public class Cmd0500{
 		}
     }//end of getItem_delete() method statement
 
-    public int getTbl_Delete(String L_ItemId) throws SQLException, Exception {
+    public int getTbl_Delete(String UserId,String L_ItemId) throws SQLException, Exception {
 		Connection        conn        = null;
+		ResultSet         rs          = null;
 		PreparedStatement pstmt       = null;
+		PreparedStatement pstmt2      = null;
 		StringBuffer      strQuery    = new StringBuffer();
 		int				  rtn_cnt     = 0;
 
 		ConnectionContext connectionContext = new ConnectionResource();
 		try {
-			conn = connectionContext.getConnection();
-			/*
-	        strQuery.setLength(0);
-	    	strQuery.append("delete cmr0025 \n");
-	    	strQuery.append(" where cr_itemid=? \n");//L_ItemId
+			conn = connectionContext.getConnection();	
+			
+			strQuery.setLength(0);
+			strQuery.append("select a.cr_itemid,a.cr_baseitem,b.cr_status \n");
+			strQuery.append("  from cmr0022 a,cmr0020 b                   \n");
+			strQuery.append(" where a.cr_baseitem=?                       \n");
+			strQuery.append("   and a.cr_itemid=b.cr_itemid               \n");
+			strQuery.append("   and not exists (select 1 from cmr0022     \n");
+			strQuery.append("                    where cr_itemid=b.cr_itemid \n");
+			strQuery.append("                      and cr_baseitem<>a.cr_baseitem) \n");
+			strQuery.append("   and not exists (select 1 from cmr1010     \n");
+			strQuery.append("                    where cr_itemid=b.cr_itemid \n");
+			strQuery.append("                      and cr_prcdate is null) \n");
 			pstmt = conn.prepareStatement(strQuery.toString());
-            pstmt.setString(1, L_ItemId);
-            rtn_cnt = pstmt.executeUpdate();
-            pstmt.close();
-
-	        strQuery.setLength(0);
-	    	strQuery.append("delete cmr0021 \n");
-	    	strQuery.append(" where cr_itemid=? \n");//L_ItemId
-			pstmt = conn.prepareStatement(strQuery.toString());
-            pstmt.setString(1, L_ItemId);
-            rtn_cnt = pstmt.executeUpdate();
-            pstmt.close();
-
-	        strQuery.setLength(0);
-	    	strQuery.append("delete cmr1010 \n");
-	    	strQuery.append(" where cr_itemid=? \n");//L_ItemId
-			pstmt = conn.prepareStatement(strQuery.toString());
-            pstmt.setString(1, L_ItemId);
-            rtn_cnt = pstmt.executeUpdate();
-            pstmt.close();
-
-	        strQuery.setLength(0);
-	    	strQuery.append("delete cmr0022 \n");
-	    	strQuery.append(" where cr_itemid=? \n");//L_ItemId
-			pstmt = conn.prepareStatement(strQuery.toString());
-            pstmt.setString(1, L_ItemId);
-            rtn_cnt = pstmt.executeUpdate();
-            pstmt.close();
-
-	        strQuery.setLength(0);
-	    	strQuery.append("delete cmr0022 \n");
-	    	strQuery.append(" where cr_baseitem=? \n");//L_ItemId
-			pstmt = conn.prepareStatement(strQuery.toString());
-            pstmt.setString(1, L_ItemId);
-            rtn_cnt = pstmt.executeUpdate();
-            pstmt.close();
-
-	        strQuery.setLength(0);
-	    	strQuery.append("delete cmr0020 \n");
-	    	strQuery.append(" where cr_itemid=? \n");//L_ItemId
-			pstmt = conn.prepareStatement(strQuery.toString());
-            pstmt.setString(1, L_ItemId);
-            rtn_cnt = pstmt.executeUpdate();
-            */
+			pstmt.setString(1, L_ItemId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				strQuery.setLength(0);
+		    	strQuery.append("update cmr0020 set cr_status='9', cr_clsdate=SYSDATE	\n");
+		    	strQuery.append(" where cr_itemid=?										\n");
+		    	pstmt2 = conn.prepareStatement(strQuery.toString());
+	            pstmt2.setString(1, rs.getString("cr_itemid"));
+	            pstmt2.executeUpdate();
+			}
+			rs.close();
+			pstmt.close();
 			
 			strQuery.setLength(0);
 	    	strQuery.append("update cmr0020 set cr_status='9', cr_clsdate=SYSDATE	\n");

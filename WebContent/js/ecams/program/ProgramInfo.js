@@ -79,8 +79,7 @@ $(document).ready(function(){
 	$('#btnQry').bind('click',function() {
 		btnQry_Click();
 	});
-
-	clickTabMenu();
+	
 	getSysInfo();
 });
 
@@ -88,31 +87,11 @@ function setTabMenu(){
 	$(".tab_content:first").show();
 	
 	$("ul.tabUl li").click(function () {
-		$(".tab_content").hide();
+		$(".tab_content").css('display','none');
 		var activeTab = $(this).attr("rel");
 		$("ul.tabUl li").removeClass('on');
 		$(this).addClass("on");
-		$("#" + activeTab + " iframe").attr('src', $("#" + activeTab + " iframe").attr('src'));
-		$("#" + activeTab).fadeIn();
-	});
-}
-//탭메뉴 클릭 이벤트
-function clickTabMenu() {
-	$("ul.tabs li").click(function () {
-		//이미 on상태면 pass
-		if($(this).hasClass("on")) {
-			changeTabMenu();
-			return;
-		}
-	
-		$(".tab_content").hide();
-		var activeTab = $(this).attr("rel");
-		
-		//tab메뉴 클릭에 따라 색상 변경
-		$("ul.tabs li").removeClass('on');
-		$(this).addClass("on");
-		
-		$("#" + activeTab).fadeIn();
+		$('#'+activeTab).css('display','block');
 	});
 }
 function screenInit() {
@@ -120,7 +99,7 @@ function screenInit() {
 	$('[data-ax5select="cboJawon"]').ax5select({
         options: []
 	});
-	
+	selectedGridItem = [];
 	grdProgList.setData([]);
 	$('#lbTotalCnt').text('총0건');
 	$('#txtRsrcName').val('');
@@ -130,12 +109,7 @@ function screenInit() {
 } 
 function screenInit_prog(gbn) {
 	
-	$("#tab1").unbind("click");
-	$("#tab2").unbind("click");
-	
-	if (gbn == 'S') {
-		$("#tab1").bind("click", clickTabMenu());
-    }
+	progInfoData = [];
 	tmpTab1 = $('#frmProgBase').get(0).contentWindow;
 	tmpTab2 = $('#frmProgHistory').get(0).contentWindow;
 	
@@ -345,6 +319,7 @@ function grdProgList_Click() {
 	ajaxAsync('/webPage/program/ProgramInfoServlet', tmpInfoData, 'json', successProgInfo);
 }
 function successProgInfo(data) {
+	progInfoData = data;
 	
 	tmpTab1 = $('#frmProgBase').get(0).contentWindow;
 	tmpTab1.successProgInfo(data,selectedGridItem);

@@ -22,11 +22,6 @@ $(document).ready(function(){
 	
 	reSize();
 	
-	//업무
-	$('#cboJob').bind('change', function() {
-		cboJob_Change();
-	});
-	
 	//프로그램종류
 	$('#cboRsrcCd').bind('change', function() {
 		cboRsrcCd_Change();
@@ -58,10 +53,11 @@ $(document).ready(function(){
 	});
 });
 function reSize() {
-	console.log("job width="+$("#divJobTxt").width());
-	console.log("story="+$("#txtStory").width());
-	console.log("job left="+$("#divJobTxt").left);
-	$("#divJobTxt").width($("#txtStory").width()-$("#divJobTxt").left());
+	
+	$("#txtCkInLastDt").width($("#lbckin").width()+$("#txtCkInEditor").width()+15);
+	$("#txtDevLastDt").width($("#lbdev").width()+$("#txtDevEditor").width()+15);
+	$("#txtTestLastDt").width($("#lbtest").width()+$("#txtTestEditor").width()+15);
+	$("#txtRealLastDt").width($("#lbreal").width()+$("#txtRealEditor").width()+15);
 }
 function screenInit(gbn) {	
 	if(gbn == 'M') {
@@ -126,6 +122,10 @@ function screenInit(gbn) {
 	}
 	
 	$('#cboEditor').prop('disabled', true);
+	$('#cboSR').prop('disabled', true);
+	$('#cboJob').prop('disabled', true);
+	$('#cboRsrcCd').prop('disabled', true);
+	$('#cboDir').prop('disabled', true);
 }
 
 function setTabMenu(){
@@ -260,10 +260,14 @@ function successProgInfo(data,selectedGrid) {
 				
 				$('#divSRCbo').css('display', 'block');
 				$('#divSRTxt').css('display', 'none');
+				$('#cboSR').prop('disabled', false);
 			} 
 		}
 		if (progInfoData[0].WkSecu == 'true' || adminYN) {
 			$('#cboEditor').prop('disabled', false);
+			$('#cboRsrcCd').prop('disabled', false);
+			$('#cboJob').prop('disabled', false);
+			$('#cboDir').prop('disabled', false);
 						
 			$('#divPrgCbo').css('display', 'block');
 			$('#divPrgTxt').css('display', 'none');
@@ -282,7 +286,7 @@ function successProgInfo(data,selectedGrid) {
 				else if (progInfoData[0].WkSta == '3') {
 					$('#btnDel').prop('disabled', false);  //삭제버튼 활성화
 				}
-				cmd_1
+				$('#btnRegist').prop('disabled', false); //수정버튼 활성화
 				if (progInfoData[0].WkSta == '0') { 
 					$('#btnClose').prop('disabled', false); //폐기버튼 활성화
 				}
@@ -393,78 +397,100 @@ function successEditorList(data) {
 
 function btnRegist_Click() {
 	
+	var findSw = false;
+	
 	if ($('#txtProgId').val().length == 0) return;
+	
 	$('#txtStory').val($('#txtStory').val().trim());
 	if($('#txtStory').val().length < 1) {
-		showToast('프로그램설명을 입력하여 주십시오.');
+		dialog.alert('프로그램설명을 입력하여 주시기 바랍니다.',function(){});
 		$('#txtStory').focus();
 		return;
 	}
 	
+	if (getSelectedIndex('cboJob')<1) {
+		dialog.alert('업무를 선택하여 주시기 바랍니다.',function(){});
+		$('#cboJob').focus();
+		return;
+	}
+	
 	if (getSelectedIndex('cboRsrcCd')<1) {
-		showToast('프로그램유형을 선택하여 주십시오.');
+		dialog.alert('프로그램유형을 선택하여 주시기 바랍니다.',function(){});
 		$('#cboRsrcCd').focus();
 		return;
 	}
 	
 	if( !$('#cboEditor').prop('disabled') && getSelectedIndex('cboEditor') < 1){
-		showToast('최종변경인을 선택하여 주십시오.');
+		dialog.alert('최종변경인을 선택하여 주시기 바랍니다.',function(){});
+		$('#cboEditor').focus();
 		return;
 	}
 	
 	if( !$('#cboDir').prop('disabled') && getSelectedIndex('cboDir') < 1){
-		showToast('프로그램경로를 선택하여 주십시오.');
+		dialog.alert('프로그램경로를 선택하여 주시기 바랍니다.',function(){});
+		$('#cboDir').focus();
 		return;
 	}
 	
-	if( !$('#cboSR').prop('disabled') && getSelectedIndex('cboSR') < 1){
-		showToast('SR-ID를 선택하여 주십시오.');
-		return;
+	if( !$('#cboSR').prop('disabled') ) {
+		if (getSelectedIndex('cboSR') < 1){
+			dialog.alert('SR-ID를 선택하여 주시기 바랍니다.',function(){});
+			return;
+		}
 	}
 	
 	tmpInfo = new Object();
 	tmpInfo.userid = userId;
 	tmpInfo.itemId = selectedGridItem.cr_itemid;
-	tmpInfo.jobCd = selectedGridItem.cr_itemid;
-	tmpInfo.rsrcCd = selectedGridItem.cr_itemid;
-	tmpInfo.progMsg = 
-	tmpInfo.dsnCd =
-	tmpInfo.
 	
+	if (selectedGridItem.cr_jobcd != getSelectedVal('cboJob').value) {
+		tmpInfo.jobcd = getSelectedVal('cboJob').value;
+		findSw = true;
+	} else tmpInfo.jobcd = "";
+	
+	if (progInfoData[0].WkRsrcCd != getSelectedVal('cboRsrcCd').value) {
+		tmpInfo.rsrccd = getSelectedVal('cboRsrcCd').value;
+		findSw = true;
+	} else tmpInfo.rsrccd = "";
+	
+	if( !$('#cboSR').prop('disabled') && progInfoData[0].cr_isrid != getSelectedVal('cboSR').value) {
+		tmpInfo.srid = getSelectedVal('cboSR').value;
+		findSw = true;
+	} else tmpInfo.srid = "";
+
+	if( !$('#cboDir').prop('disabled') && selectedGridItem.cr_dsncd != getSelectedVal('cboDir').value) {
+		tmpInfo.dsncd = getSelectedVal('cboDir').value;
+		findSw = true;
+	} else tmpInfo.dsncd = "";
+
+	if( !$('#cboEditor').prop('disabled') && progInfoData[0].cr_editor != getSelectedVal('cboEditor').value) {
+		tmpInfo.editor = getSelectedVal('cboEditor').value;
+		findSw = true;
+	} else tmpInfo.editor = "";
+	
+	if (progInfoData[0].Lbl_ProgName != $('#txtStory').val()) {
+		tmpInfo.story = $('#txtStory').val();
+		findSw = true;
+	} else tmpInfo.story = "";
+	
+	if (!findSw) {
+		dialog.alert('수정 할 내용이 없습니다. 수정등록하시려면 내용을 변경 후 진행하시기 바랍니다.',function(){});
+		return;
+	}
 	tmpInfoData = new Object();
 	tmpInfoData = {
 		tmpInfo		: tmpInfo,
-		requestType	: 'CHECKPROG'
+		requestType	: 'UPDATEPROG'
 	}
-	ajaxAsync('/webPage/program/ProgramInfoServlet', tmpInfoData, 'json', successCheckProg);
+	ajaxAsync('/webPage/program/ProgramInfoServlet', tmpInfoData, 'json', successUpdateProg);
 }
 
-function successCheckProg(data) {
-	var tmpArr = data;
-	var tmpObj = [];
+function successUpdateProg(data) {
 
-	if(tmpArr[0].ID.substr(0,4) == 'FAIL') {
-		showToast(tmpArr[0].ID.substring(4));
-		return;
+	if(Number(data) > 0) {
+		dialog.alert('수정처리를 완료하였습니다.', function(){});
 	}else {
-		if(tmpArr.length > 0 && tmpArr[0].ID == 'ADD') {
-			showToast('등록처리가 완료되었습니다.');
-			
-			if(grdProgListData != null) {
-				for(var i=0; i<grdProgList.getList().length; i++) {
-					if(grdProgList.getList()[i].cr_itemid == tmpArr[0].cr_itemid) {
-						grdProgList.removeRow(i);
-						break;
-					}
-				}
-			}
-			
-			tmpObj = tmpArr[0];
-			grdProgList.addRow(tmpObj, 0);
-			grdProgList.setColumnSort({cr_rsrcname:{seq:0, orderBy:'asc'}});
-		}else {
-			showToast(tmpArr[0].ID);
-		}	
+		dialog.alert('수정처리 중 오류가 발생하였습니다.', function(){});
 	}
 }
 
@@ -490,40 +516,56 @@ function btnDel_Click() {
 function successDELETE(data) {
 	
 	if(Number(data) > 0) {
-		showToast('삭제처리가 완료되었습니다.');
+		dialog.alert('삭제처리를 완료하였습니다.', function(){});
 	}else {
-		showToast('삭제처리가 실패하였습니다.');
+		dialog.alert('삭제처리 중 오류가 발생하였습니다.', function(){});
 	}
 }
 
+function btnClose_Click() {
+	
+	if ($('#txtProgId').val().length == 0) return;
+	
+	confirmDialog.confirm({
+		msg: '선택된 프로그램[' + $('#txtProgId').val() + ']을 폐기처리(상태변경} 하시겠습니까?',
+	}, function(){
+		if(this.key === 'ok') {			
+			tmpInfoData = new Object();
+			tmpInfoData = {
+				userId		: userId,
+				itemId      : selectedGridItem.cr_itemid,
+				requestType	: 'CLOSEPROG'
+			}
+			ajaxAsync('/webPage/program/ProgramInfoServlet', tmpInfoData, 'json', successClose);
+		}
+	});
+}
+
+function successClose(data) {
+	
+	if(Number(data) > 0) {
+		dialog.alert('폐기처리를 완료하였습니다.', function(){});
+	}else {
+		dialog.alert('폐기처리 중 오류가 발생하였습니다.', function(){});
+	}
+}
 function btnDiff_Click() {
 	
 	if ($('#txtProgId').val().length == 0) return;
 	
-	openWindow('R52', '', '', selectedGridItem.cr_itemid);
+	openWindow('R52', '', selectedGridItem.cr_itemid);
 }
 
 function btnView_Click() {
 	
 	if ($('#txtProgId').val().length == 0) return;
 	
-	openWindow('R53', '', '', selectedGridItem.cr_itemid);
+	openWindow('R53', '', selectedGridItem.cr_itemid);
 }
+function openWindow(reqCd,reqNo,itemId) {
+	var nHeight, nWidth, cURL, winName;
 
-function btnDevRep_Click() {
-	if($('#cboSysCd option').index($('#cboSysCd option:selected')) < 0) {
-		showToast('시스템을 선택하여 주십시오.');
-		$('#cboSysCd').focus();
-		return;
-	}
-	
-	openWindow('D02', $('#cboSysCd option:selected').val(), '', '');
-}
-
-function openWindow(type, syscd, reqNo, rsrcName) {
-	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
-
-	if ( (type+'_'+syscd) == winName ) {
+	if ( ('proginfo_'+reqCd) == winName ) {
 		if (myWin != null) {
 	        if (!myWin.closed) {
 	        	myWin.close();
@@ -531,21 +573,21 @@ function openWindow(type, syscd, reqNo, rsrcName) {
 		}
 	}
 
-    winName 	= type+'_'+syscd;
-	nHeight 	= screen.height - 200;
-    nWidth  	= screen.width - 200;
-	nTop  		= parseInt((window.screen.availHeight/2) - (nHeight/2));
-	nLeft 		= parseInt((window.screen.availWidth/2) - (nWidth/2));
-	cURL 		= '../winpop/DevRepProgRegister.jsp';
-	cFeatures 	= 'top=' + nTop + ',left=' + nLeft + ',height=' + nHeight + ',width=' + nWidth + ',help=no,menubar=no,status=yes,resizable=yes,scroll=no';
+    winName = 'proginfo_'+reqCd;
 
 	var f = document.popPam;   		//폼 name
-    myWin = window.open('',winName,cFeatures);
     
-    f.UserId.value	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.SysCd.value 	= syscd;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.action		= cURL; 		//이동할 페이지
-    f.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
-    f.method		= 'post'; 		//POST방식
-    f.submit();
+    f.acptno.value	= reqNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.itemid.value	= itemId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+
+	nHeight = screen.height - 50;
+    nWidth  = screen.width - 100;
+	if (reqCd == 'R53') {
+		cURL = "/webPage/winpop/PopSourceView.jsp";	    
+	} else if (reqCd == 'R52') {
+		cURL = "/webPage/winpop/PopSourceDiff.jsp";
+	}
+    myWin = winOpen(f, winName, cURL, nHeight, nWidth);
+    
 }

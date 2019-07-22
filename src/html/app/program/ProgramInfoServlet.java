@@ -78,6 +78,12 @@ public class ProgramInfoServlet extends HttpServlet {
 				case "DELETEPROG" :
 					response.getWriter().write( deleteProg(jsonElement) );
 					break;
+				case "CLOSEPROG" :
+					response.getWriter().write( closeProg(jsonElement) );
+					break;
+				case "UPDATEPROG" :
+					response.getWriter().write( updateProg(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -140,6 +146,16 @@ public class ProgramInfoServlet extends HttpServlet {
 	}
 	private String deleteProg(JsonElement jsonElement) throws SQLException, Exception {
 		String ItemId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "itemId") );
-		return gson.toJson(cmd0500.getTbl_Delete(ItemId));
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userId") );
+		return gson.toJson(cmd0500.getItem_Delete(UserId,ItemId));
+	}
+	private String closeProg(JsonElement jsonElement) throws SQLException, Exception {
+		String ItemId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "itemId") );
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userId") );
+		return gson.toJson(cmd0500.getTbl_Delete(UserId,ItemId));
+	}
+	private String updateProg(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		return gson.toJson(cmd0500.getTbl_Update(DataMap));
 	}
 }

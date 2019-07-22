@@ -5,7 +5,7 @@
 
 <!-- contener S -->
 <div id="wrapper">
-    <div class="content">=    
+    <div class="content">    
 	    <!-- 검색 S-->    
 		<div class="az_search_wrap">
 			<div class="az_in_wrap por">
@@ -58,7 +58,7 @@
 				</ul>
 			</div>
 			<!-- tab E-->			
-			<div style="height:30%"> <!--  tab_container -->
+			<div style="height:38%"> <!--  tab_container -->
 		       	<!-- 프로그램기본정보 -->
 		       	<div id="tab1" class="tab_content" style="width:100%">
 		       		<iframe id="frmProgBase" name="frmProgBase" src='/webPage/tab/programinfo/ProgBaseTab.jsp' width='100%' height='100%' frameborder="0"></iframe>

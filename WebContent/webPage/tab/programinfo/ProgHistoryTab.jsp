@@ -12,39 +12,44 @@
 <!-- contener S -->
 <div id="wrapper">
 	<!-- 하단 입력 S-->
-	<div class="row">
-	    <!-- 시스템 -->
-        <div class="width-45 dib vat">
-            <label id="lbSysMsg2" class="tit_100 poa">프로그램명</label>
-            <div class="ml_100">txtSysMsg2
+	<div class="margin-5-top">
+	    <!-- 프로그램명 -->
+        <div class="width-40 dib vat">
+            <label id="lbProgId2" class="tit_100 poa">프로그램명</label>
+            <div class="ml_80">
 				<input id="txtProgId2" name="" type="text" class="width-100">
 			</div>
 		</div>	
-	    <!-- 프로그램 종류 -->
-        <div class="width-45 dib vat">
+	    <!-- 프로그램한글명 -->
+        <div class="dib vat" style="margin-left: 10px;width:calc(60% - 15px);">
             <label id="lbStory2" class="tit_100 poa">프로그램한글명</label>
             <div class="ml_100">
 				<input id="txtStory2" name="txtStory2" type="text" class="width-100">
 			</div>
 		</div>				
 	</div>		
-	<div class="row por">
-        <label id="lbUser" class="tit_80 poa">의뢰구분</label>
-        <div class="ml_80">
-			<div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib"></div>
+	<div class="margin-5-top por">
+        <div class="width-40 dib vat">
+            <label id="lbUser" class="tit_80 poa">의뢰구분</label>
+            <div class="ml_80">
+			    <div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 11px);"></div>
+		    </div>
 		</div>
-		<button id="btnQry2" class="btn_basic_s margin-5-left margin-10-right poa_r" data-grid-control="excel-export">조회</button>
+		<button id="btnQry2" class="btn_basic_s margin-5-left poa" data-grid-control="excel-export" style="top: 0;">조회</button>
 	</div>
 	<!-- 하단 입력 E-->			
-    <!-- 게시판 S-->
-    <div class="row az_board_basic az_board_basic_in">
+    <!-- 테이블 S-->
+    <div class="row az_board_basic az_board_basic_in" style="height: calc(100% - 80px);">
 	    <div data-ax5grid="grdProgHistory" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>	
-	<!-- 게시판 E -->
+	<!-- 테이블  E -->
 </div>
-<!-- 페이지버튼 S-->
-   <!-- contener E -->
-</div>
+<!-- contener E -->
 
+<form name="popPam">
+	<input type="hidden" name="acptno"/>
+	<input type="hidden" name="user"/>
+	<input type="hidden" name="itemid"/>
+</form>
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/programinfo/ProgHistoryTab.js"/>"></script>
