@@ -22,7 +22,8 @@
 <!-- contener S -->
     <div class="contentFrame">
         <!-- history S-->
-        <div id="history_wrap"></div>
+        <div id="history_wrap">	프로그램등록 <strong>&gt; 개발영역연결등록</strong></div>
+        <!-- history E-->
         <!-- history E-->
         <!-- 검색 S-->    
 		<div class="az_search_wrap">
