@@ -1021,6 +1021,10 @@ td.fc-more-cell {
 .fc-day-header {
 	background-color: #f4f6f7;
 }
+/*페이지버튼-primary*/
+.btn_basic_p {background: #3579d4; border: 1px solid #3473c8; color:#fff; font-weight:bold; padding: 0 7px 2px; height: 25px;}
+.btn_basic_p:disabled{background: #ddd; border: 1px solid #ccc; color:#ccc; font-weight:normal; padding: 0 7px 2px; height: 25px;}
+
 /* tree right menu css end*/
 
 /****************************************************************************************************************************************

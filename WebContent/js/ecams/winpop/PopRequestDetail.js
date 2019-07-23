@@ -4,7 +4,7 @@ var pUserId = null;
 
 var reqGrid     = new ax5.ui.grid();
 var resultGrid  = new ax5.ui.grid();
-var picker 		= new ax5.ui.picker();
+var datReqDate	= new ax5.ui.picker();
 
 var confirmDialog  = new ax5.ui.dialog();	//확인,취소 창
 var confirmDialog2 = new ax5.ui.dialog();   //확인 창
@@ -57,57 +57,6 @@ ax5.info.weekNames = [
 ];
 
 $('#txtAcptNo').val(pReqNo.substr(0,4)+'-'+pReqNo.substr(4,2)+'-'+pReqNo.substr(6));
-picker.bind({
-    target: $('[data-ax5picker="basic"]'),
-    direction: "top",
-    content: {
-        width: 220,
-        margin: 10,
-        type: 'date',
-        config: {
-            control: {
-                left: '<i class="fa fa-chevron-left"></i>',
-                yearTmpl: '%s',
-                monthTmpl: '%s',
-                right: '<i class="fa fa-chevron-right"></i>'
-            },
-            dateFormat: 'yyyy/MM/dd',
-            lang: {
-                yearTmpl: "%s년",
-                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                dayTmpl: "%s"
-            }
-        },
-        formatter: {
-            pattern: 'date'
-        }
-    },
-    onStateChanged: function () {
-    },
-    btns: {
-        today: {
-            label: "Today", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .close();
-            }
-        },
-        thisMonth: {
-            label: "This Month", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-                                + '/'
-                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-                        .close();
-            }
-        },
-        ok: {label: "Close", theme: "default"}
-    }
-});
 
 reqGrid.setConfig({
     target: $('[data-ax5grid="reqGrid"]'),
@@ -173,11 +122,7 @@ reqGrid.setConfig({
         	if (isAdmin || param.item.secusw == 'Y' ||
     			    cmdOk.enabled == true || reqInfoData[0].confsw == '1') {
         		
-        		var retType = '1';
-			    
-        		if (param.item.rst == 'Y') {
-        			retType = retType+'2';
-				}
+        		var retType = '12';
         		
 				findSw = false;
                 if (pReqCd == '07') {
@@ -329,55 +274,70 @@ reqGrid.setConfig({
 });
 
 resultGrid.setConfig({
-    target: $('[data-ax5grid="resultGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showLineNumber: true,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 28,
-        onClick: function () {
-        	this.self.clearSelect();
-        	this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if (this.dindex < 0) return;
-
-	       	var selIn = resultGrid.selectedDataIndexs;
-	       	if(selIn.length === 0) return;
-       	 
-    		if (pReqNo != this.item.cr_acptno) {
-        		openWindow(2, this.item.cr_acptno, this.item.cr_seqno);
-    		} else {
-        		openWindow(2, '', this.item.cr_seqno);
-    		}
-        },
-    	trStyleClass: function () {
-    		if (this.item.colorsw == '3'){
-    			return "fontStyle-cncl";
-    		} else if(this.item.colorsw == '5'){
-    			return "fontStyle-error";
-    		} else if (this.item.cr_itemid != this.item.cr_baseitem){
-    			return "fontStyle-module";
-    		} 
-    	},
-    	onDataChanged: function(){
-    	    this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "prcsys", label: "구분",  width: '10%'},
-        {key: "cr_rsrcname", label: "프로그램명",  width: '15%'},
-        {key: "jawon", label: "프로그램종류",  width: '15%'},
-        {key: "cm_dirpath", label: "적용경로",  width: '20%'},
-        {key: "cr_svrname", label: "적용서버",  width: '20%'},
-        {key: "prcrst", label: "처리결과",  width: '10%'},
-        {key: "prcdate", label: "처리일시",  width: '10%'} 
-    ]
+	target: $('[data-ax5grid="resultGrid"]'),
+	sortable: true, 
+	multiSort: true,
+	showLineNumber: true,
+	header: {
+		align: "center",
+		columnHeight: 30
+	},
+	body: {
+		columnHeight: 28,
+		onClick: function () {
+			this.self.clearSelect();
+			this.self.select(this.dindex);
+		},
+		onDBLClick: function () {
+			if (this.dindex < 0) return;
+			
+			var selIn = resultGrid.selectedDataIndexs;
+			if(selIn.length === 0) return;
+			
+			if (pReqNo != this.item.cr_acptno) {
+				openWindow(2, this.item.cr_acptno, this.item.cr_seqno);
+			} else {
+				openWindow(2, '', this.item.cr_seqno);
+			}
+		},
+		trStyleClass: function () {
+			if (this.item.colorsw == '3'){
+				return "fontStyle-cncl";
+			} else if(this.item.colorsw == '5'){
+				return "fontStyle-error";
+			} else if (this.item.cr_itemid != this.item.cr_baseitem){
+				return "fontStyle-module";
+			} 
+		},
+		onDataChanged: function(){
+			this.self.repaint();
+		}
+	},
+	columns: [
+		{key: "prcsys", label: "구분",  width: '10%'},
+		{key: "cr_rsrcname", label: "프로그램명",  width: '15%'},
+		{key: "jawon", label: "프로그램종류",  width: '15%'},
+		{key: "cm_dirpath", label: "적용경로",  width: '20%'},
+		{key: "cr_svrname", label: "적용서버",  width: '20%'},
+		{key: "prcrst", label: "처리결과",  width: '10%'},
+		{key: "prcdate", label: "처리일시",  width: '10%'} 
+		]
 });
+
+$('[data-ax5select="cboPrcSys"]').ax5select({
+    options: []
+});
+
+
+function dateInit() {
+	$('#txtReqDate').val(getDate('DATE',0));
+	datReqDate.bind(defaultPickerInfo('txtReqDate', 'top'));
+	
+	$('#txtReqTime').timepicker({
+	    showMeridian : false,
+	    minuteStep: 1
+	 });
+}
 
 $(document).ready(function(){
 	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
@@ -394,7 +354,8 @@ $(document).ready(function(){
 	
 	$('#tab1Li').width($('#tab1Li').width()+10);
 	$('#tab2Li').width($('#tab2Li').width()+10);
-	
+
+	dateInit();
 	setTabMenu();
 	getCodeInfo();
 	
@@ -407,6 +368,8 @@ $(document).ready(function(){
 	//처리구분 콤보선택
 	$('#cboReqPass').bind('change', function() {
 		if (getSelectedVal('cboReqPass').value == '4') {
+			//$("#reqgbnDiv").show();
+			$("#reqgbnDiv").css("display","inline-block");
 			//document.getElementById('reqgbnDiv').style.visibility = "visible";
 			
 			if (reqInfoData == null || reqInfoData.length < 1 || reqInfoData[0].cr_passok != '4') {
@@ -414,6 +377,7 @@ $(document).ready(function(){
 				$('#txtReqTime').val(getTime().substr(0,2)+':'+getTime().substr(2,2));
 			}
 		} else {
+			$("#reqgbnDiv").css("display","none");
 			//document.getElementById('reqgbnDiv').style.visibility = "hidden";
 		}
 	});
@@ -797,7 +761,9 @@ $(document).ready(function(){
 });
 //환성화 비활성화 초기화로직
 function resetScreen(){
-	document.getElementById('reqgbnDiv').style.visibility = "hidden";				//처리구분
+	$("#reqgbnDiv").css("display","none");											//처리구분 (영역 X)
+	//document.getElementById('reqgbnDiv').style.visibility = "hidden";				//처리구분 (영역 O)
+	$('[data-ax5select="cboReqPass"]').ax5select("disable");						//처리구분  콤보 비활성화
 	document.getElementById('reqBtnDiv').style.visibility = "hidden";				//처리구분수정
 	document.getElementById('SrDiv').style.visibility = "hidden";					//SR정보
 	document.getElementById('lblApprovalMsg').style.visibility = "hidden";			//결재,반려의견
@@ -1098,10 +1064,11 @@ function successGetUserInfo(data) {
 	}
 }
 
-
 function setTabMenu(){
 	//???????????????????????????????????????????/
 	$("#tab2").show();
+	resultGrid.align(); //그리드의 높이를 새로 잡아줌
+	$("#tab2").hide();
 	$(".tab_content:first").show();
 	
 	$("ul.tabs li").click(function () {
@@ -1345,6 +1312,7 @@ function aftChk() {
 	    	$('#btnPriorityOrder').prop("disabled", false);			//우선순위적용
 	    }
 	    if (reqInfoData[0].updtsw2 == '1') {
+	    	$('[data-ax5select="cboReqPass"]').ax5select("enable");//처리구분  콤보 활성화
 			document.getElementById('reqBtnDiv').style.visibility = "visible"; //처리구분 수정
 	    }
 	} 
@@ -1392,11 +1360,11 @@ function openWindow(type,acptNo, etcInfo) {
     winName = type+'_'+pReqCd;
 
     nWidth  = 1045;
+	nHeight = 700;
     if (type === 1) {//프로그램정보
 		nHeight = 630;
 	    cURL = "/webPage/winpop/.jsp";
 	} else if (type === 2) {//처리결과확인
-		nHeight = 700;
 		cURL = "/webPage/winpop/PrcResultLogView.jsp";
 	} else if (type === 3) {//스크립트확인
 		nHeight = 400;
@@ -1405,16 +1373,13 @@ function openWindow(type,acptNo, etcInfo) {
 		nHeight = 530;
 		cURL = "/webPage/winpop/.jsp";
 	} else if (type === 5) {//소스보기
-		nHeight = 700;
 		cURL = "/webPage/winpop/.jsp";
 	} else if (type === 6) {//소스비교
-		nHeight = 700;
 		cURL = "/webPage/winpop/.jsp";
 	} else if (type === 7) {//로그확인
-		nHeight = 700;
 		cURL = "/webPage/winpop/ServerLogView.jsp";
 	} else if (type === 8) {//결재정보
-		nHeight = 700;
+		nHeight = 450;
 		cURL = "/webPage/winpop/PopApprovalInfo.jsp";
 	} else {
 		confirmDialog2.alert('window open - popup: invalid type ['+type+'] error', function(){return;});

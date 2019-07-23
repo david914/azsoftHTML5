@@ -258,10 +258,11 @@ function beForAndAfterDataLoading(beForAndAfter,msg){
 	
 }
 
-function defaultPickerInfo(dataAx5picker) {
+function defaultPickerInfo(dataAx5picker, direction) {
+	if (direction == '' || direction == null) direction = "bottom";
 	return {
 		target: $('[data-ax5picker="'+dataAx5picker+'"]'),
-		direction: "bottom",
+		direction: direction,
 		content: {
 			width: 220,
 			margin: 10,

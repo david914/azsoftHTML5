@@ -473,8 +473,8 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
     f.user.value 	= userid;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
     
 	if (type == 1) {
-		nHeight = screen.height - 300;
-	    nWidth  = screen.width - 400;
+		nHeight = 740;
+	    nWidth  = 1024;
 
 		cURL = "/webPage/winpop/PopRequestDetail.jsp";
 	    
