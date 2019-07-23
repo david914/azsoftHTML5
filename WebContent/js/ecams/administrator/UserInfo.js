@@ -14,10 +14,6 @@ var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
-var userName 	= '관리자';
-var userId 		= 'MASTER';
-var adminYN 	= 'Y';
-
 var organizationModal 	= new ax5.ui.modal();	// 조직도 팝업
 var rgtCdModal 			= new ax5.ui.modal();	// 사용자 직무조회 팝업
 var jobCopyModal 		= new ax5.ui.modal();	// 권한복사 팝업

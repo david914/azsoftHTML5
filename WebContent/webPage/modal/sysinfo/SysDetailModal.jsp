@@ -30,13 +30,13 @@
 			</ul>
 		</div>
 		<div>
-	       	<div id="svrTab" class="tab_content2" style="width:100%">
+	       	<div id="svrTab" class="tab_content" style="width:100%">
 	       		<iframe src='/webPage/tab/sysinfo/SysDetailSvrTab.jsp' width='100%' height='83%' frameborder="0"></iframe>
 	       	</div>
-	       	<div id="usrTab" class="tab_content2" style="width:100%">
+	       	<div id="usrTab" class="tab_content" style="width:100%">
 	       		<iframe src='/webPage/tab/sysinfo/SysDetailUsrTab.jsp' width='100%' height='83%' frameborder="0"></iframe>
 	       	</div>
-	       	<div id="prgTab" class="tab_content2" style="width:100%">
+	       	<div id="prgTab" class="tab_content" style="width:100%">
 	       		<iframe src='/webPage/tab/sysinfo/SysDetailPrgTab.jsp' width='100%' height='83%' frameborder="0"></iframe>
 	       	</div>
 	   	</div>

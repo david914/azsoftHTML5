@@ -4,7 +4,7 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div class="contentFrame">
+<div class="contentFrame dib">
 	<div id="history_wrap">관리자 <strong>&gt; 시스템정보</strong></div>
 	
 	<div class="row vat por">

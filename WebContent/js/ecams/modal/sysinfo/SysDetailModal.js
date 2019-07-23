@@ -25,10 +25,10 @@ $(document).ready(function(){
 })
 
 function setTabMenu(){
-	$(".tab_content2:first").show();
+	$(".tab_content:first").show();
 	
 	$("ul.tabs li").click(function () {
-		$(".tab_content2").hide();
+		$(".tab_content").hide();
 		var activeTab = $(this).attr("rel");
 		$("ul.tabs li").removeClass('on');
 		$(this).addClass("on");

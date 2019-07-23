@@ -43,10 +43,6 @@ var addFg2 			= false;
 var closeModifyFg 	= false;
 var selectedSystem 	= null;
 
-var userName 	= '관리자';
-var userId 		= 'MASTER';
-var adminYN 	= 'Y';
-
 sysInfoGrid.setConfig({
     target: $('[data-ax5grid="sysInfoGrid"]'),
     sortable: true, 
@@ -170,10 +166,10 @@ $(document).ready(function(){
 	screenInit();
 	
 	
-	$(window).resize(function() {
+/*	$(window).resize(function() {
 		$('#divSysInfoGrid').css('height', ($('#divRight').height() -28) + 'px' );
 		sysInfoGrid.repaint();
-	});
+	});*/
 	
 	// 시스템 코드/ 시스템명 찾기
 	$('#txtFindSys').bind('keypress', function(event) {
@@ -444,7 +440,7 @@ $(document).ready(function(){
 		selectedSystem = sysInfoGrid.list[gridSelectedIndex];
 		prgKindsModal.open({
 	        width: 1200,
-	        height: 900,
+	        height: 800,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/sysinfo/PrgKindsModal.jsp",
@@ -495,7 +491,7 @@ $(document).ready(function(){
 	// 시스템정보복사
 	$('#btnCopy').bind('click', function() {
 		sysCopyModal.open({
-	        width: 1000,
+	        width: 1200,
 	        height: 800,
 	        iframe: {
 	            method: "get",

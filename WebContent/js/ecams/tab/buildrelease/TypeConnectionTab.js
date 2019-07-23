@@ -14,10 +14,6 @@ var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
-var userName 	= '관리자';
-var userId 		= 'MASTER';
-var adminYN 	= 'Y';
-
 var conInfoGrid			= new ax5.ui.grid();
 var scriptGrid			= new ax5.ui.grid();
 

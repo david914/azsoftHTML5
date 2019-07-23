@@ -4,43 +4,38 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div id="wrapper">
-    <div class="content">    	
-        <!-- history S-->
-        <div id="history_wrap">관리자<strong>&gt; Agent모니터링</strong></div>
-        <!-- history E-->    
-        
-        <div class="az_search_wrap">
-			<div class="az_in_wrap">
-				<div class="l_wrap width-70">
-					<div class="vat dib">
-						<label class="dib">시스템</label>
-					</div>
-					<div class="width-30 vat dib">
-						<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
-					</div>
-					<div class="dib">
-						<input id="optAll"  type="radio" name="radio" value="1"/>
-						<label for="optAll">전체</label>
-						<input id="optNormal" type="radio" name="radio" value="2"/>
-						<label for="optNormal">정상</label>
-						<input id="optErr" type="radio"  name="radio" value="3"/>
-						<label for="optErr">장애</label>
-					</div>
-				</div>	
-				<div class="r_wrap">
-					<div class="vat dib">
-						<button id="btnExcel" name="btnReg" class="btn_basic_s" style="cursor: pointer;" >엑셀저장</button>
-					</div>
-					<div class="vat dib">
-						<button id="btnQry" class="btn_basic_s" style="cursor: pointer;">조회</button>
-					</div>
+<div class="contentFrame">	
+	<!-- history S-->
+	<div id="history_wrap">관리자<strong>&gt; Agent모니터링</strong></div>
+       
+	<div class="az_search_wrap">
+		<div class="az_in_wrap">
+			<div class="l_wrap width-70">
+				<label class="tit_80">시스템</label>
+				<div class="width-30 dib">
+					<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
+				</div>
+				<div class="dib vat margin-5-left">
+					<input id="optAll"  type="radio" name="radio" value="1"/>
+					<label for="optAll">전체</label>
+					<input id="optNormal" type="radio" name="radio" value="2"/>
+					<label for="optNormal">정상</label>
+					<input id="optErr" type="radio"  name="radio" value="3"/>
+					<label for="optErr">장애</label>
+				</div>
+			</div>	
+			<div class="r_wrap">
+				<div class="vat dib">
+					<button id="btnExcel" name="btnReg" class="btn_basic_s" style="cursor: pointer;" >엑셀저장</button>
+				</div>
+				<div class="vat dib">
+					<button id="btnQry" class="btn_basic_s" style="cursor: pointer;">조회</button>
 				</div>
 			</div>
 		</div>
-		<div class="az_board_basic margin-10-top" style="height: 80%;">
-			<div data-ax5grid="agentGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%"></div>
-		</div>
+	</div>
+	<div class="az_board_basic margin-10-top" style="height: 85%;">
+		<div data-ax5grid="agentGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 	</div>
 </div>
 

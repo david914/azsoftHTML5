@@ -26,31 +26,30 @@
 </style>
 
 <body style="width: 100% !important; min-width: 0px !important;">
-<!-- Header -->
-<div id="header">	
-	<h1 class="logo" id="logo" style="cursor: pointer;">azsoft</h1>
-	<div class="lang_menu">
-		<ul id="ulMenu"></ul>
-	</div>
-	<div class="log">
-		<a id="loginUser"></a>l<a id="logOut">로그아웃</a>
-	</div>
-</div>
-
-<!-- contener -->
 <div id="wrapper">
+	<!-- Header -->
+	<div id="header">	
+		<h1 class="logo" id="logo" style="cursor: pointer;">azsoft</h1>
+		<div class="lang_menu">
+			<ul id="ulMenu"></ul>
+		</div>
+		<div class="log">
+			<a id="loginUser"></a>l<a id="logOut">로그아웃</a>
+		</div>
+	</div>
+
+	<!-- contener -->
 	<div id="eCAMSFrame" class="content">
 	</div>
+
+	<!-- Footer-->
+	<footer id="footer">
+	    <ul>
+	        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
+	        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
+	    </ul>
+	</footer>
 </div>
-
-<!-- Footer-->
-<footer id="footer">
-    <ul>
-        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
-        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
-    </ul>
-</footer>
-
 <input id="txtSessionID" type="hidden" value="${sessionID}">
 
 <c:import url="/js/ecams/common/commonscript.jsp" />

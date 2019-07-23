@@ -18,8 +18,8 @@ var urlArr = [];
 $(document).ready(function(){
 	$('#tab1Li').width($('#tab1Li').width()+10);
 	$('#tab2Li').width($('#tab2Li').width()+10);
-	//setTabMenu();
-	setTabMenu2();
+	setTabMenu();
+	//setTabMenu2();
 	
 })
 

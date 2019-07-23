@@ -51,11 +51,11 @@ detailGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "서버종류", 		width: 100, align: "center" },
-        {key: "cm_svrname", 	label: "서버명",  		width: 140, align: "center"	},
-        {key: "cm_svrip", 		label: "IP Address",  	width: 200, align: "center"	},
-        {key: "cm_portno", 		label: "Port",  		width: 80,  align: "center" },
-        {key: "cm_svrusr", 		label: "계정",  			width: 80,  align: "center" },
+        {key: "cm_codename", 	label: "서버종류", 		width: '20%', align: "center" },
+        {key: "cm_svrname", 	label: "서버명",  		width: '25%', align: "center"	},
+        {key: "cm_svrip", 		label: "IP Address",  	width: '35%', align: "center"	},
+        {key: "cm_portno", 		label: "Port",  		width: '10%',  align: "center" },
+        {key: "cm_svrusr", 		label: "계정",  			width: '10%',  align: "center" },
     ]
 });
 dirGrid.setConfig({
@@ -79,8 +79,8 @@ dirGrid.setConfig({
 		}
 	},
 	columns: [
-		{key: "cm_codename", 	label: "구분", 		width: 80 	},
-		{key: "cm_dirpath", 	label: "디렉토리",  	width: 220	},
+		{key: "cm_codename", 	label: "구분", 		width: '20%', align: 'left'},
+		{key: "cm_dirpath", 	label: "디렉토리",  	width: '80%', align: 'left'},
 		]
 });
 

@@ -4,90 +4,86 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div id="wrapper">
-	<div class="content">    	
-		<div id="history_wrap">관리자<strong>&gt; 일괄등록</strong></div>
-		     
-		<div class="az_search_wrap">
-			<div class="az_in_wrap">
-				<div class="row vat">
-					<div class="width-30 dib">
-						<div class="tit_80 poa">
-							<label>시스템</label>
-						</div>
-						<div class="ml_80">
-							<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
-						</div>
+<div class="contentFrame">
+	<div id="history_wrap">관리자<strong>&gt; 일괄등록</strong></div>
+	     
+	<div class="az_search_wrap">
+		<div class="az_in_wrap">
+			<div class="row vat">
+				<div class="width-30 dib">
+					<div class="tit_80 poa">
+						<label>시스템</label>
 					</div>
-					<div class="width-30 dib tar">
-						<div class="tit_80 poa">
-							<label>대상서버</label>
-						</div>
-						<div class="ml_80 tal">
-							<div id="cboSvrCd" data-ax5select="cboSvrCd" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
-						</div>
+					<div class="ml_80">
+						<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 					</div>
-					
-					<div class="width-40 dib">
-						<div>
-							<div class="vat dib" style="float: right;">
-								<button id="btnSmm"  class="btn_basic_s">맵핑</button>
-							</div>
-							<div class="vat dib" style="float: right;">
-								<button id="btnReq"  class="btn_basic_s">일괄&nbsp;&nbsp;&nbsp;&nbsp;등록</button>
-							</div>
-							<div class="vat dib" style="float: right;">
-								<button id="btnLoadExl" class="btn_basic_s">엑셀파일</button>
-							</div>
-						</div>
+				</div>
+				<div class="width-30 dib tar">
+					<div class="tit_80 poa">
+						<label>대상서버</label>
+					</div>
+					<div class="ml_80 tal">
+						<div id="cboSvrCd" data-ax5select="cboSvrCd" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 					</div>
 				</div>
 				
-				<div class="row vat">
-					<div class="width-30 dib margin-5-top">
-						<div class="ml_80">
-							<input id="optBase1"  type="radio" name="optradio"  value="1"/>
-							<label for="optBase1">최초등록(버전:1)</label>
-							<input id="optBase2" type="radio"  name="optradio"  value="2"/>
-							<label for="optBase2">목록등록(버전:0)</label>
+				<div class="width-40 dib">
+					<div>
+						<div class="vat dib" style="float: right;">
+							<button id="btnSmm"  class="btn_basic_s">맵핑</button>
+						</div>
+						<div class="vat dib" style="float: right;">
+							<button id="btnReq"  class="btn_basic_s">일괄&nbsp;&nbsp;&nbsp;&nbsp;등록</button>
+						</div>
+						<div class="vat dib" style="float: right;">
+							<button id="btnLoadExl" class="btn_basic_s">엑셀파일</button>
 						</div>
 					</div>
-					<div class="width-30 dib vat">
-						<div class="ml_80">
-							<input id="optNomal"  type="radio" name="radio"  value="normal"/>
-							<label for="optNomal">정상건</label>
-							<input id="optErr" type="radio"  name="radio"  value="err"/>
-							<label for="optErr">오류건</label>
-							<input id="optAll" type="radio"  name="radio"  value="all"/>
-							<label for="optAll">전체</label>
-							<input type="checkbox" class="checkbox-batch" id="chkOk" data-label="정상건만등록"/>
-						</div>
+				</div>
+			</div>
+			
+			<div class="row vat">
+				<div class="width-30 dib margin-5-top">
+					<div class="ml_80">
+						<input id="optBase1"  type="radio" name="optradio"  value="1"/>
+						<label for="optBase1">최초등록(버전:1)</label>
+						<input id="optBase2" type="radio"  name="optradio"  value="2"/>
+						<label for="optBase2">목록등록(버전:0)</label>
 					</div>
-					
-					<div class="width-40 dib vat">
-							<div class="vat dib" style="float: right;">
-								<button id="btnDel"  class="btn_basic_s vat">삭제</button>
-							</div>
-							<div class="vat dib" style="float: right;">
-								<button id="btnExlTmp"  class="btn_basic_s vat">엑셀템플릿</button>
-							</div>
-							<div class="vat dib" style="float: right;">
-								<button id="btnSaveExl" class="btn_basic_s vat">엑셀저장</button>
-							</div>
+				</div>
+				<div class="width-30 dib vat">
+					<div class="ml_80">
+						<input id="optNomal"  type="radio" name="radio"  value="normal"/>
+						<label for="optNomal">정상건</label>
+						<input id="optErr" type="radio"  name="radio"  value="err"/>
+						<label for="optErr">오류건</label>
+						<input id="optAll" type="radio"  name="radio"  value="all"/>
+						<label for="optAll">전체</label>
+						<input type="checkbox" class="checkbox-batch" id="chkOk" data-label="정상건만등록"/>
 					</div>
+				</div>
 				
+				<div class="width-40 dib vat">
+						<div class="vat dib" style="float: right;">
+							<button id="btnDel"  class="btn_basic_s vat">삭제</button>
+						</div>
+						<div class="vat dib" style="float: right;">
+							<button id="btnExlTmp"  class="btn_basic_s vat">엑셀템플릿</button>
+						</div>
+						<div class="vat dib" style="float: right;">
+							<button id="btnSaveExl" class="btn_basic_s vat">엑셀저장</button>
+						</div>
 				</div>
 			</div>
 		</div>
-		
-		<div class="row vat">
-			<div class="width-100 dib">
-				<div class="az_board_basic" style="height: 75%;">
-					<div data-ax5grid="batchGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
-				</div>
+	</div>
+	
+	<div class="row vat">
+		<div class="width-100 dib">
+			<div class="az_board_basic" style="height: 82%;">
+				<div data-ax5grid="batchGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 			</div>
 		</div>
-		
 	</div>
 </div>
 

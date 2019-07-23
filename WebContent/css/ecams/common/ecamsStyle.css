@@ -992,9 +992,34 @@ div#rMenu ul li{
    background-color: #ffffff;
 }
 div#rMenu ul {
-   padding: 0;
+	padding: 0;
     margin: 0;
     font-size: 13px;
+}
+
+.fc-today {
+    background: #FFF !important;
+    border: none !important;
+    border-top: 1px solid #ddd !important;
+    font-weight: bold;
+    color: blue;
+}
+ 
+td.fc-more-cell {
+	background-color : #FDFF7F !important;
+}
+
+/* 토요일 */
+.fc-sat { 
+	color:#0000FF; 
+}
+/* 일요일 */
+.fc-sun,.holiday { 
+	color:#FF0000; 
+}
+   /* 달력 일자 헤더 */
+.fc-day-header {
+	background-color: #f4f6f7;
 }
 /* tree right menu css end*/
 
@@ -1005,7 +1030,7 @@ div#rMenu ul {
 * {margin: 0; padding: 0; border: 0; outline: 0; box-sizing: border-box;}
 html{position: relative; height: 100%;}
 html,body{font-size: 12px; color: #333; margin: 0; padding: 0; font-family: "Malgun Gothic", "굴림", "Gulim", "Arial";}
-body{min-width: 1024px; height: 100%;}
+body{min-width: 1024px;height: 100%;}
 ul, ol, dl {list-style: none;}
 a {text-decoration: none; cursor: pointer;}
 em{font-style: normal;}
@@ -1100,12 +1125,12 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
                 layout
 **********************************/
 #header{position: relative; height: 50px; border-bottom: 1px solid #ddd;}
-#wrapper{position: relative; width: 1024px; min-width: 100%; min-height: 100%; /*min-height: calc(100vh - 45px);*/}
+#wrapper{position: relative;width: 1024px;min-width: 100%;min-height: 100%;/*min-height: calc(100vh - 45px);*/}
 /*#wrapper:after{content: ''; display: block; clear: both;}*/
 #wrapper .content{position: relative; margin: 10px; margin-bottom: 0;}
 #history_wrap{position: relative; font-size: 14px; line-height: 14px; font-weight: 500; color: #245490; margin-bottom: 10px;}
 #divContent {width: 580px; background: #f8f8f8; padding: 20px; margin: 0 auto;}
-#footer{position: relative; width: 100%; height: 30px; margin-top: 15px; background: #ddd;}
+#footer{position: relative; width: 100%; height: 30px; background: #ddd;}
 #footer ul:after{content: ''; display: block; clear: both;}
 #footer ul li{position: relative; float: left; width: 50%; zoom: 1;}
 #footer ul li.logo_f{text-align: left; padding-left: 15px;}
