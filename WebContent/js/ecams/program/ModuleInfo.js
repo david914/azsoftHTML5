@@ -45,7 +45,6 @@ prgGrid.setConfig({
         columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
-            clickDirGrid(this.dindex);
         },
         onDBLClick: function () {
         	dblClickDirGrid(this.dindex);
@@ -80,7 +79,6 @@ modGrid.setConfig({
         columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
-            clickDirGrid(this.dindex);
         },
         onDBLClick: function () {
         	dblClickDirGrid(this.dindex);
@@ -115,7 +113,6 @@ modListGrid.setConfig({
 		columnHeight: 25,
 		onClick: function () {
 			this.self.select(this.dindex);
-			clickDirGrid(this.dindex);
 		},
 		onDBLClick: function () {
 			dblClickDirGrid(this.dindex);

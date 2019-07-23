@@ -32,6 +32,9 @@
 	<div class="lang_menu">
 		<ul id="ulMenu"></ul>
 	</div>
+	<div class="log">
+		<a id="loginUser"></a>l<a id="logOut">로그아웃</a>
+	</div>
 </div>
 
 <!-- contener -->

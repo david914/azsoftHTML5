@@ -137,6 +137,16 @@ $('#timeDeployE').timepicker({
 	minuteStep: 1
 });
 
+$('[data-ax5select="cboSys"]').ax5select({
+    options: []
+});
+$('[data-ax5select="cboSysGb"]').ax5select({
+    options: []
+});
+$('[data-ax5select="cboSvrCd"]').ax5select({
+    options: []
+});
+
 function dateInit() {
 	$('#datStDate').val(getDate('DATE',0));
 	$('#datEdDate').val(getDate('DATE',0));
@@ -159,10 +169,11 @@ $(document).ready(function(){
 	getSysInfoList('');
 	screenInit();
 	
-	/*$(window).resize(function() {
+	
+	$(window).resize(function() {
 		$('#divSysInfoGrid').css('height', ($('#divRight').height() -28) + 'px' );
 		sysInfoGrid.repaint();
-	});*/
+	});
 	
 	// 시스템 코드/ 시스템명 찾기
 	$('#txtFindSys').bind('keypress', function(event) {

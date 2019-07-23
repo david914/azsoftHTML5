@@ -615,6 +615,31 @@ public class MenuList{
   			rs.close();
   			pstmt.close();
   			
+  			strQuery.setLength(0);
+    		strQuery.append("SELECT B.CM_CODENAME, TO_CHAR(TO_DATE(A.CM_HOLIDAY),'YYYY-MM-DD') AS CM_HOLIDAY							\n");
+    		strQuery.append("  FROM CMM0050 A, CMM0020 B								\n");
+    		strQuery.append(" WHERE A.CM_HOLIDAY BETWEEN ? AND TO_CHAR(LAST_DAY(TO_DATE(?)), 'YYYYMMDD')\n");
+    		strQuery.append("   AND B.CM_MACODE = 'HOLIDAY'								\n");
+    		strQuery.append("   AND A.CM_MSGCD = B.CM_MICODE							\n");
+    		
+    		pstmt = conn.prepareStatement(strQuery.toString());	
+    		pstmt.setString(1, month + "01");
+    		pstmt.setString(2, month + "01");
+    		rs = pstmt.executeQuery();			
+    		
+    		while (rs.next()){
+    			rst = new HashMap<String, String>();
+    			rst.put("title", rs.getString("CM_CODENAME"));
+    			rst.put("start", rs.getString("CM_HOLIDAY"));
+    			rst.put("textColor", "#FF0000");
+    			rst.put("color", "#FFF");
+    			rst.put("holiday", "Y");
+    			System.out.println(rst.toString());
+    			rtList.add(rst);
+    		}
+    		rs.close();
+    		pstmt.close();
+  			
   			rtList.addAll(getUserReqCalInfo(userId, month+"01"));
   			
   			conn.close();

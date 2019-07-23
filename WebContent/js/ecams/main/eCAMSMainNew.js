@@ -24,6 +24,7 @@ var calendar 	= null;
 var calendarEl 	= null;
 var calMonthArr	= [];
 var calMonthArrHoli = [];
+var calHoliArr		= [];
 
 var myWin		= null;
 
@@ -34,101 +35,22 @@ $(document).ready(function(){
 	
 	$('body').on('click', 'button.fc-prev-button', function() {
 		getAddCalInfo();
-		getHoliday();
+		//getHoliday();
 	});
 
 	$('body').on('click', 'button.fc-next-button', function() {
 		getAddCalInfo();
-		getHoliday();
+		//getHoliday();
 	});
 	
 	$('body').on('click', 'button.fc-dayGridMonth-button', function() {
-		getHoliday();
+		//getHoliday();
 	});
 	
 });
 
-// 이미 추가되어있는 캘린더 정보 인지 확인 후 추가 가능 또는 불가 판단 리턴
-function checkCalInfo(month) {
-	if(calMonthArr.includes(month)) {
-		return false;
-	} else {
-		calMonthArr.push(month);
-		return true;
-	}
-}
 
-// 이미 추가되어있는 캘린더 휴일인지 확인
-function checkCalInfoHoli(month) {
-	if(calMonthArrHoli.includes(month)) {
-		return false;
-	} else {
-		calMonthArrHoli.push(month);
-		return true;
-	}
-}
-
-// 캘린더 인포 추가
-function getAddCalInfo() {
-	if(!checkCalInfo(getCalFullDate()) ) {
-		return;
-	}
-	var data = new Object();
-	data = {
-		userId		: 	userId,
-		month		: 	getCalFullDate(),
-		requestType	: 	'getCalendarInfo'
-	}
-	
-	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetAddCalInfo);
-}
-
-// 캘린더 인포 추가 가져오기 완료
-function successGetAddCalInfo(data) {
-	calendar.addEventSource(data);
-}
-
-// 달력 휴일정보 가져오기
-function getHoliday() {
-	if(!checkCalInfoHoli(getCalFullDate()) ) {
-		return;
-	}
-	
-	var data = new Object();
-	data = {
-		month		: 	getCalFullDate(),
-		requestType	: 	'getHoliday'
-	}
-	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetHoliday);
-}
-
-// 달력 휴일정보 가져오기 완료
-function successGetHoliday(data) {
-	calendar.addEventSource(data);
-	data.forEach(function(item, index) {
-		if(item.holiday !== undefined && item.holiday === 'Y') {
-			$('[data-date="' + item.start + '"]').addClass('holiday');
-		}
-	});
-	
-	console.log(calendar.getEvents());
-}
-
-// 캘린더 현재 월 구해오기 YYYYMM 까지
-function getCalFullDate() {
-	var calMon 		= '';
-	var calYear 	= '';
-	var fullDate 	= '';
-	calYear = calendar.getDate().getFullYear();
-	calMon = calendar.getDate().getMonth();
-	calMon += 1;
-	calMon = (calMon < 10 ? '0' : '') + calMon; 
-	fullDate = calYear + calMon;
-	
-	return fullDate; 
-}
-
-// 처음 캘린더 인포 가져오기
+//처음 캘린더 인포 가져오기
 function getCalInfo() {
 	var data = new Object();
 	data = {
@@ -140,7 +62,7 @@ function getCalInfo() {
 	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetCalInfo);
 }
 
-// 처음 캘린더 인포 가져오기 완료
+//처음 캘린더 인포 가져오기 완료
 function successGetCalInfo(data) {
 	if(!checkCalInfo(getDate('DATE',0).substr(0,6)) ) {
 		return;
@@ -166,8 +88,99 @@ function successGetCalInfo(data) {
 	    		openApprovalInfo(arg.event._def.extendedProps.cr_acptno, arg.event._def.extendedProps.cr_qrycd);
 	    	}
 	    }
-    });
+ });
 	calendar.render();
+}
+
+//캘린더 인포 추가
+function getAddCalInfo() {
+	if(!checkCalInfo(getCalFullDate()) ) {
+		return;
+	}
+	var data = new Object();
+	data = {
+		userId		: 	userId,
+		month		: 	getCalFullDate(),
+		requestType	: 	'getCalendarInfo'
+	}
+	
+	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetAddCalInfo);
+}
+
+// 캘린더 인포 추가 가져오기 완료
+function successGetAddCalInfo(data) {
+	calendar.addEventSource(data);
+}
+
+// 이미 추가되어있는 캘린더 정보 인지 확인 후 추가 가능 또는 불가 판단 리턴
+function checkCalInfo(month) {
+	if(calMonthArr.includes(month)) {
+		return false;
+	} else {
+		calMonthArr.push(month);
+		return true;
+	}
+}
+
+
+// 이미 추가되어있는 캘린더 휴일인지 확인
+function checkCalInfoHoli(month) {
+	if(calMonthArrHoli.includes(month)) {
+		return false;
+	} else {
+		calMonthArrHoli.push(month);
+		return true;
+	}
+}
+// 달력 휴일정보 가져오기
+function getHoliday() {
+	if(!checkCalInfoHoli(getCalFullDate()) ) {
+		addHoliCss();
+		return;
+	}
+	
+	var data = new Object();
+	data = {
+		month		: 	getCalFullDate(),
+		requestType	: 	'getHoliday'
+	}
+	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetHoliday);
+}
+
+function addHoliCss() {
+	calHoliArr.forEach(function(item,index) {
+		$('[data-date="' + item.start + '"]').addClass('holiday');
+	});
+}
+
+// 달력 휴일정보 가져오기 완료
+function successGetHoliday(data) {
+	calendar.addEventSource(data);
+	data.forEach(function(item, index) {
+		if(!calHoliArr.includes(item))  {
+			calHoliArr.push(item);
+		}
+		
+		if(item.holiday !== undefined && item.holiday === 'Y') {
+			$('[data-date="' + item.start + '"]').addClass('holiday');
+		}
+	});
+}
+
+
+
+// 캘린더 현재 월 구해오기 YYYYMM 까지
+function getCalFullDate() {
+	var calMon 		= '';
+	var calYear 	= '';
+	var fullDate 	= '';
+	calYear = calendar.getDate().getFullYear();
+	calMon = calendar.getDate().getMonth();
+	calMon += 1;
+	calMon = (calMon < 10 ? '0' : '') + calMon; 
+	fullDate = calYear + calMon;
+	
+	return fullDate; 
 }
 
 //결재 정보 창 띄우기
