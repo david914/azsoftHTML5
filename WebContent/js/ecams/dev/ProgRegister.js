@@ -116,7 +116,7 @@ function screenInit() {
 	$('#txtRsrcName').val("");
 	$('#txtStory').val("");
 	$('#btnDevRep').prop("disabled", true);
-	$('#btnLocalRep').prop("disabled", true);
+	//$('#btnLocalRep').prop("disabled", true);
 	if(cboSRIDData != null) $('[data-ax5select="cboSRID"]').ax5select("disable");
 } 
 
@@ -237,13 +237,14 @@ function cboSystem_Change() {
 	}
 	
 	if(selectedItem.cm_sysinfo.substr(6,1) == "1") {
-		if(selectedItem.localyn == "A" || selectedItem.localyn == "S" || selectedItem.localyn == "X") {
+		//A: ALL, S:SERVER, L:LOCAL
+		//if(selectedItem.localyn == "A" || selectedItem.localyn == "S" || selectedItem.localyn == "X") {
 			$('#btnDevRep').prop("disabled", false);
-		}
+		//}
 		
-		if(selectedItem.localyn == "A" || selectedItem.localyn == "L") {
-			$('#btnLocalRep').prop("disabled", false);
-		}
+		//if(selectedItem.localyn == "A" || selectedItem.localyn == "L") {
+			//$('#btnLocalRep').prop("disabled", false);
+		//}
 	}
 }
 

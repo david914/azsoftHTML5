@@ -104,7 +104,7 @@
 					</div>
 					<div class="row ml_7">
 						<div class="vat dib">
-							<button id="btnLocalRep" name=btnLocalRep class="btn_basic_s" disabled="true">로컬영역연결등록</button>
+							<!-- <button id="btnLocalRep" name=btnLocalRep class="btn_basic_s" disabled="true">로컬영역연결등록</button> -->
 						</div>
 					</div>
 					<div class="row ml_7">						
