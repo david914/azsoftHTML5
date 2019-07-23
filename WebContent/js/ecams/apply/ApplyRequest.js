@@ -53,7 +53,7 @@ firstGrid.setConfig({
         columnHeight: 30
     },
     body: {
-        columnHeight: 20,
+        columnHeight: 28,
         onClick: function () {
         	this.self.select(this.dindex);
         },
@@ -124,7 +124,7 @@ secondGrid.setConfig({
         columnHeight: 30
     },
     body: {
-        columnHeight: 20,
+        columnHeight: 28,
         onClick: function () {
         	this.self.select(this.dindex);
         },
@@ -274,7 +274,7 @@ $(document).ready(function(){
 	}
 	else if (reqCd == '03'){ //테스트배포
 		$('#btnRequest').text('테스트배포신청');
-		$('#cboReq').hide();
+		$('#cboReqDiv').hide();
 		$('#chkBefJob').parent('div.wCheck').hide();
 		$('#chkBefJob').parent('div.wCheck').siblings('label[for="chkBefJob"]').hide();
 		$('#btnDiff').hide();
@@ -282,7 +282,7 @@ $(document).ready(function(){
 	else{ //운영배포
 		$('#btnRequest').text('운영배포신청');
 		$('#chkBefJob').show();
-		$('#cboReq').hide();
+		$('#cboReqDiv').hide();
 		$('#btnDiff').hide();
 	}
 	
