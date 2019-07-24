@@ -158,7 +158,7 @@ function dateInit() {
 
 
 $(document).ready(function(){
-	
+	sysInfoGrid.align();
 	dateInit();
 	getSysCodeInfo();
 	getSysInfoCbo();

@@ -43,7 +43,7 @@ operTimeGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "운영시간구분",  	width: '20%' },
+        {key: "cm_codename", 	label: "운영시간구분",  	width: '20%', align: 'left' },
         {key: "stedtime", 		label: "운영시간",  		width: '80%' },
     ]
 });

@@ -10,16 +10,6 @@
 </head>
 
 <style type="text/css">
-  	h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 45px; margin-left: 15px; color: #2471c8;}
-	.lang_menu {position: absolute; top: 0; margin-left: 100px; height: 50px; width: 1024px; z-index: 10000;}
-  	.lang_menu:after{content: ''; display: block; zoom: 1;}
-	.lang_menu ul li{float: left; width: 82px; text-align: center;}
-  	.lang_menu ul li a{display: block; font-size: 14px; font-weight: bold; color: #333; padding-top: 15px; height: 50px;}
-    .lang_menu ul li div.active{display: block; border-top: solid 3px #2471c8;}
-    .lang_menu ul li .menu_box{display: none; width: 135px; background-color: #fff; margin-top: -3px; z-index: 1000; -webkit-box-shadow: 0 6px 16px rgba(0,0,0,.175); box-shadow: 0 6px 16px rgba(0,0,0,.175);}
-    .lang_menu ul li .menu_box p{display: block; padding: 10px 5px; border-bottom: 1px solid #eee; text-align: left; font-size: 12px; cursor: pointer;}
-    .lang_menu ul li .menu_box p:last-child{border-bottom: 0;}
-    .lang_menu ul li .menu_box p img{margin-top: 2px;}
     iframe {
     	min-width: 1045px;
     }

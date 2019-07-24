@@ -44,7 +44,7 @@ delCycleGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "디렉토리구분",  	width: '20%' },
+        {key: "cm_codename", 	label: "디렉토리구분",  	width: '20%', align: 'left' },
         {key: "delterm", 		label: "삭제주기",  		width: '80%' },
     ]
 });

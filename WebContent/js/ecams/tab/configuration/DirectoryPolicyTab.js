@@ -43,9 +43,9 @@ dirGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "디렉토리구분",  	width: '20%' },
-        {key: "cm_path", 		label: "디렉토리명",  		width: '20%' },
-        {key: "cm_downip", 		label: "배포서버IP",  		width: '40%' },
+        {key: "cm_codename", 	label: "디렉토리구분",  	width: '20%', align: 'left'},
+        {key: "cm_path", 		label: "디렉토리명",  		width: '40%', align: 'left' },
+        {key: "cm_downip", 		label: "배포서버IP",  		width: '20%' },
         {key: "cm_downport", 	label: "PORT",  		width: '20%' },
     ]
 });

@@ -4,29 +4,23 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div class="row">
-	<div class="col-sm-1">
-		<label>분류유형</label>
-	</div>
-	<div class="col-sm-9">
-		<div id="cboCattype" data-ax5select="cboCattype" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
-	</div>
-	<div class="col-sm-2">
-		<button class="btn btn-default" id="btnReq">등록</button>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-sm-1">
-		<label>신청구분</label>
-	</div>
-	<div class="col-sm-11">
-		<div class="scrollBind" style="height: 65%; border: 1px dotted gray;;">
- 			<ul class="list-group" id="ulReqInfo"></ul>
+<body style="height: 95% !important">
+	<div>
+		<div class="row">
+			<label class="tit_80 poa">분류유형</label>
+			<div class="ml_80 vat">
+				<div id="cboCattype" data-ax5select="cboCattype" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-50 dib" ></div>
+				<button id="btnReq" class="btn_basic_s margin-15-left">등록</button>
+			</div>
 		</div>
 	</div>
-</div>
-
-
+	<!-- cell2 -->
+	<div class="row">
+		<label class="tit_80 poa">신청구분</label>
+		<div class="row scrollBind" style="height:80%">
+			<ul class="list-group" id="ulReqInfo"></ul>
+		</div>
+	</div>
+</body>
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/configuration/SRTypeManageTab.js"/>"></script>
