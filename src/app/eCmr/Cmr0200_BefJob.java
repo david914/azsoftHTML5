@@ -33,7 +33,7 @@ public class Cmr0200_BefJob {
 	 * @throws SQLException
 	 * @throws Exception
 	 */    
-	public ArrayList<HashMap<String, String>> reqList_Select(String AcptNo,String ReqCd) throws SQLException, Exception {
+	public Object[] reqList_Select(String AcptNo,String ReqCd) throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
@@ -56,7 +56,7 @@ public class Cmr0200_BefJob {
 			strQuery.append("      b.cm_sysmsg,c.cm_username,d.cm_codename              \n");
 		    strQuery.append(" from cmm0020 d,cmm0040 c,cmm0030 b,cmr1000 a            \n");
 		    strQuery.append("where a.cr_qrycd=? and a.cr_prcdate is null              \n"); 
-		    if (AcptNo != null && AcptNo != "") {
+		    if (AcptNo != null && !"".equals(AcptNo)) {
 			   strQuery.append("and a.cr_acptno not in (select cr_befact from cmr1030 \n");
 			   strQuery.append("                         where cr_acptno=?)           \n");
 			   strQuery.append("and a.cr_acptno not in (select cr_acptno from cmr1030 \n");
@@ -73,7 +73,7 @@ public class Cmr0200_BefJob {
             
             parmCnt = 0;
             pstmt.setString(++parmCnt, ReqCd);
-            if (AcptNo != null && AcptNo != "") {
+            if (AcptNo != null && !"".equals(AcptNo)) {
             	pstmt.setString(++parmCnt, AcptNo);
             	pstmt.setString(++parmCnt, AcptNo);
             	pstmt.setString(++parmCnt, AcptNo);
@@ -166,7 +166,7 @@ public class Cmr0200_BefJob {
 			pstmt2 = null;
 			conn = null;			
 			
-			return rsval;
+			return rsval.toArray();
 
 			
 		} catch (SQLException sqlexception) {

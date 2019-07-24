@@ -13,6 +13,7 @@ console.log("!!!reqCd:"+reqCd);
 var firstGrid		= new ax5.ui.grid();
 var secondGrid		= new ax5.ui.grid();
 var datReqDate 		= new ax5.ui.picker();
+var befJobModal 		= new ax5.ui.modal();
 
 var request         =  new Request();
 
@@ -41,6 +42,7 @@ var strAplyDate = '';
 var scriptData = [];
 var befJobData = [];
 var upFiles = [];
+var befCheck = true; // 체크박스 변경시 이벤트가 바로 걸려 체크하기위한 변수
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -286,7 +288,50 @@ $(document).ready(function(){
 		$('#btnDiff').hide();
 	}
 	
-	$('#btnRequest').prop('disabled',true);
+	$('#chkBefJob').bind('change',function(){
+		if(befCheck){
+			befCheck = false;
+			return;
+		}
+		if($('#chkBefJob').is(':checked')){
+			befJobModal.open({
+		        width: 915,
+		        height: 580,
+		        iframe: {
+		            method: "get",
+		            url: "../modal/request/ApplyRequestBefJob.jsp",
+		            param: "callBack=modalCallBack"
+			    },
+		        onStateChanged: function () {
+		            if (this.state === "open") {
+		                mask.open();
+		            }
+		            else if (this.state === "close") {
+		            	if(befJobData.length == 0){
+							befCheck = true;
+		            		$('#chkBefJob').wCheck('check',false);
+		            	}
+		                mask.close();
+		            }
+		        }
+			});
+		}
+		else{
+            mask.open();
+			confirmDialog.confirm({
+				msg: '기 선택된 선행작업이 있습니다. \n 체크해제 시 선행작업이 무시됩니다. \n계속 진행할까요?',
+			}, function(){
+				if(this.key === 'ok') {
+					befJobData = [];
+				}
+				else{
+					befCheck = true;
+					$('#chkBefJob').wCheck('check',true);
+				}
+                mask.close();
+			});
+		}
+	});
 	
 	dateInit();
 	getCodeInfoList();
@@ -839,7 +884,6 @@ function deleteDataRow() {
 		 }
 		
 		$('#btnRequest').prop('disabled',true);
-		$('#chkBefJob').prop('checked',true);
 	}
 	else if(reqCd == '07'){
 		for (i=0 ; i<secondGridData.length ; i++){
@@ -1180,7 +1224,7 @@ function changeSys(){
 	firstGridData = [];
 	localHome = "";
 
-	$('#chkBefJob').prop('checked',false);
+	$('#chkBefJob').wCheck('check',false);
 	$('#chkBefJob').hide();
 	
 	if (getSelectedVal('cboSys').cm_stopsw == "1") {

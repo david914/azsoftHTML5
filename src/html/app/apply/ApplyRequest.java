@@ -18,6 +18,7 @@ import com.google.gson.JsonParser;
 import app.common.SysInfo;
 import app.eCmd.Cmd0100;
 import app.eCmr.Cmr0200;
+import app.eCmr.Cmr0200_BefJob;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/apply/ApplyRequest")
@@ -30,7 +31,8 @@ public class ApplyRequest extends HttpServlet {
 	SysInfo sysInfo  = new SysInfo();
 	Cmd0100 cmd0100  = new Cmd0100();
 	Cmr0200 cmr0200  = new Cmr0200();
-	
+	Cmr0200_BefJob cmr0200_BefJob = new Cmr0200_BefJob();
+		
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		super.doGet(req, resp);
@@ -69,6 +71,12 @@ public class ApplyRequest extends HttpServlet {
 					break;
 				case "requestConf" :
 					response.getWriter().write( requestConf(jsonElement) );
+					break;
+				case "reqList_Select" :
+					response.getWriter().write( reqList_Select(jsonElement) );
+					break;
+				case "reqList_Prog" :
+					response.getWriter().write( reqList_Prog(jsonElement) );
 					break;
 				default:
 					break;
@@ -164,5 +172,21 @@ public class ApplyRequest extends HttpServlet {
 	private String Confirm_Info(JsonElement jsonElement) throws SQLException, Exception{
 		
 		return "";
+	}
+	
+	private String reqList_Select(JsonElement jsonElement) throws SQLException, Exception {
+		String acptNo = null;
+		acptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "acptNo") );
+		String reqCd = null;
+		reqCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "reqCd") );
+		return gson.toJson(cmr0200_BefJob.reqList_Select(acptNo,reqCd));
+			
+	}
+	
+	private String reqList_Prog(JsonElement jsonElement) throws SQLException, Exception {
+		String befact = null;
+		befact = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "befact") );
+		return gson.toJson(cmr0200_BefJob.reqList_Prog(befact));
+			
 	}
 }

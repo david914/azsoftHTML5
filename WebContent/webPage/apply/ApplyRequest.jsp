@@ -144,7 +144,7 @@
 		   				<input type="checkbox" class="checkbox-pie" id="chkSvr" data-label="버전UP만적용"></input>
 					</div>
 					<button id="btnDiff" class="btn_basic_s margin-5-left" style='display:none;'>파일비교</button>
-					<button id="btnRequest" class="btn_basic_s margin-5-left">체크인</button>
+					<button id="btnRequest" class="btn_basic_s margin-5-left" disabled=true>체크인</button>
 				</div>
 		</div>
 </div>
