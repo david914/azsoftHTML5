@@ -80,7 +80,6 @@ $(document).ready(function(){
 		btnQry_Click();
 	});
 	
-	getSysInfo();
 });
 
 function setTabMenu(){
@@ -93,6 +92,8 @@ function setTabMenu(){
 		$(this).addClass("on");
 		$('#'+activeTab).css('display','block');
 	});
+
+	getSysInfo();
 }
 function screenInit() {
 	
@@ -111,9 +112,8 @@ function screenInit_prog(gbn) {
 	
 	progInfoData = [];
 	tmpTab1 = $('#frmProgBase').get(0).contentWindow;
-	tmpTab2 = $('#frmProgHistory').get(0).contentWindow;
-	
 	tmpTab1.screenInit(gbn);
+	tmpTab2 = $('#frmProgHistory').get(0).contentWindow;	
 	tmpTab2.screenInit(gbn);
 	
 }

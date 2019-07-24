@@ -45,65 +45,28 @@ public class Cmr5300 {
 	 * 		@return
 	 * 		@throws Exception
 	 */
-	public String getFileText(String UserId,String ItemId,String Version,String AcptNo,boolean ynDocFile) throws Exception {
-		Connection        conn        		= null;
-		PreparedStatement pstmt       		= null;
-		ResultSet         rs          		= null;
-		StringBuffer      strQuery    		= new StringBuffer();
-		ConnectionContext connectionContext = new ConnectionResource();
-
+	public String getFileText(HashMap<String, String> etcData) throws Exception {
 		String  shFileName = "";
 		String	fileName = "";
 		BufferedReader in1 = null;
 		String	readline1 = "";
 		String  strParm = "";
 		int     ret = 0;
+		StringBuffer      strQuery    		= new StringBuffer();
 
-		try {
-			
-			if (Version.equals("")){
-				if (AcptNo.substring(4,6).equals("04")) {
-					conn = connectionContext.getConnection();
-					strQuery.setLength(0);
-					strQuery.append("select cr_status,cr_prcdate,cr_version from cmr1010      \n");
-					strQuery.append(" where cr_acptno=? and cr_itemid=?                       \n");
-					pstmt = conn.prepareStatement(strQuery.toString());
-					pstmt.setString(1, AcptNo);
-					pstmt.setString(2, ItemId);
-					rs = pstmt.executeQuery();
-					if (rs.next()) {
-						if (rs.getString("cr_prcdate") != null && !rs.getString("cr_status").equals("3")) {
-							Version = Integer.toString(rs.getInt("cr_version"));
-						}
-					}
-					rs.close();
-					pstmt.close();
-					conn.close();
-					conn = null;
-					pstmt = null;
-					rs = null;
-				}
-			}
+		try {		
+			String tmpPath = etcData.get("tmpdir");
+			fileName = "F:\\Azsoft\\HTML5\\save\\AutoSeq.java";
+			/*	
+			fileName = tmpPath + "/" + etcData.get("cr_itemid") + "." + etcData.get("cr_acptno")+"."+etcData.get("userid");
 			Cmr0200 cmr0200 = new Cmr0200();
-			//ecamsLogger.debug("#########      ItemId : " + ItemId + "  Version : " + Version + "  AcptNo : " + AcptNo);
-			if (Version.equals("DEV")) {
-				strParm = "./ecams_gensrc DEVSVR " + ItemId + " " + ItemId +"_gensrc.file" + " " + Version;
-			} else if (!Version.equals("")){
-				strParm = "./ecams_gensrc CMR0025 " + ItemId + " " + ItemId +"_gensrc.file" + " " + Version;
-			}
-			else{
-				strParm = "./ecams_gensrc CMR0027 " + ItemId + " " + ItemId +"_gensrc.file" + " " + AcptNo;
-			}
-			shFileName = UserId+"apcmd.sh";
+			strParm = "./ecams_gensrc " + etcData.get("gbncd") + " " + etcData.get("cr_itemid") + " " + etcData.get("cr_acptno") + " " + fileName;
+			shFileName = etcData.get("userid")+"apcmd.sh";
 			ret = cmr0200.execShell(shFileName, strParm, false);
 			if (ret != 0) {
 				throw new Exception("해당 소스 생성  실패. run=["+strParm +"]" + " return=[" + ret + "]" );
 			}
-
-			//8859_1, MS949, UTF-8
-			SystemPath cTempGet = new SystemPath();
-			String tmpPath = cTempGet.getTmpDir("99");
-			fileName = tmpPath + "/" + ItemId +"_gensrc.file";
+			*/
 			in1 = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "MS949"));
 
 			strQuery.setLength(0);
@@ -116,26 +79,10 @@ public class Cmr5300 {
 			in1.close();
 
 			in1 = null;
-
+			
 			return strQuery.toString();
 
-		} catch (SQLException sqlexception) {
-			sqlexception.printStackTrace();
-			ecamsLogger.error("## Cmr5300.getFileText() SQLException START ##");
-			ecamsLogger.error("## Error DESC : ", sqlexception);
-			ecamsLogger.error("## Cmr5300.getFileText() SQLException END ##");
-			throw sqlexception;
-		} catch (IOException exception) {
-	        exception.printStackTrace();
-	        ecamsLogger.error("## Error IOException : ", exception);
-	        if (exception instanceof MalformedInputException){
-				in1.close();
-				in1 = null;
-				return strQuery.toString();
-	   		}else{
-	   			throw exception;
-			}
-	    } catch (Exception exception) {
+		} catch (Exception exception) {
 			exception.printStackTrace();
 			ecamsLogger.error("## Cmr5300.getFileText() Exception START ##");
 			ecamsLogger.error("## Error DESC : ", exception);
@@ -144,16 +91,6 @@ public class Cmr5300 {
 		}finally{
 			if (in1 != null) in1 = null;
 			if (strQuery != null) 	strQuery = null;
-			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
-			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
-			if (conn != null){
-				try{
-					ConnectionResource.release(conn);
-				}catch(Exception ex3){
-					ecamsLogger.error("## Cmr5300.getFileText() connection release exception ##");
-					ex3.printStackTrace();
-				}
-			}
 		}
 	}//end of while-loop statement
 
@@ -940,95 +877,29 @@ public class Cmr5300 {
 			conn = connectionContext.getConnection();
 
 			strQuery.setLength(0);
-			strQuery.append("select to_char(a.cr_opendate,'yyyy/mm/dd hh24:mi') as opendt, \n");
-			strQuery.append("       a.cr_lstver,a.cr_status,a.cr_rsrcname,b.cm_info,       \n");
-			strQuery.append("       d.cm_dirpath,g.cm_sysmsg,                              \n");
-			strQuery.append("       to_char(sysdate,'yyyy/mm/dd hh24:mi') as nowdt         \n");
-			strQuery.append("from cmm0036 b,cmr0020 a ,cmm0070 d,cmm0030 g                 \n");
-			strQuery.append("where a.cr_itemid= ?                                          \n");
-			strQuery.append("and a.cr_syscd=b.cm_syscd and a.cr_rsrccd=b.cm_rsrccd         \n");
-			strQuery.append("and a.cr_syscd=d.cm_syscd and a.cr_dsncd=d.cm_dsncd           \n");
-			strQuery.append("and a.cr_syscd=g.cm_syscd                                     \n");
-
-			pstmt = conn.prepareStatement(strQuery.toString());
-			//pstmt =  new LoggableStatement(conn, strQuery.toString());
-
-            pstmt.setString(1, ItemID);
-
-            ////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
-            rs = pstmt.executeQuery();
-
-            rtList.clear();
-
-			if (rs.next()){
-				if (rs.getString("cm_info").substring(11,12).equals("0")){
-					throw new Exception("버전관리를 하지 않는 파일입니다. 소스View를 하실수 없습니다.");
-				}
-
-				if (rs.getString("cr_lstver").equals("0") && rs.getString("cr_status").equals("3") && rs.getString("cm_info").substring(44,45).equals("1")) {
-					throw new Exception("현재 개발 중인 소스 입니다. 체크인 이후에 소스View를 하실수 있습니다.");
-				}
-                /*
-				if (rs.getString("cr_status").equals("A")){
-					strQuery.setLength(0);
-					strQuery.append("select b.cr_acptno,b.cr_sayu,b.cr_acptdate,c.cm_info \n");
-					strQuery.append("  from cmr0027 a,cmr1000 b,cmm0036 c,cmr1010 d \n");
-					strQuery.append(" where a.cr_itemid= ? and b.cr_status<>'3' \n");
-					strQuery.append("   and a.cr_acptno=b.cr_acptno \n");
-					strQuery.append("   and d.cr_acptno=b.cr_acptno \n");
-					strQuery.append("   and d.cr_syscd=c.cm_syscd   \n");
-					strQuery.append("   and d.cr_rsrccd=c.cm_rsrccd \n");
-					strQuery.append(" order by b.cr_acptdate desc   \n");
-
-					pstmt2 = conn.prepareStatement(strQuery.toString());
-					//pstmt2 =  new LoggableStatement(conn, strQuery.toString());
-					pstmt2.setString(1, ItemID);
-					////ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
-					rs2 = pstmt2.executeQuery();
-
-					if (rs2.next()){
-						rst = new HashMap<String,String>();
-						rst.put("cr_itemid", ItemID);
-						rst.put("cr_rsrcname", rs.getString("cr_rsrcname"));
-						rst.put("cm_dirpath", rs.getString("cm_dirpath"));
-						rst.put("cm_sysmsg", rs.getString("cm_sysmsg"));
-						rst.put("filedt",rs.getString("opendt"));
-						rst.put("cr_acptno",rs2.getString("cr_acptno"));
-						if (rs2.getString("cr_sayu") != null) rst.put("cr_sayu", rs2.getString("cr_sayu"));
-						rst.put("cr_ver", "");
-						rst.put("cm_info", rs.getString("cm_info"));
-						rst.put("labelmsg", "체크인 중:" + rs.getString("nowdt")+" / 신청번호:"+rs2.getString("cr_acptno"));
-						rtList.add(rst);
-						rst = null;
-					}
-
-					rs2.close();
-					pstmt2.close();
-					rs2 = null;
-					pstmt2 = null;
-				}
-				*/
-			}
-			else{
-				throw new Exception("해당 자원의 정보가 없습니다1.");
-			}
-
-			rs.close();
-			pstmt.close();
-
-			strQuery.setLength(0);
-			strQuery.append("SELECT b.cr_acptno,b.cr_ver,                                 \n");
-			strQuery.append("       to_char(h.cr_acptdate,'yyyy/mm/dd hh24:mi') as opendt,\n");
-			strQuery.append("       a.cr_rsrcname,d.cm_dirpath,                           \n");
-			strQuery.append("       g.cm_sysmsg,h.cr_qrycd,c.cr_sayu,e.cm_info            \n");
-			strQuery.append("  FROM cmr0025 b,cmr0020 a,cmm0070 d,cmm0030 g,cmr0021 h,cmr1000 c,cmm0036 e \n");
+			strQuery.append("SELECT a.cr_lstver,a.cr_itemid,a.cr_rsrcname,                \n");
+			strQuery.append("       h.cr_befviewver,h.cr_aftviewver,h.cr_sysgbn,          \n");
+			strQuery.append("       to_char(h.cr_acptdate,'yyyy/mm/dd hh24:mi') as acptdate,\n");
+			strQuery.append("       to_char(h.cr_prcdate,'yyyy/mm/dd hh24:mi') as prcdate, \n");
+			strQuery.append("       h.cr_acptno,h.cr_version,h.cr_qrycd,h.cr_sayu,        \n");
+			strQuery.append("       (select cm_sysmsg from cmm0030                        \n");
+			strQuery.append("         where cm_syscd=a.cr_syscd) cm_sysmsg,               \n");
+			strQuery.append("       (select cm_dirpath from cmm0070                       \n");
+			strQuery.append("         where cm_syscd=a.cr_syscd                           \n");
+			strQuery.append("           and cm_dsncd=a.cr_dsncd) cm_dirpath,              \n");
+			strQuery.append("       (select cm_info from cmm0036                          \n");
+			strQuery.append("         where cm_syscd=a.cr_syscd                           \n");
+			strQuery.append("           and cm_rsrccd=a.cr_rsrccd) cm_info,               \n");
+			strQuery.append("       (select cm_codename from cmm0020                      \n");
+			strQuery.append("         where cm_macode='REQUEST'                           \n");
+			strQuery.append("           and cm_micode=h.cr_qrycd) cm_codename,            \n");
+			strQuery.append("       (select cm_username from cmm0040                      \n");
+			strQuery.append("         where cm_userid=h.cr_editor) cm_username            \n");
+			strQuery.append("  FROM cmr0020 a,cmr0021 h                                   \n");
 			strQuery.append(" where a.cr_itemid= ?                                        \n");
-			strQuery.append("   and a.cr_itemid=b.cr_itemid                               \n");
-			strQuery.append("   and b.cr_itemid=h.cr_itemid and b.cr_acptno=h.cr_acptno   \n");
-			strQuery.append("   and a.cr_syscd=d.cm_syscd and a.cr_dsncd=d.cm_dsncd       \n");
-			strQuery.append("   and a.cr_syscd=g.cm_syscd and h.cr_acptno=c.cr_acptno     \n");
-			strQuery.append("   and g.cm_syscd=e.cm_syscd and a.cr_rsrccd=e.cm_rsrccd      \n");
-			strQuery.append(" order by opendt desc                                         \n");
+			strQuery.append("   and a.cr_itemid=h.cr_itemid(+)                            \n");
+			strQuery.append("   and h.cr_verfileyn='Y'                                    \n");
+			strQuery.append(" order by acptdate desc                                      \n");
 
             pstmt = conn.prepareStatement(strQuery.toString());
 			//pstmt =  new LoggableStatement(conn, strQuery.toString());
@@ -1042,18 +913,34 @@ public class Cmr5300 {
 
             while(rs.next()){
 				rst = new HashMap<String,String>();
-				rst.put("cr_itemid", ItemID);
+				rst.put("cr_itemid", rs.getString("cr_itemid"));
 				rst.put("cr_rsrcname", rs.getString("cr_rsrcname"));
 				rst.put("cm_dirpath", rs.getString("cm_dirpath"));
 				rst.put("cm_sysmsg", rs.getString("cm_sysmsg"));
-				rst.put("cr_acptno",rs.getString("cr_acptno"));
-				rst.put("cr_ver", rs.getString("cr_ver"));
 				rst.put("cm_info", rs.getString("cm_info"));
-
-				rst.put("filedt",rs.getString("opendt"));
-				rst.put("labelmsg", "체크인:" +rs.getString("opendt")+" / 버전:"+rs.getString("cr_ver"));
-				if (rs.getString("cr_sayu") != null) rst.put("cr_sayu",rs.getString("cr_sayu"));
-				else rst.put("cr_sayu", "");
+				if ("0".equals(rs.getString("cm_info").substring(11,12))) rst.put("rstmsg", "버전관리를 하지 않는 프로그램입니다.");
+				else if (rs.getInt("cr_lstver")<1) rst.put("rstmsg", "버전이 등록되지 않은 프로그램입니다.");
+				else {
+					if (rs.getString("cr_acptno") != null) {
+						rst.put("cr_acptno",rs.getString("cr_acptno"));
+						rst.put("cr_version", rs.getString("cr_version"));
+						rst.put("cr_sysgbn", rs.getString("cr_sysgbn"));
+						rst.put("gbncd", "CMR0025");
+		
+						rst.put("qryname",rs.getString("cm_codename"));
+						rst.put("cr_befviewver",rs.getString("cr_befviewver"));
+						rst.put("cr_aftviewver",rs.getString("cr_aftviewver"));
+						rst.put("acptdate",rs.getString("acptdate"));
+						rst.put("prcdate",rs.getString("prcdate"));
+						rst.put("cm_username",rs.getString("cm_username"));
+						//rst.put("labelmsg", rs.getString("cm_codename")+":" +rs.getString("opendt")+" / 버전:"+rs.getString("cr_aftviewver")+"("+rs.getString("cr_version")+")");
+						if (rs.getString("cr_sayu") != null) rst.put("cr_sayu",rs.getString("cr_sayu"));
+						else rst.put("cr_sayu", "");
+						rst.put("rstmsg", "OK");
+					} else {
+						rst.put("rstmsg", "버전변경이력이 없는 프로그램입니다.");
+					}
+				}
 				rtList.add(rst);
 				rst = null;
             }
@@ -1068,15 +955,15 @@ public class Cmr5300 {
 
 		} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();
-			ecamsLogger.error("## Cmr5300.getFileList() SQLException START ##");
+			ecamsLogger.error("## Cmr5300.getFileVer() SQLException START ##");
 			ecamsLogger.error("## Error DESC : ", sqlexception);
-			ecamsLogger.error("## Cmr5300.getFileList() SQLException END ##");
+			ecamsLogger.error("## Cmr5300.getFileVer() SQLException END ##");
 			throw sqlexception;
 		} catch (Exception exception) {
 			exception.printStackTrace();
-			ecamsLogger.error("## Cmr5300.getFileList() Exception START ##");
+			ecamsLogger.error("## Cmr5300.getFileVer() Exception START ##");
 			ecamsLogger.error("## Error DESC : ", exception);
-			ecamsLogger.error("## Cmr5300.getFileList() Exception END ##");
+			ecamsLogger.error("## Cmr5300.getFileVer() Exception END ##");
 			throw exception;
 		}finally{
 			if (strQuery != null) 	strQuery = null;
@@ -1087,7 +974,7 @@ public class Cmr5300 {
 				try{
 					ConnectionResource.release(conn);
 				}catch(Exception ex3){
-					ecamsLogger.error("## Cmr5300.getFileList() connection release exception ##");
+					ecamsLogger.error("## Cmr5300.getFileVer() connection release exception ##");
 					ex3.printStackTrace();
 				}
 			}
