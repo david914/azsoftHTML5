@@ -299,7 +299,7 @@ $(document).ready(function(){
 		        height: 580,
 		        iframe: {
 		            method: "get",
-		            url: "../modal/request/ApplyRequestBefJob.jsp",
+		            url: "../modal/request/BefJobSetModal.jsp",
 		            param: "callBack=modalCallBack"
 			    },
 		        onStateChanged: function () {
