@@ -66,6 +66,9 @@ public class eCAMSMainServlet extends HttpServlet {
 				case "getHoliday":
 					response.getWriter().write( getHoliday(jsonElement) );
 					break;
+				case "getPrcLabel":
+					response.getWriter().write( getPrcLabel(jsonElement) );
+					break;
 				default : 
 					break;
 			}
@@ -112,5 +115,11 @@ public class eCAMSMainServlet extends HttpServlet {
 	private String getHoliday(JsonElement jsonElement) throws SQLException, Exception {
 		String month 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"month"));
 		return gson.toJson(menuList.getHoliday(month));
+	}
+	
+	// [메인화면] 달력 정보 가져오기(휴일)
+	private String getPrcLabel(JsonElement jsonElement) throws SQLException, Exception {
+		String userId = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"userId"));
+		return gson.toJson(menuList.getPrcLabel(userId));
 	}
 }

@@ -1126,15 +1126,41 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 .log{position: absolute; right: 0; top: 18px; font-size: 13px;}
 .log a{color: #333; margin: 0 7px;}
 /********************************** 
+                main
+**********************************/
+.txt_info ul{position: relative;}
+.txt_info ul li{font-size: 15px;}
+.txt_info ul li span{position: absolute; left: 60px; font-weight: bold;}
+.card_info{position: relative;}
+.card_info dl{display: inline-block; border: 1px solid #ccc; margin: 0 7px;}
+.card_info dl dt{display: inline-block; background: #ccc; color: #333; font-size: 15px; padding: 10px 20px;}
+.card_info dl dd{display: inline-block; background: #fff; color: #888; font-size: 15px; font-weight: bold; padding: 10px 20px;}
+.progressbar {position: relative; width: 100%; border: 1px solid #ccc;}
+.progressbar dl{margin: 10px;}
+.progressbar dl dt{position: absolute; width: 150px; display: inline-block; height: 30px; line-height: 30px;}
+.progressbar dl dd{margin-left: 150px; background: #eee; height: 30px; line-height: 30px;}
+.progressbar .org{background: #fd7e14; color: #fff; text-align: center; height: 30px; display: inline-block;}
+.progressbar .green{background: #0acf97; color: #fff; text-align: center; height: 30px; display: inline-block;}
+.progressbar .blue{background: #727cf5; color: #fff; text-align: center; height: 30px; display: inline-block;}
+.timeline .timeline_box{background: #f8f8f8; padding: 10px;/* overflow-y: scroll;*/}
+.timeline .timeline_box h4{font-size: 14px; font-weight: bold; color: #888; margin-bottom: 15px; text-transform: uppercase;}
+.timeline .item{position: relative; /* height: 100%; */}
+.timeline .item:before{background-color: #eee; bottom: 0; content: ""; position: absolute; left: 10px; top: 20px; width: 2px; z-index: 0;}
+.timeline .item i{float: left; height: 20px; width: 20px; text-align: center; line-height: 20px;}
+.fa-clock:before{content: "\F017"; font-size: 20px; background: #fff; color: #39afd1; border-radius: 20px; }
+.timeline .item_info{margin:0px 0 7px 40px;}
+.timeline .item_info p{font-weight: 700; color: #666; font-size: 14px;}
+.timeline .item_info small{ font-size: 13px;}
+/********************************** 
                 layout
 **********************************/
 #header{position: relative; height: 50px; border-bottom: 1px solid #ddd;}
-#wrapper{position: relative;width: 1024px;min-width: 100%;min-height: 100%;/*min-height: calc(100vh - 45px);*/}
+#wrapper{position: relative; width: 1024px; min-width: 100%; min-height: 100%; /*min-height: calc(100vh - 45px);*/}
 /*#wrapper:after{content: ''; display: block; clear: both;}*/
 #wrapper .content{position: relative; margin: 10px; margin-bottom: 0;}
 #history_wrap{position: relative; font-size: 14px; line-height: 14px; font-weight: 500; color: #245490; margin-bottom: 10px;}
 #divContent {width: 580px; background: #f8f8f8; padding: 20px; margin: 0 auto;}
-#footer{position: relative; width: 100%; height: 30px; background: #ddd;}
+#footer{position: relative;width: 100%;height: 30px;/* margin-top: 15px; */background: #ddd;}
 #footer ul:after{content: ''; display: block; clear: both;}
 #footer ul li{position: relative; float: left; width: 50%; zoom: 1;}
 #footer ul li.logo_f{text-align: left; padding-left: 15px;}
@@ -1146,7 +1172,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 .half_wrap_w{position: relative; background: #fff;}
 .half_wrap_w:after{content: ""; clear: both; display: block;}
 .half_wrap_cb:after{content: ""; clear: both; display: block;}
-.l_wrap{position: relative; float: left; zoom: 1;}
+.l_wrap{position: relative;float: left;zoom: 1;}
 .r_wrap{position: relative; float: right; zoom: 1;}
 /********************************** 
                 게시판

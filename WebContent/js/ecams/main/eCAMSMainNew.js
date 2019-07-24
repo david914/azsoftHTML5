@@ -16,10 +16,6 @@ var adminYN 	= window.top.adminYN;
 var userDeptName= window.top.userDeptName;
 var userDeptCd 	= window.top.userDeptCd;
 
-var userName 	= '관리자';
-var userId 		= 'MASTER';
-var adminYN 	= 'Y';
-
 var calendar 	= null;
 var calendarEl 	= null;
 var calMonthArr	= [];
@@ -28,10 +24,10 @@ var calHoliArr		= [];
 
 var myWin		= null;
 
-
 $(document).ready(function(){
 	
 	getCalInfo();
+	getPrcLabel();
 	
 	$('body').on('click', 'button.fc-prev-button', function() {
 		getAddCalInfo();
@@ -48,6 +44,23 @@ $(document).ready(function(){
 	});
 	
 });
+
+// 미결/SR/오류 라벨 건수 가져오기
+function getPrcLabel() {
+	var data = new Object();
+	data = {
+		userId		: 	userId,
+		requestType	: 	'getPrcLabel'
+	}
+	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetPrcLabel);
+}
+
+// 미결/SR/오류 라벨 건수 가져오기 완료
+function successGetPrcLabel(data) {
+	$('#lblApproval').html('['+data.approvalCnt+']');
+	$('#lblSr').html('['+data.srCnt+']');
+	$('#lblErr').html('['+data.errCnt+']');
+}
 
 
 //처음 캘린더 인포 가져오기

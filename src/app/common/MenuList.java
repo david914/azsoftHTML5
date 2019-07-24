@@ -884,5 +884,175 @@ public class MenuList{
 			}
 		}
 	}//end of SelectList() method statement
+   
+    /**
+     * 접속한 사용자의 미결/SR/오류 라벨 건수 가져오기
+     * @param userId
+     * @param date
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
+    public HashMap<String, Integer> getPrcLabel(String userId) throws SQLException, Exception {
+    	Connection        	conn        = null;
+    	PreparedStatement 	pstmt       = null;
+    	ResultSet         	rs          = null;
+    	StringBuffer      	strQuery    = new StringBuffer();
+    	int 				pstmtCnt 	= 1;
+    	HashMap<String, Integer> rst = new HashMap<String, Integer>();
+    	ConnectionContext connectionContext = new ConnectionResource();
+    	
+    	try {
+    		
+    		conn = connectionContext.getConnection();
+    		
+    		// 미결 건수 가져오기
+    		pstmtCnt = 1;
+    		strQuery.setLength(0);
+    		strQuery.append("select 'CF1' cd,count(*) cnt          						\n");
+    		strQuery.append("  from cmr1000 b,cmr9900 a           						\n");
+    		strQuery.append(" where a.cr_status='0'               						\n");
+    		strQuery.append("   and a.cr_locat='00'               						\n");
+    		strQuery.append("   and a.cr_teamcd in ('2','3','6','7','8','P')	 		\n");
+    		strQuery.append("   and a.cr_team= ?                   						\n");
+    		strQuery.append("   and a.cr_acptno=b.cr_acptno 	  						\n");
+    		strQuery.append("   and b.cr_status not in('3','9')   						\n");
+    		
+    		strQuery.append("union                               						\n");
+    		strQuery.append("select 'CF2' cd,count(*) cnt          						\n");
+    		strQuery.append("  from (                             						\n");
+    		strQuery.append("		select distinct b.cr_acptno  						\n");
+    		strQuery.append("		  from cmm0043 c,cmr1000 b,cmr9900 a 				\n");
+    		strQuery.append("		 where a.cr_status='0'               				\n");
+    		strQuery.append("		   and a.cr_locat='00'               				\n");
+    		strQuery.append("		   and a.cr_teamcd not in ('2','3','6','7','8','P') \n");
+    		strQuery.append("		   and instr(a.cr_team,c.cm_rgtcd)>0 				\n");
+    		strQuery.append("		   and c.cm_userid= ?            	  				\n");
+    		strQuery.append("		   and a.cr_acptno=b.cr_acptno 	  					\n");
+    		strQuery.append("		   and b.cr_status not in('3','9'))  				\n");
+    		
+    		strQuery.append("union                               						\n");
+    		strQuery.append("select 'CF3' cd,count(*) cnt          						\n");
+    		strQuery.append("  from cmc0300 b,cmr9900 a           						\n");
+    		strQuery.append(" where a.cr_status='0'               						\n");
+    		strQuery.append("   and a.cr_locat='00'               						\n");
+    		strQuery.append("   and a.cr_teamcd in ('2','3','6','7','8','P') 			\n");
+    		strQuery.append("   and a.cr_team= ?                    					\n");
+    		strQuery.append("   and a.cr_acptno=b.cc_acptno 	  						\n");
+
+    		strQuery.append("union                               						\n");
+			strQuery.append("select 'CF4' cd,count(*) cnt          						\n");
+			strQuery.append("  from (                             						\n");
+			strQuery.append("		select distinct a.cr_acptno  						\n");
+			strQuery.append("		  from cmm0043 c,cmc0300 b,cmr9900 a 				\n");
+			strQuery.append("		 where a.cr_status='0'               				\n");
+			strQuery.append("		   and a.cr_locat='00'               				\n");
+			strQuery.append("		   and a.cr_teamcd not in ('2','3','6','7','8','P') \n");
+			strQuery.append("		   and instr(a.cr_team,c.cm_rgtcd)>0 				\n");
+			strQuery.append("		   and c.cm_userid= ?             	  				\n");
+			strQuery.append("          and a.cr_acptno=b.cc_acptno)						\n");
+    		
+    		pstmt = conn.prepareStatement(strQuery.toString());
+    		pstmt.setString(pstmtCnt++, userId);
+    		pstmt.setString(pstmtCnt++, userId);
+    		pstmt.setString(pstmtCnt++, userId);
+    		pstmt.setString(pstmtCnt++, userId);
+    		rs = pstmt.executeQuery();
+    		
+    		while (rs.next()){
+    			if(rs.getRow() == 1) {
+    				rst.put("approvalCnt", rs.getInt("cnt"));
+    			} else {
+    				rst.put("approvalCnt", rst.get("approvalCnt") + rs.getInt("cnt"));
+    			}
+    		}
+    		
+    		rs.close();
+    		pstmt.close();
+    		
+    		// SR건수 가져오기
+    		pstmtCnt = 1;
+    		strQuery.setLength(0);
+    		strQuery.append("SELECT COUNT(*) CNT         			\n");
+    		strQuery.append("  FROM CMC0110 B,CMC0100 A          	\n"); 
+    		strQuery.append(" WHERE A.CC_STATUS IN ('2','4')		\n");
+    		strQuery.append("   AND A.CC_SRID=B.CC_SRID           	\n");
+    		strQuery.append("   AND B.CC_STATUS NOT IN ('3','8','9')\n");
+    		strQuery.append("   AND B.CC_USERID= ?					\n");
+    		
+    		
+    		pstmt = conn.prepareStatement(strQuery.toString());
+    		pstmt.setString(pstmtCnt++, userId);
+    		rs = pstmt.executeQuery();
+    		
+    		while (rs.next()){
+				rst.put("srCnt", rs.getInt("CNT"));
+    		}
+    		
+    		rs.close();
+    		pstmt.close();
+    		
+    		// 오류건수 가져오기
+    		pstmtCnt = 1;
+    		strQuery.setLength(0);
+    		strQuery.append("SELECT COUNT(*) CNT 								\n");
+    		strQuery.append("  FROM (SELECT CR_ACPTNO FROM CMR9900				\n");
+    		strQuery.append("		  WHERE CR_LOCAT='00'         				\n");
+    		strQuery.append("			AND CR_TEAMCD='1'         				\n");
+    		strQuery.append("			AND CR_STATUS='0') A,     				\n");
+    		strQuery.append("		(SELECT Y.CR_ACPTNO            				\n");
+    		strQuery.append("		   FROM CMR1000 Y,CMR1011 X    				\n");
+    		strQuery.append("		  WHERE Y.CR_QRYCD IN('01','02','03','04','06','07','08','11')	\n"); 
+    		strQuery.append("			AND Y.CR_STATUS ='0'					\n");       
+    		strQuery.append("			AND Y.CR_EDITOR = ?						\n");        
+    		strQuery.append("			AND Y.CR_ACPTNO=X.CR_ACPTNO				\n");
+    		strQuery.append("			AND NVL(X.CR_PUTCODE,'0000')<>'0000'	\n");
+    		strQuery.append("		  GROUP BY Y.CR_ACPTNO) C					\n");      
+    		strQuery.append(" WHERE C.CR_ACPTNO=A.CR_ACPTNO						\n");
+    		
+    		pstmt = conn.prepareStatement(strQuery.toString());
+    		pstmt.setString(pstmtCnt++, userId);
+    		rs = pstmt.executeQuery();
+    		
+    		while (rs.next()){
+				rst.put("errCnt", rs.getInt("CNT"));
+    		}
+    		
+    		rs.close();
+    		pstmt.close();
+    		conn.close();
+    		
+    		rs = null;
+    		pstmt = null;
+    		conn = null;
+    		
+    		return rst;
+    		
+    	} catch (SQLException sqlexception) {
+    		sqlexception.printStackTrace();
+    		ecamsLogger.error("## MenuList.getPrcLabel() SQLException START ##");
+    		ecamsLogger.error("## Error DESC : ", sqlexception);
+    		ecamsLogger.error("## MenuList.getPrcLabel() SQLException END ##");
+    		throw sqlexception;
+    	} catch (Exception exception) {
+    		exception.printStackTrace();
+    		ecamsLogger.error("## MenuList.getPrcLabel() Exception START ##");
+    		ecamsLogger.error("## Error DESC : ", exception);
+    		ecamsLogger.error("## MenuList.getPrcLabel() Exception END ##");
+    		throw exception;
+    	}finally{
+    		if (strQuery != null) 	strQuery = null;
+    		if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+    		if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+    		if (conn != null){
+    			try{
+    				conn.close();
+    			}catch(Exception ex3){
+    				ecamsLogger.error("## MenuList.getPrcLabel() connection release exception ##");
+    				ex3.printStackTrace();
+    			}
+    		}
+    	}
+    }//end of SelectList() method statement
     
 }//end of MenuList class statement
