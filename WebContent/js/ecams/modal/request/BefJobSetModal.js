@@ -17,6 +17,7 @@ firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
     sortable: true, 
     multiSort: true,
+    multipleSelect : false,
     page : {
     	display:false
     }
@@ -31,23 +32,6 @@ firstGrid.setConfig({
         onClick: function () {
         	//this.self.clearSelect();
            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if (this.dindex < 0) return;
-
-	       	var selIn = grdBefJob.selectedDataIndexs;
-	       	if(selIn.length === 0) return;
-	       	
-	       	mask.open();
-	        confirmDialog.confirm({
-		        title: '선행작업해제확인',
-				msg: '선택하신 신청 건을 선행작업에서 해제하시겠습니까?',
-			}, function(){
-				if(this.key === 'ok') {
-					delBefJob(param.item.cr_befact);
-				}
-			});
-			mask.close();
         },
     	trStyleClass: function () {
     		if (this.item.colorsw == '3'){
@@ -62,10 +46,10 @@ firstGrid.setConfig({
     	    this.self.repaint();
     	},
         onDBLClick: function () {
-        	addDataRow(this);
+        	addDataRow(this.item);
         },
         onClick: function () {
-        	getReqPgmList(this);
+        	getReqPgmList(this.item);
         }
     },
     contextMenu: {
@@ -80,15 +64,18 @@ firstGrid.setConfig({
             {type: 2, label: "신청프로그램목록"}
         ],
         popupFilter: function (item, param) {
+        	if(param.dindex == undefined || param.dindex == null || param.dindex < 0){
+        		return false;
+        	}
          	return true;
        	 
         },
         onClick: function (item, param) {
 	        if(item.type == '1'){
-	        	addDataRow(param);
+	        	addDataRow(param.item);
 	        }
 	        else{
-	        	getReqPgmList(param);
+	        	getReqPgmList(param.item);
 	        }
 	        firstGrid.contextMenu.close();//또는 return true;
         	
@@ -100,7 +87,7 @@ firstGrid.setConfig({
         {key: "cm_sysmsg", label: "시스템",  width: '15%'},
         {key: "cm_username", label: "신청자",  width: '15%'},
         {key: "cm_codename", label: "진행상태",  width: '15%'},
-        {key: "cr_sayu", label: "신청사유",  width: '25%'},
+        {key: "cr_sayu", label: "신청사유",  width: '25%'}
     ]
 });
 
@@ -108,6 +95,7 @@ secondGrid.setConfig({
     target: $('[data-ax5grid="secondGrid"]'),
     sortable: true, 
     multiSort: true,
+    multipleSelect : false,
     page : {
     	display:false
     }
@@ -122,23 +110,6 @@ secondGrid.setConfig({
         onClick: function () {
         	//this.self.clearSelect();
            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if (this.dindex < 0) return;
-
-	       	var selIn = grdBefJob.selectedDataIndexs;
-	       	if(selIn.length === 0) return;
-	       	
-	       	mask.open();
-	        confirmDialog.confirm({
-		        title: '선행작업해제확인',
-				msg: '선택하신 신청 건을 선행작업에서 해제하시겠습니까?',
-			}, function(){
-				if(this.key === 'ok') {
-					delBefJob(param.item.cr_befact);
-				}
-			});
-			mask.close();
         },
     	trStyleClass: function () {
     		if (this.item.colorsw == '3'){
@@ -155,7 +126,7 @@ secondGrid.setConfig({
     },
     columns: [
         {key: "cm_dirpath", label: "프로그램경로",  width: '70%'},
-        {key: "cr_rsrcname", label: "프로그램",  width: '30%'},
+        {key: "cr_rsrcname", label: "프로그램",  width: '30%'}
     ]
 });
 
@@ -163,6 +134,7 @@ thirdGrid.setConfig({
     target: $('[data-ax5grid="thirdGrid"]'),
     sortable: true, 
     multiSort: true,
+    multipleSelect : false,
     page : {
     	display:false
     }
@@ -177,23 +149,6 @@ thirdGrid.setConfig({
         onClick: function () {
         	//this.self.clearSelect();
            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if (this.dindex < 0) return;
-
-	       	var selIn = grdBefJob.selectedDataIndexs;
-	       	if(selIn.length === 0) return;
-	       	
-	       	mask.open();
-	        confirmDialog.confirm({
-		        title: '선행작업해제확인',
-				msg: '선택하신 신청 건을 선행작업에서 해제하시겠습니까?',
-			}, function(){
-				if(this.key === 'ok') {
-					delBefJob(param.item.cr_befact);
-				}
-			});
-			mask.close();
         },
     	trStyleClass: function () {
     		if (this.item.colorsw == '3'){
@@ -214,7 +169,7 @@ thirdGrid.setConfig({
     columns: [
         {key: "cr_acptno", label: "신청번호",  width: '30%'},
         {key: "acptdate", label: "신청일시",  width: '35%'},
-        {key: "cm_username", label: "신청자",  width: '35%'},
+        {key: "cm_username", label: "신청자",  width: '35%'}
     ]
 });
 
@@ -273,12 +228,12 @@ function addDataRow(data) {
 	befCnt = thirdGrid.list.length;
 	
 	for (i=0 ; befCnt>i ; i++) {
-		if (thirdGrid.list[i].cr_befact == data.item.cr_befact) {
+		if (thirdGrid.list[i].cr_befact == data.cr_befact) {
 			break;
 		}
 	}
 	
-	var copyData = clone(data.item);
+	var copyData = clone(data);
 	
 	if (i>=befCnt) {
 		thirdGrid.addRow($.extend({}, copyData, {__index: undefined}));
@@ -287,22 +242,21 @@ function addDataRow(data) {
 }
 
 function deleteDataRow(data){
-	console.log(data);
 	thirdGrid.removeRow(data.dindex);
 }
 
 function getReqPgmList(data){
-	if(prgData == data.item.cr_befact){
+	if(prgData == data.cr_befact){
 		return;
 	}
 	secondGrid.setData([]);
 	
-	prgData = data.item.cr_befact; // 중복체크
+	prgData = data.cr_befact; // 중복체크
 	
 	var reqPgmInfoData = new Object();
 	
 	reqPgmInfoData = {
-		befact   :   data.item.cr_befact,
+		befact   :   data.cr_befact,
 		requestType	: 	'reqList_Prog'
 	}
 	

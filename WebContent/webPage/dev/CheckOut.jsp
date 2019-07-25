@@ -62,7 +62,7 @@
 							    <div class="dib vat" style="margin-left:5px;"><input type="checkbox" class='checkbox-pie' name = 'chkbox_subnode' id ='chkbox_subnode' data-label="하위폴더 포함하여 조회" checked> </div>
 							</div>						
 							<div class="vat dib">
-								 <button id="btnSearch" name="btnReg" class="btn_basic_s poa_r" >검색</button>
+								 <button id="btnSearch" class="btn_basic_s poa_r" >검색</button>
 							</div>
 						</div>
 					</div>

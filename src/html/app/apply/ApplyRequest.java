@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import app.common.SignInfo;
 import app.common.SysInfo;
 import app.eCmd.Cmd0100;
 import app.eCmr.Cmr0200;
@@ -32,6 +33,7 @@ public class ApplyRequest extends HttpServlet {
 	Cmd0100 cmd0100  = new Cmd0100();
 	Cmr0200 cmr0200  = new Cmr0200();
 	Cmr0200_BefJob cmr0200_BefJob = new Cmr0200_BefJob();
+	SignInfo signInfo = new SignInfo();
 		
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -77,6 +79,12 @@ public class ApplyRequest extends HttpServlet {
 					break;
 				case "reqList_Prog" :
 					response.getWriter().write( reqList_Prog(jsonElement) );
+					break;
+				case "getSignUser" :
+					response.getWriter().write( getSignUser(jsonElement) );
+					break;
+				case "getSignLst_dept" :
+					response.getWriter().write( getSignLst_dept(jsonElement) );
 					break;
 				default:
 					break;
@@ -187,6 +195,23 @@ public class ApplyRequest extends HttpServlet {
 		String befact = null;
 		befact = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "befact") );
 		return gson.toJson(cmr0200_BefJob.reqList_Prog(befact));
+			
+	}
+	
+	private String getSignUser(JsonElement jsonElement) throws SQLException, Exception {
+		String txtName = null;
+		txtName = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "txtName") );
+		return gson.toJson(signInfo.getSignUser(txtName));
+			
+	}
+
+	private String getSignLst_dept(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> signListInfo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"sysJobInfo"));
+		return gson.toJson(signInfo.getSignLst_dept(signListInfo.get("UserId"), 
+																	 signListInfo.get("tmpRgt"),
+																	 signListInfo.get("SysCd"),
+																	 signListInfo.get("JboCd"),
+																	 signListInfo.get("tmpRgt2")));
 			
 	}
 }
