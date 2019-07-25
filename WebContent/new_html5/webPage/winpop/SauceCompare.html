@@ -47,12 +47,11 @@
 <div id="wrapper">
     <div class="content">
         <!-- history S-->
-        <div id="history_wrap">	프로그램정보 <strong>&gt; 소스비교</strong></div>
+        <div id="history_wrap">	자원관리 <strong>&gt; 소스비교</strong></div>
         <!-- history E-->
         <!-- 검색 S-->  			
-		<div class="row vat cb">
-			<!-- 추출대상확장자 -->		
-            <div class="width-50 float-left">
+		<div class="row vat cb">	
+            <div class="width-50 l_wrap">
 				<div class="margin-5-right">
                 	<label class="tit_80 poa">시스템</label>
                     <div class="ml_80">
@@ -60,93 +59,229 @@
 					</div>
 				</div>
 			</div>
-			<!-- 추출대상확장자 -->		
-            <div class="width-50 float-left">
+            <div class="width-50 l_wrap">
 				<div class="margin-5-left">
                 	<label class="tit_80 poa">프로그램명</label>
                     <div class="ml_80">
-						<input class="width-30" type="text" /> <input class="width-50" type="text" /> <button class="btn_basic_s margin-5-left">비교</button>
+						<input class="width-100" type="text" />
 					</div>
 				</div>
 			</div>
 		</div>
-		<!--검색E-->
+		<div class="row">
+        	<label class="tit_80 poa">프로그램경로</label>
+            <div class="ml_80">
+				<input class="width-100" type="text" />
+			</div>
+		</div>
+		<!--검색E-->		
+		<div class="row vat cb">
+			<!-- 추출대상확장자 -->		
+            <div class="width-70 l_wrap">
+            	<div class="cb">
+            		<!-- line 1-->
+            		<div class="l_wrap width-80">
+						<div class="margin-5-right">                	
+							<!-- 게시판 S-->
+							<div class="scroll_y">
+							    <div class="az_board_basic">
+							    	<table>
+								    	<colgroup>
+								    		<col width="7%"/><col width="10%"/><col width="10%"/><col width="10%"/><col width="15%"/><col width="10%"/><col width="10%"/><col width="*%"/>
+								    	</colgroup>
+							    		<tr>
+							    			<th scope="col"><input type="checkbox" /></th>
+							    			<th scope="col">버전</th>
+							    			<th scope="col">구분</th>
+							    			<th scope="col">신청자</th>
+							    			<th scope="col">신청번호</th>
+							    			<th scope="col">신청일시</th>
+							    			<th scope="col">적용일시</th>
+							    			<th scope="col">신청사유</th>
+							    		</tr>
+							    		<tr>
+							    			<td><input type="checkbox" /></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td></td>
+							    		</tr>
+							    		<tr>
+							    			<td><input type="checkbox" /></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td></td>
+							    		</tr>
+							    		<tr>
+							    			<td><input type="checkbox" /></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td></td>
+							    		</tr>
+							    		<tr>
+							    			<td><input type="checkbox" /></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td></td>
+							    		</tr>
+							    		<tr>
+							    			<td><input type="checkbox" /></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td></td>
+							    		</tr>
+							    		<tr>
+							    			<td><input type="checkbox" /></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td></td>
+							    		</tr>
+							    		<tr>
+							    			<td><input type="checkbox" /></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td class="tal"></td>
+							    			<td></td>
+							    		</tr>
+							    	</table>	
+								</div>	
+							</div>
+						</div>
+					</div>
+					<div class="r_wrap width-20">
+						<div class="margin-5-left margin-10-right">
+		                	<div>
+								<button class="btn_basic_s">버전비교</button>
+		                	</div>
+		                	<div class="row">
+								<button class="btn_basic_s">소스비교</button>
+		                	</div>
+		                	<div class="row">
+								<button class="btn_basic_s">변경부분</button>
+		                	</div>
+		                	<div class="row">
+								<span class="fa_wrap dib"><i class="fas fa-caret-left"></i></span>
+								<span class="fa_wrap margin-5-left dib"><i class="fas fa-caret-right"></i></span>
+		                	</div>
+						</div>
+					</div>
+				</div>
+				<!-- line 2-->
+				<div class="row cb">
+					<div class="l_wrap width-50">
+						<label><input type="radio"> 전체</label>
+						<label><input type="radio"> 개발버전</label>
+						<label><input type="radio"> 테스트버전</label>
+						<label><input type="radio"> 운영버전</label>
+					</div>
+					<div class="r_wrap width-50">
+						<label><input type="radio"> 단어검색</label>
+						<label><input type="radio"> 라인검색</label>
+						<input class="width-20" type="text" />
+						<button class="btn_basic_s margin-5-left">찾기</button>
+						<button class="btn_basic_s margin-5-left">엑셀저장</button>
+					</div>
+				</div>
+			</div>	
+            <div class="width-30 r_wrap">
+				<div class="margin-5-left">
+					<div>
+	                	<label class="tit_80 poa txt_r">삭제라인</label>
+	                    <div class="ml_80">
+							<input class="width-100" type="text" />
+						</div>
+					</div>
+					<div>
+	                	<label class="tit_80 poa txt_b">추가라인</label>
+	                    <div class="ml_80">
+							<input class="width-100" type="text" />
+						</div>
+					</div>
+					<div>
+	                	<label class="tit_80 poa txt_v">변경(전)</label>
+	                    <div class="ml_80">
+							<input class="width-100" type="text" />
+						</div>
+					</div>
+					<div>
+	                	<label class="tit_80 poa txt_v">변경(후)</label>
+	                    <div class="ml_80">
+							<input class="width-100" type="text" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<!-- 게시판 S-->
 			<div class="scroll_y">
 			    <div class="az_board_basic">
 			    	<table>
 				    	<colgroup>
-				    		<col width="7%"/><col width="10%"/><col width="10%"/><col width="15%"/><col width="10%"/><col width="10%"/><col width="*%"/>
+				    		<col width="6%"/><col width="47%"/><col width="*%"/>
 				    	</colgroup>
 			    		<tr>
-			    			<th scope="col"><input type="checkbox" /></th>
-			    			<th scope="col">버전</th>
-			    			<th scope="col">신청자</th>
-			    			<th scope="col">신청번호</th>
-			    			<th scope="col">신청일시</th>
-			    			<th scope="col">적용일시</th>
-			    			<th scope="col">신청사유</th>
+			    			<th scope="col">NO</th>
+			    			<th scope="col">변경전 프로그램</th>
+			    			<th scope="col">변경후 프로그램</th>
 			    		</tr>
 			    		<tr>
-			    			<td><input type="checkbox" /></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td></td>
 			    		</tr>
 			    		<tr>
-			    			<td><input type="checkbox" /></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td></td>
 			    		</tr>
 			    		<tr>
-			    			<td><input type="checkbox" /></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td></td>
 			    		</tr>
 			    		<tr>
-			    			<td><input type="checkbox" /></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td></td>
 			    		</tr>
 			    		<tr>
-			    			<td><input type="checkbox" /></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td></td>
 			    		</tr>
 			    		<tr>
-			    			<td><input type="checkbox" /></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td></td>
 			    		</tr>
 			    		<tr>
-			    			<td><input type="checkbox" /></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
-			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td class="tal"></td>
 			    			<td></td>
@@ -156,7 +291,18 @@
 			</div>
 			<!-- 게시판 E -->
 		</div>
-		<!-- 검색 E -->
+		<div class="row">
+        	<label class="tit_80 poa">변경(전)</label>
+            <div class="ml_80">
+				<input class="width-100" type="text" />
+			</div>
+		</div>
+		<div class="row">
+        	<label class="tit_80 poa">변경(후)</label>
+            <div class="ml_80">
+				<input class="width-100" type="text" />
+			</div>
+		</div>
 	</div>
 </div>
 <!-- Footer-->
