@@ -18,7 +18,9 @@ var grdProgListData    = null; //프로그램그리드 데이터
 var progInfoData       = null;
 var myWin 			   = null;
 
-var selSw = false;
+var selSw   = false;
+var load1Sw = false;
+var load2Sw = false;
 
 var tmpInfo = new Object();
 var tmpInfoData = new Object();
@@ -57,7 +59,7 @@ grdProgList.setConfig({
     ]
 });
 $(document).ready(function(){
-	userId = "MASTER";
+	//userId = "MASTER";
 	
 	//tab메뉴
 
@@ -80,6 +82,16 @@ $(document).ready(function(){
 		btnQry_Click();
 	});
 	
+	document.getElementById('frmProgBase').onload = function() {
+		load1Sw = true;
+		screenInit_prog('I');
+	}
+	
+	document.getElementById('frmProgHistory').onload = function() {
+		load2Sw = true;
+		screenInit_prog('I');
+	}
+	
 });
 
 function setTabMenu(){
@@ -92,8 +104,6 @@ function setTabMenu(){
 		$(this).addClass("on");
 		$('#'+activeTab).css('display','block');
 	});
-
-	getSysInfo();
 }
 function screenInit() {
 	
@@ -110,6 +120,15 @@ function screenInit() {
 } 
 function screenInit_prog(gbn) {
 	
+	if (gbn == 'I') {
+		if (load1Sw && load2Sw) {
+			getSysInfo();
+			load1Sw = false;
+			load2Sw = false;
+			return;
+		}
+		return;
+	}
 	progInfoData = [];
 	tmpTab1 = $('#frmProgBase').get(0).contentWindow;
 	tmpTab1.screenInit(gbn);
@@ -255,7 +274,7 @@ function btnQry_Click() {
 	$('#txtDirPath').val($('#txtDirPath').val().trim());
 	if(getSelectedIndex('cboJawon') < 1){
 		if($('#txtRsrcName').val().length == 0 && $('#txtDirPath').val().length == 0) {
-			showToast('프로그램종류/프로그램명/프로그램경로 중  한가지이상 선택 또는 입력하여 주십시오.');
+			dialog.alert('프로그램종류/프로그램명/프로그램경로 중  한가지이상 선택 또는 입력하여 주십시오.');
 			return;			
 		}
 	}
@@ -333,29 +352,29 @@ function btnRegist_Click() {
 	if ($('#txtProgId').val().length == 0) return;
 	$('#txtStory').val($('#txtStory').val().trim());
 	if($('#txtStory').val().length < 1) {
-		showToast('프로그램설명을 입력하여 주십시오.');
+		dialog.alert('프로그램설명을 입력하여 주십시오.');
 		$('#txtStory').focus();
 		return;
 	}
 	
 	if (getSelectedIndex('cboRsrcCd')<1) {
-		showToast('프로그램유형을 선택하여 주십시오.');
+		dialog.alert('프로그램유형을 선택하여 주십시오.');
 		$('#cboRsrcCd').focus();
 		return;
 	}
 	
 	if( !$('#cboEditor').prop('disabled') && getSelectedIndex('cboEditor') < 1){
-		showToast('최종변경인을 선택하여 주십시오.');
+		dialog.alert('최종변경인을 선택하여 주십시오.');
 		return;
 	}
 	
 	if( !$('#cboDir').prop('disabled') && getSelectedIndex('cboDir') < 1){
-		showToast('프로그램경로를 선택하여 주십시오.');
+		dialog.alert('프로그램경로를 선택하여 주십시오.');
 		return;
 	}
 	
 	if( !$('#cboSR').prop('disabled') && getSelectedIndex('cboSR') < 1){
-		showToast('SR-ID를 선택하여 주십시오.');
+		dialog.alert('SR-ID를 선택하여 주십시오.');
 		return;
 	}
 	
@@ -381,11 +400,11 @@ function successCheckProg(data) {
 	var tmpObj = [];
 
 	if(tmpArr[0].ID.substr(0,4) == 'FAIL') {
-		showToast(tmpArr[0].ID.substring(4));
+		dialog.alert(tmpArr[0].ID.substring(4));
 		return;
 	}else {
 		if(tmpArr.length > 0 && tmpArr[0].ID == 'ADD') {
-			showToast('등록처리가 완료되었습니다.');
+			dialog.alert('등록처리가 완료되었습니다.');
 			
 			if(grdProgListData != null) {
 				for(var i=0; i<grdProgList.getList().length; i++) {
@@ -400,7 +419,7 @@ function successCheckProg(data) {
 			grdProgList.addRow(tmpObj, 0);
 			grdProgList.setColumnSort({cr_rsrcname:{seq:0, orderBy:'asc'}});
 		}else {
-			showToast(tmpArr[0].ID);
+			dialog.alert(tmpArr[0].ID);
 		}	
 	}
 }
@@ -427,9 +446,9 @@ function btnDel_Click() {
 function successDELETE(data) {
 	
 	if(Number(data) > 0) {
-		showToast('삭제처리가 완료되었습니다.');
+		dialog.alert('삭제처리가 완료되었습니다.');
 	}else {
-		showToast('삭제처리가 실패하였습니다.');
+		dialog.alert('삭제처리가 실패하였습니다.');
 	}
 }
 
@@ -449,7 +468,7 @@ function btnView_Click() {
 
 function btnDevRep_Click() {
 	if($('#cboSysCd option').index($('#cboSysCd option:selected')) < 0) {
-		showToast('시스템을 선택하여 주십시오.');
+		dialog.alert('시스템을 선택하여 주십시오.');
 		$('#cboSysCd').focus();
 		return;
 	}

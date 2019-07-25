@@ -8,9 +8,16 @@ var selOptions 	   = [];
 
 var grdProgHistoryData = null; //체크인목록그리드 데이타
 var selectedGridItem   = null;
+var srcData        = null;
+var srcArray       = [];
 
 var isAdmin 	   = false;
 var ingSw          = false;
+var findLine       = 0;
+var svWord         = null;
+var tmpDir         = null;
+var downURL        = null;
+var outName        = null;
 
 var tmpInfo = new Object();
 var tmpInfoData = new Object();
@@ -52,6 +59,8 @@ grdProgHistory.setConfig({
     ]
 });
 
+$('input:radio[name^="optradio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
+
 $(document).ready(function(){
 	
 	pUserId = 'MASTER';
@@ -74,7 +83,12 @@ $(document).ready(function(){
 	
 	//소스다운 클릭
 	$('#btnSrcDown').bind('click', function() {
-		openWindow(5, '', '');
+		btnSrcDown_click();
+	});
+	
+	//찾기클릭
+	$('#btnSearch').bind('click', function() {
+		btnSearch_click();
 	});
 	
 	getTmpDir('99,F1');
@@ -92,8 +106,13 @@ function screenInit(gbn){
 		grdProgHistory.repaint();	
 	}
 	$('#btnSrcDown').prop('disabled', true); 
+	$('#btnSearch').prop('disabled', true); 
 	$('#txtSayu').val('');
-	$('#txtSrc').val('');
+	$('#txtWord').val('');
+	
+	var htmlObj = document.getElementById("htmlSrc");
+	htmlObj = null;
+	txtSearch_change();
 	
 	hljs.initHighlightingOnLoad();
 	
@@ -165,6 +184,7 @@ function grdProgHistory_Click() {
 	var strInfo = selectedGridItem.cm_info;
 	if (strInfo.substring(9,10) == '1') {
 		$('#btnSrcDown').prop('disabled', true); 
+		$('#btnSearch').prop('disabled', true); 
 		$('#txtSrc').val('바이너리파일입니다.');
 	} else { 
 		tmpInfo = new Object();
@@ -173,6 +193,8 @@ function grdProgHistory_Click() {
 		tmpInfo.vergbn  = selectedGridItem.gbncd;
 		tmpInfo.version  = selectedGridItem.cr_version;
 		tmpInfo.encoding = "X";
+		outName = pUserId + '_' + selectedGridItem.cr_version + '_' + selectedGridItem.cr_rsrcname;
+		tmpInfo.outname = outName; 
 		tmpInfoData = new Object();
 		tmpInfoData = {
 			tmpInfo		: tmpInfo,
@@ -182,16 +204,106 @@ function grdProgHistory_Click() {
 	}
 }
 function successVersion(data) {	
-	//$('#txtSrc').val(data);
 	
-	var prettify = hljs.highlightAuto(data).value;
-	$('#txtSrc').val(prettify);
+	var lineData = '';
+	
+	srcArray = data;
+	srcData = '';
+	$.each(srcArray,function(key,value) {
+		lineData = value.line + ' ' + value.src;
+		srcData += lineData;
+	});
+	
+	//srcData = data;
+	
+	var prettify = hljs.highlightAuto(srcData).value;
+	var htmlObj = document.getElementById("htmlSrc");
+	htmlObj.innerHTML = prettify;
+	//console.log(prettify);
 	$('#btnSrcDown').prop('disabled', false); 
-	/*if (hljs.getLanguage('java')) {
-		$('#txtSrc').val(hljs.highlight('java',data).value);
-		$('#btnSrcDown').prop('disabled', false); 
+	$('#btnSearch').prop('disabled', false); 
+	
+}
+function optradio_change() {
+	//console.log('optradio_change');
+	//var htmlObj = $('[name="optradio"]:checked').val();
+	//console.log(htmlObj);
+	
+	txtSearch_change();
+}
+function txtSearch_change() {
+	//console.log('txtSearch_change'+$('#txtSearch').val());
+	
+	findLine = 0;
+	svWord = "";
+	
+}
+function btnSearch_click() {
+	
+	var strWord = $('#txtSearch').val().trim();
+	var findSw = false;
+	var lineData = '';
+	
+	if (strWord != null && strWord.length == 0) {
+		dialog.alert('검색 할 단어/라인을 입력하여 주시기 바랍니다.', function(){});
+		return;
+	}
+	var searchGbn = $('[name="optradio"]:checked').val();
+	//console.log('radio='+searchGbn);
+	if (searchGbn == 'W') {
+		if (svWord != strWord) {
+			findLine = 0;
+			svWord = strWord;
+			var chgString = '<span class="hljs-search">' + strWord + '</span>';
+			var prettify = hljs.highlightAuto(srcData).value;
+			var resultString = replaceAllString(prettify,strWord,chgString);
+			
+			var htmlObj = document.getElementById("htmlSrc");
+			htmlObj.innerHTML = resultString;
+			var htmlObj = document.getElementById("htmlView");
+			//console.log('height='+htmlObj.scrollHeight);
+		}
+		for (var i=findLine;srcArray.length>i;i++) {
+			lineData = srcArray[i].src;
+			if (lineData.indexOf(strWord)>=0) {
+				findLine = ++i;
+				findSw = true;
+				break;
+			}
+		}
 	} else {
-		console.log('language not exists');
-	}*/
+		findLine = Number(strWord);
+		//console.log('line search='+findLine);
+		if (srcArray.length < findLine) {
+			dialog.alert('검색 할 라인이 존재하지 않습니다.', function(){});
+			return;
+		}
+		findLine = findLine - 1;
+		findSw = true;
+	}
+	//console.log(findLine);
+	
+	if (findSw) {
+		yPOS = findLine * 13.75;
+		//console.log(yPOS);
+		$('#htmlView').scrollTop(yPOS);
+		if (searchGbn == 'L') {
+			findLine = 0;
+		}
+	} else if (findLine == 0) {
+		dialog.alert('검색단어가 존재하지 않습니다.', function(){});
+		return;
+	} else {
+		dialog.alert('더 이상 검색단어가 존재하지 않습니다.', function(){});
+		findLine = 0;
+		return;
+	}
+
+}
+function btnSrcDown_click() {
+	
+	//location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+this.item.savename;
+	//location.href = downURL+'?f='+grdProgHistoryData[0].cr_rsrcname+'&folderPath='+tmpDir+'/'+outName;
+	location.href = "F:\\Azsoft\\HTML5\\save\\AutoSeq.java";
 }
 
