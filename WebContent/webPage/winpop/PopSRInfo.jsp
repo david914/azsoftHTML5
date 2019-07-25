@@ -3,6 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp"/>
 
+<head>
+	<title>SR정보</title>
+</head>
+
+<% 
+	String UserId = request.getParameter("user"); 
+    String SRId = request.getParameter("srid"); 
+    String AcptNo = request.getParameter("acptno");
+%> 
+
 <!-- contener S -->
 <body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
     <div class="content">
@@ -101,6 +111,10 @@
     </div>
 </body>
 <!-- contener E -->
+
+<input type=hidden id="UserId" value=<%=UserId%>>
+<input type=hidden id="SRId" value=<%=SRId%>>
+<input type=hidden id="AcptNo" value=<%=AcptNo%>>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/winpop/PopSRInfo.js"/>"></script>
