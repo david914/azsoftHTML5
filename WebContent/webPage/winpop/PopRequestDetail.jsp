@@ -22,7 +22,7 @@
 }
 </style>
 
-<div id="wrapper">
+<body style="padding: 10px;">
     <div class="content">
         <!-- history S-->
         <div id="history_wrap">	변경신청 <strong>&gt; 체크인요청상세</strong></div>
@@ -221,7 +221,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</body>
 <!-- contener E -->
 
 <form name="getReqData">

@@ -77,8 +77,13 @@ public class PopPrcResultLogServlet extends HttpServlet {
 	}
 	
 	private String getFileText(JsonElement jsonElement) throws SQLException, Exception {
-		String rstfile = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "rstfile") );
-		
-		return gson.toJson(cmr5100.getFileText(rstfile));
+		try { 
+			String rstfile = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "rstfile") );
+			return gson.toJson(cmr5100.getFileText(rstfile));
+		} catch (SQLException e) {
+			return gson.toJson("ERROR:"+e.getMessage());
+		} catch (Exception e) {
+			return gson.toJson("ERROR:"+e.getMessage());
+		} 
 	}
 }

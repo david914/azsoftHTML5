@@ -14,8 +14,7 @@
 	color: #BE81F7;
 }
 </style>
-
-<div id="wrapper">
+<body style="padding: 10px;">
     <div class="content">
         <!-- history S-->
         <div id="history_wrap">	모니터링 <strong>&gt; 처리결과확인</strong></div>
@@ -59,8 +58,7 @@
 		</div>
         <!-- history E-->
     </div>
-</div>
-
+</body>
 <form name="getReqData">
 	<input type="hidden" name="acptno" value="<%=acptNo%>"/>
 	<input type="hidden" name="user" value="<%=userId%>"/>

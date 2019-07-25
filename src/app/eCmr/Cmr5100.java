@@ -479,7 +479,7 @@ public class Cmr5100 {
 		FileInputStream fis =null;
 		int nCnt;
 
-		try {
+//		try {
 
 			resultPath = csysPath.getTmpDir("11");
 			csysPath = null;
@@ -500,20 +500,23 @@ public class Cmr5100 {
 			fileStr = fileStream.toString("MS949");
 
 
+			if (fileStream != null)	fileStream = null;
+			if (fis != null) fis = null;
+			
 			return fileStr;
 
 			//end of while-loop statement
 
-		} catch (Exception exception) {
-			exception.printStackTrace();
-			ecamsLogger.error("## Cmr5300.getFileText() Exception START ##");
-			ecamsLogger.error("## Error DESC : ", exception);
-			ecamsLogger.error("## Cmr5300.getFileText() Exception END ##");
-			throw exception;
-		}finally{
-			if (fileStream != null)	fileStream = null;
-			if (fis != null) fis = null;
-		}
+//		} catch (Exception exception) {
+//			exception.printStackTrace();
+//			ecamsLogger.error("## Cmr5300.getFileText() Exception START ##");
+//			ecamsLogger.error("## Error DESC : ", exception);
+//			ecamsLogger.error("## Cmr5300.getFileText() Exception END ##");
+//			throw exception;
+//		} finally {
+//			if (fileStream != null)	fileStream = null;
+//			if (fis != null) fis = null;
+//		}
 	}
 	public Object[] getResultList_Doc(String acptNo,String UserId) throws SQLException, Exception {
 		Connection        conn        = null;

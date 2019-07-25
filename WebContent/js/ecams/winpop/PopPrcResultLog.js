@@ -64,7 +64,6 @@ $(document).ready(function(){
 	if (pReqNo == null) {
 		return;
 	}
-	getPrcGbnInfo();
 	
 	//처리구분 콤보선택
 	$('#cboReqPass').bind('change', function() {
@@ -83,6 +82,9 @@ $(document).ready(function(){
 			}
 		});
 		retGrid.setData(retGridDataFilterData);
+		if (retGridDataFilterData.lengh>0) {
+			retGrid.select(0);
+		}
 	});
 	
 	//조회 클릭
@@ -97,9 +99,8 @@ $(document).ready(function(){
 	$('#btnClose').bind('click', function() {
 		close();
 	});
-
-	//최초 화면로딩 시 조회(조회버튼 로직)
-	$('#btnSearCh').trigger('click');
+	
+	getPrcGbnInfo();
 });
 
 //처리구분정보 가져오기
@@ -110,6 +111,9 @@ function getPrcGbnInfo(){
 		requestType : 'getResultGbn'
 	}
 	ajaxAsync('/webPage/winpop/PopPrcResultLogServlet', data, 'json',successGetResultGbn);
+	
+	//최초 화면로딩 시 조회(조회버튼 로직)
+	$('#btnSearCh').trigger('click');
 }
 //처리구분정보 가져오기 완료
 function successGetResultGbn(data){
@@ -155,5 +159,9 @@ function getResultLog(rstfile) {
 }
 //로그정보 가져오기 완료
 function successGetFileText(data){
-	$('#txtRetLog').val(data);
+	if (data.indexOf('ERROR:') > -1) {
+		$('#txtRetLog').val(data.substr(data.indexOf('ERROR:')+6));
+	} else {
+		$('#txtRetLog').val(data);
+	}
 }
