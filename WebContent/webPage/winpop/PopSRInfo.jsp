@@ -4,7 +4,7 @@
 <c:import url="/webPage/common/common.jsp"/>
 
 <!-- contener S -->
-<div id="wrapper">
+<body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
     <div class="content">
         <!-- history S-->
         <div id="history_wrap">요구관리 <strong>&gt; SR정보</strong></div>
@@ -99,7 +99,7 @@
 		   	
 		</div>
     </div>
-</div>
+</body>
 <!-- contener E -->
 
 <c:import url="/js/ecams/common/commonscript.jsp" />

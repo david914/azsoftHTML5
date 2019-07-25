@@ -12,7 +12,7 @@
 <c:import url="/webPage/common/common.jsp"/>
 
 <!-- contener S -->
-<div id="wrapper" style="height:100%">
+<body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
     <!-- <div class="content"> -->
 		<!-- 하단 S-->
 			<!-- 게시판 S-->
@@ -95,7 +95,7 @@
 				</div>
 			</div>
     <!-- </div> -->
-</div>
+</body>
 	
 <!-- contener E -->
 
