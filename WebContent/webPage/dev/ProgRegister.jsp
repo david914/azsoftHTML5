@@ -105,17 +105,15 @@
 					<div class="row ml_7">
 						<div class="vat dib">
 							<!-- <button id="btnLocalRep" name=btnLocalRep class="btn_basic_s" disabled="true">로컬영역연결등록</button> -->
-						</div>
-					</div>
-					<div class="row ml_7">						
-						<div class="vat dib">
-							<button id="btnInit" name="btnInit" class="btn_basic_s">초기화</button>
-						</div>
-						<div class="vat dib margin-5-left"><!--수정-->
-							<button id="btnQry" name="btnQry" class="btn_basic_s" data-grid-control="excel-export">조회</button>
-						</div>
-						<div class="vat dib margin-5-left"><!--수정-->
-							<button id="btnDel" name="btnDel" class="btn_basic_s" data-grid-control="excel-export">삭제</button>
+							<div class="vat dib">
+								<button id="btnInit" name="btnInit" class="btn_basic_s">초기화</button>
+							</div>
+							<div class="vat dib margin-5-left"><!--수정-->
+								<button id="btnQry" name="btnQry" class="btn_basic_s" data-grid-control="excel-export">조회</button>
+							</div>
+							<div class="vat dib margin-5-left"><!--수정-->
+								<button id="btnDel" name="btnDel" class="btn_basic_s" data-grid-control="excel-export">삭제</button>
+							</div>
 						</div>
 					</div>
 				</div>		

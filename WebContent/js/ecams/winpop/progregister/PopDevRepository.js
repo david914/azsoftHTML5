@@ -21,23 +21,38 @@ var strTmpDir = "";
 var grdProgList 	= new ax5.ui.grid(); //프로그램목록그리드
 
 var selOptions		= [];
-var cboSystemData 	= null;	//시스템 데이터
-var cboDirData		= null;	//기준디렉토리 데이터 (cboDir_dp)
-var selHomeDirData	= null;	//홈디렉토리 데이터 (dirCbo_dp)
-var cboSvrData		= null;	//서버 데이터
-var cboJawonData	= null;	//프로그램종류 데이터
-var cboJobData		= null;	//업무 데이터
-var cboSRIData		= null;	//SRID 데이터
+var cboSystemData 	= [];	//시스템 데이터
+var cboDirData		= [];	//기준디렉토리 데이터 (cboDir_dp)
+var selHomeDirData	= [];	//홈디렉토리 데이터 (dirCbo_dp)
+var cboSvrData		= [];	//서버 데이터
+var cboJawonData	= [];	//프로그램종류 데이터
+var cboJobData		= [];	//업무 데이터
+var cboSRIData		= [];	//SRID 데이터
 var grdProgListData = null; //프로그램목록그리드 데이터
 
 var treeObj			= null;
 var treeObjData		= null; //디렉토리트리 데이터
 
-var selectedIndex; //select 선택 index
-var selectedItem;  //select 선택 item
+var selectedIndex 	= 0; 	//select 선택 index
+var selectedItem 	= null;	//select 선택 item
 
 var tmpInfo = new Object();
 var tmpInfoData = new Object();
+
+var treeSetting = {
+	check: {
+		enable: false
+	},
+	data: {
+		simpleData: {
+			enable: true
+		}
+	},
+	callback: {
+		onExpand: myOnExpand,
+		onRightClick: OnRightClick
+	}
+};
 
 grdProgList.setConfig({
     target: $('[data-ax5grid="grdProgList"]'),
@@ -68,20 +83,6 @@ grdProgList.setConfig({
         {key: "jobname", 		label: "업무",   		width: '24%',	align: "left"}
     ]
 });
-
-var treeSetting = {
-	check: {
-		enable: false
-	},
-	data: {
-		simpleData: {
-			enable: true
-		}
-	},
-	callback: {
-		onRightClick: OnRightClick
-	}
-};
 
 $(document).ready(function(){
 	strUserId = $('#UserId').val();
@@ -133,7 +134,7 @@ function getTempDir() {
 		requestType	: 'GETSYSTEMPATH',
 		pathcd		: '99' 
 	}
-	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfo, 'json', successSystemPath);
+	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfo, 'json', successSystemPath);
 }
 
 
@@ -154,7 +155,7 @@ function getPrjList() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSRID'
 	}
-	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successSRID);
+	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successSRID);
 }
 
 function successSRID(data) {
@@ -180,11 +181,10 @@ function getSysInfo() {
 	tmpInfo.userId = strUserId;
 	if(adminYN) {
 		tmpInfo.secuYn = "N";
-		tmpInfo.closeYn = "N";
 	}else {
 		tmpInfo.secuYn = "Y";
-		tmpInfo.closeYn = "Y";
 	}
+	tmpInfo.closeYn = "N";
 	tmpInfo.selMsg = "SEL";
 	tmpInfo.reqCd = "OPEN";		
 	
@@ -193,7 +193,7 @@ function getSysInfo() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSYSINFO'
 	}
-	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successSysInfo);
+	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successSysInfo);
 }
 
 function successSysInfo(data) {
@@ -262,7 +262,7 @@ function cboSystem_Change() {
 			tmpInfo		: tmpInfo,
 			requestType	: 'GETJOBINFO'
 		}
-		ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successJobInfo);
+		ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successJobInfo);
 	}
 	//SysInfo.getsvrInfo(strUserId,cboSys.selectedItem.cm_syscd,"Y","");
 	tmpInfo = new Object();
@@ -276,7 +276,7 @@ function cboSystem_Change() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSVRINFO'
 	}
-	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successSvrInfo);
+	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successSvrInfo);
 }
 
 function screenInit() {
@@ -326,7 +326,7 @@ function successJobInfo(data) {
 			tmpInfo		: tmpInfo,
 			requestType	: 'GETJAWON'
 		}
-		ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successJawon);
+		ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successJawon);
 	}
 }
 
@@ -403,7 +403,7 @@ function cboSvr_click() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETHOMEDIRLIST'
 	}
-	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successHomeDir);
+	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successHomeDir);
 }
 
 function successHomeDir(data) {
@@ -502,15 +502,109 @@ function btnQry_Click() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSVRDIR'
 	}
-	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successSvrDir);
+	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successSvrDir);
 }
 
 /* 디렉토리 트리구조 셋팅 */
 function successSvrDir(data) {
 	treeObjData = data;
-	$.fn.zTree.init($("#treeDir"), treeSetting, data); //초기화
-	treeObj = $.fn.zTree.getZTreeObj("treeDir");
+	
+	if(treeObjData !== 'ERR') {
+//		var obj = treeObjData;
+//		
+//		for(var i in treeObjData){
+//			if(obj[i].name =='' ){
+//				delete obj[i]
+//				continue;
+//			}
+//			obj[i].name = obj[i].name; //cm_dirpath
+//			delete obj[i].name; //cm_dirpath
+//			obj[i].isParent = true;
+//		}
+//		obj = JSON.stringify(obj).replace(/null,/gi,''); // delete 를 해도 empty 값으로 남아있어서 지워줌
+//		obj = JSON.parse(obj);
+//		treeObjData = obj;
+//		
+		
+		console.log("treeObjData.length: " + treeObjData.length);
+		
+		ztree = $.fn.zTree.init($('#treeDir'), treeSetting, treeObjData);
+		treeObj = $.fn.zTree.getZTreeObj("treeDir");
+	}
+	else{
+		console.log(treeObjData);
+	}
+	
+//	$.fn.zTree.init($("#treeDir"), treeSetting, data); //초기화
+//	treeObj = $.fn.zTree.getZTreeObj("treeDir");
 }
+
+/* 트리구조에서 folder 오픈 */
+function myOnExpand(event, treeId, treeNode) {
+	//root node 만 비동기 방식으로 뽑아오는 조건
+	//console.log("treeNode: ", treeNode);
+	if(treeNode.children != undefined){
+		return false;
+	}
+	
+	//로딩중 icon class 추가
+	$('#'+treeNode.tId+'_ico').removeClass().addClass('button ico_loading');
+	setTimeout(function(){
+
+		var ajaxReturnData = null;
+		var baseDir = "";
+		
+		if(treeNode.pId == null || treeNode.children != undefined){
+			baseDir = $('[data-ax5select="cboDir"]').ax5select("getValue")[0].value;
+		}else {
+			//baseDir = $('[data-ax5select="cboDir"]').ax5select("getValue")[0].value + "/" + treeNode.name;
+			baseDir = treeNode.cm_fullpath;
+		}
+		
+		console.log("baseDir: " + baseDir);
+		
+		tmpInfo = new Object();
+		tmpInfo.UserId = strUserId;
+		tmpInfo.SysCd = $('[data-ax5select="cboSystem"]').ax5select("getValue")[0].value;
+		tmpInfo.SvrIp = selectedItem.cm_svrip;
+		tmpInfo.SvrPort = selectedItem.cm_portno;
+		tmpInfo.BaseDir = baseDir;
+		tmpInfo.AgentDir = selectedItem.cm_dir;
+		tmpInfo.SysOs = selectedItem.cm_sysos;
+		tmpInfo.HomeDir = selectedItem.cm_volpath;
+		tmpInfo.svrName = selectedItem.cm_svrname;
+		tmpInfo.buffSize = selectedItem.cm_buffsize;
+		tmpInfo.parent = treeNode.id;
+		
+		tmpInfoData = new Object();
+		tmpInfoData = {
+			tmpInfo		: tmpInfo,
+			requestType	: 'GETCHILDSVRDIR'
+		}
+		
+		ajaxReturnData = ajaxCallWithJson('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json');
+		
+		var obj = ajaxReturnData;
+		
+		for(var i in ajaxReturnData){
+			if(obj[i].cm_dirpath =='' ){
+				delete obj[i]
+				continue;
+			}
+			obj[i].name = obj[i].cm_dirpath;
+			delete obj[i].cm_dirpath;
+			obj[i].isParent = true;
+		}
+		obj = JSON.stringify(obj).replace(/null,/gi,'');
+		obj = JSON.parse(obj);
+		ajaxReturnData = obj;
+		
+		console.log("ajaxReturnData", ajaxReturnData);
+		
+		ztree.addNodes(treeNode,ajaxReturnData)
+		$('#'+treeNode.tId+'_ico').removeClass().addClass('button ico_open');
+	}, 200);
+};
 
 /* 트리 노드 마우스 우클릭 이벤트 */
 function OnRightClick(event, treeId, treeNode) { 
@@ -616,7 +710,7 @@ function contextmenu_click(gbn) {
 		requestType	: 'GETFILELIST_THREAD'
 	}
 	
-	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successGetFileList);
+	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successGetFileList);
 	
 	fullpath = "";
 }
@@ -805,7 +899,7 @@ function btnRegist_Click() {
 		requestType	: 'REGISTPROG'
 	}
 	
-	ajaxAsync('/webPage/winpop/progregister/DevRepositoryServlet', tmpInfoData, 'json', successRegistProg);
+	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successRegistProg);
 }
 
 function successRegistProg(data) {
