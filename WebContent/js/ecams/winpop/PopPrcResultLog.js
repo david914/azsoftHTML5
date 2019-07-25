@@ -82,8 +82,12 @@ $(document).ready(function(){
 			}
 		});
 		retGrid.setData(retGridDataFilterData);
-		if (retGridDataFilterData.lengh>0) {
+		retGrid.repaint();
+		if (retGridDataFilterData.length>0) {
 			retGrid.select(0);
+	    	if (retGridDataFilterData[0].cr_rstfile == null || retGridDataFilterData[0].cr_rstfile == "") return;			
+	    	
+	       	getResultLog(retGridDataFilterData[0].cr_rstfile);
 		}
 	});
 	
@@ -111,9 +115,6 @@ function getPrcGbnInfo(){
 		requestType : 'getResultGbn'
 	}
 	ajaxAsync('/webPage/winpop/PopPrcResultLogServlet', data, 'json',successGetResultGbn);
-	
-	//최초 화면로딩 시 조회(조회버튼 로직)
-	$('#btnSearCh').trigger('click');
 }
 //처리구분정보 가져오기 완료
 function successGetResultGbn(data){
@@ -127,6 +128,9 @@ function successGetResultGbn(data){
 	$('[data-ax5select="cboReqPass"]').ax5select({
 		options: options
 	});
+	
+	//최초 화면로딩 시 조회(조회버튼 로직)
+	$('#btnSearCh').trigger('click');
 }
 //처리결과 목록조회하기
 function getPrcResultList() {

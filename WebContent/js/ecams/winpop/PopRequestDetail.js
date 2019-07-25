@@ -1346,7 +1346,7 @@ function openWindow(type,acptNo, etcInfo) {
 
     winName = type+'_'+pReqCd;
 
-    nWidth  = 1045;
+    nWidth  = 1046;
 	nHeight = 700;
     if (type === 1) {//프로그램정보
 		nHeight = 630;
@@ -1355,18 +1355,18 @@ function openWindow(type,acptNo, etcInfo) {
 		cURL = "/webPage/winpop/PopPrcResultLog.jsp";
 	} else if (type === 3) {//스크립트확인
 		nHeight = 400;
-		cURL = "/webPage/winpop/ScriptView.jsp";
+		cURL = "/webPage/winpop/PopScript.jsp";
 	} else if (type === 4) {//SR정보확인
-		nHeight = 530;
-		cURL = "/webPage/winpop/.jsp";
+		nHeight = 735;
+		cURL = "/webPage/winpop/PopSRInfo.jsp";
 	} else if (type === 5) {//소스보기
-		cURL = "/webPage/winpop/.jsp";
+		cURL = "/webPage/winpop/PopSourceView.jsp";
 	} else if (type === 6) {//소스비교
-		cURL = "/webPage/winpop/.jsp";
+		cURL = "/webPage/winpop/PopSourceDiffView.jsp";
 	} else if (type === 7) {//로그확인
 		cURL = "/webPage/winpop/PopServerLog.jsp";
 	} else if (type === 8) {//결재정보
-		nHeight = 450;
+		nHeight = 516;
 		cURL = "/webPage/winpop/PopApprovalInfo.jsp";
 	} else {
 		confirmDialog2.alert('window open - popup: invalid type ['+type+'] error', function(){return;});
@@ -1382,7 +1382,13 @@ function openWindow(type,acptNo, etcInfo) {
 		f.acptno.value	= pReqNo;
 	}
 	if (etcInfo != '' && etcInfo != null) {
-		f.etcinfo.value = etcInfo;
+		if (type === 4) { //SR정보확인
+			f.srid.value = etcInfo;
+		} else if (type === 1 || type === 3 || type === 5 || type === 6) { //프로그램정보, 스크립트확인, 소스보기, 소스비교
+			f.itemid.value = etcInfo;
+		} else {
+			f.etcinfo.value = etcInfo;
+		} 
 	}
     
     myWin = winOpen(f, winName, cURL, nHeight, nWidth);
