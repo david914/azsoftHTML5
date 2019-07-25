@@ -4,10 +4,9 @@
 <c:import url="/webPage/common/common.jsp"/>
 
 <!-- contener S -->
-<div id="wrapper">
     <div class="content">
         <!-- history S-->
-        <div id="history_wrap">개발 <strong>&gt; 개발계획/실적</strong></div>
+        <div id="history_wrap"></div>
         <!-- history E-->         
 	    
 	    <!-- PrjListTab.jsp -->
@@ -44,7 +43,6 @@
 		   	
 		</div>
     </div>
-</div>
 <!-- contener E -->
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
