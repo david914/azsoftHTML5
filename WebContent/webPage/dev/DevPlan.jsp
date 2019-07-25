@@ -13,7 +13,7 @@
 	    <div class="az_board_basic" style="height:25%">
 			<div class="l_wrap width-48 dib vat" style="width:100%; height:100%">
 				<!-- frmPrjList -->
-    			<iframe id="frmPrjList" name="frmPrjList" src='/webPage/srcommon/PrjListTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+    			<iframe id="frmPrjList" name="frmPrjList" src='/webPage/tab/SR/PrjListTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
     		</div>
 	    </div>
 	    
