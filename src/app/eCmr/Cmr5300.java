@@ -45,7 +45,7 @@ public class Cmr5300 {
 	 * 		@return
 	 * 		@throws Exception
 	 */
-	public String getFileText(HashMap<String, String> etcData) throws Exception {
+	public Object[] getFileText(HashMap<String, String> etcData) throws Exception {
 		String  shFileName = "";
 		String	fileName = "";
 		BufferedReader in1 = null;
@@ -53,12 +53,15 @@ public class Cmr5300 {
 		String  strParm = "";
 		int     ret = 0;
 		StringBuffer      strQuery    		= new StringBuffer();
+		ArrayList<HashMap<String, String>>  rtList = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String>			  rst		  = null;
 
 		try {		
 			String tmpPath = etcData.get("tmpdir");
 			fileName = "F:\\Azsoft\\HTML5\\save\\AutoSeq.java";
 			/*	
-			fileName = tmpPath + "/" + etcData.get("cr_itemid") + "." + etcData.get("cr_acptno")+"."+etcData.get("userid");
+			
+			fileName = tmpPath + "/" + etcData.get("outname");
 			Cmr0200 cmr0200 = new Cmr0200();
 			strParm = "./ecams_gensrc " + etcData.get("gbncd") + " " + etcData.get("cr_itemid") + " " + etcData.get("cr_acptno") + " " + fileName;
 			shFileName = etcData.get("userid")+"apcmd.sh";
@@ -73,14 +76,20 @@ public class Cmr5300 {
 			int i = 0;
 			String strLine = "";
 			while( (readline1 = in1.readLine()) != null ){
+				rst = new HashMap<String, String>();
 				strLine = String.format("%5d", ++i);
-				strQuery.append(strLine+" " + readline1+"\n");
+				rst.put("line",strLine);
+				rst.put("src", readline1+"\n");
+				rtList.add(rst);
+				rst = null;
+				//strQuery.append(strLine+" " + readline1+"\n");
 			}
 			in1.close();
 
 			in1 = null;
-			
-			return strQuery.toString();
+			rst = null;
+			//return strQuery.toString();
+			return rtList.toArray();
 
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -91,6 +100,7 @@ public class Cmr5300 {
 		}finally{
 			if (in1 != null) in1 = null;
 			if (strQuery != null) 	strQuery = null;
+			if (rtList != null) 	rtList = null;
 		}
 	}//end of while-loop statement
 

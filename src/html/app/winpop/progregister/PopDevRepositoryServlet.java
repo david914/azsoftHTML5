@@ -22,8 +22,8 @@ import app.eCmd.Cmd0100;
 import app.eCmd.svrOpen;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/winpop/progregister/DevRepositoryServlet")
-public class DevRepositoryServlet extends HttpServlet {
+@WebServlet("/webPage/winpop/progregister/PopDevRepositoryServlet")
+public class PopDevRepositoryServlet extends HttpServlet {
 	/**
 	 * 
 	 */
@@ -75,6 +75,9 @@ public class DevRepositoryServlet extends HttpServlet {
 					break;
 				case "GETSVRDIR" :
 					response.getWriter().write( getSvrDir(jsonElement) );
+					break;
+				case "GETCHILDSVRDIR" :
+					response.getWriter().write( getChildSvrDir(jsonElement) );
 					break;
 				case "GETFILELIST_THREAD" :
 					response.getWriter().write( getFileList_thread(jsonElement) );
@@ -155,7 +158,68 @@ public class DevRepositoryServlet extends HttpServlet {
 											  	   DataMap.get("SysOs"),
 											  	   DataMap.get("HomeDir"),
 											  	   DataMap.get("svrName"),
-											  	   DataMap.get("buffSize")));
+												   DataMap.get("buffSize")));
+	}
+	
+	private String getChildSvrDir(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		if(DataMap.size() < 1) {
+			return "";
+		}
+		return makeChildrenTree(DataMap);
+//		return gson.toJson(svropen.getSvrDir_HTML5(DataMap.get("UserId"),
+//											  	   DataMap.get("SysCd"),
+//											  	   DataMap.get("SvrIp"),
+//											  	   DataMap.get("SvrPort"),
+//											  	   DataMap.get("BaseDir"),
+//											  	   DataMap.get("AgentDir"),
+//											  	   DataMap.get("SysOs"),
+//											  	   DataMap.get("HomeDir"),
+//											  	   DataMap.get("svrName"),
+//											  	   DataMap.get("buffSize")));
+	}
+	
+	private String makeChildrenTree(HashMap<String, String> DataMap) {
+		
+		ArrayList<HashMap<String, String>> childDirList = null;
+		ArrayList<HashMap<String, String>> mergeDirList  =  new ArrayList<HashMap<String, String>>();
+		try {
+				
+			childDirList = (ArrayList<HashMap<String, String>>) svropen.getChildSvrDir_HTML5(DataMap.get("UserId"),
+																					  	     DataMap.get("SysCd"),
+																					  	     DataMap.get("SvrIp"),
+																					  	     DataMap.get("SvrPort"),
+																						  	 DataMap.get("BaseDir"),
+																						  	 DataMap.get("AgentDir"),
+																						  	 DataMap.get("SysOs"),
+																						  	 DataMap.get("HomeDir"),
+																						  	 DataMap.get("svrName"),
+																							 DataMap.get("buffSize"));
+				
+			for(HashMap<String, String> pathMap: childDirList) {
+				
+				pathMap.put("id", 	pathMap.get("cm_seqno"));
+				pathMap.put("pId", 	pathMap.get("cm_upseq"));
+				//pathMap.put("pid", 	pathMap.get("cm_upseq"));
+				pathMap.put("order","1");
+				pathMap.put("text", pathMap.get("cm_dirpath"));
+				//pathMap.put("value", pathMap.get("cr_rsrccd"));
+				pathMap.put("fullpath", pathMap.get("cm_fullpath"));
+				//pathMap.put("dsncd", pathMap.get("cr_dsncd"));
+			}
+			
+			mergeDirList.addAll(mergeDirList.size(), childDirList);
+			//System.out.println("return: " + gson.toJson(mergeDirList));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return gson.toJson(mergeDirList);
+		}
+		
 	}
 	
 	private String getFileList_thread(JsonElement jsonElement) throws SQLException, Exception {

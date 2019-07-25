@@ -34,6 +34,7 @@ import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author bigeyes
@@ -1631,8 +1632,8 @@ public class svrOpen{
 		}
 	}//end of getFileList_thread_MASTER() method statement
 	
-	public ArrayList<HashMap<String, String>> getSvrDir_HTML5(String UserID,String SysCd,String SvrIp,String SvrPort,String BaseDir,String AgentDir,
-			String SysOs,String HomeDir,String svrName,String buffSize) throws SQLException, Exception {
+	public ArrayList<HashMap<String, String>> getSvrDir_HTML5(String UserID,String SysCd,String SvrIp,String SvrPort,
+			String BaseDir,String AgentDir,String SysOs,String HomeDir,String svrName,String buffSize) throws SQLException, Exception {
 			eCAMSInfo         ecamsinfo   = new eCAMSInfo();
 			//CreateXml         ecmmtb      = new CreateXml();
 			ArrayList<HashMap<String, String>>  rsval = new ArrayList<HashMap<String, String>>();
@@ -1652,6 +1653,8 @@ public class svrOpen{
 			//Object[] returnObjectArray = null;
 			int               ret = 0;
 			int               j = 0;
+			int               maxSeq2 = 100;
+			
 			String       shFileName = "";
 			String       strParm = "";
 
@@ -1769,6 +1772,7 @@ public class svrOpen{
 															strDir = strDir + "/";
 														}
 														strDir = strDir + pathDepth[i];
+														//ecamsLogger.error("## pathDepth: " + pathDepth[i]);
 														findSw = false;
 														if (rsval.size() > 0) {
 															for (j = 0;rsval.size() > j;j++) {
@@ -1779,7 +1783,8 @@ public class svrOpen{
 															}
 														} else {
 															findSw = false;
-														}
+														}														
+														
 														if (findSw == false) {
 															maxSeq = maxSeq + 1;
 
@@ -1806,32 +1811,34 @@ public class svrOpen{
 			        }
 			        if (mFile.isFile() && mFile.exists()) mFile.delete();
 	            }
-	            String strBran = "";
 	            
+	            String strBran = "";
 	            if (rsval.size() > 0) {
 					for (int i = 0;rsval.size() > i;i++) {
-						strBran = "false";
-						for (j=0;rsval.size()>j;j++) {
-							if (i != j) {
-								if (rsval.get(i).get("cm_seqno").equals(rsval.get(j).get("cm_upseq"))) {
-									strBran = "true";
-									break;
-								}
-							}
+//						strBran = "false";
+//						for (j=0;rsval.size()>j;j++) {
+//							if (i != j) {
+//								if (rsval.get(i).get("cm_seqno").equals(rsval.get(j).get("cm_upseq"))) {
+//									strBran = "true";
+//									break;
+//								}
+//							}
+//						}
+						if("0".equals(rsval.get(i).get("cm_upseq")) || "1".equals(rsval.get(i).get("cm_upseq"))) {
+							rtMap = new HashMap<>();
+			            	rtMap.put("id", rsval.get(i).get("cm_seqno"));
+			            	rtMap.put("name", rsval.get(i).get("cm_dirpath"));
+			            	rtMap.put("pId", rsval.get(i).get("cm_upseq"));
+			            	rtMap.put("cm_fullpath", rsval.get(i).get("cm_fullpath"));
+			            	//rtMap.put("isParent", strBran);
+			            	rtMap.put("isParent", "true"); //트리구조 아이콘 때문에 true로 셋팅
+			            	
+			            	rtArr.add(rtMap);
 						}
-						
-						rtMap = new HashMap<>();
-		            	rtMap.put("id", rsval.get(i).get("cm_seqno"));
-		            	rtMap.put("name", rsval.get(i).get("cm_dirpath"));
-		            	rtMap.put("pId", rsval.get(i).get("cm_upseq"));
-		            	rtMap.put("cm_fullpath", rsval.get(i).get("cm_fullpath"));
-		            	//rtMap.put("isParent", strBran);
-		            	rtMap.put("isParent", "true"); //트리구조 아이콘 때문에 true로 셋팅
-		            	
-		            	rtArr.add(rtMap);
 					}
 				}
 				
+	            ecamsLogger.error("## rtArr.size: " + rtArr.size());
 	    		return rtArr;
 
 			} catch (SQLException sqlexception) {
@@ -1849,7 +1856,259 @@ public class svrOpen{
 			}finally{
 			}
 
-		}//end of getDirPath() method statement
+	}//end of getDirPath() method statement
+	
+	public List<HashMap<String, String>> getChildSvrDir_HTML5(String UserID,String SysCd,String SvrIp,String SvrPort,
+			String BaseDir,String AgentDir,String SysOs,String HomeDir,String svrName,String buffSize) throws SQLException, Exception {
+			eCAMSInfo         ecamsinfo   = new eCAMSInfo();
+			ArrayList<HashMap<String, String>>  rsval = new ArrayList<HashMap<String, String>>();
+			HashMap<String, String>			  rst		  = null;
+			String[]          pathDepth   = null;
+			String            strDir      = null;
+			boolean           findSw      = false;
+			boolean           ErrSw      = false;
+			String            strBinPath  = "";
+			String            strTmpPath  = "";
+			String            strFile     = "";
+			String            strBaseDir  = "";
+			int               upSeq       = 0;
+			int               maxSeq      = 0;
+			boolean           dirSw       = false;
+			int               ret = 0;
+			int               j = 0;
+			int               maxSeq2 = 100;
+			
+			String       shFileName = "";
+			String       strParm = "";
+
+			rsval.clear();
+			
+			HashMap<String, String> rtMap 				= new HashMap<>();
+			ArrayList<HashMap<String, String>> rtArr 	= new ArrayList<>();
+
+			try {
+				strBinPath = ecamsinfo.getFileInfo("14");
+				ErrSw = false;
+				if (strBinPath == "" || strBinPath == null)
+					throw new Exception("관리자에게 연락하여 주시기 바랍니다. (형상관리환경설정 - 실행디렉토리)");
+
+				strTmpPath = ecamsinfo.getFileInfo("99");
+				if (strTmpPath == "" || strTmpPath == null)
+					throw new Exception("관리자에게 연락하여 주시기 바랍니다. (형상관리환경설정 - 실행디렉토리)");
+
+				if (HomeDir == null) HomeDir = "";
+				HomeDir = HomeDir.replace("##USER##", UserID);
+				Cmr0200 cmr0200 = new Cmr0200();
+				shFileName = "dir"+ UserID + ".sh";
+				strFile = strTmpPath + "dir"+ UserID;
+				if (SysOs.equals("03")) {
+					BaseDir = BaseDir.replace("/", "\\");
+					BaseDir = BaseDir.replace("\\\\", "\\");
+					BaseDir = BaseDir.replace("\\", "\\\\");
+				}
+				
+				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " " + BaseDir + " dir" + UserID;
+				ret = cmr0200.execShell(shFileName, strParm, false);
+				if (ret != 0) {
+					if (ret == 1) {
+						throw new Exception("추출 디렉토리가 없습니다. run=["+strParm +"]" + " return=[" + ret + "]" );
+					}else if (ret == 2) {
+						throw new Exception("디렉토리추출을 위한 분석작업 실패하였습니다. run=["+strParm +"]" + " return=[" + ret + "]" );
+					}else if (ret == 3) {
+						throw new Exception("해당서버에서 Tmp파일 삭제  실패하였습니다. run=["+strParm +"]" + " return=[" + ret + "]" );
+					}
+
+					ErrSw = true;
+
+				}
+	            if (ErrSw == false) {
+	    			BaseDir = BaseDir.replace("\\\\", "/");
+	    			
+	    			eCAMSInfo ecamsinf = new eCAMSInfo();
+	    			String  noNameAry[] = ecamsinf.getNoName();
+
+	    			File mFile = new File(strFile);
+			        if (!mFile.isFile() || !mFile.exists()) {
+						ErrSw = true;
+						throw new Exception("디렉토리추출을 위한 작업에 실패하였습니다 [작성된 파일 없음] ["+ strFile+"]");
+			        } else {
+				        BufferedReader in = null;
+
+				        try {
+				            in = new BufferedReader(new InputStreamReader(new FileInputStream(mFile),"MS949"));
+				            String str = null;
+
+							maxSeq = maxSeq + 1;
+
+//20190725
+//							rst = new HashMap<String,String>();
+//							rst.put("cm_dirpath","["+svrName+"]"+HomeDir);
+//							rst.put("cm_fullpath",HomeDir);
+//							rst.put("cm_upseq","0");
+//							rst.put("cm_seqno",Integer.toString(maxSeq));
+//							rsval.add(maxSeq - 1, rst);
+							upSeq = maxSeq;
+							
+							while ((str = in.readLine()) != null) {
+				                if (str.length() > 0) {
+				                	dirSw = false;
+				                	if (SysOs.equals("03")) {
+				                		str = str.trim();
+				                		str = str.replace("\\", "/");
+				                		if (str.indexOf("디렉터리")>0) {
+				                			if (str.substring(0,BaseDir.length()).equals(BaseDir)) {
+				                				strBaseDir = str.substring(0,str.indexOf("디렉터리"));
+					                			strBaseDir = strBaseDir.trim();
+					                			str = strBaseDir;
+					                			dirSw = true;
+				                			}
+				                		} else {
+				                		}
+
+				                	} else {
+					                	if (str.substring(str.length() - 1).equals(":")) {
+					                		strBaseDir = str.substring(0,str.length() - 1);
+					                		str = strBaseDir;
+					                		dirSw = true;
+					                	}
+				                	}
+				                	
+				                	//20190725
+									ecamsLogger.error("## BaseDir: " + BaseDir);
+									ecamsLogger.error("## str: " + str);
+				                	if(BaseDir.equals(str)) dirSw = false;
+				                	
+				                	if (dirSw == true) {
+				                		if (HomeDir.length() < str.length()){
+					                		str = str.substring(HomeDir.length());
+					                		findSw = false;
+					                		if (str.length() != 0 ) {
+					                			findSw = true;
+					                			for (j=0;noNameAry.length>j;j++) {	
+													if (str.indexOf(noNameAry[j])>=0){
+														findSw = false;
+														break;
+													}
+												}
+					                		}
+					                		if (findSw) {
+						                		pathDepth = str.substring(1).split("/");
+						                		strDir = HomeDir;
+												upSeq = 1;
+												findSw = false;
+
+//												ecamsLogger.error("## str: " + str);
+//												ecamsLogger.error("## pathDepth.length: " + pathDepth.length);
+												
+												for (int i=0; i<pathDepth.length; i++) {
+//													ecamsLogger.error("## pathDepth: " + pathDepth[i]);
+													
+													if (pathDepth[i].length() > 0) {
+														if (strDir.length() > 1 ) {
+															strDir = strDir + "/";
+														}
+														strDir = strDir + pathDepth[i];
+														//ecamsLogger.error("## pathDepth: " + pathDepth[i]);
+														findSw = false;
+//														ecamsLogger.error("## rsval.size: " + rsval.size() );
+														if (rsval.size() > 0) {
+															for (j=0; rsval.size()>j; j++) {
+//																ecamsLogger.error("## cm_fullpath: " + rsval.get(j).get("cm_fullpath"));
+//																ecamsLogger.error("## strDir: " + strDir);
+//																ecamsLogger.error("## pathDepth: " + pathDepth[i]);
+																
+																if (rsval.get(j).get("cm_fullpath").equals(strDir)) {
+//																	ecamsLogger.error("## cm_fullpath: " + rsval.get(j).get("cm_fullpath"));
+//																	ecamsLogger.error("## strDir: " + strDir);
+																	
+																	upSeq = Integer.parseInt(rsval.get(j).get("cm_seqno"));
+																	findSw = true;
+																}
+															}
+														} else {
+															findSw = false;	
+														}
+														
+//														ecamsLogger.error("## BaseDir: " + BaseDir);
+//														ecamsLogger.error("## strDir: " + strDir);
+														if (!findSw && !BaseDir.equals(strDir)) {
+															maxSeq2 = maxSeq2 + 1;
+
+															rst = new HashMap<String,String>();
+															rst.put("cm_dirpath",pathDepth[i]);
+															rst.put("cm_fullpath",strDir);
+															rst.put("cm_upseq",Integer.toString(upSeq));
+															rst.put("cm_seqno",Integer.toString(maxSeq2));
+															
+															rst.put("id", Integer.toString(maxSeq2));
+															rst.put("name", pathDepth[i]);
+															rst.put("pId", Integer.toString(upSeq));
+															rst.put("cm_fullpath", strDir);
+															//rst.put("isParent", "true"); //트리구조 아이콘 때문에 true로 셋팅
+															
+															rsval.add(maxSeq2 - 101, rst);
+															rst = null;
+															upSeq = maxSeq2;
+														}
+													}
+												}
+					                		}
+				                	    }
+				                	}
+
+				                }
+				            }
+				        } finally {
+				            if (in != null)
+				                in.close();
+				        }
+			        }
+			        //if (mFile.isFile() && mFile.exists()) mFile.delete();
+	            }
+	            
+	            String strBran = "";
+	            if (rsval.size() > 0) {
+					for (int i = 0;rsval.size() > i;i++) {
+//						strBran = "false";
+//						for (j=0;rsval.size()>j;j++) {
+//							if (i != j) {
+//								if (rsval.get(i).get("cm_seqno").equals(rsval.get(j).get("cm_upseq"))) {
+//									strBran = "true";
+//									break;
+//								}
+//							}
+//						}
+//						rtMap = new HashMap<>();
+//		            	rtMap.put("id", rsval.get(i).get("cm_seqno"));
+//		            	rtMap.put("name", rsval.get(i).get("cm_dirpath"));
+//		            	rtMap.put("pId", rsval.get(i).get("cm_upseq"));
+//		            	rtMap.put("cm_fullpath", rsval.get(i).get("cm_fullpath"));
+//		            	//rtMap.put("isParent", strBran);
+//		            	rtMap.put("isParent", "true"); //트리구조 아이콘 때문에 true로 셋팅
+//		            	
+//		            	rtArr.add(rtMap);
+					}
+				}
+				
+	            ecamsLogger.error("## rtArr.size: " + rsval.size());
+	    		return rsval;
+
+			} catch (SQLException sqlexception) {
+				sqlexception.printStackTrace();
+				ecamsLogger.error("## SystemPath.getSvrDir() SQLException START ##");
+				ecamsLogger.error("## Error DESC : ", sqlexception);
+				ecamsLogger.error("## SystemPath.getSvrDir() SQLException END ##");
+				throw sqlexception;
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				ecamsLogger.error("## SystemPath.getSvrDir() Exception START ##");
+				ecamsLogger.error("## Error DESC : ", exception);
+				ecamsLogger.error("## SystemPath.getSvrDir() Exception END ##");
+				throw exception;
+			}finally{
+			}
+
+	}//end of getDirPath() method statement
 
 	public Object[] getFileList_thread_HTML5(String UserID,String SysCd,String SvrIp,String SvrPort,String HomeDir,String BaseDir,
 											String SvrCd,String GbnCd,String exeName1,String exeName2,String SysInfo,String AgentDir,String SysOs,
