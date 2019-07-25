@@ -96,7 +96,6 @@ firstGrid.setConfig({
        	 
         },
         onClick: function (item, param) {
-	        	
 	        addDataRow();
 	        firstGrid.contextMenu.close();//또는 return true;
         	

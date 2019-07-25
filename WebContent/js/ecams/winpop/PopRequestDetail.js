@@ -1,6 +1,7 @@
 var pReqNo  = null;
 var pReqCd  = null;
 var pUserId = null;
+var reqCd   = null; //선후행작업 reqcd 파라미터
 
 var reqGrid     = new ax5.ui.grid();
 var resultGrid  = new ax5.ui.grid();
@@ -9,8 +10,8 @@ var datReqDate	= new ax5.ui.picker();
 var confirmDialog  = new ax5.ui.dialog();	//확인,취소 창
 var confirmDialog2 = new ax5.ui.dialog();   //확인 창
 
-var befJobModal    = new ax5.ui.modal();	//선후행작업확인 modal
-var befJobSetModal = new ax5.ui.modal();	//선행작업연결 modal
+var befJobListModal= new ax5.ui.modal();	//선후행작업확인 modal
+var befJobModal    = new ax5.ui.modal();	//선행작업연결 modal
 var requestDocModal= new ax5.ui.modal();	//테스트결과서 modal
 
 var options 	   = [];
@@ -22,6 +23,7 @@ var reqGridChgData = null; //체크인목록그리드 항목상세보기 데이�
 var resultGridData = null; //처리결과그리드 데이타
 var cboReqPassData = null; //처리구분 데이타
 var cboPrcSysData  = null; //배포구분 데이타
+var befJobData     = null; //선후행연결 데이타
 
 var data           = null; //json parameter
 
@@ -33,6 +35,8 @@ var f = document.getReqData;
 pReqNo = f.acptno.value;
 pReqCd = pReqNo.substr(4,2);
 pUserId = f.user.value;
+
+reqCd = pReqCd;
 
 confirmDialog.setConfig({
     lang:{
@@ -713,24 +717,7 @@ $(document).ready(function(){
 	});
 	//선후행작업확인 클릭
 	$('#btnBefJob').bind('click', function() {
-		befJobModal.open({
-	        width: 1045,
-	        height: 400,
-	        iframe: {
-	            method: "get",
-	            url: "../modal/request/BefJobListModal.jsp",
-	            param: "callBack=befJobModalCallBack"
-	        },
-	        onStateChanged: function () {
-	            if (this.state === "open") {
-	                mask.open();
-	            }
-	            else if (this.state === "close") {
-	                mask.close();
-	            }
-	        }
-	    }, function () {
-	    });
+		openBefJobListModal();
 	});
 	
 	/**
@@ -802,7 +789,7 @@ function resetScreen(){
 	resultGrid.repaint();
 }
 var befJobModalCallBack = function() {
-	befJobModal.close();
+	befJobListModal.close();
 }
 var requestDocModalCallBack = function() {
 	requestDocModal.close();
@@ -846,7 +833,7 @@ function tmpFileNotDelete(baseitem) {
 		ItemId 		: baseitem,
 		requestType : 'updtTemp'
 	}
-	ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json',successUpdtTemp);
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successUpdtTemp);
 }
 //tmp파일 무삭제 처리완료
 function successUpdtTemp(data) {
@@ -869,7 +856,7 @@ function progCncl(baseitem, signteam){
 		ItemId 		: signteam,
 		requestType : 'progCncl'
 	}
-	ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json',successProgCncl);
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successProgCncl);
 }
 //개별회수 처리완료
 function successProgCncl(data) {
@@ -897,7 +884,7 @@ function selCncl(cnclDataList) {
 		PrcSys		: reqInfoData[0].confusr,
 		requestType : 'progCncl_sel'
 	}
-	ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json',successProgCncl_sel);
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successProgCncl_sel);
 }
 //선택건회수 처리완료
 function successProgCncl_sel(data) {
@@ -925,7 +912,7 @@ function allCncl(inputMsg) {
 		ConfUsr			: reqInfoData[0].confusr,
 		requestType		: 'reqCncl'
 	}
-	ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json',successReqCncl);
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successReqCncl);
 }
 //전체회수 처리완료
 function successReqCncl(data) {
@@ -950,7 +937,7 @@ function updatePriority() {
 		fileList		: reqGridData,
 		requestType		: 'updtSeq'
 	}
-	ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json',successUpdtSeq);
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successUpdtSeq);
 	
 }
 //우선순위적용 처리완료
@@ -976,7 +963,7 @@ function priorityProc(parm) {
 		priorityCD		: parm,
 		requestType		: 'updtDeploy_2'
 	}
-	ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json',successUpdtDeploy_2);
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successUpdtDeploy_2);
 }
 //우선적용 또는 해제 완료
 function successUpdtDeploy_2(data) {
@@ -1105,7 +1092,7 @@ function getReqInfo() {
 		AcptNo			: pReqNo,
 		requestType		: 'getReqList'
 	}
-	ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json',successGetReqList);
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successGetReqList);
 }
 
 //체크인 목록가져오기 완료
@@ -1126,7 +1113,7 @@ function successGetProgList(data) {
 		prcSys			: '',
 		requestType		: 'getRstList'
 	}
-	ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json',successGetRstList);
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successGetRstList);
 	
 	for (var i=0; reqGridData.length>i ; i++) {
 		tmpObj = {};
@@ -1162,7 +1149,7 @@ function successGetReqList(data) {
 			param			: param,
 			requestType		: 'getProgList'
 		}
-		ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json', successGetProgList);
+		ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json', successGetProgList);
 		
 		$('#txtSyscd').val(reqInfoData[0].cm_sysmsg);			//시스템
 		$('#txtEditor').val(reqInfoData[0].cm_username);		//신청자
@@ -1219,7 +1206,7 @@ function successGetReqList(data) {
 				UserId			: pUserId,
 				requestType		: 'gyulChk'
 			}
-			ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json', successGyulChk);
+			ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json', successGyulChk);
 			
 		} else {//신청완료 건
 			aftChk();
@@ -1325,7 +1312,7 @@ function getPrcSysInfo() {
 		AcptNo			: pReqNo,
 		requestType		: 'getPrcSys'
 	}
-	ajaxAsync('/webPage/winpop/RequestDetailServlet', data, 'json', successGetPrcSys);
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json', successGetPrcSys);
 }
 //처리구분 가져오기 완료
 function successGetPrcSys(data) {
@@ -1365,7 +1352,7 @@ function openWindow(type,acptNo, etcInfo) {
 		nHeight = 630;
 	    cURL = "/webPage/winpop/.jsp";
 	} else if (type === 2) {//처리결과확인
-		cURL = "/webPage/winpop/PrcResultLogView.jsp";
+		cURL = "/webPage/winpop/PopPrcResultLog.jsp";
 	} else if (type === 3) {//스크립트확인
 		nHeight = 400;
 		cURL = "/webPage/winpop/ScriptView.jsp";
@@ -1377,7 +1364,7 @@ function openWindow(type,acptNo, etcInfo) {
 	} else if (type === 6) {//소스비교
 		cURL = "/webPage/winpop/.jsp";
 	} else if (type === 7) {//로그확인
-		cURL = "/webPage/winpop/ServerLogView.jsp";
+		cURL = "/webPage/winpop/PopServerLog.jsp";
 	} else if (type === 8) {//결재정보
 		nHeight = 450;
 		cURL = "/webPage/winpop/PopApprovalInfo.jsp";
@@ -1401,22 +1388,47 @@ function openWindow(type,acptNo, etcInfo) {
     myWin = winOpen(f, winName, cURL, nHeight, nWidth);
     
 }
-
+//선행작업연결확인 모달 팝업
+function openBefJobListModal() {
+	befJobListModal.open({
+        width: 1045,
+        height: 400,
+        iframe: {
+            method: "get",
+            url: "../modal/request/BefJobListModal.jsp",
+            param: "callBack=befJobModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+            }
+        }
+    }, function () {
+    });
+}
 //선행작업연결 모달
 function openBefJobSetModal() {
-	befJobSetModal.open({
-	    width: 1000,
-	    height: 500,
+	befJobModal.open({
+        width: 915,
+        height: 600,
 	    iframe: {
 	        method: "get",
 	        url: "../modal/request/BefJobSetModal.jsp",
-	        param: "callBack=befJobSetModalCallBack"
+	        param: "calbefJobModaltModalCallBack"
 	    },
 	    onStateChanged: function () {
 	        if (this.state === "open") {
 	            mask.open();
 	        }
 	        else if (this.state === "close") {
+            	if(befJobData.length > 0){
+            		updateBefJob(befJobData);
+            	} else {
+            		openBefJobListModal();
+            	}
 	            mask.close();
 	        }
 	    }
@@ -1424,5 +1436,24 @@ function openBefJobSetModal() {
 	});
 }
 var befJobSetModalCallBack = function() {
-	befJobSetModal.close();
+	befJobModal.close();
+}
+
+//선행작업연결
+function updateBefJob(befJobData){
+	data =  new Object();
+	data = {
+		AcptNo			: pReqNo,
+		befList		: befJobData,
+		requestType		: 'updtBefJob'
+	}
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json', successUpdtBefJob);
+}
+//선후행작업연결완료
+function successUpdtBefJob(data) {
+	if (data != '0') {
+		confirmDialog2.alert('선행작업 등록에 실패하였습니다.');
+	} else {
+		openBefJobListModal();
+	}
 }

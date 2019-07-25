@@ -206,19 +206,19 @@ firstGrid.setConfig({
          }
      },
      columns: [
-         {key: "syscd", label: "시스템",  width: '10%'},
-         {key: "spms", label: "SR-ID",  width: '10%'},
-         {key: "acptno", label: "신청번호",  width: '10%'},
-         {key: "editor", label: "신청자",  width: '10%'},
-         {key: "qrycd", label: "신청종류",  width: '10%'},
-         {key: "passok", label: "처리구분",  width: '10%'},
-         {key: "acptdate", label: "신청일시",  width: '10%'},
-         {key: "sta", label: "진행상태",  width: '10%'},
-         {key: "pgmid", label: "프로그램명",  width: '10%'},
-         {key: "prcdate", label: "완료일시",  width: '10%'},
-         {key: "prcreq", label: "적용예정일시",  width: '10%'},
-         {key: "Sunhang", label: "선후행",  width: '10%'},
-         {key: "sayu", label: "신청사유", width: '10%'} 	 
+         {key: "syscd", label: "시스템",  width: '9%', align: 'left'},
+         {key: "spms", label: "SR-ID",  width: '10%', align: 'left'},
+         {key: "acptno", label: "신청번호",  width: '8%'},
+         {key: "editor", label: "신청자",  width: '5%'},
+         {key: "qrycd", label: "신청종류",  width: '8%', align: 'left'},
+         {key: "passok", label: "처리구분",  width: '6%', align: 'left'},
+         {key: "acptdate", label: "신청일시",  width: '8%'},
+         {key: "sta", label: "진행상태",  width: '8%', align: 'left'},
+         {key: "pgmid", label: "프로그램명",  width: '10%', align: 'left'},
+         {key: "prcdate", label: "완료일시",  width: '8%'},
+         {key: "prcreq", label: "적용예정일시",  width: '6%', align: 'left'},
+         {key: "Sunhang", label: "선후행",  width: '4%'},
+         {key: "sayu", label: "신청사유", width: '10%', align: 'left'} 	 
      ]
 });
 
@@ -398,7 +398,6 @@ function resetScreen(){
 	$('#rdoStrDate').prop('checked','checked');								// 신청일 기준으로 초기화
 	$("#txtUser").val('');													// 신청인 초기화 
 	$("#txtSpms").val('');													// SR-ID 초기화
-	$("#lbTotalCnt").text("총0건");
 	$('#datStD').val(today);
 	$('#datEdD').val(today);
 	
@@ -449,8 +448,6 @@ function getRequestList(){
 function successGetRquestList(data) {
 	firstGridData = data;
 	firstGrid.setData(firstGridData);
-	
-	$("#lbTotalCnt").text("총" + firstGridData.length + "건");
 }
 
 
@@ -474,7 +471,7 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
     
 	if (type == 1) {
 		nHeight = 740;
-	    nWidth  = 1024;
+	    nWidth  = 1200;
 
 		cURL = "/webPage/winpop/PopRequestDetail.jsp";
 	    

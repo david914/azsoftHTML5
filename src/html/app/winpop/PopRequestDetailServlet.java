@@ -15,13 +15,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import app.eCmr.Cmr0200_BefJob;
 import app.eCmr.Cmr0250;
 import app.eCmr.Cmr3100;
 import app.eCmr.Cmr3200;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/winpop/RequestDetailServlet")
-public class RequestDetailServlet extends HttpServlet {
+@WebServlet("/webPage/winpop/PopRequestDetailServlet")
+public class PopRequestDetailServlet extends HttpServlet {
 	/**
 	 * 
 	 */
@@ -30,6 +31,7 @@ public class RequestDetailServlet extends HttpServlet {
 	Cmr3100 cmr3100 = new Cmr3100();
 	Cmr3200 cmr3200 = new Cmr3200();
 	Cmr0250 cmr0250  = new Cmr0250();
+	Cmr0200_BefJob cmr0200_BefJob  = new Cmr0200_BefJob();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -81,6 +83,9 @@ public class RequestDetailServlet extends HttpServlet {
 					break;
 				case "updtSeq" :
 					response.getWriter().write( updtSeq(jsonElement) );
+					break;
+				case "updtBefJob" :
+					response.getWriter().write( updtBefJob(jsonElement) );
 					break;
 				default:
 					break;
@@ -192,4 +197,13 @@ public class RequestDetailServlet extends HttpServlet {
 
 		return gson.toJson(cmr0250.updtSeq(AcptNo, fileList));
 	}
+
+	private String updtBefJob(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		ArrayList<HashMap<String, String>> befList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "befList") );
+
+		return gson.toJson(cmr0200_BefJob.updtBefJob(AcptNo, befList));
+	}
+	
+	
 }

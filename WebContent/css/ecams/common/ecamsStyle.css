@@ -1338,7 +1338,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 **********************************/
 /*비밀번호변경*/
 #lb1 {background: #bdc0c4; border-radius: 50%; color: white; font-weight:bold}
-.row {margin-top: 10px}
+.row {margin-top: 15px;}
 /*부재등록*/
 #myGrid1Area {width:100%; height:23%}
 #opt {width: 580px; margin: 0 auto}

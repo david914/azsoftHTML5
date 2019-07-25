@@ -106,117 +106,118 @@
 									<span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
 								</div>
 							</div> 
-						<div id="reqBtnDiv" style="display: inline-block; vertical-align: top;">
-					    	<button id="btnUpdate" class="btn_basic_s margin-5-left">수정</button>
-					    </div>
-					</div>
-				</div>						
-				<div class="row vat cb">
-					<!-- line4 -->		
-                    <div class="width-30 float-left">
-						<div class="margin-5-right margin-10-top">
-	                    	<label class="tit_80 poa">신청구분</label>
-	                        <div class="ml_80">
-								<input id="txtReqGbn" class="width-100" type="text" readonly>
+							<div id="reqBtnDiv" style="display: inline-block; vertical-align: top;">
+						    	<button id="btnUpdate" class="btn_basic_s margin-5-left">수정</button>
+						    </div>
+						</div>
+					</div>						
+					<div class="row vat cb">
+						<!-- line4 -->		
+	                    <div class="width-30 float-left">
+							<div class="margin-5-right margin-10-top">
+		                    	<label class="tit_80 poa">신청구분</label>
+		                        <div class="ml_80">
+									<input id="txtReqGbn" class="width-100" type="text" readonly>
+								</div>
+							</div>
+						</div>			
+						<div class="width-70 float-left por margin-10-top" id="SrDiv">
+							<div class="dib width-98">
+		                    	<label class="tit_80 poa">&nbsp;&nbsp;SR-ID</label>
+		                        <div class="ml_80">
+									<input id="txtSR" class="width-83" type="text" readonly>
+								</div>
+							</div>
+							<div class="dib poa_r">
+								<button id="btnSR" class="btn_basic_s">&nbsp;&nbsp;SR 정보 확인&nbsp;&nbsp;</button>
 							</div>
 						</div>
-					</div>			
-					<div class="width-70 float-left por margin-10-top" id="SrDiv">
-						<div class="dib width-98">
-	                    	<label class="tit_80 poa">&nbsp;&nbsp;SR-ID</label>
-	                        <div class="ml_80">
-								<input id="txtSR" class="width-83" type="text" readonly>
+					</div>				
+					<div class="row vat cb">
+						<!-- line5 -->		
+	                    <div class="width-30 float-left">
+							<div class="margin-5-right">
+		                    	<label class="tit_80 poa">진행상태</label>
+		                        <div class="ml_80">
+									<input id="txtStatus" class="width-100" type="text" readonly>
+								</div>
 							</div>
-						</div>
-						<div class="dib poa_r">
-							<button id="btnSR" class="btn_basic_s">&nbsp;&nbsp;SR 정보 확인&nbsp;&nbsp;</button>
-						</div>
-					</div>
-				</div>				
-				<div class="row vat cb">
-					<!-- line5 -->		
-                    <div class="width-30 float-left">
-						<div class="margin-5-right">
-	                    	<label class="tit_80 poa">진행상태</label>
-	                        <div class="ml_80">
-								<input id="txtStatus" class="width-100" type="text" readonly>
-							</div>
-						</div>
-					</div>	
-                    <div class="width-70 float-left por">
-                    	<label id="lblErrMsg" class="txt_r font_12 margin-5-left"></label>
-                    </div>
-				</div>					
-			</div>
-		</div>
-		<!--tab-->
-        <div class="tab_wrap margin-10-top">
-			<ul class="tabs">
-				<li rel="tab1" id="tab1Li" class="on">신청목록</li><li rel="tab2" id="tab2Li">처리결과확인</li>
-				<div class="r_wrap">
-					<button class="btn_basic_s" id="btnSrcView">소스보기</button>
-					<button class="btn_basic_s margin-2-left" id="btnSrcDiff">소스비교</button>
-					<button class="btn_basic_s margin-2-left" id="btnPriority">우선적용</button>
-					<button class="btn_basic_s margin-2-left" id="btnAllCncl">전체회수</button>
-					<button class="btn_basic_s margin-2-left" id="btnRetry">전체재처리</button>
-					<button class="btn_basic_s margin-2-left" id="btnNext">다음단계진행</button>
-					<button class="btn_basic_s margin-2-left" id="btnErrRetry">오류건재처리</button>
-					<button class="btn_basic_s margin-2-left" id="btnStepEnd">단계완료</button>
-					<button class="btn_basic_s margin-2-left" id="btnLog">로그확인</button>
+						</div>	
+	                    <div class="width-70 float-left por">
+	                    	<label id="lblErrMsg" class="txt_r font_12 margin-5-left"></label>
+	                    </div>
+					</div>					
 				</div>
-			</ul>
-		</div>
-	  	<div class="tab_container" style="height: 55%;">
-	      	<div id="tab1" class="tab_content">
-				<div class="row half_wrap_cb">
-					<div class="l_wrap">
-						<label><input type="checkbox" id="chkDetail"/>항목상세보기</label>
-						<button class="btn_basic_s margin-5-left" id="btnSelCncl">선택건회수</button>
-			    	</div>
+			</div>
+			<!--tab-->
+	        <div class="tab_wrap margin-10-top">
+				<ul class="tabs">
+					<li rel="tab1" id="tab1Li" class="on">신청목록</li><li rel="tab2" id="tab2Li">처리결과확인</li>
 					<div class="r_wrap">
-						<button class="btn_basic_s" id="btnPriorityOrder">우선순위적용</button>
-		    		</div>
-		    		<div class="l_wrap width-100 margin-10-top">
-					    <div class="panel-body text-center" id="gridDiv1" style="height: 85%;">
-					    	<div data-ax5grid="reqGrid" style="height: 100%;"></div>
-					    </div>
-				    </div>
-			    </div>
-	       	</div>
-	       	<div id="tab2" class="tab_content">
-				<div class="row half_wrap_cb">
-					<div class="l_wrap width-100">
-	    				<label class="tit_80 poa">배포구분</label>
-	    				<div class="ml_80 width-20 dib">
-							<div id="cboPrcSys" data-ax5select="cboPrcSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%;"></div>
-	    				</div>
-		    		</div>
-		    		<div class="l_wrap width-100 margin-10-top">
-					    <div class="panel-body text-center" id="gridDiv2" style="height: 85%;">
-					    	<div data-ax5grid="resultGrid"  style="height: 100%;"></div>
-					    </div>
-				    </div>
-				</div>
+						<button class="btn_basic_s" id="btnSrcView">소스보기</button>
+						<button class="btn_basic_s margin-2-left" id="btnSrcDiff">소스비교</button>
+						<button class="btn_basic_s margin-2-left" id="btnPriority">우선적용</button>
+						<button class="btn_basic_s margin-2-left" id="btnAllCncl">전체회수</button>
+						<button class="btn_basic_s margin-2-left" id="btnRetry">전체재처리</button>
+						<button class="btn_basic_s margin-2-left" id="btnNext">다음단계진행</button>
+						<button class="btn_basic_s margin-2-left" id="btnErrRetry">오류건재처리</button>
+						<button class="btn_basic_s margin-2-left" id="btnStepEnd">단계완료</button>
+						<button class="btn_basic_s margin-2-left" id="btnLog">로그확인</button>
+					</div>
+				</ul>
 			</div>
-	   	</div>
-		<!--tab-->
-		
-		<div class="row margin-10-top"><!--  vat cb -->
-            <div class="width-65 float-left margin-10-top">
-				<div class="margin-5-right">
-                	<label id="lblApprovalMsg" class="tit_100 poa">결재/반려의견</label>
-                    <div class="ml_100">
-    					<!-- <textarea id="txtApprovalMsg" class="width-100"></textarea> -->
-    					<input id="txtApprovalMsg" class="width-100" type="text">
+		  	<div class="tab_container" style="height: 55%;">
+		      	<div id="tab1" class="tab_content">
+					<div class="row half_wrap_cb">
+						<div class="l_wrap">
+							<label><input type="checkbox" id="chkDetail"/>항목상세보기</label>
+							<button class="btn_basic_s margin-5-left" id="btnSelCncl">선택건회수</button>
+				    	</div>
+						<div class="r_wrap">
+							<button class="btn_basic_s" id="btnPriorityOrder">우선순위적용</button>
+			    		</div>
+			    		<div class="l_wrap width-100 margin-10-top">
+						    <div class="panel-body text-center" id="gridDiv1" style="height: 85%;">
+						    	<div data-ax5grid="reqGrid" style="height: 100%;"></div>
+						    </div>
+					    </div>
+				    </div>
+		       	</div>
+		       	<div id="tab2" class="tab_content">
+					<div class="row half_wrap_cb">
+						<div class="l_wrap width-100">
+		    				<label class="tit_80 poa">배포구분</label>
+		    				<div class="ml_80 width-20 dib">
+								<div id="cboPrcSys" data-ax5select="cboPrcSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%;"></div>
+		    				</div>
+			    		</div>
+			    		<div class="l_wrap width-100 margin-10-top">
+						    <div class="panel-body text-center" id="gridDiv2" style="height: 85%;">
+						    	<div data-ax5grid="resultGrid"  style="height: 100%;"></div>
+						    </div>
+					    </div>
 					</div>
 				</div>
-			</div>
-			<div class="width-35 float-right margin-10-top tar">
-				<button class="btn_basic_s" id="btnQry" >새로고침</button>
-				<button class="btn_basic_s margin-2-left" id="btnApprovalInfo">결재정보</button>
-				<button class="btn_basic_p margin-2-left" id="btnApproval">결재</button>
-				<button class="btn_basic_p margin-2-left" id="btnCncl">반려</button>
-				<button class="btn_basic_s margin-2-left" id="btnClose">닫기</button>
+		   	</div>
+			<!--tab-->
+			
+			<div class="row margin-10-top"><!--  vat cb -->
+	            <div class="width-65 float-left margin-10-top">
+					<div class="margin-5-right">
+	                	<label id="lblApprovalMsg" class="tit_100 poa">결재/반려의견</label>
+	                    <div class="ml_100">
+	    					<!-- <textarea id="txtApprovalMsg" class="width-100"></textarea> -->
+	    					<input id="txtApprovalMsg" class="width-100" type="text">
+						</div>
+					</div>
+				</div>
+				<div class="width-35 float-right margin-10-top tar">
+					<button class="btn_basic_s" id="btnQry" >새로고침</button>
+					<button class="btn_basic_s margin-2-left" id="btnApprovalInfo">결재정보</button>
+					<button class="btn_basic_p margin-2-left" id="btnApproval">결재</button>
+					<button class="btn_basic_p margin-2-left" id="btnCncl">반려</button>
+					<button class="btn_basic_s margin-2-left" id="btnClose">닫기</button>
+				</div>
 			</div>
 		</div>
 	</div>

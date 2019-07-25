@@ -202,10 +202,11 @@ public class Cmr5100 {
 			pstmt = null;
 			conn = null;
 
-			rst = new HashMap<String,String>();
-			rst.put("lstprc", lstPrcSys);
-			rtList.add(rst);
-			rst = null;
+//			사용안함
+//			rst = new HashMap<String,String>();
+//			rst.put("lstprc", lstPrcSys);
+//			rtList.add(rst);
+//			rst = null;
 
 			return rtList.toArray();
 

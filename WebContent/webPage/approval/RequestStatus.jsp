@@ -24,21 +24,21 @@
 						</div>
 						<!--시스템S-->
 						<div class="width-25 dib vat">
-							<label class="tit-80 dib poa">시스템</label>
+							<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;&nbsp;시스템</label>
 							<div class="ml_80">
 								<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 							</div>
 						</div>	
 						<!--처리구분S-->
 						<div class="width-25 dib vat">
-		                	<label class="tit-80 dib poa">처리구분</label>
+		                	<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;&nbsp;처리구분</label>
 		                	<div class="ml_80">
 								<div data-ax5select="cboGbn" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 		                	</div>
 						</div>
 						<!--신청인S-->
 						<div class="width-25 dib vat">
-		                	<label class="tit-80 dib poa">신청인</label>
+		                	<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;&nbsp;신청인</label>
 		                	<div class="ml_80 vat">
 								<input id="txtUser" type="text" placeholder="신청인을 입력하세요." class="width-100" />
 		                	</div>
@@ -54,14 +54,14 @@
 						</div>
 						<!--진행상태S-->
 						<div class="width-25 dib vat">
-							<label class="tit-80 dib poa">진행상태</label>
+							<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;&nbsp;진행상태</label>
 							<div class="ml_80">
 								<div data-ax5select="cboSta" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 		                	</div>
 						</div>
 						<!--SR-ID/SR명 S-->
 						<div class="width-50 dib vat">
-		                	<label class="tit-80 dib poa">SR-ID/SR명</label>
+		                	<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;&nbsp;SR-ID/명</label>
 		                	<div class="ml_80 vat">
 								<input id="txtSpms" type="text" placeholder="SR-ID/SR명을 입력하세요." class="width-100" />
 		                	</div>
@@ -91,10 +91,7 @@
 						</div>
 					</div>
 					<div class="row tar">
-						<div class="all_num dib" id="lbTotalCnt">
-				      		<strong>총 0건</strong>
-						</div>
-						<div class="vat dib margin-5-left">
+						<div class="dib">
 							<button class="btn_basic_s" data-grid-control="excel-export" id="btnExcel">엑셀저장</button>
 						</div>
 						<div class="vat dib margin-5-left">

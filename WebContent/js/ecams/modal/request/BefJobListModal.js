@@ -2,10 +2,17 @@
 var acptNo 		= window.parent.pReqNo;				//신청번호
 var userId 		= window.parent.pUserId;			//접속자 ID
 
-var grdBefJob  	= new ax5.ui.grid();
+var grdBefJob  	   = new ax5.ui.grid();
+var confirmDialog2 = new ax5.ui.dialog();   //확인 창
 
 var grdBefJobData = null; 							//선후행목록 데이타
 var data          = null;							//json parameter
+
+confirmDialog2.setConfig({
+	Title: "확인",
+    theme: "info",
+    width: 500
+});
 
 grdBefJob.setConfig({
     target: $('[data-ax5grid="grdBefJob"]'),
@@ -28,13 +35,15 @@ grdBefJob.setConfig({
 	       	var selIn = grdBefJob.selectedDataIndexs;
 	       	if(selIn.length === 0) return;
 	       	
+	       	var befacpt = this.item.cr_befact;
+	       	
 	       	mask.open();
 	        confirmDialog.confirm({
 		        title: '선행작업해제확인',
 				msg: '선택하신 신청 건을 선행작업에서 해제하시겠습니까?',
 			}, function(){
 				if(this.key === 'ok') {
-					delBefJob(param.item.cr_befact);
+					delBefJob(befacpt);
 				}
 			});
 			mask.close();
@@ -92,7 +101,8 @@ $(document).ready(function() {
 	});
 	//선행작업연결
 	$('#btnBefJob').bind('click', function() {
-		window.parent.openBefJobSetModal();
+		window.parent.befJobListModal.close();//자기창 닫고
+		window.parent.openBefJobSetModal();//연결창 팝업
 	});
 });
 //선후행작업연결 내용조회 완료
@@ -121,5 +131,5 @@ function successDelBefJob(data){
 }
 // 팝업 닫기
 function popClose(){
-	window.parent.befJobModal.close();
+	window.parent.befJobListModal.close();
 }
