@@ -850,14 +850,14 @@ to {
 	-moz-transform-origin: center top;
 	-ms-transform-origin: center top;
 	transform-origin: center top;
-	background-color: #eee;
+	background-color: #f6f6f6;
 	background-image: -webkit-linear-gradient(bottom, #eee);
 	background-image: linear-gradient(to top, #eee);
 	border: 1px solid;
-	border-color: #aaa;
-	border-radius: 5px;
-	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-	color: #333
+	border-color: #333;
+	border-radius: 0px;
+	box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.5);
+	color: #333;
 }
 
 .ax5-ui-menu *, .ax5-ui-menu *:before, .ax5-ui-menu *:after {
@@ -871,7 +871,8 @@ to {
 	border-top-right-radius: 4px;
 	border-top-left-radius: 4px;
 	color: #333;
-	background-color: #f5f5f5;
+	/*background-color: #f5f5f5;*/
+	background-color: #fff;
 	background-image: -webkit-linear-gradient(bottom, #f5f5f5);
 	background-image: linear-gradient(to top, #f5f5f5)
 }
@@ -885,7 +886,7 @@ to {
 }
 
 .ax5-ui-menu .ax-menu-body {
-	padding: 5px 0px;
+	padding: 2px 0px;
 	text-align: center;
 	position: relative;
 	overflow: hidden
@@ -894,8 +895,9 @@ to {
 .ax5-ui-menu .ax-menu-body .ax-menu-item {
 	padding: 4px 0px;
 	text-align: left;
-	background: #eee;
-	color: #444;
+	/*background: #f6f6f6;*/
+	background: #fff;
+	color: #000;
 	cursor: pointer;
 	font-size: 13px;
 	display: table;
@@ -904,7 +906,7 @@ to {
 	box-sizing: border-box;
 	overflow: hidden;
 	width: 100%;
-	height: 18px
+	height: 18px;
 }
 
 .ax5-ui-menu .ax-menu-body .ax-menu-item .ax-menu-item-cell {
@@ -915,14 +917,15 @@ to {
 	font-size: 13px;
 	line-height: 18px;
 	padding: 0px 0px 0px 0px;
-	user-select: none
+	user-select: none;
 }
 
 .ax5-ui-menu .ax-menu-body .ax-menu-item .ax-menu-item-cell.ax-menu-item-checkbox
 	{
 	overflow: hidden;
 	width: 18px;
-	text-align: center
+	display: none;
+	text-align: center;
 }
 
 .ax5-ui-menu .ax-menu-body .ax-menu-item .ax-menu-item-cell.ax-menu-item-checkbox .item-checkbox-wrap
@@ -930,7 +933,7 @@ to {
 	position: relative;
 	display: block;
 	width: 18px;
-	height: 18px
+	height: 18px;
 }
 
 .ax5-ui-menu .ax-menu-body .ax-menu-item .ax-menu-item-cell.ax-menu-item-checkbox .item-checkbox-wrap.useCheckBox:after
@@ -965,7 +968,9 @@ to {
 
 .ax5-ui-menu .ax-menu-body .ax-menu-item .ax-menu-item-cell.ax-menu-item-label
 	{
-	padding-right: 10px
+	font-size: 12;
+	padding-right: 15px;
+	padding-left: 15px
 }
 
 .ax5-ui-menu .ax-menu-body .ax-menu-item .ax-menu-item-cell.ax-menu-item-accelerator
@@ -996,8 +1001,8 @@ to {
 
 .ax5-ui-menu .ax-menu-body .ax-menu-item:hover, .ax5-ui-menu .ax-menu-body .ax-menu-item.hover
 	{
-	background: #999;
-	color: #fff
+	background: #e8f3f4;
+	color: #000
 }
 
 .ax5-ui-menu .ax-menu-body .ax-menu-item:hover .ax-menu-item-cell.ax-menu-item-checkbox .item-checkbox-wrap:after,
