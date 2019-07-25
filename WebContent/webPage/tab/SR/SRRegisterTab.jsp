@@ -144,4 +144,4 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="<c:url value="/js/ecams/srcommon/SRRegisterTab.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/tab/SR/SRRegisterTab.js"/>"></script>

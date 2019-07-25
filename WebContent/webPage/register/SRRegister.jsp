@@ -8,6 +8,6 @@
 <script type="text/javascript" src="<c:url value="/js/ecams/register/SRRegister.js"/>"></script>
 <!-- contener S -->
 <div class="contentFrame">
-   	<iframe id="frmPrjList" name="frmPrjList" src='/webPage/srcommon/PrjListTab.jsp' width='100%' frameborder="0" style="height: 30vh;"></iframe>
-  	<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/srcommon/SRRegisterTab.jsp' width='100%' frameborder="0" style="height: 68vh;"></iframe>
+   	<iframe id="frmPrjList" name="frmPrjList" src='/webPage/tab/SR/PrjListTab.jsp' width='100%' frameborder="0" style="height: 30vh;"></iframe>
+  	<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/tab/SR/SRRegisterTab.jsp' width='100%' frameborder="0" style="height: 68vh;"></iframe>
 </div>
