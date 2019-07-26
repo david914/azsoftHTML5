@@ -43,6 +43,7 @@ var addFg2 			= false;
 var closeModifyFg 	= false;
 var selectedSystem 	= null;
 
+
 sysInfoGrid.setConfig({
     target: $('[data-ax5grid="sysInfoGrid"]'),
     sortable: true, 
@@ -66,7 +67,6 @@ sysInfoGrid.setConfig({
             }
         },
         onDBLClick: function () {
-        	doubleClickGrid();
         },
     	trStyleClass: function () {
     		if(this.item.closeSw === 'Y'){
@@ -86,35 +86,34 @@ sysInfoGrid.setConfig({
         {key: "sysopen", 	label: "시스템오픈",  	width: '13%'}
     ]
 });
-
+	
 jobGrid.setConfig({
-    target: $('[data-ax5grid="jobGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: true,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 25,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	doubleClickGrid();
-        },
-    	trStyleClass: function () {
-    	},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_jobcd", 	label: "업무코드",  	width: '20%', align: 'left'},
-        {key: "cm_jobname",	label: "업무명",  	width: '80%', align: 'left'},
-    ]
+	target: $('[data-ax5grid="jobGrid"]'),
+	sortable: true, 
+	multiSort: true,
+	showRowSelector: true,
+	header: {
+		align: "center",
+		columnHeight: 30
+	},
+	body: {
+		columnHeight: 25,
+		onClick: function () {
+			this.self.clearSelect();
+			this.self.select(this.dindex);
+		},
+		onDBLClick: function () {
+		},
+		trStyleClass: function () {
+		},
+		onDataChanged: function(){
+			this.self.repaint();
+		}
+	},
+	columns: [
+		{key: "cm_jobcd", 	label: "업무코드",  	width: '20%', align: 'left'},
+		{key: "cm_jobname",	label: "업무명",  	width: '80%', align: 'left'},
+		]
 });
 
 $('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
@@ -151,14 +150,13 @@ function dateInit() {
 	
 	datStDate.bind(defaultPickerInfo('datStDate'));
 	datEdDate.bind(defaultPickerInfo('datEdDate'));
-	datSysOpen.bind(defaultPickerInfo('datSysOpen'));
-	datScmOpen.bind(defaultPickerInfo('datScmOpen'));
+	datSysOpen.bind(defaultPickerInfo('datSysOpen','top'));
+	datScmOpen.bind(defaultPickerInfo('datScmOpen','top'));
 }
 
 
 
 $(document).ready(function(){
-	
 	dateInit();
 	getSysCodeInfo();
 	getSysInfoCbo();

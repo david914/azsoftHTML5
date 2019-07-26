@@ -4,77 +4,61 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div class="row">
-	<div class="col-sm-2">
-		<label>작업구분</label>
+<body style="height: 95% !important">
+	<div class="row half_wrap_cb">	
+		<div class="l_wrap width-20">
+            <label class="tit_80 poa">작업구분</label>
+            <div class="ml_80 por">
+				<div id="cboJobDiv" data-ax5select="cboJobDiv" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:95%;" ></div>
+			</div>
+		</div>		
+		<div class="l_wrap width-20">
+            <label class="tit_80 poa margin-5-left">IP Address</label>
+            <div class="ml_80 por">
+            	<input id="txtIp" type="text" class="width-100 dib">
+			</div>
+		</div>				
+		<div class="l_wrap width-20">
+            <label class="tit_80 poa margin-5-left">계정</label>
+            <div class="ml_80 por">
+            	<input id="txtUser" type="text" class="width-100 dib">
+			</div>
+		</div>				
+		<div class="l_wrap width-40">
+            <label class="tit_80 poa margin-5-left">대상확장자</label>
+            <div class="ml_80 por">
+            	<input id="txtExeName" type="text" class="width-100 dib">
+			</div>
+		</div>		
 	</div>
-	<div class="col-sm-2">
-		<div class ="col-sm-5">
-			<label>IP Address</label>
-		</div>
-		<div class ="col-sm-7">
-			<input id="txtIp" name="txtIp" class="form-control" type="text"></input>
-		</div>
-	</div>
-	<div class="col-sm-2">
-		<div class ="col-sm-5">
-			<label>계정</label>
-		</div>
-		<div class ="col-sm-7">
-			<input id="txtUser" name="txtUser" class="form-control" type="text"></input>
-		</div>
-	</div>
-	<div class="col-sm-6">
-		<div class ="col-sm-3">
-			<label>대상확장자</label>
-		</div>
-		<div class ="col-sm-9">
-			<input id="txtExeName" name="txtExeName" class="form-control" type="text"></input>
-		</div>
-	</div>
-</div>	
-
-<div class="row">
-	<div class="col-sm-2">
-		<div id="cboJobDiv" data-ax5select="cboJobDiv" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
-	</div>
-	<div class="col-sm-2">
-		<div class ="col-sm-5">
-			<label>Port</label>
-		</div>
-		<div class ="col-sm-7">
-			<input id="txtPort" name="txtPort" class="form-control" type="number"></input>
-		</div>
-	</div>
-	<div class="col-sm-2">
-		<div class ="col-sm-5">
-			<label>비밀번호</label>
-		</div>
-		<div class ="col-sm-7">
-			<input id="txtPass" name="txtPass" class="form-control" type="text"></input>
+	<div class="row half_wrap_cb">	
+		<div class="l_wrap width-20">
+            <label class="tit_80 poa margin-5-left">Port</label>
+            <div class="ml_80 por">
+            	<input id="txtPort" type="text" class="width-100 dib">
+			</div>
+		</div>				
+		<div class="l_wrap width-20">
+            <label class="tit_80 poa margin-5-left">비밀번호</label>
+            <div class="ml_80 por">
+            	<input id="txtPass" type="text" class="width-100 dib">
+			</div>
+		</div>				
+		<div class="l_wrap width-60">
+            <label class="tit_80 poa margin-5-left">Agent경로</label>
+            <div class="ml_80 por">
+            	<input id="txtAgent" type="text" class="width-80 dib"> <label class="margin-5-left"><input type="checkbox" />장애</label>
+            </div>
 		</div>
 	</div>
-	<div class="col-sm-6">
-		<div class ="col-sm-3">
-			<label>Agent경로</label>
-		</div>
-		<div class ="col-sm-3">
-			<input id="txtAgent" name="txtAgent" class="form-control" type="text"></input>
-		</div>
-		<div class="col-sm-6">
-			<input type="checkbox" class="checkbox-workserver" id="chkStop" data-label="장애"/>
-			<button class="btn btn-default" id="btnReq">등록</button>
-			<button class="btn btn-default" id="btnDel">폐기</button>
-		</div>
+	<div class="row tar">
+		<button id="btnReq" class="btn_basic_s">등록</button>
+		<button id="btnDel" class="btn_basic_s">폐기</button>
 	</div>
-</div>
-	
-<div class="row">
-	<div class="col-sm-12">
-		<div data-ax5grid="workGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 50%;"></div>
-	</div>
-</div>
-
+    <div class="row az_board_basic" style="height: 50%">
+    	<div data-ax5grid="workGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+	</div>	
+</body>		
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/configuration/JobServerInfoTab.js"/>"></script>

@@ -4,11 +4,11 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div class="contentFrame dib">
+<div class="contentFrame">
 	<div id="history_wrap">관리자 <strong>&gt; 시스템정보</strong></div>
 	
 	<div class="row vat por">
-		<div class="width-50 float-left">
+		<div class="width-49 dib vat">
 			<div class="margin-5-right">
 				<div class="float-right">
 					<div class="dib">
@@ -29,7 +29,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="width-50 float-right" id="divRight">
+		<div class="width-50 dib" id="divRight" style="margin-left: 5px;">
 			<div class="half_wrap">
 				<div class="row">
 					<ul>
@@ -122,7 +122,7 @@
 		    				<div class="width-60 float-left">
 			    					<label class="tit_80 dib poa">중단시작</label>
 			    					<div class="ml_80">
-										<div id="divPicker" data-ax5picker="datStDate" class="dib width-100">
+										<div id="divPicker" data-ax5picker="datStDate" class="dib width-100 por">
 											<input id="datStDate" type="text" placeholder="yyyy/mm/dd" class="f-cal">
 											<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 										</div>
@@ -191,7 +191,7 @@
 	</div>
 	
 	<div class="row tar por">
-		<div class="width-100 float-right">
+		<div class="width-100" style="right: 5px;">
 			<button class="btn_basic" id="btnFact">처리펙터추가</button>
 			<button id="btnReleaseTimeSet" class="btn_basic">정기배포설정</button>
 			<button id="btnAdd" name="btnReg" class="btn_basic">등록</button>
@@ -204,5 +204,6 @@
 		</div>
 	</div>
 </div>
+
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/administrator/SysInfo.js"/>"></script>
