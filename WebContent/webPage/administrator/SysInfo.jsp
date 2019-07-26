@@ -128,7 +128,7 @@
 										</div>
 									</div>
 		    				</div>
-		    				<div class="width-40 float-right">
+		    				<div class="width-40 float-right por">
 								<input id="timeDeploy" type="text" class="f-cal"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
 		    				</div>
 		    			</li>

@@ -1055,4 +1055,253 @@ public class MenuList{
     	}
     }//end of SelectList() method statement
     
+    /**
+     * 메인화면 접속자의 최근 SR리스트 5개 가져오기
+     * @param userId
+     * @param date
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
+    public ArrayList<HashMap<String, String>> getSrList(String userId) throws SQLException, Exception {
+    	Connection        	conn        = null;
+    	PreparedStatement 	pstmt       = null;
+    	PreparedStatement 	pstmt2      = null;
+    	ResultSet         	rs          = null;
+    	ResultSet         	rs2         = null;
+    	StringBuffer      	strQuery    = new StringBuffer();
+    	int 				pstmtCnt 	= 1;
+    	HashMap<String, String> rst = new HashMap<String, String>();
+    	ArrayList<HashMap<String, String>> rstArr = new ArrayList<HashMap<String, String>>();
+    	ConnectionContext connectionContext = new ConnectionResource();
+    	
+    	try {
+    		
+    		conn = connectionContext.getConnection();
+    		
+    		/**
+    		 * SR등록 1
+    		 * SR접수완료 2
+    		 * 진행중 {
+    		 * 		체크아웃/프로그램등록 3
+    		 * 		체크인 4
+    		 * 		개발배포 5
+    		 * 		테스트배포 6
+    		 * 		운영배포 요청 7
+    		 * 		운영배포 완료 8
+    		 * }
+    		 * SR완료 9
+    		 */
+    		
+    		// 최근 SR 5건 가져오기
+    		pstmtCnt = 1;
+    		strQuery.setLength(0);
+    		strQuery.append("SELECT A.CC_SRID, 							\n");
+    		strQuery.append("		A.CC_USERID, 						\n");
+    		strQuery.append("		A.CC_STATUS AS DEVSTATUS,			\n"); 
+    		strQuery.append("		C.CM_CODENAME AS DEVSTATUSNAME,		\n"); 
+    		strQuery.append("		B.CC_STATUS AS SRSTATUS,			\n"); 
+    		strQuery.append("		D.CM_CODENAME AS SRSTATUSNAME		\n");
+    		strQuery.append("		,B.CC_REQTITLE						\n");
+    		
+    		strQuery.append("		,TO_CHAR(B.CC_CREATEDATE, 'yyyy/mm/dd HH24:MI:SS') AS SRACPTDATE\n");
+    		strQuery.append("		,TO_CHAR(A.CC_CREATEDATE, 'yyyy/mm/dd HH24:MI:SS') AS DEVACPTDATE\n");
+    		strQuery.append("		,TO_CHAR(B.CC_COMPDATE, 'yyyy/mm/dd HH24:MI:SS') AS COMPDATE\n");
+    		
+    		strQuery.append("  FROM										\n"); 
+    		strQuery.append("	(										\n");
+    		strQuery.append("	SELECT *								\n");
+    		strQuery.append("	  FROM CMC0110							\n");
+    		strQuery.append("	 WHERE CC_USERID = ?					\n");
+    		strQuery.append("	 ORDER BY CC_CREATEDATE DESC) A,		\n"); 
+    		strQuery.append("	CMC0100 B,								\n"); 
+    		strQuery.append("	CMM0020 C,								\n"); 
+    		strQuery.append("	CMM0020 D								\n");
+    		strQuery.append(" WHERE ROWNUM < 100							\n");
+    		strQuery.append("   and a.cc_status not in ('3', '8', 'C', 'D')	\n");
+    		strQuery.append("   AND A.CC_SRID = B.CC_SRID				\n");
+    		strQuery.append("   AND C.CM_MACODE = 'ISRSTAUSR'			\n");
+    		strQuery.append("   AND A.CC_STATUS = C.CM_MICODE			\n");
+    		strQuery.append("   AND D.CM_MACODE = 'ISRSTA'				\n");
+    		strQuery.append("   AND B.CC_STATUS = D.CM_MICODE			\n");
+    		
+    		pstmt = conn.prepareStatement(strQuery.toString());
+    		pstmt.setString(pstmtCnt++, userId);
+    		rs = pstmt.executeQuery();
+    		
+    		while (rs.next()){
+    			rst = new HashMap<>();
+    			rst.put("reqTitle", rs.getString("CC_REQTITLE"));
+    			rst.put("srId", rs.getString("CC_SRID"));
+    			rst.put("step1", rs.getString("SRACPTDATE"));
+    			rst.put("step2", rs.getString("DEVACPTDATE"));
+    			/**
+    			 *  [0] : 등록완료
+    			 *  [1] : 등록승인중
+    			 *  [2] : 접수완료
+    			 *  [9] : SR완료
+    			 */
+    			if(rs.getString("SRSTATUS").equals("0") || rs.getString("SRSTATUS").equals("1")
+    					|| rs.getString("SRSTATUS").equals("2")) {
+    				rst.put("step", rs.getString("SRSTATUS").equals("0") ? "1" : rs.getString("SRSTATUS") );
+    				rst.put("stepLabel", rs.getString("SRSTATUSNAME"));
+    			} else {
+    				
+    				
+    				// 개발 진행중이므로 개발 진행 어디까지 되었는지 체크
+    				pstmtCnt = 1;
+    	    		strQuery.setLength(0);
+    	    		
+    	    		
+    	    		strQuery.append("select a.cr_acptno, a.cr_status, a.cr_qrycd, b.cm_codename			\n");
+    	    		strQuery.append("		,to_char(a.cr_acptdate, 'yyyy/mm/dd HH24:MI') as acptdate	\n");
+    	    		strQuery.append("		,TO_CHAR(A.CR_PRCDATE, 'yyyy/mm/dd HH24:MI') as prcdate		\n");
+    	    		strQuery.append("  from cmr1000 a, cmm0020 b								\n");
+    	    		strQuery.append(" where a.cr_itsmid = ?										\n");
+    	    		strQuery.append("   and a.cr_editor = ?										\n");
+    	    		strQuery.append("   and a.cr_status <> '3'									\n");
+    	    		strQuery.append("   and a.cr_qrycd in ('01', '03', '04', '07', '08')		\n");
+    	    		strQuery.append("   and b.cm_macode = 'REQUEST'								\n");
+    	    		strQuery.append("   and a.cr_qrycd = b.cm_micode							\n");
+    	    		strQuery.append(" order by case when a.cr_qrycd = '01' then 0				\n");
+    	    		strQuery.append("				when a.cr_qrycd = '07' then 1				\n");
+    	    		strQuery.append("				when a.cr_qrycd = '08' then 2				\n");
+    	    		strQuery.append("				when a.cr_qrycd = '03' then 3				\n");
+    	    		strQuery.append("				when a.cr_qrycd = '04' then 4				\n");
+    	    		strQuery.append("				end, a.cr_acptdate							\n");
+    	    		
+    				pstmt2 = conn.prepareStatement(strQuery.toString());
+    	    		pstmt2.setString(pstmtCnt++, rs.getString("CC_SRID"));
+    	    		pstmt2.setString(pstmtCnt++, userId);
+    	    		rs2 = pstmt2.executeQuery();
+    	    		
+    	    		// 각 신청건 중 가장큰 값 세팅
+    	    		while(rs2.next()) {
+    	    			rst.put("step" +  makeStep(rs2.getString("cr_qrycd")) , rs2.getString("acptdate"));
+    	    			if(rst.containsKey("step")) {
+    	    				if( Integer.parseInt(makeStep(rs2.getString("cr_qrycd"))) >  Integer.parseInt(rst.get("step")) ) {
+    	    					rst.put("step",   makeStep(rs2.getString("cr_qrycd")) );
+    	    					rst.put("stepLabel", rs2.getString("cm_codename") + (rs2.getString("cr_status").equals("0") ? "중" : " 완료" ));
+    	    					
+    	    					// 운영 배포 값 7로 되어있기 때문에 운영배포 완료시에는 8로 업그레이드
+    	    					if(rs2.getString("cr_qrycd").equals("04") && !rs2.getString("cr_status").equals("0")) {
+    	    						rst.put("step", "8");
+    	    						rst.put("stepLabel", rs2.getString("cm_codename") + (rs2.getString("cr_status").equals("0") ? "중" : " 완료" ));
+    	    						rst.put("step8", rs2.getString("prcdate"));
+    	    					}
+    	    				}
+    	    				
+    	    			} else {
+    	    				rst.put("step",  makeStep(rs2.getString("cr_qrycd")) );
+    	    				rst.put("stepLabel", rs2.getString("cm_codename") + (rs2.getString("cr_status").equals("0") ? "중" : " 완료" ));
+    	    			}
+    	    			
+    	    		}
+    	    		
+    	    		// 만약 해당 SR 신청건 없다면 프로그램 등록건 있는지 체크
+    	    		if(!rst.containsKey("step")) {
+    	    			pstmtCnt = 1;
+        	    		strQuery.setLength(0);
+    	    			strQuery.append("select count(*) cnt			\n");
+    	    			strQuery.append("  from cmr0020					\n");
+    	    			strQuery.append(" where CR_ISRID is not null	\n");
+    	    			strQuery.append("   and cr_isrid = ?			\n");
+    	    			strQuery.append("   and cr_creator = ?			\n");
+    	    			
+    	    			pstmt2 = conn.prepareStatement(strQuery.toString());
+        	    		pstmt2.setString(pstmtCnt++, rs.getString("CC_SRID"));
+        	    		pstmt2.setString(pstmtCnt++, userId);
+        	    		rs2 = pstmt2.executeQuery();
+        	    		
+        	    		if(rs2.next()) {
+        	    			if(rs2.getInt("cnt") > 0 ) {
+        	    				rst.put("step",  "3" );
+        	    				rst.put("stepLabel", "프로그램 신규등록");
+        	    			} else {
+        	    				rst.put("step",  "2" );
+        	    				rst.put("stepLabel", "접수완료");
+        	    			}
+        	    		}
+    	    		}
+    	    		
+    	    		// SR완료 일시 그이전 데이터 넣어주기
+    				if(rs.getString("SRSTATUS").equals("9")) {
+    					rst.put("step", rs.getString("SRSTATUS").equals("0") ? "1" : rs.getString("SRSTATUS") );
+        				rst.put("stepLabel", rs.getString("SRSTATUSNAME"));
+        				rst.put("step9", rs.getString("COMPDATE"));
+    				}
+    			}
+    			
+    			rstArr.add(rst);
+    			rst = null;
+    			
+    		}
+    		
+    		rs.close();
+    		pstmt.close();
+    		conn.close();
+    		
+    		rs = null;
+    		pstmt = null;
+    		conn = null;
+    		
+    		return rstArr;
+    		
+    	} catch (SQLException sqlexception) {
+    		sqlexception.printStackTrace();
+    		ecamsLogger.error("## MenuList.getPrcLabel() SQLException START ##");
+    		ecamsLogger.error("## Error DESC : ", sqlexception);
+    		ecamsLogger.error("## MenuList.getPrcLabel() SQLException END ##");
+    		throw sqlexception;
+    	} catch (Exception exception) {
+    		exception.printStackTrace();
+    		ecamsLogger.error("## MenuList.getPrcLabel() Exception START ##");
+    		ecamsLogger.error("## Error DESC : ", exception);
+    		ecamsLogger.error("## MenuList.getPrcLabel() Exception END ##");
+    		throw exception;
+    	}finally{
+    		if (strQuery != null) 	strQuery = null;
+    		if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+    		if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+    		if (conn != null){
+    			try{
+    				conn.close();
+    			}catch(Exception ex3){
+    				ecamsLogger.error("## MenuList.getPrcLabel() connection release exception ##");
+    				ex3.printStackTrace();
+    			}
+    		}
+    	}
+    }//end of SelectList() method statement
+    
+    
+    /**
+     * 진행중 {
+	 * 		체크아웃3
+	 * 		체크인 4
+	 * 		개발배포 5
+	 * 		테스트배포 6
+	 * 		운영배포  7
+     */
+    public String makeStep(String qrycd) {
+    	String step = "0";
+    	switch (qrycd) {
+		case "01":
+			step = "3";
+			break;
+		case "03":
+			step = "6";
+			break;
+		case "04":
+			step = "7";
+			break;
+		case "07":
+			step = "4";
+			break;
+		case "08":
+			step = "5";
+			break;
+		}
+    	return step;
+    }
 }//end of MenuList class statement

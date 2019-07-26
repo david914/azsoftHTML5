@@ -69,6 +69,12 @@ public class eCAMSMainServlet extends HttpServlet {
 				case "getPrcLabel":
 					response.getWriter().write( getPrcLabel(jsonElement) );
 					break;
+				case "getSrList":
+					response.getWriter().write( getSrList(jsonElement) );
+					break;
+				case "getMainPie":
+					response.getWriter().write( getMainPie(jsonElement) );
+					break;
 				default : 
 					break;
 			}
@@ -117,9 +123,21 @@ public class eCAMSMainServlet extends HttpServlet {
 		return gson.toJson(menuList.getHoliday(month));
 	}
 	
-	// [메인화면] 달력 정보 가져오기(휴일)
+	// [메인화면] 미결/SR/오류 건수 가져오기
 	private String getPrcLabel(JsonElement jsonElement) throws SQLException, Exception {
 		String userId = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"userId"));
 		return gson.toJson(menuList.getPrcLabel(userId));
+	}
+	
+	// [메인화면] SR 리스트 가져오기 (최근 5개)
+	private String getSrList(JsonElement jsonElement) throws SQLException, Exception {
+		String userId = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"userId"));
+		return gson.toJson(menuList.getSrList(userId));
+	}
+	
+	// [메인화면] 파이차트 데이터 가져오기
+	private String getMainPie(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> applyInfo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "data"));
+		return gson.toJson(cmr3200.getMainPie(applyInfo));
 	}
 }

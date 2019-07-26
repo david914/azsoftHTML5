@@ -1791,5 +1791,83 @@ public class Cmr3200{
 			}
 		}
 	}//end of reqDelete() method statement
+    
+    public Object[] getMainPie(HashMap<String, String> applyInfo) throws SQLException, Exception {
+        Connection           conn        = null;
+        PreparedStatement    pstmt       = null;
+        ResultSet            rs          = null;
+        StringBuffer         strQuery    = new StringBuffer();
+        int             pstmtCnt    = 1;
+        HashMap<String, String>              rst       = null;
+        ConnectionContext connectionContext = new ConnectionResource();
+        ArrayList<HashMap<String, String>>  rtList   = new ArrayList<HashMap<String, String>>();
+        
+        try {
+
+           conn = connectionContext.getConnection();
+           
+           strQuery.setLength(0);
+           strQuery.append("select c.cm_codename, count(c.cm_micode) cnt      	\n");
+           strQuery.append("  from cmr1000 a, cmr1010 b, cmm0020 c            	\n");
+           strQuery.append(" where a.cr_editor = ?                        		\n");
+           strQuery.append("   and a.cr_qrycd = '04'                        	\n");
+           strQuery.append("   and a.cr_status = '9'                        	\n");
+           strQuery.append("   and a.cr_acptdate between to_char(add_months(sysdate,-30),'yyyymmdd') and to_char(sysdate,'yyyymmdd')	\n");
+           strQuery.append("   and a.cr_acptno = b.cr_acptno                  	\n");
+           strQuery.append("   and c.cm_macode = 'JAWON'                     	\n");
+           strQuery.append("   and b.cr_rsrccd = c.cm_micode                  	\n");
+           strQuery.append(" group by c.cm_micode, c.cm_codename            	\n");
+           
+           pstmt = conn.prepareStatement(strQuery.toString());
+           //pstmt = new LoggableStatement(conn,strQuery.toString());
+           pstmt.setString(pstmtCnt++, applyInfo.get("userId"));
+           //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+           rs = pstmt.executeQuery();
+               
+           while (rs.next()){
+        	   rst = new HashMap<String, String>();
+               rst.put("data",   rs.getString("cnt"));
+               rst.put("name",   rs.getString("cm_codename"));
+               rtList.add(rst); 
+               rst = null;
+           }
+
+           rs.close();
+           pstmt.close();
+           conn.close();
+           
+           rs = null;
+           pstmt = null;
+           conn = null;
+
+           return rtList.toArray();
+
+        } catch (SQLException sqlexception) {
+           sqlexception.printStackTrace();
+           ecamsLogger.error("## Cmr3200.getMainAppiPie() SQLException START ##");
+           ecamsLogger.error("## Error DESC : ", sqlexception);
+           ecamsLogger.error("## Cmr3200.getMainAppiPie() SQLException END ##");
+           throw sqlexception;
+        } catch (Exception exception) {
+           exception.printStackTrace();
+           ecamsLogger.error("## Cmr3200.getMainAppiPie() Exception START ##");
+           ecamsLogger.error("## Error DESC : ", exception);
+           ecamsLogger.error("## Cmr3200.getMainAppiPie() Exception END ##");
+           throw exception;
+        }finally{
+           if (strQuery != null)    strQuery = null;
+           if (rtList != null)   rtList = null;
+           if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+           if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+           if (conn != null){
+              try{
+                 conn.close();
+              }catch(Exception ex3){
+                 ecamsLogger.error("## Cmr3200.getMainAppiPie() connection release exception ##");
+                 ex3.printStackTrace();
+              }
+           }
+        }
+     }//end of SelectList() method statement
 
 }//end of Cmr3200 class statement

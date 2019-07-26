@@ -158,18 +158,12 @@ function dateInit() {
 
 
 $(document).ready(function(){
-	sysInfoGrid.align();
+	
 	dateInit();
 	getSysCodeInfo();
 	getSysInfoCbo();
 	getSysInfoList('');
 	screenInit();
-	
-	
-/*	$(window).resize(function() {
-		$('#divSysInfoGrid').css('height', ($('#divRight').height() -28) + 'px' );
-		sysInfoGrid.repaint();
-	});*/
 	
 	// 시스템 코드/ 시스템명 찾기
 	$('#txtFindSys').bind('keypress', function(event) {
@@ -770,7 +764,7 @@ function screenInit() {
 	
 	$('#datStDateDiv').css('pointer-events','none');
 	$('#datEdDateDiv').css('pointer-events','none');
-	
+	sysInfoGrid.align();
 }
 
 //	처리팩터 추가
