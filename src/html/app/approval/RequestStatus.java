@@ -65,6 +65,9 @@ public class RequestStatus extends HttpServlet {
 				case "getRquestList" :
 					response.getWriter().write( getRquestList(jsonElement) );
 					break;
+				case "getCodeInfo" :
+					response.getWriter().write( getCodeInfo() );
+					break;
 				default:
 					break;
 			}
@@ -78,6 +81,10 @@ public class RequestStatus extends HttpServlet {
 	private String getUserInfo(JsonElement jsonElement) throws SQLException, Exception {
 		String UserID = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		return gson.toJson(userinfo.getUserInfo(UserID));
+	}
+	
+	private String getCodeInfo() throws SQLException, Exception {
+		return gson.toJson(codeinfo.getCodeInfo("REQUEST", "all", "n"));
 	}
 	
 	private String getPMOInfo(JsonElement jsonElement) throws SQLException, Exception {

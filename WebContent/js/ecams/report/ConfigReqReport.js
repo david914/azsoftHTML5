@@ -2,7 +2,8 @@
 //var userid 		= window.top.userId;
 var userid 		= "MASTER";
 var mainGrid		= new ax5.ui.grid();
-var picker			= [new ax5.ui.picker(), new ax5.ui.picker()];
+//var picker			= [new ax5.ui.picker(), new ax5.ui.picker()];
+var picker				= new ax5.ui.picker();
 var columnData = 
 	[ 
 		{key : "cm_sysmsg",label : "시스템",align : "center",width: "8%"}, 
@@ -20,59 +21,55 @@ var columnData =
 		{key : "cr_rsrcname",label : "프로그램명",align : "center",width: "11%"}
 	];
 
-for(var i = 0; i <= 1; i++) {
-	picker[i].bind({
-		target: $('[data-ax5picker="picker' + (i+1) + '"]'),
-		direction: "top",
-		content: {
-			width: 220,
-			margin: 10,
-			type: 'date',
-			config: {
-				control: {
-					left: '<i class="fa fa-chevron-left"></i>',
-					yearTmpl: '%s',
-					monthTmpl: '%s',
-					right: '<i class="fa fa-chevron-right"></i>'
-				},
-				dateFormat: 'yyyy/MM/dd',
-				lang: {
-					yearTmpl: "%s년",
-					months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-					dayTmpl: "%s"
-				}
-			},
-			formatter: {
-				pattern: 'date'
-			}
-		},
-		onStateChanged: function () {
-		},
-		btns: {
-			today: {
-				label: "Today", onClick: function () {
-					var today = new Date();
-					this.self
-					.setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-					.setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-					.close();
-				}
-			},
-			thisMonth: {
-				label: "This Month", onClick: function () {
-					var today = new Date();
-					this.self
-					.setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-					.setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-							+ '/'
-							+ ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-							.close();
-				}
-			},
-			ok: {label: "Close", theme: "default"}
-		}
-	});	
-}
+picker.bind({
+    target: $('[data-ax5picker="basic"]'),
+    direction: "top",
+    content: {
+        width: 220,
+        margin: 10,
+        type: 'date',
+        config: {
+            control: {
+                left: '<i class="fa fa-chevron-left"></i>',
+                yearTmpl: '%s',
+                monthTmpl: '%s',
+                right: '<i class="fa fa-chevron-right"></i>'
+            },
+            dateFormat: 'yyyy/MM/dd',
+            lang: {
+                yearTmpl: "%s년",
+                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+                dayTmpl: "%s"
+            }
+        },
+        formatter: {
+            pattern: 'date'
+        }
+    },
+    btns: {
+        today: {
+            label: "Today", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .close();
+            }
+        },
+        thisMonth: {
+            label: "This Month", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
+                                + '/'
+                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+                        .close();
+            }
+        },
+        ok: {label: "Close", theme: "default"}
+    }
+});
 
 $(document).ready(function() {
 	
@@ -105,69 +102,119 @@ $(document).ready(function() {
 	});
 	
 	$('input:radio[name=radioStd]').wRadio({theme: 'circle-classic blue', selector: 'checkmark', highlightLabel: true});
-	comboSet();	
+	getSysInfo();
 })
 
-//콤보 데이터 셋
-function comboSet() {
-	
-	var ajaxResult = new Array();
-	var comboData = new Array();
-	var ajaxData = new Object();
-	var selectMenu = ["systemSel", "reqDeptSel",  "prcdDivSel", "reqDivSel"];
-	
-	//시스템
-	ajaxData = {
-		UserId : userid,
-		requestType	: 'getSysInfo'
-	};
-	ajaxResult.push(ajaxCallWithJson('/webPage/report/ConfigReqReport', ajaxData, 'json'));
-	
-	//신청부서
-	ajaxData.requestType = 'getDeptInfo';	
-	ajaxResult.push(ajaxCallWithJson('/webPage/report/ConfigReqReport', ajaxData, 'json'));	
-	
-	//신청구분
-	ajaxData.requestType = 'getCodeInfo';
-	ajaxData.cm_macode = 'REQPASS';
-	ajaxResult.push(ajaxCallWithJson('/webPage/report/ConfigReqReport', ajaxData, 'json'));
-	
-	//처리구분
-	ajaxData.cm_macode = 'CHECKIN';
-	ajaxResult.push(ajaxCallWithJson('/webPage/report/ConfigReqReport', ajaxData, 'json'));
+function getSysInfo() {
+	var ajaxData = {
+			UserId : userid,
+			requestType	: 'getSysInfo'
+		};
+		ajaxAsync('/webPage/report/ConfigReqReport', ajaxData, 'json', SuccessGetSysInfo);
+}
 
-	//콤보박스에 들어갈 데이터 세팅
-	$.each(ajaxResult, function(index, value) {
-		comboData[index] = [];
-		$.each(value, function(key, value2) {
-			if(index == 0) comboData[index].push({value : value2.cm_syscd, text : value2.cm_sysmsg});		
-			if(index == 1) comboData[index].push({value : value2.cm_deptcd, text : value2.cm_deptname});		
-			if(index == 2 || index == 3) comboData[index].push({value : value2.cm_micode, text : value2.cm_codename});		
-		})
-		comboData[index][0].value = null; //"전체"값은 null로 세팅
-		if(index == 3) comboData[3].splice(1,0, {"text" : "신규+수정", "value" : "99"}); //처리구분에 신규+수정 추가
-		
-		$('[data-ax5select="' + selectMenu[index] + '"]').ax5select({
-			options: comboData[index]
-		});	
-	}) 	
+function SuccessGetSysInfo(data) {
+	var combo = [];
+	$.each(data, function(i, value) {
+		combo.push({value : value.cm_syscd, text : value.cm_sysmsg});
+	});
+	combo[0].value = null;
+	
+	$('[data-ax5select="systemSel"]').ax5select({
+		options: combo
+	});	
+	getDeptInfo();
+}
+
+function getDeptInfo() {
+	var ajaxData = {
+			UserId : userid,
+			requestType	: 'getDeptInfo'
+	};
+	ajaxAsync('/webPage/report/ConfigReqReport', ajaxData, 'json', SuccessGetDeptInfo);
+}
+
+function SuccessGetDeptInfo(data) {
+	var combo = [];
+	$.each(data, function(i, value) {
+		combo.push({value : value.cm_deptcd, text : value.cm_deptname});
+	});
+	combo[0].value = null;
+	
+	$('[data-ax5select="reqDeptSel"]').ax5select({
+		options: combo
+	});	
+	getCodeInfo1();
+}
+
+function getCodeInfo1() {
+	var ajaxData = {
+			UserId : userid,
+			requestType	: 'getCodeInfo',
+			cm_macode : 'REQPASS'
+	};
+	ajaxAsync('/webPage/report/ConfigReqReport', ajaxData, 'json', SuccessGetCodeInfo1);
+}
+
+function SuccessGetCodeInfo1(data) {
+	var combo = [];
+	$.each(data, function(i, value) {
+		combo.push({value : value.cm_micode, text : value.cm_codename});
+	});
+	combo[0].value = null;
+	
+	$('[data-ax5select="prcdDivSel"]').ax5select({
+		options: combo
+	});	
+	getCodeInfo2();
+}
+
+function getCodeInfo2() {
+	var ajaxData = {
+			UserId : userid,
+			requestType	: 'getCodeInfo',
+			cm_macode : 'CHECKIN'
+	};
+	ajaxAsync('/webPage/report/ConfigReqReport', ajaxData, 'json', SuccessGetCodeInfo2);
+}
+
+function SuccessGetCodeInfo2(data) {
+	var combo = [];
+	$.each(data, function(i, value) {
+		combo.push({value : value.cm_micode, text : value.cm_codename});
+	});
+	combo[0].value = null;
+	combo.splice(1,0, {"text" : "신규+수정", "value" : "99"});
+	
+	$('[data-ax5select="reqDivSel"]').ax5select({
+		options: combo
+	});	
 }
 
 //picker에 오늘 날짜 디폴트로 세팅
 $(function() {
 	var today = new Date().toISOString().substring(0,10).replace(/-/gi, "/");
-	$("#datEdD").val(today);
-	$("#datStD").val(today);
+	$("#dateEd").val(today);
+	$("#dateSt").val(today);
 })
 
 //조회 클릭 시
 $("#btnSearch").bind('click', function() {
-	
+	search();
+})
+
+//텍스트박스에서 엔터키 입력 시
+$("#srId, #requser, #descript").bind('keypress', function(event) {
+	if(window.event.keyCode == 13) search();
+})
+
+//조회
+function search() {
 	var inputData = new Object();
 	
 	inputData = {			
-		stDt : replaceAllString($("#datStD").val(), '/', ''),
-		edDt : replaceAllString($("#datEdD").val(), '/', ''),
+		stDt : replaceAllString($("#dateSt").val(), '/', ''),
+		edDt : replaceAllString($("#dateEd").val(), '/', ''),
 		desc : $("#descript").val() == '' ? null : $("#descript").val(),
 		strSys : $("[data-ax5select='systemSel']").ax5select("getValue")[0].value,
 		strJob : null,
@@ -187,16 +234,12 @@ $("#btnSearch").bind('click', function() {
 	}
 	var ajaxResult = ajaxCallWithJson('/webPage/report/ConfigReqReport', ajaxData, 'json');
 	mainGrid.setData(ajaxResult);
-})
+}
 
+//엑셀
 $("#btnExcel").on('click', function() {
 	var st_date = new Date().toLocaleString();
 	var today = st_date.substr(0, st_date.indexOf("오"));
 	
 	mainGrid.exportExcel("형상관리신청현황 " + today + ".xls");
-})
-
-//텍스트박스에서 엔터키 입력 시
-$("#srId, #requser, #descript").bind('keypress', function(event) {
-	if(window.event.keyCode == 13) $("#btnSearch").trigger("click");
 })

@@ -19,7 +19,7 @@ var columnData =
 
 $(document).ready(function() {
 	
-	$('input:checkBox[name=checkDetail]').wCheck({theme: 'circle-classic blue', selector: 'checkmark', highlightLabel: true});
+	$('input:checkBox[name=checkDetail]').wCheck({theme: 'circle-radial blue', selector: 'checkmark', highlightLabel: true});
 	mainGrid.setConfig({
 		target : $('[data-ax5grid="mainGrid"]'),
 		showLineNumber : true,
@@ -265,7 +265,7 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
 	if (type === 1) {
 		nHeight = screen.height - 300;
 	    nWidth  = screen.width - 400;
-	    cURL = "../winpop/ProgrmInfo.jsp";
+	    cURL = "../program/ProgrmInfo.jsp";
 	} else if (type === 2) {
 		nHeight = 400;
 	    nWidth  = 900;

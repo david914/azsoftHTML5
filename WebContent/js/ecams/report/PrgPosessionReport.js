@@ -145,6 +145,7 @@ function getRsrcCd() {
 		})
 	}
 	
+	
 	ajaxData.requestType = "getRsrcCd";
 	ajaxData.userid = userid;
 	ajaxData.syscd = syscd;
@@ -154,10 +155,10 @@ function getRsrcCd() {
 	columnData.push({key : "cm_sysmsg", label : "시스템", align : "center", width: "10%"});
 	columnData.push({key : "rowhap", label : "합계", align : "center", width: "5%", styleClass: "color-red"});
 	$.each(ajaxResult, function(i, value) {
-		columnData.push({key : "col" + value.cm_micode , label : value.cm_codename, align: "center", width : 85 / value.length + "%"});
+		columnData.push({key : "col" + value.cm_micode , label : value.cm_codename, align: "center", width : ""});
 	});
 	
-	mainGrid.setConfig({columns : null});
+//	mainGrid.setConfig({columns : null});
 	mainGrid.setConfig({
 		target : $('[data-ax5grid="mainGrid"]'),
 		columns : columnData

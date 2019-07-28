@@ -21,8 +21,6 @@
 }
 </style>
 
-
-<div id="header"></div>
 <div id="wrapper">
 	<div class="content">
 		<div id="history_wrap">보고서 <strong>&gt; 개발/SR기준(집계)</strong></div>

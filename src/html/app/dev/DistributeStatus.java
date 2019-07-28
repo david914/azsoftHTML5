@@ -51,13 +51,13 @@ public class DistributeStatus extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
-				case "UserInfochk":
+				case "getUserInfo":
 					response.getWriter().write( getUserInfoChk(jsonElement) );
 					break;
-				case "CodeInfoSet":
+				case "getCodeInfo":
 					response.getWriter().write( getCodeInfo(jsonElement) );
 					break;
-				case "SystemPathSet":
+				case "getSystemPath":
 					response.getWriter().write( getSyspath(jsonElement) );
 					break;
 				case "getSysInfo":

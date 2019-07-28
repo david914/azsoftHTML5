@@ -3,8 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
 
-<div id="header"></div>
-
 <!-- contener S -->
 <div id="wrapper">
     <div class="content">
@@ -17,15 +15,14 @@
 				<div class="l_wrap width-70 dib">
 	                <div class="por">
 	                	<!--시스템S-->
-	                	<div class="width-25 dib">
+	                	<div class="width-25 dib poa" style="min-width: 270px;">
 		                	<label class="dib">시스템　</label>
-		                    <div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-60 dib tal">
+		                    <div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
 								
 						    </div>
 						</div>
-						<div class="width-25 dib"></div>
 						<!--SR-ID/SR명 S-->
-						<div class="width-50 dib vat">
+						<div class="width-50 dib vat" style="margin-left: 50%;">
 		                	<label class="tit_100">SR-ID/SR명</label>
 							<input id="srId" data-ax-path="srId" type="text" class="width-60" />
 						</div>
@@ -35,14 +32,14 @@
 						<!--시스템S-->
 						<div class="width-25 dib">
 							<label>신청구분</label>
-							<div id="reqDivSel" data-ax5select="reqDivSel" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-60 dib tal">
+							<div id="reqDivSel" data-ax5select="reqDivSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
 								
 						    </div>
 						</div>	
 						<!--신청부서S-->
 						<div class="width-25 dib">
 		                	<label>신청부서</label>
-							<div id="reqDeptSel" data-ax5select="reqDeptSel" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-60 dib tal">
+							<div id="reqDeptSel" data-ax5select="reqDeptSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
 								
 						    </div>
 						</div>
@@ -57,14 +54,14 @@
 						<!--진행상태S-->
 						<div class="width-25 dib">
 							<label>진행상태</label>
-							<div id="statusSel" data-ax5select="statusSel" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-60 dib tal">
+							<div id="statusSel" data-ax5select="statusSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
 								
 						    </div>
 						</div>	
 						<!--처리구분S-->
 						<div class="width-25 dib">
 		                	<label>처리구분</label>
-							<div id="prcdDivSel" data-ax5select="prcdDivSel" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-60 dib tal">
+							<div id="prcdDivSel" data-ax5select="prcdDivSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
 								
 						    </div>
 						</div>
@@ -85,19 +82,24 @@
 					</div>
 					<div class="row tar">
 						<div id="divPicker" data-ax5picker="basic" class="az_input_group dib">
-							<div class="width-30 dib" style="min-width: 125px;">
-				            <div class="input-group" data-ax5picker="picker1">
-					            <input id="datStD" type="text" class="form-control">
-					            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-			        		</div>
-							</div>
-			        		<label class="dib">&nbsp;~&nbsp;</label>
-							<div class="width-30 dib" style="min-width: 125px;">
-			        		<div class="input-group" data-ax5picker="picker2">
-					            <input id="datEdD" type="text" class="form-control">
-					            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-					        </div>
-							</div>
+							<input id="dateSt" name="start_date" type="text" placeholder="yyyy/mm/dd" style="width:92px;">
+							<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+							<span class="sim">&sim;</span>
+							<input id="dateEd" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:92px;">
+							<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+<!-- 							<div class="width-30 dib" style="min-width: 125px;"> -->
+<!-- 				            <div class="input-group" data-ax5picker="picker1"> -->
+<!-- 					            <input id="datStD" type="text" class="form-control"> -->
+<!-- 					            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span> -->
+<!-- 			        		</div> -->
+<!-- 							</div> -->
+<!-- 			        		<label class="dib">&nbsp;~&nbsp;</label> -->
+<!-- 							<div class="width-30 dib" style="min-width: 125px;"> -->
+<!-- 			        		<div class="input-group" data-ax5picker="picker2"> -->
+<!-- 					            <input id="datEdD" type="text" class="form-control"> -->
+<!-- 					            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span> -->
+<!-- 					        </div> -->
+<!-- 							</div> -->
 						</div>
 					</div>
 					<div class="row tar">
@@ -121,13 +123,6 @@
 		</div>	
 	</div>
 </div>
-<!-- Footer-->
-<footer id="footer">
-    <ul>
-        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
-        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
-    </ul>
-</footer>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/report/ConfigReqReport.js"/>"></script>

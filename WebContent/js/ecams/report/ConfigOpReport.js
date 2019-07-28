@@ -120,7 +120,6 @@ function comboSet() {
 	ajaxData.requestType = 'getCodeInfo';
 	ajaxResult.push(ajaxCallWithJson('/webPage/report/ConfigOpReport', ajaxData, 'json'));
 	
-	console.log(ajaxResult);
 	ajaxResult[2], ajaxResult[3], ajaxResult[4], ajaxResult[5] = {}; //콤보세팅 4번 반복을 위한 배열 길이 증가용 값
 	
 	//콤보박스에 들어갈 데이터 세팅
@@ -141,7 +140,6 @@ function comboSet() {
 			options: comboData[index]
 		});	
 	})
-	console.log(comboData);
 	
 	//단계콤보박스 디폴트 값
 	$('[data-ax5select="step1"]').ax5select("setValue", '1', true);

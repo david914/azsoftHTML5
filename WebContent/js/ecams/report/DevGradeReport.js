@@ -104,6 +104,13 @@ $(".dateBtn").bind('click', function() {
 	dateSet(clicked);
 });
 
+//picker에 오늘 날짜 디폴트로 세팅
+$(function() {
+	var today = new Date().toISOString().substring(0,7);
+	$("#year").text(today.split('-')[0] + "년");	
+	$("#month").text(parseInt(today.split('-')[1]) + "월");	
+})
+
 function dateSet(value) {
 	
 	var month = parseInt($("#month").text().slice(0, -1));
@@ -111,17 +118,26 @@ function dateSet(value) {
 	
 	switch(value) {
 	case 'year-prev' :
-		console.log("prevyeaer")
 		year--;
 		break;
 	case 'year-next' :
 		year++;
 		break;
 	case 'month-prev' :
-		month = month == 1 ? 12 : month - 1; 
+		if(month == 1) {
+			month = 12;
+			year--;
+		} else {
+			month--; 			
+		}
 		break;
 	case 'month-next' :
-		month = month == 12 ? 1 : month + 1; 
+		if(month == 12) {
+			month = 1;
+			year++;
+		} else {
+			month++; 			
+		}
 		break;
 	}
 	$("#month").text(month + "월");

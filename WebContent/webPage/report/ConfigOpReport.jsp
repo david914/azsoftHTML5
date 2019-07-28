@@ -11,6 +11,7 @@
 
 .font-red {
 	color: red;
+	font-weight: bold;
 }
 
 label {
@@ -44,7 +45,6 @@ label {
 }
 </style>
 
-<div id="header"></div>
 <div id="wrapper">
 	<div class="content">
 		<div id="history_wrap">보고서 <strong>&gt; 형상관리운영현황</strong></div>

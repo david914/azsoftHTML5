@@ -8,9 +8,6 @@
 }
 </style>
 
-<!-- Header -->
-<div id="header"></div>
-
 <!-- contener S -->
 <div id="wrapper">
     <div class="content">
@@ -76,8 +73,8 @@
 						    </div>
 						    <div class="row">
 						    	<label class="wLabel-left" style="width: 5px;"></label>
-								<input id="checkDetail" tabindex="8" type="checkbox" value="optCkOut" style="margin-top: 5px;" checked="checked"/>
-								<label for="radioCkOut" style="margin-top: -5px;">&nbsp;세부항목포함</label>
+								<input id="checkDetail" tabindex="8" type="checkbox" value="optCkOut" style="margin-top: 5px;" checked="checked" name="checkDetail"/>
+								<label for="checkDetail" style="margin-top: -5px;">&nbsp;세부항목포함</label>
 						    </div>
 						</div>
 					</div>			
@@ -101,14 +98,6 @@
 		<!--테이블E-->
     </div>
 </div>
-
-<!-- Footer-->
-<footer id="footer">
-    <ul>
-        <li class="logo_f"><img src="../../img/logo_f.png" alt="AZSOFT"></li>
-        <li class="copy">Copyright ⓒ AZSoft Corp. All Right Reserved</li>
-    </ul>
-</footer>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/report/PrgListReport.js"/>"></script>

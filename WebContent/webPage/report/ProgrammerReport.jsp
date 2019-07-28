@@ -36,7 +36,6 @@
 }
 </style>
 
-<div id="header"></div>
 <div id="wrapper">
 	<div class="content">
 		<div id="history_wrap">보고서 <strong>&gt; 개발자별현황</strong></div>
@@ -90,8 +89,8 @@
 							<div class="dib float-right">
 								<div class="dib margin-40-right date-div">
 									<button type="button" class="month-btn dateBtn" id="month-prev"><div class="mb-div">◀</div></button>
-									<label style="margin-right: 10px; margin-left: 10px; width: 26px;" id="month">7월</label>
-									<label id="year">2019년</label>
+									<label style="margin-right: 10px; margin-left: 10px; width: 26px;" id="month"></label>
+									<label id="year"></label>
 									<div class="por width-10 dib">
 			                        	<button type="button" class="dib year-btn dateBtn" id="year-next">▲</button>
 			                        	<button type="button" class="dib year-btn dateBtn" id="year-prev">▼</button>

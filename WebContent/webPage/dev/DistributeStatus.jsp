@@ -1,108 +1,123 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <c:import url="/webPage/common/common.jsp" />
+<c:import url="/js/ecams/common/commonscript.jsp" />
 
-<style>
-	   label{margin-top: 5px;}
-	   #sbGridArea{width: 100%; height:500px;}
-	   #titleBar{background-color: #E0F8F7; width:100%; height: 2%;}	   
-</style>
-	<section>
-		<div class="container-fluid" style="border: #757575 solid 2px;  margin: 0px 15px 0px 15px; padding: 5px 0px 5px 0px;">
-			<div class="row-fluid">
-				<div class="row">
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lbSysCd" name="lbSysCd" uitype="normal" text="시스템"></sbux-label>
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">개발 <strong>&gt;??현황 </strong></div>
+        <!-- history E-->         
+	    <!-- 검색 S-->    
+		<div class="az_search_wrap">
+			<div class="az_in_wrap">
+				<div class="l_wrap width-65 dib">
+	                <div class="por">
+	                	<!--신청부서S-->
+	                	<div class="width-25 dib vat">
+		                	<label class="dib poa">시스템</label>
+		                	<div class="ml_100">
+			                    <div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90"></div>
+		                	</div>
+						</div>
+						<!--시스템S-->
+						<div class="width-25 dib vat">
+							<label class="dib poa">진행상태</label>
+							<div class="ml_100">
+								<div id="cboStat" data-ax5select="cboStat" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90"></div>
+							</div>
+						</div>	
+						<!--처리구분S-->
+						<div class="width-25 dib vat">
+		                	<label class="dib poa" id="gbnLabel">처리구분</label>
+		                	<div class="ml_100">
+								<div id ="cboGbn" data-ax5select="cboGbn" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90"></div>
+		                	</div>
+						</div>
 					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-select id="cboSyscd" name="cboSyscd" uitype="single" jsondata-ref = "cboSyscd" jsondata-text="cm_sysmsg" jsondata-value="cm_syscd"  style="width:100%;"></sbux-select>				
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lbStep" name="lbStep" uitype="normal" text="진행상태"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-select id="cboStep" name="cboStep" uitype="single" jsondata-ref = "cboStep" jsondata-text="label" jsondata-value="value"  style="width:100%;" onchange="step_combo_change_resultHandler(cboStep)"></sbux-select>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lbExGbn" name="lbExGbn" uitype="normal" text="처리구분"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-select id="cboGbn" name="cboGbn" uitype="single" jsondata-ref = "cboGbn" jsondata-text="cm_codename" jsondata-value="cm_micode"  style="width:100%;"></sbux-select>
-					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-radio id="rdo_norm1" name="rdoDate" uitype="normal" text="신청일기준" value="0" checked></sbux-radio>
-						<sbux-radio id="rdo_norm2" name="rdoDate" uitype="normal" text="완료일기준" value="1"></sbux-radio>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-button id="btnCmdQry" name="btnCmdQry" uitype="normal" text="조&nbsp;&nbsp;&nbsp;&nbsp;회" onclick="cmdQry_Proc()"></sbux-button>
-					</div>
+	                <div class="row por">
+	                	<!--신청종류S-->
+	                	<div class="width-25 dib vat">
+		                	<label class="dib poa">신청종류</label>
+		                	<div class="ml_100">
+			                    <div data-ax5select="cboType" data-ax5select-config="{size:'sm', theme:'primary'}" class="width-90"></div> 	
+		                	</div>
+						</div>
+						<!--진행상태S-->
+						<div class="width-25 dib vat">
+							<label class="dib poa">프로그램명/설명</label>
+							<div class="ml_100 vat">
+								<input id="txtDisc" type="text" placeholder="SR-ID/SR명을 입력하세요." class="width-90" />
+		                	</div>
+						</div>
+						<!--SR-ID/SR명 S-->
+						<div class="width-25 dib vat">
+		                	<label class="dib poa">신청자명</label>
+		                	<div class="ml_100 vat">
+								<input id="txtName" type="text" placeholder="SR-ID/SR명을 입력하세요." class="width-90" />
+		                	</div>
+						</div>
+						<div class="dib margin-5-top">
+							<input id="checkSelf" tabindex="8" type="checkbox" value="optCkOut" style="margin-top: 5px;"s name="checkSelf"/>
+							<label for="checkSelf" style="margin-top: -5px;">&nbsp;본인건만</label>
+						</div>
+					</div>					
+					<div class="row thumbnail">
+						<div class="width-35 dib">
+							<span class="r_nail margin-10-top">반려 또는 취소</span>
+							<span class="p_nail">시스템처리 중 에러발생</span>
+							<span class="g_nail">처리완료</span>
+							<span class="b_nail">진행중</span>
+						</div>
+						<div class="width-40 dib vat">
+		                	<label class="dib poa">SR-ID/SR명/문서번호</label>
+		                	<div class="ml_150 vat">
+								<input id="txtId" type="text" placeholder="SR-ID/SR명을 입력하세요." class="width-100" />
+		                	</div>
+						</div>
+					</div>			
 				</div>
-				<div class="row">
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lbRequest" name="lbRequest" uitype="normal" text="신청종류"></sbux-label>
+				<div class="r_wrap width-35 poa_r vat">
+					<div class="height-30 tar">
+						<input id="rdoStrDate"  type="radio" name="rdoDate" value="0" checked="checked"/>
+						<label for="rdoStrDate" >신청일기준</label>
+						<input id="rdoEndDate" type="radio" name="rdoDate" value="1"/>
+						<label for="rdoEndDate">완료일기준</label>
 					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-select id="cboRequest" name="cboRequest" uitype="single" jsondata-ref = "cboRequest" jsondata-text="cm_codename" jsondata-value="cm_micode"  style="width:100%;"></sbux-select>
+					<div class="row tar">
+						<div id="divPicker" data-ax5picker="basic" class="az_input_group dib">
+				            <input id="datStD" name="datStD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+				            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+				            <span class="sim">∼</span>
+				            <input id="datEdD" name="datEdD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+				            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>		
+						</div>
 					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lbProgText" name="lbProgText" uitype="normal" text="프로그램명/설명"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-input id="txtProgName" name="txtProgName" uitype="text" title="프로그램명/설명" placeholder="프로그램명/설명을 입력하세요." onkeyenter="cmdQry_Proc()"></sbux-input>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lbUserName" name="lbUserName" uitype="normal" text="신청자명"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-input id="txtUserName" name="txtUserName" uitype="text" title="신청자명" onkeyenter="cmdQry_Proc()" disabled></sbux-input>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-checkbox id="chkSelf" name="chkSelf" uitype="normal" text="본인건만" checked></sbux-checkbox>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-picker id="datStD" name="datStD" uitype="date" mode="popup" show-button-bar="false"></sbux-picker>
-						<sbux-picker id="datEdD" name="datEdD" uitype="date" mode="popup" show-button-bar="false"></sbux-picker>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-button id=btnExcel name="btnExcel" uitype="normal" text="엑셀저장"></sbux-button>
-					</div>
-				</div>
-				<div class="row-fulid">
-					<div class="col-xs-12 col-sm-1" style="background-color: #FF0000;">
-						<sbux-label id="lbCnl" name="lbCnl" uitype="normal" text="반려 또는 취소" style="color:#FFFFFF; padding-bottom:5px;"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-1" style="background-color: #BE81F7;">
-						<sbux-label id="lbErr" name="lbErr" uitype="normal" text="시스템처리 중 에러발생" style="color:#FFFFFF; padding-bottom:5px;"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-1" style="background-color: #000000;">
-						<sbux-label id="lbEnd" name="lbEnd" uitype="normal" text="처리완료" style="color:#FFFFFF; padding-bottom:5px;"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-1" style="background-color: #0000FF;">
-						<sbux-label id="lbIng" name="lbIng" uitype="normal" text="진행중" style="color:#FFFFFF; padding-bottom:5px;"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-label id="lbSrId" name="lbSrId" uitype="normal" text="SR-ID/SR명/문서번호"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-4">
-						<sbux-input id="txtSrIdInput" name="txtSrIdInput" uitype="text" title="SR-ID/SR명/문서번호" placeholder="SR-ID/SR명/문서번호를 입력하세요." onkeyenter="cmdQry_Proc()"></sbux-input>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lbCnt" name="lbCnt" uitype="normal" text="총0건"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-button id="btnClear" name="btnClear" uitype="normal" text="초기화"></sbux-button>
+					<div class="row tar">
+						<div class="vat dib margin-5-left">
+							<button class="btn_basic_s" data-grid-control="excel-export" id="btnExcel">엑셀저장</button>
+						</div>
+						<div class="vat dib margin-5-left">
+							<button class="btn_basic_s" id="btnSearch">조회</button>
+						</div>
+						<div class="vat dib margin-5-left">
+							<button class="btn_basic_s" id="btnReset">초기화</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-	
-	<section>
-		<div class="container-fluid" style="height:600px; margin: 0px 15px 0px 15px; padding: 5px 0px 5px 0px;  overflow:hidden;">
-				<div id="sbGridArea"></div>
-		</div>
-	</section>	
-	<c:import url="/js/ecams/common/commonscript.jsp" />
-	<script type="text/javascript" src="<c:url value="/js/ecams/dev/DistributeStatus.js"/>"></script>
+		<!--검색E-->		
+
+	    <!-- 게시판 S-->
+	    <div class="az_board_basic" style="height: 82%">
+	    	<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+		</div>	
+		<input type="hidden" id="param" value="${param.reqCd}">
+	</div>
+</div>
+
+<c:import url="/js/ecams/common/commonscript.jsp" />
+<script type="text/javascript" src="<c:url value="/js/ecams/dev/DistributeStatus.js"/>"></script>
