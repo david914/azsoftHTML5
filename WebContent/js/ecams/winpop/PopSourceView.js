@@ -18,6 +18,7 @@ var svWord         = null;
 var tmpDir         = null;
 var downURL        = null;
 var outName        = null;
+var prettify       = null;
 
 var tmpInfo = new Object();
 var tmpInfoData = new Object();
@@ -63,8 +64,8 @@ $('input:radio[name^="optradio"]').wRadio({theme: 'circle-radial blue', selector
 
 $(document).ready(function(){
 	
-	pUserId = 'MASTER';
-	pItemId = '000000179672';
+	//pUserId = 'MASTER';
+	//pItemId = '000000179672';
 	if (pUserId == null || pUserId.length == 0) {
 		dialog.alert('로그인 후 사용하시기 바랍니다.',function(){});
 		return;		
@@ -112,6 +113,7 @@ function screenInit(gbn){
 	
 	var htmlObj = document.getElementById("htmlSrc");
 	htmlObj = null;
+	prettify = null;
 	txtSearch_change();
 	
 	hljs.initHighlightingOnLoad();
@@ -216,7 +218,7 @@ function successVersion(data) {
 	
 	//srcData = data;
 	
-	var prettify = hljs.highlightAuto(srcData).value;
+	prettify = hljs.highlightAuto(srcData).value;
 	var htmlObj = document.getElementById("htmlSrc");
 	htmlObj.innerHTML = prettify;
 	//console.log(prettify);
@@ -236,7 +238,11 @@ function txtSearch_change() {
 	
 	findLine = 0;
 	svWord = "";
-	
+	if (prettify != null) {
+		var htmlObj = document.getElementById("htmlSrc");
+		htmlObj.innerHTML = prettify;
+		$('#htmlView').scrollTop(0);
+	}
 }
 function btnSearch_click() {
 	
@@ -255,13 +261,10 @@ function btnSearch_click() {
 			findLine = 0;
 			svWord = strWord;
 			var chgString = '<span class="hljs-search">' + strWord + '</span>';
-			var prettify = hljs.highlightAuto(srcData).value;
 			var resultString = replaceAllString(prettify,strWord,chgString);
 			
 			var htmlObj = document.getElementById("htmlSrc");
 			htmlObj.innerHTML = resultString;
-			var htmlObj = document.getElementById("htmlView");
-			//console.log('height='+htmlObj.scrollHeight);
 		}
 		for (var i=findLine;srcArray.length>i;i++) {
 			lineData = srcArray[i].src;
@@ -303,7 +306,7 @@ function btnSearch_click() {
 function btnSrcDown_click() {
 	
 	//location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+this.item.savename;
-	//location.href = downURL+'?f='+grdProgHistoryData[0].cr_rsrcname+'&folderPath='+tmpDir+'/'+outName;
-	location.href = "F:\\Azsoft\\HTML5\\save\\AutoSeq.java";
+	location.href = downURL+'?f='+grdProgHistoryData[0].cr_rsrcname+'&folderPath='+tmpDir+'/'+outName;
+	//location.href = "F:\\Azsoft\\HTML5\\save\\AutoSeq.java";
 }
 

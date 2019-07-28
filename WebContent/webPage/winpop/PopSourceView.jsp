@@ -58,9 +58,9 @@
 		<!-- line2 E-->
 		<!-- line3 S-->
 		<div class="margin-5-top tar dib width-100">
-			<input id="optWord"  type="radio" name="optradio"  value="W" onchange="optradio_change();"/>
+			<input id="optWord"  type="radio" name="optradio"  value="W" onchange="optradio_change();" checked/>
 			<label for="optWord">단어검색</label>
-			<input id="optLine" type="radio"  name="optradio"  value="L"/>
+			<input id="optLine" type="radio"  name="optradio"  value="L" onchange="optradio_change();"/>
 			<label for="optLine">라인검색</label>
 			<input id="txtSearch" name="txtSearch" type="text" style="width:200px;" onchange="txtSearch_change();" >
 			<button id="btnSearch" name="btnSearch" class="btn_basic margin-5-left por" style="height:25px;padding: 0 7px 2px;" >찾기</button>
