@@ -34,9 +34,15 @@ $(document).ready(function(){
 	
 	strReqCd = "42";
 	
-	setCbo();
 	initScreen();
-	clickTabMenu();
+	
+	document.getElementById('frmPrjList').onload = function() {
+		setCbo();
+	};
+	
+//	document.getElementById('frmDevPlan').onload = function() {
+		clickTabMenu();
+//	}
 });
 
 function setCbo() {
@@ -45,19 +51,17 @@ function setCbo() {
 	cboQryGbnData.push({value: "01", text: "개발계획등록대상", dateyn: "N"});
 	cboQryGbnData.push({value: "02", text: "개발실적등록대상", dateyn: "N"});
 	
-	if(strQryGbn != null && strQryGbn != "") {
-		for(var i=0; i<cboQryGbnData.length; i++) {
-			if(cboQryGbnData[i].value == strQryGbn) {
-				$('[data-ax5select="cboQryGbn"]').ax5select("setValue", cboQryGbnData[i].value, true);
-				break;
-			}
-		}
-	}
+//	if(strQryGbn != null && strQryGbn != "") {
+//		for(var i=0; i<cboQryGbnData.length; i++) {
+//			if(cboQryGbnData[i].value == strQryGbn) {
+//				$('[data-ax5select="cboQryGbn"]').ax5select("setValue", cboQryGbnData[i].value, true);
+//				break;
+//			}
+//		}
+//	}
 	
 	var tmpTab = $('#frmPrjList').get(0).contentWindow;
-	tmpTab.changeQryGbn(); //tab0.cboQryGbn_click();
-//	tab0.screenInit();
-	tmpTab.getPrjList(); //tab0.cmdQry_click();
+	$('#cboQryGbn').trigger('change');
 }
 
 function initScreen() {
@@ -103,12 +107,12 @@ function iSRID_Click(data) {
 	data = null;
 	changeTabMenu();
 	//clickTabMenu();
+	
+	//$('#tab2').trigger('click');
 }
 
 //tabnavi_click
 function changeTabMenu() {
-	console.log("changeTabMenu: " +  document.getElementById("tab2").className); //활성화:on, 비활성화: null
-
 	if(document.getElementById("tab1").className == "on") { //$('#tab1').is(':enabled')
 		var tmpGrid = $('#frmPrjList').get(0).contentWindow.firstGrid;
 		var tmpGridSelectedIndex = tmpGrid.selectedDataIndexs;
@@ -127,21 +131,26 @@ function changeTabMenu() {
 		tmpTab.firstGridClick(strIsrId); //tab1.grdPrj_click(strIsrId)
 		
 	}else if(document.getElementById("tab2").className == "on") { //$('#tab2').is(':enabled')
+		console.log("onload: " + document.getElementById('frmDevPlan').onload);
 		var tmpGrid = $('#frmPrjList').get(0).contentWindow.firstGrid;
 		var tmpGridSelectedIndex = tmpGrid.selectedDataIndexs;
 		var tmpSelectedGridItem = tmpGrid.list[tmpGrid.selectedDataIndexs];
 		var tmpTab = $('#frmDevPlan').get(0).contentWindow;
 		
+		console.log("idx:" + tmpGridSelectedIndex);
 		if(tmpGridSelectedIndex < 0) {
 			tmpTab.screenInit("M"); //tab2.screenInit("M");
 			return;
 		}
 		
-		if(tmpTab.strIsrId == strIsrId) return;
+		console.log(">>");
+		
+		//if(tmpTab.strIsrId == strIsrId) return;
 		
 		tmpTab.strIsrId = strIsrId; 
 		tmpTab.strStatus = tmpSelectedGridItem.cc_status;
-		tmpTab.screenInit("M");
+		
+//		tmpTab.screenInit("M");
 		
 		if(strIsrId != null && strIsrId != "") {
 			tmpTab.initDevPlan(); //tab2.devPlanCall();

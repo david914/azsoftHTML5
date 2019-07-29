@@ -13,12 +13,12 @@ var adminYN 	= window.top.adminYN;
 var userDeptName= window.top.userDeptName;
 var userDeptCd 	= window.top.userDeptCd;
 
-var strReqCD 	= window.parent.strReqCd;
-var cboQryGbnData = window.parent.cboQryGbnData;
+var strReqCD 	  = window.parent.strReqCd;
+var cboQryGbnData = [];
 
 var cboReqDepartData = null;
-var cboCatTypeData = null;
-var firstGridData = null;
+var cboCatTypeData   = null;
+var firstGridData    = null;
  
 var firstGrid 	= new ax5.ui.grid();
 var picker 		= new ax5.ui.picker();
@@ -105,9 +105,6 @@ firstGrid.setConfig({
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
-//          if(strReqCD == "41"){
-//             	firstGridClick(this.item.cc_srid);
-//        	}
             window.parent.iSRID_Click(this.item);
         }
     },
@@ -125,6 +122,7 @@ firstGrid.setConfig({
 });
 
 $(document).ready(function() {
+	cboQryGbnData = window.parent.cboQryGbnData;
 	getReqDepartInfo();
 	getCboElementPrj();
 	
@@ -142,7 +140,7 @@ $(document).ready(function() {
 	$('#cboQryGbn').bind('change', function() {
 		changeQryGbn();
 	});
-	getPrjList();
+	//getPrjList();
 
 	$('#datStD').prop("disabled", true); 
 	$('#datEdD').prop("disabled", true); 
@@ -160,6 +158,7 @@ function changeQryGbn(){
 		$('#datEdD').prop("disabled", false); 
 		$('#dateDiv').css('pointer-events','auto');
 	}
+	getPrjList();
 }
 
 // 요청부서 가져오기
@@ -221,7 +220,16 @@ function getCboElementPrj() {
 	});
 	
 	
+	for(var i=0; i<cboQryGbnData.length; i++) {
+		if(cboQryGbnData[i].value == "01") {
+			$('[data-ax5select="cboQryGbn"]').ax5select("setValue", cboQryGbnData[i].value, true);
+			break;
+		}
+	}
+	
 	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", '01', true);	// select 초기값 셋팅 '01'에는 해당 내용의 value값 입력
+	
+	getPrjList();
 }
 
 function getPrjList() {
