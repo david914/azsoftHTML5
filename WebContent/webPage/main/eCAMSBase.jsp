@@ -13,6 +13,15 @@
     iframe {
     	min-width: 1045px;
     }
+    
+    #status{
+        height: 50px;
+	    top: 0px;
+	    padding-top: 18px;
+	    background: white;
+	    z-index: 999999;
+	    border-bottom: 1px solid #ddd;
+    }
 </style>
 
 <body style="width: 100% !important; min-width: 0px !important;">
@@ -23,8 +32,8 @@
 		<div class="lang_menu">
 			<ul id="ulMenu"></ul>
 		</div>
-		<div class="log">
-			<a id="loginUser"></a>l<a id="logOut">로그아웃</a>
+		<div class="log" id="status">
+			<a>미결[5]</a>l<a>SR[5]</a>l<a>오류[5]</a>l<a id="loginUser"></a>l<a id="logOut">로그아웃</a>
 		</div>
 	</div>
 

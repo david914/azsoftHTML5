@@ -168,6 +168,7 @@ td.fc-more-cell{
 .card_info dl dd{
 	width:50%;
 	text-align: right;
+	padding: 0 0 0 0;
 	padding-top:4px;
 	padding-right:30px;
 }
