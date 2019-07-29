@@ -25,16 +25,16 @@
 		<!--프로그램 신청목록-->
 		<div class="l_wrap width-50">
 			<div class="margin-5-right">
-                <label id="" class="tit_80 poa">결재자</label>
+                <label class="tit_80 poa">결재자</label>
                 <div class="ml_80">
-                	<label><input type="radio" /> 변경</label> <label><input type="radio" /> 추가</label>
-                	<div class="poa_r">
+                	<label><input type="radio" name="optBase" value="변경" checked/> 변경</label> <label><input type="radio" name="optBase" value="추가" /> 추가</label>
+                	<div class="poa_r" id="AddArea" style="display:none;">
                 		<input type="text" id="txtName"/><button class="btn_basic_s margin-5-left" id="btnSearch">검색</button> 
                 	</div>
                 </div>
 			</div>				
 			<div class="row">
-				<div class="az_board_basic az_board_basic_in" style="height:21%">
+				<div class="az_board_basic az_board_basic_in" style="height:45%">
 					<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%"></div>
 				</div>
 			</div>
@@ -44,10 +44,10 @@
 			<div class="margin-5-left">
 				<div class="width-100" style="height:25px;">
                     <label id="" class="tit_80 poa">결재절차</label>
-                    <div class="ml_80 tar" id="lblDel"><span class="txt_r">[제외방법 : 목록에서 선택 후  결재삭제버튼 클릭]</span></div>
+                    <div class="ml_80 tar" id="lblDel" style="display:none;"><span class="txt_r">[제외방법 : 목록에서 선택 후  결재삭제버튼 클릭]</span></div>
 				</div>				
 				<div class="row">
-					<div class="az_board_basic az_board_basic_in" style="height:21%">
+					<div class="az_board_basic az_board_basic_in" style="height:45%">
 		    			<div data-ax5grid="secondGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%"></div>
 					</div>
 				</div>
@@ -61,9 +61,9 @@
 		</div>
 	</div>
 	<div class="row tac">
-		<button id="btnDel" class="btn_basic">결재삭제</button>
-		<button id="btnReg" class="btn_basic margin-5-left">등록</button>
-		<button id="btnReg" class="btn_basic margin-5-left">취소</button>
+		<button id="btnDel" class="btn_basic" style="display:none;">결재삭제</button>
+		<button id="btnReq" class="btn_basic margin-5-left" disabled="true">등록</button>
+		<button id="btnClose" class="btn_basic margin-5-left">취소</button>
 	</div>	
 </div>
 <!-- contener E -->

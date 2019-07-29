@@ -14,6 +14,7 @@ var firstGrid		= new ax5.ui.grid();
 var secondGrid		= new ax5.ui.grid();
 var datReqDate 		= new ax5.ui.picker();
 var befJobModal 		= new ax5.ui.modal();
+var approvalModal 		= new ax5.ui.modal();
 
 var request         =  new Request();
 
@@ -43,6 +44,7 @@ var scriptData = [];
 var befJobData = [];
 var upFiles = [];
 var befCheck = true; // 체크박스 변경시 이벤트가 바로 걸려 체크하기위한 변수
+var confirmInfoData = null;
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -964,12 +966,14 @@ function checkDuplication(downFileList){
 					return true;
 				}
 			});
-
+			
+			/*
 			if ( !chkJob.visible ){//정적분석확인 사용안함
 				cmdReq.enabled = true;
 			} else if ( chkJob.selected ) {//정적분석확인 사용하면서  체크완료
 				cmdReq.enabled = true;
 			}
+			*/
 			
 			if(getSelectedVal('cboReq').cm_micode == '05') $('data-ax5select="cboReq"').ax5select('disabled');
 		}
@@ -1320,7 +1324,7 @@ function btnDiffClick(){
 	
 	for (var x=0;x<grdLst2_dp.length;x++) {
 		if (grdLst2_dp.getItemAt(x).cm_info.substr(44,1) == "1") {  //45 로컬에서 개발
-			tmpObjsecondGridData[rdLst2_dp.getItemAt(x);
+			tmpObj = grdLst2_dp.getItemAt(x);
 			tmpObj.errflag = "0";
 			tmpObj.sendflag = "0";
 			tmpObj.cm_dirpath = grdLst2_dp.getItemAt(x).pcdir;
@@ -1390,31 +1394,32 @@ function difflist_resultHandler(event){
 		
 }
 
+*/
+
 function cmdReq_DiffNext() {
-	var tmpObj = {};
-	var tmpArray = new ArrayCollection();
+	var tmpObj = new Object();
+	var tmpArray = [];
 	var findSw = false;
 	
-	for (var x=0;x<grdLst2_dp.length;x++) {
-		if (!chkSvr.selected && 
-		    (grdLst2_dp.getItemAt(x).cm_info.substr(38,1) == "1" || 
-		      grdLst2_dp.getItemAt(x).cm_info.substr(50,1) == "1")) {
+	for (var x=0;x<secondGridData.length;x++) {
+		if (!$('#chkSvr').is(':checked') && 
+		    (secondGridData[x].cm_info.substr(38,1) == "1" || 
+		      secondGridData[x].cm_info.substr(50,1) == "1")) {
 		    findSw = true;
-		    tmpObj = {};
-		    tmpObj.cr_itemid = grdLst2_dp.getItemAt(x).cr_itemid;
-		    tmpObj.baseitem = grdLst2_dp.getItemAt(x).baseitem;
-		    tmpObj.cm_dirpath = grdLst2_dp.getItemAt(x).cm_dirpath;
-		    tmpObj.cr_rsrcname = grdLst2_dp.getItemAt(x).cr_rsrcname;
-		    tmpObj.cr_rsrccd = grdLst2_dp.getItemAt(x).cr_rsrccd;
-		    tmpObj.cr_syscd = grdLst2_dp.getItemAt(x).cr_syscd;
-		    if (grdLst2_dp.getItemAt(x).cm_info.substr(38,1) == "1") tmpObj.compyes = "Y";
+		    tmpObj = new Object();
+		    tmpObj.cr_itemid = secondGridData[x].cr_itemid;
+		    tmpObj.baseitem = secondGridData[x].baseitem;
+		    tmpObj.cm_dirpath = secondGridData[x].cm_dirpath;
+		    tmpObj.cr_rsrcname = secondGridData[x].cr_rsrcname;
+		    tmpObj.cr_rsrccd = secondGridData[x].cr_rsrccd;
+		    tmpObj.cr_syscd = secondGridData[x].cr_syscd;
+		    if (secondGridData[x].cm_info.substr(38,1) == "1") tmpObj.compyes = "Y";
 		    else tmpObj.compyes = "N";
-		    if (grdLst2_dp.getItemAt(x).cm_info.substr(50,1) == "1") tmpObj.deployyes = "Y";
+		    if (secondGridData[x].cm_info.substr(50,1) == "1") tmpObj.deployyes = "Y";
 		    else tmpObj.deployyes = "N";
-		    if (grdLst2_dp.getItemAt(x).cm_info.substr(28,1) == "1") tmpObj.progshl = "1";
+		    if (secondGridData[x].cm_info.substr(28,1) == "1") tmpObj.progshl = "1";
 		    else tmpObj.progshl = "0";
-		    tmpArray.addItem(tmpObj);
-		    tmpObj = null;
+		    tmpArray.push(tmpObj);
 		}
 	}
 	editRowBlank();
@@ -1435,7 +1440,7 @@ function cmdReq_DiffNext() {
 		cmdReqSub();
 	}	
 }
-*/
+
 function checkInClick(){
 	var tmpSayu = $("#txtSayu").val().trim();
 	
@@ -1530,7 +1535,6 @@ function cmdReqSub(){
 	
 	var confirmInfoData = new Object();
 	confirmInfoData.sysCd = getSelectedVal('cboSys').value;
-	confirmInfoData.reqCd = reqCd;
 	confirmInfoData.strRsrcCd = strRsrcCd;
 	confirmInfoData.ReqCd = reqCd;
 	confirmInfoData.userId = userId;
@@ -1601,10 +1605,10 @@ function confCall(GbnCd){
 	}
 	strDeploy = "Y";
 	if (getSelectedIndex('cboSrId')>0) tmpPrjNo = getSelectedVal('cboSrId').cc_srid;
-	var confirmInfoData = new Object();
-	confirmInfoData.UserID = strUserId;
+	confirmInfoData = new Object();
+	confirmInfoData.UserID = userId;
 	confirmInfoData.ReqCD  = reqCd;
-	confirmInfoData.SysCd  = getSelectedVal('cboSys').cm_syscd;
+	confirmInfoData.SysCd  = getSelectedVal('cboSys').value;
 	confirmInfoData.Rsrccd = tmpRsrc;
 	confirmInfoData.QryCd = strQry;
 	confirmInfoData.EmgSw = emgSw;
@@ -1620,11 +1624,27 @@ function confCall(GbnCd){
 	}
 	
 	if (GbnCd == "Y") {
-		gyulPopUp = Confirm_select(PopUpManager.createPopUp(this, Confirm_select, true));
-		gyulPopUp.parentfuc = reqQuest;
-		gyulPopUp.parentvar = confirmInfoData;
-	    PopUpManager.centerPopUp(gyulPopUp);//팝업을 중앙에 위치하도록 함
-	    gyulPopUp.minitApp();		  		
+		approvalModal.open({
+	        width: 820,
+	        height: 365,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/request/ApprovalModal.jsp",
+	            param: "callBack=modalCallBack"
+		    },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	            	if(confirmData.length > 0){
+	            		reqQuestConf();
+	            	}
+	            	ingSw = false;
+	                mask.close();
+	            }
+	        }
+		});
 	} else if (GbnCd == "N") {
 
 		var tmpData = {
@@ -1685,9 +1705,9 @@ function reqQuestConf(){
 	requestData.ReqSayu = "9";
 	requestData.txtSayu = $('#txtSayu').val().trim();
 	requestData.reqetc = "";
-	if (getSelectedIndex('cboIsrId')>0){
-		requestData.cc_srid = getSelectedIndex('cboIsrId').cc_srid;
-		requestData.cc_reqtitle = getSelectedVal('cboIsrId').cc_reqtitle;
+	if (getSelectedIndex('cboSrId')>0){
+		requestData.cc_srid = getSelectedIndex('cboSrId').cc_srid;
+		requestData.cc_reqtitle = getSelectedVal('cboSrId').cc_reqtitle;
 	} else {
 		requestData.cc_srid = "";
 		requestData.cc_reqtitle = "";
@@ -1696,6 +1716,7 @@ function reqQuestConf(){
 //	else requestData.outpos = "L";
 
 	var tmpData = {
+			secondGridData : secondGridData,
 		requestData: 	requestData,
 		requestFiles:	secondGridData,
 		requestConfirmData:	confirmData,
@@ -1783,7 +1804,7 @@ function bntRequestClick(){
 	var tmpSayu = $('#txtSayu').val().trim();
 	
 	if (ingSw) {
-		Alert.show("현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.");
+		showToast("현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.");
 		return;
 	}
 	

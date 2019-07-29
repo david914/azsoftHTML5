@@ -8,12 +8,13 @@ var jobCd		= window.parent.jobCd;
 var firstGrid  	= new ax5.ui.grid();
 var secondGrid  	= new ax5.ui.grid();
 
-var firstGridData = null; 							//선후행목록 데이타
-var firstGridSimpleData = null;
-var secondGridData = null; 							//선후행목록 데이타
+var firstGridData = []; 							//선후행목록 데이타
+var firstGridSimpleData = [];
+var secondGridData = []; 							//선후행목록 데이타
 var data          = null;							//json parameter
 var prgData		= null;
 var selCd = "";
+var beforSelIndex = -9;
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -48,10 +49,7 @@ firstGrid.setConfig({
     	    this.self.repaint();
     	},
         onDBLClick: function () {
-        	addDataRow(this);
-        },
-        onClick: function () {
-        	getReqPgmList(this);
+        	confSet(this.item);
         }
     },
     columns: [
@@ -79,6 +77,7 @@ secondGrid.setConfig({
         onClick: function () {
         	//this.self.clearSelect();
            this.self.select(this.dindex);
+       		secondGridClick(this.dindex);
         },
     	trStyleClass: function () {
     		if (this.item.colorsw == '3'){
@@ -91,7 +90,10 @@ secondGrid.setConfig({
     	},
     	onDataChanged: function(){
     	    this.self.repaint();
-    	}
+    	},
+        onDBLClick: function () {
+        	removeSecondGrid(this.item, this.dindex);
+        }
     },
     contextMenu: {
         iconWidth: 20,
@@ -136,13 +138,12 @@ $(document).ready(function() {
 	$('#lblDel').hide();
 	
 	$('#btnClose').bind('click',function() {
-		window.parent.befJobData = [];
+		window.parent.confirmData = [];
 		popClose();
 	});
 	
 	$('#btnReq').bind('click',function(){
-		window.parent.befJobData = thirdGrid.list;
-		popClose();
+		register();
 	});
 
 	$('#btnSearch').bind('click',function(){
@@ -162,6 +163,21 @@ $(document).ready(function() {
 			$('#btnSearch').click();
 		}
 	});
+	
+	$('[name = "optBase"]').bind('change',function(){
+		if($(this).val() == "추가"){
+			selCd = "U";
+			$("#AddArea").show();
+			firstGrid.setData(firstGridData);
+		}
+		else{
+			selCd = "I";
+			$("#AddArea").hide();
+			firstGrid.setData(firstGridSimpleData);
+		}
+	})
+	
+	getConfirmInfo();
 });
 
 function popClose(){
@@ -176,7 +192,7 @@ function simpleData(){
 		firstGridSimpleData = [];
 	}
 	else{
-		var secondItem =  secondGird.getList('selected')[0];
+		var secondItem =  secondGrid.getList('selected')[0];
 		
 		for(var i =0; i < firstGridData.length; i++){
 			if(secondItem.cm_gubun != "3" && secondItem.cm_gubun != "6"      ||
@@ -196,14 +212,13 @@ function simpleData(){
 }
 
 function getSignUser(){
-	var signUserInfoData = new Object();
 	
-	signUserInfoData = {
+	var tmpData = {
 		txtName   :   $('#txtName').val().trim(),
 		requestType	: 	'getSignUser'
 	}
 	
-	ajaxAsync('/webPage/apply/ApplyRequest', signUserInfoData, 'json',successGetSignUser);
+	ajaxAsync('/webPage/apply/ApplyRequest', tmpData, 'json',successGetSignUser);
 } 
 
 function successGetSignUser(data){
@@ -226,19 +241,18 @@ function cmdInit(){
 			if (secondGridData[i].cm_position != null && secondGridData[i].cm_position != "") {
 				tmpRgt = tmpRgt + "," + secondGridData[i].cm_position;
 			}
-		} 
+		}
 		if (secondGridData[i].cm_gubun == "6") {//업무책임자[6]
 			if (secondGridData[i].cm_position != null && secondGridData[i].cm_position != "") {
 				tmpRgt2 = tmpRgt2 + "," + secondGridData[i].cm_position;
 			}
-		} 
+		}
 	}
 	if ((tmpRgt != null && tmpRgt != "") || (tmpRgt2 != null && tmpRgt2 != "")) {
 		selCd = "U";
 
-		var signListInfoData = new Object();
 		
-		signListInfoData = {
+		 var tmpData = {
 			UserId	  :   userId,
 			tmpRgt   :   tmpRgt,
 			SysCd	 :	 sysCd,
@@ -247,7 +261,7 @@ function cmdInit(){
 			requestType	: 	'getSignLst_dept'
 		}
 		
-		ajaxAsync('/webPage/apply/ApplyRequest', signUserInfoData, 'json',successGetSignList);
+		ajaxAsync('/webPage/apply/ApplyRequest', tmpData, 'json',successGetSignList);
 	}
 }
 
@@ -282,31 +296,32 @@ function contextMenuClick(data, item){
 }
 
 //결재자 추가
-function confSet(){
+function confSet(data){
 	var i = 0;
 	var swFind = false;
 	
-	if (grdLst1.selectedItem == null || grdLst1.selectedItem == "") {
-		Alert.show("결재자를 선택한 후 처리하시기 바랍니다.");
-		return;
-	}
-	if (grdLst1.selectedItems.length > 1) {
-		Alert.show("결재자를 다수로 선택할 수 없습니다. 한사람씩 선택하여 주시기 바랍니다.");
+	if (data == null || data == "") {
+		showToast("결재자를 선택한 후 처리하시기 바랍니다.");
 		return;
 	}
 	
-	if (optBase2.selected) {//변경일때
-	//	if (grdLst2.selectedItem == null && grdLst2_dp.length>0) {
+	if (data.length > 1) {
+		showToast("결재자를 다수로 선택할 수 없습니다. 한사람씩 선택하여 주시기 바랍니다.");
+		return;
+	}
+	
+	if ($('[name = "optBase"]').val() == "변경") {//변경일때
+	//	if (data == null && grdLst2_dp.length>0) {
 	//    	Alert.show("결재 추가할 단계를 선택한 후 처리하시기 바랍니다.");
 	//    	return;
-	//    }
-	    if (grdLst2_dp.length == 0) swFind = true;
+	// }
+	    if (secondGridData.length == 0) swFind = true;
 	}
-	for (i = 0;i < grdLst2_dp.length;i++) {
+	for (i = 0;i < secondGridData.length;i++) {
 		if (selCd == "U") {
-			if (grdLst2_dp.getItemAt(i).cm_gubun == "3" || grdLst2_dp.getItemAt(i).cm_gubun == "6") {
-				if (grdLst2_dp.getItemAt(i).delyn == "N" && grdLst2_dp.getItemAt(i).cm_gubun == grdLst1.selectedItem.gubun) {
-					if (grdLst2_dp.getItemAt(i).cm_position.indexOf(grdLst1.selectedItem.cm_rgtcd)>=0) {
+			if (secondGridData[i].cm_gubun == "3" || secondGridData[i].cm_gubun == "6") {
+				if (secondGridData[i].delyn == "N" && secondGridData[i].cm_gubun == data.gubun) {
+					if (secondGridData[i].cm_position.indexOf(data.cm_rgtcd)>=0) {
 			   			swFind = true;
 			   			break;
 					}
@@ -314,11 +329,11 @@ function confSet(){
 			}
 		} else if (selCd == "I") {
 			swFind = true;
-			for (i = 0;i < grdLst2_dp.length;i++) {
-			  	if (grdLst2_dp.getItemAt(i).cm_gubun == "3" || grdLst2_dp.getItemAt(i).cm_gubun == "6") {
-			  		if (grdLst2_dp.getItemAt(i).cm_baseuser != null) {
-			  			if (grdLst2_dp.getItemAt(i).cm_baseuser == grdLst1.selectedItem.cm_signuser) {
-		  					Alert.show("이미 결재단계에 등록된 결재자입니다. 확인 후 처리하시기 바랍니다.");
+			for (i = 0;i < secondGridData.length;i++) {
+			  	if (secondGridData[i].cm_gubun == "3" || secondGridData[i].cm_gubun == "6") {
+			  		if (secondGridData[i].cm_baseuser != null) {
+			  			if (secondGridData[i].cm_baseuser == data.cm_signuser) {
+			  				showToast("이미 결재단계에 등록된 결재자입니다. 확인 후 처리하시기 바랍니다.");
 		  					return;
 		  				}
 			  		}
@@ -328,61 +343,226 @@ function confSet(){
 	}
 
 	if ( swFind ) {
-	var etcObj = {};
-	var etcsubObj = {};
-	var etcsubarc = new ArrayCollection();
+	var etcObj = new Object();
+	var etcsubObj = new Object();
+	var etcsubarc = [];
 		if (selCd == "U") {
-		etcObj = grdLst2_dp.getItemAt(i);
-		etcObj.cm_baseuser = grdLst1.selectedItem.cm_signuser;
-
-		etcsubObj.SvTag  = grdLst1.selectedItem.cm_username;
-		etcsubObj.SvUser = grdLst1.selectedItem.cm_daegyul;
-		etcsubarc.addItem(etcsubObj);
-		etcObj.arysv = etcsubarc;
-
-		etcObj.delsw = false;
-		//etcObj.cm_duty = grdLst2_dp.getItemAt(i).cm_position;
-		grdLst2_dp.setItemAt(etcObj,i);
+			etcObj = secondGridData[i];
+			etcObj.cm_baseuser = data.cm_signuser;
+	
+			etcsubObj.SvTag  = data.cm_username;
+			etcsubObj.SvUser = data.cm_daegyul;
+			etcsubarc.push(etcsubObj);
+			etcObj.arysv = etcsubarc;
+	
+			etcObj.delsw = false;
+			//etcObj.cm_duty = secondGridData[i].cm_position;
+  			secondGridData[i] = etcObj;
 		} else {
-  		etcObj.cm_name = grdLst1.selectedItem.rgtcd;		
-  		etcObj.cm_sgnname = "결재(순차)";
-  		etcObj.cm_baseuser = grdLst1.selectedItem.cm_signuser;
-  		etcObj.cm_congbn = "2";
-		etcObj.cm_emg2 = "2";
-		etcObj.cm_prcsw = "N";
-		etcObj.cm_common = "2";
-		etcObj.cm_blank = "2";
-		etcObj.cm_holi = "2";
-		etcObj.cm_emg = "2";
-		etcObj.cm_duty = grdLst1.selectedItem.cm_rgtcd;
-		etcObj.cm_position = grdLst1.selectedItem.cm_rgtcd;
-		etcObj.cm_gubun = "3";
-		etcObj.cm_seqno = "0";
-		etcObj.delyn = "Y";
-		
-		etcsubObj.SvTag  = grdLst1.selectedItem.cm_username;
-		etcsubObj.SvUser = grdLst1.selectedItem.cm_daegyul;
-		etcsubarc.addItem(etcsubObj);
-		etcObj.arysv = etcsubarc;
-		
-		etcObj.delsw = true;
-		etcObj.userSetable = false;
-		
-		if (grdLst2_dp.length == 0) grdLst2_dp.addItem(etcObj);
-  		//else grdLst2_dp.addItemAt(etcObj,grdLst2.selectedIndex);
-  		//결재절차 그리드[grdLst2]에서 선택한 index값이 없을때는 그리드의 len 갑으로 셋팅
-  		else if ( beforSelIndex == -9 ){
-  			grdLst2_dp.addItemAt(etcObj,grdLst2_dp.length);
-  		} else{
-  			grdLst2_dp.addItemAt(etcObj,beforSelIndex);
-  		}
-  		//20141021. 결재자 추가 후 결재절차 그리드 선택값 클리어.
-  		grdLst2.selectedIndex = -1;
-  		beforSelIndex = -9;
+	  		etcObj.cm_name = data.rgtcd;		
+	  		etcObj.cm_sgnname = "결재(순차)";
+	  		etcObj.cm_baseuser = data.cm_signuser;
+	  		etcObj.cm_congbn = "2";
+			etcObj.cm_emg2 = "2";
+			etcObj.cm_prcsw = "N";
+			etcObj.cm_common = "2";
+			etcObj.cm_blank = "2";
+			etcObj.cm_holi = "2";
+			etcObj.cm_emg = "2";
+			etcObj.cm_duty = data.cm_rgtcd;
+			etcObj.cm_position = data.cm_rgtcd;
+			etcObj.cm_gubun = "3";
+			etcObj.cm_seqno = "0";
+			etcObj.delyn = "Y";
+			
+			etcsubObj.SvTag  = data.cm_username;
+			etcsubObj.SvUser = data.cm_daegyul;
+			etcsubarc.push(etcsubObj);
+			etcObj.arysv = etcsubarc;
+			
+			etcObj.delsw = true;
+			etcObj.userSetable = false;
+			
+			if (secondGridData.length == 0) secondGridData.push(etcObj);
+	  		//else grdLst2_dp.addItemAt(etcObj,grdLst2.selectedIndex);
+	  		//결재절차 그리드[grdLst2]에서 선택한 index값이 없을때는 그리드의 len 갑으로 셋팅
+	  		else if ( beforSelIndex == -9 ){
+	  			secondGridData.push(etcObj);
+	  		} else{
+	  			secondGridData.splice(beforSelIndex,0,etcObj);
+	  		}
+	  		//20141021. 결재자 추가 후 결재절차 그리드 선택값 클리어.
+			secondGrid.clearSelect();
+			beforSelIndex = -9;
 		}
-		grdLst2_dp.refresh();
-		etcObj = null;
-		etcsubObj = null;
-		etcsubarc = null;
+		secondGrid.setData(secondGridData);
+	}
+}
+
+function deleteRow(){
+	var secondGridSelected = second.getList('selected');
+	
+	var findSw = false;
+	
+	for(var i=0 ;  i>secondGridSelected.length ; i++ ){
+		if(secondGridSelected[i].visible == '1'){
+			secondGrid.removeRow(secondGridSelected.dindex);
+			findSw = true;
+		}
+	}
+	if(findSw){
+		showToast('삭제대상을 선택한 후 처리하시기 바랍니다.');
+		return;
+	}
+}
+
+function register(){
+	if(secondGridData.length == 0){
+		showToast('결재정보가 없습니다. 관리자에게 등록요청한 후 처리하시기 바랍니다.');
+		return;
+	}
+	var Msg = '결재절차를 등록하고, 계속 진행하시겠습니까?';
+	if(reqCd == '41'){
+		Msg = 'SR등록 결재를 신청합니다.';
+	}
+	mask.open();
+	confirmDialog.confirm({
+		msg: Msg,
+	}, function(){
+		if(this.key === 'ok') {
+			registerAfter();
+		}
+		mask.close();
+	});
+}
+
+function registerAfter(){
+	var findSw = false;
+	var i = 0;
+	var j = 0;
+	//var gubun3Cnt:int = 0;
+	var tmpAry = null;
+	var tmpNAry = null;
+	var tmpNObj = null;
+	
+	for (i = 0;secondGridData.length>i;i++) {
+		if (secondGridData[i].cm_gubun != "8") {
+			if (secondGridData[i].arysv[0].SvUser == null || secondGridData[i].arysv[0].SvUser == "") {
+				   showToast("[" + secondGridData[i].cm_name + "]에 대한 결재자를 지정한 후 처리하십시오.");
+				   return;
+			}
+		}
+	}
+	for (i=0;secondGridData.length>i;i++){
+		tmpAry = secondGridData[i].arysv;
+		if (tmpAry.length < 2){
+			continue;
+		}
+		tmpNAry =[];
+		for (j=0;j<tmpAry.length;j++){
+			if (tmpAry[j].selectedFlag == "1"){
+				tmpNAry.push(tmpAry[j]);
+				break;
+			}
+		}
+		tmpNObj = new Object;
+		tmpNObj = secondGridData[i];
+		tmpNObj.arysv = tmpNAry;
+		secondGridData[i] = tmpNObj;
+	}
+	secondGrid.repaint();
+	closeFlag = true;
+	window.parent.confirmData = secondGridData;
+	popClose();
+}
+
+function getConfirmInfo(){
+	var Confirm_Info = new Object();
+	Confirm_Info = window.parent.confirmInfoData;
+	
+	var tmpData = {
+			confirmInfoData   :   Confirm_Info,
+			requestType	: 	'Confirm_Info'
+		}
+		
+		ajaxAsync('/webPage/apply/ApplyRequest', tmpData, 'json',successGetConfirmInfo);
+}
+
+function successGetConfirmInfo(data){
+	
+	secondGridData = data;
+	secondGrid.setData(secondGridData);
+	
+	if(secondGridData.length == 0 ){
+		showToast('결재정보가 없습니다. 관리자에게 등룍요청한 후 처리하시기 바랍니다.');
+		$("#btnReq").prop('disabled',true);
+		return;
+	}
+	else{
+		$("#btnReq").prop('disabled',false);
+	}
+	cmdInit();
+}
+
+function removeSecondGrid(data, index){
+	if(data == null){
+		return;
+	}
+
+	if (data.delyn == null || data.delyn == "") return;
+	if (data.delyn != "Y") return;
+		if (data.cm_gubun == "3" || data.cm_gubun == "6" || data.cm_gubun == "C"
+		     || data.cm_gubun == "R") {
+
+			
+			confirmDialog.confirm({
+				msg: "결재단계 ["+data.cm_name+"]를 취소할까요?",
+			}, function(){
+				if(this.key === 'ok') {
+					cnclProc(data, index);
+				}
+			});
+		}
+}
+
+function cnclProc(data, index){
+	var tmpObj = new Object();
+	//var etcsubarc:ArrayCollection = new ArrayCollection();
+
+	if (data.delsw == true) {
+		secondGrid.removeRow(index);
+		secondGridData.splice(index,1);
+	} else {
+		tmpObj = data;
+		tmpObj.userSetable = true;
+		//tmpObj.arysv = etcsubarc;
+		tmpObj.arysv[0].SvTag = "";
+		tmpObj.arysv[0].SvUser = "";
+		tmpObj.cm_baseuser = "";
+		if (tmpObj.cm_position == null || tmpObj.cm_position == "") {
+			tmpObj.cm_gubun = "C";
+		}
+		secondGridData[i]=tmpObj;
+	}
+	secondGrid.setData(secondGridData);
+	//201441021. 결재절차 그리드에서 제거 후 선택 값 클리어
+	secondGrid.clearSelect();
+	beforSelIndex = -9;
+}
+
+function secondGridClick(index){
+	
+	if(index == null || index == undefined){
+		return;
+	}
+	if(index == beforSelIndex){
+		beforSelIndex = -9;
+		secondGrid.clearSelect();
+		return;
+	}
+	
+	beforSelIndex = index;
+	if($('[name = "optBase"]').val() == "변경"){
+		simpleData();
 	}
 }

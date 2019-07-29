@@ -136,7 +136,14 @@ public class Cmr0200{
     					if (strInfo[i].substring(1,2).equals("1") || strInfo[i].substring(13,14).equals("1")) {
     						for (k=0;ConfList.size()>k;k++) {
 		    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-		    						rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+		    	        	    	//*************************************************
+		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+		    	        	    	Gson gson = new Gson(); 
+		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+		    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+		    	        	    	
+		    	        	    	//**************************************************
+									rData2 = myMap;
 		        					confTeam = (String) rData2.get(0).get("SvUser");
 		        					rData2 = null;
 		        					if (confTeam.equals("SYSDN")) {
@@ -150,7 +157,14 @@ public class Cmr0200{
     					if (strInfo[i].substring(21,22).equals("1") || strInfo[i].substring(23,24).equals("1")) {
     						for (k=0;ConfList.size()>k;k++) {
 		    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-		    						rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+		    	        	    	//*************************************************
+		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+		    	        	    	Gson gson = new Gson(); 
+		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+		    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+		    	        	    	
+		    	        	    	//**************************************************
+		    						rData2 = myMap;
 		        					confTeam = (String) rData2.get(0).get("SvUser");
 		        					rData2 = null;
 		        					if (confTeam.equals("SYSUP")) {
@@ -199,7 +213,14 @@ public class Cmr0200{
     					    strInfo[i].substring(24,25).equals("1")) {
     						for (k=0;ConfList.size()>k;k++) {
 		    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-		    						rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+		    	        	    	//*************************************************
+		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+		    	        	    	Gson gson = new Gson(); 
+		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+		    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+		    	        	    	
+		    	        	    	//**************************************************
+		    						rData2 = myMap;
 		        					confTeam = (String) rData2.get(0).get("SvUser");
 		        					rData2 = null;
 		        					if (confTeam.equals("SYSFT") && strInfo[i].substring(27,28).equals("1")) {
@@ -262,7 +283,14 @@ public class Cmr0200{
 					if (!ReqCd.equals("05")) {
 						for (k=0;ConfList.size()>k;k++) {
 	    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-	    						rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+	    	        	    	//*************************************************
+	    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+	    	        	    	Gson gson = new Gson(); 
+	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+	    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+	    	        	    	
+	    	        	    	//**************************************************
+	    						rData2 = myMap;
 	        					confTeam = (String) rData2.get(0).get("SvUser");
 	        					rData2 = null;
 	        					if (confTeam.equals("SYSRC") && strInfo[i].substring(34,35).equals("1")) {
@@ -320,7 +348,14 @@ public class Cmr0200{
     					    strInfo[i].substring(24,25).equals("1")) {
     						for (k=0;ConfList.size()>k;k++) {
 		    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-		    						rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+		    	        	    	//*************************************************
+		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+		    	        	    	Gson gson = new Gson(); 
+		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+		    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+		    	        	    	
+		    	        	    	//**************************************************
+		    						rData2 = myMap;
 		        					confTeam = (String) rData2.get(0).get("SvUser");
 		        					rData2 = null;
 		        					if (confTeam.equals("SYSFT") && strInfo[i].substring(27,28).equals("1")) {
@@ -383,7 +418,14 @@ public class Cmr0200{
 					if (!ReqCd.equals("05")) {
 						for (k=0;ConfList.size()>k;k++) {
 	    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-	    						rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+	    	        	    	//*************************************************
+	    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+	    	        	    	Gson gson = new Gson(); 
+	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+	    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+	    	        	    	
+	    	        	    	//**************************************************
+	    						rData2 = myMap;
 	        					confTeam = (String) rData2.get(0).get("SvUser");
 	        					rData2 = null;
 	        					if (confTeam.equals("SYSRC") && strInfo[i].substring(34,35).equals("1")) {
@@ -435,7 +477,14 @@ public class Cmr0200{
 					else if (!ReqCd.equals("05")) {
 						for (k=0;ConfList.size()>k;k++) {
 	    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-	    						rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+	    	        	    	//*************************************************
+	    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+	    	        	    	Gson gson = new Gson(); 
+	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+	    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+	    	        	    	
+	    	        	    	//**************************************************
+	    						rData2 = myMap;
 	        					confTeam = (String) rData2.get(0).get("SvUser");
 	        					rData2 = null;
 	        					if (confTeam.equals("SYSAR")) {
@@ -519,7 +568,14 @@ public class Cmr0200{
 								findSw = false;
 								for (k=0;ConfList.size()>k;k++) {
 									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-										rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+			    	        	    	//*************************************************
+			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+			    	        	    	Gson gson = new Gson(); 
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	
+			    	        	    	//**************************************************
+										rData2 = myMap;
 				    					confTeam = (String) rData2.get(0).get("SvUser");
 				    					rData2 = null;
 				    					if (confTeam.equals("SYSRK")) {
@@ -551,7 +607,14 @@ public class Cmr0200{
 								findSw = false;
 								for (k=0;ConfList.size()>k;k++) {
 									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-										rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+			    	        	    	//*************************************************
+			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+			    	        	    	Gson gson = new Gson(); 
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	
+			    	        	    	//**************************************************
+										rData2 = myMap;
 				    					confTeam = (String) rData2.get(0).get("SvUser");
 				    					rData2 = null;
 				    					if (confTeam.equals("SYSDN")) {
@@ -583,7 +646,14 @@ public class Cmr0200{
 								findSw = false;
 								for (k=0;ConfList.size()>k;k++) {
 									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-										rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+			    	        	    	//*************************************************
+			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+			    	        	    	Gson gson = new Gson(); 
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	
+			    	        	    	//**************************************************
+										rData2 = myMap;
 				    					confTeam = (String) rData2.get(0).get("SvUser");
 				    					rData2 = null;
 				    					if (confTeam.equals("SYSFT")) {
@@ -614,7 +684,14 @@ public class Cmr0200{
 								findSw = false;
 								for (k=0;ConfList.size()>k;k++) {
 									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-										rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+			    	        	    	//*************************************************
+			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+			    	        	    	Gson gson = new Gson(); 
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	
+			    	        	    	//**************************************************
+										rData2 = myMap;
 				    					confTeam = (String) rData2.get(0).get("SvUser");
 				    					rData2 = null;
 				    					if (confTeam.equals("SYSUP")) {
@@ -645,7 +722,14 @@ public class Cmr0200{
 								findSw = false;
 								for (k=0;ConfList.size()>k;k++) {
 									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-										rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+			    	        	    	//*************************************************
+			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+			    	        	    	Gson gson = new Gson(); 
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	
+			    	        	    	//**************************************************
+										rData2 = myMap;
 				    					confTeam = (String) rData2.get(0).get("SvUser");
 				    					rData2 = null;
 				    					if (confTeam.equals("SYSCB")) {
@@ -692,7 +776,14 @@ public class Cmr0200{
 								findSw = false;
 								for (k=0;ConfList.size()>k;k++) {
 									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-										rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+			    	        	    	//*************************************************
+			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+			    	        	    	Gson gson = new Gson(); 
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	
+			    	        	    	//**************************************************
+										rData2 = myMap;
 				    					confTeam = (String) rData2.get(0).get("SvUser");
 				    					rData2 = null;
 				    					if (confTeam.equals("SYSED")) {
@@ -737,7 +828,14 @@ public class Cmr0200{
 								findSw = false;
 								for (k=0;ConfList.size()>k;k++) {
 									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-										rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+			    	        	    	//*************************************************
+			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+			    	        	    	Gson gson = new Gson(); 
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	
+			    	        	    	//**************************************************
+										rData2 = myMap;
 				    					confTeam = (String) rData2.get(0).get("SvUser");
 				    					rData2 = null;
 				    					if (confTeam.equals("SYSRC")) {
@@ -768,7 +866,14 @@ public class Cmr0200{
 								findSw = false;
 								for (k=0;ConfList.size()>k;k++) {
 									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-										rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+			    	        	    	//*************************************************
+			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+			    	        	    	Gson gson = new Gson(); 
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	
+			    	        	    	//**************************************************
+										rData2 = myMap;
 				    					confTeam = (String) rData2.get(0).get("SvUser");
 				    					rData2 = null;
 				    					if (confTeam.equals("SYSAR")) {
@@ -799,7 +904,14 @@ public class Cmr0200{
 								findSw = false;
 								for (k=0;ConfList.size()>k;k++) {
 									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-										rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+			    	        	    	//*************************************************
+			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+			    	        	    	Gson gson = new Gson(); 
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	
+			    	        	    	//**************************************************
+										rData2 = myMap;
 				    					confTeam = (String) rData2.get(0).get("SvUser");
 				    					rData2 = null;
 				    					if (confTeam.equals("SYSCN")) {
@@ -831,7 +943,14 @@ public class Cmr0200{
 								findSw = false;
 								for (k=0;ConfList.size()>k;k++) {
 									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-										rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(k).get("arysv");
+			    	        	    	//*************************************************
+			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
+			    	        	    	Gson gson = new Gson(); 
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	
+			    	        	    	//**************************************************
+										rData2 = myMap;
 				    					confTeam = (String) rData2.get(0).get("SvUser");
 				    					rData2 = null;
 				    					if (confTeam.equals("SYSED")) {

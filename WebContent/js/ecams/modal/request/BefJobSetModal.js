@@ -194,19 +194,17 @@ function popClose(){
 
 function getBefJob(){
 	
-	var reqListInfoData = new Object();
-	
 	if(reqCd == null || reqCd == undefined || reqCd == null){
 		reqCd = acptNo.substr(4,2);
 	}
 	
-	reqListInfoData = {
+	var tmpData = {
 		acptNo	: 	"",
 		reqCd   :   reqCd,
 		requestType	: 	'reqList_Select'
 	}
 	
-	ajaxAsync('/webPage/apply/ApplyRequest', reqListInfoData, 'json',successGetBefJob);
+	ajaxAsync('/webPage/apply/ApplyRequest', tmpData, 'json',successGetBefJob);
 	
 }
 
@@ -253,14 +251,12 @@ function getReqPgmList(data){
 	
 	prgData = data.cr_befact; // 중복체크
 	
-	var reqPgmInfoData = new Object();
-	
-	reqPgmInfoData = {
+	var tmpData = {
 		befact   :   data.cr_befact,
 		requestType	: 	'reqList_Prog'
 	}
 	
-	ajaxAsync('/webPage/apply/ApplyRequest', reqPgmInfoData, 'json',successGetReqPgmList);
+	ajaxAsync('/webPage/apply/ApplyRequest', tmpData, 'json',successGetReqPgmList);
 }
 
 function successGetReqPgmList(data){

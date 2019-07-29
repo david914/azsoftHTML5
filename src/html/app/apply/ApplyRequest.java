@@ -20,6 +20,7 @@ import app.common.SysInfo;
 import app.eCmd.Cmd0100;
 import app.eCmr.Cmr0200;
 import app.eCmr.Cmr0200_BefJob;
+import app.eCmr.Confirm_select;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/apply/ApplyRequest")
@@ -33,6 +34,7 @@ public class ApplyRequest extends HttpServlet {
 	Cmd0100 cmd0100  = new Cmd0100();
 	Cmr0200 cmr0200  = new Cmr0200();
 	Cmr0200_BefJob cmr0200_BefJob = new Cmr0200_BefJob();
+	Confirm_select confirm_select = new Confirm_select();
 	SignInfo signInfo = new SignInfo();
 		
 	@Override
@@ -169,17 +171,18 @@ public class ApplyRequest extends HttpServlet {
 			
 	}
 	private String confSelect(JsonElement jsonElement) throws SQLException, Exception {
-		ArrayList<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
-		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
-		HashMap<String, String> etcData = new HashMap<String, String>();
-		etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"downFileData"));
-		return gson.toJson(cmr0200.getDownFileList(fileList,etcData));
+		HashMap<String, String> confirmInfoData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"confirmInfoData"));
+		return gson.toJson(cmr0200.confSelect(confirmInfoData.get("sysCd"), 
+															   confirmInfoData.get("ReqCd"),
+															   confirmInfoData.get("strRsrcCd"),
+															   confirmInfoData.get("userId"),
+															   confirmInfoData.get("strQry")));
 			
 	}
 	
 	private String Confirm_Info(JsonElement jsonElement) throws SQLException, Exception{
-		
-		return "";
+		HashMap<String, String> confirmInfoData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"confirmInfoData"));
+		return gson.toJson(confirm_select.Confirm_Info(confirmInfoData));
 	}
 	
 	private String reqList_Select(JsonElement jsonElement) throws SQLException, Exception {
