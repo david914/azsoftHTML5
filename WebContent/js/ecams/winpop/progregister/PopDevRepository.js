@@ -359,7 +359,7 @@ function successSvrInfo(data) {
 	cboSvrData = cboSvrData.filter(function(data) {
 		if(data.cm_svrname != null && (data.cm_svrip == null || data.cm_svrip == "")) return true;
 		else {
-			if(data.cm_svruse.substr(1,1) == "0" && data.cm_svrcd == "01") {
+			if(data.cm_svrcd == "01") { //data.cm_svruse.substr(1,1) == "0" && 
 				return true;
 			}else {
 				return false;
