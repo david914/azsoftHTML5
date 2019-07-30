@@ -24,7 +24,7 @@
 <div class="container-fluid pop_wrap">
 	<div class="row">
 		<div>
-			<div class="az_board_basic" style="height:75%">
+			<div class="az_board_basic" style="height:70%">
 		    	<div data-ax5grid="grdReqDoc" style="height: 100%;"></div>
 			</div>
 		</div>
