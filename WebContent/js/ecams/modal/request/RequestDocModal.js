@@ -10,8 +10,8 @@ var fileHomePath  = null;							//첨부문서 홈 경로
 
 grdReqDoc.setConfig({
     target: $('[data-ax5grid="grdReqDoc"]'),
-    sortable: true, 
-    multiSort: true,
+    //sortable: true, 
+    //multiSort: true,
     showLineNumber: true,
     header: {
         align: "center",
@@ -21,23 +21,32 @@ grdReqDoc.setConfig({
         columnHeight: 28,
         onClick: function () {
         	//this.self.clearSelect();
-           this.self.select(this.dindex);
+        	//this.self.select(this.dindex);
+        	if (this.colIndex == 1) {
+        		location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+'\\'+this.item.savename;
+        	}
         },
         onDBLClick: function () {
         	if (this.dindex < 0) return;
 
 	       	var selIn = grdReqDoc.selectedDataIndexs;
 	       	if(selIn.length === 0) return;
-
+	       	
 	       	//문서열기
-			location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+this.item.savename;
+			location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+'\\'+this.item.savename;
         },
     	onDataChanged: function(){
     	    this.self.repaint();
     	}
     },
     columns: [
-        {key: "orgname", label: "파일명",  width: '98%', align: "left"}
+        {key: "orgname", label: "파일명",  width: '85%', align: "left"},
+        {key: 'b', label: '', align: 'center', 
+        	formatter: function() {
+        		//<a href="/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+'\\'+this.item.savename+'"></a>
+        		return '<img width="16px" height="16px" src="/img/download.png" alt="file download" style="cursor:pointer"/>';
+        	}
+        }
     ]
 });
 
@@ -57,10 +66,6 @@ $(document).ready(function() {
 	//하단 닫기버튼
 	$('#btnClose').bind('click', function() {
 		popClose();
-	});
-	//선행작업연결
-	$('#btnBefJob').bind('click', function() {
-		window.parent.openBefJobSetModal();
 	});
 });
 //문서 홈 경로 가져오기 완료

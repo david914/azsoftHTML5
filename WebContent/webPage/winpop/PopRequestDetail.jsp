@@ -178,8 +178,8 @@
 				</ul>
 			</div>
 		  	<div class="tab_container" style="height: 55%;">
-		      	<div id="tab1" class="tab_content">
-					<div class="row half_wrap_cb">
+		      	<div id="tab1" class="tab_content" style="height: 100%;">
+					<div class="row half_wrap_cb" style="height: 100%;">
 						<div class="l_wrap">
 							<label><input type="checkbox" id="chkDetail"/>항목상세보기</label>
 							<button class="btn_basic_s margin-5-left" id="btnSelCncl">선택건회수</button>
@@ -187,8 +187,8 @@
 						<div class="r_wrap">
 							<button class="btn_basic_s" id="btnPriorityOrder">우선순위적용</button>
 			    		</div>
-			    		<div class="l_wrap width-100 margin-10-top">
-						    <div class="panel-body text-center" id="gridDiv1" style="height: 85%;">
+			    		<div class="l_wrap width-100 margin-10-top" style="height: 85%;">
+						    <div class="panel-body text-center" id="gridDiv1" style="height: 100%;">
 						    	<div data-ax5grid="reqGrid" style="height: 100%;"></div>
 						    </div>
 					    </div>

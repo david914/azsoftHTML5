@@ -9,7 +9,7 @@
 	String userId = StringHelper.evl(request.getParameter("user"),"");
 	String acptNo = StringHelper.evl(request.getParameter("acptno"),"");
 %>
-<body style="width: 100% !important; min-width: 0px !important">
+<body style="width: 100% !important; padding: 10px;">
 	<div class="content">    	
 		<div id="history_wrap">공통<strong>&gt; 결재정보</strong></div>
 		     
@@ -18,15 +18,15 @@
 				<div class="row vat">
 					<label class="tit_80 poa">신청번호</label>
 					<div class="ml_80 vat">
-						<input type="text" class="width-30" id="txtAcpt">
-						<input type="text" class="width-70" id="txtLocatCncl">
+						<input type="text" class="width-30" id="txtAcpt" readonly>
+						<input type="text" class="width-70" id="txtLocatCncl" readonly>
 					</div>
 				</div>
 				
 				<div class="row vat">
 					<label class="tit_80 poa">현재상황</label>
 					<div class="ml_80 vat">
-						<input type="text" class="width-100" id="txtLocat">
+						<input type="text" class="width-100" id="txtLocat" readonly>
 					</div>
 				</div>
 			</div>

@@ -1430,7 +1430,7 @@ function openWindow(type,acptNo, etcInfo) {
 	} else if (type === 7) {//로그확인
 		cURL = "/webPage/winpop/PopServerLog.jsp";
 	} else if (type === 8) {//결재정보
-		nHeight = 516;
+		nHeight = 480;
 		cURL = "/webPage/winpop/PopApprovalInfo.jsp";
 	} else {
 		confirmDialog2.alert('window open - popup: invalid type ['+type+'] error', function(){return;});

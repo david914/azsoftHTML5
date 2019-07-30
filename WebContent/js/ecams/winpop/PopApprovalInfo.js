@@ -48,7 +48,7 @@ approvalGrid.setConfig({
     },
     columns: [
         {key: "confname", 	label: "결재단계명",  	width: '10%', align: "left"},
-        {key: "team",		label: "결재자",  	width: '10%'},
+        {key: "team",		label: "결재자",  		width: '10%'},
         {key: "teamcd", 	label: "구분",  		width: '10%'},
         {key: "confdate", 	label: "결재일시",  	width: '15%'},
         {key: "baseuser", 	label: "원결재자",  	width: '10%'},
@@ -71,15 +71,10 @@ $('[data-ax5select="cboUser"]').ax5select({
 $(document).ready(function() {
 	$('#txtAcpt').val(acptNo.substr(0,4) + '-' + acptNo.substr(4,2) + '-' +acptNo.substr(6,6));
 	
-	$('#txtAcpt').prop('disabled', true);
-	$('#txtLocatCncl').prop('disabled', true);
-	$('#txtLocat').prop('disabled', true);
-	
 	screenInit();
 	
 	// 변경 후 결재 변경시
 	$('#cboBlank').bind('change', function() {
-		console.log('들어오나요');
 		if(getSelectedVal('cboBlank').value === '3') {
 			$('#divUser').css('visibility', 'visible');
 			selectUser();

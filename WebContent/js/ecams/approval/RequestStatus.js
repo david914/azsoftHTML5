@@ -476,14 +476,11 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
 		cURL = "/webPage/winpop/PopRequestDetail.jsp";
 	    
 	} else if (type == 2) {
-		nHeight = 400;
-	    nWidth  = 900;
+		nHeight = 480;
+	    nWidth  = 1046;
 
 		cURL = "/webPage/winpop/PopApprovalInfo.jsp";
 	}
-	
-	console.log('+++++++++++++++++'+cURL);
-	
+	//console.log('+++++++++++++++++'+cURL);
     myWin = winOpen(f, winName, cURL, nHeight, nWidth);
-    
 }
