@@ -40,7 +40,7 @@ $(document).ready(function(){
 	strReqCd = "99";
 	
 //  테스트 후 주석
-	strIsrId = "R201907-0002";
+//	strIsrId = "R201907-0002";
 	
 //	document.getElementById('frmPrjList').onload = function() {
 //		console.log("frmPrjList is loaded");

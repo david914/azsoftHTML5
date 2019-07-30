@@ -339,7 +339,7 @@ function changeCboReqSecu() {
 function setCboDevUser() { // 담당개발자 select 세팅
 	var ajaxReturnData = null;
 	var userInfo = {
-		userInfoData : userid,
+		userInfoData : window.top.userId,
 		requestType : 'GET_USER_COMBO'
 	}
 
@@ -783,10 +783,13 @@ function firstGridClick(srid) {
 		ajaxReturnData = null;
 		var devUser = {
 			srInfoData : srid,
-			userid : userid,
+			userid : window.top.userId,
 			requestType : 'getDevUserList'
 		}
 
+		console.log("userid: " + userid + ", " + window.top.userId + ", " + window.parent.userId);
+		console.log("devUser: ", devUser);
+		
 		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab',
 				devUser, 'json');
 		console.log(ajaxReturnData);
