@@ -4,7 +4,7 @@
 <c:import url="/webPage/common/common.jsp" />
 <c:import url="/js/ecams/common/commonscript.jsp" />
 
-<div class="half_wrap margin-10-top">
+<div class="half_wrap">
 	<!--하단 좌측-->
 	<div class="l_wrap width-48 vat write_wrap"><!--ver2-->
 		<div class="row">
