@@ -153,7 +153,7 @@ public class Cmc0200{
 			pstmt = null;
 			rs = null;
 			
-			if (rsval.size() > 0 && !ReqCd.equals("42") && !ReqCd.equals("49")&& !ReqCd.equals("47")) {
+			if (rsval.size() > 0 && !ReqCd.equals("42") && !ReqCd.equals("49")&& !ReqCd.equals("47") && !ReqCd.equals("69")) {
 				rst = new HashMap<String, String>();
 				rst.put("cc_scmuser","");
 				rst.put("cm_username","ÀüÃ¼");
