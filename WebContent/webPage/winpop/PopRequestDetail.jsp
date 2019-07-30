@@ -122,6 +122,7 @@
 							</div>
 						</div>			
 						<div class="width-70 float-left por margin-10-top" id="SrDiv">
+							<!--
 							<div class="dib width-98">
 		                    	<label class="tit_80 poa">&nbsp;&nbsp;SR-ID</label>
 		                        <div class="ml_80">
@@ -131,6 +132,16 @@
 							<div class="dib poa_r">
 								<button id="btnSR" class="btn_basic_s">&nbsp;&nbsp;SR 정보 확인&nbsp;&nbsp;</button>
 							</div>
+							-->
+							<div class="dib" style="width:calc(100% - 109.31px);">
+		                    	<label class="tit_80 poa">&nbsp;&nbsp;SR-ID</label>
+		                        <div class="ml_80 margin-5-right">
+									<input id="txtSR" class="width-100" type="text" readonly>
+								</div>
+							</div>
+							<div style="display: inline-block; vertical-align: top;">
+								<button id="btnSR" class="btn_basic_s" style="width: 109.31px;">SR 정보 확인</button>
+						    </div>
 						</div>
 					</div>				
 					<div class="row vat cb">
