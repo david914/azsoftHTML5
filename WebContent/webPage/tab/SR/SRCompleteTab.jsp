@@ -4,6 +4,7 @@
 <c:import url="/webPage/common/common.jsp" />
 <c:import url="/js/ecams/common/commonscript.jsp" />
 
+<body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
 <div class="row half_wrap_cb">
 	<!--left-->
 	<div class="l_wrap width-40">
@@ -66,7 +67,7 @@
 	<button id="btnOk" class="btn_basic_p" style="display: none;">결재</button><button id="btnCncl" class="btn_basic_p margin-5-left" style="display: none;">반려</button><button id="btnConf" class="btn_basic_s margin-5-left" style="display: none;">결재정보</button><button id="btnReg" class="btn_basic_s margin-5-left">등록/수정</button>
 </div>
 <!--게시판 S-->
-<div class="row az_board_basic" style="height: 65%">
+<div class="row az_board_basic" style="height: 40%">
 	<div class="tit">
 		<h3>▪ 개발자 및 테스트 담당자 별 실 투입시간</h3>
 	</div>
@@ -74,6 +75,7 @@
 		data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}"
 		style="height: 100%;"></div>
 </div>	
+<body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
 
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/SR/SRCompleteTab.js"/>"></script>
 
