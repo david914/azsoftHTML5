@@ -20,28 +20,39 @@
         <div id="history_wrap">요구관리 <strong>&gt; SR정보</strong></div>
         <!-- history E-->         
 	    
-	    <!-- PrjListTab.jsp -->
-	    <div class="az_board_basic" style="height:5%">
-			<div class="l_wrap width-10 dib vat" style="width:100%; height:100%">
-				<div class="width-15 dib">
-					<label>SR-ID</label>
-					<input id="txtSRID" type="text" disabled="disabled">
+	    <div class="az_search_wrap">
+			<div class="az_in_wrap">
+				<div class="cb">
+					<!-- line1 -->		
+                    <div class="width-30 float-left">
+						<div class="margin-5-right">
+	                    	<label class="tit_80 poa">SR-ID</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text" id="txtSRID">
+							</div>
+						</div>
+					</div>	
+                    <div class="width-70 float-left">
+						<div>
+	                    	<label class="tit_80 poa tac">상태</label>
+	                        <div class="ml_80">
+								<input class="width-100" type="text" id="txtSRSta">
+							</div>
+						</div>
+					</div>
+				</div>	
+				<div class="row">
+					<!-- line2 -->	
+                	<label class="tit_80 poa">SR명</label>
+                    <div class="ml_80">
+						<input class="width-100" type="text" id="txtSRTitle">
+					</div>
 				</div>
-
-				<div class="width-30 dib">
-					<label>SR명</label>
-					<input id="txtSRTitle" type="text" disabled="disabled" class="width-80">
-				</div>
-
-				<div class="width-20 dib">
-					<label>상태</label>
-					<input id="txtSRSta" type="text" disabled="disabled">
-				</div>
-    		</div>
-	    </div>
+			</div>
+		</div>
 	    
 		<!-- 하단 S-->
-		<div class="half_wrap margin-10-top" style="height: 90%">
+		<div class="half_wrap margin-10-top" style="height: 80%">
 			<!-- tab S-->
 			<div class="tab_wrap">
 				<ul class="tabs">
@@ -49,15 +60,12 @@
 					<li rel="tabDevPlan" id="tab2" class="on">개발계획/실적등록</li>
 					<li rel="tabReqHistory" id="tab3">변경요청이력</li>
 					<li rel="tabPrgList" id="tab4">프로그램목록</li>
-					<li rel="tabTestCase" id="tab5">단위테스트</li>
-					<li rel="tabDevCheck" id="tab6">개발검수</li>
-					<li rel="tabMoniteringCheck" id="tab7">모니터링체크</li>
-					<li rel="tabSRComplete" id="tab8">SR완료</li>
+					<li rel="tabSRComplete" id="tab5">SR완료</li>
 				</ul>
 			</div>
 			<!-- tab E-->
 			
-			<div class="half_wrap margin-10-top" style="height:80%"> <!--  tab_container -->
+			<div class="half_wrap margin-10-top" style="height:97%"> <!--  tab_container -->
 		       	<!-- SR등록/접수 START -->
 		       	<div id="tabSRRegister" class="tab_content mask_wrap" style="width:100%">
 		       		<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/tab/SR/SRRegisterTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
@@ -81,24 +89,6 @@
 		       		<iframe id="frmPrgList" name="frmPrgList" src='/webPage/tab/SR/PrgListTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- 프로그램목록 END -->
-		       	
-		       	<!-- 단위테스트 START -->
-		       	<div id="tabTestCase" class="tab_content" style="width:100%">
-		       		<iframe id="frmTestCase" name="frmTestCase" src='/webPage/tab/SR/TestCaseTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
-		       	</div>
-		       	<!-- 단위테스트 END -->
-		       	
-		       	<!-- 개발검수 START -->
-		       	<div id="tabDevCheck" class="tab_content" style="width:100%">
-		       		<iframe id="frmDevCheck" name="frmDevCheck" src='/webPage/tab/SR/DevCheckTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
-		       	</div>
-		       	<!-- 개발검수 END -->
-		       	
-		       	<!-- 모니터링체크 START -->
-		       	<div id="tabMoniteringCheck" class="tab_content" style="width:100%">
-		       		<iframe id="frmMoniteringCheck" name="frmMoniteringCheck" src='/webPage/tab/SR/MoniteringCheckTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
-		       	</div>
-		       	<!-- 모니터링체크 END -->
 		       	
 		       	<!-- SR완료 START -->
 		       	<div id="tabSRComplete" class="tab_content" style="width:100%">

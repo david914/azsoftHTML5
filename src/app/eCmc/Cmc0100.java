@@ -114,7 +114,7 @@ public class Cmc0100 {
 			strQuery.append(" 	  WHERE a.cm_active = 1												\n");
 			strQuery.append("   	AND a.cm_clsdate is null										\n");
 			strQuery.append("   	AND a.cm_project = b.cm_deptcd									\n");
-			if (UserId != null && UserId != "") {
+			if (UserId != null && !"".equals(UserId)) {
 				strQuery.append("	AND a.cm_userid=?       										\n");
 			} else if(combo_select.equals("DEPT")){//부서로 검색
 				strQuery.append("	AND a.cm_project = ?											\n");
@@ -125,7 +125,7 @@ public class Cmc0100 {
 			
 	        pstmt = conn.prepareStatement(strQuery.toString());
 	        //pstmt = new LoggableStatement(conn,strQuery.toString());
-	        if (UserId != null && UserId != "") {
+	        if (UserId != null && !"".equals(UserId)) {
 	        	pstmt.setString(1, UserId);
 	        } else if(combo_select.equals("DEPT")){//부서로 검색
 	        	pstmt.setString(1, search_dept);

@@ -15,12 +15,14 @@ var userDeptCd 	 	= window.top.userDeptCd;
 var strReqCd	 	= window.top.reqCd;
 
 //public
-var strIsrId = "R201907-0002";
+var strIsrId  = "";
 var strQryGbn = "";
-var strWorkD = "";
+var strWorkD  = "";
+var strAcptNo = "";
 var cboQryGbnData = [];
 
-var urlArr = [];
+var prjListData = [];
+
 
 $(document).ready(function(){
 	//tab메뉴
@@ -28,28 +30,30 @@ $(document).ready(function(){
 	$('#tabDevPlan').width($('#tabDevPlan').width()+10);
 	$('#tabReqHistory').width($('#tabReqHistory').width()+10);
 	$('#tabPrgList').width($('#tabPrgList').width()+10);
-	$('#tabTestCase').width($('#tabTestCase').width()+10);
-	$('#tabDevCheck').width($('#tabDevCheck').width()+10);
-	$('#tabMoniteringCheck').width($('#tabMoniteringCheck').width()+10);
 	$('#tabSRComplete').width($('#tabSRComplete').width()+10);
 	
-	$("#tabDevPlan").show(); //개발계획실적탭
-	//tabnavi.selectedIndex = tabnavi.childDescriptors.length-1;
+	//$("#tabDevPlan").show();
 	
+	strIsrId = $('#SRId').val();
+	strAcptNo = $('#AcptNo').val(); 
+	userId = $('#UserId').val();
 	strReqCd = "99";
 	
-	$('#tabSRRegister').get(0).contentWindow.strReqCd = "XX";
+//  테스트 후 주석
+	strIsrId = "R201907-0002";
 	
-	$('#tabDevPlan').get(0).contentWindow.strReqCd = "42";
-	$('#tabDevPlan').get(0).contentWindow.strWorkD = strWorkD;
+//	document.getElementById('frmPrjList').onload = function() {
+//		console.log("frmPrjList is loaded");
+//	};
 	
-	$('#tabReqHistory').get(0).contentWindow.strReqCd = "43";
+	$('#frmSRRegister').get(0).contentWindow.strReqCd = "XX";
 	
-	$('#tabPrgList').get(0).contentWindow.strReqCd = "XX";
+	$('#frmDevPlan').get(0).contentWindow.strReqCd = "42";
+	$('#frmDevPlan').get(0).contentWindow.strWorkD = strWorkD;	
 	
-	$('#tabTestCase').get(0).contentWindow.strReqCd = "XX";
+	$('#frmReqHistory').get(0).contentWindow.strReqCd = "43";
 	
-	$('#tabDevCheck').get(0).contentWindow.strReqCd = "69";
+	$('#frmPrgList').get(0).contentWindow.strReqCd = "XX";
 	
 	//PrjInfo.getPrjList(tmpObj);
 	var tmpInfo = new Object();
@@ -76,13 +80,62 @@ function initScreen() {
 	$("#tab3").unbind("click");
 	$("#tab4").unbind("click");
 	$("#tab5").unbind("click");
-	$("#tab6").unbind("click");
-	$("#tab7").unbind("click");
-	$("#tab8").unbind("click");
 }
 
 function successPrjList(data) {
+	prjListData = data;
+	if(prjListData.length > 0) {
+		$("#txtSRID").val(strIsrId);
+		$("#txtSRTitle").val(prjListData[0].cc_reqtitle);
+		$("#txtSRSta").val(prjListData[0].status);
+		iSRID_Click(prjListData[0]);
+	}
+}
+
+function iSRID_Click(data) {
+	if(data == null) return;
 	
+	var tabIdx = 0;
+	
+	if(data.isrproc.indexOf("69")>=0) {
+		$("#tab5").bind("click");
+		if(strAcptNo != null && strAcptNo != "") {
+			if(strAcptNo.substr(4,2) == "69") {
+				tabIdx = 7;
+			}
+		}
+	}
+	
+	if(data.isrproc.indexOf("44")>=0 || data.isrproc.indexOf("54")>=0 || data.isrproc.indexOf("55")>=0) {
+		$("#tab4").bind("click");
+		//프로그램목록.initApp();
+	}
+	
+	if(data.isrproc.indexOf("43")>=0) {
+		$("#tab3").bind("click");
+		//변경요청이력.initApp();
+		if(tabIdx == 0) tabIdx = 4;
+	}
+	
+	if(data.isrproc.indexOf("42")>=0) {
+		$("#tab2").bind("click");
+		//개발계획실적.initApp();
+		if(tabIdx == 0) tabIdx = 1;
+	}
+	
+	if(data.isrproc.indexOf("41")>=0) {
+		$("#tab1").bind("click");
+		if(strAcptNo != null && strAcptNo != "") {
+			if(strAcptNo.substr(4,2) == "41") {
+				//$('#tabSRRegister').get(0).contentWindow.strAcptno = strAcptNo;
+				tabIdx = 0;
+			}
+		}
+		//SR등록.initApp();
+	}
+	
+	$('#tab' + tabIdx).trigger('click');
+	clickTabMenu();
 }
 
 //탭메뉴 클릭 이벤트
@@ -108,56 +161,73 @@ function clickTabMenu() {
 
 //tabnavi_click
 function changeTabMenu() {
-	console.log("changeTabMenu: " +  document.getElementById("tab2").className); //활성화:on, 비활성화: null
-
+	var tmpTab = null;
+	
+	//console.log("changeTabMenu: " +  document.getElementById("tab2").className); //활성화:on, 비활성화: null
+	
 	if(document.getElementById("tab1").className == "on") { //SR등록/접수
-		var tmpGrid = $('#frmPrjList').get(0).contentWindow.firstGrid;
-		var tmpGridSelectedIndex = tmpGrid.selectedDataIndexs;
-		var tmpSelectedGridItem = tmpGrid.list[tmpGrid.selectedDataIndexs];
-		var tmpTab = $('#frmSRRegister').get(0).contentWindow;
-		
-		if(tmpGridSelectedIndex < 0) {
-			tmpTab.elementInit("M");
-			return;
-		}
+		tmpTab = $('#frmSRRegister').get(0).contentWindow;
 		
 		if(tmpTab.strIsrId == strIsrId) return;
 		
-		tmpTab.strStatus = tmpSelectedGridItem.cc_status;
-		tmpTab.elementInit("M"); //tab1.screenInit("M");
-		tmpTab.firstGridClick(strIsrId); //tab1.grdPrj_click(strIsrId)
+		//initApp();
+		
+		//tmpTab.strEditor = prjListData[0].cc_createuser
+		tmpTab.strStatus = prjListData[0].cc_status;
+		tmpTab.firstGridClick(prjListData[0].cc_srid);
+		tmpTab.strIsrId = strIsrId;
 		
 	}else if(document.getElementById("tab2").className == "on") { //개발계획/실적등록
-		var tmpGrid = $('#frmPrjList').get(0).contentWindow.firstGrid;
-		var tmpGridSelectedIndex = tmpGrid.selectedDataIndexs;
-		var tmpSelectedGridItem = tmpGrid.list[tmpGrid.selectedDataIndexs];
-		var tmpTab = $('#frmDevPlan').get(0).contentWindow;
-		
-		if(tmpGridSelectedIndex < 0) {
-			tmpTab.screenInit("M"); //tab2.screenInit("M");
-			return;
-		}
+		tmpTab = $('#frmDevPlan').get(0).contentWindow;
 		
 		if(tmpTab.strIsrId == strIsrId) return;
 		
-		tmpTab.strIsrId = strIsrId; 
-		tmpTab.strStatus = tmpSelectedGridItem.cc_status;
+		tmpTab.strIsrId = strIsrId;
+		tmpTab.strStatus = prjListData[0].cc_status;
 		tmpTab.screenInit("M");
 		
-		if(strIsrId != null && strIsrId != "") {
-			tmpTab.initDevPlan(); //tab2.devPlanCall();
+		if(strIsrId != null) {
+			tmpTab.initDevPlan();
 		}
+		
 	}else if(document.getElementById("tab3").className == "on") { //변경요청이력
+		var tmpTab = $('#frmReqHistory').get(0).contentWindow;
+		
+		if(tmpTab.strIsrId == strIsrId) return;
+		
+		//tmpTab.screenInit();
+		if(strIsrId != null) {
+			tmpTab.getReqDepartInfo();
+		}
 		
 	}else if(document.getElementById("tab4").className == "on") { //프로그램목록
+		tmpTab = $('#frmPrgList').get(0).contentWindow;
 		
-	}else if(document.getElementById("tab5").className == "on") { //단위테스트
+		if(tmpTab.strIsrId == strIsrId) return;
 		
-	}else if(document.getElementById("tab6").className == "on") { //개발검수
+		tmpTab.strIsrId = strIsrId;
+		//tmpTab.screenInit();
+		if(strIsrId != null) {
+			tmpTab.getReqDepartInfo();
+		}
 		
-	}else if(document.getElementById("tab7").className == "on") { //모니터링체크
+	}else if(document.getElementById("tab5").className == "on") { //SR완료
+		tmpTab = $('#frmSRComplete').get(0).contentWindow;
 		
-	}else if(document.getElementById("tab8").className == "on") { //SR완료
+		if(tmpTab.strIsrId == strIsrId) return;
 		
+		tmpTab.strIsrId = strIsrId;
+		tmpTab.userId = userId;
+		tmpTab.strStatus = prjListData[0].cc_status;
+		//tmpTab.screenInit("M");
+		tmpTab.strIsrTitle = prjListData[0].cc_reqtitle;
+		tmpTab.strEditor = prjListData[0].cc_lastupuser;
+		tmpTab.strQryGbn = "00";
+		//tmpTab.srendInfoCall();
 	}
+}
+
+//public getQry_click
+function cmdQry_click() {
+	iSRID_Click(prjListData[0]);
 }

@@ -27,7 +27,7 @@
 			</div>
 			<!-- tab E-->
 			
-			<div class="half_wrap margin-10-top" style="height:80%"> <!--  tab_container -->
+			<div class="half_wrap margin-10-top" style="height:90%"> <!--  tab_container -->
 		       	<!-- SR등록/접수 START -->
 		       	<div id="tabSRRegister" class="tab_content mask_wrap" style="width:100%">
 		       		<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/tab/SR/SRRegisterTab.jsp' width='100%' height='100%' frameborder="0"></iframe>

@@ -47,14 +47,14 @@
 				<div class="row">
 					<dl>
 						<dt><label>*예상개발시작일</label></dt>
-						<dd><input id="txtExpStdate" name="txtExpStdate" type="text" class="width-80" data-ax5picker="txtExpStdate"><span class="btn_calendar poa_r" onClick="txtExpStdate_Click();"><i class="fa fa-calendar-o"></i></span></dd>
+						<dd><input id="txtExpStdate" name="txtExpStdate" type="text" class="f-cal" data-ax5picker="txtExpStdate"><span class="btn_calendar poa_r" onClick="txtExpStdate_Click();"><i class="fa fa-calendar-o"></i></span></dd>
 					</dl>
 					
 				</div>
 				<div class="row">
 					<dl>
 						<dt><label>*예상개발종료일</label></dt>
-						<dd><input id="txtExpEnddate" name="txtExpEnddate" type="text" class="width-80" data-ax5picker="txtExpEnddate"><span class="btn_calendar poa_r" onClick="txtExpEnddate_Click();"><i class="fa fa-calendar-o"></i></span></dd>
+						<dd><input id="txtExpEnddate" name="txtExpEnddate" type="text" class="f-cal" data-ax5picker="txtExpEnddate"><span class="btn_calendar poa_r" onClick="txtExpEnddate_Click();"><i class="fa fa-calendar-o"></i></span></dd>
 					</dl>
 				</div>
 				<div class="row">
