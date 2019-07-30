@@ -121,10 +121,10 @@ public class ApplyRequest extends HttpServlet {
 		HashMap<String, String> prjMap = new HashMap<String, String>();
 		prjMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"param"));
 		
-		if ("07".equals(prjMap.get("SinCd"))) {//체크인
+		if ("07".equals(prjMap.get("ReqCD"))) {//체크인
 			return gson.toJson(cmr0200.getReqList(prjMap));
 			
-		} else { //SinCd=03(테스트적용) or 04(운영적용) 
+		} else { //ReqCD=03(테스트적용) or 04(운영적용) 
 			return gson.toJson(cmr0200.getDeployList(prjMap));
 		}
 	}
@@ -142,14 +142,13 @@ public class ApplyRequest extends HttpServlet {
 		
 		ArrayList<HashMap<String, String>> scriptData = new ArrayList<HashMap<String, String>>();
 		scriptData = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"scriptData"));
-		
-		if ("07".equals(requestData.get("SinCd"))) {//체크인
+
+		if ("07".equals(requestData.get("ReqCD"))) {//체크인
 			return gson.toJson(cmr0200.request_Check_In(secondGridData, requestData, requestConfirmData, "Y", scriptData ));
 			
-		} else { //SinCd=03(테스트적용) or 04(운영적용) 
+		} else { //ReqCD=03(테스트적용) or 04(운영적용) 
 			ArrayList<HashMap<String, String>> befJobData = new ArrayList<HashMap<String, String>>();
 			befJobData = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"befJobData"));
-			
 			return gson.toJson(cmr0200.request_Deploy(secondGridData, requestData, befJobData, requestConfirmData, "Y", scriptData));
 		}
 			
@@ -162,10 +161,10 @@ public class ApplyRequest extends HttpServlet {
 		HashMap<String, String> etcData = new HashMap<String, String>();
 		etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"downFileData"));
 
-		if ("07".equals(etcData.get("SinCd"))) {//체크인
+		if ("07".equals(etcData.get("ReqCD"))) {//체크인
 			return gson.toJson(cmr0200.getDownFileList(fileList,etcData));
 			
-		} else { //SinCd=03(테스트적용) or 04(운영적용) 
+		} else { //ReqCD=03(테스트적용) or 04(운영적용) 
 			return gson.toJson(cmr0200.getDownFileList_Deploy(fileList,etcData));
 		}
 			

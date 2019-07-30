@@ -108,25 +108,24 @@ secondGrid.setConfig({
         ],
         popupFilter: function (item, param) {
         	if(param.dindex == undefined || param.dindex == null || param.dindex < 0){
-        		return false;
+        		return true;
         	}
         	
         	if((param.item.cm_gubun == '3' || param.item.cm_gubun == '6') && param.item.userSetable == false){
-        		return false;
+        		return true;
 			}
-        	
-        	return true;
+        	return false;
        	 
         },
         onClick: function (item, param) {
 	        contextMenuClick(param.item, item);
-	        firstGrid.contextMenu.close();//또는 return true;
+	        secondGrid.contextMenu.close();//또는 return true;
         	
-        },
+        }
     },
     columns: [
         {key: "cm_name", label: "단계명칭",  width: '35%'},
-        {key: "arysv", label: "결재자",  width: '33%'},
+        {key: "arysv_text", label: "결재자",  width: '33%'},
         {key: "cm_sgnname", label: "결재",  width: '32%'}
     ]
 });
@@ -271,7 +270,6 @@ function successGetSignList(data){
 }
 
 function contextMenuClick(data, item){
-	
 	if (data.delsw == false && item.label == "참조") {
 		showToast("해당단계는 참조로 변경할 수 없습니다.");
 		return;
@@ -279,16 +277,17 @@ function contextMenuClick(data, item){
 	//tmpRender.data.cm_sgnname = tmpItem.caption;
 	
 	var intCodeSet = "2";
-	selObj.cm_sgnname = tmpItem.caption;
+	//selObj.cm_sgnname = tmpItem.caption;
 	if ( item.type == "2" ) {
 		intCodeSet = "4";
 	}
-	data.cm_blank = intCodeSet;
-	data.cm_common = intCodeSet;
-	data.cm_congbn = intCodeSet;
-	data.cm_emg = intCodeSet;
-	data.cm_emg2 = intCodeSet;
-	data.cm_holi = intCodeSet;
+	secondGridData[data.__index].cm_blank = intCodeSet;
+	secondGridData[data.__index].cm_common = intCodeSet;
+	secondGridData[data.__index].cm_congbn = intCodeSet;
+	secondGridData[data.__index].cm_emg = intCodeSet;
+	secondGridData[data.__index].cm_emg2 = intCodeSet;
+	secondGridData[data.__index].cm_holi = intCodeSet;
+	secondGridData[data.__index].cm_sgnname = item.label;
 	
 	//grdLst2_dp.setItemAt(selObj,grdLst2.selectedIndex);
 	secondGrid.repaint();
@@ -354,6 +353,7 @@ function confSet(data){
 			etcsubObj.SvUser = data.cm_daegyul;
 			etcsubarc.push(etcsubObj);
 			etcObj.arysv = etcsubarc;
+			etcObj.arysv_text = data.cm_username;
 	
 			etcObj.delsw = false;
 			//etcObj.cm_duty = secondGridData[i].cm_position;
@@ -379,6 +379,7 @@ function confSet(data){
 			etcsubObj.SvUser = data.cm_daegyul;
 			etcsubarc.push(etcsubObj);
 			etcObj.arysv = etcsubarc;
+			etcObj.arysv_text = data.cm_username;
 			
 			etcObj.delsw = true;
 			etcObj.userSetable = false;
@@ -490,6 +491,9 @@ function getConfirmInfo(){
 
 function successGetConfirmInfo(data){
 	
+	$(data).each(function(){
+		this.arysv_text = this.arysv[0].SvTag;
+	})
 	secondGridData = data;
 	secondGrid.setData(secondGridData);
 	
@@ -562,7 +566,9 @@ function secondGridClick(index){
 	}
 	
 	beforSelIndex = index;
-	if($('[name = "optBase"]').val() == "변경"){
+	
+	console.log($(":input:radio[name=optBase]:checked").val());
+	if($(":input:radio[name=optBase]:checked").val() == "변경"){
 		simpleData();
 	}
 }

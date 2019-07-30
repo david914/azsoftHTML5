@@ -290,6 +290,9 @@ $(document).ready(function(){
 	}
 	
 	$('#chkBefJob').bind('change',function(){
+		if($("#chkBefJob").parent(".wCheck").css('display') == "none"){
+			return;
+		}
 		if(befCheck){
 			befCheck = false;
 			return;
@@ -595,7 +598,7 @@ function findProc() {
 	
 	if(reqCd == '07'){
 		if (getSelectedIndex('cboReq') == 0) strQry = "99";//"00";
-		else strQry = getSelectedVal('cboReq').cm_micode;
+		else strQry = getSelectedVal('cboReq').value;
 	}
 	else {
 		if( closeSw ) {
@@ -975,7 +978,7 @@ function checkDuplication(downFileList){
 			}
 			*/
 			
-			if(getSelectedVal('cboReq').cm_micode == '05') $('data-ax5select="cboReq"').ax5select('disabled');
+			if(getSelectedVal('cboReq').value == '05') $('data-ax5select="cboReq"').ax5select('disabled');
 		}
 
 		$('#btnRequest').prop('disabled', false);
@@ -1467,7 +1470,7 @@ function checkInClick(){
 	}
 	
 //	cmdChk.enabled = false;
-	if (getSelectedVal('cboReqGbn').cm_micode != '05') {				
+	if (getSelectedVal('cboReqGbn').value != '05') {				
 		for (var x=0;x<secondGridData.length;x++) {
 			if (secondGridData[x].cm_info.substr(52,1) == "1" && secondGridData[x].cr_lstver != "0") {
 				cmdDiff_Click();
@@ -1604,7 +1607,7 @@ function confCall(GbnCd){
 		emgSw = "0";
 	}
 	strDeploy = "Y";
-	if (getSelectedIndex('cboSrId')>0) tmpPrjNo = getSelectedVal('cboSrId').cc_srid;
+	if (getSelectedIndex('cboSrId')>0) tmpPrjNo = getSelectedVal('cboSrId').value;
 	confirmInfoData = new Object();
 	confirmInfoData.UserID = userId;
 	confirmInfoData.ReqCD  = reqCd;
@@ -1669,7 +1672,7 @@ function confCall(GbnCd){
 function reqQuestConf(){
 
 	var ajaxReturnStr = null;
-	var requestData = new Object;
+	var requestData = new Object();
 	var deploy = '0';
 	var emgCd = '0';
 	var aplyData = '';
@@ -1681,9 +1684,9 @@ function reqQuestConf(){
 		else requestData.veryn = "Y";
 	}
 	else{ // 테스트배포, 운영배포
-		deploy = getSelectedVal('cboReqGbn').cm_micode;
+		deploy = getSelectedVal('cboReqGbn').value;
 		if(swEmg) emgCd = '2';
-		if(getSelectedVal('cboReqGbn').cm_micode =='04') aplyData = strAplyDate;
+		if(getSelectedVal('cboReqGbn').value =='04') aplyData = strAplyDate;
 		if(closeSw)requestData.closeyn = 'Y';
 		else requestData.closeyn = 'N';
 	}
@@ -1706,7 +1709,7 @@ function reqQuestConf(){
 	requestData.txtSayu = $('#txtSayu').val().trim();
 	requestData.reqetc = "";
 	if (getSelectedIndex('cboSrId')>0){
-		requestData.cc_srid = getSelectedIndex('cboSrId').cc_srid;
+		requestData.cc_srid = getSelectedVal('cboSrId').value;
 		requestData.cc_reqtitle = getSelectedVal('cboSrId').cc_reqtitle;
 	} else {
 		requestData.cc_srid = "";
@@ -1716,7 +1719,7 @@ function reqQuestConf(){
 //	else requestData.outpos = "L";
 
 	var tmpData = {
-			secondGridData : secondGridData,
+		secondGridData : secondGridData,
 		requestData: 	requestData,
 		requestFiles:	secondGridData,
 		requestConfirmData:	confirmData,
@@ -1789,7 +1792,7 @@ var tmpSayu = $('#txtSayu').val().trim();
 		return;
 	}
 	
-	if (getSelectedVal('cboReq').cm_micode != "05") {				
+	if (getSelectedVal('cboReq').value != "05") {				
 		for (var x=0;x<secondGridData.length;x++) {
 			if (secondGridData[x].cm_info.substr(52,1) == "1" && secondGridData[x].cr_lstver != "0") {
 				btnDiffClick();
@@ -1827,10 +1830,11 @@ function bntRequestClick(){
 		showToast('신청 할 파일을 추가하여 주십시오.');
 		return;
 	}
-	
+	mask.open();
 	confirmDialog.confirm({
 		msg : $('#btnRequest').text()+"을 하시겠습니까?",
 	}, function(){
+        mask.close();
 		if(this.key === 'ok') {
 			if(reqCd == '07'){
 				cmdReq_DiffNext();
@@ -1853,7 +1857,7 @@ function baepoConfirm(){
 
 	strAplyDate = "";
 
-	if ( getSelectedVal('cboReqGbn').cm_micode == "4" ) {//4:특정일시배포  0:일반  2:긴급
+	if ( getSelectedVal('cboReqGbn').value == "4" ) {//4:특정일시배포  0:일반  2:긴급
 		strTime = $('#txtReqTime').val();
 		if ($('#txtReqDate').val() == '' || strTime == "") {
 			showToast("적용일시를 입력하여 주시기 바랍니다.");
@@ -1889,7 +1893,7 @@ function baepoConfirm(){
 //		var findSw:Boolean = false;
 	var x=0;
 	var y=0;
-	var tagList = null;
+	var tagList = [];
 	
 	//운영배포 && 시스템속성[14]태그사용 && SR사용시스템 일때  
 	if ( reqCd == "04" && getSelectedVal('cboSys').cm_sysinfo.substr(13,1) == "1" && getSelectedVal('cboSys').cm_sysinfo.substr(9,1) == "0" ){//[14]태그사용
@@ -1906,7 +1910,7 @@ function baepoConfirm(){
 				x--;
 			} else {
 				strTmp = tagList[x].trim();
-				subTmp = new Object;
+				subTmp = new Object();
 				//태그를 []로 묶어주기
 				subTmp = "[" + strTmp.substring(0,strTmp.indexOf("]")+1);
 				tagList[x] =  subTmp;
@@ -1926,7 +1930,7 @@ function baepoConfirm(){
 	};
 	
 	for (x=0;x<secondGridData.length;x++) {
-		if (cboSRID.selectedIndex>0) {
+		if (getSelectedIndex('cboSrId')>0) {
 			if (secondGridData[x].baseitem != secondGridData[x].cr_itemid && secondGridData[x].cm_info.substr(10,1) == "1") {
 				//기준프로그램이 아니고 배포서버에 파일을 전송해야 하는 경우
 			    subTmp = {};
@@ -2024,7 +2028,7 @@ function RequestScript(){
 	
 	//컴파일 팝업 미개발
 	if ( findSw ) {//컴파일 또는 릴리즈스크립트 실행이 존재하는 프로그램이 있으면 스크립트를 작성 할수 있도록 연결
-		tmpObj = new Object;
+		tmpObj = new Object();
 		tmpObj.reqcd  = reqCd;
 		tmpObj.syscd  = getSelectedVal('cboSys').cm_syscd;
 		scriptPopUp = Script_Sel(PopUpManager.createPopUp(this, Script_Sel, true));
