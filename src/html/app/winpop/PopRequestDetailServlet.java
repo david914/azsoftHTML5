@@ -66,6 +66,9 @@ public class PopRequestDetailServlet extends HttpServlet {
 				case "gyulChk" :
 					response.getWriter().write( gyulChk(jsonElement) );
 					break;
+				case "updtDeploy" :
+					response.getWriter().write( updtDeploy(jsonElement) );
+					break;
 				case "updtDeploy_2" :
 					response.getWriter().write( updtDeploy_2(jsonElement) );
 					break;
@@ -132,6 +135,15 @@ public class PopRequestDetailServlet extends HttpServlet {
 		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		
 		return gson.toJson(cmr3100.gyulChk(AcptNo, UserId));
+	}
+	
+	private String updtDeploy(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String ReqPass = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "ReqPass") );
+		String DeployDate = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "DeployDate") );
+		String PassCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "PassCd") );
+
+		return gson.toJson(cmr0250.updtDeploy(AcptNo, ReqPass, DeployDate, PassCd));
 	}
 	
 	private String updtDeploy_2(JsonElement jsonElement) throws SQLException, Exception {

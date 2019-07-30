@@ -60,7 +60,7 @@ function getSvrLog() {
 	data = new Object();
 	data = {
 		AcptNo 		: pReqNo,
-		strDate 	: $('#txtPrcDate').val().replace(/\//gi,''),
+		strDate 	: replaceAllString($('#txtPrcDate').val(), '/', ''),
 		requestType : 'getLogView'
 	}
 	ajaxAsync('/webPage/winpop/PopServerLogServlet', data, 'json',successGetLogView);

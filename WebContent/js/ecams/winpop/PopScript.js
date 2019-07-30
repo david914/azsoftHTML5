@@ -20,8 +20,8 @@ pUserId = f.user.value;
 
 scriptGrid.setConfig({
     target: $('[data-ax5grid="scriptGrid"]'),
-    sortable: true, 
-    multiSort: true,
+    //sortable: true, 
+    //multiSort: true,
     showLineNumber: true,
     header: {
         align: "center",
@@ -29,10 +29,7 @@ scriptGrid.setConfig({
     },
     body: {
         columnHeight: 28,
-        onClick: function () {
-        	//this.self.clearSelect();
-           this.self.select(this.dindex);
-        },
+        onClick: function () {},
         onDBLClick: function () {},
     	trStyleClass: function () {},
     	onDataChanged: function(){
@@ -41,7 +38,7 @@ scriptGrid.setConfig({
     },
     contextMenu: {},
     columns: [
-        {key: "cm_cmdname", label: "실행명령",  width: '98%', align: 'left'}
+        {key: "cm_cmdname", label: "실행명령",  width: '100%', align: 'left'}
     ]
 });
 

@@ -129,12 +129,17 @@ reqGrid.setConfig({
         		var retType = '12';
         		
 				findSw = false;
+				//컴파일, 릴리즈스크립트, 적용스크립트 스크립트 실행
                 if (pReqCd == '07') {
-                	if (param.item.cm_info.substr(38,1) == '1' || param.item.cm_info.substr(50,1) == '1' || param.item.cm_info.substr(21,1) == '1') {
+                	if (param.item.cm_info.substr(38,1) == '1' || param.item.cm_info.substr(50,1) == '1' || param.item.cm_info.substr(58,1) == '1') {
                 		findSw = true;
                 	}
-                } else {
-                	if (param.item.cm_info.substr(0,1) == '1' || param.item.cm_info.substr(20,1) == '1' || param.item.cm_info.substr(21,1) == '1') {
+                } else if (pReqCd == '03') {
+                	if (param.item.cm_info.substr(60,1) == '1' || param.item.cm_info.substr(63,1) == '1' || param.item.cm_info.substr(66,1) == '1') {
+                		findSw = true;
+                	}
+                } else if (pReqCd == '04') {
+                	if (param.item.cm_info.substr(0,1) == '1' || param.item.cm_info.substr(20,1) == '1' || param.item.cm_info.substr(34,1) == '1') {
                 		findSw = true;
                 	}
                 }
@@ -207,8 +212,7 @@ reqGrid.setConfig({
 			        }
 				}
 			    
-			    if (retType == '1') return item.type == 1;
-			    else if (retType == '12') return item.type == 1 | item.type == 2;
+			    if (retType == '12') return item.type == 1 | item.type == 2;
 			    else if (retType == '13') return item.type == 1 | item.type == 3;
 			    else if (retType == '14') return item.type == 1 | item.type == 4;
 			    else if (retType == '15') return item.type == 1 | item.type == 5;
@@ -432,11 +436,45 @@ $(document).ready(function(){
 	 *                                                        button click event
 	 * ------------------------------------------------------------------------------------------------------------------------------
 	 */
+	//처리구분 수정클릭
+	$('#btnUpdate').bind('click', function() {
+		if (ingSw) {
+			confirmDialog2.alert('현재 신청내용 처리 중입니다. 잠시 후 이용해 주세요.');
+			return;
+		}
+		if (getSelectedIndex('cboReqPass')<1) {
+			confirmDialog2.alert('배포구분을 선택한 후 처리하시기 바랍니다.');
+			return;
+		}
+		
+		var reqFullDate = null;
+		if (getSelectedVal('cboReqPass').value == '4') {
+			var reqdate = replaceAllString($('#txtReqDate').val(), '/', '');
+			var reqtime = replaceAllString($('#txtReqTime').val(), ':', '');
+			reqFullDate = reqdate + reqtime;
+			var nowFullDate = getDate('DATE',0) + getTime();
+			
+			if(reqdate.length == 0) {
+				confirmDialog2.alert('적용일자(특정일시)를 입력해 주시기 바랍니다.');
+				return;
+			}
+			if(reqtime == 0) {
+				confirmDialog2.alert('적용시간(특정일시)를 입력해 주시기 바랍니다.');
+				return;
+			}
+			if( nowFullDate > reqFullDate) {
+				confirmDialog2.alert('적용일시(특정일시)가 현재일시 이전입니다. 정확히 선택하여 주십시오.');
+				return;
+			}
+		}
+		updtDeploy(getSelectedVal('cboReqPass').value, reqFullDate);
+	});
+	
 	//전체회수 클릭
 	$('#btnAllCncl').bind('click', function() {
 		if (ingSw) {
 			confirmDialog2.alert('현재 신청내용 처리 중입니다. 잠시 후 이용해 주세요.');
-		}else{
+		} else {
 			if (reqInfoData[0].befsw == 'Y') {
 				confirmDialog2.alert("다른 사용자가 선행작업으로 지정한 신청 건이 있습니다. \n"+
 				                     "해당 신청 건 사용자에게 선행작업 해제 요청 후 \n" +
@@ -698,7 +736,7 @@ $(document).ready(function(){
 	$('#btnTestDoc').bind('click', function() {
 		requestDocModal.open({
 	        width: 700,
-	        height: 350,
+	        height: 360,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/request/RequestDocModal.jsp",
@@ -952,6 +990,31 @@ function successUpdtSeq(data) {
 	} else {
 		confirmDialog2.alert('우선순위 수정 중 오류가 발생하였습니다.');
 	}
+}
+//처리구분 수정
+function updtDeploy(reqPass, deployDt) {
+	ingSw = true;
+	
+	data =  new Object();
+	data = {
+		AcptNo			: pReqNo,
+		ReqPass			: reqPass,
+		DeployDate		: deployDt,
+		PassCd			: '',
+		requestType		: 'updtDeploy'
+	}
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successUpdtDeploy);
+}
+//처리구분 수정완료
+function successUpdtDeploy(data) {
+	ingSw = false;
+	
+	if (data == '0') {
+		confirmDialog2.alert('배포구분 수정이  완료 되었습니다.');
+	}else{
+		confirmDialog2.alert(data);
+	}
+	$('#btnQry').trigger('click');
 }
 //우선적용 또는 해제 처리시작
 function priorityProc(parm) {
@@ -1298,7 +1361,8 @@ function aftChk() {
 	    if (reqInfoData[0].updtsw1 == '1') {
 	    	$('#btnPriorityOrder').prop("disabled", false);			//우선순위적용
 	    }
-	    if (reqInfoData[0].updtsw2 == '1') {
+	    
+	    if (pReqCd == '04' && reqInfoData[0].updtsw2 == '1') {
 	    	$('[data-ax5select="cboReqPass"]').ax5select("enable");//처리구분  콤보 활성화
 			document.getElementById('reqBtnDiv').style.visibility = "visible"; //처리구분 수정
 	    }

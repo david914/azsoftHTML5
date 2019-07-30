@@ -6,11 +6,8 @@
 
 <%
 	String acptNo = StringHelper.evl(request.getParameter("acptno"),"");
-	acptNo = "201704000092";
 	String itemId = StringHelper.evl(request.getParameter("itemid"),"");
-	itemId = "000000326336";
 	String userId = StringHelper.evl(request.getParameter("user"),"");
-	userId = "MASTER";
 %>
 
 <body style="padding: 10px;">
@@ -48,36 +45,22 @@
 					</div>
 				</div>
 				<div class="row vat cb">
-                    <div class="width-100 float-left" style="width: 100%; display: inline-block;">
-						<div class="margin-5-right" style="width: 100%; display: inline-block;">
-	                    	<label class="tit_80">스크립트유형</label>
-	                        <div class="ml_80" style="display: inline-block;">
-								<div id="cboScript" data-ax5select="cboScript" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-25"></div><input id="txtScriptName" class="width-75" type="text" readonly>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--
-				<div class="row vat cb">
-                    <div class="width-30">
-						<div class="margin-5-right">
+                    <div class="width-100 float-left por">
+						<div class="dib width-30">
 	                    	<label class="tit_80 poa">스크립트유형</label>
 	                        <div class="ml_80">
-								<div id="cboScript" data-ax5select="cboScript" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100"></div>
+								<div id="cboScript" class="margin-5-right" data-ax5select="cboScript" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 							</div>
 						</div>
+						<div style="width:70%; display: inline-block; vertical-align: top;">
+							<input id="txtScriptName" type="text" style="width: 100%;" class="margin-5-right" readonly>
+					    </div>
 					</div>
-                    <div class="width-70">
-						<div>
-                    		<input id="txtScriptName" class="width-100" type="text" readonly>
-                    	</div>
-                    </div>
 				</div>
-				-->
 			</div>
 			<div class="row vat cb">
 	            <div class="width-100">
-				    <div class="panel-body text-center" style="height: 25%;">
+				    <div class="panel-body text-center" style="height: 50%;">
 				    	<div data-ax5grid="scriptGrid" style="height: 100%;"></div>
 				    </div>
 				</div>
