@@ -2281,10 +2281,12 @@ public class PrjInfo{
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
+		PreparedStatement pstmt2       = null;
+		ResultSet         rs2          = null;
 		StringBuffer      strQuery    = new StringBuffer();
 		ArrayList<HashMap<String, String>>  rsval = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> rst	  = null;
-		
+		String			  cmc0290_tmp = "";
 		ConnectionContext connectionContext = new ConnectionResource();		
 		
 		try {
@@ -2323,6 +2325,23 @@ public class PrjInfo{
 				}else{
 					rst.put("cc_worktime", "");
 				}
+				
+				strQuery.setLength(0);
+				strQuery.append("select count(*) cnt from cmc0290 where cc_srid = ? \n");
+//				pstmt2 = conn.prepareStatement(strQuery.toString());
+				pstmt2 = new LoggableStatement(conn,strQuery.toString());
+	            pstmt2.setString(1, srID);
+//	            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
+	            rs2 = pstmt2.executeQuery();
+	            if (rs2.next()) {
+		            if (rs2.getInt("cnt")>0) {
+		            	cmc0290_tmp = "Y";
+		            }
+	            }
+	            rst.put("cmc0290_check", cmc0290_tmp);
+	            rs2.close();
+	            pstmt2.close();	
+				
     	        rsval.add(rst);
 				rst = null;
 	        }			
@@ -2543,5 +2562,59 @@ public class PrjInfo{
 			}
 		}
 	}
+    
+ public String getAcptNo(String IsrId) throws SQLException, Exception {
+	 	Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		ResultSet         rs          = null;
+		StringBuffer      strQuery    = new StringBuffer();
+		ConnectionContext connectionContext = new ConnectionResource();
+
+		String acptno = "";
+		
+		try {
+			conn = connectionContext.getConnection();
+		
+    		strQuery.setLength(0);        	
+        	strQuery.append("select CC_ACPTNO		   \n");
+        	strQuery.append("  from cmc0300 		   \n");
+        	strQuery.append(" where cc_srid = ? 	   \n");
+        	
+        	pstmt = conn.prepareStatement(strQuery.toString());
+        	
+        	pstmt.setString(1, IsrId);
+        	rs = pstmt.executeQuery();
+
+        	while(rs.next()){
+        		acptno = rs.getString("CC_ACPTNO");
+        	}
+        	rs.close();
+        	pstmt.close();
+        	
+			conn.close();
+			conn = null;
+			pstmt = null;
+			rs = null;
+        	
+        	return acptno;
+			
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## PrjInfo.getAcptNo() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);	
+			ecamsLogger.error("## PrjInfo.getAcptNo() SQLException END ##");			
+			return "1";
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## PrjInfo.getAcptNo() Exception START ##");				
+			ecamsLogger.error("## Error DESC : ", exception);	
+			ecamsLogger.error("## PrjInfo.getAcptNo() Exception END ##");				
+			return "2";
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+		}		
+	}
+    
     
 }//end of PrjInfo class statement
