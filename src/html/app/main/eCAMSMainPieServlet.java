@@ -62,5 +62,6 @@ public class eCAMSMainPieServlet extends HttpServlet {
 		System.out.println(jsonElement.toString());
 		HashMap<String, String> applyInfo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "data"));
 		return gson.toJson(cmr3200.getMainPie(applyInfo));
+//		return null;
 	}
 }

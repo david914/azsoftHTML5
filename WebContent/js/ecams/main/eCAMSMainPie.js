@@ -12,7 +12,7 @@
 
 var userName 	= window.top.userName;
 var userId 		= window.top.userId;
-userId = "MASTER";
+userId			= "MASTER";
 var adminYN 	= window.top.adminYN;
 var userDeptName= window.top.userDeptName;
 var userDeptCd 	= window.top.userDeptCd;
@@ -23,16 +23,18 @@ var calMonthArr	= [];
 var calMonthArrHoli = [];
 var calHoliArr		= [];
 
+var srListData	= [];
+var timeLineArr = ['SR등록','SR접수','체크아웃/프로그램등록','체크인','개발배포','테스트배포','운영배포요청','운영배포','SR완료'];
+
 var myWin		= null;
 
-var getPieprogressSw 	= false;
-var pieChart	= null;
-
 $(document).ready(function(){
-	
+	$('#lblPieTitle').text(userName + '님의 최근 한달간 운영 신청 프로그램 종류');
 	getCalInfo();
 	getPrcLabel();
-	
+	getSrList();
+	line_chart();
+
 	$('body').on('click', 'button.fc-prev-button', function() {
 		getAddCalInfo();
 		//getHoliday();
@@ -46,22 +48,235 @@ $(document).ready(function(){
 	$('body').on('click', 'button.fc-dayGridMonth-button', function() {
 		//getHoliday();
 	});
-	
+});
+
+// 파이차트 데이터 가져오기
+function getPieData() {
 	var data = {
 			requestType	: 	'getMainPie',
 			data : {				
-				userId		: 	userId,
-				stDt : "20170701",
-				edDt : "20190725"
+				userId		: 	userId
 			}
 		}
+	ajaxAsync('/webPage/main/eCAMSMainPieServlet', data, 'json', successGetPieData);
+}
+
+// 파이차트 데이터 가져오기 완료
+function successGetPieData(data) {
 	
-	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetPieData);
-//	var rst = ajaxCallWithJson('/webPage/main/eCAMSMainServlet', data, 'json');
+	if(data.length === 0 ){
+		data = makeFakeData('PIE');
+	}
 	
-//	successGetPieData(new Object);
-//	successGetPieData2(new Object);
-});
+	var calHeight = parseInt($('#divCal').height());
+	var width = $('#pieDiv').width();
+//	var pieChartHeight = 221;
+	var pieChartHeight = 251;
+		
+	if($('#pieAppliKinds').length > 0) $('#pieAppliKinds').empty();
+	
+	var container = document.getElementById('pieAppliKinds');
+	var data = {
+	    categories: ['신청종류'],
+	    series: data
+	};
+	
+	var options = {
+	    chart: {
+	    	title: {
+	    		visible: false,
+	    		text: "",
+	    		align: "left",
+	    		offsetX: 20,
+	    		offsetY: 20
+	    	},
+	        width: 	 width - 10,
+	        height:  pieChartHeight,
+	    },
+	    series: {
+	        labelAlign: 'center',
+	        radiusRange: ['70%', '100%']
+	    },
+	    legend: {
+	        visible: true,
+	        
+	    },
+	    chartExportMenu: {
+	    	visible: false
+	    }
+	};
+	
+	pieChart = tui.chart.pieChart(container, data, options);	
+	getPieprogressSw = false;
+}
+
+function successGetPieData2(data) {
+	
+	if(data.length === 0 ){
+		data = makeFakeData('PIE');
+	}
+	
+	var calHeight = parseInt($('#divCal').height());
+	var width = $('#pieDiv2').width();
+	var pieChartHeight = 220;
+	
+	if($('#pieAppliKinds2').length > 0) $('#pieAppliKinds2').empty();
+	
+	var container = document.getElementById('pieAppliKinds2');
+	var data = {
+			categories: ['신청종류'],
+			series: data
+	};
+	
+	var options = {
+			chart: {
+				width: 	 width - 10,
+				height:  pieChartHeight,
+			},
+			series: {
+				labelAlign: 'center',
+				radiusRange: ['70%', '100%']
+			},
+			legend: {
+				visible: true,
+				
+			}
+	};
+	
+	pieChart = tui.chart.pieChart(container, data, options);	
+	getPieprogressSw = false;
+}
+
+// 파이 데이터 없을시
+function  makeFakeData(chartKin) {
+	var chartData = null;
+	if(chartKin === 'PIE') chartData = [{name: '데이터가 없습니다.', data: 1}];
+	return chartData;
+}
+
+// SR리스트 가져오기
+function getSrList() {
+	var data = new Object();
+	data = {
+		userId		: 	userId,
+		requestType	: 	'getSrList'
+	}
+	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetSrList);
+}
+
+// SR리스트 가져오기 완료
+function successGetSrList(data) {
+	console.log(data);
+	
+	srListData = data;
+	var liStr = null;
+	var width = 0;
+	var colIn = -1;
+	var title = '';
+	var colorArr = ['org','green','blue'];
+	
+	$('#divSrlist').empty();
+	srListData.forEach(function(item, index){
+		title = item.reqTitle.length > 12 ? item.reqTitle.substr(0,12)+'...' : item.reqTitle;
+		colIn++;
+		if(colIn >= colorArr.length) {
+			colIn = 0;
+		}
+		width = makeSrWidth(item.step);
+		liStr = '';
+		liStr += '<dl class="srdl" flow="down" tooltip="'+item.reqTitle+'['+item.srId+']">';
+		liStr += '	<dt>'+title+'</dt>';
+		liStr += '	<dd id="'+item.srId+'" style="cursor: pointer;"><span class="'+colorArr[colIn]+' width-'+width+'">'+width+'%'+'('+ item.stepLabel +')</span></dd>';
+		liStr += '</dl>';
+		$('#divSrList').append(liStr);
+	});
+	
+	makeTimeLine(srListData[0].srId);
+	
+	$("dd[id^='R']").bind('click', function(event) {
+		makeTimeLine($(this).attr('id'));
+	});
+}
+
+// 타임라인 만들기
+function makeTimeLine(srId) {
+	var item = null;
+	for(var i=0; i<srListData.length; i++) {
+		if(srId === srListData[i].srId) {
+			item = srListData[i];
+			break;
+		}
+	}
+	
+	var liStr = null;
+	$('#divTimeLine').empty();
+	liStr = '<h4>SR 요청제목 ['+item.reqTitle+']</h4>';
+	for(var i = 0; i<Number(item.step); i++) {
+		var detail = makeTimeLineDetail( (i+1) , item) ;
+		liStr += '<div class="item">';
+		liStr += '	<i class="fas fa-clock"></i>';
+		liStr += '	<div class="item_info">';
+		liStr += '		<div>'+detail+'</div>';
+		liStr += '		<p>'+timeLineArr[i]+'</p>';
+		liStr += '	</div>';
+		liStr += '</div>';
+	}
+	$('#divTimeLine').append(liStr);
+}
+
+// 타임 라인 신청건/ SR 등록 접수 등의 일시 표시
+function makeTimeLineDetail(stepIndex, item) {
+	var rtDetail = '';
+	var key		= 'step' + stepIndex;
+	
+	if(item[key] === undefined) {
+		return '　';
+	}
+	
+	switch (stepIndex) {
+		case 1:
+			rtDetail = item[key];
+			break;
+		case 2:
+			rtDetail = item[key];
+			break;
+		case 3:
+			rtDetail = item[key];
+			break;
+		case 4:
+			rtDetail = item[key];
+			break;
+		case 5:
+			rtDetail = item[key];
+			break;
+		case 6:
+			rtDetail = item[key];
+			break;
+		case 7:
+			rtDetail = item[key];
+			break;
+		case 8:
+			rtDetail = item[key];
+			break;
+		case 9:
+			rtDetail = item[key];
+			break;
+	}
+	
+	return rtDetail;
+}
+
+// SR리스트의 퍼센테이지 만들어주기
+function makeSrWidth(step) {
+	var width = 0;
+	
+	if(step === '9') {
+		width = 100;
+	} else {
+		width = Number(step) * 10;
+	}
+	return width;
+}
 
 // 미결/SR/오류 라벨 건수 가져오기
 function getPrcLabel() {
@@ -106,7 +321,7 @@ function successGetCalInfo(data) {
 	    defaultDate: defaultDate,
 	    editable: false,
 	    eventLimit: 1,
-	    height: 450,
+	    height: 390,
 	    header: {
 	        left: 'prev,next today',
 	        center: 'title',
@@ -119,8 +334,17 @@ function successGetCalInfo(data) {
 	    		openApprovalInfo(arg.event._def.extendedProps.cr_acptno, arg.event._def.extendedProps.cr_qrycd);
 	    	}
 	    }
- });
+	});
 	calendar.render();
+	
+	getPieData();
+	var test = [
+		{data : 5, name : "test1"},
+		{data : 2, name : "test2"},
+		{data : 2, name : "test3"},
+		{data : 3, name : "test4"}
+	]
+	successGetPieData2(test);
 }
 
 //캘린더 인포 추가
@@ -240,41 +464,85 @@ function openApprovalInfo(acptNo, reqCd) {
 	myWin = winOpen(form, winName, cURL, nHeight, nWidth);
 }
 
-
-//파이차트 세팅
-function successGetPieData(data) {
-	
-	if(data.length === 0 ){
-		data = makeFakeData('PIE');
-	}
-	
-	var width = $('#pieDiv').width();
-	var pieChartHeight = 420;
-		
-	if($('#pieAppliKinds').length > 0) $('#pieAppliKinds').empty();
-	
-	
-	var container = document.getElementById('pieAppliKinds');
+function line_chart(){
+	var container = document.getElementById('line-chart');
 	var data = {
-	    categories: ['신청종류'],
-	    series: data
+	    categories: ['01/01/2016', '02/01/2016', '03/01/2016', '04/01/2016', '05/01/2016', '06/01/2016', '07/01/2016', '08/01/2016', '09/01/2016', '10/01/2016', '11/01/2016', '12/01/2016'],
+	    series: [
+	        {
+	            name: 'Seoul',
+	            data: [-3.5, -1.1, 4.0, 11.3, 17.5, 21.5, 24.9, 25.2, 20.4, 13.9, 6.6, -0.6]
+	        },
+	        {
+	            name: 'Seattle',
+	            data: [3.8, 5.6, 7.0, 9.1, 12.4, 15.3, 17.5, 17.8, 15.0, 10.6, 6.4, 3.7]
+	        },
+	        {
+	            name: 'Sydney',
+	            data: [22.1, 22.0, 20.9, 18.3, 15.2, 12.8, 11.8, 13.0, 15.2, 17.6, 19.4, 21.2]
+	        },
+	        {
+	            name: 'Moskva',
+	            data: [-10.3, -9.1, -4.1, 4.4, 12.2, 16.3, 18.5, 16.7, 10.9, 4.2, -2.0, -7.5]
+	        },
+	        {
+	            name: 'Jungfrau',
+	            data: [-13.2, -13.7, -13.1, -10.3, -6.1, -3.2, 0.0, -0.1, -1.8, -4.5, -9.0, -10.9]
+	        }
+	    ]
 	};
-	
 	var options = {
 	    chart: {
-	        width: 	 width - 10,
-	        height:  pieChartHeight,
+	        width: $("#calBg").width() - 15,
+	        height: 410
+//	        title: '24-hr Average Temperature'
+	    },
+	    yAxis: {
+	        title: 'Temperature (Celsius)'
+	    },
+	    xAxis: {
+	        title: 'Month',
+	        pointOnColumn: true,
+	        dateFormat: 'MMM',
+	        tickInterval: 'auto'
 	    },
 	    series: {
-	        labelAlign: 'center',
-	        radiusRange: ['70%', '100%']
+	        showDot: false,
+	        zoomable: true
 	    },
-	    legend: {
-	        visible: true,
-	        
+	    tooltip: {
+	        suffix: '°C'
+	    },
+	    plot: {
+	        bands: [
+	            {
+	                range: ['03/01/2016', '05/01/2016'],
+	                color: 'gray',
+	                opacity: 0.2
+	            }
+	        ],
+	        lines: [
+	            {
+	                value: '03/01/2016',
+	                color: '#fa2828'
+	            },{
+	            	value: '05/01/2016',
+	                color: '#fa2828'
+	            }
+	        ]
+	    }
+	};
+	var theme = {
+	    series: {
+	        colors: [
+	            '#83b14e', '#458a3f', '#295ba0', '#2a4175', '#289399',
+	            '#289399', '#617178', '#8a9a9a', '#516f7d', '#dddddd'
+	        ]
 	    }
 	};
 	
-	pieChart = tui.chart.pieChart(container, data, options);	
-	getPieprogressSw = false;
+	// 원하는 색상으로 가능
+	// tui.chart.registerTheme('myTheme', theme);
+	// options.theme = 'myTheme';
+	var chart = tui.chart.lineChart(container, data, options);
 }

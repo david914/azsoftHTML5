@@ -112,7 +112,7 @@ firstGrid.setConfig({
          onDBLClick: function () {
          	if (this.dindex < 0) return;
      		
- 			openWindow(1, this.item.qrycd2, this.item.acptno2,'');
+ 			openWindow(1, this.item.qrycd, this.item.acptno,'');
          },
      	trStyleClass: function () {
      		if (this.item.errflag !== '1'){
@@ -150,7 +150,7 @@ firstGrid.setConfig({
          	 * return item.type == 1 | item.type == 2; --> type 이 1,2인 context menu만 보기
          	 * 
          	 * ex)
-	            	if(param.item.qrycd2 === '01'){
+	            	if(param.item.qrycd === '01'){
 	            		return item.type == 1 | item.type == 2;
 	            	}
          	 */
@@ -165,15 +165,15 @@ firstGrid.setConfig({
          	
          	
          	if (param.item.colorsw === '9') return item.type == 1 | item.type == 2;
-         	else if ( (param.item.qrycd2 === '07' || param.item.qrycd2 === '03' || param.item.qrycd2 === '04' 
-         			|| param.item.qrycd2 === '06' || param.item.qrycd2 === '16') 
+         	else if ( (param.item.qrycd === '07' || param.item.qrycd === '03' || param.item.qrycd === '04' 
+         			|| param.item.qrycd === '06' || param.item.qrycd === '16') 
          			&& (userid === param.item.editor2 || isAdmin) ) return true; 
          	else return item.type == 1 | item.type == 2;
          },
          onClick: function (item, param) {
      		/*swal({
                  title: item.label+"팝업",
-                 text: "신청번호 ["+param.item.acptno2+"]["+param.item.qrycd2+"]"
+                 text: "신청번호 ["+param.item.acptno+"]["+param.item.qrycd+"]"
              });*/
      		if (item.type === 3) {
      			if (param.item.befsw === 'Y') {
@@ -200,7 +200,7 @@ firstGrid.setConfig({
      			});
      			
      		} else {
-     			openWindow(item.type, param.item.qrycd2, param.item.acptno2,'');
+     			openWindow(item.type, param.item.qrycd, param.item.acptno,'');
      		}
      		
              firstGrid.contextMenu.close();//또는 return true;
@@ -229,7 +229,7 @@ $(document).ready(function(){
 	$('input:radio[name=rdoDate]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 	$('input:checkBox[name=checkSelf]').wCheck({theme: 'circle-radial blue', selector: 'checkmark', highlightLabel: true});
 	
-	getCodeInfo2();
+	getCodeInfo();
 	prcdSet();
 	cboGbnSet();
 	getUserInfo();
@@ -250,17 +250,24 @@ $(document).ready(function(){
 		getFileList();
 	});
 	
-	// SR-ID input 박스 엔터
-	$('#txtSpms').bind('keypress', function(event){
+	// 프로그램명/설명 엔터
+	$('#txtDisc').bind('keypress', function(event){
 		if(event.keyCode==13) {
-			$('#btnQry').trigger('click');
+			$('#btnSearch').trigger('click');
 		}
 	});
 	
-	// 신청인 input 박스 엔터
-	$('#txtUser').bind('keypress', function(event){
+	// 신청자명 엔터
+	$('#txtName').bind('keypress', function(event){
 		if(event.keyCode==13) {
-			$('#btnQry').trigger('click');
+			$('#btnSearch').trigger('click');
+		}
+	});
+	
+	// SR-ID/SR명/문서번호 엔터
+	$('#txtId').bind('keypress', function(event){
+		if(event.keyCode==13) {
+			$('#btnSearch').trigger('click');
 		}
 	});
 	
@@ -321,35 +328,9 @@ function getSysInfo(){
 	ajaxAsync('/webPage/dev/DistributeStatus', data, 'json',successGetSysInfo);
 }
 
-//신청부서 cbo 가져오기 완료
-function successGetDeptInfo(data) {
-	cboDeptData = data;
-	
-	options = [];
-	
-	$.each(cboDeptData,function(key,value) {
-	    options.push({value: value.cm_deptcd, text: value.cm_deptname});
-	});
-	
-	$('[data-ax5select="cboDept"]').ax5select({
-        options: options
-	});
-}
 
-// 신청부서 cbo 가져오기
-function getDeptInfo(){
-	var data =  new Object();
-	data = {
-		SelMsg 		: 'All',
-		cm_useyn 	: 'Y',
-		gubun 		: 'sub',
-		itYn 		: 'N',
-		requestType	: 'getDeptInfo'
-	}
-	ajaxAsync('/webPage/dev/DistributeStatus', data, 'json',successGetDeptInfo);
-}
 
-function getCodeInfo2() {
+function getCodeInfo() {
 	var data = { requestType : 'getCodeInfo' };
 	ajaxAsync('/webPage/dev/DistributeStatus', data, 'json', successGetCodeInfo);
 }
@@ -517,7 +498,7 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
 
 	var f = document.popPam;   		//폼 name
     
-    f.acptno.value	= reqNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.acptno.value	= replaceAllString(reqNo, "-", "");    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
     f.user.value 	= userid;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
     
 	if (type == 1) {
@@ -533,6 +514,7 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
 		cURL = "/webPage/winpop/PopApprovalInfo.jsp";
 	}
 	
+	console.log(f);
 	console.log('+++++++++++++++++'+cURL);
 	
     myWin = winOpen(f, winName, cURL, nHeight, nWidth);
