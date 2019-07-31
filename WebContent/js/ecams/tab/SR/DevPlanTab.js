@@ -111,214 +111,10 @@ grdWorkTime.setConfig({
     ]
 });
 
-txtExpEnddatePicker.bind({
-    target: $('[data-ax5picker="txtExpEnddate"]'),
-    direction: "top",
-    content: {
-        width: 270,
-        margin: 10,
-        type: 'date',
-        config: {
-            control: {
-                left: '<i class="fa fa-chevron-left"></i>',
-                yearTmpl: '%s',
-                monthTmpl: '%s',
-                right: '<i class="fa fa-chevron-right"></i>'
-            },
-            dateFormat: 'yyyy/MM/dd',
-            lang: {
-                yearTmpl: "%s년",
-                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                dayTmpl: "%s"
-            }
-        },
-        formatter: {
-            pattern: 'date'
-        }
-    },
-    onStateChanged: function () {
-        if (this.state == "open") {
-            var selectedValue = this.self.getContentValue(this.item["$target"]);
-            if (!selectedValue) {
-                this.item.pickerCalendar[0].ax5uiInstance.setSelection([ax5.util.date(new Date(), {'add': {d: 1}})]);
-            }
-        }
-    },
-    btns: {
-        today: {
-            label: "Today", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .close();
-            }
-        },
-        thisMonth: {
-            label: "This Month", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-                                + '/'
-                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-                        .close();
-            }
-        },
-        ok: {label: "Close", theme: "default"}
-    }
-});
 
-txtExpEnddatePicker.bind({
-    target: $('[data-ax5picker="txtExpEnddate"]'),
-    direction: "top",
-    content: {
-        width: 270,
-        margin: 10,
-        type: 'date',
-        config: {
-            control: {
-                left: '<i class="fa fa-chevron-left"></i>',
-                yearTmpl: '%s',
-                monthTmpl: '%s',
-                right: '<i class="fa fa-chevron-right"></i>'
-            },
-            dateFormat: 'yyyy/MM/dd',
-            lang: {
-                yearTmpl: "%s년",
-                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                dayTmpl: "%s"
-            }
-        },
-        formatter: {
-            pattern: 'date'
-        }
-    },
-    onStateChanged: function () {
-        if (this.state == "open") {
-            var selectedValue = this.self.getContentValue(this.item["$target"]);
-            if (!selectedValue) {
-                this.item.pickerCalendar[0].ax5uiInstance.setSelection([ax5.util.date(new Date(), {'add': {d: 1}})]);
-            }
-        }
-    },
-    btns: {
-        today: {
-            label: "Today", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .close();
-            }
-        },
-        thisMonth: {
-            label: "This Month", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-                                + '/'
-                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-                        .close();
-            }
-        },
-        ok: {label: "Close", theme: "default"}
-    }
-});
-
-txtExpStdatePicker.bind({
-    target: $('[data-ax5picker="txtExpStdate"]'),
-    direction: "top",
-    content: {
-        width: 270,
-        margin: 10,
-        type: 'date',
-        config: {
-            control: {
-                left: '<i class="fa fa-chevron-left"></i>',
-                yearTmpl: '%s',
-                monthTmpl: '%s',
-                right: '<i class="fa fa-chevron-right"></i>'
-            },
-            dateFormat: 'yyyy/MM/dd',
-            lang: {
-                yearTmpl: "%s년",
-                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                dayTmpl: "%s"
-            }
-        },
-        formatter: {
-            pattern: 'date'
-        }
-    },
-    onStateChanged: function () {
-        if (this.state == "open") {
-            var selectedValue = this.self.getContentValue(this.item["$target"]);
-            if (!selectedValue) {
-                this.item.pickerCalendar[0].ax5uiInstance.setSelection([ax5.util.date(new Date(), {'add': {d: 1}})]);
-            }
-        }
-    },
-    btns: {
-        today: {
-            label: "Today", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .close();
-            }
-        },
-        thisMonth: {
-            label: "This Month", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-                                + '/'
-                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-                        .close();
-            }
-        },
-        ok: {label: "Close", theme: "default"}
-    }
-});
-
-txtDevDatePicker.bind({
-    target: $('[data-ax5picker="txtDevDate"]'),
-    direction: "top",
-    content: {
-        width: 270,
-        margin: 10,
-        type: 'date',
-        config: {
-            control: {
-                left: '<i class="fa fa-chevron-left"></i>',
-                yearTmpl: '%s',
-                monthTmpl: '%s',
-                right: '<i class="fa fa-chevron-right"></i>'
-            },
-            dateFormat: 'yyyy/MM/dd',
-            lang: {
-                yearTmpl: "%s년",
-                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                dayTmpl: "%s"
-            }
-        },
-        formatter: {
-            pattern: 'date'
-        }
-    },
-    onStateChanged: function () {
-        if (this.state == "open") {
-            var selectedValue = this.self.getContentValue(this.item["$target"]);
-            if (!selectedValue) {
-                this.item.pickerCalendar[0].ax5uiInstance.setSelection([ax5.util.date(new Date(), {'add': {d: 1}})]);
-            }
-        }
-    }
-});
+txtExpEnddatePicker.bind(defaultPickerInfo('txtExpEnddate', 'bottom'));
+txtExpStdatePicker.bind(defaultPickerInfo('txtExpStdate', 'bottom'));
+txtDevDatePicker.bind(defaultPickerInfo('txtDevDate', 'top'));
 
 $('input.radio-pie').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 
@@ -475,6 +271,8 @@ function getWorker() {
 	SRInfo.userId = null;
 	SRInfo.reqCd = strReqCd;
 	
+	console.log("strReqCd: " + strReqCd);
+	
 	var SRInfoData;
 	SRInfoData = new Object();
 	SRInfoData = {
@@ -486,6 +284,12 @@ function getWorker() {
 
 function successWorker(data) {
 	grdWorkerData = data;
+	
+	grdWorkerData = grdWorkerData.filter(function(data) {
+		if(data.cm_username == "전체") return false;
+		else return true;
+	});
+	
 	grdWorker.setData(grdWorkerData);
 	
 	if(grdWorkerData.length > 0) {

@@ -247,7 +247,7 @@ function cboSystem_Change() {
 		$('[data-ax5select="cboSRID"]').ax5select("enable");
 	}
 	
-	if(selectedIndex >- 0) {
+	if(selectedIndex >= 0) {
 		//JobCd.getJobInfo(strUserId,cboSys.selectedItem.cm_syscd,"Y","N","SEL","NAME");
 		tmpInfo = new Object();
 		tmpInfo.userId = strUserId;

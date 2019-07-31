@@ -52,6 +52,8 @@ var firstGridColumns = null;
 var excelAry = null;
 var upFiles = null;
 
+var winDevRep = null; //SR정보 새창
+
 firstGrid.setConfig({
     target: $('[data-ax5grid="first-grid"]'),
     sortable: true, 
@@ -256,9 +258,10 @@ $(document).ready(function() {
 		//fileTypeCheck(this);
 	});
 	
+	$('#btnReg').bind('click',function(){
+		cmdReqInfo_Click();
+	});
 });
-
-
 
 function screenInit() {
 	getSysCbo();
@@ -1247,11 +1250,27 @@ function ckout_end(){
  * SR 정보 
  */
 function cmdReqInfo_Click(){
-	if (cboIsrId.selectedIndex < 1) {
-		Alert.show("SR정보를 확인 할 SR-ID를 선택하십시오.");
+	if (getSelectedIndex('cboSrId') < 1) {
+		dialog.alert('SR정보를 확인 할 SR-ID를 선택하십시오.',function(){});
 		return;
 	}
-	ExternalInterface.call("winopen",userId,"SRINFO",cboIsrId.selectedItem.cc_srid);
+	
+	//ExternalInterface.call("winopen",userId,"SRINFO",cboIsrId.selectedItem.cc_srid);
+	var nHeight, nWidth;
+	if(winDevRep != null
+			&& !winDevRep.closed) {
+		winDevRep.close();
+	}	
+	
+	var form = document.popPam;   						  //폼 name
+	form.user.value = userId; 	 						  //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.srid.value = getSelectedVal('cboSrId').value;    //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)	
+	form.acptno.value = '';
+	
+	nHeight	= 1046;
+    nWidth = 735;
+    
+    winDevRep = winOpen(form, 'devRep', '/webPage/winpop/PopSRInfo.jsp', nHeight, nWidth);
 }
 
 //그리드 리스트 클릭 퉅팁 미개발

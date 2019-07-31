@@ -19,6 +19,7 @@
     String SysCd = request.getParameter("SysCd"); 
 %> 
 
+<body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
 <!-- contener S -->
     <div class="contentFrame">
         <!-- history S-->
@@ -63,11 +64,11 @@
 					<div class="width-50 float-left">
 						<div class="margin-5-left">
 	                        <div class="tit_100 poa">
-								<input id="txtDir" type="text" style="width: 820px;" placeholder="기준디렉토리기준으로 하위디렉토리 입력 후 조회"></input> <!-- class="width-200" -->
+								<input id="txtDir" type="text" style="width: 615px;" placeholder="기준디렉토리기준으로 하위디렉토리 입력 후 조회"></input> <!-- class="width-200" style="width: 820px;"-->
 							</div>
 						</div>
 						<div class="margin-5-left">
-							<div style="margin-left: 820px;">
+							<div style="margin-left: 615px;">
 								<button id="btnQry" class="btn_basic_s margin-5-left">디렉토리조회</button> <!-- class="ml_300" -->
 							</div>
 						</div>
@@ -98,7 +99,7 @@
 		</div>
 		<!--검색E-->
 		<div class="half_wrap margin-10-top">
-			<div class="l_wrap width-40" style="height: 495px;"> <!-- scrollBind -->
+			<div class="l_wrap width-40" style="height: 400px;"> <!-- scrollBind -->
 				<!-- 디렉토리 트리 -->	
 				<div class="scrollBind" style="height: 100%; border: 1px dotted gray; OVERFLOW-Y:auto">
 					<ul id="treeDir" class="ztree"></ul>
@@ -109,7 +110,7 @@
 				<div>
 				    <div class="az_board_basic az_board_basic_in margin-10-left">
 				    	<!-- 프로그램목록 그리드 -->
-				    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 495px; width:100%"></div>
+				    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 400px; width:100%"></div>
 					</div>	
 				</div>
 				<!-- 게시판 E -->
@@ -181,6 +182,7 @@
 		<!-- 검색 E -->
 	</div>
 <!-- contener E -->
+</body>
 
 <input type=hidden id="UserId" value=<%=UserId%>>
 <input type=hidden id="SysCd" value=<%=SysCd%>>
