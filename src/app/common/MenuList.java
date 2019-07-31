@@ -1323,7 +1323,7 @@ public class MenuList{
     		strQuery.append("	CMC0100 B,								\n"); 
     		strQuery.append("	CMM0020 C,								\n"); 
     		strQuery.append("	CMM0020 D								\n");
-    		strQuery.append(" WHERE ROWNUM < 100							\n");
+    		strQuery.append(" WHERE ROWNUM < 7							\n");
     		strQuery.append("   and a.cc_status not in ('3', '8', 'C', 'D')	\n");
     		strQuery.append("   AND A.CC_SRID = B.CC_SRID				\n");
     		strQuery.append("   AND C.CM_MACODE = 'ISRSTAUSR'			\n");

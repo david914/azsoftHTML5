@@ -118,14 +118,14 @@ function clickRadio() {
 	}
 	if(selVal === 'normal') {
 		signUpGridData.forEach(function(item, inex) {
-			if(item.colosw === '0') {
+			if(item.colorsw === '0') {
 				fSignUpGridData.push(item);
 			}
 		});
 	}
 	if(selVal === 'error') {
 		signUpGridData.forEach(function(item, inex) {
-			if(item.colosw !== '0') {
+			if(item.colorsw !== '0') {
 				fSignUpGridData.push(item);
 			}
 		});
