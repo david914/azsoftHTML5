@@ -896,7 +896,9 @@ public class MenuList{
     public HashMap<String, Integer> getPrcLabel(String userId) throws SQLException, Exception {
     	Connection        	conn        = null;
     	PreparedStatement 	pstmt       = null;
+    	PreparedStatement 	pstmt2      = null;
     	ResultSet         	rs          = null;
+    	ResultSet         	rs2         = null;
     	StringBuffer      	strQuery    = new StringBuffer();
     	int 				pstmtCnt 	= 1;
     	HashMap<String, Integer> rst = new HashMap<String, Integer>();
@@ -905,6 +907,18 @@ public class MenuList{
     	try {
     		
     		conn = connectionContext.getConnection();
+    		
+    		
+    		rst.put("devSrCnt", 0);
+    		rst.put("testSrCnt", 0);
+    		rst.put("appySrCnt", 0);
+    		rst.put("etcSrCnt", 0);
+    		
+    		rst.put("devPrgCnt", 0);
+    		rst.put("testPrgCnt", 0);
+    		rst.put("appyPrgCnt", 0);
+    		rst.put("etcPrgCnt", 0);
+    		
     		
     		// 미결 건수 가져오기
     		pstmtCnt = 1;
@@ -958,7 +972,6 @@ public class MenuList{
     		pstmt.setString(pstmtCnt++, userId);
     		pstmt.setString(pstmtCnt++, userId);
     		rs = pstmt.executeQuery();
-    		
     		while (rs.next()){
     			if(rs.getRow() == 1) {
     				rst.put("approvalCnt", rs.getInt("cnt"));
@@ -966,7 +979,6 @@ public class MenuList{
     				rst.put("approvalCnt", rst.get("approvalCnt") + rs.getInt("cnt"));
     			}
     		}
-    		
     		rs.close();
     		pstmt.close();
     		
@@ -975,7 +987,7 @@ public class MenuList{
     		strQuery.setLength(0);
     		strQuery.append("SELECT COUNT(*) CNT         			\n");
     		strQuery.append("  FROM CMC0110 B,CMC0100 A          	\n"); 
-    		strQuery.append(" WHERE A.CC_STATUS IN ('2','4')		\n");
+    		strQuery.append(" WHERE A.CC_STATUS IN ('2','4','5','6','7','A','C','D')	\n");
     		strQuery.append("   AND A.CC_SRID=B.CC_SRID           	\n");
     		strQuery.append("   AND B.CC_STATUS NOT IN ('3','8','9')\n");
     		strQuery.append("   AND B.CC_USERID= ?					\n");
@@ -984,11 +996,9 @@ public class MenuList{
     		pstmt = conn.prepareStatement(strQuery.toString());
     		pstmt.setString(pstmtCnt++, userId);
     		rs = pstmt.executeQuery();
-    		
-    		while (rs.next()){
+    		if (rs.next()){
 				rst.put("srCnt", rs.getInt("CNT"));
     		}
-    		
     		rs.close();
     		pstmt.close();
     		
@@ -1013,9 +1023,205 @@ public class MenuList{
     		pstmt = conn.prepareStatement(strQuery.toString());
     		pstmt.setString(pstmtCnt++, userId);
     		rs = pstmt.executeQuery();
-    		
-    		while (rs.next()){
+    		if (rs.next()){
 				rst.put("errCnt", rs.getInt("CNT"));
+    		}
+    		rs.close();
+    		pstmt.close();
+    		
+    		// SR등록건수 가져오기
+    		pstmtCnt = 1;
+    		strQuery.setLength(0);
+    		strQuery.append("SELECT COUNT(DISTINCT A.CC_SRID) AS PROCSR					\n");
+    		strQuery.append("  FROM CMC0110 B,CMC0100 A, CMR1000 C						\n");
+    		strQuery.append(" WHERE A.CC_STATUS IN ('2','4','5','6','7','A','C','D')	\n");
+    		strQuery.append("   AND A.CC_SRID=B.CC_SRID           						\n");
+    		strQuery.append("   AND B.CC_STATUS NOT IN ('3','8','9')					\n");
+    		strQuery.append("   AND B.CC_USERID= ?										\n");
+    		strQuery.append("   AND A.CC_SRID = C.CR_ITSMID								\n");
+    		strQuery.append("   AND C.CR_STATUS <> '3'									\n");
+    		strQuery.append("   AND C.CR_QRYCD IN ('01','02','03','04','07','08')		\n");
+    		pstmt = conn.prepareStatement(strQuery.toString());
+    		pstmt.setString(pstmtCnt++, userId);
+    		rs = pstmt.executeQuery();
+    		
+    		if (rs.next()){
+    			int srRegCnt = rst.get("srCnt") - rs.getInt("PROCSR");
+				
+				// SR로 프로그램이 등록된수 빼기(개발로보기)
+				pstmtCnt = 1;
+	    		strQuery.setLength(0);
+				strQuery.append("SELECT COUNT(X.CC_SRID) AS srProgRegCnt				\n");
+				strQuery.append("  FROM 												\n");
+				strQuery.append("		(SELECT A.CC_SRID								\n");
+				strQuery.append("		   FROM CMC0110 B,CMC0100 A						\n");          	 
+				strQuery.append("		  WHERE A.CC_STATUS IN ('2','4','5','6','7','A','C','D')	\n");		
+				strQuery.append("		    AND A.CC_SRID=B.CC_SRID						\n");           	
+				strQuery.append("		    AND B.CC_STATUS NOT IN ('3','8','9')		\n");
+				strQuery.append("			AND B.CC_USERID= ?							\n");
+				strQuery.append("		 MINUS											\n");
+				strQuery.append("		 SELECT DISTINCT A.CC_SRID						\n");
+				strQuery.append("		   FROM CMC0110 B,CMC0100 A, CMR1000 C			\n");
+				strQuery.append("		  WHERE A.CC_STATUS IN ('2','4','5','6','7','A','C','D')\n");		
+				strQuery.append("			AND A.CC_SRID=B.CC_SRID						\n");           	
+				strQuery.append("			AND B.CC_STATUS NOT IN ('3','8','9')		\n");
+				strQuery.append("			AND B.CC_USERID= ?							\n");
+				strQuery.append("			AND A.CC_SRID = C.CR_ITSMID					\n");
+				strQuery.append("			AND C.CR_STATUS <> '3'						\n");
+				strQuery.append("  			AND C.CR_QRYCD IN ('01','02','03','04','07','08')	\n");
+				strQuery.append("		  ORDER BY CC_SRID DESC) X, CMR0020 Y			\n");
+				strQuery.append("WHERE X.CC_SRID = Y.CR_ISRID							\n");
+				pstmt2 = conn.prepareStatement(strQuery.toString());
+	    		pstmt2.setString(pstmtCnt++, userId);
+	    		pstmt2.setString(pstmtCnt++, userId);
+	    		rs2 = pstmt2.executeQuery();
+	    		
+	    		if(rs2.next()) {
+	    			// 등록 sr에서는 프로그램등록 SR빼기
+	    			srRegCnt = srRegCnt - rs2.getInt("srProgRegCnt");
+	    			// 개발 SR에는 프로그램등록 SR 넣어주기
+	    			rst.put("devSrCnt", rs2.getInt("srProgRegCnt"));
+	    		}
+	    		rst.put("srRegCnt", srRegCnt);
+	    		rs2.close();
+	    		pstmt2.close();
+				
+    		}
+    		rs.close();
+    		pstmt.close();
+    		
+    		// 진행중인 SR목록 가져오기 (신청건 있을경우)
+    		pstmtCnt = 1;
+    		strQuery.setLength(0);
+    		strQuery.append("SELECT DISTINCT A.CC_SRID								\n");
+    		strQuery.append("  FROM CMC0110 B,CMC0100 A, CMR1000 C					\n");
+    		strQuery.append(" WHERE A.CC_STATUS IN ('2','4','5','6','7','A','C','D')\n");		
+    		strQuery.append("   AND A.CC_SRID=B.CC_SRID								\n");           	
+    		strQuery.append("   AND B.CC_STATUS NOT IN ('3','8','9')				\n");
+    		strQuery.append("   AND B.CC_USERID= ?									\n");
+    		strQuery.append("   AND A.CC_SRID = C.CR_ITSMID							\n");
+    		strQuery.append("   AND C.CR_STATUS <> '3'								\n");
+    		strQuery.append("  	AND C.CR_QRYCD IN ('01','02','03','04','07','08')	\n");
+    		strQuery.append(" ORDER BY CC_SRID DESC									\n");
+    		pstmt = conn.prepareStatement(strQuery.toString());
+    		pstmt.setString(pstmtCnt++, userId);
+    		rs = pstmt.executeQuery();
+    		
+    		while(rs.next()){
+    			// 해당 SR의 가장 마지막 신청건 확인 하여 SR건수 만들어주기
+    			String qryCd = null;
+    			pstmtCnt = 1;
+        		strQuery.setLength(0);
+    			strQuery.append("SELECT CR_QRYCD					\n");
+    			strQuery.append("  FROM (SELECT *					\n"); 
+    			strQuery.append("		   FROM CMR1000				\n"); 
+    			strQuery.append("		  WHERE CR_ITSMID = ?		\n"); 
+    			strQuery.append("			AND CR_STATUS <> '3'	\n"); 
+    			strQuery.append("  			AND CR_QRYCD IN ('01','02','03','04','07','08')	\n");
+    			strQuery.append("		  ORDER BY CR_ACPTDATE DESC)\n");
+    			strQuery.append(" WHERE ROWNUM = 1					\n");
+    			
+    			pstmt2 = conn.prepareStatement(strQuery.toString());
+        		pstmt2.setString(pstmtCnt++, rs.getString("CC_SRID"));
+        		rs2 = pstmt2.executeQuery();
+        		
+        		if(rs2.next()) {
+        			qryCd = rs2.getString("CR_QRYCD");
+        			switch (rs2.getString("CR_QRYCD")) {
+	    				case "01":
+	    				case "02":
+	    				case "07":
+	    				case "08":
+	    					rst.put("devSrCnt", rst.get("devSrCnt") + 1);
+	    					break;
+	    				case "03":
+	    					rst.put("testSrCnt", rst.get("testSrCnt") + 1);
+	    					break;
+	    				case "04":
+	    					rst.put("appySrCnt", rst.get("appySrCnt") + 1);
+	    					break;
+	    				default:
+	    					rst.put("etcSrCnt", rst.get("etcSrCnt") + 1);
+	    					// SR숫자 안맞을시 열어서 SR-ID 확인
+	    					//System.out.println("SR ID : " + rs.getString("CC_SRID"));
+	    					break;
+    				}
+        		}
+        		rs2.close();
+        		pstmt2.close();
+        		
+        		// 해당 SR에 역인 프로그램 개수 가져오기
+        		pstmtCnt = 1;
+        		strQuery.setLength(0);
+        		strQuery.append("SELECT COUNT(DISTINCT B.CR_ITEMID) AS PROGCNT	\n");
+        		strQuery.append("  FROM CMR1000 A, CMR1010 B					\n");
+        		strQuery.append(" WHERE A.CR_ITSMID = ?							\n");
+        		strQuery.append("   AND A.CR_QRYCD = ?							\n");
+        		strQuery.append("   AND A.CR_ACPTNO = B.CR_ACPTNO				\n");
+        		strQuery.append("   AND A.CR_STATUS <> '3'						\n");
+        		strQuery.append("   AND B.CR_STATUS <> '3'						\n");
+        		strQuery.append("  	AND A.CR_QRYCD IN ('01','02','03','04','07','08')	\n");
+        		pstmt2 = conn.prepareStatement(strQuery.toString());
+        		pstmt2.setString(pstmtCnt++, rs.getString("CC_SRID"));
+        		pstmt2.setString(pstmtCnt++, qryCd);
+        		rs2 = pstmt2.executeQuery();
+        		
+        		if(rs2.next()) {
+        			switch (qryCd) {
+	        			case "01":
+	    				case "02":
+	    				case "07":
+	    				case "08":
+	    					rst.put("devPrgCnt", rst.get("devPrgCnt") + rs2.getInt("PROGCNT"));
+	    					break;
+	    				case "03":
+	    					rst.put("testPrgCnt", rst.get("testPrgCnt") + rs2.getInt("PROGCNT"));
+	    					break;
+	    				case "04":
+	    					rst.put("appyPrgCnt", rst.get("appyPrgCnt") + rs2.getInt("PROGCNT"));
+	    					break;
+	    				default:
+	    					rst.put("etcPrgCnt", rst.get("etcPrgCnt") + rs2.getInt("PROGCNT"));
+	    					break;
+					}
+        		}
+        		rs2.close();
+        		pstmt2.close();
+        		
+    		}
+    		rs.close();
+    		pstmt.close();
+    		
+    		
+    		// 진행중인 SR목록 가져오기 중 프로그램 등록건 개수가져오기 (프로그램 등록건이 있는 경우 - 개발상태로 보기)
+    		pstmtCnt = 1;
+    		strQuery.setLength(0);
+    		strQuery.append("SELECT COUNT(DISTINCT Y.CR_ITEMID) AS PROGCNT				\n");
+    		strQuery.append("  FROM														\n"); 
+    		strQuery.append("		(SELECT A.CC_SRID									\n");
+    		strQuery.append("		   FROM CMC0110 B,CMC0100 A							\n");          	 
+    		strQuery.append("		  WHERE A.CC_STATUS IN ('2','4','5','6','7','A','C','D')\n");		
+    		strQuery.append("			AND A.CC_SRID=B.CC_SRID							\n");           	
+    		strQuery.append("			AND B.CC_STATUS NOT IN ('3','8','9')			\n");
+    		strQuery.append("			AND B.CC_USERID= ?								\n");
+    		strQuery.append("		 MINUS												\n");
+    		strQuery.append("		 SELECT DISTINCT A.CC_SRID							\n");
+    		strQuery.append("		   FROM CMC0110 B,CMC0100 A, CMR1000 C				\n");
+    		strQuery.append("		  WHERE A.CC_STATUS IN ('2','4','5','6','7','A','C','D')\n");		
+    		strQuery.append("			AND A.CC_SRID=B.CC_SRID							\n");           	
+    		strQuery.append("			AND B.CC_STATUS NOT IN ('3','8','9')			\n");
+    		strQuery.append("			AND B.CC_USERID= ?								\n");
+    		strQuery.append("			AND A.CC_SRID = C.CR_ITSMID						\n");
+    		strQuery.append("  			AND C.CR_QRYCD IN ('01','02','03','04','07','08','16')	\n");
+    		strQuery.append("		  ORDER BY CC_SRID DESC) X, CMR0020 Y				\n");
+    		strQuery.append(" WHERE X.CC_SRID = Y.CR_ISRID								\n");
+    		
+    		pstmt = conn.prepareStatement(strQuery.toString());
+    		pstmt.setString(pstmtCnt++, userId);
+    		pstmt.setString(pstmtCnt++, userId);
+    		rs = pstmt.executeQuery();
+    		while(rs.next()) {
+    			rst.put("devPrgCnt", rst.get("devPrgCnt") + rs.getInt("PROGCNT"));
     		}
     		
     		rs.close();
@@ -1104,9 +1310,9 @@ public class MenuList{
     		strQuery.append("		D.CM_CODENAME AS SRSTATUSNAME		\n");
     		strQuery.append("		,B.CC_REQTITLE						\n");
     		
-    		strQuery.append("		,TO_CHAR(B.CC_CREATEDATE, 'yyyy/mm/dd HH24:MI:SS') AS SRACPTDATE\n");
-    		strQuery.append("		,TO_CHAR(A.CC_CREATEDATE, 'yyyy/mm/dd HH24:MI:SS') AS DEVACPTDATE\n");
-    		strQuery.append("		,TO_CHAR(B.CC_COMPDATE, 'yyyy/mm/dd HH24:MI:SS') AS COMPDATE\n");
+    		strQuery.append("		,TO_CHAR(B.CC_CREATEDATE, 'yyyy/mm/dd HH24:MI:SS') AS SRACPTDATE	\n");
+    		strQuery.append("		,TO_CHAR(A.CC_CREATEDATE, 'yyyy/mm/dd HH24:MI:SS') AS DEVACPTDATE	\n");
+    		strQuery.append("		,TO_CHAR(B.CC_COMPDATE, 'yyyy/mm/dd HH24:MI:SS') AS COMPDATE		\n");
     		
     		strQuery.append("  FROM										\n"); 
     		strQuery.append("	(										\n");
@@ -1117,7 +1323,7 @@ public class MenuList{
     		strQuery.append("	CMC0100 B,								\n"); 
     		strQuery.append("	CMM0020 C,								\n"); 
     		strQuery.append("	CMM0020 D								\n");
-    		strQuery.append(" WHERE ROWNUM < 100							\n");
+    		strQuery.append(" WHERE ROWNUM < 7							\n");
     		strQuery.append("   and a.cc_status not in ('3', '8', 'C', 'D')	\n");
     		strQuery.append("   AND A.CC_SRID = B.CC_SRID				\n");
     		strQuery.append("   AND C.CM_MACODE = 'ISRSTAUSR'			\n");

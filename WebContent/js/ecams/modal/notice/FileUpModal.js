@@ -1,8 +1,7 @@
 var dialog = new ax5.ui.dialog({title: "확인"});
 var uploadCnt = 0;
-var fileArr = [];
-
-var fileGrid = false;
+var fileArr 	= [];
+var fileGrid 	= false;
 
 var srSw = window.parent.srSw;
 
@@ -159,25 +158,26 @@ $('#files').on('click', 'button.start', function(evt){
   	$('#drag-and-drop-zone').dmUploader('start', id);
 });
 
+// 파일 삭제
 $('#files').on('click', 'button.cancel', function(evt){
 	evt.preventDefault();
 	var id = $(this).closest('li.media').data('file-id');
 	$('#drag-and-drop-zone').dmUploader('cancel', id);
-});
-
-$('#files').on('click', 'button.delete', function(evt){
-	evt.preventDefault();
+	
 	$(this).closest('li.media').remove();
 	if(checkFileLiLength() === 1) $('#files').find('li.empty').fadeIn();
 	window.parent.fileLength = checkFileLiLength();
 });
 
+// 파일 업로드 스타트
 $('#btnStartUpload').on('click',function(evt) {
 	evt.preventDefault();
+	console.log($(this).closest('li.media'));
 	var id = $(this).closest('li.media').data('file-id');
 	$('#drag-and-drop-zone').dmUploader('start', id);
 });
 
+// 업로드 될 파일 개수
 function checkFileLiLength() {
 	return $('#files li').length;
 }
@@ -194,7 +194,7 @@ function ui_multi_add_file(id, file)
 
 	$('#files').find('li.empty').fadeOut(); // remove the 'no files yet'
 	$('#files').prepend(template);
-  
+	
 	window.parent.fileLength = checkFileLiLength();
 }
 

@@ -8,50 +8,47 @@
 
 <link rel="stylesheet" href="<c:url value="/css/ecams/common/ecamsStyle.css" />">
 <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"><!-- ax5ui script -->
+<link href="<c:url value="/styles/bootstrap4.0.css"/>" rel="stylesheet">
 
 <!-- Custom styles -->
 <link href="<c:url value="/styles/fileupload/jquery.dm-uploader.min.css"/>" rel="stylesheet">
 <link href="<c:url value="/styles/fileupload/styles.css"/>" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value="/styles/ax5/ax5dialog.css"/>">
-<style>
-	.filebox label { display: inline-block; padding: .5em .75em; color: #999; font-size: inherit; line-height: normal; vertical-align: middle; background-color: #fdfdfd; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; } 
-	.filebox input[type="file"] { /* 파일 필드 숨기기 */ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; }
-</style>
 
-<div class="row">
-	<div class="no-padding col-md-6 col-sm-12" style="margin-left: 10px; margin-right: 10px;">
-		<div style="position: relative; height: 300px; overflow: auto; display: block;">
-			<table  class="table">
-				<thead>
-					<tr>
-						<th>파일명</th>
-					</tr>
-				</thead>
-				<tbody id="fileDownBody">
-				</tbody>
-			</table>
+<body style="width: 100% !important; min-width: 0px !important; overflow: hidden;">
+	<div class="row">
+		<div class="col-md-6 col-sm-12">
+			<div style="position: relative; height: 300px; overflow: auto; display: block;">
+				<table  class="table">
+					<thead>
+						<tr>
+							<th>파일명</th>
+						</tr>
+					</thead>
+					<tbody id="fileDownBody">
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
-</div>
-
-<div class="row">
-	<div class="no-padding col-md-6 col-sm-12" style="margin-left: 10px; margin-right: 10px;">
-		<button class="btn" 
-				style="float: right; background-color: #fff; border-color: #e4e5e7; color: #6a6c6f; margin-right: 10px;" 
-				onclick="window.parent.fileDownloadModal.close();">
-			닫기
-		</button>
-		<div class="filebox" id="drag-and-drop-zone" style="display: inline-block; float: right;"> 
-			<label for="ex_file">업로드</label> 
-			<input type="file" id="ex_file"> 
+	
+	<div class="row">
+		<div class="col-md-6 col-sm-12">
+			<button class="btn_basic_s" 
+					style="float: right; background-color: #fff; border-color: #e4e5e7; color: #6a6c6f; margin-right: 10px;" 
+					onclick="window.parent.fileDownloadModal.close();">
+				닫기
+			</button>
+			<div class="filebox" id="drag-and-drop-zone" style="display: inline-block; float: right;"> 
+				<label for="ex_file">업로드</label> 
+				<input type="file" id="ex_file"> 
+			</div>
 		</div>
 	</div>
-</div>
-
-<ul id="files" style="display: none;">
-</ul>
-
+	
+	<ul id="files" style="display: none;">
+	</ul>
+</body>
 <!-- File item template -->
 <script type="text/html" id="files-template">
 <li class="media">

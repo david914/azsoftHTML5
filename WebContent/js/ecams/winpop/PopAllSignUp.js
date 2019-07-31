@@ -4,7 +4,7 @@
  * <pre>
  * 	작성자	: 이용문
  * 	버전 		: 1.0
- *  수정일 	: 2019-06-24
+ *  수정일 	: 2019-07-31
  * 
  */
 
@@ -13,6 +13,7 @@ var userId 		= $('#userId').val();			// 접속자 ID
 
 var signUpGrid	= new ax5.ui.grid();
 var signUpGridData 	= null;
+var fSignUpGridData 	= null;
 
 var tmpPath			= '';
 var uploadJspFile 	= '';
@@ -34,7 +35,26 @@ signUpGrid.setConfig({
             this.self.select(this.dindex);
         },
         onDBLClick: function () {},
-    	trStyleClass: function () {},
+    	trStyleClass: function () {
+    		if(this.item.colorsw === '3'){//엑셀값이 오류가 있는경우
+    			return "fontStyle-cncl";
+    		}
+    		if(this.item.colorsw === '0'){//정상 등록 완료
+    			return "";
+    		}
+    		if(this.item.colorsw === '4'){//43 테이블 등록 실패
+    			return "fontStyle-43err";
+    		}
+    		if(this.item.colorsw === '5'){//44 테이블 등록 실패
+    			return "fontStyle-44err";
+    		}
+    		if(this.item.colorsw === '6'){//43 44 테이블 등록 실패
+    			return "fontStyle-4344err";
+    		}
+    		if(this.item.colorsw === '7'){//동기화 제외 대상
+    			return "fontStyle-async";
+    		}
+    	},
     	onDataChanged: function(){
     		this.self.repaint();
     	}
@@ -62,6 +82,10 @@ $(document).ready(function() {
 	$('#btnExcel').prop('disabled', true);
 	$('#btnDbSave').prop('disabled', true);
 	
+	$('input[name="radio"]').bind('click', function() {
+		clickRadio();
+	});
+	
 	// 엑셀열기 클릭
 	$('#btnExcelOpen').bind('click', function() {
 		$('#excelFile').trigger('click');
@@ -83,6 +107,31 @@ $(document).ready(function() {
 		saveDb();
 	});
 });
+
+// 전체/정상/장애 라디오 클릭
+function clickRadio() {
+	var selVal = $(":input:radio[name=radio]:checked").val();
+	
+	fSignUpGridData = [];
+	if(selVal === 'all') {
+		fSignUpGridData = signUpGridData;
+	}
+	if(selVal === 'normal') {
+		signUpGridData.forEach(function(item, inex) {
+			if(item.colorsw === '0') {
+				fSignUpGridData.push(item);
+			}
+		});
+	}
+	if(selVal === 'error') {
+		signUpGridData.forEach(function(item, inex) {
+			if(item.colorsw !== '0') {
+				fSignUpGridData.push(item);
+			}
+		});
+	}
+	signUpGrid.setData(fSignUpGridData);
+}
 
 // 유저목록 디비 저장
 function saveDb() {
@@ -109,13 +158,19 @@ function saveDb() {
 		rtList 		: signUpGridData,
 		requestType	: 'saveDb'
 	}
-	ajaxAsync('/webPage/administrator/UserInfo', data, 'json',successSaveDb);
+	ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json',successSaveDb);
 }
 
 // 유저목록 디비 저장 완료
 function successSaveDb(data) {
 	console.log(data);
-	dialog.alert('처리되었습니다.', function() {});
+	
+	dialog.alert('처리되었습니다.', function() {
+		signUpGridData = data;
+		signUpGrid.setData(signUpGridData);
+		$('#optAll').wRadio('check', true);
+	});
+	
 }
 
 //엑셀 파일 업로드시 파일타입 체크
@@ -200,6 +255,9 @@ function successGetArrayCollection(data) {
 	signUpGridData.splice(0,1);
 	signUpGrid.setData(signUpGridData);
 	
+	$('#optAll').wRadio('check', false);
+	$('#optNomal').wRadio('check', false);
+	$('#optError').wRadio('check', false);
 	
 	
 	if( signUpGridData.length > 0 ) {

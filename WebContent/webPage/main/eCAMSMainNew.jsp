@@ -16,19 +16,19 @@
 		<div class="r_wrap card_info">
 	        <dl>
 	          <dt>등록</dt>
-	          <dd>100</dd>
+	          <dd id="srRegCnt">100</dd>
 	        </dl>
 	        <dl>
 	          <dt>개발</dt>
-	          <dd>1/10</dd>
+	          <dd id="devSrCnt">1/10</dd>
 	        </dl>
 	        <dl>
 	          <dt>테스트</dt>
-	          <dd>1/10</dd>
+	          <dd id="testSrCnt">1/10</dd>
 	        </dl>
 	        <dl>
 	          <dt>적용</dt>
-	          <dd>1/10</dd>
+	          <dd id="appySrCnt">1/10</dd>
 	        </dl>
 		</div>
     </div>

@@ -9,6 +9,13 @@
 	String userId = StringHelper.evl(request.getParameter("userId"),"");
 %>
 
+<style>
+	.fontStyle-43err {color: green;}	/*43 테이블 등록 실패 */
+	.fontStyle-44err {color: magenta;}	/*44 테이블 등록 실패 */
+	.fontStyle-4344err {color: cyan;}	/*43 ,44  테이블 등록 실패 */
+	.fontStyle-async {color: blue;}		/*동기화 제외 대상 */
+</style>
+
 <body>
 	<div class="pop-header">
 		<div>
@@ -35,7 +42,7 @@
 					<!--button-->
 					<div class="vat dib poa_r">
 						<button id="btnExcelOpen" class="btn_basic_s">엑셀열기</button>
-						<button id="btnCellAd" class="btn_basic_s margin-5-left">셀추가</button>
+						<!-- <button id="btnCellAd" class="btn_basic_s margin-5-left">셀추가</button> -->
 						<button id="btnExcel" class="btn_basic_s margin-5-left">엑셀저장</button>
 						<button id="btnDbSave" class="btn_basic_s margin-5-left">디비저장</button>
 					</div>
