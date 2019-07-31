@@ -240,9 +240,16 @@ function getPrcLabel() {
 
 // 미결/SR/오류 라벨 건수 가져오기 완료
 function successGetPrcLabel(data) {
+	// 미결 / SR / 오류 라벨 세팅
 	$('#lblApproval').html('['+data.approvalCnt+']');
 	$('#lblSr').html('['+data.srCnt+']');
 	$('#lblErr').html('['+data.errCnt+']');
+	
+	// 등록 / 개발 / 테스트 / 적용 라벨 세팅
+	$('#srRegCnt').html(data.srRegCnt);
+	$('#devSrCnt').html(data.devSrCnt + '/' + data.devPrgCnt);
+	$('#testSrCnt').html(data.testSrCnt + '/' + data.testPrgCnt);
+	$('#appySrCnt').html(data.appySrCnt + '/' + data.appyPrgCnt);
 }
 
 

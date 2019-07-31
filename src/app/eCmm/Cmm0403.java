@@ -56,7 +56,7 @@ public class Cmm0403 {
 		ConnectionContext connectionContext = new ConnectionResource();
 
 		try{
-
+			System.out.println("check1");
 			conn = connectionContext.getConnection();
 			//conn.setAutoCommit(false);
 
@@ -133,7 +133,7 @@ public class Cmm0403 {
 					//imsiAdmin = rtList.get(i).get("CM_ADMIN").toString().trim();
 				}
 
-
+				System.out.println("check3");
 				rst = new HashMap<String, String>();
 				//동기화제외 대상일 경우는 바로 skip
 				if (imsiHandrun.equals("N")) {//사용자가 존재하지 않을경우 또는 동기화 대상 일때
@@ -425,7 +425,9 @@ public class Cmm0403 {
 							strQuery.setLength(0);
 							strQuery.append("insert into cmm0040(cm_userid, cm_username, cm_project, cm_position, cm_duty, cm_email, cm_telno1, cm_telno2, cm_manid, cm_admin, cm_dumypw, cm_juminnum, cm_handrun, cm_status)   	\n");
 							strQuery.append(" values(?,?,?,?,?,?,?,?,'Y','0','1234','1234','N','0')");
-							pstmt = conn.prepareStatement(strQuery.toString());
+							
+							pstmt = new LoggableStatement(conn,strQuery.toString());
+							//pstmt = conn.prepareStatement(strQuery.toString());
 							pstmt.setString(1, imsiUser);
 							pstmt.setString(2, rtList.get(i).get("CM_USERNAME").toString().trim());
 							pstmt.setString(3, imsiProject.trim());
@@ -436,6 +438,7 @@ public class Cmm0403 {
 							pstmt.setString(8, imsiTelno2);
 //						    pstmt.setString(9, imsiManid);
 //						    pstmt.setString(10, imsiAdmin);
+							ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 						    pstmt.executeUpdate();
 						}
 						//40 수정 완료
