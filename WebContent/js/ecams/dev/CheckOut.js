@@ -14,7 +14,6 @@ var adminYN		  = window.top.adminYN;
 var userDeptName = window.top.userDeptName;
 var userDeptCd 	  = window.top.userDeptCd;
 var reqCd 			  = window.top.reqCd;
-*/
 
 var userName 	      = "관리자";
 var userId 			  = "MASTER";
@@ -22,37 +21,51 @@ var adminYN		  = "Y";
 var userDeptName = "AzSoft";
 var userDeptCd 	  = "000000100";
 var reqCd 			  = "01";
+*/
 
-console.log(userDeptName, userDeptCd);
+var userId = window.top.userId;
+var reqCd = window.top.reqCd;
 
 //grid 생성
-var firstGrid 	 = new ax5.ui.grid();
-var secondGrid = new ax5.ui.grid();
+var firstGrid		  = new ax5.ui.grid();
+var secondGrid		  = new ax5.ui.grid();
 
-var firstGridData = [];
-var sysData 	  = null;
-var srData 	  	  = null;
-var prgData	  = null;
-var treeData 	  = null;
-var confirmData = null;
+var ChkOutVerSelModal = new ax5.ui.modal();//이전버전선택 모달
+
+var firstGridData  = [];
 var gridSimpleData = [];
 var secondGridData = [];
 
 var options = [];
-var strAcptNo = null;
+
+var sysData 	   = null;
+var srData 	  	   = null;
+var prgData	  	   = null;
+var treeData 	   = null;
+var confirmData	   = null;
+
+var strAcptNo 	   = null;
+var excelAry 	   = null;
+var upFiles 	   = null;
+
+var firstGridColumns = null;
+var winDevRep        = null; //SR정보 새창
+
 var localHome = '';
 var searchMOD = '';
-var reqSw = false;
-var outpos = '';
-var localFileDownYN = false;
-var dirCd = '';
-var tmpPath = '';
-var alertFlag = 0;
-var firstGridColumns = null;
-var excelAry = null;
-var upFiles = null;
+var outpos 	  = '';
+var dirCd     = '';
+var tmpPath   = '';
 
-var winDevRep = null; //SR정보 새창
+var localFileDownYN = false;
+var reqSw 			= false;
+
+var alertFlag = 0;
+
+var pItemId 	 = null;  //버전선택창 파라미터: 프로그램 ITEMID
+var selectVer    = 'sel';    //선택버전
+var selectAcptno = '';    //선택한신청버전
+var updateFlag   = false; //그리드 컬럽 value 업데이트 여부
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="first-grid"]'),
@@ -68,9 +81,48 @@ firstGrid.setConfig({
     body: {
         columnHeight: 28,
         onClick: function () {
-        	//this.self.clearSelect(); //기존선택된 row deselect 처리 (multipleSelect 할땐 제외해야함)
-        	this.self.select(this.dindex);
-        	firstGridClick();
+	        if (this.colIndex == 5) {//버전선택
+	        	this.self.clearSelect();
+	        	this.self.select(this.dindex);
+	        	
+	        	var gridSelIdx = this.dindex;
+	        	
+	        	pItemId = this.item.cr_itemid;
+	        	
+	        	ChkOutVerSelModal.open({
+	        	    width: 700,
+	        	    height: 360,
+	        	    iframe: {
+	        	        method: "get",
+	        	        url: "../modal/request/ChkOutVerSelModal.jsp",
+	        	        param: "callBack=chkOutVerSelModalCallBack"
+	        	    },
+	        	    onStateChanged: function () {
+	        	        if (this.state === "open") {
+	        	            mask.open();
+	        	        }
+	        	        else if (this.state === "close") {
+	        	        	console.log(gridSelIdx);
+	        	        	console.log(updateFlag, selectVer, selectAcptno);
+	        	        	if (updateFlag) {
+		        	        	if (selectVer == 'sel') {
+			        	        	firstGrid.setValue(gridSelIdx, 'cr_lstver', '선택하세요');
+			        	        	firstGrid.setValue(gridSelIdx, 'selAcptno', '');
+		        	        	} else {
+		        	        		firstGrid.setValue(gridSelIdx, 'cr_lstver', selectVer);
+			        	        	firstGrid.setValue(gridSelIdx, 'selAcptno', selectAcptno);
+		        	        	}
+	        	        	}
+	        	            mask.close();
+	        	        }
+	        	    }
+	        	}, function () {
+	        		
+	        	});
+	        } else {
+	        	this.self.select(this.dindex);
+	        	firstGridClick();
+	        }
         },
         onDBLClick: function () {
         	this.self.clearSelect();
@@ -109,24 +161,33 @@ firstGrid.setConfig({
        	 
         },
         onClick: function (item, param) {
-	        	
 	        addDataRow();
 	        firstGrid.contextMenu.close();//또는 return true;
-        	
         }
     },
     columns: [
-        {key: 'view_dirpath', label: '프로그램경로',  width: '30%'},
-        {key: 'cr_rsrcname', label: '프로그램명',  width: '15%'},
-        {key: 'jawon', label: '프로그램종류',  width: '10%'},
-        {key: 'cr_story', label: '프로그램설명',  width: '20%'},
-        {key: 'codename', label: '상태',  width: '5%'},
-        {key: 'cr_lstver', label: '버전',  width: '5%'},
+        {key: 'view_dirpath', label: '프로그램경로',  width: '30%', align: 'left'},
+        {key: 'cr_rsrcname', label: '프로그램명',  width: '13%', align: 'left'},
+        {key: 'jawon', label: '프로그램종류',  width: '8%', align: 'left'},
+        {key: 'cr_story', label: '프로그램설명',  width: '15%', align: 'left'},
+        {key: 'codename', label: '상태',  width: '10%', align: 'left'},
+        {key: 'cr_lstver', label: '버전',  width: '5%',
+        	formatter: function() {
+        		if (reqCd == '01') {
+        			return '<label>'+ this.value +'</label>';
+        		} else {//이전버전체크아웃
+        			if (selectVer == 'sel') {
+        				return '<button style="width: 98%; height: 98%;">버전선택</button>';
+        			} else {
+        				return '<button style="width: 98%; height: 98%;">버전: '+selectVer+'</button>';
+        			}
+        		}
+        	}
+        },
         {key: 'cm_username', label: '수정자',  width: '5%'},
-        {key: 'lastdt', label: '수정일',  width: '10%'}//formatter: function(){	return '<button>' + this.value + '</button>"}, 	
+        {key: 'lastdt', label: '수정일',  width: '10%'} 	
     ]
 });
-
 secondGrid.setConfig({
     target: $('[data-ax5grid="second-grid"]'),
     sortable: true, 
@@ -178,26 +239,27 @@ secondGrid.setConfig({
        	 
         },
         onClick: function (item, param) {
-	        	
 	        deleteDataRow();
 	        secondGrid.contextMenu.close();//또는 return true;
-        	
         }
     },
     columns: [
-        {key: 'view_dirpath', label: '프로그램경로',  width: '30%'},
-        {key: 'cr_rsrcname', label: '프로그램명',  width: '10%'},
-        {key: 'jobname', label: '업무명',  width: '5%'},
-        {key: 'jawon', label: '프로그램종류',  width: '5%'},
-        {key: 'cr_story', label: '프로그램설명',  width: '20%'},
+        {key: 'view_dirpath', label: '프로그램경로',  width: '30%', align: 'left'},
+        {key: 'cr_rsrcname', label: '프로그램명',  width: '10%', align: 'left'},
+        {key: 'jobname', label: '업무명',  width: '5%', align: 'left'},
+        {key: 'jawon', label: '프로그램종류',  width: '5%', align: 'left'},
+        {key: 'cr_story', label: '프로그램설명',  width: '20%', align: 'left'},
         {key: 'cr_lstver', label: '신청버전',  width: '5%'},
-        {key: 'pcdir1', label: '로컬위치',  width: '10%'},
+        {key: 'pcdir1', label: '로컬위치',  width: '10%', align: 'left'},
         {key: 'cm_username', label: '수정자',  width: '5%'},
-        {key: 'lastdt', label: '수정일',  width: '10%'}//formatter: function(){	return '<button>' + this.value + '</button>'}, 	
+        {key: 'lastdt', label: '수정일',  width: '10%'} 	
     ]
 });
 
-
+//이전버전 선택 모달 창 닫기
+var chkOutVerSelModalCallBack = function() {
+	ChkOutVerSelModal.close();
+}
 
 $(document).ready(function() {
 	console.log('CheckOut.js load');

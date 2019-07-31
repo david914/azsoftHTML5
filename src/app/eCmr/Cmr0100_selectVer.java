@@ -22,7 +22,6 @@ public class Cmr0100_selectVer {
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
 		StringBuffer      strQuery    = new StringBuffer();
-		Object[]		  rtObj		  = null;
 		ArrayList<HashMap<String, String>>		  rtList	  = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String>			  rst		  = null;
 		ConnectionContext connectionContext = new ConnectionResource();
@@ -57,12 +56,10 @@ public class Cmr0100_selectVer {
 			strQuery.append(" order by acptdate desc                                \n");
 
 
-            //pstmt = conn.prepareStatement(strQuery.toString());
-			pstmt =  new LoggableStatement(conn, strQuery.toString());
-
+            pstmt = conn.prepareStatement(strQuery.toString());
+			//pstmt =  new LoggableStatement(conn, strQuery.toString());
 			pstmt.setString(pstmtcount++, itemID);
-
-			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 
             rs = pstmt.executeQuery();
 
@@ -92,10 +89,7 @@ public class Cmr0100_selectVer {
 			pstmt = null;
 			rs = null;
 
-			rtObj =  rtList.toArray();
-			rtList = null;
-
-			return rtObj;
+			return rtList.toArray();
 
 		} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();
@@ -111,7 +105,6 @@ public class Cmr0100_selectVer {
 			throw exception;
 		}finally{
 			if (strQuery != null) 	strQuery = null;
-			if (rtObj != null)  rtObj = null;
 			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
 			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
 			if (conn != null){
