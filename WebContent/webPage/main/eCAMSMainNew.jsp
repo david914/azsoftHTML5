@@ -35,7 +35,7 @@
     
     <!--line 2-->
 	<div class="row half_wrap_cb">
-		<div class="l_wrap progressbar scrollBind" style="width: 59%; height: 35%; margin-right: 2px;">
+		<div class="l_wrap progressbar" style="width: 59%; height: 35%; margin-right: 2px;">
 			<div class="margin-10-right" id="divSrList">
 			</div>
 		</div>

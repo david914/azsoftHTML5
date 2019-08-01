@@ -118,7 +118,7 @@ noticeGrid.setConfig({
     	}
     },
     columns: [
-        {key: "CM_TITLE", 		label: "제목",  		width: '52%'},
+        {key: "CM_TITLE", 		label: "제목",  		width: '52%',align: 'left'},
         {key: "CM_USERNAME", 	label: "등록자",  	width: '8%'},
         {key: "CM_ACPTDATE", 	label: "등록일",  	width: '8%'},
         {key: "CM_STDATE", 		label: "팝업시작일",  	width: '8%'},

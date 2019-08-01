@@ -23,6 +23,8 @@ import com.ecams.common.dbconn.ConnectionContext;
 import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
 
+import app.common.LoggableStatement;
+
 /**
  * @author bigeyes
  *
@@ -403,8 +405,8 @@ public class Cmr3100{
 				}
 			}
 			strQuery.append("order by cr_acptno                                                       \n");
-			pstmt = conn.prepareStatement(strQuery.toString());
-			//pstmt = new LoggableStatement(conn,strQuery.toString());
+			//pstmt = conn.prepareStatement(strQuery.toString());
+			pstmt = new LoggableStatement(conn,strQuery.toString());
             Cnt = 0;
             if (pStateCd.equals("0")) {
 	            pstmt.setString(++Cnt, pStartDt);
@@ -514,7 +516,7 @@ public class Cmr3100{
 					}
 				}
 			}
-			//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
 			while (rs.next()){

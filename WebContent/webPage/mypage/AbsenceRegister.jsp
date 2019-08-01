@@ -42,7 +42,7 @@
 			</div>
 			<div>
 				<div id="cboSayu" data-ax5select="cboSayu" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
-				<textarea id="txtSayu" name="txtSayu" rows="4" cols="75"></textarea>
+				<textarea id="txtSayu" name="txtSayu" rows="4" cols="75" style="width: 540px;"></textarea>
 			</div>
 		</div>
 		<div class="ab_register row">
@@ -51,12 +51,12 @@
 			</div>
 			<div>
 				<label id="lbFrom">FROM</label>
-				<div class="input-group" data-ax5picker="basic" style="width:100%;">
+				<div class="input-group" data-ax5picker="datStD" style="width:100%;">
 					<input id="datStD" name="datStD" type="text" class="form-control" placeholder="yyyy/mm/dd">
 					<span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
 				</div>
 				<label id="lbTo">TO</label>
-				<div class="input-group" data-ax5picker="basic2" style="width:100%;">
+				<div class="input-group" data-ax5picker="datEdD" style="width:100%;">
 					<input id="datEdD" name="datEdD" type="text" class="form-control" placeholder="yyyy/mm/dd">
 					<span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
 				</div>

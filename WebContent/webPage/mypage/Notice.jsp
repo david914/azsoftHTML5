@@ -31,7 +31,7 @@
 					<input id="end_date" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
 		            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 				</div>
-				<input 	id="txtFind" name="txtFind" type="text" placeholder="제목/내용 입력후 조회" style="width: 250px;"></input>
+				<input 	id="txtFind" name="txtFind" type="text" placeholder="제목/내용 입력후 조회" style="width: 250px; margin-left: 20px;"></input>
 				<button id="btnQry" name="btnQry" class="btn_basic_s">조 회</button>
 			</div>	
 			<div class="r_wrap">

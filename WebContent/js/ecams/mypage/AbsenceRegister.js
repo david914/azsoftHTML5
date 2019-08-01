@@ -19,7 +19,9 @@ var userName 	= '관리자';
 var userId 		= 'MASTER';
 var adminYN 	= 'Y';
 
-var picker 		= new ax5.ui.picker();
+var datStD 		= new ax5.ui.picker();
+var datEdD 		= new ax5.ui.picker();
+
 var absGrid 	= new ax5.ui.grid();
 
 var absGridData = [];
@@ -60,10 +62,7 @@ absGrid.setConfig({
     ]
 });
 
-
-$('#datStD').val(getDate('DATE',0));
-$('#datEdD').val(getDate('DATE',0));
-
+/*
 picker.bind({
     target: $('[data-ax5picker="basic"]'),
     direction: "top",
@@ -163,7 +162,7 @@ picker.bind({
         ok: {label: "Close", theme: "default"}
     }
 });
-
+*/
 $('input:radio[name^="radio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 
 $(document).ready(function() {
@@ -244,6 +243,12 @@ $(document).ready(function() {
 			$('#btnReg').text('해제');
 		}
 	});
+	
+	$('#datStD').val(getDate('DATE',0));
+	$('#datEdD').val(getDate('DATE',0));
+
+	datStD.bind(defaultPickerInfo('datStD','top'));
+	datEdD.bind(defaultPickerInfo('datEdD','top'));
 })
 
 // 부재사유 가져오기

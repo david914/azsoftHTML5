@@ -48,7 +48,7 @@
 				
 				<div class="width-10 dib tar">
 					<div class="vat dib" style="float: right;">
-						<button id="btnExcel" class="btn_basic_s">엑셀저장</button>
+						<button id="btnExcel" class="btn_basic_s" style="width: 70px;">엑셀저장</button>
 					</div>
 				</div>
 			</div>
@@ -92,7 +92,7 @@
 				
 				<div class="width-10 dib tar">
 					<div class="vat dib" style="float: right;">
-						<button id="btnQry" class="btn_basic_s">조&emsp;&emsp;회</button>
+						<button id="btnQry" class="btn_basic_s" style="width: 70px;">조&emsp;&emsp;회</button>
 					</div>
 				</div>
 			</div>
@@ -129,7 +129,7 @@
 				
 				<div class="width-10 dib tar">
 					<div class="vat dib" style="float: right;">
-						<button id="btnInit" class="btn_basic_s">초&nbsp;&nbsp;기&nbsp;화</button>
+						<button id="btnInit" class="btn_basic_s" style="width: 70px;">초&nbsp;기&nbsp;화</button>
 					</div>
 				</div>
 			</div>

@@ -16,18 +16,14 @@ var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
-var update_dp2;
-var result_dp;
-var delete_dp3;
-var upFiles;
 var stDate = "";
 var edDate = "";
-var now = new Date();
-var picker = new ax5.ui.picker();
+var now 	= new Date();
+var picker 	= new ax5.ui.picker();
 var request =  new Request();
-var memo_date = null;
-var noticeInfo = null;
-var dialog = new ax5.ui.dialog({title: "확인"});
+var memo_date 	= null;
+var noticeInfo 	= null;
+var dialog 		= new ax5.ui.dialog({title: "확인"});
 
 picker.bind({
     target: $('[data-ax5picker="basic"]'),

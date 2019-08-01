@@ -8,9 +8,9 @@
 	<div id="history_wrap">관리자 <strong>&gt; 시스템정보</strong></div>
 	
 	<div class="row vat por">
-		<div class="width-49 dib vat">
+		<div class="width-50 dib vat float-left">
 			<div class="margin-5-right">
-				<div class="float-right">
+				<div class="float-right margin-5-bottom">
 					<div class="dib">
 						<label class="dib">시스템코드/시스템명</label>
 						<input id="txtFindSys" class="form-control width-50 dib" type="text" />
@@ -24,12 +24,12 @@
 						<button class="btn_basic_s" id="btnQry">조회</button>
 					</div>
 				</div>
-				<div class="az_board_basic" style="height: 85%"  id="divSysInfoGrid">
+				<div class="az_board_basic" style="height: 86%"  id="divSysInfoGrid">
 			    	<div data-ax5grid="sysInfoGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 				</div>
 			</div>
 		</div>
-		<div class="width-50 dib" id="divRight" style="margin-left: 5px;">
+		<div class="width-50 dib vat float-right" id="divRight">
 			<div class="half_wrap">
 				<div class="row">
 					<ul>
@@ -119,7 +119,7 @@
 						</li>
 						
 						<li class="row">
-		    				<div class="width-60 float-left">
+		    				<div class="width-60 float-left margin-10-bottom">
 			    					<label class="tit_80 dib poa">중단시작</label>
 			    					<div class="ml_80">
 										<div id="divPicker" data-ax5picker="datStDate" class="dib width-100 por">
@@ -192,15 +192,15 @@
 	
 	<div class="row tar por">
 		<div class="width-100" style="right: 5px;">
-			<button class="btn_basic" id="btnFact">처리펙터추가</button>
-			<button id="btnReleaseTimeSet" class="btn_basic">정기배포설정</button>
-			<button id="btnAdd" name="btnReg" class="btn_basic">등록</button>
-			<button id="btnDel" name="btnReg" class="btn_basic">폐기</button>
-			<button id="btnJob" name="btnReg" class="btn_basic">업무등록</button>
-			<button id="btnSysDetail" name="btnReg" class="btn_basic">시스템상세정보</button>
-			<button id="btnProg" name="btnReg" class="btn_basic">프로그램종류정보</button>
-			<button id="btnDir" name="btnReg" class="btn_basic">공통디렉토리</button>
-			<button id="btnCopy" name="btnReg" class="btn_basic">시스템정보복사</button>
+			<button id="btnFact" class="btn_basic_p" >처리펙터추가</button>
+			<button id="btnReleaseTimeSet" class="btn_basic_p">정기배포설정</button>
+			<button id="btnAdd" class="btn_basic_p">등록</button>
+			<button id="btnDel" class="btn_basic_p">폐기</button>
+			<button id="btnJob" class="btn_basic_p">업무등록</button>
+			<button id="btnSysDetail" class="btn_basic_p">시스템상세정보</button>
+			<button id="btnProg" class="btn_basic_p">프로그램종류정보</button>
+			<button id="btnDir" class="btn_basic_p">공통디렉토리</button>
+			<button id="btnCopy" class="btn_basic_p">시스템정보복사</button>
 		</div>
 	</div>
 </div>
