@@ -25,11 +25,12 @@ var strStatus = "";
 
 var fileGridData = new Object();
 
-var cboCatTypeSRData;
-var cboChgTypeData;
-var cboWorkRankData;
-var cboReqSecuData;
-var cboDevUserData;
+var options = [];
+var cboCatTypeSRData = null;
+var cboChgTypeData = null;
+var cboWorkRankData = null;
+var cboReqSecuData = null;
+var cboDevUserData = null;
 
 var insertSrIdSw = false;
 var inProgressSw = false;
@@ -362,6 +363,7 @@ function setCboDevUser() { // 담당개발자 select 세팅
 	}
 }
 
+//screenInit
 function elementInit(initDivision) {
 	if (initDivision === 'NEW') {
 		strIsrId = '';
@@ -401,19 +403,18 @@ function elementInit(initDivision) {
 			$('#btnUpdate').attr('disabled', true);
 			$('#btnDelete').attr('disabled', true);
 		} else {
-			// 저장 상태 - 모이라 등록건?
+			// 등록완료(0)
 			if (strStatus === '0') {
 				$('#btnRegister').attr('disabled', false);
 				$('#btnUpdate').attr('disabled', false);
 				$('#btnDelete').attr('disabled', false);
-				// 등록완료, 진행중, 등록승인중 반려
-			} else if (strStatus === '2' || strStatus === 'C'
-					|| strStatus === '4') {
-				// 등록완료, 진행중 이면
+				// 접수완료(2), 진행중(4), 등록승인중 반려(C)
+			} else if (strStatus === '2' || strStatus === 'C' || strStatus === '4') {
+				// 접수완료(2), 진행중(4) 이면
 				if (strStatus === '2' || strStatus === 'C') {
 					$('#btnDelete').attr('disabled', false);
 					$('#btnUpdate').attr('disabled', false);
-					// 등록승인중반려 면
+					// 등록승인중반려(C) 면
 				} else {
 					$('#btnDelete').attr('disabled', true);
 					$('#btnUpdate').attr('disabled', true);
@@ -426,9 +427,8 @@ function elementInit(initDivision) {
 				$('#btnUpdate').attr('disabled', true);
 				$('#btnDelete').attr('disabled', true);
 
-				// 등록승인중, 반려, 적용확인중, 완료승인중 이면
-				if (strStatus === '1' || strStatus === '3' || strStatus === '5'
-						|| strStatus === 'A') {
+				// 등록승인중(1), 반려(3), 모니터링중(5), 완료승인중(A) 이면
+				if (strStatus === '1' || strStatus === '3' || strStatus === '5' || strStatus === 'A') {
 					$('#btnFileAdd').attr('disabled', true);
 					$('#btnAddDevUser').attr('disabled', true);
 					$('#btnDelDevUser').attr('disabled', true);
@@ -463,6 +463,58 @@ function elementInit(initDivision) {
 
 	grid_fileList.setData([]); // grid 초기화
 	devUserGrid.setData([]); // grid 초기화
+	
+	console.log("strReqCd: " + strReqCd);
+	if(strReqCd == 'XX') {
+		
+		console.log("1: ");
+		
+		$('#chkNew').wCheck('disabled', true);
+		$('#btnUpdate').attr('disabled', true);
+		$('#btnRegister').attr('disabled', true);
+		$('#btnDelete').attr('disabled', true);
+		$('#btnAddDevUser').attr('disabled', true);
+		$('#btnDelDevUser').attr('disabled', true);
+		$('#btnFileAdd').attr('disabled', true);
+		
+	}if(strReqCd == 'XX' 
+		|| ($('#btnRegister')[0].disabled && $('#btnUpdate')[0].disabled && $('#btnDelete')[0].disabled)) { //disable이면 true
+		
+		console.log("2: ");
+	
+		if(cboCatTypeSRData != null) {
+			$('[data-ax5select="cboCatTypeSR"]').ax5select("disable");
+			$('[data-ax5select="cboChgType"]').ax5select("disable");
+			$('[data-ax5select="cboWorkRank"]').ax5select("disable");
+			$('[data-ax5select="cboReqSecu"]').ax5select("disable");
+		}
+		
+		$('#datReqComDate').attr('disabled', true);
+		
+		$('#txtReqSubject').attr('disabled', true);
+		$('#texReqContent').attr('disabled', true);
+		$('#txtDocuNum').attr('disabled', true);
+		$('#txtOrg').attr('disabled', true);
+		$('#txtRegUser').attr('disabled', true);
+	}else {
+		
+		console.log("3: ");
+		
+		if(cboCatTypeSRData != null) {
+			$('[data-ax5select="cboCatTypeSR"]').ax5select("enable");
+			$('[data-ax5select="cboChgType"]').ax5select("enable");
+			$('[data-ax5select="cboWorkRank"]').ax5select("enable");
+			$('[data-ax5select="cboReqSecu"]').ax5select("enable");
+		}
+		
+		$('#datReqComDate').attr('disabled', false);
+		
+		$('#txtReqSubject').attr('disabled', false);
+		$('#texReqContent').attr('disabled', false);
+		$('#txtDocuNum').attr('disabled', false);
+		$('#txtOrg').attr('disabled', false);
+		$('#txtRegUser').attr('disabled', false);
+	}
 }
 
 // 파일첨부
@@ -622,53 +674,22 @@ function setCboElement() {
 	cboWorkRankData = codeInfos.WORKRANK;
 	cboReqSecuData = codeInfos.REQSECU;
 	options = [];
-	$.each(cboCatTypeSRData, function(key, value) {
-		options.push({
-			value : value.cm_micode,
-			text : value.cm_codename
-		});
-	});
-
+	
 	$('[data-ax5select="cboCatTypeSR"]').ax5select({
-		options : options
-	});
-
-	options = [];
-	$.each(cboChgTypeData, function(key, value) {
-		options.push({
-			value : value.cm_micode,
-			text : value.cm_codename
-		});
-	});
-
+        options: injectCboDataToArr(cboCatTypeSRData, 'cm_micode' , 'cm_codename')
+   	});
+	
 	$('[data-ax5select="cboChgType"]').ax5select({
-		options : options
-	});
-
-	options = [];
-	$.each(cboWorkRankData, function(key, value) {
-		options.push({
-			value : value.cm_micode,
-			text : value.cm_codename
-		});
-	});
-
+        options: injectCboDataToArr(cboChgTypeData, 'cm_micode' , 'cm_codename')
+   	});
+	
 	$('[data-ax5select="cboWorkRank"]').ax5select({
-		options : options
-	});
-
-	options = [];
-	$.each(cboReqSecuData, function(key, value) {
-		options.push({
-			value : value.cm_micode,
-			text : value.cm_codename
-		});
-	});
-
+        options: injectCboDataToArr(cboWorkRankData, 'cm_micode' , 'cm_codename')
+   	});
+	
 	$('[data-ax5select="cboReqSecu"]').ax5select({
-		options : options
-	});
-
+        options: injectCboDataToArr(cboReqSecuData, 'cm_micode' , 'cm_codename')
+   	});
 }
 
 function clickChkNew() {

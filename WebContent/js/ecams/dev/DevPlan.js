@@ -40,6 +40,10 @@ $(document).ready(function(){
 		setCbo();
 	};
 	
+	document.getElementById('frmSRRegister').onload = function() {
+		setSRRegData();
+	};
+	
 //	document.getElementById('frmDevPlan').onload = function() {
 		clickTabMenu();
 //	}
@@ -61,7 +65,13 @@ function setCbo() {
 //	}
 	
 	var tmpTab = $('#frmPrjList').get(0).contentWindow;
+	tmpTab.strReqCD = strReqCd;
 	$('#cboQryGbn').trigger('change');
+}
+
+function setSRRegData() {
+	var tmpTab = $('#frmSRRegister').get(0).contentWindow;
+	tmpTab.strReqCd = "XX";
 }
 
 function initScreen() {
@@ -119,6 +129,8 @@ function changeTabMenu() {
 		var tmpSelectedGridItem = tmpGrid.list[tmpGrid.selectedDataIndexs];
 		var tmpTab = $('#frmSRRegister').get(0).contentWindow;
 		
+		console.log("tmpGridSelectedIndex: " + tmpGridSelectedIndex);
+		
 		if(tmpGridSelectedIndex < 0) {
 			tmpTab.elementInit("M");
 			return;
@@ -127,23 +139,20 @@ function changeTabMenu() {
 		if(tmpTab.strIsrId == strIsrId) return;
 		
 		tmpTab.strStatus = tmpSelectedGridItem.cc_status;
+		tmpTab.strIsrId = strIsrId;
 		tmpTab.elementInit("M"); //tab1.screenInit("M");
 		tmpTab.firstGridClick(strIsrId); //tab1.grdPrj_click(strIsrId)
 		
 	}else if(document.getElementById("tab2").className == "on") { //$('#tab2').is(':enabled')
-		console.log("onload: " + document.getElementById('frmDevPlan').onload);
 		var tmpGrid = $('#frmPrjList').get(0).contentWindow.firstGrid;
 		var tmpGridSelectedIndex = tmpGrid.selectedDataIndexs;
 		var tmpSelectedGridItem = tmpGrid.list[tmpGrid.selectedDataIndexs];
 		var tmpTab = $('#frmDevPlan').get(0).contentWindow;
 		
-		console.log("idx:" + tmpGridSelectedIndex);
 		if(tmpGridSelectedIndex < 0) {
 			tmpTab.screenInit("M"); //tab2.screenInit("M");
 			return;
 		}
-		
-		console.log(">>");
 		
 		//if(tmpTab.strIsrId == strIsrId) return;
 		

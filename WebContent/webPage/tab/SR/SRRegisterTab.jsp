@@ -40,7 +40,7 @@
 				<dt><label>*상세내용</label></dt>
 				<dd>
 					<form>
-						<textarea id="texReqContent" name="texReqContent" style="align-content:left;width:100%;height:265px;resize: none;"></textarea>
+						<textarea id="texReqContent" name="texReqContent" style="align-content:left;width:100%;height:180px;resize: none;"></textarea>
 					</form>
 				</dd>
 			</dl>
@@ -50,7 +50,7 @@
 		    <dl>
 		    	<dt><label id="lbUser">*분류유형</label></dt>
 			    <dd>
-					<div id="cboCatTypeSR" data-ax5select="cboCatTypeSR" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
+					<div id="cboCatTypeSR" data-ax5select="cboCatTypeSR" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
 				</dd>
 			</dl>
 		</div>
@@ -59,7 +59,7 @@
 		    <dl>
 		    	<dt><label id="lbUser">*변경종류</label></dt>
 			    <dd>
-					 <div id="cboChgType" data-ax5select="cboChgType" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
+					 <div id="cboChgType" data-ax5select="cboChgType" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
 				</dd>
 			</dl>
 		</div>				
@@ -68,7 +68,7 @@
 		    <dl>
 		    	<dt><label id="lbUser">*작업순위</label></dt>
 			    <dd>
-					<div id="cboWorkRank" data-ax5select="cboWorkRank" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
+					<div id="cboWorkRank" data-ax5select="cboWorkRank" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
 				</dd>
 			</dl>
 		</div>			
@@ -77,7 +77,7 @@
 		    <dl>
 		    	<dt><label id="lbUser">보안요구사항</label></dt>
 			    <dd>
-					<div id="cboReqSecu" data-ax5select="cboReqSecu" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+					<div id="cboReqSecu" data-ax5select="cboReqSecu" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
 					<input id="txtReqSecu" name="txtReqSecu" class="form-control" type="text" style="display:none;"></input>
 				</dd>
 			</dl>
