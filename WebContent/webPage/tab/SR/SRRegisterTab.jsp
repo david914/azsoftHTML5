@@ -95,8 +95,8 @@
 			<dl>
 				<dt><label>*완료요청일</label></dt>
 				<dd>
-					<div class="input-group" data-ax5picker="basic2">
-		            	<input id="datReqComDate" type="text" class="form-control" placeholder="yyyy/mm/dd"><span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+					<div class="az_input-group" data-ax5picker="basic2">
+		            	<input id="datReqComDate" type="text" class="f-cal" placeholder="yyyy/mm/dd"><span class="btn_calendar poa_r"><i class="fa fa-calendar-o"></i></span>
 		         	</div>
 		        </dd>
 			</dl>
