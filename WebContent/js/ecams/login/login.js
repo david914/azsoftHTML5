@@ -95,7 +95,38 @@ var loginSubmitAction = function(e) {
             document.body.appendChild(form);
             form.submit();
     	}
+    } else {
+    	//에러카운드 초과 했을때
+    	if (authCode === '2') {
+    		dialog.alert('비밀번호 오류 횟수가 초과 되었습니다. 관리자에게 문의하시기 바랍니다.', function() {});
+    	}
+    	//DB 사용자정보가 없을때
+    	if (authCode === '7') {
+    		dialog.alert('사용자 ID가 존재하지 않습니다. 관리자에게 문의하시기 바랍니다.', function() {});
+    	}
+    	//cm_active == 0 일때
+    	if (authCode === '1') {
+    		dialog.alert('해당 ID는 비활성화 상태입니다. 관리자에게 문의하시기 바랍니다.', function() {});
+    	}
+    	//CM_JUMINNUM 주민번호가 null 일때
+    	if (authCode === '5') {
+    		dialog.alert('관리자에게 문의하시기 바랍니다.', function() {});
+    	}
+    	//비번변경 주기 초과 했을 경우
+    	if (authCode === '6') {
+    		dialog.alert('비밀번호 변경주기를 초과했습니다. 관리자에게 문의하시기 바랍니다.', function() {});
+    	}
+    	
+    	//비밀번호 틀렸을경우
+    	if (authCode === '4') {
+    		dialog.alert('아이디 또는 비밀번호를 다시 확인하세요.', function() {
+    			$('#idx_input_pwd').val('');
+    		});
+    	}
     }
+    
+    
+    
     
     /* 
     if (authCode === '2')//에러카운드 초과 했을때

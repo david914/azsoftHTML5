@@ -17,9 +17,14 @@
 
 <body style="width: 100% !important; min-width: 0px !important; overflow: hidden;">
 	<div class="row">
-		<div class="col-md-6 col-sm-12">
+		<div class="col-md-12 col-sm-12">
 			<div style="position: relative; height: 300px; overflow: auto; display: block;">
-				<table  class="table">
+				<div class="card">
+					<ul class="list-unstyled p-2 d-flex flex-column col" id="files" style="height: 150px; overflow: scroll;">
+						<li class="text-muted text-center empty">No files uploaded.</li>
+					</ul>
+				</div>
+				<!-- <table  class="table">
 					<thead>
 						<tr>
 							<th>파일명</th>
@@ -27,20 +32,20 @@
 					</thead>
 					<tbody id="fileDownBody">
 					</tbody>
-				</table>
+				</table> -->
 			</div>
 		</div>
 	</div>
 	
 	<div class="row">
-		<div class="col-md-6 col-sm-12">
+		<div class="col-md-12 col-sm-12 margin-5-top" >
 			<button class="btn_basic_s" 
 					style="float: right; background-color: #fff; border-color: #e4e5e7; color: #6a6c6f; margin-right: 10px;" 
 					onclick="window.parent.fileDownloadModal.close();">
 				닫기
 			</button>
 			<div class="filebox" id="drag-and-drop-zone" style="display: inline-block; float: right;"> 
-				<label for="ex_file">업로드</label> 
+				<label for="ex_file">파일첨부</label> 
 				<input type="file" id="ex_file"> 
 			</div>
 		</div>

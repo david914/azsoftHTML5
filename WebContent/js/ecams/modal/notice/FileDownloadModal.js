@@ -58,17 +58,47 @@ function getFileList() {
 // 첨부파일 리스트 가져오기 완료
 function successGetFileList(data) {
 	console.log(data);
-	$('#fileDownBody').empty();
+	$('#files').empty();
 	downFilelist = data;
+	
+	
+/*<li class="media">
+	<div class="media-body mb-1">
+		<p>
+			<strong>%%filename%%</strong> - Status: <span class="text-muted">Waiting</span>
+			<button href="#" class="btn btn-sm btn-danger cancel" role="button" style="float: right;">삭제</button>
+		</p>
+		<div class="progress mb-2">
+        	<div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        	</div>
+      	</div>
+		<hr class="mt-1 mb-1" />
+	</div>
+</li>*/
+	
 	downFilelist.forEach(function(item,itemIndex){
 		var appendStr = '';
+		
+		appendStr += '<li class="media">';
+		appendStr += '	<div class="media-body mb-1">';
+		appendStr += '		<p>';
+		appendStr += '			<a href="/webPage/fileupload/upload?&folderPath='+noticeFolderPath+'\\'+downAcptno+'\\'+item.orgname+'" style="font-size: 14px;">'+item.orgname+'</a>';
+		appendStr += '			<button onclick="delFile(\''+item.orgname+'\')" class="btn btn-sm btn-danger cancel" role="button" style="float: right;">삭제</button>';
+		appendStr += '		</p>';
+		appendStr += '		<hr class="mt-1 mb-1" />';
+		appendStr += '	</div>';
+		appendStr += '</li>';
+		
+		
+		/*
 		appendStr += '<tr id="file_'+item.orgname+'">';
 		appendStr += '	<td>';
 		appendStr += '		<a href="/webPage/fileupload/upload?&folderPath='+noticeFolderPath+'\\'+downAcptno+'\\'+item.orgname+'">'+item.orgname+'</a>';
 		appendStr += '		<button onclick="delFile(\''+item.orgname+'\')" class="btn btn-sm btn-danger cancel" role="button" style="float: right;">삭제</button>';
 		appendStr += '	</td>';
 		appendStr +='</tr>';
-		$('#fileDownBody').append(appendStr);
+		*/
+		$('#files').append(appendStr);
 	});
 }
 

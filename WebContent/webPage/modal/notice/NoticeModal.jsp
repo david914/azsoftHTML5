@@ -9,6 +9,7 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <body style="width: 100% !important; min-width: 0px !important">
+	
 	<div class="pop-header">
 		<div>
 			<label id="lbSub">공지사항 등록</label>
@@ -19,42 +20,44 @@
 			</button>
 		</div> 
 	</div>
-	<div class="container-fluid">
-		<div class="row">
-			<div>
-				<label id="lbSub">제목</label>
-				<input id="txtTitle" name="txtTitle" class="form-control" type="text"></input>
-			</div>
-		</div>
-		<!--CM_TITLE -->
-		<div class="row">
-			<div>
-				<textarea id="textareaContents" name="textareaContents" class="form-control margin-15-top" rows="14"></textarea>
-			</div>
-		</div>
-		<div class="row">
-			<div class="dib margin-3-top">
-				<input type="checkbox" class="checkbox-pop" id="chkPop" data-label="팝업공지"/>
-			</div>
-			<div class="dib">
-				<div id="divPicker" class="az_input_group" data-ax5picker="basic">
-		            <input id="dateStD" name="dateStD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
-		            <span class="sim">∼</span>
-		            <input id="dateEdD" name="dateEdD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
-		            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+	<div style="padding: 5px;">
+		<div class="container-fluid">
+			<div class="row">
+				<div>
+					<label id="lbSub">제목</label>
+					<input id="txtTitle" name="txtTitle" class="form-control" type="text"></input>
 				</div>
 			</div>
-		</div>
-		
-		<div class="row">
-			<div class="l_wrap">
-				<button id="btnFile" name="btnFile" class="btn_basic">파일첨부</button>
-			</div>
-			<div class="r_wrap">
+			<!--CM_TITLE -->
+			<div class="row">
 				<div>
-					<button id="btnRem" name="btnRem" class="btn_basic dib">삭제</button>
-					<button id="btnReg" name="btnReg" class="btn_basic dib">등록</button>
-					<button id="btnClose" name="btnClose" class="btn_basic dib">닫기</button>
+					<textarea id="textareaContents" name="textareaContents" class="form-control margin-15-top" rows="14"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="dib margin-3-top">
+					<input type="checkbox" class="checkbox-pop" id="chkPop" data-label="팝업공지"/>
+				</div>
+				<div class="dib">
+					<div id="divPicker" class="az_input_group" data-ax5picker="basic">
+			            <input id="dateStD" name="dateStD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+			            <span class="sim">∼</span>
+			            <input id="dateEdD" name="dateEdD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+			            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="l_wrap">
+					<button id="btnFile" name="btnFile" class="btn_basic">파일첨부</button>
+				</div>
+				<div class="r_wrap">
+					<div>
+						<button id="btnRem" name="btnRem" class="btn_basic dib">삭제</button>
+						<button id="btnReg" name="btnReg" class="btn_basic dib">등록</button>
+						<button id="btnClose" name="btnClose" class="btn_basic dib">닫기</button>
+					</div>
 				</div>
 			</div>
 		</div>

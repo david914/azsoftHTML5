@@ -35,7 +35,7 @@
 		<div class="col-md-6 col-sm-12 ">
 			<button id="selectBtn" class="btn_basic_s">선택완료</button>
 			<div class="filebox" id="drag-and-drop-zone" style="display: inline-block;"> 
-				<label for="ex_file">업로드</label> 
+				<label for="ex_file">파일첨부</label> 
 				<input type="file" id="ex_file"> 
 			</div>
 		</div>
