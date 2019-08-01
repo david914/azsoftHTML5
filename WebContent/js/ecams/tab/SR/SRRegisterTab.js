@@ -305,7 +305,7 @@ function openOranizationModal() {
 		height : 700,
 		iframe : {
 			method : "get",
-			url : "../modal/OrganizationModal.jsp",
+			url : "../../modal/OrganizationModal.jsp",
 			param : "callBack=modalCallBack"
 		},
 		onStateChanged : function() {
