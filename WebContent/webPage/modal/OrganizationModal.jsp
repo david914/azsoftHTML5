@@ -37,63 +37,17 @@
 		</div>
 		<!--line2-->				
 		<div class="row">
-			<div class="row scrollBind" style="height: 76%">
+			<div class="row scrollBind" style="height: 80%">
 				<ul id="tvOrgani" class="ztree"></ul>
 			</div>
 		</div>
 		<!--button-->
 		<div class="row tar">
-			<button class="btn_basic" id="btnReq">적용</button>
-			<button class="btn_basic margin-5-left" id="btnExit">취소</button>
+			<button class="btn_basic_p" id="btnReq">적용</button>
+			<button class="btn_basic_p margin-5-left" id="btnExit">취소</button>
 		</div>
 	</div>
 </body>
-<!-- 
-<section>
-	<div class="hpanel">
-		<div class="panel-heading">
-            <div class="panel-tools width-5">
-                <a class="closebox width-100" onclick="popClose()"><i class="fa fa-times"></i></a>
-            </div>
-            <label id="titleLabel">[조직도]</label>
-        </div>
-        <div class="panel-body">
-			<div class="row">
-				<div class="col-xs-4">
-					<button class="btn btn-default" id="btnPlus">
-						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-					</button>
-					<button class="btn btn-default" id="btnMinus">
-						<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-					</button>
-				</div>
-				<div class="col-xs-6">
-					<input id="txtFind" name="txtFind" class="form-control" type="text"></input>
-				</div>
-				<div class="col-xs-2">
-					<button class="btn btn-default" id="btnFind">조회</button>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="scrollBind" style="height: 550px; border: 1px dotted gray;">
-						<ul id="tvOrgani" class="ztree"></ul>
-					</div>
-				</div>
-			</div> 
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="float-right">
-						<button class="btn btn-default" id="btnReq">적용</button>
-						<button class="btn btn-default" id="btnExit">취소</button>
-					</div>
-				</div>
-			</div>
-			        	
-        </div>
-    </div>
-</section>
- -->
 <div id="rMenu">
 	<ul>
 		<li id="addMenu">조직추가(선택한 구분과 동일한 레벨)</li>

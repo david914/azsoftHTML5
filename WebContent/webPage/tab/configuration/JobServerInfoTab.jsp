@@ -5,11 +5,11 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <body style="height: 95% !important">
-	<div class="row half_wrap_cb">	
+	<div class="sm-row half_wrap_cb">	
 		<div class="l_wrap width-20">
             <label class="tit_80 poa">작업구분</label>
             <div class="ml_80 por">
-				<div id="cboJobDiv" data-ax5select="cboJobDiv" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:95%;" ></div>
+				<div id="cboJobDiv" data-ax5select="cboJobDiv" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 			</div>
 		</div>		
 		<div class="l_wrap width-20">
@@ -31,7 +31,7 @@
 			</div>
 		</div>		
 	</div>
-	<div class="row half_wrap_cb">	
+	<div class="sm-row half_wrap_cb">	
 		<div class="l_wrap width-20">
             <label class="tit_80 poa margin-5-left">Port</label>
             <div class="ml_80 por">
@@ -51,11 +51,11 @@
             </div>
 		</div>
 	</div>
-	<div class="row tar">
+	<div class="sm-row tar">
 		<button id="btnReq" class="btn_basic_s">등록</button>
 		<button id="btnDel" class="btn_basic_s">폐기</button>
 	</div>
-    <div class="row az_board_basic" style="height: 50%">
+    <div class="sm-row az_board_basic" style="height: 72%">
     	<div data-ax5grid="workGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>	
 </body>		

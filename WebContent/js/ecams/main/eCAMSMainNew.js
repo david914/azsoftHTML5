@@ -16,6 +16,7 @@ var adminYN 	= window.top.adminYN;
 var userDeptName= window.top.userDeptName;
 var userDeptCd 	= window.top.userDeptCd;
 
+var pieChart	= null;
 var calendar 	= null;
 var calendarEl 	= null;
 var calMonthArr	= [];
@@ -35,17 +36,21 @@ $(document).ready(function(){
 
 	$('body').on('click', 'button.fc-prev-button', function() {
 		getAddCalInfo();
-		//getHoliday();
 	});
 
 	$('body').on('click', 'button.fc-next-button', function() {
 		getAddCalInfo();
-		//getHoliday();
 	});
 	
 	$('body').on('click', 'button.fc-dayGridMonth-button', function() {
-		//getHoliday();
 	});
+	
+	$(window).bind('resize', function(e) {
+		pieChart.resize({
+	        width: $('#pieAppliKinds').parent('div').width()-2,
+	        height: $('#pieAppliKinds').parent('div').height()-5
+		});
+	}); 
 });
 
 // 파이차트 데이터 가져오기
@@ -241,6 +246,10 @@ function getPrcLabel() {
 // 미결/SR/오류 라벨 건수 가져오기 완료
 function successGetPrcLabel(data) {
 	// 미결 / SR / 오류 라벨 세팅
+	$('#approvalCnt', parent.document).html('미결['+data.approvalCnt+']');
+	$('#srCnt', parent.document).html('SR['+data.srCnt+']');
+	$('#errCnt', parent.document).html('오류['+data.errCnt+']');
+	
 	$('#lblApproval').html('['+data.approvalCnt+']');
 	$('#lblSr').html('['+data.srCnt+']');
 	$('#lblErr').html('['+data.errCnt+']');

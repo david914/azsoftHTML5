@@ -30,13 +30,13 @@
 				<div class="width-40 dib">
 					<div>
 						<div class="vat dib" style="float: right;">
-							<button id="btnSmm"  class="btn_basic_s">맵핑</button>
+							<button id="btnSmm"  class="btn_basic_s mw-80">맵핑</button>
 						</div>
 						<div class="vat dib" style="float: right;">
-							<button id="btnReq"  class="btn_basic_s">일괄&nbsp;&nbsp;&nbsp;&nbsp;등록</button>
+							<button id="btnReq"  class="btn_basic_s mw-80">일괄&nbsp;&nbsp;&nbsp;등록</button>
 						</div>
 						<div class="vat dib" style="float: right;">
-							<button id="btnLoadExl" class="btn_basic_s">엑셀파일</button>
+							<button id="btnLoadExl" class="btn_basic_s mw-80">엑셀파일</button>
 						</div>
 					</div>
 				</div>
@@ -65,13 +65,13 @@
 				
 				<div class="width-40 dib vat">
 						<div class="vat dib" style="float: right;">
-							<button id="btnDel"  class="btn_basic_s vat">삭제</button>
+							<button id="btnDel"  class="btn_basic_s vat mw-80">삭제</button>
 						</div>
 						<div class="vat dib" style="float: right;">
-							<button id="btnExlTmp"  class="btn_basic_s vat">엑셀템플릿</button>
+							<button id="btnExlTmp"  class="btn_basic_s vat mw-80">엑셀템플릿</button>
 						</div>
 						<div class="vat dib" style="float: right;">
-							<button id="btnSaveExl" class="btn_basic_s vat">엑셀저장</button>
+							<button id="btnSaveExl" class="btn_basic_s vat mw-80">엑셀저장</button>
 						</div>
 				</div>
 			</div>

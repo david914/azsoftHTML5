@@ -50,37 +50,85 @@ $(document).ready(function() {
 		});
 		
 	});
+	
+	$('#approvalCnt, #errCnt, #srCnt').bind('click', function() {
+		changePage(this.id);
+	});
 });
 
+// 미결/SR/오류 건수 클릭시 페이지 이동
+function changePage(division) {
+	var pathName = '';
+	var mainTitle = '';
+	var subTitle = '';
+	
+	if(division === 'approvalCnt') {
+		pathName = '/webPage/approval/ApprovalStatus.jsp';
+		mainTitle = '결재확인';
+		subTitle = '결재현황';
+	}
+	if(division === 'srCnt') {
+		pathName = '/webPage/register/SRStatus.jsp';
+		mainTitle = '등록';
+		subTitle = 'SR진행현황(등록)';
+	}
+	if(division === 'errCnt') {
+		pathName = '/webPage/approval/RequestStatus.jsp';
+		mainTitle = '결재확인';
+		subTitle = '신청현황';
+	}
+	
+	
+	$('#eCAMSFrame').empty();
+	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="'+pathName+'" style=" width:100%;  height:'+contentHeight+'px; min-width:1024px;" marginwidth="0" marginheight="0"  onload="frameLoad()"></IFRAME>');
+	$iFrm.appendTo('#eCAMSFrame');
+
+	//상위 TITLE TEXT SET
+	contentHistory = mainTitle + "<strong> &gt; "+ subTitle+"</strong>";
+}
+
+//세로 스크롤바
+(function($) {
+    $.fn.hasVerticalScrollBar = function() {
+    	console.log(this.get(0));
+    	console.log(this.get(0).scrollHeight);
+    	console.log(this.innerHeight());
+        return this.get(0) ? this.get(0).scrollHeight > this.innerHeight() : false;
+    }
+})(jQuery);
 
 function resize(){
-	 if($('#iFrm').contents().find(".contentFrame").length == 0){
-		 return;
-	 }
+	if($('#iFrm').contents().find(".contentFrame").length == 0){
+		return;
+	}
 	 
 	var addHeight = 0;
-	 var intervalck = 1;
-	 var contentFrameHeight = 0;
-	 var frameHeight = 0;
-	 contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
-
-	 contentFrameHeight = Math.round($('#iFrm').contents().find(".contentFrame").height()+addHeight); // 프레임 내부에 컨텐츠 div 높이 구해오기
-	 
-	 if(contentHeight > contentFrameHeight){
-		 frameHeight = contentHeight;
-	 }
-	 else{
-		 frameHeight = contentFrameHeight;
-	 }
-
-	 if($('#iFrm').height() != frameHeight ){
-		 $('#iFrm').css("height",frameHeight+ "px");
-	 }
+	var intervalck = 1;
+	var contentFrameHeight = 0;
+	var frameHeight = 0;
+	
+	contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
+	contentFrameHeight = Math.round($('#iFrm').contents().find(".contentFrame").height()+addHeight); // 프레임 내부에 컨텐츠 div 높이 구해오기
+	
+	
+	/*console.log('resize menu [' + contentHistory + ']');
+	console.log('프레임 height [' + contentFrameHeight + ']');
+	console.log('전체 height [' + contentHeight + ']');*/
+	
+	if(contentHeight > contentFrameHeight){
+		frameHeight = contentHeight;
+	} else {
+		frameHeight = contentFrameHeight;
+	}
+	
+	if($('#iFrm').height() != frameHeight ){
+		$('#iFrm').css("height", frameHeight + "px");
+		console.log($('#iFrm').hasVerticalScrollBar());
+	}
 }
 
 // 프레임을 불러오고나서 height 가 변하는 부분이 있을경우 사용
 function frameLoad(){
-	
 	$('#iFrm').contents().find('#history_wrap').html(contentHistory);
 	
 	if($('#iFrm').contents().find(".contentFrame").length == 0){
@@ -105,7 +153,7 @@ function frameLoad(){
 			 clearInterval(resize_test);
 			 return;
 		 }
-	 },300);
+	 },1);
 }
 
 function lang_open(){

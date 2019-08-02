@@ -39,14 +39,14 @@
 			</div>
 		</div>
 		<!--line2-->
-		<div class="row az_board_basic" style="height: 83%">
+		<div class="row az_board_basic" style="height: 85%">
 			<div data-ax5grid="userGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 		</div>
 		<!--button-->
 		<div class="row tar">
-			<button id="btnExcel" class="btn_basic">엑셀저장</button>
-			<button id="btnQry" class="btn_basic margin-5-left">조회</button>
-			<button id="btnExit" class="btn_basic margin-5-left">닫기</button>
+			<button id="btnExcel" class="btn_basic_p">엑셀저장</button>
+			<button id="btnQry" class="btn_basic_p margin-5-left">조회</button>
+			<button id="btnExit" class="btn_basic_p margin-5-left">닫기</button>
 		</div>
 	</div>
 

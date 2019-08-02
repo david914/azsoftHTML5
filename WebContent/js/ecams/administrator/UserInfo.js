@@ -19,7 +19,7 @@ var rgtCdModal 			= new ax5.ui.modal();	// 사용자 직무조회 팝업
 var jobCopyModal 		= new ax5.ui.modal();	// 권한복사 팝업
 var initPassModal 		= new ax5.ui.modal();	// 비밀번호 초기화 팝업
 var setUserJobModal 	= new ax5.ui.modal();	// 업무권한일괄등록 팝업
-var allUserInfoModal 	= new ax5.ui.modal();	// 업무권한일괄등록 팝업
+var allUserInfoModal 	= new ax5.ui.modal();	// 전체사용자조회 팝업
 var allSingUpWin		= null;					// 사용자 일괄등록 새창
 
 var userGrid	= new ax5.ui.grid();
@@ -187,7 +187,7 @@ $(document).ready(function() {
 	});
 	// 권한복사
 	$('#btnJobCopy').bind('click', function() {
-		openJboCopyModal();
+		openJobCopyModal();
 	});
 	// 비밀번호 초기화
 	$('#btnPassInit').bind('click', function() {
@@ -294,7 +294,7 @@ var initPassModalCallBack = function(){
 };
 
 // 권한 복사
-function openJboCopyModal() {
+function openJobCopyModal() {
 	jobCopyModal.open({
         width: 1200,
         height: 700,

@@ -4,10 +4,10 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<div class="contentFrame">
+<div class="contentFrame" style="display: flow-root;">
 	<div id="history_wrap">관리자 <strong>&gt; 시스템정보</strong></div>
 	
-	<div class="row vat por">
+	<div class="sm-row vat por">
 		<div class="width-50 dib vat float-left">
 			<div class="margin-5-right">
 				<div class="float-right margin-5-bottom">
@@ -31,7 +31,7 @@
 		</div>
 		<div class="width-50 dib vat float-right" id="divRight">
 			<div class="half_wrap">
-				<div class="row">
+				<div class="sm-row">
 					<ul>
 						<li>
 							<label class="tit_80 dib poa">시스템코드</label>
@@ -45,20 +45,20 @@
 								</div>
 							</div>						
 						</li>
-						<li class="row">
+						<li class="sm-row">
 							<label class="tit_80 dib poa">시스템명</label>
 							<div class="ml_80">
 								<input id="txtSysMsg" name="txtSysMsg" type="text" class="width-100" />
 							</div>
 						</li>
-						<li class="row">
+						<li class="sm-row">
 							<label class="tit_80 dib poa"></label>
 							<div class="ml_80">
 			                    <div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" onchange="cboSysClick()"></div>
 							</div>
 						</li>
 						
-						<li class="row half_wrap_cb">
+						<li class="sm-row half_wrap_cb">
 							<div class="width-50 l_wrap">
 								<label class="tit_80 dib poa">시스템유형</label>
 								<div class="ml_80">
@@ -73,7 +73,7 @@
 							</div>
 						</li>
 						
-						<li class="row half_wrap_cb">
+						<li class="sm-row half_wrap_cb">
 							<div class="width-100 l_wrap vat">
 								<label class="tit_80 dib poa">기존서버구분</label>
 								<div class="ml_80">
@@ -82,7 +82,7 @@
 							</div>
 						</li>
 						
-						<li class="row">
+						<li class="sm-row">
 							<div class="half_wrap_cb">
 								<div class="l_wrap width-50">
 									<label class="tit_80 dib poa">시스템오픈</label>
@@ -105,21 +105,21 @@
 							</div>
 						</li>
 						
-						<li class="row">
+						<li class="sm-row">
 							<label class="tit_80 dib poa">프로젝트명</label>
 							<div class="ml_80">
 								<input id="txtPrjName" type="text" class="width-100" />
 							</div>
 						</li>
-						<li class="row">
+						<li class="sm-row">
 							<label class="tit_80 dib poa">프로세스유형</label>
 							<div class="ml_80">
 								<input id="txtPrc" type="text" class="width-100" />
 							</div>
 						</li>
 						
-						<li class="row">
-		    				<div class="width-60 float-left margin-10-bottom">
+						<li class="sm-row">
+		    				<div class="width-60 float-left margin-5-bottom">
 			    					<label class="tit_80 dib poa">중단시작</label>
 			    					<div class="ml_80">
 										<div id="divPicker" data-ax5picker="datStDate" class="dib width-100 por">
@@ -133,7 +133,7 @@
 		    				</div>
 		    			</li>
 		   				
-		   				<li class="row">
+		   				<li class="sm-row">
 		   					<div class="width-60 float-left">
 		    					<label class="tit_80 dib poa">중단종료</label>
 		    					<div class="ml_80">
@@ -149,9 +149,9 @@
 						</li>
 					</ul>
 				</div>
-				<div class="row">
+				<div class="sm-row">
 					<div class="float-left">
-						<div class="row">
+						<div class="sm-row">
 							<div class="width-50 float-left">
 								<label class="tit_80 dib poa">시스템속성</label>
 							</div>
@@ -162,9 +162,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
+						<div class="sm-row">
 							<div class="width-100 float-left">
-								<div class="scrollBind row" style="height: 13%">
+								<div class="scrollBind sm-row" style="height: 13%">
 				    				<ul class="list-group" id="ulSysInfo">
 					    			</ul>
 				    			</div>
@@ -172,15 +172,15 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="sm-row">
 					<div class="width-100 float-left">
-						<div class="row">
+						<div class="sm-row">
 							<label class="tit_80 dib poa">업무</label>
 							<div class="ml_80">
 								<input id="txtJobname" name="txtJobname" type="text" class="width-100" />
 							</div>
 							
-							<div class="az_board_basic scroll_h az_board_basic_in row" style="height: 22%">
+							<div class="az_board_basic scroll_h az_board_basic_in sm-row" style="height: 30%">
 								<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 							</div>
 						</div>
@@ -190,8 +190,8 @@
 		</div>
 	</div>
 	
-	<div class="row tar por">
-		<div class="width-100" style="right: 5px;">
+	<div class="sm-row tar">
+		<div class="width-100 float-right" style="right: 5px; margin-top: 15px;">
 			<button id="btnFact" class="btn_basic_p" >처리펙터추가</button>
 			<button id="btnReleaseTimeSet" class="btn_basic_p">정기배포설정</button>
 			<button id="btnAdd" class="btn_basic_p">등록</button>

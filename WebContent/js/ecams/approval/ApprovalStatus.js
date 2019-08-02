@@ -92,8 +92,8 @@ approGrid.setConfig({
     },
     columns: [
         {key: "cm_sysmsg", 	label: "시스템",  	width: '5%', align: "left"},
-        {key: "spms",	 	label: "SR-ID",  	width: '15%'},
-        {key: "acptno", 	label: "신청번호",  	width: '8%', align: "left"},
+        {key: "spms",	 	label: "SR-ID",  	width: '15%', align: "left"},
+        {key: "acptno", 	label: "신청번호",  	width: '8%'},
         {key: "editor", 	label: "신청인",  	width: '5%'},
         {key: "qrycd",  	label: "신청종류",  	width: '6%', align: "left"},
         {key: "REQPASS", 	label: "처리구분",  	width: '6%'},
@@ -101,8 +101,8 @@ approGrid.setConfig({
         {key: "acptStatus", label: "진행상태",  	width: '5%'},
         {key: "sta",  		label: "결재상태",  	width: '5%',  align: "left"},
         {key: "qrycd",  	label: "결재사유",  	width: '6%',  align: "left"},
-        {key: "confdate",  	label: "결재일시",  	width: '8%',  align: "left"},
-        {key: "prcreq",  	label: "적용예정일시", 	width: '8%',  align: "left"},
+        {key: "confdate",  	label: "결재일시",  	width: '8%' },
+        {key: "prcreq",  	label: "적용예정일시", 	width: '8%' },
         {key: "Sunhang",  	label: "선후행작업",  	width: '6%',  align: "left"},
         {key: "sayu",  		label: "신청사유",  	width: '8%',  align: "left"},
     ]
