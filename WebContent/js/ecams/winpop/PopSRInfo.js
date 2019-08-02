@@ -24,7 +24,7 @@ var cboQryGbnData = [];
 var prjListData = [];
 
 
-$(document).ready(function(){
+$(document).ready(function() {
 	//tab메뉴
 	$('#tabSRRegister').width($('#tabSRRegister').width()+10);
 	$('#tabDevPlan').width($('#tabDevPlan').width()+10);
@@ -55,6 +55,9 @@ $(document).ready(function(){
 	
 	$('#frmPrgList').get(0).contentWindow.strReqCd = "XX";
 	
+	initScreen();
+	clickTabMenu();
+	
 	//PrjInfo.getPrjList(tmpObj);
 	var tmpInfo = new Object();
 	tmpInfo.reqcd = strReqCd;
@@ -69,17 +72,15 @@ $(document).ready(function(){
 		requestType	: 'GETPRJLIST'
 	}
 	ajaxAsync('/webPage/winpop/PopSRInfoServlet', tmpInfoData, 'json', successPrjList);
-	
-	initScreen();
-	clickTabMenu();
 });
 
 function initScreen() {
-	$("#tab1").unbind("click");
-	$("#tab2").unbind("click");
-	$("#tab3").unbind("click");
-	$("#tab4").unbind("click");
-	$("#tab5").unbind("click");
+	$('#tab1').attr('disabled', true);
+	$('#tab2').attr('disabled', true);
+	$('#tab3').attr('disabled', true);
+	$('#tab4').attr('disabled', true);
+	$('#tab5').attr('disabled', true);
+	$("ul.tabs li").addClass('tab_disabled');
 }
 
 function successPrjList(data) {
@@ -98,7 +99,8 @@ function iSRID_Click(data) {
 	var tabIdx = 0;
 	
 	if(data.isrproc.indexOf("69")>=0) {
-		$("#tab5").bind("click");
+		$('#tab5').attr('disabled', false);
+		$('#tab5').removeClass('tab_disabled');
 		if(strAcptNo != null && strAcptNo != "") {
 			if(strAcptNo.substr(4,2) == "69") {
 				tabIdx = 7;
@@ -107,24 +109,28 @@ function iSRID_Click(data) {
 	}
 	
 	if(data.isrproc.indexOf("44")>=0 || data.isrproc.indexOf("54")>=0 || data.isrproc.indexOf("55")>=0) {
-		$("#tab4").bind("click");
+		$('#tab4').attr('disabled', false);
+		$('#tab4').removeClass('tab_disabled');
 		//프로그램목록.initApp();
 	}
 	
 	if(data.isrproc.indexOf("43")>=0) {
-		$("#tab3").bind("click");
+		$('#tab3').attr('disabled', false);
+		$('#tab3').removeClass('tab_disabled');
 		//변경요청이력.initApp();
 		if(tabIdx == 0) tabIdx = 4;
 	}
 	
 	if(data.isrproc.indexOf("42")>=0) {
-		$("#tab2").bind("click");
+		$('#tab2').attr('disabled', false);
+		$('#tab2').removeClass('tab_disabled');
 		//개발계획실적.initApp();
 		if(tabIdx == 0) tabIdx = 1;
 	}
 	
 	if(data.isrproc.indexOf("41")>=0) {
-		$("#tab1").bind("click");
+		$('#tab1').attr('disabled', false);
+		$('#tab1').removeClass('tab_disabled');
 		if(strAcptNo != null && strAcptNo != "") {
 			if(strAcptNo.substr(4,2) == "41") {
 				//$('#tabSRRegister').get(0).contentWindow.strAcptno = strAcptNo;
@@ -133,7 +139,7 @@ function iSRID_Click(data) {
 		}
 		//SR등록.initApp();
 	}
-	
+	tabIdx = tabIdx + 1;
 	$('#tab' + tabIdx).trigger('click');
 	clickTabMenu();
 }
