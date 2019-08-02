@@ -9,7 +9,7 @@
 var pwdChangeWin = null;
 
 $(document).ready(function() {
-	$('body').css('background','#f8f8f8');
+	//$('body').css('background','#f8f8f8');
 	screenInit();
 });
 
@@ -80,7 +80,7 @@ var loginSubmitAction = function(e) {
             var parm = new Array();
             var input = new Array();
 
-            form.action = '../main/eCAMSBase.jsp';
+            form.action = '/webPage/main/eCAMSBase.jsp';
             form.method = "post";
 
             parm.push( ['sessionID', sessionID] );
