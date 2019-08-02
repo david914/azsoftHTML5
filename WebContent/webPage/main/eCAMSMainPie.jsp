@@ -64,7 +64,7 @@
 }
 
 .fa-clock:before{
-	font-size:13px;
+	font-size:16px;
 }
 
 .timeline .item_info{
@@ -201,15 +201,19 @@ td.fc-more-cell{
 .progressbar dl dd{
 	margin-left: 0px;
 	height:20px;
-	margin-top:20px;
+	margin-top:6px;
 	line-height: 21px;
 	border-radius: 3px;
 	overflow: hidden;
 }
 
 .progressbar dl dt{
-	height:20px;
-	top:-22px;
+	height: 7px;
+    top: -12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    position: relative;
+    width: 250px;
 }
 
 .progressbar dl dd span{
@@ -261,7 +265,7 @@ tr:first-child > td > .fc-day-grid-event:hover {
 			</ul>
 		</div>
 	 -->
-		<div class="r_wrap card_info">
+		<div class="r_wrap card_info margin-10-top">
 	        <dl class="mainBorder">
 	          <dt><i class="fas angle-double-right"></i></dt>
 	          <dd><div style="font-size:24px; color:black;">100</div><div style="font-size:11px;">SR등록</div></dd>
@@ -335,7 +339,7 @@ tr:first-child > td > .fc-day-grid-event:hover {
 			<div class="titleLb">
 				<label class="sm-font" style="vertical-align: middle;" id="">월별 업무현황</label>
 			</div>
-			<div id="line-chart"></div>
+			<div id="line-chart" class="width-100"></div>
 		</div>
 	</div> 
 	

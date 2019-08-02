@@ -48,6 +48,13 @@ $(document).ready(function(){
 	$('body').on('click', 'button.fc-dayGridMonth-button', function() {
 		//getHoliday();
 	});
+	
+	$(window).bind('resize', function() {
+		pieChart.resize({
+			width: $('#pieDiv').width(),
+			height: $('#pieDiv').height() - 50
+		});
+	});
 });
 
 // 파이차트 데이터 가져오기
@@ -230,7 +237,7 @@ function makeTimeLineDetail(stepIndex, item) {
 	var key		= 'step' + stepIndex;
 	
 	if(item[key] === undefined) {
-		return '　';
+		return 'yyyy/mm/dd hh:mm';
 	}
 	
 	switch (stepIndex) {

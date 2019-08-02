@@ -1,6 +1,7 @@
 package html.app.administrator;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import app.eCmm.Cmm0100;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/administrator/ChecklistReg")
@@ -23,6 +25,7 @@ public class ChecklistReg extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
+	Cmm0100 cmm0100 = new Cmm0100();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,7 +45,22 @@ public class ChecklistReg extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
-				case "" :
+				case "getItemInfoTree" :
+					response.getWriter().write( getItemInfoTree(jsonElement) );
+					break;
+				case "getItemInfoStepList" :
+					response.getWriter().write( getInfoStepList(jsonElement) );
+					break;
+				case "newItemInfo" :
+					response.getWriter().write("");
+					break;
+				case "updateItemInfo" :
+					response.getWriter().write("");
+					break;
+				case "delItemInfo" :
+					response.getWriter().write("");
+					break;
+				case "updateItemInfoStep" :
 					response.getWriter().write("");
 					break;
 				default:
@@ -53,5 +71,15 @@ public class ChecklistReg extends HttpServlet {
 		} finally {
 		}
 		
+	}
+	
+	private String getItemInfoTree(JsonElement jsonElement) throws SQLException, Exception {
+		String micode = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "code"));
+		return gson.toJson(cmm0100.getItemInfoZTree(micode));
+	}
+	
+	private String getInfoStepList(JsonElement jsonElement) throws SQLException, Exception {
+		String nodeId = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "nodeid"));
+		return gson.toJson(cmm0100.getItemInfoStepList(nodeId));
 	}
 }

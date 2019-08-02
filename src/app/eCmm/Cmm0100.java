@@ -1635,14 +1635,14 @@ public class Cmm0100{
 			}			
 			strQuery.append("ORDER BY DECODE	(cm_uppgbncd,'',cm_gbncd,cm_uppgbncd) || DECODE(cm_uppgbncd,'','-1',cm_seq)		\n");
 			
-            pstmt = conn.prepareStatement(strQuery.toString());
-            //pstmt =  new LoggableStatement(conn, strQuery.toString());
+//            pstmt = conn.prepareStatement(strQuery.toString());
+            pstmt =  new LoggableStatement(conn, strQuery.toString());
             
 			if( !searchAllSw ){
 				pstmt.setString(1, cm_typecd);
 				pstmt.setString(2, cm_typecd);
 			}
-        	//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+        	ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             myXml.init_Xml("ID","cm_gbncd","cm_gbnname","cm_reqyn","cm_viewname","isBranch","cm_typecd","cm_uppgbncd");
             rs = pstmt.executeQuery();
             
@@ -1725,6 +1725,111 @@ public class Cmm0100{
 			throw exception;
 		}finally{
 			if (myXml != null)	myXml = null;
+			if (strQuery != null) 	strQuery = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmm0100.getItemInfoTree() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+	}//end of getTeamInfoTreeCheckBox() method statement 
+	
+	public ArrayList<HashMap<String, String>> getItemInfoZTree(String cm_typecd) throws SQLException, Exception {//체크리스트 항목 정보 트리
+		Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		ResultSet         rs          = null;
+		HashMap<String, String> rst		= null;
+		ArrayList<HashMap<String, String>>  rtList = new ArrayList<HashMap<String, String>>();
+		StringBuffer      strQuery    = new StringBuffer();
+		
+		ConnectionContext connectionContext = new ConnectionResource();
+		
+		try {
+			
+			conn = connectionContext.getConnection();
+			
+			boolean searchAllSw = true; //전체 검색 여부
+			
+			if( (null != cm_typecd) && !"".equals(cm_typecd) && (!"00".equals(cm_typecd)) ) { //입력받은 typecd값이 null아니면서 00(전체)가 아니면
+				searchAllSw = false;
+			}
+			
+			//전체항목
+			strQuery.setLength(0);
+			strQuery.append("SELECT				cm_gbncd, cm_uppgbncd, cm_gbnname, cm_seq, cm_reqyn, cm_typecd		\n");
+			strQuery.append("FROM				CMM0110																\n");
+			strQuery.append("START WITH			cm_uppgbncd IS NULL													\n");
+			strQuery.append("AND				cm_clsdate IS NULL													\n");
+			if( !searchAllSw ){
+				strQuery.append("AND				cm_typecd = ?													\n");
+			}
+			strQuery.append("CONNECT BY PRIOR	cm_gbncd = cm_uppgbncd												\n");
+			strQuery.append("AND				cm_clsdate IS NULL													\n");
+			if( !searchAllSw ){
+				strQuery.append("AND				cm_typecd = ?													\n");
+			}			
+			strQuery.append("ORDER BY DECODE	(cm_uppgbncd,'',cm_gbncd,cm_uppgbncd) || DECODE(cm_uppgbncd,'','-1',cm_seq)		\n");
+			
+//            pstmt = conn.prepareStatement(strQuery.toString());
+			pstmt =  new LoggableStatement(conn, strQuery.toString());
+			
+			if( !searchAllSw ){
+				pstmt.setString(1, cm_typecd);
+				pstmt.setString(2, cm_typecd);
+			}
+			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			rs = pstmt.executeQuery();
+			
+			rst = new HashMap<>();
+			
+			String viewName = null;
+			while (rs.next()){
+				rst = new HashMap<String, String>();  	
+				
+				if( rs.getString("cm_reqyn").equals("Y") ) {
+					viewName = "[필수]"+rs.getString("cm_gbnname");
+				} else {
+					viewName = rs.getString("cm_gbnname");
+				}
+				rst.put("id", 			rs.getString("cm_gbncd"));
+				rst.put("name", 		viewName);
+				rst.put("pId", 			rs.getString("cm_uppgbncd"));
+				rst.put("cm_seq", 		rs.getString("cm_seq"));
+				rst.put("cm_reqyn", 	rs.getString("cm_reqyn"));
+				rst.put("cm_typecd", 	rs.getString("cm_typecd"));
+				
+				rtList.add(rst);
+				rst = null;
+			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
+			rs = null;
+			pstmt = null;
+			conn = null;
+			
+			return rtList;
+			
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## Cmm0100.getItemInfoTree() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);	
+			ecamsLogger.error("## Cmm0100.getItemInfoTree() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## Cmm0100.getItemInfoTree() Exception START ##");				
+			ecamsLogger.error("## Error DESC : ", exception);	
+			ecamsLogger.error("## Cmm0100.getItemInfoTree() Exception END ##");
+			throw exception;
+		}finally{
 			if (strQuery != null) 	strQuery = null;
 			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
 			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
