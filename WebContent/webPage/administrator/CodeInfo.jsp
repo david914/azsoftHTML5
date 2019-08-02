@@ -9,7 +9,7 @@
 	
 	<div class="az_search_wrap">
 		<div class="az_in_wrap">
-			<div class="row vat">
+			<div class="vat">
 				<div class="width-25 dib">
 					<div class="tit_80 poa">
 						<label>구분명</label>
@@ -55,7 +55,7 @@
 				
 				<div class="width-5 dib vat">
 					<div class="vat dib" style="float: right;">
-						<button id="btnQry" class="btn_basic_s mw-80">조회</button>
+						<button id="btnQry" class="btn_basic_s mw-80">조&nbsp;&nbsp;회</button>
 					</div>
 				</div>
 			
@@ -89,14 +89,14 @@
 				</div>
 				<div class="width-5 dib vat">
 					<div class="vat dib" style="float: right;">
-						<button id="btnReq" class="btn_basic_s mw-80">적용</button>
+						<button id="btnReq" class="btn_basic_s mw-80">적&nbsp;&nbsp;용</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<div class="az_board_basic margin-10-top" style="height: 75%;">
+	<div class="az_board_basic margin-10-top" style="height: 80%;">
 		<div data-ax5grid="codeGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 	</div>
 </div>

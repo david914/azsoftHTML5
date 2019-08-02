@@ -36,10 +36,10 @@
 		</div>
 	</div>
 	<!--line2-->
-	<div class="row az_board_basic" style="height: 80%">
+	<div class="sm-row az_board_basic" style="height: 83%">
 		<div data-ax5grid="releaseGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>
-	<div class="row cb">
+	<div class="sm-row cb">
 		<div class="l_wrap width-10">
 			<input id="optCheck"  type="radio" name="releaseChk" value="optCheck"/>
 			<label for="optCheck" >설정</label>
@@ -71,9 +71,9 @@
 		</div>
 	</div>
 	<!--button-->
-	<div class="row tac">
-		<button id="btnReleaseTimeSet" class="btn_basic">등록</button>
-		<button id="btnClose" class="btn_basic margin-5-left">닫기</button>
+	<div class="sm-row tac">
+		<button id="btnReleaseTimeSet" class="btn_basic_p">등록</button>
+		<button id="btnClose" class="btn_basic_p margin-5-left">닫기</button>
 	</div>
 </div>
 
@@ -88,7 +88,7 @@
         </div>
         
         <div class="panel-body">
-        	<div class="row">
+        	<div class="sm-row">
         		<div class="col-xs-4">
         			<input id="optAll"  type="radio" name="releaseChkS" value="all"/>
 					<label for="optAll" >전체</label>
@@ -109,14 +109,14 @@
         			<button class="btn btn-default float-right" id="btnSearch">조회</button>
         		</div>
         	</div>
-        	<div class="row">
+        	<div class="sm-row">
         		<div class="col-xs-12">
         			<div data-ax5grid="releaseGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 80%;"></div>
         		</div>
         	</div>
         </div>
         <div class="panel-body">
-        	<div class="row">
+        	<div class="sm-row">
 	        	<div class="col-xs-5">
 		        	<input id="optCheck"  type="radio" name="releaseChk" value="optCheck"/>
 					<label for="optCheck" >설정</label>

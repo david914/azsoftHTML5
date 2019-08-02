@@ -9,7 +9,7 @@
      
 	<div class="az_search_wrap">
 		<div class="az_in_wrap">
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-25 dib">
 					<div class="tit_80 poa">
 						<label>적용구분</label>
@@ -37,7 +37,7 @@
 				</div>
 			</div>
 	
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-50 dib">
 					<div class="tit_80 poa">
 						<label>프로그램명</label>
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 		
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-50 dib">
 					<div class="tit_80 poa">
 						<label>사유구분</label>
@@ -85,7 +85,7 @@
 				</div>
 			</div>
 	
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-50 dib">
 					<div class="tit_80 poa">
 						<label>등록사유</label>
@@ -105,7 +105,7 @@
 		</div>
 	</div>
       
-	<div class="az_board_basic margin-10-top" style="height: 68%;">
+	<div class="az_board_basic" style="height: 78%;">
 		<div data-ax5grid="fileGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 	</div>
 </div>

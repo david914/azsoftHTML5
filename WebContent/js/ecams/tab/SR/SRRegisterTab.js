@@ -264,7 +264,7 @@ $(document).ready(function() {
 	});
 
 	// 담당개발자
-	$('#txtUser').bind('click', function() {
+	$('#txtUser').bind('dblclick', function() {
 		subSw = true;
 		selDeptSw = false;
 		openOranizationModal();
@@ -701,6 +701,12 @@ function clickChkNew() {
 }
 
 function closeModal() {
+	if(!selDeptSw) { //부서(0)
+		
+	}else { //사람(1)
+		
+	}
+	
 	cboDevUserData = null;
 	var cboDevUserDataArray = [];
 	var cboDevUserDataObject = {};

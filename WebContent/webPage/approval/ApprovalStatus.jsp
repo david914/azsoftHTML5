@@ -9,7 +9,7 @@
 	
 	<div class="az_search_wrap">
 		<div class="az_in_wrap">
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-25 dib">
 					<div class="tit_80 poa">
 						<label>시스템</label>
@@ -53,7 +53,7 @@
 				</div>
 			</div>
 			
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-25 dib">
 					<div class="tit_80 poa">
 						<label>신청부서</label>
@@ -97,9 +97,9 @@
 				</div>
 			</div>
 			
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-45 dib vat">
-					<div class="row thumbnail">
+					<div class="sm-row thumbnail">
 						<div class="ml_80">
 							<span class="r_nail">반려 또는 취소</span>
 							<span class="p_nail">시스템처리 중 에러발생</span>
@@ -136,7 +136,7 @@
 		</div>
 	</div>
 	
-	<div class="az_board_basic margin-10-top" style="height: 75%;">
+	<div class="az_board_basic margin-10-top" style="height: 80%;">
 		<div data-ax5grid="approGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 	</div>
 </div>

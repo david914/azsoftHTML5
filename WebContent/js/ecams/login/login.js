@@ -145,8 +145,8 @@ function openPwdChange(userId) {
 	}
 
     winName = 'pwdChangeWin';
-	nHeight = 500;
-    nWidth  = 500;
+	nHeight = 590;
+    nWidth  = 1026;
     cURL = "../mypage/PwdChange.jsp";
 	
 	nTop  = parseInt((window.screen.availHeight/2) - (nHeight/2));

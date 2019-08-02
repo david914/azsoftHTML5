@@ -33,7 +33,11 @@
 			<ul id="ulMenu"></ul>
 		</div>
 		<div class="log" id="status">
-			<a>미결[5]</a>l<a>SR[5]</a>l<a>오류[5]</a>l<a id="loginUser"></a>l<a id="logOut">로그아웃</a>
+			<a id="approvalCnt" style="font-weight: bold; color: blue;">미결[0]</a>l
+			<a id="srCnt" style="font-weight: bold; color: green;">SR[0]</a>l
+			<a id="errCnt" style="font-weight: bold; color: red;">오류[0]</a>l
+			<a id="loginUser"></a>l
+			<a id="logOut">로그아웃</a>
 		</div>
 	</div>
 

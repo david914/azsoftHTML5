@@ -271,8 +271,6 @@ function getWorker() {
 	SRInfo.userId = null;
 	SRInfo.reqCd = strReqCd;
 	
-	console.log("strReqCd: " + strReqCd);
-	
 	var SRInfoData;
 	SRInfoData = new Object();
 	SRInfoData = {

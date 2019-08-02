@@ -21,7 +21,7 @@
 </div>
 
 <div class="container-fluid pop_wrap">
-	<div class="row">
+	<div class="sm-row">
 		<div>
 			<label id="lbSub" class="poa tit_80">시스템</label>
 			<div class="ml_80">
@@ -30,7 +30,7 @@
 		</div>
 	</div>
 	
-	<div class="row">			
+	<div class="sm-row">			
 		<div class="dib width-50 vat">
 			<label id="lbSub" class="poa width-80">프로그램종류</label>
 			<div class="ml_80">
@@ -51,7 +51,7 @@
 		</div>
 	</div>
 	
-	<div class="row">
+	<div class="sm-row">
 		<div class="half_wrap_cb">
 			<!--처리속성선택-->
 			<div class="l_wrap width-50">
@@ -68,14 +68,14 @@
 			<!--대상확장자-->
 			<div class="r_wrap width-50">
 				<div class="margin-5-left">
-					<div class="row">
+					<div class="sm-row">
 						<label id="lbSub" class="poa tit_80">대상확장자</label>
 						<div class="ml_80">
 							<input id="txtExename" class="form-control dib" type="text">
 						</div>
 					</div>
 					<!--line1 S-->
-					<div class="row">
+					<div class="sm-row">
 						<div class="half_wrap">
 							<div>
 								<ul>
@@ -88,14 +88,14 @@
 											</div>
 										</div>						
 									</li>
-									<li class="row">
+									<li class="sm-row">
 										<label class="tit_150 dib poa">동시적용룰(기준/변경)</label>
 										<div class="ml_150">
 											<input id="txtBase" type="text" class="width-45">
 											<input id="txtChgRule"  type="text" class="width-45">
 										</div>
 									</li>
-									<li class="row">
+									<li class="sm-row">
 										<label class="tit_150 dib poa">디렉토리룰(기준/변경)</label>
 										<div class="ml_150">
 											<input id="txtBaseDir" type="text" class="width-45"> 
@@ -105,7 +105,7 @@
 								</ul>
 							</div>
 							<!--버튼-->
-							<div class="row por">
+							<div class="sm-row por">
 								<input id="radioCkOut" tabindex="8" type="radio" name="radioPrg" value="optCkOut" />
 								<label for="radioCkOut">실행모듈정보</label>
 								<input id="radioCkIn" tabindex="8" type="radio" name="radioPrg" value="optCkIn" checked="checked"/>
@@ -116,7 +116,7 @@
 								<label for="radioRename">확장자변경</label>
 								<button id="btnAdd" class="btn_basic_s margin-5-left poa_r">동시등록</button>
 							</div>
-							<div class="row">
+							<div class="sm-row">
 								<div class="az_board_basic az_board_basic_in" style="height: 18%">
 									<div data-ax5grid="sameGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 								</div>
@@ -124,24 +124,24 @@
 						</div>
 					</div>
 					<!--버튼영억 S-->
-					<div class="row">
+					<div class="sm-row">
 						<button id="btnReqItem" class="btn_basic_s margin-5-left">프로그램종류 정보등록</button>
 						<button id="btnCls" class="btn_basic_s margin-5-left">프로그램종류폐기</button>
 						<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
 						<button id="btnPrgSeq" class="btn_basic_s margin-5-left">프로그램처리속성 트리구조작성</button>
 					</div>
 					<!--line3 S-->
-					<div class="row">
+					<div class="sm-row">
 						<div class="half_wrap">							
 							<div class="width-100 dib vat">
 								<label class="title">[등록된 프로그램 종류 목록]</label>
 							</div>
-							<div class="row">
-								<div class="az_board_basic az_board_basic_in" style="height: 25%">
+							<div class="sm-row">
+								<div class="az_board_basic az_board_basic_in" style="height: 28%">
 									<div data-ax5grid="prgGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>	
 								</div>
 							</div>
-							<div class="row por">
+							<div class="sm-row por">
 								<div class="dib">
 									<label>우선순위적용</label>
 									<button id="btnUp" class="btn_basic_s margin-5-left md-font">&#9652;</button>

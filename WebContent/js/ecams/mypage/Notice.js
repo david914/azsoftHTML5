@@ -353,15 +353,14 @@ $(document).on("mouseenter","[data-ax5grid-panel='body'] span",function(event){
 	}
 	//첫번째 컬럼에만 툴팁 달기
 	if($(this).closest("td").index() > 0) return;
-	
 	//그리드 정보 가져오기
 	var gridRowInfo = noticeGrid.list[parseInt($(this).closest("td").closest("tr").attr("data-ax5grid-tr-data-index"))];
 	var contents = gridRowInfo.CM_CONTENTS;
 	
+	
 	if(contents.length > 500 ) {
 		contents = contents.substring(0,500) + '....';
 	}
-	
 	$(this).attr("title",contents);
 	
 	// title을 변수에 저장
@@ -376,16 +375,17 @@ $(document).on("mouseenter","[data-ax5grid-panel='body'] span",function(event){
 		$("#tip").html(imgTag);
 		$("#tip").css("width","100px");
 	} else {
-		$("#tip").css("width","300px");
-		$("#tip").text(title_);
+		$("#tip").css("display","inline-block");
+		$("#tip").html('<pre>'+title_+'</pre>');
 	}
 	
 	var pageX = event.pageX;
 	var pageY = event.pageY;
 	
-	$("#tip").css({left : pageX + "px", top : pageY + "px"}).fadeIn(500);
+	$("#tip").css({left : pageX + "px", top : pageY + "px"}).fadeIn(100);
 	return;
 }).on('mouseleave',"[data-ax5grid-panel='body'] span",function(){
-	$(this).attr("title", title_);
+	$(this).attr("title", '');
+	//$(this).attr("title", title_);
 	$("#tip").remove();	
 });

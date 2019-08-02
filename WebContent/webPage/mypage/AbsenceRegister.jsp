@@ -18,7 +18,7 @@
 	</div>
        
 	<div id="divContent">
-		<div class="ab_register row">
+		<div class="ab_register sm-row">
 			<div>
 				<label id="lbUser">부 재 자</label>
 			</div>
@@ -27,7 +27,7 @@
 				<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
 			</div>
 		</div>
-		<div class="ab_register row">
+		<div class="ab_register sm-row">
 			<div>
 				<label id="lbUser">대결재자</label>
 			</div>
@@ -36,16 +36,16 @@
 				<div id="cboDaeSign" data-ax5select="cboDaeSign" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
 			</div>
 		</div>
-		<div class="ab_register row">
+		<div class="ab_register sm-row">
 			<div>
 				<label id="lbUser">부재사유</label>
 			</div>
 			<div>
 				<div id="cboSayu" data-ax5select="cboSayu" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
-				<textarea id="txtSayu" name="txtSayu" rows="4" cols="75" style="width: 540px;"></textarea>
+				<textarea id="txtSayu" name="txtSayu" sm-rows="4" cols="75" style="width: 540px;"></textarea>
 			</div>
 		</div>
-		<div class="ab_register row">
+		<div class="ab_register sm-row">
 			<div>
 				<label id="lbDate">부재기간</label>
 			</div>
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="ab_register row">
+		<div class="ab_register sm-row">
 			<div class="az_board_basic margin-10-top" style="height: 20%;">
 				<div data-ax5grid="absGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 			</div>

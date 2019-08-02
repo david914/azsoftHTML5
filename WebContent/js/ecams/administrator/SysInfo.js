@@ -79,7 +79,7 @@ sysInfoGrid.setConfig({
     },
     columns: [
         {key: "cm_syscd", 	label: "시스템코드",	width: '10%'},
-        {key: "cm_sysmsg", 	label: "시스템명",  	width: '37%'},
+        {key: "cm_sysmsg", 	label: "시스템명",  	width: '37%', align: 'left'},
         {key: "sysgb", 		label: "시스템유형",  	width: '14%'},
         {key: "servername", label: "기준서버구분", 	width: '13%'},
         {key: "scmopen", 	label: "형상관리오픈", 	width: '13%'},
@@ -99,7 +99,6 @@ jobGrid.setConfig({
 	body: {
 		columnHeight: 25,
 		onClick: function () {
-			this.self.clearSelect();
 			this.self.select(this.dindex);
 		},
 		onDBLClick: function () {
@@ -113,7 +112,7 @@ jobGrid.setConfig({
 	columns: [
 		{key: "cm_jobcd", 	label: "업무코드",  	width: '20%', align: 'left'},
 		{key: "cm_jobname",	label: "업무명",  	width: '80%', align: 'left'},
-		]
+	]
 });
 
 $('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
@@ -162,6 +161,8 @@ $(document).ready(function(){
 	getSysInfoCbo();
 	getSysInfoList('');
 	screenInit();
+	console.log('시스템정보 로드완료');
+	//window.top.resize();
 	
 	// 시스템 코드/ 시스템명 찾기
 	$('#txtFindSys').bind('keypress', function(event) {

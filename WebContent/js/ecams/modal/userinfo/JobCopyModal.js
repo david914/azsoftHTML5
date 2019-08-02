@@ -44,9 +44,9 @@ jobGrid.setConfig({
     	}
     },
     columns: [
-        {key: "sysgb", 		label: "시스템유형",  		width: 150},
-        {key: "jobgrp",		label: "시스템",  		width: 150},
-        {key: "job", 		label: "업무명(업무코드)",  width: 220},
+        {key: "sysgb", 		label: "시스템유형",  		width: '15%'},
+        {key: "jobgrp",		label: "시스템",  		width: '35%', align: 'left'},
+        {key: "job", 		label: "업무명(업무코드)",  width: '50%', align: 'left'}
     ]
 });
 

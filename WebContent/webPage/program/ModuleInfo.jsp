@@ -31,7 +31,7 @@
 					
 				</div>	
 				
-				<div class="row por vat">					
+				<div class="sm-row por vat">					
 					<div class="width-40 dib">
 						<label>시스템</label>
 						<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-70 dib"></div> 
@@ -50,7 +50,7 @@
 			</div>
 		</div>
 		
-		<div class="az_board_basic" style="height: 20%">
+		<div class="az_board_basic" style="height: 25%">
 			<div data-ax5grid="prgGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 		</div>	
 	</div>
@@ -64,7 +64,7 @@
 							<label id="lbUser" class="title">[맵핑프로그램목록]</label>
 						</div>
 					</div>	
-					<div class="row por vat">
+					<div class="sm-row por vat">
 						<div class="vat">
 							<label>프로그램명</label>
 							<input id="txtMod" type="text" class="width-60">									
@@ -78,7 +78,7 @@
 					</div>	
 				</div>
 			</div>
-			<div class="az_board_basic" style="height: 20%">
+			<div class="az_board_basic" style="height: 25%">
 				<div data-ax5grid="modGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 			</div>	
 		</div>
@@ -86,7 +86,7 @@
 </div>
 
 <div class="por">
-	<div class="row vat margin-10-left">
+	<div class="sm-row vat margin-10-left">
 		<label class="title">[연관등록목록]</label>
 					
 		<input id="optAll"  type="radio" name="radio" value="all"/>
@@ -102,7 +102,7 @@
 			<button id="btnQry" class="btn_basic_s">검색</button>
 		</div>
 		
-		<div class="dib poa_r margin-10-right">
+		<div class="dib poa_r">
 			<div class="vat dib margin-5-left">
 				<button id="btnExcel" class="btn_basic_s">엑셀저장</button>
 			</div>
@@ -111,12 +111,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="row cb por">			
-		<div class="az_board_basic" style="height: 50%;">
+	<div class="sm-row cb por">			
+		<div class="az_board_basic" style="height: 52%;">
 			<div data-ax5grid="modListGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 		</div>				
-		<div class="por tar margin-10-top margin-10-right">
-			<button id="btnDel" class="btn_basic">폐기</button>
+		<div class="por tar margin-10-top">
+			<button id="btnDel" class="btn_basic_p">폐기</button>
 		</div>	
 	</div>	
 </div>

@@ -42,13 +42,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="az_board_basic margin-10-top" style="height: 65%;">
+	<div class="az_board_basic" style="height: 70%;">
 		<div data-ax5grid="fileGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 	</div>
 	
 	<div class="az_search_wrap">
 		<div class="az_in_wrap">
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-20 dib">
 					<div class="tit_100 poa">
 						<label>시스템명</label>
@@ -89,7 +89,7 @@
 				</div>
 			</div>
 				
-			<div class="row">
+			<div class="sm-row">
 				<div class="width-80 dib" style="width: 80% !important;">
 					<div class="tit_100 poa">
 						<label>프로그램 경로</label>
@@ -100,7 +100,7 @@
 				</div>
 			</div>
 				
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-80 dib" style="width: 80%">
 					<div class="ml_100">
 						<label class="fontStyle-ing">*온라인 긴급상황 발생에 따른 담당자의 프로그램 수정, 야간배치작업을 위한 담당자의 프로그램 수정 등의 불일치 발생사유 입력</label>
@@ -108,7 +108,7 @@
 				</div>
 			</div>
 				
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-60 dib">
 					<div class="tit_100 poa">
 						<label>불일치 발생사유</label>

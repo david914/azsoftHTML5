@@ -7,13 +7,13 @@
 	<!--left wrap-->
 	<div class="l_wrap width-50">
 		<div class="margin-5-right">
-			<div class="row">
+			<div class="sm-row">
 				<label class="tit_80 poa">서버종류</label>
                 <div class="ml_80">
 					<div id="cboSvr" data-ax5select="cboSvr" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 				</div>
 			</div>
-	 		<div class="row por">
+	 		<div class="sm-row por">
 			 	<label class="tit_80 poa">서버명/OS</label>
                 <div class="ml_80">
                 	<input id="txtSvrName" class="vat width-45 dib vat" type="text"></input>
@@ -21,7 +21,7 @@
 				</div>
 			</div>
 		 			
-		 	<div class="row half_wrap_cb">
+		 	<div class="sm-row half_wrap_cb">
 		 		<label class="tit_80 poa">IP/PORT/순서</label>
 			 	<div class="ml_80 por">
 			 		<div class="l_wrap width-45">
@@ -36,7 +36,7 @@
 			 	</div>
 			</div>
 		 			
-		 	<div class="row por">
+		 	<div class="sm-row por">
 		 		<label class="tit_80 poa">계정/비밀번호</label>
 			 	<div class="ml_80">
 			 		<input id="txtUser" class="width-45" type="text" />
@@ -44,34 +44,34 @@
 			 	</div>
 			</div>
 		 			
-		 	<div class="row">
+		 	<div class="sm-row">
 		 		<label class="tit_80 poa">Home-Dir</label>
 			 	<div class="ml_80">
 		 			<input id="txtHome" class="width-100" type="text"></input>
 		 		</div>
 		 	</div>
 		 			
-		 	<div class="row">
+		 	<div class="sm-row">
 		 		<label class="tit_80 poa">Agent-Dir</label>
 			 	<div class="ml_80">
 		 			<input id="txtDir" class="width-100" type="text"></input>
 		 		</div>
 		 	</div>
 
-		 	<div class="row">
+		 	<div class="sm-row">
 		 		<label class="tit_80 poa">버퍼사이즈</label>
                 <div class="ml_80">
 					<div id="cboBuffer" data-ax5select="cboBuffer" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 				</div>		 		
 		 	</div>
 		 			
-			<div class="row">
+			<div class="sm-row">
 		 		<label class="tit_80 poa">동기화홈경로</label>
 		 		<div class="ml_80">
 		 			<input id="txtTmp" class="width-100" type="text"></input>
 		 		</div>
 		 	</div>
-	 		<div class="row">
+	 		<div class="sm-row">
 	 			<div class="l_wrap width-50">
 		 			<input type="checkbox" class="checkbox-IP" id="chkIp" data-label="IP만변경"  />
 			 		<input type="checkbox" class="checkbox-IPC" id="chkIpC" data-label="IP변경하여 복사"  />
@@ -94,7 +94,7 @@
 		 			<input type="checkbox" class="checkbox-IP" id="chkAllSvr" data-label="전체선택"  />
 	 			</div>
 	 		</div>
-	 		<div class="scrollBind row" style="height:221px;">
+	 		<div class="scrollBind sm-row" style="height:211px;">
 				<ul class="list-group" id="ulSyrInfo"></ul>
 			</div>
 	 		<div class="tar">
@@ -102,7 +102,7 @@
 	 			<input type="checkbox" class="checkbox-IP" id="chkErr" data-label="장애"  />
 	 			<input type="checkbox" class="checkbox-IP" id="chkStop" data-label="일시정지"  />
 	 		</div>
-	 		<div class="row tar">
+	 		<div class="sm-row tar">
 				<button id="btnReq" class="btn_basic_s">등록</button>
 				<button id="btnUpdt" class="btn_basic_s margin-5-left">수정</button>
 				<button id="btnCls" class="btn_basic_s margin-5-left">폐기</button>
@@ -114,8 +114,8 @@
 	</div>
 </div>
 <!--테이블 S-->
-<div class="scroll_x row">
-	<div class="az_board_basic" style="height: 45%;">
+<div class="scroll_x sm-row">
+	<div class="az_board_basic" style="height: 50%;">
 		<div data-ax5grid="svrInfoGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>
 </div>

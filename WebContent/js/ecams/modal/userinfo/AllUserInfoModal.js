@@ -42,23 +42,22 @@ userGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_userid", 		label: "사용자번호",  		width: 100},
-        {key: "cm_username",	label: "사용자명",  		width: 100},
-        {key: "position", 		label: "직위",  			width: 80},
-        {key: "duty", 			label: "직급",  			width: 80},
-        {key: "deptname", 		label: "소속조직",  		width: 100},
-        {key: "rgtname", 		label: "담당직무",  		width: 100},
-        {key: "cm_ipaddress", 	label: "IP Address",  	width: 100},
-        {key: "cm_telno1", 		label: "전화번호1",  		width: 100},
-        {key: "cm_telno2", 		label: "전화번호2",  		width: 100},
-        {key: "cm_logindt", 	label: "최종로그인",  		width: 100},
+        {key: "cm_userid", 		label: "사용자번호",  		width: '8%'},
+        {key: "cm_username",	label: "사용자명",  		width: '7%'},
+        {key: "position", 		label: "직위",  			width: '7%'},
+        {key: "duty", 			label: "직급",  			width: '7%'},
+        {key: "deptname", 		label: "소속조직",  		width: '7%'},
+        {key: "rgtname", 		label: "담당직무",  		width: '14%', align: 'left'},
+        {key: "cm_ipaddress", 	label: "IP Address",  	width: '12%'},
+        {key: "cm_telno1", 		label: "전화번호1",  		width: '12%'},
+        {key: "cm_telno2", 		label: "전화번호2",  		width: '12%'},
+        {key: "cm_logindt", 	label: "최종로그인",  		width: '14%'},
     ]
 });
 
 $('[data-ax5select="cboTeam"]').ax5select({
 	options: []
 });
-
 
 $('input:radio[name^="userRadio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 

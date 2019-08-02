@@ -42,7 +42,7 @@
 						<input type="checkbox" class="checkbox-jobcopy" id="chkAllDuty" data-label="전체선택"/>
 					</div>
 					
-					<div class="row scrollBind" style="height: 72%;">
+					<div class="row scrollBind" style="height: 75%;">
 				     	<ul class="list-group" id="ulDutyInfo"></ul>
 					</div>
 				</div>
@@ -51,7 +51,7 @@
 		 	<div class="r_wrap width-70">
 		 		<div class="margin-5-left">
 					<label class="title_s">담당업무</label>
-					<div class="row az_board_basic" style="height: 72%;">
+					<div class="row az_board_basic" style="height: 75%;">
 						<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 					</div>
 				</div>
@@ -65,8 +65,8 @@
 	        	<div id="cboToUser" data-ax5select="cboToUser" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib width-40" ></div>
 			</div>
 			<div class="poa_r dib vat">
-				<button id="btnCopy" class="btn_basic">복사</button>
-				<button id="btnExit" class="btn_basic margin-5-left">닫기</button>
+				<button id="btnCopy" class="btn_basic_p">복사</button>
+				<button id="btnExit" class="btn_basic_p margin-5-left">닫기</button>
 			</div>
 		</div>
 	</div>

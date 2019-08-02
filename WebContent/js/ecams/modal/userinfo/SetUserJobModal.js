@@ -48,10 +48,10 @@ jobGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_userid", 		label: "사용자번호",  		width: 150},
-        {key: "cm_username",	label: "사용자명",  		width: 150},
-        {key: "jobgrp", 		label: "시스템명",  		width: 220},
-        {key: "job", 			label: "업무명(업무코드)",  width: 220},
+        {key: "cm_userid", 		label: "사용자번호",  		width: '10%'},
+        {key: "cm_username",	label: "사용자명",  		width: '10%'},
+        {key: "jobgrp", 		label: "시스템명",  		width: '35%', align: 'left'},
+        {key: "job", 			label: "업무명(업무코드)",  width: '45%', align: 'left'}
     ]
 });
 

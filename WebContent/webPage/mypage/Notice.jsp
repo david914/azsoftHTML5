@@ -4,17 +4,6 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<style>
-#tip {
-	position:absolute;
-  	color:#FFFFFF;
-	padding:5px;
-	display:none;
-	background:#FFA200;
-  	border-radius: 5px;
-}
-</style>
-
 <div class="contentFrame">
     <!-- history S-->
 	<div id="history_wrap">
