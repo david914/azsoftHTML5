@@ -57,7 +57,7 @@
 			<div class="tab_wrap">
 				<ul class="tabs">
 					<li rel="tabSRRegister" id="tab1">SR등록/접수</li>
-					<li rel="tabDevPlan" id="tab2" class="on">개발계획/실적등록</li>
+					<li rel="tabDevPlan" id="tab2">개발계획/실적등록</li>
 					<li rel="tabReqHistory" id="tab3">변경요청이력</li>
 					<li rel="tabPrgList" id="tab4">프로그램목록</li>
 					<li rel="tabSRComplete" id="tab5">SR완료</li>
