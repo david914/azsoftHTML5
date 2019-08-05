@@ -28,7 +28,7 @@
 						<div class="margin-5-right">
 	                    	<label class="tit_80 poa">SR-ID</label>
 	                        <div class="ml_80">
-								<input class="width-100" type="text" id="txtSRID">
+								<input class="width-100" type="text" id="txtSRID" readonly="readonly">
 							</div>
 						</div>
 					</div>	
@@ -36,7 +36,7 @@
 						<div>
 	                    	<label class="tit_80 poa tac">상태</label>
 	                        <div class="ml_80">
-								<input class="width-100" type="text" id="txtSRSta">
+								<input class="width-100" type="text" id="txtSRSta" readonly="readonly">
 							</div>
 						</div>
 					</div>
@@ -45,7 +45,7 @@
 					<!-- line2 -->	
                 	<label class="tit_80 poa">SR명</label>
                     <div class="ml_80">
-						<input class="width-100" type="text" id="txtSRTitle">
+						<input class="width-100" type="text" id="txtSRTitle" readonly="readonly">
 					</div>
 				</div>
 			</div>

@@ -139,7 +139,10 @@ function iSRID_Click(data) {
 		}
 		//SR등록.initApp();
 	}
-	tabIdx = tabIdx + 1;
+	console.log("data.isrproc: " + data.isrproc);
+	console.log("tabIdx: " + tabIdx);
+	console.log("strAcptNo: " + strAcptNo);
+	//tabIdx = tabIdx + 1;
 	$('#tab' + tabIdx).trigger('click');
 	clickTabMenu();
 }

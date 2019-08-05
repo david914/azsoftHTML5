@@ -242,16 +242,22 @@ function rdoPlan_click() {
 	if($('#rdoPlan').is(':checked') && $('#btnRegPlan').is(':enabled')) {
 		$('#txtExpTime').prop("disabled", false);
 		$('#txtExpStdate').prop("disabled", false);
+		$('#btnExpStdate').prop("disabled", false);
 		$('#txtExpEnddate').prop("disabled", false);
+		$('#btnExpEnddate').prop("disabled", false);
 		$('#txtDevTime').prop("disabled", true);
 		$('#txtDevDate').prop("disabled", true);
+		$('#btnDevDate').prop("disabled", true);
 		$('[data-ax5select="cboRate"]').ax5select("enable");
 	}else if($('#rdoResult').is(':checked') && $('#btnRegResult').is(':enabled')) {
 		$('#txtExpTime').prop("disabled", true);
 		$('#txtExpStdate').prop("disabled", true);
+		$('#btnExpStdate').prop("disabled", true);
 		$('#txtExpEnddate').prop("disabled", true);
+		$('#btnExpEnddate').prop("disabled", true);
 		$('#txtDevTime').prop("disabled", false);
 		$('#txtDevDate').prop("disabled", false);
+		$('#btnDevDate').prop("disabled", false);
 		$('[data-ax5select="cboRate"]').ax5select("disable");
 	}
 }
