@@ -464,11 +464,7 @@ function elementInit(initDivision) {
 	grid_fileList.setData([]); // grid 초기화
 	devUserGrid.setData([]); // grid 초기화
 	
-	console.log("strReqCd: " + strReqCd);
 	if(strReqCd == 'XX') {
-		
-		console.log("1: ");
-		
 		$('#chkNew').wCheck('disabled', true);
 		$('#btnUpdate').attr('disabled', true);
 		$('#btnRegister').attr('disabled', true);
@@ -477,11 +473,7 @@ function elementInit(initDivision) {
 		$('#btnDelDevUser').attr('disabled', true);
 		$('#btnFileAdd').attr('disabled', true);
 		
-	}if(strReqCd == 'XX' 
-		|| ($('#btnRegister')[0].disabled && $('#btnUpdate')[0].disabled && $('#btnDelete')[0].disabled)) { //disable이면 true
-		
-		console.log("2: ");
-	
+	}if(strReqCd == 'XX' || ($('#btnRegister')[0].disabled && $('#btnUpdate')[0].disabled && $('#btnDelete')[0].disabled)) { //disable이면 true
 		if(cboCatTypeSRData != null) {
 			$('[data-ax5select="cboCatTypeSR"]').ax5select("disable");
 			$('[data-ax5select="cboChgType"]').ax5select("disable");
@@ -497,9 +489,6 @@ function elementInit(initDivision) {
 		$('#txtOrg').attr('disabled', true);
 		$('#txtRegUser').attr('disabled', true);
 	}else {
-		
-		console.log("3: ");
-		
 		if(cboCatTypeSRData != null) {
 			$('[data-ax5select="cboCatTypeSR"]').ax5select("enable");
 			$('[data-ax5select="cboChgType"]').ax5select("enable");
