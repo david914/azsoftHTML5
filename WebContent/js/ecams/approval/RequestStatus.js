@@ -7,7 +7,7 @@ var strReqCD 	= window.top.reqCd;
 var firstGrid 	= new ax5.ui.grid();
 var picker 		= new ax5.ui.picker();
 
-var myWin 			= null;;
+var myWin 			= null;
 var isAdmin 		= false;
 var options 		= [];
 

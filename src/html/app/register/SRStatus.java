@@ -49,8 +49,8 @@ public class SRStatus extends HttpServlet {
 				case "getTeamInfoGrid2":
 					response.getWriter().write( getTeamInfoGrid2(jsonElement) );
 					break;
-				case "getResearch":
-					response.getWriter().write( getResearch(jsonElement) );
+				case "get_SelectList":
+					response.getWriter().write( get_SelectList(jsonElement) );
 					break;
 				default : 
 					break;
@@ -70,9 +70,9 @@ public class SRStatus extends HttpServlet {
 		
 		return gson.toJson(teaminfo.getTeamInfoGrid2(SelMsg,cm_useyn,gubun,itYn));
 	}
-	private String getResearch(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String>				 childrenMap = null;
-		childrenMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "prjData") );
+	private String get_SelectList(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String>	childrenMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "prjData") );
+		
 		return gson.toJson( prjinfo.get_SelectList(childrenMap) );	
 	}
 }

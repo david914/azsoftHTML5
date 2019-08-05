@@ -26,6 +26,7 @@ var cboPrcSysData  = null; //배포구분 데이타
 var befJobData     = null; //선후행연결 데이타
 
 var data           = null; //json parameter
+var myWin 		   = null; //새창id
 
 var isAdmin 	   = false;
 var ingSw          = false;

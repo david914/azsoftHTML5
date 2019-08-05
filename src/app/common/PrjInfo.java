@@ -469,14 +469,14 @@ public class PrjInfo{
 			strQuery.append("       cmm0040 g,cmm0040 f,cmm0100 e,cmm0100 c,cmm0100 j,                \n");
 			strQuery.append("       cmc0110 b,cmc0100 a                                               \n");			
 			strQuery.append(" where a.cc_status<>'0'                            \n");
-			if (etcData.get("reqsta1") != null && etcData.get("reqsta1") != "") {
+			if (etcData.get("reqsta1") != null && !"".equals(etcData.get("reqsta1"))) {
 				if (etcData.get("reqsta1").equals("XX")) {
 					strQuery.append("  and a.cc_status not in ('0','3','8','9') \n");
 				} else {
 					strQuery.append("  and a.cc_status=?                        \n");
 				}
 			}
-			if (etcData.get("reqsta2") != null && etcData.get("reqsta2") != "") {
+			if (etcData.get("reqsta2") != null && !"".equals(etcData.get("reqsta2"))) {
 				if (etcData.get("reqsta2").equals("XX")) {
 					strQuery.append("  and b.cc_status not in ('3','8','9') \n");
 				} else {
@@ -486,7 +486,7 @@ public class PrjInfo{
 //			else {
 //				strQuery.append("  and b.cc_status<>'3'                         \n");
 //			}
-			if (etcData.get("stday") != null && etcData.get("stday") != "" ) {
+			if (etcData.get("stday") != null && !"".equals(etcData.get("stday"))) {
 				if ((etcData.get("reqsta1") == null || etcData.get("reqsta1") == "") &&
 					(etcData.get("reqsta2") == null || etcData.get("reqsta2") == "")) {
 					strQuery.append(" and (a.cc_status not in ('0','3','8','9') or (\n");
@@ -500,13 +500,13 @@ public class PrjInfo{
 					strQuery.append(")) \n");
 				}
 			}
-			if (etcData.get("reqdept") != null && etcData.get("reqdept") != "") {
+			if (etcData.get("reqdept") != null && !"".equals(etcData.get("reqdept"))) {
 				strQuery.append(" and a.cc_reqdept=?                            \n");
 			} 
-			if (etcData.get("recvdept") != null && etcData.get("recvdept") != "") {
+			if (etcData.get("recvdept") != null && !"".equals(etcData.get("recvdept"))) {
 				strQuery.append(" and f.cm_project=?                            \n");
 			} 
-			if (etcData.get("reqtit") != null && etcData.get("reqtit") != "") {
+			if (etcData.get("reqtit") != null && !"".equals(etcData.get("reqtit"))) {
 				strQuery.append("and (a.cc_reqtitle like ?                       \n");
 				strQuery.append("		or a.cc_docid like ?                     \n");
 				strQuery.append("		or a.cc_srid like ? )                    \n");
@@ -531,32 +531,32 @@ public class PrjInfo{
 			//pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt = new LoggableStatement(conn,strQuery.toString());
 			cnt = 0;
-			if (etcData.get("reqsta1") != null && etcData.get("reqsta1") != "") {
+			if (etcData.get("reqsta1") != null && !"".equals(etcData.get("reqsta1"))) {
 				if (!etcData.get("reqsta1").equals("XX")) {
 					pstmt.setString(++cnt, etcData.get("reqsta1"));
 				}
 			}
-			if (etcData.get("reqsta2") != null && etcData.get("reqsta2") != "") {
+			if (etcData.get("reqsta2") != null && !"".equals(etcData.get("reqsta2"))) {
 				if (!etcData.get("reqsta2").equals("XX")) {
 					pstmt.setString(++cnt, etcData.get("reqsta2"));
 				}
 			}
-			if (etcData.get("stday") != null && etcData.get("stday") != "" ) {
+			if (etcData.get("stday") != null && !"".equals(etcData.get("stday"))) {
 				pstmt.setString(++cnt, etcData.get("stday"));
 				pstmt.setString(++cnt, etcData.get("edday"));
 			}
-			if (etcData.get("reqdept") != null && etcData.get("reqdept") != "") {
+			if (etcData.get("reqdept") != null && !"".equals(etcData.get("reqdept"))) {
 				pstmt.setString(++cnt, etcData.get("reqdept"));
 			} 
-			if (etcData.get("recvdept") != null && etcData.get("recvdept") != "") {
+			if (etcData.get("recvdept") != null && !"".equals(etcData.get("recvdept"))) {
 				pstmt.setString(++cnt, etcData.get("recvdept"));
 			} 
-			if (etcData.get("reqtit") != null && etcData.get("reqtit") != "") {
+			if (etcData.get("reqtit") != null && !"".equals(etcData.get("reqtit"))) {
 				pstmt.setString(++cnt, "%"+etcData.get("reqtit")+"%");
 				pstmt.setString(++cnt, "%"+etcData.get("reqtit")+"%");
 				pstmt.setString(++cnt, "%"+etcData.get("reqtit")+"%");
 			}
-			if (etcData.get("selfsw").equals("M") || etcData.get("selfsw").equals("T")) {
+			if ("M".equals(etcData.get("selfsw")) || "T".equals(etcData.get("selfsw"))) {
 				pstmt.setString(++cnt, etcData.get("userid"));
 			}
 			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());        

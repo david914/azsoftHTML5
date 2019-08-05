@@ -1,10 +1,11 @@
-
 var userid 		= window.top.userId;
 var strReqCD 	= window.top.reqCd;
 
 
 var firstGrid 	= new ax5.ui.grid();
-var picker 		= new ax5.ui.picker();
+var picker  	= new ax5.ui.picker();
+
+var confirmDialog   = new ax5.ui.dialog();   //확인 창
 
 var options 		= [];
 
@@ -14,7 +15,15 @@ var cboDept2Data	= null; //등록부서 데이타
 var cboSta1Data		= null; //SR상태 데이타
 var cboSta2Data		= null; //개발자상태 데이타
 
+var myWin 			= null; //새창ID
+
 var data =  new Object();
+
+confirmDialog.setConfig({
+	Title: "확인",
+    theme: "info",
+    width: 500
+});
 
 ax5.info.weekNames = [
     {label: "일"},
@@ -25,6 +34,55 @@ ax5.info.weekNames = [
     {label: "금"},
     {label: "토"}
 ];
+picker.bind({
+    target: $('[data-ax5picker="basic"]'),
+    direction: "top",
+    content: {
+        width: 220,
+        margin: 10,
+        type: 'date',
+        config: {
+            control: {
+                left: '<i class="fa fa-chevron-left"></i>',
+                yearTmpl: '%s',
+                monthTmpl: '%s',
+                right: '<i class="fa fa-chevron-right"></i>'
+            },
+            dateFormat: 'yyyy/MM/dd',
+            lang: {
+                yearTmpl: "%s년",
+                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+                dayTmpl: "%s"
+            }
+        },
+        formatter: {
+            pattern: 'date'
+        }
+    },
+    btns: {
+        today: {
+            label: "Today", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+                        .close();
+            }
+        },
+        thisMonth: {
+            label: "This Month", onClick: function () {
+                var today = new Date();
+                this.self
+                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
+                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
+                                + '/'
+                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+                        .close();
+            }
+        },
+        ok: {label: "Close", theme: "default"}
+    }
+});
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -45,17 +103,17 @@ firstGrid.setConfig({
 			openWindow(this.item.isrid);
         },
     	trStyleClass: function () {
-    		if(this.item.colorsw === '3' || this.item.colorsw === 'A'){
+    		if(this.item.color === '3' || this.item.color === 'A'){
     			return "fontStyle-cncl";
-    		} else if (this.item.colorsw === 'R'){
+    		} else if (this.item.color === 'R'){
     			return "fontStyle-rec";
-    		} else if (this.item.colorsw === 'C'){
+    		} else if (this.item.color === 'C'){
     			return "fontStyle-dev";
-    		} else if (this.item.colorsw === 'T'){
+    		} else if (this.item.color === 'T'){
     			return "fontStyle-test";
-    		} else if (this.item.colorsw === 'P'){
+    		} else if (this.item.color === 'P'){
     			return "fontStyle-apply";
-    		} else if (this.item.colorsw === '9'){
+    		} else if (this.item.color === '9'){
     			return "fontStyle-end";
     		} else {
     		}
@@ -77,6 +135,13 @@ firstGrid.setConfig({
         popupFilter: function (item, param) {
          	firstGrid.clearSelect();
          	firstGrid.select(Number(param.dindex));
+         	
+         	var selIn = firstGrid.selectedDataIndexs;
+        	if(selIn.length === 0) return;
+        	 
+         	if (param.item == undefined) return false;
+         	if (param.dindex < 0) return false;
+         	
          	return true;
         },
         onClick: function (item, param) {
@@ -85,45 +150,43 @@ firstGrid.setConfig({
         }
     },
     columns: [
-        {key: "isrid", label: "SR-ID",  width: '9%', align: 'left'},
-        {key: "genieid", label: "문서번호",  width: '10%', align: 'left'},
-        {key: "recvdate", label: "등록일",  width: '8%'},
-        {key: "reqdept", label: "요청부서",  width: '5%'},
-        {key: "reqsta1", label: "SR상태",  width: '8%', align: 'left'},
-        {key: "reqtitle", label: "요청제목",  width: '6%', align: 'left'},
-        {key: "reqedday", label: "완료요청일",  width: '8%'},
-        {key: "comdept", label: "등록부서",  width: '8%', align: 'left'},
-        {key: "recvuser", label: "등록인",  width: '10%', align: 'left'},
-        {key: "recvdept", label: "개발부서",  width: '8%'},
-        {key: "devuser", label: "개발담당자",  width: '6%', align: 'left'},
-        {key: "reqsta2", label: "개발자상태",  width: '4%'},
-        {key: "chgdevterm", label: "개발기간", width: '10%', align: 'left'},
-        {key: "chgdevtime", label: "개발계획공수", width: '10%', align: 'left'},
-        {key: "realworktime", label: "개발투입공수", width: '10%', align: 'left'},
-        {key: "chgpercent", label: "개발진행율", width: '10%', align: 'left'},
-        {key: "chgedgbn", label: "변경종료구분", width: '10%', align: 'left'},
-        {key: "chgeddate", label: "변경종료일", width: '10%', align: 'left'},
-        {key: "isredgbn", label: "SR완료구분", width: '10%', align: 'left'},
-        {key: "isreddate", label: "SR완료일", width: '10%', align: 'left'}
+        {key: "isrid", label: "SR-ID",  width: '6%'},
+        {key: "genieid", label: "문서번호",  width: '6%', align: 'left'},
+        {key: "recvdate", label: "등록일",  width: '5%'},
+        {key: "reqdept", label: "요청부서",  width: '5%', align: 'left'},
+        {key: "reqsta1", label: "SR상태",  width: '5%', align: 'left'},
+        {key: "reqtitle", label: "요청제목",  width: '15%', align: 'left'},
+        {key: "reqedday", label: "완료요청일",  width: '5%'},
+        {key: "comdept", label: "등록부서",  width: '5%', align: 'left'},
+        {key: "recvuser", label: "등록인",  width: '4%'},
+        {key: "recvdept", label: "개발부서",  width: '5%', align: 'left'},
+        {key: "devuser", label: "개발담당자",  width: '5%'},
+        {key: "reqsta2", label: "개발자상태",  width: '5%', align: 'left'},
+        {key: "chgdevterm", label: "개발기간", width: '8%', align: 'left'},
+        {key: "chgdevtime", label: "개발계획공수", width: '6%'},
+        {key: "realworktime", label: "개발투입공수", width: '6%'},
+        {key: "chgpercent", label: "개발진행율", width: '6%'},
+        {key: "chgedgbn", label: "변경종료구분", width: '6%', align: 'left'},
+        {key: "chgeddate", label: "변경종료일", width: '6%'},
+        {key: "isredgbn", label: "SR완료구분", width: '6%', align: 'left'},
+        {key: "isreddate", label: "SR완료일", width: '6%'}
     ]
 });
 
 $(document).ready(function(){
-	if(strReqCD == '' || strReqCD == null){
-		strReqCd = 'MY';
-	}
-	
-	if (strReqCd == 'MY' || strReqCd == '1' || strReqCd == 'A' ) {
-		sel_qry_myself.selected = true;
-	} else if (strReqCd == '01'){
-		sel_qry_all.selected = true;
-	} else {
-    	sel_qry_all.selected = false;
-    }
+	$('input:radio[name^="rdoDaeSang"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 	
 	dateInit();
 	dept_set1();
-	getCodeInfo();
+	
+	//SR상태 change
+	$('#cboSta1').bind('change', function() {
+		data_setEnable();
+	});
+	//개발자상태 chnage
+	$('#cboSta2').bind('change', function() {
+		data_setEnable();
+	});
 	
 	//엑셀저장버튼
 	$('#btnExcel').bind('click', function() {
@@ -131,7 +194,7 @@ $(document).ready(function(){
 	});
 	//조회버튼
 	$('#btnQry').bind('click', function() {
-		
+		cmdQry_Proc();
 	});
 	//초기화버튼
 	$('#btnReset').bind('click', function() {
@@ -141,9 +204,9 @@ $(document).ready(function(){
 
 function dateInit() {
 	$('#datStD').val(getDate('DATE',0));
-	datReqDate.bind(defaultPickerInfo('datStD', 'top'));
+	//picker.bind(defaultPickerInfo('datStD', 'top'));
 	$('#datEdD').val(getDate('DATE',0));
-	datReqDate.bind(defaultPickerInfo('datEdD', 'top'));
+	//picker.bind(defaultPickerInfo('datEdD', 'top'));
 }
 
 //요청부서 가져오기
@@ -197,6 +260,8 @@ function successGetTeamInfoGrid2(data) {
 	$('[data-ax5select="cboDept2"]').ax5select({
         options: options
 	});
+
+	getCodeInfo();
 }
 //sr상태, 개발자상태 데이타가져오기
 function getCodeInfo(){
@@ -224,6 +289,8 @@ function getCodeInfo(){
 	$('[data-ax5select="cboSta2"]').ax5select({
         options: options
 	});
+	
+	resetScreen();
 }
 //초기화
 function resetScreen() {
@@ -232,25 +299,24 @@ function resetScreen() {
 	$('#datStD').val(today);
 	$('#datEdD').val(today);
 	
-	firstGrid.setData([]); 													// grid 초기화
-	$('[data-ax5select="cboDept1"]').ax5select("setValue", 	'', 	true); 	// 요청부서 초기화
-	$('[data-ax5select="cboDept2"]').ax5select("setValue", 	'', 	true); 	// 등록부서 초기화
-	$("#txtSpms").val('');													// SR-ID 초기화
+	firstGrid.setData([]); 												// grid 초기화
+	$('[data-ax5select="cboDept1"]').ax5select("setValue", '0', true); 	// 요청부서 초기화
+	$('[data-ax5select="cboDept2"]').ax5select("setValue", '0', true); 	// 등록부서 초기화
+	$("#txtSpms").val('');												// SR-ID 초기화
 	
-	$('[data-ax5select="cboSta2"]').ax5select("setValue", 'XX',	true);
 	// SR상태,개발자상태 초기화
-	if(strReqCd == "01"){
-		$('[data-ax5select="cboSta1"]').ax5select("setValue", '0', 	true);
-	}else if(strReqCd == "02"){
-		$('[data-ax5select="cboSta1"]').ax5select("setValue", '2', 	true);
-	}
+	$('[data-ax5select="cboSta1"]').ax5select("setValue", '0', true);
+	$('[data-ax5select="cboSta2"]').ax5select("setValue", '00',	true);
+	
 	data_setEnable();
 }
 function data_setEnable() {
-	
 	if (getSelectedIndex('cboSta1') < 0) return;
+
+	$('#datStD').prop("disabled", true);
+	$('#datEdD').prop("disabled", true);
 	
-	if (getSelectedIndex('cboSta1') == 0 ||
+	if (getSelectedVal('cboSta1').value == '00' ||
 			getSelectedVal('cboSta1').value == '3' ||
 			getSelectedVal('cboSta1').value == '8' ||
 			getSelectedVal('cboSta1').value == '9') {
@@ -264,127 +330,92 @@ function data_setEnable() {
 	    }
 	}
 	
-	if (getSelectedVal('cboSta1').value == '0' || getSelectedVal('cboSta1').value == 'XX') {
-		$('#datStD').prop("disabled", true);
-		$('#datEdD').prop("disabled", true);
-	}
-	if (getSelectedVal('cboSta2').value == 'XX') {
-		$('#datStD').prop("disabled", true);
-		$('#datEdD').prop("disabled", true);
-	}
-}
-function fnChange(args){ // 달력 활성화
-	$('#datStD').attr('disabled', true);
-	$('[name="_datStD_sub"]').attr('disabled', true);
-	$('#datEdD').attr('disabled', true);
-	$('[name="_datEdD_sub"]').attr('disabled', true);
-	if(SBUxMethod.get("cboSta1") == "00" || SBUxMethod.get("cboSta1") == "0" || SBUxMethod.get("cboSta1") == "3" || SBUxMethod.get("cboSta1") == "8" || SBUxMethod.get("cboSta1") == "9"){
-		if(SBUxMethod.get("cboSta2") == "00"){
-			$('#datStD').attr('disabled', false);
-			$('[name="_datStD_sub"]').attr('disabled', false);
-			$('#datEdD').attr('disabled', false);
-			$('[name="_datEdD_sub"]').attr('disabled', false);
-		}else{
-			$('#datStD').attr('disabled', true);
-			$('[name="_datStD_sub"]').attr('disabled', true);
-			$('#datEdD').attr('disabled', true);
-			$('[name="_datEdD_sub"]').attr('disabled', true);
-		}
-	}
+	cmdQry_Proc();
 }
 
-function cmdQry_Proc(){	// 조회
-	var ajaxResultData = null;
+//조회
+function cmdQry_Proc(){
 	var errSw = false;
-	if(SBUxMethod.get("cboSta2") != "00" && SBUxMethod.get("cboSta1") != "00"){
-		if(SBUxMethod.get("cboSta2") != "3" && SBUxMethod.get("cboSta2") != "8" && SBUxMethod.get("cboSta2") != "9"){	// 3 : 제외 / 8 : 진행중단 / 9 : 완료
-			if(SBUxMethod.get("cboSta1") == "0") errSw = true;
-			else if(SBUxMethod.get("cboSta1") == "3") errSw = true;
-			else if(SBUxMethod.get("cboSta1") == "8") errSw = true;
-			else if(SBUxMethod.get("cboSta1") == "9") errSw = true;
+	if(getSelectedVal('cboSta2').value != '00' && getSelectedVal('cboSta2').value != '00'){
+		// 3 : 제외 , 8 : 진행중단 , 9 : 완료
+		if(getSelectedVal('cboSta2').value != '3' && getSelectedVal('cboSta2').value != '8' && getSelectedVal('cboSta2').value != '9'){
+			if(getSelectedVal('cboSta1').value == '0') errSw = true;
+			else if(getSelectedVal('cboSta1').value == '3') errSw = true;
+			else if(getSelectedVal('cboSta1').value == '8') errSw = true;
+			else if(getSelectedVal('cboSta1').value == '9') errSw = true;
     	}
 	}
-	
 	if(errSw){
-		alert("상태를 정확하게 선택하여 주시기 바랍니다.");
+		confirmDialog.alert('상태를 정확하게 선택하여 주시기 바랍니다.');
 		return;
 	}
 	
-	var strStD = SBUxMethod.get("datStD");
-	var strEdD = SBUxMethod.get("datEdD");
-	var tmpObj = {};
+	var strStD = replaceAllString($('#datStD').val(), '/', '');
+	var strEdD = replaceAllString($('#datEdD').val(), '/', '');
 	
 	if(strStD > strEdD){
-		alert("조회기간을 정확하게 선택하여 주십시오.");
+		confirmDialog.alert('조회기간을 정확하게 선택하여 주십시오.');
 		return;
 	}  
+
+	var param = new Object();
 	
 	if(!$('#datStD').is(':disabled')  && !$('#datEdD').is(':disabled')){
-		tmpObj.stday = strStD;
-    	tmpObj.edday = strEdD;	 
+		param.stday = strStD;
+		param.edday = strEdD;	 
 	}  
-	
-	if(SBUxMethod.get("cboDept1") != "0" ) {
-		tmpObj.reqdept = SBUxMethod.get("cboDept1");
+	if ( getSelectedVal('cboDept1').value != '0' ) {
+		param.reqdept = getSelectedVal('cboDept1').value;
 	}
-	
-	if(SBUxMethod.get("cboDept2") != "0" ){
-		tmpObj.recvdept = SBUxMethod.get("cboDept2");
+	if ( getSelectedVal('cboDept2').value != '0' ) {
+		param.recvdept = getSelectedVal('cboDept2').value;
 	}
-	if(SBUxMethod.get("cboSta1") != "00"){
-		tmpObj.reqsta1 = SBUxMethod.get("cboSta1");
+	if ( getSelectedVal('cboSta1').value != '00' ) {
+		param.reqsta1 = getSelectedVal('cboSta1').value;
 	}
-	if(SBUxMethod.get("cboSta2") != "00"){
-		tmpObj.reqsta2 = SBUxMethod.get("cboSta2");
+	if ( getSelectedVal('cboSta2').value != '00' ) {
+		param.reqsta2 = getSelectedVal('cboSta2').value;
 	}
-	
-	if(SBUxMethod.get("txtTit") != undefined && SBUxMethod.get("txtTit").length > 0){
-		tmpObj.reqtit = SBUxMethod.get("txtTit");
-	}
-	
-	if(JSON.stringify(SBUxMethod.get('rdo_norm')) == '"T"'){
-		tmpObj.selfsw = "M";	
-	} else if(JSON.stringify(SBUxMethod.get('rdo_norm')) == '"A"') {
-		tmpObj.selfsw = "T";
-	} else {
-		tmpObj.selfsw = "N";
-	}          	
+	if ($('#txtTit').val() != undefined && $('#txtTit').val().length > 0){
+		param.reqtit = $('#txtTit').val();
+	}	
+	param.selfsw = $('input[name="rdoDaeSang"]:checked').val();
 					
-	tmpObj.userid = userid;
+	param.userid = userid;
 
-	var tmpData = {
-			prjData: 		JSON.stringify(tmpObj),
-			requestType : 'PrjInfo'			
+	data =  new Object();
+	data = {
+		prjData		: param,
+		requestType : 'get_SelectList'			
 	}
+	ajaxAsync('/webPage/regist/SRStatus', data, 'json', successGet_SelectList);
+}
+//조회 가져오기완료
+function successGet_SelectList(data) {
+	console.log(data);
+	firstGridData = data;
+	firstGrid.setData(firstGridData);
+}
+
+//새창팝업
+function openWindow(srid) {
+	var nHeight, nWidth, cURL, winName;
+
+    winName = 'SRInfo';
+    
+	if (myWin != null) {
+        if (!myWin.closed) {
+        	myWin.close();
+        }
+	}
+
+    nWidth  = 1046;
+	nHeight = 735;
+	cURL = "/webPage/winpop/PopSRInfo.jsp";
 	
-	ajaxResultData = ajaxCallWithJson('/webPage/regist/SRStatus', tmpData, 'json');
-	
-	var cnt = Object.keys(ajaxResultData).length;				// json 객체 길이 구하기			
-	SBUxMethod.set('lbTotalCnt', '총'+cnt+'건');	// 총 개수 표현		
-	
-	grid_data = ajaxResultData;
-	//datagrid.rebuild(); 		// rebuild 없어도 나오긴 함 검색버튼 두번 누르면    	
-	datagrid.refresh();
-	
-	$(ajaxResultData).each(function(i){
-		if(ajaxResultData[i].color == '3' || ajaxResultData[i].color == 'A'){
-			datagrid.setRowStyle(i+1, 'data', 'color', '#FF0000');	//반려 또는 취소
-			datagrid.setRowStyle(i+1, 'data', 'font-weight', 'bold');
-		} else if (ajaxResultData[i].color == 'R'){
-			datagrid.setRowStyle(i+1, 'data', 'color', '#FF8000');	// 접수
-			datagrid.setRowStyle(i+1, 'data', 'font-weight', 'bold');
-		} else if (ajaxResultData[i].color == 'C'){
-			datagrid.setRowStyle(i+1, 'data', 'color', '#145A32');	// 개발
-			datagrid.setRowStyle(i+1, 'data', 'font-weight', 'bold');
-		} else if (ajaxResultData[i].color == 'T'){
-			datagrid.setRowStyle(i+1, 'data', 'color', '#BE81F7');	// 테스트
-			datagrid.setRowStyle(i+1, 'data', 'font-weight', 'bold');
-		} else if (ajaxResultData[i].color == 'P'){
-			datagrid.setRowStyle(i+1, 'data', 'color', '#045FB4');	// 적용
-			datagrid.setRowStyle(i+1, 'data', 'font-weight', 'bold');
-		} else if (ajaxResultData[i].color == '9'){
-			datagrid.setRowStyle(i+1, 'data', 'color', '#2E2E2E');	// 처리완료
-			datagrid.setRowStyle(i+1, 'data', 'font-weight', 'bold');
-		}
-	});
+	var f = document.popPam;
+    f.user.value = userid;
+    f.srid.value = srid;
+    
+    myWin = winOpen(f, winName, cURL, nHeight, nWidth);
 }
