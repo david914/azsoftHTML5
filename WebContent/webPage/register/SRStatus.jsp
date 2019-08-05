@@ -117,7 +117,7 @@
 		<!--검색E-->		
 	    <!-- 게시판 S-->
 	    <div class="az_board_basic" style="height: 80%">
-	    	<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+	    	<div data-ax5grid="firstGrid" data-ax5grid-config="{frozenColumnIndex: 1, showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 		</div>	
 	</div>
 </body>
