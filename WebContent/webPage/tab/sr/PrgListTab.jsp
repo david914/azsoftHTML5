@@ -25,4 +25,4 @@
 	</div>
 </body>
 
-<script type="text/javascript" src="<c:url value="/js/ecams/tab/SR/PrgListTab.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/tab/sr/PrgListTab.js"/>"></script>

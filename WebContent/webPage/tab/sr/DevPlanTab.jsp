@@ -100,4 +100,4 @@
 <!-- contener E -->
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
-<script type="text/javascript" src="<c:url value="/js/ecams/tab/SR/DevPlanTab.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/tab/sr/DevPlanTab.js"/>"></script>

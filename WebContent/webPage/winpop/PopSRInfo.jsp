@@ -68,31 +68,31 @@
 			<div class="half_wrap margin-10-top" style="height:97%"> <!--  tab_container -->
 		       	<!-- SR등록/접수 START -->
 		       	<div id="tabSRRegister" class="tab_content" style="width:100%">
-		       		<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/tab/SR/SRRegisterTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       		<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/tab/sr/SRRegisterTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- SR등록/접수  END -->
 		       	
 		       	<!-- 개발계획/실적등록 START -->
 		       	<div id="tabDevPlan" class="tab_content" style="width:100%">
-		       		<iframe id="frmDevPlan" name="frmDevPlan" src='/webPage/tab/SR/DevPlanTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       		<iframe id="frmDevPlan" name="frmDevPlan" src='/webPage/tab/sr/DevPlanTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- 개발계획/실적등록 END -->
 		       	
 		       	<!-- 변경요청이력 START -->
 		       	<div id="tabReqHistory" class="tab_content" style="width:100%">
-		       		<iframe id="frmReqHistory" name="frmReqHistory" src='/webPage/tab/SR/ReqHistoryTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       		<iframe id="frmReqHistory" name="frmReqHistory" src='/webPage/tab/sr/ReqHistoryTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- 변경요청이력 END -->
 		       	
 		       	<!-- 프로그램목록 START -->
 		       	<div id="tabPrgList" class="tab_content" style="width:100%">
-		       		<iframe id="frmPrgList" name="frmPrgList" src='/webPage/tab/SR/PrgListTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       		<iframe id="frmPrgList" name="frmPrgList" src='/webPage/tab/sr/PrgListTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- 프로그램목록 END -->
 		       	
 		       	<!-- SR완료 START -->
 		       	<div id="tabSRComplete" class="tab_content" style="width:100%">
-		       		<iframe id="frmSRComplete" name="frmSRComplete" src='/webPage/tab/SR/SRCompleteTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       		<iframe id="frmSRComplete" name="frmSRComplete" src='/webPage/tab/sr/SRCompleteTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 		       	</div>
 		       	<!-- SR완료 END -->
 		   	</div>

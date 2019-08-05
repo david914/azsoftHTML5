@@ -60,4 +60,4 @@
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript"
-	src="<c:url value="/js/ecams/tab/SR/PrjListTab.js"/>"></script>
+	src="<c:url value="/js/ecams/tab/sr/PrjListTab.js"/>"></script>

@@ -34,4 +34,4 @@
 	</div>
 </body>
 		
-<script type="text/javascript" src="<c:url value="/js/ecams/tab/SR/ReqHistoryTab.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/tab/sr/ReqHistoryTab.js"/>"></script>

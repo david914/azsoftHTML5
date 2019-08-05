@@ -77,5 +77,5 @@
 </div>	
 <body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
 
-<script type="text/javascript" src="<c:url value="/js/ecams/tab/SR/SRCompleteTab.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/tab/sr/SRCompleteTab.js"/>"></script>
 
