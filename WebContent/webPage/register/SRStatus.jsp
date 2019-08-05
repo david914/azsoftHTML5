@@ -1,105 +1,132 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <c:import url="/webPage/common/common.jsp" />
+<c:import url="/js/ecams/common/commonscript.jsp" />
 
 <style>
-	   label{margin-top: 5px;}
-	   #sbGridArea{width: 100%; height:100%;}
+.fontStyle-cncl {
+	color: #d12832;
+}
+.fontStyle-rec {
+	color: #f16832;
+}
+.fontStyle-dev {
+	color: #00523d;
+}
+.fontStyle-test {
+	color: #8f6fff;
+}
+.fontStyle-apply {
+	color: #326aab;
+}
+.fontStyle-end {
+	color: #2B2B2B;
+}
 </style>
 
-	<section>
-		<div class="container-fluid" style="border: #757575 solid 2px;  margin: 0px 15px 0px 15px; padding: 5px 0px 5px 0px;">
-			<div class="row-fluid">
-				<div class="row">
-					<!-- 조회설정 -->
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lblDept1" name="lblDept1" uitype="normal" text="요청부서"></sbux-label>
+<!-- contener S -->
+<div id="wrapper">
+    <div class="content">
+        <!-- history S-->
+        <div id="history_wrap">등록 <strong>&gt; SR진행현황</strong></div>
+        <!-- 검색 S-->    
+		<div class="az_search_wrap">
+			<div class="az_in_wrap">
+				<div class="l_wrap width-65 dib">
+	                <div class="por">
+	                	<!--요청부서S-->
+	                	<div class="width-25 dib vat">
+		                	<label class="tit-80 dib poa">요청부서</label>
+		                	<div class="ml_80">
+			                    <div id="cboDept1" data-ax5select="cboDept1" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+		                	</div>
+						</div>
+						<!--SR상태S-->
+						<div class="width-25 dib vat">
+							<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;&nbsp;SR상태</label>
+							<div class="ml_80">
+								<div id="cboSta1" data-ax5select="cboSta1" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+							</div>
+						</div>	
+						<!--SR-ID/SR명/문서번호S-->
+						<div class="width-25 dib vat">
+		                	<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;&nbsp;SR-ID/SR명/문서번호</label>
+		                	<div class="ml_80">
+								<input id="txtTit" type="text" class="width-100" />
+		                	</div>
+						</div>
 					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-select id="cboDept1" name="cboDept1" uitype="single" jsondata-ref = "cboDept1" jsondata-text="cm_deptname" jsondata-value="cm_deptcd"  style="width:100%;"></sbux-select>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lblSta1" name="lblSta1" uitype="normal" text="SR상태"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-select id="cboSta1" name="cboSta1" uitype="single" jsondata-ref = "cboSta1" jsondata-text="cm_codename" jsondata-value="cm_micode"  style="width:100%;" onchange="fnChange(cboSta1)"></sbux-select>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lblTit" name="lblTit" uitype="normal" text="SR-ID/SR명/문서번호"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-4">
-						<sbux-input id="txtTit" name="txtTit" uitype="text" title="SR-ID/SR명/문서번호" placeholder="SR-ID/SR명/문서번호를 입력하세요" onkeyenter="cmdQry_Proc()"></sbux-input>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-button id="btnExl" name="btnExl" uitype="normal" text="엑셀저장" onclick="doDataToExcel()"></sbux-button>
-					</div>
+	                <div class="row por">
+	                	<!--등록부서S-->
+	                	<div class="width-25 dib vat">
+		                	<label class="tit-80 dib poa">등록부서</label>
+		                	<div class="ml_80">
+			                    <div data-ax5select="cboDept2" data-ax5select="cboDept2" data-ax5select-config="{size:'sm', theme:'primary'}" style="width:100%;"></div> 	
+		                	</div>
+						</div>
+						<!--개발자상태S-->
+						<div class="width-25 dib vat">
+							<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;&nbsp;개발자상태</label>
+							<div class="ml_80">
+								<div data-ax5select="cboSta2" data-ax5select="cboSta2" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+		                	</div>
+						</div>
+					</div>					
+					<div class="row thumbnail">
+						<span class="r_nail">접수</span>
+						<span class="p_nail">개발</span>
+						<span class="g_nail">테스트</span>
+						<span class="b_nail">적용</span>
+						<span class="b_nail">처리완료</span>
+						<span class="b_nail">반려 또는 취소</span>
+					</div>			
 				</div>
-				<div class="row">
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lblDept2" name="lblDept2" uitype="normal" text="등록부서"></sbux-label>
+				<div class="r_wrap width-35 poa_r vat">
+					<div class="height-30 tar">
+						<input id="rdoAll"  type="radio" name="rdoDaeSang" value="0" checked="checked"/>
+						<label for="rdoAll" >전체대상</label>
+						<input id="rdoTeam" type="radio" name="rdoDaeSang" value="1"/>
+						<label for="rdoTeam">팀내진행건</label>
+						<input id="rdoMy" type="radio" name="rdoDaeSang" value="1"/>
+						<label for="rdoMy">내진행건만</label>
 					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-select id="cboDept2" name="cboDept2" uitype="single" jsondata-ref = "cboDept2" jsondata-text="cm_deptname" jsondata-value="cm_deptcd" style="width:100%;"></sbux-select>
+					<div class="row tar">
+						<label class="tit-80 dib">등록일</label>
+						<div id="divPicker" data-ax5picker="basic" class="az_input_group dib">
+				            <input id="datStD" name="datStD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+				            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+				            <span class="sim">∼</span>
+				            <input id="datEdD" name="datEdD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+				            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>		
+						</div>
 					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lblSta2" name="lblSta2" uitype="normal" text="개발자상태"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-select id="cboSta2" name="cboSta2" uitype="single" jsondata-ref = "cboSta2" jsondata-text="cm_codename" jsondata-value="cm_micode" style="width:100%;" onchange="fnChange(cboSta2)"></sbux-select>
-					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-radio id="rdo_norm1" name="rdo_norm" uitype="normal" text="전체대상" value="B" onclick="cmdQry_Proc()"></sbux-radio>
-						<sbux-radio id="rdo_norm2" name="rdo_norm" uitype="normal" text="팀내진행건" value="A" onclick="cmdQry_Proc()" checked></sbux-radio>
-						<sbux-radio id="rdo_norm3" name="rdo_norm" uitype="normal" text="내진행건만" value="T" onclick="cmdQry_Proc()"></sbux-radio>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-label id="lblStD" name="lblStD" uitype="normal" text="등록일"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-2">
-						<sbux-picker id="datStD" name="datStD" uitype="date" mode="popup" show-button-bar="false"></sbux-picker>
-						<sbux-picker id="datEdD" name="datEdD" uitype="date" mode="popup" show-button-bar="false"></sbux-picker>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-button id="btnCmdQry" name="btnCmdQry" uitype="normal" text="조&nbsp;&nbsp;&nbsp;&nbsp;회" onclick="cmdQry_Proc()"></sbux-button>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12 col-sm-1 col-sm-offset-1" style="background-color: #FF8000;">
-						<sbux-label id="lblCmt1" name="lblCmt1" uitype="normal" text="접수" style="color:#FFFFFF; padding-bottom:5px;"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-1" style="background-color: #145A32;">
-						<sbux-label id=lblCmt2 name=lblCmt2 uitype="normal" text="개발" style="color:#FFFFFF; padding-bottom:5px;"></sbux-label>				
-					</div>
-					<div class="col-xs-12 col-sm-1" style="background-color: #BE81F7;">
-						<sbux-label id="lblCmt3" name="lblCmt3" uitype="normal" text="테스트" style="color:#FFFFFF; padding-bottom:5px;"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-1" style="background-color: #045FB4;">
-						<sbux-label id="lblCmt4" name="lblCmt4" uitype="normal" text="적용" style="color:#FFFFFF; padding-bottom:5px;"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-1" style="background-color: #2E2E2E;">
-						<sbux-label id="lblCmt5" name="lblCmt5" uitype="normal" text="처리완료" style="color:#FFFFFF; padding-bottom:5px;"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-1" style="background-color: #FF0000;">
-						<sbux-label id="lblCmt6" name="lblCmt6" uitype="normal" text="반려 또는 취소" style="color:#FFFFFF; padding-bottom:5px;"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-1 col-sm-offset-3">
-						<sbux-label id="lbTotalCnt" name="lbTotalCnt" uitype="normal" text="총0건"></sbux-label>
-					</div>
-					<div class="col-xs-12 col-sm-1">
-						<sbux-button id="btnCmdClear" name="btnCmdClear" uitype="normal" text="초기화"></sbux-button>
+					<div class="row tar">
+						<div class="dib">
+							<button class="btn_basic_s" data-grid-control="excel-export" id="btnExcel">엑셀저장</button>
+						</div>
+						<div class="vat dib margin-5-left">
+							<button class="btn_basic_s" id="btnQry">조회</button>
+						</div>
+						<div class="vat dib margin-5-left">
+							<button class="btn_basic_s" id="btnReset">초기화</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-	
-	<section>
-		<div class="container-fluid" style="height:600px; margin: 0px 15px 0px 15px; padding: 5px 0px 5px 0px;  overflow:hidden;">
-				<div id="sbGridArea"></div>
-		</div>
-	</section>		
-	<c:import url="/js/ecams/common/commonscript.jsp" />
-	<script type="text/javascript" src="<c:url value="/js/ecams/register/SRStatus.js"/>"></script>
-	
+		<!--검색E-->		
+
+	    <!-- 게시판 S-->
+	    <div class="az_board_basic" style="height: 85%">
+	    	<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 82%;"></div>
+		</div>	
+	</div>
+</div>
+
+<form name="popPam">
+	<input type="hidden" name="srid"/>
+	<input type="hidden" name="user"/>
+</form>
+
+<script type="text/javascript" src="<c:url value="/js/ecams/register/SRStatus.js"/>"></script>

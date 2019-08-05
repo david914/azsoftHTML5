@@ -46,16 +46,10 @@ public class SRStatus extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			switch (requestType) {
-				case "TeamInfo":
-					response.getWriter().write( getTeamInfo(jsonElement) );
+				case "getTeamInfoGrid2":
+					response.getWriter().write( getTeamInfoGrid2(jsonElement) );
 					break;
-				case "TeamInfo2":
-					response.getWriter().write( getTeamInfo2(jsonElement) );
-					break;
-				case "CodeInfo":
-					response.getWriter().write( getCodeInfo(jsonElement) );
-					break;
-				case "PrjInfo":
+				case "getResearch":
 					response.getWriter().write( getResearch(jsonElement) );
 					break;
 				default : 
@@ -68,18 +62,14 @@ public class SRStatus extends HttpServlet {
 		}
 	}
 
-	private String getTeamInfo(JsonElement jsonElement) throws SQLException, Exception {
-		return gson.toJson(teaminfo.getTeamInfoGrid2("ALL","Y","req","N"));
+	private String getTeamInfoGrid2(JsonElement jsonElement) throws SQLException, Exception {
+		String SelMsg = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
+		String cm_useyn = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_useyn") );
+		String gubun = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "gubun") );
+		String itYn = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "itYn") );
+		
+		return gson.toJson(teaminfo.getTeamInfoGrid2(SelMsg,cm_useyn,gubun,itYn));
 	}
-	
-	private String getTeamInfo2(JsonElement jsonElement) throws SQLException, Exception {
-		return gson.toJson(teaminfo.getTeamInfoGrid2("ALL","Y","DEPT","N"));
-	}
-	
-	private String getCodeInfo(JsonElement jsonElement) throws SQLException, Exception {
-		return gson.toJson(codeinfo.getCodeInfo("ISRSTA,ISRSTAUSR","ALL","N"));
-	}
-	
 	private String getResearch(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>				 childrenMap = null;
 		childrenMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "prjData") );

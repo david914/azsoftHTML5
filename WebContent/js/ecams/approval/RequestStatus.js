@@ -2,14 +2,7 @@
 
 var userName 	= window.top.userName;
 var userid 		= window.top.userId;
-var adminYN 	= window.top.adminYN;
-var userDeptName= window.top.userDeptName;
-var userDeptCd 	= window.top.userDeptCd;
 var strReqCD 	= window.top.reqCd;
-
-var userName 	= '관리자';
-var userid 		= 'MASTER';
-var adminYN 	= 'Y';
 
 var firstGrid 	= new ax5.ui.grid();
 var picker 		= new ax5.ui.picker();

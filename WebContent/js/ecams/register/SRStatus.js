@@ -1,97 +1,278 @@
-/* 그리드 생성 시작 */
-var menuJson; 		
-var datagrid;	// 그리드를 담기위한 객체를 선언합니다.
-var grid_data;
-var userid = window.parent.userId;        	
-var cboDept1;
-var cboDept2;
 
-var cboSta1;
-var cboSta2;
+var userid 		= window.top.userId;
+var strReqCD 	= window.top.reqCd;
 
 
-var SBGridProperties = {};
+var firstGrid 	= new ax5.ui.grid();
+var picker 		= new ax5.ui.picker();
 
-//reqcd param 불러오기
-var request =  new Request();
-var strReqCD = "";
-strReqCD = request.getParameter('reqcd');
+var options 		= [];
 
+var firstGridData 	= null; //그리드 데이타
+var cboDept1Data 	= null; //요청부서 데이타
+var cboDept2Data	= null; //등록부서 데이타
+var cboSta1Data		= null; //SR상태 데이타
+var cboSta2Data		= null; //개발자상태 데이타
 
-$(document).ready(function(){
-	if(strReqCD == "" || strReqCD == null){
-		strReqCd = "MY";
-	}
-	
-	if(strReqCD == "MY" || strReqCD =="1" || strReqCD == "A"){
-		
-	}
-	
-	SBUxMethod.set('datStD', getDate('DATE',0));
-	SBUxMethod.set('datEdD', getDate('DATE',0));
-	dept_set();
-	dept_set2();
-	codeinfo_set();
-	createGrid();
+var data =  new Object();
+
+ax5.info.weekNames = [
+    {label: "일"},
+    {label: "월"},
+    {label: "화"},
+    {label: "수"},
+    {label: "목"},
+    {label: "금"},
+    {label: "토"}
+];
+
+firstGrid.setConfig({
+    target: $('[data-ax5grid="firstGrid"]'),
+    sortable: true, 
+    multiSort: true,
+    header: {
+        align: "center",
+        columnHeight: 30
+    },
+    body: {
+        	columnHeight: 28,
+        	onClick: function () {
+        	this.self.clearSelect();
+        	this.self.select(this.dindex);
+        },
+        onDBLClick: function () {
+        	if (this.dindex < 0) return;
+			openWindow(this.item.isrid);
+        },
+    	trStyleClass: function () {
+    		if(this.item.colorsw === '3' || this.item.colorsw === 'A'){
+    			return "fontStyle-cncl";
+    		} else if (this.item.colorsw === 'R'){
+    			return "fontStyle-rec";
+    		} else if (this.item.colorsw === 'C'){
+    			return "fontStyle-dev";
+    		} else if (this.item.colorsw === 'T'){
+    			return "fontStyle-test";
+    		} else if (this.item.colorsw === 'P'){
+    			return "fontStyle-apply";
+    		} else if (this.item.colorsw === '9'){
+    			return "fontStyle-end";
+    		} else {
+    		}
+    	},
+    	onDataChanged: function(){
+    	    this.self.repaint();
+    	}
+    },
+    contextMenu: {
+        iconWidth: 20,
+        acceleratorWidth: 100,
+        itemClickAndClose: false,
+        icons: {
+            'arrow': '<i class="fa fa-caret-right"></i>'
+        },
+        items: [
+            {type: 1, label: "SR정보"}
+        ],
+        popupFilter: function (item, param) {
+         	firstGrid.clearSelect();
+         	firstGrid.select(Number(param.dindex));
+         	return true;
+        },
+        onClick: function (item, param) {
+        	openWindow(param.item.isrid);
+            firstGrid.contextMenu.close();//또는 return true;
+        }
+    },
+    columns: [
+        {key: "isrid", label: "SR-ID",  width: '9%', align: 'left'},
+        {key: "genieid", label: "문서번호",  width: '10%', align: 'left'},
+        {key: "recvdate", label: "등록일",  width: '8%'},
+        {key: "reqdept", label: "요청부서",  width: '5%'},
+        {key: "reqsta1", label: "SR상태",  width: '8%', align: 'left'},
+        {key: "reqtitle", label: "요청제목",  width: '6%', align: 'left'},
+        {key: "reqedday", label: "완료요청일",  width: '8%'},
+        {key: "comdept", label: "등록부서",  width: '8%', align: 'left'},
+        {key: "recvuser", label: "등록인",  width: '10%', align: 'left'},
+        {key: "recvdept", label: "개발부서",  width: '8%'},
+        {key: "devuser", label: "개발담당자",  width: '6%', align: 'left'},
+        {key: "reqsta2", label: "개발자상태",  width: '4%'},
+        {key: "chgdevterm", label: "개발기간", width: '10%', align: 'left'},
+        {key: "chgdevtime", label: "개발계획공수", width: '10%', align: 'left'},
+        {key: "realworktime", label: "개발투입공수", width: '10%', align: 'left'},
+        {key: "chgpercent", label: "개발진행율", width: '10%', align: 'left'},
+        {key: "chgedgbn", label: "변경종료구분", width: '10%', align: 'left'},
+        {key: "chgeddate", label: "변경종료일", width: '10%', align: 'left'},
+        {key: "isredgbn", label: "SR완료구분", width: '10%', align: 'left'},
+        {key: "isreddate", label: "SR완료일", width: '10%', align: 'left'}
+    ]
 });
 
-function dept_set(){	// 요청부서
-	var ajaxResultData = null;
-	var tmpData = {
-			requestType : 'TeamInfo'			
-	}	
+$(document).ready(function(){
+	if(strReqCD == '' || strReqCD == null){
+		strReqCd = 'MY';
+	}
 	
-	ajaxResultData = ajaxCallWithJson('/webPage/regist/SRStatus', tmpData, 'json');
+	if (strReqCd == 'MY' || strReqCd == '1' || strReqCd == 'A' ) {
+		sel_qry_myself.selected = true;
+	} else if (strReqCd == '01'){
+		sel_qry_all.selected = true;
+	} else {
+    	sel_qry_all.selected = false;
+    }
 	
-	cboDept1 = ajaxResultData;
-	SBUxMethod.refresh('cboDept1');
+	dateInit();
+	dept_set1();
+	getCodeInfo();
+	
+	//엑셀저장버튼
+	$('#btnExcel').bind('click', function() {
+		firstGrid.exportExcel("grid-to-excel.xls");
+	});
+	//조회버튼
+	$('#btnQry').bind('click', function() {
+		
+	});
+	//초기화버튼
+	$('#btnReset').bind('click', function() {
+		resetScreen();
+	});
+});
+
+function dateInit() {
+	$('#datStD').val(getDate('DATE',0));
+	datReqDate.bind(defaultPickerInfo('datStD', 'top'));
+	$('#datEdD').val(getDate('DATE',0));
+	datReqDate.bind(defaultPickerInfo('datEdD', 'top'));
+}
+
+//요청부서 가져오기
+function dept_set1(){
+	data =  new Object();
+	data = {
+		SelMsg			: 'ALL',
+		cm_useyn		: 'Y',
+		gubun			: 'req',
+		itYn			: 'N',
+		requestType		: 'getTeamInfoGrid2'
+	}
+	ajaxAsync('/webPage/regist/SRStatus', data, 'json',successGetTeamInfoGrid1);
+}
+//요청부서 가져오기 완료
+function successGetTeamInfoGrid1(data) {
+	cboDept1Data = data;
+	
+	options = [];
+	$.each(cboDept1Data,function(key,value) {
+		options.push({value: value.cm_deptcd, text: value.cm_deptname});
+	});
+	
+	$('[data-ax5select="cboDept1"]').ax5select({
+        options: options
+	});
+	
+	dept_set2();
 } 
-
-function dept_set2(){	// 등록부서
-	var ajaxResultData = null;
-	var tmpData = {
-			requestType : 'TeamInfo2'			
+//등록부서 가져오기
+function dept_set2(){
+	data =  new Object();
+	data = {
+		SelMsg			: 'ALL',
+		cm_useyn		: 'Y',
+		gubun			: 'DEPT',
+		itYn			: 'N',
+		requestType		: 'getTeamInfoGrid2'
+	}
+	ajaxAsync('/webPage/regist/SRStatus', data, 'json',successGetTeamInfoGrid2);
+}
+//등록부서 가져오기완료
+function successGetTeamInfoGrid2(data) {
+	cboDept2Data = data;
+	
+	options = [];
+	$.each(cboDept2Data,function(key,value) {
+		options.push({value: value.cm_deptcd, text: value.cm_deptname});
+	});
+	
+	$('[data-ax5select="cboDept2"]').ax5select({
+        options: options
+	});
+}
+//sr상태, 개발자상태 데이타가져오기
+function getCodeInfo(){
+	var codeInfos = getCodeInfoCommon([
+										new CodeInfo('ISRSTA','ALL','N'),
+										new CodeInfo('ISRSTAUSR','ALL','N')
+									  ]);
+	cboSta1Data	= codeInfos.ISRSTA;
+	cboSta2Data = codeInfos.ISRSTAUSR;
+	
+	options = [];
+	$.each(cboSta1Data,function(key,value) {
+		options.push({value: value.cm_micode, text: value.cm_codename});
+	});
+	options.push({value: 'XX', text: '미완료전체'});
+	$('[data-ax5select="cboSta1"]').ax5select({
+        options: options
+	});
+	
+	options = [];
+	$.each(cboSta2Data,function(key,value) {
+		options.push({value: value.cm_micode, text: value.cm_codename});
+	});
+	options.push({value: 'XX', text: '미완료전체'});
+	$('[data-ax5select="cboSta2"]').ax5select({
+        options: options
+	});
+}
+//초기화
+function resetScreen() {
+	var today = getDate('DATE',0);
+	today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);
+	$('#datStD').val(today);
+	$('#datEdD').val(today);
+	
+	firstGrid.setData([]); 													// grid 초기화
+	$('[data-ax5select="cboDept1"]').ax5select("setValue", 	'', 	true); 	// 요청부서 초기화
+	$('[data-ax5select="cboDept2"]').ax5select("setValue", 	'', 	true); 	// 등록부서 초기화
+	$("#txtSpms").val('');													// SR-ID 초기화
+	
+	$('[data-ax5select="cboSta2"]').ax5select("setValue", 'XX',	true);
+	// SR상태,개발자상태 초기화
+	if(strReqCd == "01"){
+		$('[data-ax5select="cboSta1"]').ax5select("setValue", '0', 	true);
+	}else if(strReqCd == "02"){
+		$('[data-ax5select="cboSta1"]').ax5select("setValue", '2', 	true);
+	}
+	data_setEnable();
+}
+function data_setEnable() {
+	
+	if (getSelectedIndex('cboSta1') < 0) return;
+	
+	if (getSelectedIndex('cboSta1') == 0 ||
+			getSelectedVal('cboSta1').value == '3' ||
+			getSelectedVal('cboSta1').value == '8' ||
+			getSelectedVal('cboSta1').value == '9') {
+		
+	    if ( getSelectedVal('cboSta2').value == '00' ) {
+			$('#datStD').prop("disabled", false);
+			$('#datEdD').prop("disabled", false);
+	    } else {
+			$('#datStD').prop("disabled", true);
+			$('#datEdD').prop("disabled", true);
+	    }
 	}
 	
-	ajaxResultData = ajaxCallWithJson('/webPage/regist/SRStatus', tmpData, 'json');
-	cboDept2 = ajaxResultData;
-	SBUxMethod.refresh('cboDept2');
-}
-
-function codeinfo_set(){	// 코드인포
-	var ajaxResultData = null;
-	var tmpData = {
-			requestType : 'CodeInfo'			
+	if (getSelectedVal('cboSta1').value == '0' || getSelectedVal('cboSta1').value == 'XX') {
+		$('#datStD').prop("disabled", true);
+		$('#datEdD').prop("disabled", true);
 	}
-	ajaxResultData = ajaxCallWithJson('/webPage/regist/SRStatus', tmpData, 'json');
-	
-	cboSta1 = ajaxResultData;
-	cboSta2 = ajaxResultData;
-	
-	cboSta1.push({
-		cm_macode : "ISRSTA",
-		cm_micode : "XX",
-		cm_codename : "미완료전체"
-	});
-	
-	cboSta2.push({
-		cm_macode : "ISRSTAUSR",
-		cm_micode : "XX",
-		cm_codename : "미완료전체"
-	});
-	
-	cboSta1 = cboSta1.filter(function(data) {
-	   return data.cm_macode === "ISRSTA";
-	});
-	
-	cboSta2 = cboSta2.filter(function(data) {
-	   return data.cm_macode === "ISRSTAUSR";
-	});
-	
-	SBUxMethod.refresh('cboSta1');
-	SBUxMethod.refresh('cboSta2');
+	if (getSelectedVal('cboSta2').value == 'XX') {
+		$('#datStD').prop("disabled", true);
+		$('#datEdD').prop("disabled", true);
+	}
 }
-
 function fnChange(args){ // 달력 활성화
 	$('#datStD').attr('disabled', true);
 	$('[name="_datStD_sub"]').attr('disabled', true);
@@ -206,44 +387,4 @@ function cmdQry_Proc(){	// 조회
 			datagrid.setRowStyle(i+1, 'data', 'font-weight', 'bold');
 		}
 	});
-}
-
-function createGrid(){
-	SBGridProperties = {};
-	SBGridProperties.parentid = 'sbGridArea';  // [필수] 그리드 영역의 div id 입니다.            
-	SBGridProperties.id = 'datagrid';          // [필수] 그리드를 담기위한 객체명과 동일하게 입력합니다.                
-	SBGridProperties.jsonref = 'grid_data';    // [필수] 그리드의 데이터를 나타내기 위한 json data 객체명을 입력합니다.
-	SBGridProperties.waitingui = true;
-	// 그리드의 여러 속성들을 입력합니다.
-	SBGridProperties.explorerbar = 'sort';
-	SBGridProperties.extendlastcol = 'scroll';
-	SBGridProperties.tooltip = true;
-	SBGridProperties.ellipsis = true;
-	SBGridProperties.rowheader = 'seq';
-	    			
-	// [필수] 그리드의 컬럼을 입력합니다.  
-	SBGridProperties.columns = [
-		{caption : ['SR-ID'],	ref : 'isrid', width : '150', style : 'text-align:center',	type : 'output'},
-		{caption : ['문서번호'],	ref : 'genieid',width : '150px',  style : 'text-align:center', type : 'output'},
-		{caption : ['등록일'],	ref : 'recvdate',width : '100px', style : 'text-align:center',  type : 'output'},
-		{caption : ['요청부서'],	ref : 'reqdept',width : '150px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['SR상태'],	ref : 'reqsta1',width : '150px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['요청제목'],	ref : 'reqtitle',width : '150px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['완료요청일'],	ref : 'reqedday',width : '100px',  style : 'text-align:center', type : 'output'},
-		{caption : ['등록부서'],	ref : 'comdept',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['등록인'],	ref : 'recvuser',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['개발부서'],	ref : 'recvdept',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['개발담장자'],	ref : 'devuser',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['개발자상태'],	ref : 'reqsta2',width : '200px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['개발기간'],	ref : 'chgdevterm',width : '250px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['개발계획공수'],	ref : 'chgdevtime',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['개발투입공수'],	ref : 'realworktime',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['검수투입공수'],	ref : 'chgworktime',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['개발진행율'],	ref : 'chgpercent',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['변경종료구분'],	ref : 'chgedgbn',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['변경종료일'],	ref : 'chgeddate',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['SR완료구분'],	ref : 'isredgbn',width : '100px',  style : 'text-align:center',	type : 'output'},
-		{caption : ['SR완료일'],	ref : 'isreddate',width : '100px',  style : 'text-align:center',	type : 'output'}
-	];
-	datagrid = _SBGrid.create(SBGridProperties); // 만들어진 SBGridProperties 객체를 파라메터로 전달합니다.
 }
