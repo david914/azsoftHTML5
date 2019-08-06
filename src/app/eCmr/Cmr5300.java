@@ -928,6 +928,7 @@ public class Cmr5300 {
 				rst.put("cm_dirpath", rs.getString("cm_dirpath"));
 				rst.put("cm_sysmsg", rs.getString("cm_sysmsg"));
 				rst.put("cm_info", rs.getString("cm_info"));
+				rst.put("selected_flag", "0");
 				if ("0".equals(rs.getString("cm_info").substring(11,12))) rst.put("rstmsg", "버전관리를 하지 않는 프로그램입니다.");
 				else if (rs.getInt("cr_lstver")<1) rst.put("rstmsg", "버전이 등록되지 않은 프로그램입니다.");
 				else {
@@ -935,6 +936,7 @@ public class Cmr5300 {
 						rst.put("cr_acptno",rs.getString("cr_acptno"));
 						rst.put("cr_version", rs.getString("cr_version"));
 						rst.put("cr_sysgbn", rs.getString("cr_sysgbn"));
+						rst.put("cr_qrycd", rs.getString("cr_qrycd"));
 						rst.put("gbncd", "CMR0025");
 		
 						rst.put("qryname",rs.getString("cm_codename"));
