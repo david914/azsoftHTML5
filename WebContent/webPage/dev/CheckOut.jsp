@@ -34,6 +34,8 @@
 							</div>
 							<div class="vat poa_r">
 								<button id="btnReg" class="btn_basic_s margin-5-left">SR정보</button>
+								<button id="btnExcelLoad" class="btn_basic_s margin-5-left" style="display:none;">엑셀등록</button>
+								<input type="file" name="excelFile" id="excelFile" style="display:none;"/>
 							</div>
 						</div>
 					</div>

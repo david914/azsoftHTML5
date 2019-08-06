@@ -1,0 +1,254 @@
+
+var acptNo 	= window.parent.acptNo;				//신청번호
+var gubun      = "1";
+
+var uploadCk  = window.parent.uploadCk;
+var firstGrid  	= new ax5.ui.grid();
+
+var firstGridData = []; 							//선후행목록 데이타
+var data          = null;							//json parameter
+var fileIndex = 0;
+var fileData = [];
+var nowMonth = (""+(new Date().getMonth()+1)).length === 1 ?  '0'+ (new Date().getMonth()+1) : (new Date().getMonth()+1);
+var saveName = "/"+new Date().getFullYear()+"/"+nowMonth;
+
+firstGrid.setConfig({
+    target: $('[data-ax5grid="firstGrid"]'),
+    sortable: true, 
+    multiSort: true,
+    multipleSelect : true,
+    showRowSelector: true,
+    page : {
+    	display:false
+    }
+    ,
+    showLineNumber: true,
+    header: {
+        align: "center",
+        columnHeight: 30
+    },
+    body: {
+        columnHeight: 28,
+        onClick: function () {
+        	//this.self.clearSelect();
+        	this.self.select(this.dindex);
+        },
+    	trStyleClass: function () {
+    		if (this.item.colorsw == '3'){
+    			return "fontStyle-cncl";
+    		} else if(this.item.colorsw == '5'){
+    			return "fontStyle-eror";
+    		} else if (this.item.colorsw == '0'){
+    			return "fontStyle-ing";
+    		}
+    	},
+    	onDataChanged: function(){
+    	    this.self.repaint();
+    	},
+        onDBLClick: function () {
+        }
+    },
+    columns: [
+        {key: "name", label: "File",  width: '70%'},
+        {key: "size", label: "Size",  width: '30%'}
+    ]
+});
+
+$(document).ready(function() {
+	firstGridData = window.parent.upFiles;
+	acptNo 	= window.parent.acptNo;
+	if(firstGridData != undefined && firstGridData.length > 0){
+		firstGrid.setData(firstGridData);
+	}
+	else{
+		firstGridData = [];
+	}
+	if(uploadCk){
+		$("#btnFileUpload").hide();
+		$("#btnFileDelete").hide();
+		$("#btnReq").text("재전송");
+		$("#btnReq").prop("disabled", true);
+		$(".progressbar").css("display","inline-block");
+		fileUpload();
+	}
+	
+	$('#btnClose').bind('click',function() {
+		//window.parent.upFiles = [];
+		popClose();
+	});
+	
+	$('#btnReq').bind('click',function(){
+		if(uploadCk){
+			fileUpload();
+		}
+		else{
+			window.parent.upFiles = firstGridData;
+			popClose();
+		}
+	});
+	
+	$('#btnFileDelete').bind('click',function(){
+		deleteData();
+	});
+
+	$('#btnFileUpload').bind('click',function(){
+		if($("#file"+fileIndex).val() != "" && $("#file"+fileIndex).val() != "null"){
+			fileIndex++;
+			$('#fileSave').append('<input type="file" id="file'+fileIndex+'" name="file'+fileIndex+'" onchange="fileChange(\'file'+fileIndex+'\')" accept-charset="UTF-8" multiple="multiple" />');
+		}
+		$("#file"+fileIndex).click();
+	});
+});
+
+function popClose(){
+	window.parent.fileUploadModal.close();
+}
+
+function fileChange(file){
+
+	var jqueryFiles = $("#"+file).get(0);
+	
+	if (jqueryFiles.files && jqueryFiles.files[0]) { 
+
+		for(var i=0; i<jqueryFiles.files.length; i++){
+			
+			var size = jqueryFiles.files[i].size/1024; // Byte, KB, MB, GB
+			size = Math.round(size*10)/10.0 + "KB";
+			var sizeReal = jqueryFiles.files[i].size;
+			var name = jqueryFiles.files[i].name
+			var fileCk = true;
+			
+			for(var j=0; j<firstGridData.length; j++){
+				
+				if(firstGridData[j].name == name && firstGridData[j].sizeReal == sizeReal){
+					$("#"+file).remove();
+					fileCk = false;
+					break;
+				}
+				fileCk = true;
+			}
+
+			if(fileCk){
+				var tmpObj = new Object(); // 그리드에 추가할 파일 속성
+				tmpObj.name = name;
+				tmpObj.size = size;
+				tmpObj.sizeReal = sizeReal;
+				tmpObj.filegb = "1";
+				tmpObj.realName = name;
+				tmpObj.file = jqueryFiles.files[i];
+				tmpObj.fullpath = saveName;
+				
+				firstGridData.push(tmpObj);
+			}
+		}
+		firstGrid.setData(firstGridData);
+	} 
+	
+}
+
+function getSignUser(){
+	
+	var tmpData = {
+		txtName   :   $('#txtName').val().trim(),
+		requestType	: 	'getSignUser'
+	}
+	
+	ajaxAsync('/webPage/apply/ApplyRequest', tmpData, 'json',successGetSignUser);
+} 
+
+function successGetSignUser(data){
+	firstGridData = data;
+	firstGrid.setData(data);
+}
+function deleteData(){
+
+	var firstGridGridSeleted = firstGrid.getList("selected");
+	
+	firstGrid.removeRow("selected");
+	firstGridData = clone(firstGrid.list);
+	firstGrid.repaint();
+}
+
+function fileUpload(){
+	
+	// 파일 업로드 jsp 를 호출해야함
+	var formData = new FormData();
+	tmpPath = 'C:\\eCAMS\\webTmp\\'; // 테스트 임시경로
+	for(var i=0; i<firstGridData.length; i++){
+		var index = i + 1;
+		formData.append('fullName',tmpPath);
+		formData.append('fullpath',tmpPath+firstGridData[i].fullpath);
+		formData.append('saveName',firstGridData[i].serverFileName+index);
+		formData.append('file',firstGridData[i].file);
+		
+		firstGridData[i].index = index;
+	}
+	
+	// ajax
+    $.ajax({
+        url:'/webPage/fileupload/FileUpload.jsp',
+        type:'POST',
+        data:formData,
+        async: true,
+        cache:false,
+        contentType:false,
+        processData: false,
+        xhr: function() { //XMLHttpRequest 재정의 가능
+        	var xhr = $.ajaxSettings.xhr();
+        	xhr.upload.onprogress = function(e) { //progress 이벤트 리스너 추가
+	        	var percent = e.loaded * 100 / e.total;
+	        	setProgress(percent);
+        	};
+        	return xhr;
+        	}
+    }).done(function(response){
+    	onUploadCompleteData(response);
+    	
+    }).fail(function(xhr,status,errorThrown){
+    	dialog.alert('<div>오류가 발생했습니다.</div><div>재전송 버튼을 눌러 다시 등록해주시기 바랍니다.</div>',function(){});
+    	$("#percent").width(0+"%");
+    	$("#percentText").text(0+"%");
+		$("#btnReq").prop("disabled", false);
+    	return;
+    });
+    	
+}
+
+
+
+
+function onUploadCompleteData(){
+	var ajaxResultData = "";
+	var dbFileData = clone(firstGridData);
+	for(var key in dbFileData){ // 파일 데이터가 있으면 Json HashMap 변환에 에러가 뜨므로 파일 데이터를 지워서 전달
+		dbFileData[key].file = null;
+		dbFileData[key].serverFileName = acptNo+"."; //서버에 저장될 파일명
+		dbFileData[key].saveName = dbFileData[key].fullpath+"/"+acptNo;
+		dbFileData[key].acptno = acptNo;
+	}
+	
+	var tmpData = {
+			fileList   :   dbFileData,
+			requestType	: 	'fileUpload'
+		}
+		
+	ajaxResultData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
+	if(ajaxResultData == "ok"){
+
+		dialog.alert('업로드 되었습니다.',function(){});
+
+		popClose();
+	}
+	else{
+    	dialog.alert('<div>오류가 발생했습니다.</div><div> 재전송 버튼을 눌러 다시 등록해주시기 바랍니다.</div>',function(){});
+    	$("#percent").width(0+"%");
+    	$("#percentText").text(0+"%");
+		$("#btnReq").prop("disabled", false);
+    	return;
+	}
+}
+
+function setProgress(percent){
+	$("#percent").width(percent+"%");
+	$("#percentText").text(Math.round(percent)+"%");
+}

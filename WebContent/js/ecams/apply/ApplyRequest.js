@@ -15,11 +15,13 @@ var secondGrid		= new ax5.ui.grid();
 var datReqDate 		= new ax5.ui.picker();
 var befJobModal 		= new ax5.ui.modal();
 var approvalModal 		= new ax5.ui.modal();
+var fileUploadModal 		= new ax5.ui.modal();
 
 var request         =  new Request();
 
 var cboOptions = [];
 
+var ajaxReturnData = "";
 var srSw            = false;
 var sysData  = null; //시스템콤보
 var cboReqGbnData   = null;
@@ -43,8 +45,10 @@ var strAplyDate = '';
 var scriptData = [];
 var befJobData = [];
 var upFiles = [];
-var befCheck = true; // 체크박스 변경시 이벤트가 바로 걸려 체크하기위한 변수
+var befCheck = false; // 체크박스 변경시 이벤트가 바로 걸려 체크하기위한 변수
 var confirmInfoData = null;
+var uploadCk = false; // 파일 업로드 체크
+var acptNo = "";
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -274,6 +278,7 @@ $(document).ready(function(){
 		$('#btnRequest').text('체크인신청');
 		$('#chkBefJob').parent('div.wCheck').hide();
 		$('#chkBefJob').parent('div.wCheck').siblings('label[for="chkBefJob"]').hide();
+		$("#btnFileUpload").hide();
 	}
 	else if (reqCd == '03'){ //테스트배포
 		$('#btnRequest').text('테스트배포신청');
@@ -293,10 +298,12 @@ $(document).ready(function(){
 		if($("#chkBefJob").parent(".wCheck").css('display') == "none"){
 			return;
 		}
+		
 		if(befCheck){
 			befCheck = false;
 			return;
 		}
+		
 		if($('#chkBefJob').is(':checked')){
 			befJobModal.open({
 		        width: 915,
@@ -335,6 +342,26 @@ $(document).ready(function(){
                 mask.close();
 			});
 		}
+	});
+	
+	$('#btnFileUpload').bind('click',function(){
+		fileUploadModal.open({
+	        width: 685,
+	        height: 420,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/fileupload/FileUpload.jsp",
+	            param: "callBack=modalCallBack"
+		    },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	            }
+	        }
+		});
 	});
 	
 	dateInit();
@@ -484,7 +511,7 @@ function changeSrId() {
 //프로그램유정보
 function getRsrcInfo(syscd) {
 	rsrccdData = null;
-	var ajaxReturnData;
+	ajaxReturnData = null;
 	if (syscd === '00000') {
 		$('[data-ax5select="cboRsrccd"]').ax5select({
 	      options: []
@@ -584,14 +611,14 @@ function findProc() {
 	firstGridData = [];
 
 	if(qrySw) {
-		showToast('검색 또는 신청 진행중 입니다.'); 
+		dialog.alert('검색 또는 신청 진행중 입니다.'); 
 		return; //qrySw=true 일때는 검색 또는 신청 진행중일때임
 	}
 	if (srSw && getSelectedIndex('cboSrId') < 1) return;
 	
 	
 	if (getSelectedIndex('cboSys') < 1) {
-		showToast('시스템을 선택하십시오.');
+		dialog.alert('시스템을 선택하십시오.');
 		return;
 	}
 	var strQry = "";
@@ -650,12 +677,12 @@ function successGetProgramList(data) {
 	firstGridData = data;
 	console.log(firstGridData);
 	if(firstGridData.length == 0 ){
-		showToast('검색 결과가 없습니다.');
+		dialog.alert('검색 결과가 없습니다.');
 		return;		
 	}
 	else if (firstGridData.length > 0){
 		if(firstGridData[0].ID =='MAX'){
-			showToast('검색결과가 너무 많으니 검색조건을 입력하여 검색하여 주시기 바랍니다.');
+			dialog.alert('검색결과가 너무 많으니 검색조건을 입력하여 검색하여 주시기 바랍니다.');
 			return;
 		}
 	}
@@ -714,13 +741,13 @@ function addDataRow() {
 	var j = 0;
 	var secondGridList = new Array;
 	var firstGridSeleted = firstGrid.getList("selected");
-	var ajaxReturnData;
+	ajaxReturnData = null;
 	var strRsrcName = '';
 	
 	if(!exlSw && reqCd == '07'){
 		if(getSelectedVal('cboReq').value == '05'){
 			if(secondGridData.length > 0 && secondGridData[0].reqcd != '05'){
-				showToast('폐기는 다른 신청과 함께 신청할 수 없습니다.');
+				dialog.alert('폐기는 다른 신청과 함께 신청할 수 없습니다.');
 				return;
 			}
 		}
@@ -741,7 +768,7 @@ function addDataRow() {
 					outpos = 'L';
 				}
 				if(this.pcdir == null){
-					showToast('로컬 홈디렉토리를 지정하지 않았습니다. 기본관리>사용자환경설정에서 홈디렉토리지정 후 처리하시기 바랍니다.');
+					dialog.alert('로컬 홈디렉토리를 지정하지 않았습니다. 기본관리>사용자환경설정에서 홈디렉토리지정 후 처리하시기 바랍니다.');
 					return;
 				}
 			}
@@ -774,13 +801,13 @@ function addDataRow() {
 	});
 	
 	if(reqCd == '04' && getSelectedIndex('cboSrId') > 0 && firstGridData.length != secondGridList.length){
-		showToast('운영에 배포 할 준비가 완료되지 않은 건이 있습니다. 확인 후 진행하시기 바랍니다.');
+		dialog.alert('운영에 배포 할 준비가 완료되지 않은 건이 있습니다. 확인 후 진행하시기 바랍니다.');
 		return;
 	}
 	
 	
 	if ((secondGrid.list.length + secondGridList.length) > 300){
-		showToast("300건까지 신청 가능합니다.");
+		dialog.alert("300건까지 신청 가능합니다.");
 		return;
 	}
 	
@@ -807,7 +834,7 @@ function verCheck(){
 	var j = 0;
 	var secondGridList = new Array;
 	var firstGridSeleted = firstGrid.getList("selected");
-	var ajaxReturnData;
+	ajaxReturnData = null;
 	
 	$(firstGridSeleted).each(function(i){
 		if(this.selected_flag == '1'){
@@ -993,27 +1020,27 @@ function cmdChkClick(){
 	var tmpSayu = $('#txtSayu').val().trim();
 	
 	if(ingSw){
-		showToast('현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.');
+		dialog.alert('현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.');
 		return;
 	}
 	
 	if (getSelectedIndex('cboSys') < 1) {
-		showToast('시스템을 선택하여 주십시오.');
+		dialog.alert('시스템을 선택하여 주십시오.');
 		return;
 	}
 	
 	if (srSw && getSelectedIndex('cboSrId') < 1) {
-		showToast('SR-ID를 선택하여 주십시오.');
+		dialog.alert('SR-ID를 선택하여 주십시오.');
 		return;
 	}
 	
 	if (srSw && tmpSayu.length == 0) {
-		showToast('신청사유를 입력하여 주십시오.');
+		dialog.alert('신청사유를 입력하여 주십시오.');
 		return;
 	}
 	
 	if (secondGrid.list.length == 0) {
-		showToast('신청 할 파일을 추가하여 주십시오.');
+		dialog.alert('신청 할 파일을 추가하여 주십시오.');
 		return;
 	}
 	
@@ -1040,7 +1067,7 @@ function secondGridOverlap(){
 		for(var j = i+1; j<secondGridData.length; j++){
 			if(data.cr_titemid != null && data.cr_itemid != ''){
 				if(data.cr_itemid == secondGridData[j].cr_itemid){
-					showToast('동일한 프로그램이 중복으로 신청되었습니다. 조정한 후 다시 신청하십시오. ['+secondGridData[j].cr_rsrcname+']');
+					dialog.alert('동일한 프로그램이 중복으로 신청되었습니다. 조정한 후 다시 신청하십시오. ['+secondGridData[j].cr_rsrcname+']');
 					retrunData = false;
 					return true;
 				}
@@ -1050,7 +1077,7 @@ function secondGridOverlap(){
 				   data.cr_dsncd == secondGridData[j].cr_dsncd &&
 				   data.cr_rsrcname == secondGridData[j].cr_rsrcname) {
 					
-					showToast('동일한 프로그램이 중복으로 신청되었습니다. 조정한 후 다시 신청하십시오. ['+secondGridData[j].cr_rsrcname+']');
+					dialog.alert('동일한 프로그램이 중복으로 신청되었습니다. 조정한 후 다시 신청하십시오. ['+secondGridData[j].cr_rsrcname+']');
 					retrunData = false;
 					return true;
 					
@@ -1075,7 +1102,7 @@ function cmdReqSubAnal(data){
 	
 	if(calSw){ //04	동시적용항목CHECK || 09	실행모듈CHECK 일때
 		if(data.length > 0){
-			var ajaxReturnData;
+			ajaxReturnData = null;
 			var downFileData = new Object();
 			downFileData.sayu = $('#txtSayu').val().trim();
 			downFileData.ReqCD = reqCd;
@@ -1143,14 +1170,14 @@ function successDownFileData(data){
 	var analSw = false;
 	
 	if(data.length != 0 && data == 'ERR'){
-		showToast($('#btnRequest').val+'목록 작성에 실패하였습니다.');
+		dialog.alert($('#btnRequest').val+'목록 작성에 실패하였습니다.');
 		return;
 	}
 	else{
 		
 		$(data).each(function(){
 			if(this.cr_itemid == 'ERROR'){
-				showToast('파일목록 에러 \n파일경로 : '+thiscm_dirpath);
+				dialog.alert('파일목록 에러 \n파일경로 : '+thiscm_dirpath);
 				ingsw = false;
 				return;
 			}
@@ -1230,11 +1257,11 @@ function changeSys(){
 	firstGridData = [];
 	localHome = "";
 
-	$('#chkBefJob').wCheck('check',false);
+	//$('#chkBefJob').wCheck('check',false);
 	$('#chkBefJob').hide();
 	
 	if (getSelectedVal('cboSys').cm_stopsw == "1") {
-		showToast("이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.");
+		dialog.alert("이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.");
 		$('#btnSearch').prop('disabled',true);
 		return;
 	} 
@@ -1313,14 +1340,13 @@ function successGetDevHome(data){
 	localHome = data;
 	
 	if(localHome.length == 0 || localHome == ''){
-		showToast('로컬로 체크아웃을 받고자 하는 경우 \n [기본관리-사용자환경설정]에서 \n 로컬 홈디렉토리를 지정한 후 진행하시기 바랍니다.');
+		dialog.alert('로컬로 체크아웃을 받고자 하는 경우 \n [기본관리-사용자환경설정]에서 \n 로컬 홈디렉토리를 지정한 후 진행하시기 바랍니다.');
 	}
 	
 }
 
 
 //파일비교버튼 미개발
-/*
 function btnDiffClick(){
 	var tmpArray = new ArrayCollection();
 	var tmpObj = new Object();
@@ -1352,7 +1378,7 @@ function btnDiffClick(){
 		}
 }
 
-// 파일업다운 미개발
+//파일 비교 업로드 미개발
 function FileUpLoad_Handler_diff(ret){
 	var findSw = false;
 	var tmpMsg = "";
@@ -1373,6 +1399,8 @@ function FileUpLoad_Handler_diff(ret){
 		diffNext();	
 	}
 }
+
+/*
 
 function deffNext(){
 
@@ -1448,24 +1476,24 @@ function checkInClick(){
 	var tmpSayu = $("#txtSayu").val().trim();
 	
 	if (ingSw) {
-		showToast("현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.");
+		dialog.alert("현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.");
 		return;
 	}
 	
 	if (getSelectedIndex('cboSys') < 1) {
-		showToast('시스템을 선택하여 주십시오.');
+		dialog.alert('시스템을 선택하여 주십시오.');
 		return;
 	}
 	if (srSw && getSelectedIndex('cboSrId') < 1) {
-		showToast('SR-ID를 선택하여 주십시오.');
+		dialog.alert('SR-ID를 선택하여 주십시오.');
 		return;
 	}
 	if (srSw && tmpSayu.length == 0){
-		showToast('신청사유를 입력하여 주십시오.');
+		dialog.alert('신청사유를 입력하여 주십시오.');
 		return;
 	}
 	if (secondGrid.list.length == 0){
-		showToast('신청 할 파일을 추가하여 주십시오.');
+		dialog.alert('신청 할 파일을 추가하여 주십시오.');
 		return;
 	}
 	
@@ -1550,7 +1578,7 @@ function cmdReqSub(){
 	ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
 	
 	if (ajaxReturnData == "X") {
-		showToast("로컬PC에서 파일을 전송하는 결재단계가 지정되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
+		dialog.alert("로컬PC에서 파일을 전송하는 결재단계가 지정되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
 	} else	if (ajaxReturnData == "C") {
 		confirmDialog.confirm({
 			msg: '결재자를 지정하시겠습니까?',
@@ -1565,12 +1593,10 @@ function cmdReqSub(){
 	} else if (ajaxReturnData == "Y") {
 		confCall("Y");
     } else if (ajaxReturnData != "N") {
-    	showToast("결재정보가 등록되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
+    	dialog.alert("결재정보가 등록되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
     } else {
 		confCall("N");
     }
-	
-	//Cmr0200.confSelect(cboSys.selectedItem.cm_syscd,reqCd,strRsrcCd,userId,strQry);
 }
 
 function confCall(GbnCd){
@@ -1671,6 +1697,7 @@ function confCall(GbnCd){
 
 function reqQuestConf(){
 
+	ajaxReturnData = null;
 	var ajaxReturnStr = null;
 	var requestData = new Object();
 	var deploy = '0';
@@ -1730,27 +1757,47 @@ function reqQuestConf(){
 	ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
 	
 	if(ajaxReturnData == 'ERR' || ajaxReturnData.substr(0,5) == 'ERROR'){
-		showToast('ERROR');
+		dialog.alert('에러가 발생하였습니다. 다시 신청해주세요.');
 		return;
 	}
+	acptNo = ajaxReturnData;
 	
-	if(reqCd=='07'){
-		
-	}	
 	if ( (outpos == "A" || outpos == "L") && reqCd == '07'){
 		//Alert.show("Filelist");
 		//파일 업다운 미개발
 		Cmr0100.getProgFileList(strAcptNo,"F");
+    	requestEnd();
 		return;
-		
 	}
 	else if( reqCd != '07' && upFiles.length > 0){
-		//팝업 미개발
-		
+		uploadCk = true; // 파일 업로드 체크 변수
+		fileUploadModal.open({
+	        width: 685,
+	        height: 420,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/fileupload/FileUpload.jsp",
+	            param: "callBack=modalCallBack"
+		    },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	            	requestEnd();
+	            }
+	        }
+		});
 		return;
 	}
 	
 	
+	requestEnd();
+}
+
+function requestEnd(){
+
 	confirmDialog.confirm({
 		msg: $('#btnRequest').val()+' 신청완료! 상세 정보를 확인하시겠습니까?',
 	}, function(){
@@ -1768,27 +1815,27 @@ function btnRequestClick(){
 var tmpSayu = $('#txtSayu').val().trim();
 	
 	if(ingSw){
-		showToast('현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.');
+		dialog.alert('현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.');
 		return;
 	}
 	
 	if (getSelectedIndex('cboSys') < 1) {
-		showToast('시스템을 선택하여 주십시오.');
+		dialog.alert('시스템을 선택하여 주십시오.');
 		return;
 	}
 	
 	if (srSw && getSelectedIndex('cboSrId') < 1) {
-		showToast('SR-ID를 선택하여 주십시오.');
+		dialog.alert('SR-ID를 선택하여 주십시오.');
 		return;
 	}
 	
 	if (srSw && tmpSayu.length == 0) {
-		showToast('신청사유를 입력하여 주십시오.');
+		dialog.alert('신청사유를 입력하여 주십시오.');
 		return;
 	}
 	
 	if (secondGrid.list.length == 0) {
-		showToast('신청 할 파일을 추가하여 주십시오.');
+		dialog.alert('신청 할 파일을 추가하여 주십시오.');
 		return;
 	}
 	
@@ -1807,27 +1854,27 @@ function bntRequestClick(){
 	var tmpSayu = $('#txtSayu').val().trim();
 	
 	if (ingSw) {
-		showToast("현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.");
+		dialog.alert("현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.");
 		return;
 	}
 	
 	if (getSelectedIndex('cboSys') < 1) {
-		showToast('스템을 선택하여 주시기 바랍니다.');
+		dialog.alert('스템을 선택하여 주시기 바랍니다.');
 		return;
 	}
 	
 	if(getSelectedIndex('cboSys') == null ){
-		showToast('시스템정보가 없습니다. 확인 후 다시 신청해 주세요.');
+		dialog.alert('시스템정보가 없습니다. 확인 후 다시 신청해 주세요.');
 		return;		
 	}
 	
 	if (srSw && tmpSayu.length == 0) {
-		showToast('신청사유를 입력하여 주십시오.');
+		dialog.alert('신청사유를 입력하여 주십시오.');
 		return;
 	}
 	
 	if (secondGrid.list.length == 0) {
-		showToast('신청 할 파일을 추가하여 주십시오.');
+		dialog.alert('신청 할 파일을 추가하여 주십시오.');
 		return;
 	}
 	mask.open();
@@ -1860,12 +1907,12 @@ function baepoConfirm(){
 	if ( getSelectedVal('cboReqGbn').value == "4" ) {//4:특정일시배포  0:일반  2:긴급
 		strTime = $('#txtReqTime').val();
 		if ($('#txtReqDate').val() == '' || strTime == "") {
-			showToast("적용일시를 입력하여 주시기 바랍니다.");
+			dialog.alert("적용일시를 입력하여 주시기 바랍니다.");
 			return;
 		}
 		strTime = strTime.replace(":","");
 		if (strTime.length != 4) {
-			showToast("4자리 숫자로 입력하여 주시기 바랍니다.");
+			dialog.alert("4자리 숫자로 입력하여 주시기 바랍니다.");
 			return;
 		}
 		
@@ -1873,13 +1920,13 @@ function baepoConfirm(){
 		
 		
 		if (strDate > strDate2) {
-			showToast("적용일시가 현재일 이전입니다. 정확히 선택하여 주십시오");
+			dialog.alert("적용일시가 현재일 이전입니다. 정확히 선택하여 주십시오");
 			return;
 		} else if (strDate == strDate2) {
 			
 			strNow = getTime();
 			if (strTime < strNow) {
-				showToast("적용일시가 현재일 이전입니다. 정확히 선택하여 주십시오");
+				dialog.alert("적용일시가 현재일 이전입니다. 정확히 선택하여 주십시오");
 				return;
 			}
 		}
@@ -1919,7 +1966,7 @@ function baepoConfirm(){
 		
 		//SR명에 태그가 없을때 오류 메시지.
 		if ( tagList.length == 0 ){
-			showToast("SR명에 태그가 존재하지 않습니다. 해당 SR로 운영배포 요청이 불가합니다. 관리자에게 문의해 주시기 바랍니다.");
+			dialog.alert("SR명에 태그가 존재하지 않습니다. 해당 SR로 운영배포 요청이 불가합니다. 관리자에게 문의해 주시기 바랍니다.");
 			return;
 		}
 	}
@@ -1957,12 +2004,12 @@ function baepoConfirm(){
 		for ( y = 0 ; y < tagList.length ; y++ ){
 			tmpTagName = tmpTagName + tagList[y];
 		}
-		showToast(tmpTagName+"태그를 가진 문서가 누락되였습니다. SR명에 포함된 태그를 확인해 주시기 바랍니다.");
+		dialog.alert(tmpTagName+"태그를 가진 문서가 누락되였습니다. SR명에 포함된 태그를 확인해 주시기 바랍니다.");
 		return;
 	}
 	
 	if ( ingSw ) {
-		showToast("현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.");
+		dialog.alert("현재 신청하신 건을 처리 중입니다. 잠시 기다려 주시기 바랍니다.");
 		return;
 	}
 	
@@ -2043,3 +2090,6 @@ function RequestScript(){
 		cmdReqSub();
 	}
 }
+
+
+

@@ -13,6 +13,8 @@
 
 String fileName= "";
 String filePath= "";
+String saveName= "";
+int fileIndex = 1;
 request.setCharacterEncoding("UTF-8");
 
 MultipartParser mp = new MultipartParser(request,5120*1024*1024); // 50MB
@@ -48,12 +50,19 @@ Part part;
 					//fileName = new String(fileName.getBytes("8859_1"),"UTF-8");
 				}
 
+				if(name.equals("saveName")){
+					//filePath = new String(paramPart.getStringValue().getBytes("UTF-8"),"euc-kr");
+					saveName = paramPart.getStringValue();
+					//fileName = new String(fileName.getBytes("8859_1"),"UTF-8");
+				}
 
 				//new String(filePart.getFilePath().getBytes("8859-1"),"euc-kr")
 				System.out.println("filePath=[" + filePath + "]");
 				System.out.println("fileName=[" + fileName + "]");
+				System.out.println("saveName=[ " + saveName + " ]");
 			}
 			if(part.isFile()){
+				
 				FilePart filePart = (FilePart) part;
 				fileName = filePart.getFileName();
 				//fileName = new String(filePart.getFileName().getBytes("8859_1"),"UTF-8");
@@ -80,7 +89,12 @@ Part part;
 
 				if ( fileName != null ){
 					System.out.println("여기 filePath : " + filePath);
-					File newfile=new File(filePath);
+					File newfile=new File(filePath); //디렉토리생성
+
+					if(saveName != null && !"".equals(saveName)){ //파일명이 있을경우 파일을 생성해준다
+						newfile=new File(filePath,saveName);
+					}
+					
 					long size=filePart.writeTo(newfile);
 				}
 				System.out.println("fileName=["+fileName +"]" + " dirpath=[" +filePath+ "]" );

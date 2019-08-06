@@ -175,6 +175,8 @@ $('[data-ax5select="cboSrId"]').ax5select({
 $(document).ready(function() {
 	console.log('CheckOutCnl.js load');
 	screenInit();
+
+	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 	
 	$('#cboSrId').bind('change',function(){
 		changeSrId();
@@ -381,7 +383,7 @@ function changeSys(){
 	firstGrid.setData([]);
 	firstGridaData = [];
 	if (getSelectedVal('cboSys').cm_stopsw == "1") {
-		showToast("이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.");
+		dialog.alert("이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.");
 		$('#btnSearch').prop('disabled',true);
 		return;
 	} else $('#btnSearch').prop('disabled',false);
@@ -530,7 +532,7 @@ function addDataRow() {
 
 function checkDuplication(downFileList) {
 	if(downFileList == 'ERR'){
-		showToast("에러가 발생했습니다.");
+		dialog.alert("에러가 발생했습니다.");
 		return;
 	}
 	if(secondGridData.length > 0 ){
@@ -630,15 +632,15 @@ function firstGridClick(){
 }
 function checkOutCnlClick(){
 	if (srSw && getSelectedIndex('cboSrId') < 1) {
-		showToast("SR-ID를 선택하여 주십시오.");
+		dialog.alert("SR-ID를 선택하여 주십시오.");
 		return;
 	}
 	if (secondGridData.length == 0){
-		showToast("신청할 파일을 입력하여 주십시오.");
+		dialog.alert("신청할 파일을 입력하여 주십시오.");
 		return;
 	}
 	if ($('#txtSayu').val().trim().length == 0){
-		showToast("신청사유를 입력하여 주십시오.");
+		dialog.alert("신청사유를 입력하여 주십시오.");
 		$('#txtSayu').focus();
 		return;
 	}
@@ -693,7 +695,7 @@ function confCheck(data){
 		confCall("Y");
     } else if (data != "N") {
     	$('#btnReq').attr('disabled',false);
-    	showToast("결재정보가 등록되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
+    	dialog.alert("결재정보가 등록되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
     } else {
 		confCall("N");
     }
@@ -717,18 +719,41 @@ function confCall(GbnCd)
 	if (srSw) strIsrId = getSelectedVal('cboSrId').value;
 	else strIsrId = "";
 	confirmData = null;
-	var confInfoData = new Object();
-	confInfoData.UserID = userId;
-	confInfoData.ReqCD  = reqCd;
-	confInfoData.SysCd  = getSelectedVal('cboSys').value;
-	confInfoData.Rsrccd = tmpRsrc;
-	confInfoData.QryCd = strQry;
-	confInfoData.EmgSw = "N";
-	confInfoData.JobCd = "";
-	confInfoData.deployCd = "0";
-	confInfoData.PrjNo = strIsrId;
+	var confirmInfoData = new Object();
+	confirmInfoData.UserID = userId;
+	confirmInfoData.ReqCD  = reqCd;
+	confirmInfoData.SysCd  = getSelectedVal('cboSys').value;
+	confirmInfoData.Rsrccd = tmpRsrc;
+	confirmInfoData.QryCd = strQry;
+	confirmInfoData.EmgSw = "N";
+	confirmInfoData.JobCd = "";
+	confirmInfoData.deployCd = "0";
+	confirmInfoData.PrjNo = strIsrId;
 	// 결재팝업 미개발
 	if (GbnCd == "Y") {
+		
+		approvalModal.open({
+	        width: 820,
+	        height: 365,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/request/ApprovalModal.jsp",
+	            param: "callBack=modalCallBack"
+		    },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	            	if(confirmData.length > 0){
+	            		reqQuestConf();
+	            	}
+	            	ingSw = false;
+	                mask.close();
+	            }
+	        }
+		});
+		
 		gyulPopUp = Confirm_select(PopUpManager.createPopUp(this, Confirm_select, true));
 		gyulPopUp.parentfuc = reqQuest;
 		gyulPopUp.parentvar = etcObj;
@@ -740,7 +765,7 @@ function confCall(GbnCd)
 		
 		var tmpData = {
 				requestType : 'Confirm_Info',
-				confInfoData : confInfoData
+				confInfoData : confirmInfoData
 		}	
 		
 		ajaxReturnData = ajaxCallWithJson('/webPage/dev/CheckOutCnlServlet', tmpData, 'json');
@@ -825,8 +850,8 @@ function successRequest(data){
 		$('#btnReq').attr('disabled',true);
 	}
 	else{
-		if (reqCd == "11")  showToast("체크아웃취소 신청실패.");
-	    else showToast("테스트적용취소 신청실패.");
+		if (reqCd == "11")  dialog.alert("체크아웃취소 신청실패.");
+	    else dialog.alert("테스트적용취소 신청실패.");
 	}
 }
 /*

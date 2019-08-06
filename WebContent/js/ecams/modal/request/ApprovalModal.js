@@ -1,5 +1,4 @@
 
-var acptNo 		= window.parent.pReqNo;				//신청번호
 var userId 		= window.parent.pUserId;			//접속자 ID
 var reqCd 		= window.parent.reqCd;			//접속자 ID
 var sysCd 		= window.parent.sysCd;

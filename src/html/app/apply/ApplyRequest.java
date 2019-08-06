@@ -21,6 +21,7 @@ import app.eCmd.Cmd0100;
 import app.eCmr.Cmr0200;
 import app.eCmr.Cmr0200_BefJob;
 import app.eCmr.Confirm_select;
+import app.common.DocFile;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/apply/ApplyRequest")
@@ -36,6 +37,7 @@ public class ApplyRequest extends HttpServlet {
 	Cmr0200_BefJob cmr0200_BefJob = new Cmr0200_BefJob();
 	Confirm_select confirm_select = new Confirm_select();
 	SignInfo signInfo = new SignInfo();
+	DocFile docfile = new DocFile();
 		
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -87,6 +89,9 @@ public class ApplyRequest extends HttpServlet {
 					break;
 				case "getSignLst_dept" :
 					response.getWriter().write( getSignLst_dept(jsonElement) );
+					break;
+				case "fileUpload" :
+					response.getWriter().write( fileUpload(jsonElement) );
 					break;
 				default:
 					break;
@@ -214,6 +219,12 @@ public class ApplyRequest extends HttpServlet {
 																	 signListInfo.get("SysCd"),
 																	 signListInfo.get("JboCd"),
 																	 signListInfo.get("tmpRgt2")));
+	}
+	private String fileUpload(JsonElement jsonElement) throws SQLException, Exception {
+		
+		ArrayList<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
+		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
+		return gson.toJson(docfile.setDocFile(fileList));
 			
 	}
 }

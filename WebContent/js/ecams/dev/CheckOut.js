@@ -381,7 +381,7 @@ function successGetSysCbo(data){
 		}
 	} else {
 		if (strAcptNo != null && strAcptNo != "") {
-			showToast('사용권한이 없는 시스템에 대하여 체크아웃요청을 의뢰하였습니다.');
+			dialog.alert('사용권한이 없는 시스템에 대하여 체크아웃요청을 의뢰하였습니다.');
 		}
 	}
 	
@@ -471,7 +471,7 @@ function changeSys(){
 	firstGrid.setData([]);
 	fristGridData = [];
 	if (getSelectedVal('cboSys').cm_sysinfo.substr(4,1) == "1" && getSelectedVal('cboSys').cm_stopsw == "1") {
-		showToast('이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.');
+		dialog.alert('이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.');
 
 		$('#btnSearch').prop('disabled',true);
 		return;
@@ -511,7 +511,7 @@ function successGetDevHome(data){
 	localHome = data;
 	
 	if(localHome.length == 0 || localHome == ''){
-		showToast('로컬로 체크아웃을 받고자 하는 경우 \n [기본관리-사용자환경설정]에서 \n 로컬 홈디렉토리를 지정한 후 진행하시기 바랍니다.');
+		dialog.alert('로컬로 체크아웃을 받고자 하는 경우 \n [기본관리-사용자환경설정]에서 \n 로컬 홈디렉토리를 지정한 후 진행하시기 바랍니다.');
 	}
 	
 }
@@ -732,7 +732,7 @@ function successGetFileGridData(data){
 		}
 		
 		if(firstGridData.length == 0 && alertFlag == 1){
-			showToast('검색 결과가 없습니다.');
+			dialog.alert('검색 결과가 없습니다.');
 		}
 		alertFlag = 0;
 		
@@ -771,7 +771,7 @@ function clickSearchBtn() {
 	getFileData.reqcd 	= reqCd;
 	rsrcname = $('#txtRsrcName').val().trim();
 	if(rsrcname === '' || rsrcname === undefined) {
-		showToast('검색단어를 입력한 후 검색하시기 바랍니다.');
+		dialog.alert('검색단어를 입력한 후 검색하시기 바랍니다.');
 		return;
 	}
 	else getFileData.rsrcname = rsrcname;
@@ -814,7 +814,7 @@ function addDataRow() {
 		if ( this.cm_info.substr(44,1) == "1" && this.filterData == false) {//45:로컬에서개발
 			localFileDownYN = true;//로컬로 파일 다운 여부
 			if (this.pcdir1 == null || this.pcdir1 == "") {
-				showToast("로컬 홈디렉토리를 지정하지 않았습니다. 기본관리>사용자환경설정에서 홈디렉토리지정 후 처리하시기 바랍니다.");
+				dialog.alert("로컬 홈디렉토리를 지정하지 않았습니다. 기본관리>사용자환경설정에서 홈디렉토리지정 후 처리하시기 바랍니다.");
 				return false;
 			}
 		}
@@ -834,11 +834,11 @@ function addDataRow() {
 	
 	
 	if (vercnt>0){				
-		showToast("버전을 선택하여 주십시요.");
+		dialog.alert("버전을 선택하여 주십시요.");
 		return;
 	}
 	if ((secondGrid.list.length + secondGridList.length) > 300){
-		showToast("300건까지 신청 가능합니다.");
+		dialog.alert("300건까지 신청 가능합니다.");
 		return;
 	}
 	
@@ -989,11 +989,11 @@ function checkDuplication(downFileList) {
 	
 	if(secondGrid.list.length > 0 ) {
 		if((secondGrid.list.length + downFileList.length > 300) && localFileDownYN){
-			showToast('300건 이하로 선택 가능합니다.[추가가능건수:'+(300-secondGrid.list.length)+']');
+			dialog.alert('300건 이하로 선택 가능합니다.[추가가능건수:'+(300-secondGrid.list.length)+']');
 			return;
 		}
 	}else if (secondGrid.list.length > 300 && localFileDownYN ) {
-		showToast('300건 이하로 선택 가능합니다.[추가가능건수:'+(secondGrid.list.length)+']');
+		dialog.alert('300건 이하로 선택 가능합니다.[추가가능건수:'+(secondGrid.list.length)+']');
 		return;
 	}
 	
@@ -1034,21 +1034,21 @@ function checkDuplication(downFileList) {
 function checkOutClick()
 {
 	if( !$('#cboSrId').prop('disabled') && getSelectedIndex('cboSrId') < 1){
-		showToast("SR-ID를 선택하여 주십시오.");
+		dialog.alert("SR-ID를 선택하여 주십시오.");
 		return;
 	}
 	var tmpSayu = $('#reqText').val().trim();
 	if (tmpSayu.length == 0){
-		showToast("신청사유를 입력하여 주십시오.");
+		dialog.alert("신청사유를 입력하여 주십시오.");
 		$('#reqText').focus();
 		return;
 	}
 	if (secondGrid.list == 0){
-		showToast("신청할 파일을 추가하여 주십시오.");
+		dialog.alert("신청할 파일을 추가하여 주십시오.");
 		return;
 	}
 	if (reqSw == true) {
-		showToast("현재 처리중입니다. 잠시 기다려 주시기 바랍니다.");
+		dialog.alert("현재 처리중입니다. 잠시 기다려 주시기 바랍니다.");
 		return;
 	}
 	confirmDialog.confirm({
@@ -1088,7 +1088,7 @@ function ckoConfirm(){
 	ajaxReturnData = ajaxCallWithJson('/webPage/dev/CheckOutServlet', tmpData, 'json');
 	
 	if (ajaxReturnData == "X") {
-		showToast("로컬PC에서 파일을 전송하는 결재단계가 지정되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
+		dialog.alert("로컬PC에서 파일을 전송하는 결재단계가 지정되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
 	} else	if (ajaxReturnData == "C") {
 		confirmDialog.confirm({
 			msg: '결재자를 지정하시겠습니까?',
@@ -1103,7 +1103,7 @@ function ckoConfirm(){
 	} else if (ajaxReturnData == "Y") {
 		confCall("Y");
     } else if (ajaxReturnData != "N") {
-    	showToast("결재정보가 등록되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
+    	dialog.alert("결재정보가 등록되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
     } else {
 		confCall("N");
     }
@@ -1308,7 +1308,7 @@ function ckout_end(){
 //	}
 }
 
-/* 미개발
+/*
  * SR 정보 
  */
 function cmdReqInfo_Click(){
@@ -1382,7 +1382,7 @@ function fileTypeCheck(obj) {
 	if(filetype=='xls' || filetype=='xlsx') {
 		getTmpDir('99');
 	} else {
-		showToast('엑셀(*.xls,*.xlsx) 파일만 업로드 가능합니다.');
+		dialog.alert('엑셀(*.xls,*.xlsx) 파일만 업로드 가능합니다.');
 		parentObj  = obj.parentNode
 		node = parentObj.replaceChild(obj.cloneNode(true),obj);
 		return false;
@@ -1452,7 +1452,7 @@ function startUpload(strURL) {
     	onUploadCompleteData(response);
     	
     }).fail(function(xhr,status,errorThrown){
-    	alert('오류가 발생했습니다. \r 오류명 : '+errorThrown + '\r상태 : '+status);
+    	alert('오류가 발생했습니다.\r 오류명 : '+errorThrown + '\r상태 : '+status);
     }).always(function(){
     	// file 초기화
     	var agent = navigator.userAgent.toLowerCase();
@@ -1553,7 +1553,7 @@ function successGetFileList_excel(data){
 	tmpObj = null;
 	tmpObj2 = null;
 	if (tmpAry2.length == 0){
-		showToast("정상으로 체크아웃 할 파일이 없습니다.");
+		dialog.alert("정상으로 체크아웃 할 파일이 없습니다.");
 		alertFlag = 0;
 		return;
 	} else {

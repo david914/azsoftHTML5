@@ -94,9 +94,9 @@ public class DocFile {
 				
 				pstmt.setString(1, fileList.get(i).get("acptno"));
 				pstmt.setString(2, fileList.get(i).get("filegb"));
-				pstmt.setInt(3, ++seq);				
+				pstmt.setString(3, fileList.get(i).get("index"));				
 				pstmt.setString(4, fileList.get(i).get("realName"));
-				pstmt.setString(5, fileList.get(i).get("saveName"));
+				pstmt.setString(5, fileList.get(i).get("saveName")+"."+fileList.get(i).get("index"));
 	            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());    
 	            pstmt.executeUpdate();
 	            pstmt.close();
