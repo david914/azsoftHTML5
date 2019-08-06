@@ -306,7 +306,7 @@ function successGetCalInfo(data) {
 	    defaultDate: defaultDate,
 	    editable: false,
 	    eventLimit: 1,
-	    height: 450,
+	    height: 395,
 	    header: {
 	        left: 'prev,next today',
 	        center: 'title',
