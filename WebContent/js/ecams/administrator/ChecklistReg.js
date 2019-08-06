@@ -8,9 +8,17 @@ var treeObj			= null;
 var treeObjData		= null;
 var rMenu			= null;
 
+var modal			= new ax5.ui.modal();
+var confirmDialog 	= new ax5.ui.dialog();
 var cboDutyData		= null;
-var stepGrid 		= new ax5.ui.grid();
 var beforeClick = [];
+var popupData		= null;
+var popupGbn		= null;
+var liData			= null;
+var selectedStep	= null;
+var selectedStepIndex = null;
+var previousStep	= null;
+var nowStep			= null;
 
 var setting = {
 		check: {
@@ -78,15 +86,98 @@ $(document).ready(function() {
 	//순서 리스트 세팅
 	for(var i = 0; i < 28; i++) {
 		if(i % 2 == 0) {			
-			$("#stepList").append('<li id="step' + i + '" style="background: #ddd; height: 25px;"></li>');
+			$("#stepList").append('<li class="listLi" id="step' + i + '" style="background: #ddd; height: 25px;"></li>');
 		} else {			
-			$("#stepList").append('<li id="step' + i + '" style="background: #eee; height: 25px;"></li>');
+			$("#stepList").append('<li class="listLi" id="step' + i + '" style="background: #eee; height: 25px;"></li>');
 		}
 	}
 	
+	$(".listLi").hover(function() {
+		if(this != nowStep) {
+			$(this).css("background", "lightblue");
+		}
+	}, function() {
+		if(this != nowStep) {			
+			if($(".listLi").index(this) % 2 == 0) {			
+				$(this).css("background", "#ddd");		
+			} else {			
+				$(this).css("background", "#eee");		
+			}
+		}
+	})
+	
+	$("#btnSearch").bind('click', function() {
+		getTree();
+	})
+	
+	$("#btnPlus").bind('click', function() {
+		spreadTree();
+	})
+	
+	$("#btnMinus").bind('click', function() {
+		foldTree();
+	})
+	
+	$("#m_add1").bind('click', function() {
+		subNewItemInfo("EQUAL");
+		hideRMenu();
+	})
+	
+	$("#m_add2").bind('click', function() {
+		subNewItemInfo("LOW");
+		hideRMenu();
+	})
+	
+	$("#m_change").bind('click', function() {
+		subNewItemInfo("RENAME");
+		hideRMenu();
+	})
+	
+	$("#m_del").bind('click', function() {
+		confirmDialog.confirm({
+			title: "삭제 확인",
+			msg: "삭제하시겠습니까?"
+		}, function() {
+			if(this.key == "ok") {
+				delItemInfo();
+			}
+		})
+		hideRMenu();
+	})
+	
+	$("#upBtn").bind('click', function() {
+		
+	})
+	
+	$("#downBtn").bind('click', function() {
+		
+	})
+	
+	$(".listLi").bind('click', function(event) {
+		previousStep = nowStep;
+		nowStep = this;
+		$(this).css("background", "skyblue");
+		console.log("previousStep")
+		console.log(previousStep)
+		console.log("$(pre)")
+		console.log($(previousStep))
+		if($(".listLi").index(previousStep) % 2 == 0) {			
+			$(previousStep).css("background", "#ddd");
+		} else {			
+			$(previousStep).css("background", "#eee");
+		}
+	})
+	
+	
 	setCboGbn();
-	getItemInfoTree();
+	$('[data-ax5select="cboGbn"]').ax5select("setValue", '1', true);
+	
+	getTree();
 });
+
+function getTree() {
+	getItemInfoTree();	
+}
 
 function setCboGbn() {	
 	var comboData = [
@@ -98,7 +189,6 @@ function setCboGbn() {
 	$('[data-ax5select="cboGbn"]').ax5select({
 		options : comboData
 	});
-	$('[data-ax5select="cboGbn"]').ax5select("setValue", '1', true);
 }
 
 function getItemInfoTree() {
@@ -111,8 +201,6 @@ function getItemInfoTree() {
 }
 
 function successGetItemInfoTree(data) {
-	data.push({id: "4343", pId: "0011", name: "아아아아아아아아아아아아아아아아아아아아<br>아아아아아아아아아아아\n아아아아아아아아\n아아아아아아아아아아아아아아아아아\n아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아"});
-	console.log(data);
 	treeObjData = data;
 	$.fn.zTree.init($("#cboTree"), setting, data);
 	treeObj = $.fn.zTree.getZTreeObj("cboTree");
@@ -123,21 +211,78 @@ function getItemInfoStepList(id) {
 		requestType: "getItemInfoStepList",
 		nodeid : id
 	}
-	ajaxAsync('/webPage/administrator/ChecklistReg', ajaxData, 'json', successGetItemInfoStepList);	
+	var ajaxResult = ajaxCallWithJson('/webPage/administrator/ChecklistReg', ajaxData, 'json');
+	liData = ajaxResult;
+	successGetItemInfoStepList();
 }
 
-function successGetItemInfoStepList(data) {
-	console.log(data);
-	
+function successGetItemInfoStepList() {
 	$.each(beforeClick, function(i, value) {
 		$("#step" + i).html("");
 	});
-	$.each(data, function(i, value) {
+	$.each(liData, function(i, value) {
 		var text = value.cm_gbnname;
+		console.log()
 		var cutText = text.indexOf("-") == -1 ? text :  text.substr(0, text.indexOf("-"));
 		$("#step" + i).html("<h4>" + cutText + "</h4>");
+		console.log(text);
 	});
-	beforeClick = data;
+	beforeClick = liData;
+	
 }
 
+function subNewItemInfo(gbn) {
+	popupGbn = gbn;
+	popData = treeObj.getSelectedNodes()[0];
+	modal.open({
+        width: 400,
+        height: 300,
+        iframe: {
+            method: "get",
+            url: "../modal/checklist/ChecklistModal.jsp",
+            param: "callBack=sysDetailModalCallBack"
+        },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+                selectedSystem = null;
+            }
+        }
+    }, function () {
+    });
+}
 
+function spreadTree() {
+	treeObj.expandAll(true);
+}
+
+function foldTree() {	
+	treeObj.expandAll(false);
+}
+
+function delItemInfo() {
+	
+	var dataObj = new Object();
+	var ajaxData = new Object();
+	dataObj.cm_gbncd = treeObj.getSelectedNodes()[0].id;
+	dataObj.cm_lstusr = userId;
+	
+	ajaxData = {
+		dataObj : dataObj,		
+		requestType : "delItemInfo"
+	}
+	
+	ajaxAsync('/webPage/administrator/ChecklistReg', ajaxData, 'json', successDelItemInfo);	
+}
+
+function successDelItemInfo(data) {
+	if(data === "OK") {		
+		dialog.alert("정상적으로 삭제되었습니다.")
+		getTree();
+	} else {
+		dialog.alert("삭제에 실패하였습니다.")
+	}
+} 

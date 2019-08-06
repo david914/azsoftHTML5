@@ -52,13 +52,13 @@ public class ChecklistReg extends HttpServlet {
 					response.getWriter().write( getInfoStepList(jsonElement) );
 					break;
 				case "newItemInfo" :
-					response.getWriter().write("");
+					response.getWriter().write( newItemInfo(jsonElement) );
 					break;
 				case "updateItemInfo" :
-					response.getWriter().write("");
+					response.getWriter().write( updateItemInfo(jsonElement) );
 					break;
 				case "delItemInfo" :
-					response.getWriter().write("");
+					response.getWriter().write( delItemInfo(jsonElement) );
 					break;
 				case "updateItemInfoStep" :
 					response.getWriter().write("");
@@ -81,5 +81,20 @@ public class ChecklistReg extends HttpServlet {
 	private String getInfoStepList(JsonElement jsonElement) throws SQLException, Exception {
 		String nodeId = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "nodeid"));
 		return gson.toJson(cmm0100.getItemInfoStepList(nodeId));
+	}
+	
+	private String newItemInfo(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj"));
+		return gson.toJson(cmm0100.newItemInfo(dataObj));
+	}
+	
+	private String updateItemInfo(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj"));
+		return gson.toJson(cmm0100.updateItemInfo(dataObj));
+	}
+	
+	private String delItemInfo(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj"));
+		return gson.toJson(cmm0100.delItemInfo(dataObj));
 	}
 }
