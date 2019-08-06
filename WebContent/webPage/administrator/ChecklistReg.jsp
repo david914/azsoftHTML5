@@ -4,6 +4,12 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
+<style id="style">
+.listLi {
+	height: 25px;
+}
+</style>
+
 <div class="contentFrame">
 	<div id="history_wrap">관리자 <strong>&gt; 권한관리</strong></div>
 	
@@ -15,7 +21,10 @@
 	                    <label id="lbUser" class="tit_80 poa">항목구분</label>
 	                    <div class="ml_80">
 	                    	<div class="width-50">
-								<div id="cboGbn" data-ax5select="cboGbn" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:25%;"></div>
+								<div id="cboGbn" data-ax5select="cboGbn" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-25 dib"></div>
+								<div class="width-20 dib vat margin-5-left">
+									<button class="btn_basic_s" id="btnSearch">조회</button>
+								</div>
 	                    	</div>
 						</div>
 					</div>
@@ -53,8 +62,8 @@
 		</div>
 		<div class="dib width-4 vat tac" style="height: 150px; margin-top: 18%;">
 			<div class="width-70 tac dib">
-				<button class="btn_basic_s vat" id="">▲</button>				
-				<button class="btn_basic_s vab" id="">▼</button>				
+				<button class="btn_basic_s vat" id="upBtn">▲</button>				
+				<button class="btn_basic_s vab" id="downBtn">▼</button>				
 			</div>
 			<div class="width-100 dib margin-20-top">
 				<button class="btn_basic_s" id="btnReq">적용</button>
@@ -64,10 +73,10 @@
 	
 	<div id="rMenu">
 	<ul>
-		<li id="m_add">항목추가(선택한 항목과 동일한 레벨)</li>
-		<li id="m_del">항목추가(선택한 항목의 하위레벨)</li>
-		<li id="m_check">항목명바꾸기</li>
-		<li id="m_unCheck">항목삭제</li>
+		<li id="m_add1">항목추가(선택한 항목과 동일한 레벨)</li>
+		<li id="m_add2">항목추가(선택한 항목의 하위레벨)</li>
+		<li id="m_change">항목명바꾸기</li>
+		<li id="m_del">항목삭제</li>
 	</ul>
 	</div>
 </div>
