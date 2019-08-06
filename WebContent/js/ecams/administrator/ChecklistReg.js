@@ -161,7 +161,7 @@ $(document).ready(function() {
 		console.log(previousStep)
 		console.log("$(pre)")
 		console.log($(previousStep))
-		if($(".listLi").index($("#" + previousStep.id())) % 2 == 0) {			
+		if($(".listLi").index(previousStep) % 2 == 0) {			
 			$(previousStep).css("background", "#ddd");
 		} else {			
 			$(previousStep).css("background", "#eee");
