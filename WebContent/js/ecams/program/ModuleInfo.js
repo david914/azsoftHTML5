@@ -8,16 +8,11 @@
  * 
  */
 
-/*var userName 	= window.top.userName;		// 접속자 Name
+var userName 	= window.top.userName;		// 접속자 Name
 var userId 		= window.top.userId;		// 접속자 ID
 var adminYN 	= window.top.adminYN;		// 관리자여부
 var userDeptName= window.top.userDeptName;	// 부서명
 var userDeptCd 	= window.top.userDeptCd;	// 부서코드
-*/
-
-var userName 	= '관리자';
-var userId 		= 'MASTER';
-var adminYN 	= 'Y';
 
 var prgGrid		= new ax5.ui.grid();
 var modGrid		= new ax5.ui.grid();

@@ -65,9 +65,9 @@ userGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_userid", 	label: "사번",  		width: 80},
-        {key: "cm_username",label: "성명",  		width: 80},
-        {key: "deptname1", 	label: "부서",  		width: 80},
+        {key: "cm_userid", 	label: "사번",  		width: '30%'},
+        {key: "cm_username",label: "성명",  		width: '30%'},
+        {key: "deptname1", 	label: "부서",  		width: '40%'},
     ]
 });
 jobGrid.setConfig({
@@ -91,8 +91,8 @@ jobGrid.setConfig({
     	}
     },
     columns: [
-        {key: "jobgrp", 	label: "시스템",  			width: 200 },
-        {key: "job", 		label: "업무명 (업무코드)",  	width: 200 },
+        {key: "jobgrp", 	label: "시스템",  			width: '40%', align: 'left'},
+        {key: "job", 		label: "업무명 (업무코드)",  	width: '60%', align: 'left'}
     ]
 });
 

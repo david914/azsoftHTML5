@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="<c:url value="/styles/filetree/zTreeStyle.css"/>">
 
 <!-- time picker -->
-<link rel="stylesheet" href="<c:url value="/styles/bootstrap-timepicker.css"/>">
+<link rel="stylesheet" href="<c:url value="/styles/jquery.timepicker.css"/>">
 
 <!-- eCAMS js, css -->
 <link rel="stylesheet" href="<c:url value="/css/ecams/common/ecamsStyle.css" />">

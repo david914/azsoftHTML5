@@ -1104,6 +1104,9 @@ ul.tabs li.active {
 .mw-90 {
 	min-width: 90px;
 }
+.mw-85 {
+	min-width: 85px;
+}
 .mw-80 {
 	min-width: 80px;
 }
@@ -1321,7 +1324,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 .card_info{position: relative;}
 .card_info dl{display: inline-block; border: 1px solid #ccc; margin: 0 7px;}
 .card_info dl dt{display: inline-block; background: #ccc; color: #333; font-size: 15px; padding: 10px 20px;}
-.card_info dl dd{display: inline-block; background: #fff; color: #888; font-size: 15px; font-weight: bold; padding: 10px 20px;}
+.card_info dl dd{display: inline-block;background: #fff;color: #888;font-size: 15px;font-weight: bold;padding: 10px 20px;}
 .progressbar {position: relative; width: 100%; border: 1px solid #ccc;}
 .progressbar dl{margin: 10px;}
 .progressbar dl dt{position: absolute; width: 150px; display: inline-block; height: 30px; line-height: 30px;}

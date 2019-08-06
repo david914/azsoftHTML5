@@ -42,8 +42,8 @@ jobGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_jobcd", label: "업무코드",  width: '30%'},
-        {key: "cm_jobname", label: "업무명",  width: '70%'}
+        {key: "cm_jobcd", 	label: "업무코드",  	width: '30%'},
+        {key: "cm_jobname", label: "업무명",  	width: '70%', align: 'left'}
     ]
 });
 

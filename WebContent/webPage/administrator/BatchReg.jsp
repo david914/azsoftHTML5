@@ -9,7 +9,7 @@
 	     
 	<div class="az_search_wrap">
 		<div class="az_in_wrap">
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-30 dib">
 					<div class="tit_80 poa">
 						<label>시스템</label>
@@ -30,19 +30,19 @@
 				<div class="width-40 dib">
 					<div>
 						<div class="vat dib" style="float: right;">
-							<button id="btnSmm"  class="btn_basic_s mw-80">맵핑</button>
+							<button id="btnSmm"  class="btn_basic_s mw-85">맵핑</button>
 						</div>
 						<div class="vat dib" style="float: right;">
-							<button id="btnReq"  class="btn_basic_s mw-80">일괄&nbsp;&nbsp;&nbsp;등록</button>
+							<button id="btnReq"  class="btn_basic_s mw-85">일괄&nbsp;&nbsp;&nbsp;등록</button>
 						</div>
 						<div class="vat dib" style="float: right;">
-							<button id="btnLoadExl" class="btn_basic_s mw-80">엑셀파일</button>
+							<button id="btnLoadExl" class="btn_basic_s mw-85">엑셀파일</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			
-			<div class="row vat">
+			<div class="sm-row vat">
 				<div class="width-30 dib margin-5-top">
 					<div class="ml_80">
 						<input id="optBase1"  type="radio" name="optradio"  value="1"/>
@@ -65,20 +65,20 @@
 				
 				<div class="width-40 dib vat">
 						<div class="vat dib" style="float: right;">
-							<button id="btnDel"  class="btn_basic_s vat mw-80">삭제</button>
+							<button id="btnDel"  class="btn_basic_s vat mw-85">삭제</button>
 						</div>
 						<div class="vat dib" style="float: right;">
-							<button id="btnExlTmp"  class="btn_basic_s vat mw-80">엑셀템플릿</button>
+							<button id="btnExlTmp"  class="btn_basic_s vat mw-85">엑셀템플릿</button>
 						</div>
 						<div class="vat dib" style="float: right;">
-							<button id="btnSaveExl" class="btn_basic_s vat mw-80">엑셀저장</button>
+							<button id="btnSaveExl" class="btn_basic_s vat mw-85">엑셀저장</button>
 						</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<div class="row vat">
+	<div class="sm-row vat">
 		<div class="width-100 dib">
 			<div class="az_board_basic" style="height: 82%;">
 				<div data-ax5grid="batchGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>

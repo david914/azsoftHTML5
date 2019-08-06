@@ -129,7 +129,7 @@
 									</div>
 		    				</div>
 		    				<div class="width-40 float-right por">
-								<input id="timeDeploy" type="text" class="f-cal"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
+		    					<input id="timeDeploy" type="text" class="timepicker width-100" autocomplete="off" />
 		    				</div>
 		    			</li>
 		   				
@@ -144,7 +144,7 @@
 								</div>
 		    				</div>
 		    				<div class="width-40 float-right">
-								<input id="timeDeployE" type="text" class="f-cal"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
+		    					<input id="timeDeployE" type="text" class="timepicker width-100" autocomplete="off" />
 		    				</div>
 						</li>
 					</ul>
@@ -158,7 +158,7 @@
 							<div class="width-50 float-right">
 								<label class="tit_80 dib poa">적용시간</label>
 								<div class="ml_80">
-									<input id="txtTime" name="txtTime" type="text" class="f-cal"><span class="btn_calendar vat"><i class="fa fa-clock-o"></i></span> 
+									<input id="txtTime" type="text" class="timepicker width-100" autocomplete="off" />
 								</div>
 							</div>
 						</div>

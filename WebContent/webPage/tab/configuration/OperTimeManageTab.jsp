@@ -17,14 +17,14 @@
 		<div class="r_wrap width-50">
            <label class="tit_80 poa">운영시간</label>
            <div class="ml_80 por">
-	           <div class="width-30 dib">
-		           <input id="txtTimeSt" type="text" class="f-cal"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
-	           </div>
-	           <span class="margin-5-left margin-5-right vam">&#8767;</span>
-	           <div class="width-30 dib">
-		           <input id="txtTimeEd" type="text" class="f-cal"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
-	           </div>
-	           
+	           	<div class="width-30 dib vat">
+					<input id="txtTimeSt" type="text" class="timepicker width-100" autocomplete="off" />
+	           	</div>
+	           	<span class="margin-5-left margin-5-right vam">&#8767;</span>
+	           	<div class="width-30 dib vat">
+	           		<input id="txtTimeEd" type="text" class="timepicker width-100" autocomplete="off" />
+	           	</div>
+
 				<div class="dib poa_r">
 					<button id="btnReq" class="btn_basic_s margin-20-left">등록</button>
 					<button id="btnDel" class="btn_basic_s margin-5-left">폐기</button>

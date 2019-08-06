@@ -4,7 +4,7 @@
 
 <c:import url="/webPage/common/common.jsp" />
 		
-<div class="az_search_wrap row">
+<div class="az_search_wrap sm-row">
 	<div class="az_in_wrap por">
 		<!-- 시스템 -->		
 		<div class="width-23 dib">
@@ -26,13 +26,13 @@
 			</div>	
 		</div>
 	    <!-- 수행명령 -->
-		<div class="row vat">
+		<div class="sm-row vat">
 			<label class="tit_80 poa">수행명령</label>
 			<div class="ml_80">
 				<input id="txtComp" type="text" class="width-100">
 			</div>
 		</div>
-		<div class="row por">
+		<div class="sm-row por">
 	   		<!-- 순서 -->
 			<div class="vat width-23 dib">
 				<label class="tit_80 poa">순서</label>
@@ -59,11 +59,11 @@
 	</div>
 </div>
 
-<div class="az_board_basic" style="height: 30%">
+<div class="az_board_basic" style="height: 35%">
 	<div data-ax5grid="editScriptGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 </div>	
 
-<div class="az_search_wrap row">
+<div class="az_search_wrap sm-row">
 	<div class="az_in_wrap por">
 		<!-- 등록구분 -->		
 		<div class="width-30 dib">

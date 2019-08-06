@@ -45,9 +45,7 @@ holidayGrid.setConfig({
             this.self.select(this.dindex);
             clickHoliGrid(this.dindex);
         },
-        onDBLClick: function () {
-        	doubleClickGrid1();
-        },
+        onDBLClick: function () {},
     	onDataChanged: function(){
     	    this.self.repaint();
     	}

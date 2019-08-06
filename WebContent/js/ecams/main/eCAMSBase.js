@@ -23,11 +23,6 @@ $(document).ready(function() {
 	
 	contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
 	screenInit();
-	// eCAMS Main Load
-	$('#eCAMSFrame').empty();
-	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="/webPage/main/eCAMSMainNew.jsp" style=" width:100%; height:'+contentHeight+'px; min-width:1024px;" marginwidth="0" marginheight="0" onload="frameLoad()"></IFRAME>');
-	$iFrm.appendTo('#eCAMSFrame');
-	
 	
 	// ifrmae contents의 height에 맞게 height 값 추가
 	$(window).resize(function(){
@@ -55,6 +50,13 @@ $(document).ready(function() {
 		changePage(this.id);
 	});
 });
+
+// eCAMS Main Load [session 에서 유저정보 가져온 후 로딩됨]
+function loadEcamsMain() {
+	$('#eCAMSFrame').empty();
+	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="/webPage/main/eCAMSMainNew.jsp" style=" width:100%; height:'+contentHeight+'px; min-width:1024px;" marginwidth="0" marginheight="0" onload="frameLoad()"></IFRAME>');
+	$iFrm.appendTo('#eCAMSFrame');
+}
 
 // 미결/SR/오류 건수 클릭시 페이지 이동
 function changePage(division) {
@@ -182,30 +184,34 @@ function screenInit() {
 	getSession();
 }
 
+// 세션 가져오기
 function getSession() {
-	var ajaxUserData = null;
-	var sessionInfo = {
+	var data = new Object();
+	data = {
 		requestType : 'GETSESSIONUSERDATA',
 		sessionID 	: sessionID
-	}   
-	ajaxUserData = ajaxCallWithJson('/webPage/main/eCAMSBaseServlet', sessionInfo, 'json');
-	
-	userName		= ajaxUserData.userName;
-	userId 			= ajaxUserData.userId;
-	adminYN 		= ajaxUserData.adminYN;
-	userDeptCd 		= ajaxUserData.deptCd;
-	userDeptName	= ajaxUserData.deptName;
+	}
+	ajaxAsync('/webPage/main/eCAMSBaseServlet', data, 'json',successGetSession);
+}
+
+//세션 가져오기 완료
+function successGetSession(data) {
+	console.log(data);
+	userName		= data.userName;
+	userId 			= data.userId;
+	adminYN 		= data.adminYN === 'true' ? true : false;
+	userDeptCd 		= data.deptCd;
+	userDeptName	= data.deptName;
 	
 	if(userId == undefined) {
 		window.location.replace('/webPage/login/ecamsLogin.jsp');
 		return;
+	} else {
+		loadEcamsMain();
 	}
-	
 	$('#loginUser').html(userName + '님 로그인');
-	
 	meneSet();
 }
-
 
 // 메뉴데이터 가져오기 완료
 function successGetMenuData(data) {

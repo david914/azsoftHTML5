@@ -435,14 +435,12 @@ public class Cmm0500{
 
 			rst = new HashMap<String, String>();
 			
-			
 			rst.put("id", 			"0");
 			rst.put("pId", 			"-1");
 			rst.put("name", 		"메뉴체계");
 			rst.put("cm_order", 	"1");
 			rst.put("cm_filename", 	"");
 			rst.put("isParent", 	"true");
-			
 			
 			rtList.add(rst);
 			rst = null;
@@ -455,12 +453,11 @@ public class Cmm0500{
     			rst.put("cm_order", 	rs.getString("cm_order"));
     			rst.put("cm_filename", 	rs.getString("cm_filename"));
     			rst.put("pId", 			rs.getString("cm_befmenu"));
-            	
+    			rst.put("cm_menucd", 	rs.getString("cm_menucd"));
             	if(rs.getString("cm_befmenu").equals("0")) {
             		rst.put("isParent", 	"true");
             	}else {            		
             		rst.put("isParent", 	"false");
-            		rst.put("cm_menucd", 	rs.getString("cm_menucd"));
             	}
             	
     			rtList.add(rst);

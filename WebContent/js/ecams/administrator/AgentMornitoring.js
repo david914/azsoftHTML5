@@ -23,7 +23,7 @@ agentGrid.setConfig({
     target: $('[data-ax5grid="agentGrid"]'),
     sortable: true, 
     multiSort: true,
-    showRowSelector: true,
+    showRowSelector: false,
     header: {
         align: "center",
         columnHeight: 30
@@ -31,15 +31,14 @@ agentGrid.setConfig({
     body: {
         columnHeight: 25,
         onClick: function () {
+        	this.self.clearSelect();
             this.self.select(this.dindex);
-            clickDirGrid(this.dindex);
         },
         onDBLClick: function () {
-        	dblClickDirGrid(this.dindex);
         },
         trStyleClass: function () {
     		if(this.item.status === 'ER'){
-    			return "text-danger";
+    			return "fontStyle-cncl";
     		}
     	},
     	onDataChanged: function(){

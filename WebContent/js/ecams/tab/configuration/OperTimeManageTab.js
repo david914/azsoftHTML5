@@ -55,14 +55,22 @@ $('[data-ax5select="cboTimeDiv"]').ax5select({
 
 
 $('#txtTimeSt').timepicker({
-    showMeridian : false,
-    minuteStep: 1
+	direction:'top',
+	timeFormat: 'HH:mm',
+    interval: 30,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
  });
 
 
 $('#txtTimeEd').timepicker({
-    showMeridian : false,
-    minuteStep: 1
+	direction:'top',
+	timeFormat: 'HH:mm',
+    interval: 30,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
  });
 
 $(document).ready(function() {

@@ -118,19 +118,6 @@ jobGrid.setConfig({
 $('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
 
-$('#txtTime').timepicker({
-    showMeridian : false,
-    minuteStep: 1
- });
-$('#timeDeploy').timepicker({
-	showMeridian : false,
-	minuteStep: 1
-});
-$('#timeDeployE').timepicker({
-	showMeridian : false,
-	minuteStep: 1
-});
-
 $('[data-ax5select="cboSys"]').ax5select({
     options: []
 });
@@ -141,19 +128,37 @@ $('[data-ax5select="cboSvrCd"]').ax5select({
     options: []
 });
 
-function dateInit() {
-	$('#datStDate').val(getDate('DATE',0));
-	$('#datEdDate').val(getDate('DATE',0));
-	$('#datSysOpen').val(getDate('DATE',0));
-	$('#datScmOpen').val(getDate('DATE',0));
-	
-	datStDate.bind(defaultPickerInfo('datStDate'));
-	datEdDate.bind(defaultPickerInfo('datEdDate'));
-	datSysOpen.bind(defaultPickerInfo('datSysOpen','top'));
-	datScmOpen.bind(defaultPickerInfo('datScmOpen','top'));
-}
+/** jquery time picker 시간 포멧
+ * 
+ * 1. HH:mm > 01:01
+ * 2. h:mm p > 1:00 AM or 1:00 PM
+ */
 
-
+$('#txtTime').timepicker({
+	timeFormat: 'HH:mm',
+    interval: 30,
+    //minTime: '10',
+    //maxTime: '6:00pm',
+    //defaultTime: '11',
+    //startTime: '10:00',
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+ });
+$('#timeDeploy').timepicker({
+	timeFormat: 'HH:mm',
+    interval: 30,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+});
+$('#timeDeployE').timepicker({
+	timeFormat: 'HH:mm',
+    interval: 30,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+});
 
 $(document).ready(function(){
 	dateInit();
@@ -161,8 +166,6 @@ $(document).ready(function(){
 	getSysInfoCbo();
 	getSysInfoList('');
 	screenInit();
-	console.log('시스템정보 로드완료');
-	//window.top.resize();
 	
 	// 시스템 코드/ 시스템명 찾기
 	$('#txtFindSys').bind('keypress', function(event) {
@@ -255,7 +258,7 @@ $(document).ready(function(){
 		if(selectedIndexs.length == 0 && !($('#chkOpen').is(':checked')) ) {
 			e.preventDefault();
 		    e.stopPropagation();
-			showToast('그리드를 선택후 속성을 선택 하실 수 있습니다.');
+		    dialog.alert('그리드를 선택후 속성을 선택 하실 수 있습니다.', function() {});
 			return;
 		}
 		
@@ -505,6 +508,19 @@ $(document).ready(function(){
 	});
 
 });
+
+// datepicker 날짜 오늘날짜로 초기화
+function dateInit() {
+	$('#datStDate').val(getDate('DATE',0));
+	$('#datEdDate').val(getDate('DATE',0));
+	$('#datSysOpen').val(getDate('DATE',0));
+	$('#datScmOpen').val(getDate('DATE',0));
+	
+	datStDate.bind(defaultPickerInfo('datStDate'));
+	datEdDate.bind(defaultPickerInfo('datEdDate'));
+	datSysOpen.bind(defaultPickerInfo('datSysOpen','top'));
+	datScmOpen.bind(defaultPickerInfo('datScmOpen','top'));
+}
 
 var modalCallBack = function(){
 	relModal.close();
@@ -992,7 +1008,6 @@ function cboSysClick() {
 			var txtTime = txtTimeStr.substr(0,2) + ':' + txtTimeStr.substr(2,2);
 			$('#txtTime').val(txtTime);
 			$('#txtTime').prop( "disabled", false );
-			console.log('여기안등러오니?');
 		} else {
 			$('#txtTime').val('');
 			$('#txtTime').prop( "disabled", true );
