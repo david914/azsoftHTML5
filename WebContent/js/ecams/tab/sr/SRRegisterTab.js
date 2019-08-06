@@ -714,8 +714,8 @@ function confirmEnd(){
 		SRData.cc_srid = selectedSr.cc_srid;
 		SRData.cc_createuser = selectedSr.cc_createuser;
 	} else {
-		SRData.cc_srreqid = "";
-		SRData.cc_srrequser = "";
+		SRData.cc_srid = "";
+		SRData.cc_createuser = "";
 	}
 	
 	if(ins_sw){
@@ -732,12 +732,16 @@ function confirmEnd(){
 		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', SRInfo, 'json');
 		console.log(ajaxReturnData);
 		if(ajaxReturnData !== 'ERR') {
-			
+			screenInit("NEW");
 			ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
 		}
 	} else if ( !ins_sw && strSel == "수정"){
 		console.log("수정");
-		
+		console.log(selectedSr.cc_status);
+		ing_sw = true;
+		SRData.cc_srid = selectedSr.cc_srid;
+		SRData.cc_status = selectedSr.cc_status;
+		//Cmc0100.updateSRInfo(tmp_obj,confirm_dp.toArray());
 	}
 }
 
