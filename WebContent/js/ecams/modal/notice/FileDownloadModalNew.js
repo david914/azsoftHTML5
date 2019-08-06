@@ -1,10 +1,10 @@
-/** File Download Javascript Page 
+/** File Download 기능 정의 수정 
  * 
  * <pre>
  * <b>History</b>
  * 	작성자: 이용문
- * 	버전 : 1.0
- *  수정일 : 2019-01-29
+ * 	버전 : 1.1
+ *  수정일 : 2019-08-06
  */
 var dialog 			= new ax5.ui.dialog({title: "확인"});
 var confirmDialog 	= new ax5.ui.dialog();	//알럿,확인창
@@ -18,9 +18,58 @@ var uploadFileCnt 	= 0;
 var uploadSucessCnt = 0;
 var uploadSelectedFileLength = 0;
 
+var downGrid  		= new ax5.ui.grid();
+
 confirmDialog.setConfig({
     title: "파일 업로드 알림",
     theme: "info"
+});
+
+downGrid.setConfig({
+    target: $('[data-ax5grid="donwGrid"]'),
+    //sortable: true, 
+    //multiSort: true,
+    showLineNumber: true,
+    header: {
+        align: "center",
+        columnHeight: 30
+    },
+    body: {
+        columnHeight: 28,
+        onClick: function () {
+        	this.self.clearSelect();
+        	this.self.select(this.dindex);
+        	if (this.colIndex == 2) {
+        		location.href = '/webPage/fileupload/upload?&folderPath='+noticeFolderPath+'\\'+downAcptno+'\\'+this.item.orgname;
+        	}
+        },
+        onDBLClick: function () {
+        	if (this.dindex < 0) return;
+
+	       	var selIn = downGrid.selectedDataIndexs;
+	       	if(selIn.length === 0) return;
+	       	
+	       	//문서열기
+			location.href = '/webPage/fileupload/upload?&folderPath='+noticeFolderPath+'\\'+downAcptno+'\\'+this.item.orgname;
+        },
+    	onDataChanged: function(){
+    	    this.self.repaint();
+    	}
+    },
+    columns: [
+        {key: "orgname", label: "파일명",  width: '65%', align: "left"},
+        {key: "fileSize", label: "사이즈",  width: '15%', align: "left",
+        	formatter: function() {
+        		if(this.value === undefined) return null;
+        		else return byte(Number(this.value),1);
+        	}
+        },
+        {key: 'b', label: '파일다운', align: 'center', 
+        	formatter: function() {
+        		return '<img width="16px" height="16px" src="/img/download.png" alt="file download" style="cursor:pointer"/>';
+        	}
+        }
+    ]
 });
 
 
@@ -31,6 +80,18 @@ $(document).ready(function() {
 	if(downFileCnt > 0 ) {
 		getFileList();
 	}
+	
+	// 닫기 클릭
+	$('#btnClose, #btnExit').bind('click', function() {
+		window.parent.fileDownloadModal.close();
+	});
+	// 파일삭제 클릭
+	$('#btnDel').bind('click', function() {
+		if(downGrid.selectedDataIndexs.length === 0 ) return;
+		var selItem = downGrid.list[downGrid.selectedDataIndexs];
+		
+		delFile(selItem.orgname);
+	});
 });
 
 // 공지사항 다운로드 경로 가져오기
@@ -58,23 +119,7 @@ function getFileList() {
 
 // 첨부파일 리스트 가져오기 완료
 function successGetFileList(data) {
-	$('#files').empty();
-	downFilelist = data;
-	
-	downFilelist.forEach(function(item,itemIndex){
-		var appendStr = '';
-		appendStr += '<li class="media">';
-		appendStr += '	<div class="media-body mb-1">';
-		appendStr += '		<p>';
-		appendStr += '			<a href="/webPage/fileupload/upload?&folderPath='+noticeFolderPath+'\\'+downAcptno+'\\'+item.orgname+'" style="font-size: 14px;">'+item.orgname+'</a>';
-		appendStr += '			<button onclick="delFile(\''+item.orgname+'\')" class="btn btn-sm btn-danger" role="button" style="float: right;">삭제</button>';
-		appendStr += '		</p>';
-		appendStr += '		<hr class="mt-1 mb-1" />';
-		appendStr += '	</div>';
-		appendStr += '</li>';
-		
-		$('#files').append(appendStr);
-	});
+	downGrid.setData(data);
 }
 
 // 파일삭제
@@ -113,7 +158,7 @@ function successDelFile(data) {
  */
 $('#drag-and-drop-zone').dmUploader({
 	url: '/webPage/fileupload/upload',	// 	서블릿 주소
-	maxFileSize: 1024*1024*1024*1, 		// 	최대 1gb 파일까지
+	maxFileSize: 1024*1024*1024*10, 	// 	최대 1gb 파일까지
 	auto: false,						// 	파일 올렸을시 바로 업로드여부
 	queue: false,						//	위에서부터 순서대로 파일 업로드 여부
 	extraData: function() {				//	서블릿에 보낼 데이터
@@ -152,7 +197,7 @@ $('#drag-and-drop-zone').dmUploader({
 		}
 		
 		fileInfo = null;
-		fileInfo = {"noticeAcptno":downAcptno,"fileName":file.name};
+		fileInfo = {"noticeAcptno":downAcptno,"fileName":file.name, "fileSize": file.size};
 		fileArr.push(fileInfo);
 		
 		ui_multi_add_file(id, file);
@@ -163,7 +208,6 @@ $('#drag-and-drop-zone').dmUploader({
 				msg: '해당 파일을 업로드 하시겠습니까?',
 			}, function(){
 				var id = $(this).closest('li.media').data('file-id');
-				console.log(id);
 				if(this.key === 'ok') {
 					$('#drag-and-drop-zone').dmUploader('start', id);
 					
@@ -178,10 +222,17 @@ $('#drag-and-drop-zone').dmUploader({
 				fileInfo = null;
 			});
 		}
-		
-		
 	},
 	onBeforeUpload: function(id){	//	업로드 되기전
+		/*
+		 * 파일 올리는 동안 파일 첨부, 삭제, 닫기 막기
+		 */
+		changeCursor(true);
+		$('.filebox').css('pointer-events', 'none');
+		$('#lblAdd').css('background-color', '#ddd');
+		$('#lblAdd').css('color', '#ccc');
+		$('#btnDel').prop('disabled', true);
+		$('#btnClose').prop('disabled', true);
 	},
 	onUploadProgress: function(id, percent){
 		ui_multi_update_file_progress(id, percent);
@@ -191,6 +242,16 @@ $('#drag-and-drop-zone').dmUploader({
 		
 		if(uploadSucessCnt === uploadSelectedFileLength) {
 			dialog.alert('파일이 업로드 되었습니다.', function () {
+				/*
+				 * 파일 올리는 동안 파일 첨부, 삭제, 닫기 막은것 풀기
+				 */
+				changeCursor(false);
+				$('.filebox').css('pointer-events', '');
+				$('#lblAdd').css('background-color', '#fff');
+				$('#lblAdd').css('color', '#333');
+				$('#btnDel').prop('disabled', false);
+				$('#btnClose').prop('disabled', false);
+				
 				$('#fileDownBody').empty();
 				getFileList();
 				uploadSucessCnt = 0;

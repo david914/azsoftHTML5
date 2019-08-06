@@ -54,7 +54,7 @@
 <li class="media">
 	<div class="media-body mb-1">
 		<p>
-			<strong>%%filename%%</strong> - Status: <span class="text-muted">Waiting</span>
+			<strong>%%filename%%</strong> - Status: <span class="text-muted status">Waiting</span> - Size: <span class="text-muted">%%filesize%%</span>
 			<button href="#" class="btn btn-sm btn-danger cancel" role="button" style="float: right;">삭제</button>
 		</p>
 		<div class="progress mb-2">

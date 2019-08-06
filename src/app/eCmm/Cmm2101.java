@@ -424,8 +424,8 @@ public class Cmm2101{
 			
 			for (int i=0;i<fileList.size();i++){
 				strQuery.setLength(0);
-				strQuery.append("INSERT INTO CMM0220 (cm_acptno,cm_gbncd,cm_seqno,cm_attfile,cm_svfile) values ( \n");
-				strQuery.append(" ? , ? , ? , ? , ? ) \n");
+				strQuery.append("INSERT INTO CMM0220 (cm_acptno,cm_gbncd,cm_seqno,cm_attfile,cm_svfile, CM_FILESIZE) values ( \n");
+				strQuery.append(" ? , ? , ? , ? , ?, ? ) \n");
 
 				pstmt = conn.prepareStatement(strQuery.toString());
 
@@ -434,6 +434,7 @@ public class Cmm2101{
 				pstmt.setInt(3, maxSeq++);
 				pstmt.setString(4, fileList.get(i).get("realName"));
 				pstmt.setString(5, fileList.get(i).get("saveName"));
+				pstmt.setString(6, fileList.get(i).get("fileSize"));
 	            pstmt.executeUpdate();
 	            pstmt.close();
 			}

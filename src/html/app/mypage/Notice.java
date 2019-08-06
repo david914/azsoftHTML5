@@ -119,6 +119,7 @@ public class Notice extends HttpServlet {
 	// [공지사항] 공지사항 등록
 	private String insertNoticeFileInfo(JsonElement jsonElement) throws SQLException, Exception {
 		ArrayList<HashMap<String, String>> tmpList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement, "fileInfo") );
+		System.out.println(tmpList.toString());
 		ArrayList<HashMap<String, String>> fileList = new  ArrayList<HashMap<String,String>>();
 		for(int i=0; i<tmpList.size(); i++) {
 			HashMap<String, String> addMap = new HashMap<>();
@@ -126,6 +127,7 @@ public class Notice extends HttpServlet {
 			addMap.put("filegb", "1");
 			addMap.put("realName", tmpList.get(i).get("fileName"));
 			addMap.put("saveName", tmpList.get(i).get("noticeAcptno")+"."+(i + 1));
+			addMap.put("fileSize", tmpList.get(i).get("fileSize"));
 			fileList.add(addMap);
 		}
 		return gson.toJson(cmm2101.setDocFile(fileList));
