@@ -7,7 +7,7 @@
 	<div class="cb">
 		<div class="float-left width-60">
 		    <!-- 검색 S-->    
-			<div class="az_search_wrap row">
+			<div class="az_search_wrap sm-row">
 				<div class="az_in_wrap por">
 					<!-- 시스템 -->		
 	                <div class="width-30 dib vat">
@@ -30,22 +30,22 @@
 		    <div class="az_board_basic" style="height: 25%">
 		    	<div data-ax5grid="conInfoGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%;"></div>	
 			</div>									
-			<div class="tar row">
+			<div class="tar sm-row">
 				 <button id="btnDell" class="btn_basic_s">삭제</button>
 			</div>
 			<!-- 게시판 E -->
 		</div>
-		<div class="float-right width-40 row">
+		<div class="float-right width-40 sm-row">
 			<div class="l_wrap width-50">
 				<div class="margin-5-left">
 					<label class="title_s">프로그램종류</label>
 					<div class="poa_r dib">
 						<input type="checkbox" class="checkbox-view" id="chkPrgAll" data-label="전체선택"/>
 					</div>
-					<div class="scrollBind row" style="height:210px;">
+					<div class="scrollBind sm-row" style="height:210px;">
 						<ul class="list-group" id="ulPrgInfo"></ul>
 					</div>
-					<div class="row font_11">							
+					<div class="sm-row font_11">							
 		    			<label class="title_s">등록순서</label>
 		    			<p>시스템선택&gt;요청구분선택&gt;프로그램종류선택&gt;업무선택&gt;실행구분선택&gt;스크립트유형선택&gt;등록버튼클릭</p>
 					</div>
@@ -57,7 +57,7 @@
 					<div class="poa_r dib">
 						<input type="checkbox" class="checkbox-view" id="chkJobAll" data-label="전체선택"/>
 					</div>
-					<div class="scrollBind row" style="height:210px;" id="divJob">
+					<div class="scrollBind sm-row" style="height:210px;" id="divJob">
 						<ul class="list-group" id="ulJobInfo"></ul>
 					</div>
 				</div>
@@ -65,7 +65,7 @@
 		</div>
 	</div>
     <!-- 검색 S-->    
-	<div class="az_search_wrap row">
+	<div class="az_search_wrap sm-row">
 		<div class="az_in_wrap por cb">
 			<!-- line1 -->	
 			<div class="dib width-100">	
@@ -85,7 +85,7 @@
 				</div>
 			</div>
 			<!-- line2 -->	
-			<div class="dib width-100 row">	
+			<div class="dib width-100 sm-row">	
                 <div class="width-50 float-left">
                     <label class="tit_80 poa">스크립트유형</label>
                     <div class="ml_80">
@@ -106,7 +106,7 @@
 	</div>
     <!-- 검색 E-->
     <!-- 게시판 S-->
-    <div class="az_board_basic" style="height: 40%">
+    <div class="az_board_basic" style="height: 45%">
     	<div data-ax5grid="scriptGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>	
 

@@ -49,13 +49,21 @@ $('input:radio[name=releaseChk]').wRadio({theme: 'circle-radial red', selector: 
 $('input.checkbox-rel').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
 $('#txtBuildTime').timepicker({
-	showMeridian : false,
-	minuteStep: 1
+	direction:'top',
+	timeFormat: 'HH:mm',
+    interval: 30,
+    dynamic: false,
+    dropdown: false,
+    scrollbar: true
 });
 
 $('#txtDeployTime').timepicker({
-	showMeridian : false,
-	minuteStep: 1
+	direction:'top',
+	timeFormat: 'HH:mm',
+    interval: 30,
+    dynamic: false,
+    dropdown: false,
+    scrollbar: true
 });
 
 $(document).ready(function(){

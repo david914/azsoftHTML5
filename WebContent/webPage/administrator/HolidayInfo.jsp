@@ -55,9 +55,9 @@
 				</div>
 				
 				<div class="row">
-					<div>
-						<button class="btn_basic" id="btnReg">등록</button>
-    					<button class="btn_basic" id="btnDel">삭제</button>
+					<div class="tac">
+						<button class="btn_basic_p" id="btnReg">등록</button>
+    					<button class="btn_basic_p" id="btnDel">삭제</button>
 					</div>
 				</div>
 				

@@ -8,16 +8,12 @@
  */
 
 
-/*var userName 	= window.parent.userName;		// 접속자 Name
+var userName 	= window.parent.userName;		// 접속자 Name
 var userId 		= window.parent.userId;			// 접속자 ID
 var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
-*/
 
-var userName 	= '관리자';
-var userId 		= 'MASTER';
-var adminYN 	= 'Y';
 
 var datStD 		= new ax5.ui.picker();
 var datEdD 		= new ax5.ui.picker();

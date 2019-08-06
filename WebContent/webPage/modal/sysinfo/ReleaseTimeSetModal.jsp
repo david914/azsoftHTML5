@@ -59,13 +59,13 @@
 			<div class="width-40 dib">
 				<label class="tit_80 poa">빌드시간</label>
 				<div class="ml_80 dib">
-					<input id="txtBuildTime" type="text" class="f-cal"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
+					<input id="txtBuildTime" type="text" class="timepicker width-100" autocomplete="off" />
 				</div>
 			</div>
 			<div class="width-40 dib">
 				<label class="tit_80 poa">배포시간</label>
 				<div class="ml_80 dib">
-					<input id="txtDeployTime" type="text" class="f-cal"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
+					<input id="txtDeployTime" type="text" class="timepicker width-100" autocomplete="off" />
 				</div>
 			</div>
 		</div>

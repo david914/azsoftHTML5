@@ -29,10 +29,12 @@ var timeLineArr = ['SR등록','SR접수','체크아웃/프로그램등록','체�
 var myWin		= null;
 
 $(document).ready(function(){
+	console.log('ecamsMain userId : '+userId);
 	$('#lblPieTitle').text(userName + '님의 최근 한달간 운영 신청 프로그램 종류');
 	getCalInfo();
 	getPrcLabel();
 	getSrList();
+	line_chart();
 
 	$('body').on('click', 'button.fc-prev-button', function() {
 		getAddCalInfo();
@@ -46,10 +48,10 @@ $(document).ready(function(){
 	});
 	
 	$(window).bind('resize', function(e) {
-		pieChart.resize({
+		/*pieChart.resize({
 	        width: $('#pieAppliKinds').parent('div').width()-2,
 	        height: $('#pieAppliKinds').parent('div').height()-5
-		});
+		});*/
 	}); 
 });
 
@@ -73,7 +75,8 @@ function successGetPieData(data) {
 	
 	var calHeight = parseInt($('#divCal').height());
 	var width = $('#pieDiv').width();
-	var pieChartHeight = calHeight - 45;
+	//var pieChartHeight = calHeight - 45;
+	var pieChartHeight = 251;
 		
 	if($('#pieAppliKinds').length > 0) $('#pieAppliKinds').empty();
 	
@@ -121,8 +124,6 @@ function getSrList() {
 
 // SR리스트 가져오기 완료
 function successGetSrList(data) {
-	console.log(data);
-	
 	srListData = data;
 	var liStr = null;
 	var width = 0;
@@ -146,7 +147,9 @@ function successGetSrList(data) {
 		$('#divSrList').append(liStr);
 	});
 	
-	makeTimeLine(srListData[0].srId);
+	if(srListData.length > 0 ) {
+		makeTimeLine(srListData[0].srId);
+	}
 	
 	$("dd[id^='R']").bind('click', function(event) {
 		makeTimeLine($(this).attr('id'));
@@ -163,7 +166,23 @@ function makeTimeLine(srId) {
 		}
 	}
 	
-	var liStr = null;
+	
+	$('#divTimeLine').empty();
+	liStr = '<h4>SR 요청제목 ['+item.reqTitle+']</h4>';
+	for(var i = 0; i<Number(item.step); i++) {
+		var detail = makeTimeLineDetail( (i+1) , item) ;
+		liStr += '<div class="item">';
+		liStr += '	<i class="fas fa-clock"></i>';
+		liStr += '	<div class="item_info">';
+		liStr += '		<div>'+detail+'</div>';
+		liStr += '		<p>'+timeLineArr[i]+'</p>';
+		liStr += '	</div>';
+		liStr += '</div>';
+	}
+	$('#divTimeLine').append(liStr);
+	
+	
+	/*var liStr = null;
 	$('#divTimeLine').empty();
 	liStr = '<h4>SR 요청제목 ['+item.reqTitle+']</h4>';
 	for(var i = 0; i<Number(item.step); i++) {
@@ -176,7 +195,7 @@ function makeTimeLine(srId) {
 		liStr += '	</div>';
 		liStr += '</div>';
 	}
-	$('#divTimeLine').append(liStr);
+	$('#divTimeLine').append(liStr);*/
 }
 
 // 타임 라인 신청건/ SR 등록 접수 등의 일시 표시
@@ -395,6 +414,89 @@ function getCalFullDate() {
 	fullDate = calYear + calMon;
 	
 	return fullDate; 
+}
+
+function line_chart(){
+	var container = document.getElementById('line-chart');
+	var data = {
+	    categories: ['01/01/2016', '02/01/2016', '03/01/2016', '04/01/2016', '05/01/2016', '06/01/2016', '07/01/2016', '08/01/2016', '09/01/2016', '10/01/2016', '11/01/2016', '12/01/2016'],
+	    series: [
+	        {
+	            name: 'Seoul',
+	            data: [-3.5, -1.1, 4.0, 11.3, 17.5, 21.5, 24.9, 25.2, 20.4, 13.9, 6.6, -0.6]
+	        },
+	        {
+	            name: 'Seattle',
+	            data: [3.8, 5.6, 7.0, 9.1, 12.4, 15.3, 17.5, 17.8, 15.0, 10.6, 6.4, 3.7]
+	        },
+	        {
+	            name: 'Sydney',
+	            data: [22.1, 22.0, 20.9, 18.3, 15.2, 12.8, 11.8, 13.0, 15.2, 17.6, 19.4, 21.2]
+	        },
+	        {
+	            name: 'Moskva',
+	            data: [-10.3, -9.1, -4.1, 4.4, 12.2, 16.3, 18.5, 16.7, 10.9, 4.2, -2.0, -7.5]
+	        },
+	        {
+	            name: 'Jungfrau',
+	            data: [-13.2, -13.7, -13.1, -10.3, -6.1, -3.2, 0.0, -0.1, -1.8, -4.5, -9.0, -10.9]
+	        }
+	    ]
+	};
+	var options = {
+	    chart: {
+	        width: $("#line-chart").width() - 15,
+	        height: 410
+//	        title: '24-hr Average Temperature'
+	    },
+	    yAxis: {
+	        title: 'Temperature (Celsius)'
+	    },
+	    xAxis: {
+	        title: 'Month',
+	        pointOnColumn: true,
+	        dateFormat: 'MMM',
+	        tickInterval: 'auto'
+	    },
+	    series: {
+	        showDot: false,
+	        zoomable: true
+	    },
+	    tooltip: {
+	        suffix: '°C'
+	    },
+	    plot: {
+	        bands: [
+	            {
+	                range: ['03/01/2016', '05/01/2016'],
+	                color: 'gray',
+	                opacity: 0.2
+	            }
+	        ],
+	        lines: [
+	            {
+	                value: '03/01/2016',
+	                color: '#fa2828'
+	            },{
+	            	value: '05/01/2016',
+	                color: '#fa2828'
+	            }
+	        ]
+	    }
+	};
+	var theme = {
+	    series: {
+	        colors: [
+	            '#83b14e', '#458a3f', '#295ba0', '#2a4175', '#289399',
+	            '#289399', '#617178', '#8a9a9a', '#516f7d', '#dddddd'
+	        ]
+	    }
+	};
+	
+	// 원하는 색상으로 가능
+	// tui.chart.registerTheme('myTheme', theme);
+	// options.theme = 'myTheme';
+	var chart = tui.chart.lineChart(container, data, options);
 }
 
 //결재 정보 창 띄우기

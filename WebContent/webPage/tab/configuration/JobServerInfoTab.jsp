@@ -8,8 +8,8 @@
 	<div class="sm-row half_wrap_cb">	
 		<div class="l_wrap width-20">
             <label class="tit_80 poa">작업구분</label>
-            <div class="ml_80 por">
-				<div id="cboJobDiv" data-ax5select="cboJobDiv" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+            <div class="ml_80">
+				<div id="cboJobDiv" data-ax5select="cboJobDiv" data-ax5select-config="{size:'sm',theme:'primary'}" class="margin-5-right width-100 dib"></div>
 			</div>
 		</div>		
 		<div class="l_wrap width-20">

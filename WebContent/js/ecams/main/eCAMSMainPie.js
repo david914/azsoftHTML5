@@ -50,10 +50,10 @@ $(document).ready(function(){
 	});
 	
 	$(window).bind('resize', function() {
-		pieChart.resize({
+		/*pieChart.resize({
 			width: $('#pieDiv').width(),
 			height: $('#pieDiv').height() - 50
-		});
+		});*/
 	});
 });
 
@@ -500,7 +500,7 @@ function line_chart(){
 	};
 	var options = {
 	    chart: {
-	        width: $("#calBg").width() - 15,
+	        width: $("#line-chart").width() - 15,
 	        height: 410
 //	        title: '24-hr Average Temperature'
 	    },

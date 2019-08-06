@@ -95,10 +95,23 @@ $(document).ready(function(){
 		}
 		
 		checkedNodes.forEach(function(item, index) {
-			if(!item.isParent) {
+			/*if(!item.isParent) {
 				menuList.push(item);
+			}*/
+			if(item.pId  !== null) {
+				var tmpItem = null;
+				if(item.isParent) {
+					tmpItem = new Object();
+					tmpItem.cm_menucd = item.cm_menucd;
+					menuList.push(tmpItem);
+					tmpItem = null;
+				} else {
+					menuList.push(item);
+				}
+				
 			}
 		})
+		console.log(menuList);
 		var data = new Object();
 		data = {
 			Lst_Duty 	: dutyList,
