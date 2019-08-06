@@ -1,15 +1,16 @@
 /**
- * PrjListTab 화면 서블릿
+ * SRRegitser 화면 서블릿
  * <pre>
  * <b>History</b>
- * 	작성자: 이용문
- * 	버전 : 1.0
- *  수정일 : 2019-02-07
+ * 	작성자: 이성현
+ * 	버전 : 1.1
+ *  수정일 : 2019-08-05
  */
 
 package html.app.srcommon;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -62,6 +63,9 @@ public class SRRegisterTab extends HttpServlet {
 				case "getDevUserList" :
 					response.getWriter().write( getDevUserList(jsonElement) );
 					break;
+				case "insertSRInfo" :
+					response.getWriter().write( insertSRInfo(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -93,4 +97,17 @@ public class SRRegisterTab extends HttpServlet {
 		String userId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userid") );
 		return gson.toJson(cmc0100.getDevUserList(srid, userId));
 	}
+	
+	private String insertSRInfo(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> tmp_obj = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"SRInfoData"));
+		
+		ArrayList<HashMap<String, Object>> ConfList = new ArrayList<HashMap<String, Object>>();
+		ConfList = ParsingCommon.jsonStrToArrObj(ParsingCommon.jsonEtoStr(jsonElement,"confirmData"));
+		
+		ArrayList<HashMap<String, String>> devuser_ary = new ArrayList<HashMap<String, String>>();
+		devuser_ary = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"devuser_ary"));
+		
+		return gson.toJson(cmc0100.insertSRInfo(tmp_obj, devuser_ary, ConfList));
+	}
+	
 }

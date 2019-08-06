@@ -13,7 +13,7 @@ var adminYN 		= window.top.adminYN;
 var userDeptName 	= window.top.userDeptName;
 var userDeptCd 	 	= window.top.userDeptCd;
 var strReqCd	 	= window.top.reqCd;
-
+var selectedSr		= null;
 var testFlag = false;
 var cboQryGbnData = [];
 
@@ -43,6 +43,7 @@ function subCmdQry_Click() {
 
 //PrjListTab 에서 그리드 클릭 이벤트
 function iSRID_Click(data) {
+	selectedSr = data;
 	var tmpTab = $('#frmSRRegister').get(0).contentWindow;
 	
 	if(tmpTab != null) {

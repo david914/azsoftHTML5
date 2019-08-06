@@ -17,7 +17,7 @@ var userDeptCd = window.top.userDeptCd;
 var strReqCd = window.parent.strReqCd;
 
 var organizationModal = new ax5.ui.modal(); // 조직도 팝업
-
+var approvalModal 		= new ax5.ui.modal();
 var grid_fileList = new ax5.ui.grid();
 var devUserGrid = new ax5.ui.grid();
 var picker = new ax5.ui.picker();
@@ -47,8 +47,11 @@ var srSw = true;
 var strSel = "";
 var ins_sw = false;
 var ing_sw = false;
-
+var selDeptCd ="";
+var selSubDeptCd=""; 
 var fileGrid = true;
+var confirmData = [];
+var confirmInfoData = null;
 
 // 파일첨부 팝업
 var fileUploadModal = new ax5.ui.modal(
@@ -542,42 +545,51 @@ function format_confirm(sel){
     var today = year+month+day;
     
     if($('#txtOrg').val().length === 0){
-    	alert("요청부서를 선택하여 주시기 바랍니다.");
+    	dialog.alert("요청부서를 선택하여 주시기 바랍니다.");
     	return;
     }
     
     if($('#txtReqSubject').val().length === 0){
-    	alert("요청제목를 입력하여 주시기 바랍니다.");
+    	dialog.alert("요청제목를 입력하여 주시기 바랍니다.");
     	return;
     }
     
     if($('#texReqContent').val().length === 0){
-    	alert("상세내용을 입력하여 주시기 바랍니다.");
+    	dialog.alert("상세내용을 입력하여 주시기 바랍니다.");
     	return;
     }
     
     if(getSelectedVal('cboCatTypeSR').value === "00"){
-    	alert("분류유형을 선택하여주시기 바랍니다.");
+    	dialog.alert("분류유형을 선택하여주시기 바랍니다.");
     	return;
     }
     
     if(getSelectedVal('cboChgType').value === "00"){
-    	alert("변경종류를 선택하여주시기 바랍니다.");
+    	dialog.alert("변경종류를 선택하여주시기 바랍니다.");
     	return;
     }
     
     if(getSelectedVal('cboWorkRank').value === "00"){
-    	alert("작업순위를 선택하여주시기 바랍니다.");
+    	dialog.alert("작업순위를 선택하여주시기 바랍니다.");
     	return;
     }
  
     if($('#datReqComDate').val().length === 0 || $('#datReqComDate').val() === ""){
-    	alert("완료요청일을 선택하여 주시기 바랍니다.");
+    	dialog.alert("완료요청일을 선택하여 주시기 바랍니다.");
     	return;
     }
     
+    // 완료 예쩡일 오늘보다 앞 날짜일때 에러문
+    var strDate = getDate('DATE',0);
+    var strDate2 = replaceAllString($('#datReqComDate').val(),'/','');
+    
+    if (strDate > strDate2) {
+		dialog.alert("적용일시가 현재일 이전입니다. \n정확히 선택하여 주십시오");
+		return;
+	}
+    
     if(devUserGrid.list.length === 0){
-    	alert("담당개발자를 추가하여 주시기 바랍니다.");
+    	dialog.alert("담당개발자를 추가하여 주시기 바랍니다.");
     	return;
     }
     
@@ -597,27 +609,136 @@ function format_confirm(sel){
     	ins_sw = false;
     }
     
-    if(confirm("현재 내용으로 " + strSel + " 하시겠습니까?") == true){
-    	set_info();
-    } else {
-    	return;
-    }
+    confirmDialog.confirm({
+		msg: '현재내용으로 "'+strSel+ '"하시겠습니까',
+	}, function(){
+		if(this.key === 'ok') {
+			set_info();
+		}
+	});
 }
 
 function set_info(){
 	if(ing_sw){
-		alert("현재 작업이 진행중입니다. 잠시후 다시 시도해주세요");
+		dialog.alert("현재 작업이 진행중입니다. 잠시후 다시 시도해주세요");
 		return;
 	}
 	
-	confirmEnd();
-	// eCmc0100_tab.mxml line 1247
-	// 결재선 필요할때 작업위치
+	if(strStatus == "0" || strStatus == "C" || $("#chkNew").is(':checked')){
+		var confirmInfoData = new Object();
+		confirmInfoData.sysCd = "99999";
+		confirmInfoData.strRsrcCd = "";
+		confirmInfoData.ReqCd = strReqCd;
+		confirmInfoData.userId = userid;
+		confirmInfoData.strQry = "";
+		
+		var tmpData = {
+				requestType : 'confSelect',
+				confirmInfoData : confirmInfoData
+		}	
+		ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
+		
+		if(ajaxReturnData == "Y"){
+			confselect();
+		} else {
+			confirmEnd();
+		}
+	} else {
+		confirmEnd();
+	}
+}
+
+function confselect(){
+	approvalModal.open({
+        width: 820,
+        height: 365,
+        iframe: {
+            method: "get",
+            url: "../../modal/request/ApprovalModal.jsp",
+            param: "callBack=modalCallBack"
+	    },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+            	if(confirmData.length > 0){
+            		confirmEnd();
+            	}
+            	ingSw = false;
+                mask.close();
+            }
+        }
+	});
 }
 
 // SR등록처리
 function confirmEnd(){
+	var SRData = new Object();
+	var ajaxReturnData = null;
 	
+	SRData.reqcd = strReqCd;
+	SRData.cc_createuser = userid;
+	SRData.cc_lastupuser = userid;
+	SRData.cc_docid = $("#txtDocuNum").val().trim();
+	if(strDept != ""){
+		SRData.CC_REQDEPT = strDept;
+	} else {
+		SRData.CC_REQDEPT = selDeptCd;
+	}
+	//SRData.cc_requser = null;
+	SRData.cc_reqtitle = $("#txtReqSubject").val().trim();
+	SRData.cc_reqcompdate = $("#datReqComDate").val().trim();
+	SRData.cc_content = $("#texReqContent").val().trim();
+	SRData.cc_cattype = getSelectedVal('cboCatTypeSR').value;
+	SRData.cc_chgtype = getSelectedVal('cboChgType').value;
+	SRData.cc_excdate = null;
+	SRData.cc_exptime = null;
+	SRData.cc_workrank = getSelectedVal('cboWorkRank').value;
+	SRData.cc_devdept = "";
+	
+	if(getSelectedVal('cboReqSecu').value == "00"){
+		SRData.cc_reqsecu = "0";
+	} else {
+		SRData.cc_reqsecu = getSelectedVal('cboReqSecu').value;
+	}
+	
+	if(getSelectedVal('cboReqSecu').value != "6"){
+		SRData.cc_reqsecutxt = "";
+	} else {
+		SRData.cc_reqsecutxt = $("#txtReqSecu").val().trim();	
+	}
+	
+	if(!$("#chkNew").is(':checked')){
+		var selectedSr = window.parent.selectedSr;
+		SRData.cc_srid = selectedSr.cc_srid;
+		SRData.cc_createuser = selectedSr.cc_createuser;
+	} else {
+		SRData.cc_srreqid = "";
+		SRData.cc_srrequser = "";
+	}
+	
+	if(ins_sw){
+		console.log("신규");
+		ing_sw = true;
+		
+		var SRInfo = {
+				SRInfoData: 	SRData,
+				confirmData:    confirmData,
+				devuser_ary:    devUserGrid.list,
+				requestType: 	'insertSRInfo'
+			}
+			
+		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', SRInfo, 'json');
+		console.log(ajaxReturnData);
+		if(ajaxReturnData !== 'ERR') {
+			
+			ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
+		}
+	} else if ( !ins_sw && strSel == "수정"){
+		console.log("수정");
+		
+	}
 }
 
 // 개발자 추가 버튼
@@ -633,11 +754,11 @@ function btn_addDever() {
 			return;
 		}
 	}
-
 	var tmp = new Object();
 	tmp.cm_username = getSelectedVal('cboDevUser').cm_username;
 	tmp.cm_deptcd = getSelectedVal('cboDevUser').cm_deptcd;
 	tmp.cm_deptname = getSelectedVal('cboDevUser').cm_deptname;
+	tmp.cc_userid = getSelectedVal('cboDevUser').cm_userid
 	tmp.delyn = "OK";
 
 	devUserGrid.addRow($.extend({}, tmp, {
@@ -683,7 +804,8 @@ function setCboElement() {
 
 function clickChkNew() {
 	if ($('#chkNew').is(':checked')) {
-		elementInit('NEW')
+		strDept = "";
+		elementInit('NEW');
 	} else {
 		elementInit('');
 	}
@@ -754,7 +876,7 @@ function firstGridClick(srid) {
 		strDept = ajaxReturnData[0].cc_reqdept;
 		$('#txtDocuNum').val(ajaxReturnData[0].cc_docid);
 		$('#txtOrg').val(ajaxReturnData[0].reqdept);
-
+		
 		$('#txtReqSubject').val(ajaxReturnData[0].cc_reqtitle);
 
 		var tempDate = ajaxReturnData[0].cc_reqcompdate.substring(0, 4) + "/"
