@@ -59,7 +59,7 @@ grdProgList.setConfig({
     ]
 });
 $(document).ready(function(){
-	//userId = "MASTER";
+	userId = "MASTER";
 	
 	//tab메뉴
 
@@ -93,7 +93,6 @@ $(document).ready(function(){
 	}
 	
 });
-
 function setTabMenu(){
 	$(".tab_content:first").show();
 	

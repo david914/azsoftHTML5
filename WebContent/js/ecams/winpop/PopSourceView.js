@@ -167,6 +167,10 @@ function successProgList(data) {
 				break;
 			}
 		}
+	} else {
+		grdProgHistory.clearSelect();
+		grdProgHistory.select(0);
+		selectedGridItem = grdProgHistory.list[0];
 	}
 	
 }

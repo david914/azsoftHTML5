@@ -10,7 +10,7 @@
 
 <c:import url="/webPage/common/common.jsp" />
 <!-- contener S -->
-<div id="wrapper">
+<div id="wrapper" style="overflow-y: hidden;">
 	<!-- 하단 입력 S-->
 	<div class="margin-5-top">
 	    <!-- 프로그램명 -->

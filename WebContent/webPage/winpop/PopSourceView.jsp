@@ -67,7 +67,7 @@
 			<button id="btnSrcDown" name="btnSrcDown" class="btn_basic margin-5-left margin-10-right por" style="height:25px;padding: 0 7px 2px;">소스다운</button>
 		</div>
 		<!-- line4 S -->
-		<div class="row scrollBind" style="height:calc(100% - 300px);overflow:auto;" id="htmlView"  >
+		<div class="row scrollBind" style="height:calc(100% - 310px);overflow:auto;" id="htmlView"  >
 		    <pre style="width:100%;height:100%;"><code id="htmlSrc"></code></pre>
 		</div>
 		<!-- line4 E -->

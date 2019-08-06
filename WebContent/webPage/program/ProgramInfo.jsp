@@ -61,13 +61,13 @@
 			<div style="height:38%"> <!--  tab_container -->
 		       	<!-- 프로그램기본정보 -->
 		       	<div id="tab1" class="tab_content" style="width:100%">
-		       		<iframe id="frmProgBase" name="frmProgBase" src='/webPage/tab/programinfo/ProgBaseTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       		<iframe id="frmProgBase" name="frmProgBase" src='/webPage/tab/programinfo/ProgBaseTab.jsp' width='100%' height='100%' frameborder="0" scrolling="no" ></iframe>
 		       	</div>
 		       	<!-- 프로그램기본정보  END -->
 		       	
 		       	<!-- 변경내역 START -->
 		       	<div id="tab2" class="tab_content" style="width:100%">
-		       		<iframe id="frmProgHistory" name="frmProgHistory" src='/webPage/tab/programinfo/ProgHistoryTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
+		       		<iframe id="frmProgHistory" name="frmProgHistory" src='/webPage/tab/programinfo/ProgHistoryTab.jsp' width='100%' height='100%' frameborder="0" scrolling="no"></iframe>
 		       	</div>
 		       	<!-- 변경내역 END -->
 		   	</div>

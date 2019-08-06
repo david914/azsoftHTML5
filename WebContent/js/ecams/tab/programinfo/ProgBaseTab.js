@@ -20,8 +20,7 @@ var tmpInfoData = new Object();
 
 $(document).ready(function(){	
 	
-	reSize();
-	
+	//reSize();
 	//프로그램종류
 	$('#cboRsrcCd').bind('change', function() {
 		cboRsrcCd_Change();
@@ -52,6 +51,35 @@ $(document).ready(function(){
 		btnClose_Click();
 	});
 });
+
+function ResizeFrame(name)
+
+{
+  console.log(name);
+  // IFRAME 내부의 body 개체
+  var fBody  = document.frames(name).document.body;
+
+  // IFRAME 개체
+  var fName  = document.all(name);
+
+  // IFRAME 내부의 body개체의 넓이를 계산하여 IFRAME의 넓이를 설정해 준다.
+  fName.style.width = fBody.scrollWidth + (fBody.offsetWidth - fBody.clientWidth);
+
+  // IFRAME 내부의 body개체의 높이를 계산하여 IFRAME의 높이를 설정해 준다.
+  fName.style.height = fBody.scrollHeight + (fBody.offsetHeight - fBody.clientHeight);
+
+
+  // 만약 IFRAME의 크기 설정에 실패 하였다면 기본크기로 설정한다.
+  if (Frame_name.style.height == "0px" || Frame_name.style.width == "0px")
+
+  {
+
+    fName.style.width = "1024px";     //기본 iframe 너비
+    fName.style.height = "300px";    //기본 iframe 높이
+
+  }
+
+}
 function reSize() {
 	
 	$("#txtCkInLastDt").width($("#lbckin").width()+$("#txtCkInEditor").width()+15);
@@ -91,14 +119,11 @@ function screenInit(gbn) {
 	$('#txtCreatDt').val('');
 	$('#txtEditor').val('');
 	$('#txtLastDt').val('');
-	$('#txtCkInEditor').val('');
-	$('#txtCkInLastDt').val('');
-	$('#txtDevEditor').val('');
-	$('#txtDevLastDt').val('');
-	$('#txtTestEditor').val('');
-	$('#txtTestLastDt').val('');
-	$('#txtRealEditor').val('');
-	$('#txtRealLastDt').val('');
+	
+	$('#txtLastCkIn').val('');
+	$('#txtLastDev').val('');
+	$('#txtLastTest').val('');
+	$('#txtLastReal').val('');
 	
 	$('#btnDel').prop('disabled', true);
 	$('#btnDiff').prop('disabled', true);
@@ -240,14 +265,11 @@ function successProgInfo(data,selectedGrid) {
 		$('#txtEditor').val(progInfoData[0].Lbl_Editor);
 		$('#txtCreatDt').val(progInfoData[0].Lbl_CreatDt);
 		$('#txtLastDt').val(progInfoData[0].Lbl_LastDt);
-		$('#txtCkInEditor').val(progInfoData[0].Lbl_LstUsrCkIn);
-		$('#txtDevEditor').val(progInfoData[0].Lbl_LstUsrDev);
-		$('#txtTestEditor').val(progInfoData[0].Lbl_LstUsrTest);
-		$('#txtRealEditor').val(progInfoData[0].Lbl_LstUsrReal);
-		$('#txtCkInLastDt').val(progInfoData[0].Lbl_LstDatCkIn);
-		$('#txtDevLastDt').val(progInfoData[0].Lbl_LstDatDev);
-		$('#txtTestLastDt').val(progInfoData[0].Lbl_LstDatTest);
-		$('#txtRealLastDt').val(progInfoData[0].Lbl_LstDatReal);
+		
+		$('#txtLastCkIn').val(progInfoData[0].Lbl_LstUsrCkIn+' '+progInfoData[0].Lbl_LstDatCkIn);
+		$('#txtLASTDev').val(progInfoData[0].Lbl_LstUsrDev+' '+progInfoData[0].Lbl_LstDatDev);
+		$('#txtLastTest').val(progInfoData[0].Lbl_LstUsrTest+' '+progInfoData[0].Lbl_LstDatTest);
+		$('#txtLastReal').val(progInfoData[0].Lbl_LstUsrReal+' '+progInfoData[0].Lbl_LstDatReal);
 		
 		$('[data-ax5select="cboJob"]').ax5select('setValue',progInfoData[0].WkJobCd,true);
 		$('[data-ax5select="cboRsrcCd"]').ax5select('setValue',progInfoData[0].WkRsrcCd,true);

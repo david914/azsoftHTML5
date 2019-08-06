@@ -131,7 +131,7 @@
 		</div>	
 		<!-- line3 e-->	
 		<!-- line4 s-->
-		<div class="margin-5-top width-100" style="height:calc(100% - 360px);">
+		<div class="margin-5-top width-100" style="height:calc(100% - 370px);">
 			<!-- 게시판 S-->
 		    <div class="az_board_basic" style="height:100%";>
 		    	<div data-ax5grid="grdDiffSrc" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
