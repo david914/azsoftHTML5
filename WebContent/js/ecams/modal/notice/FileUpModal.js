@@ -16,10 +16,9 @@ $(document).ready(function(){
 	$('#selectBtn').bind('click', function() {
 		if(srSw) {
 			choiceClick();
-			//window.parent.fileUploadModal.close();
 			window.parent.fileUploadModal.minimize('bottom-right');
 		} else {
-			window.parent.fileUploadModal.minimize('bottom-right');
+			window.parent.showAndHideUploadModal('hide');
 		}
 	});
 });
@@ -27,7 +26,6 @@ $(document).ready(function(){
 function choiceClick(){
 	var tmpFile = new Object();
 	// filelist 그리드의 내용을 보여주는 콘솔로 모달이 close되면 데이터가 삭제되서 콘솔확인 불가능 그래서 위에 하단으로 내리는걸로 해놈
-	console.log(window.parent.grid_fileList.list);
 	if(fileGrid){
 		var tmp =  $('#files').find('li.media');
 		var allText = "";
@@ -51,7 +49,7 @@ function choiceClick(){
  */
 $('#drag-and-drop-zone').dmUploader({
 	url: '/webPage/fileupload/upload',	// 	서블릿 주소
-	maxFileSize: 1024*1024*1024*1, 		// 	최대 1gb 파일까지
+	maxFileSize: 1024*1024*1024*10, 	// 	최대 1gb 파일까지
 	auto: false,						// 	파일 올렸을시 바로 업로드여부
 	queue: false,						//	위에서부터 순서대로 파일 업로드 여부
 	extraData: function() {				//	서블릿에 보낼 데이터
@@ -187,7 +185,8 @@ function ui_multi_add_file(id, file)
 {
 	var template = $('#files-template').text();
 	template = template.replace('%%filename%%', file.name);
-
+	template = template.replace('%%filesize%%', byte(file.size,1));
+	
 	template = $(template);
 	template.prop('id', 'uploaderFile' + id);
 	template.data('file-id', id);
@@ -201,7 +200,7 @@ function ui_multi_add_file(id, file)
 // Changes the status messages on our list
 function ui_multi_update_file_status(id, status, message)
 {
-  $('#uploaderFile' + id).find('span').html(message).prop('class', 'status text-' + status);
+  $('#uploaderFile' + id).find('span.status').html(message).prop('class', 'status text-' + status);
 }
 
 // Updates a file progress, depending on the parameters it may animate it or change the color.

@@ -18,8 +18,9 @@ var userDeptCd 	= window.top.userDeptCd;	// 부서코드
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
-var picker			= new ax5.ui.picker();		// DATE PICKER
-var popNoticeModal 	= new ax5.ui.modal();		// 공지사항등록/수정 팝업
+var picker				= new ax5.ui.picker();		// DATE PICKER
+var popNoticeModal 		= new ax5.ui.modal();		// 공지사항등록/수정 팝업
+var fileDownloadModal 	= new ax5.ui.modal();		// 파일다운로드모달 (하나씩 파일첨부 가능)
 
 var noticeGrid = new ax5.ui.grid();				// 공지사항 그리드
 
@@ -35,11 +36,11 @@ var uploadAcptno= null;
 var downAcptno 	= null;
 var downFileCnt = 0;
 
-var fileUploadBtn = null;
+var fileUploadBtn 	= null;
+var uploadModal 	= null;
 
 var title_;
 var class_;
-
 
 var fileUploadModal = new ax5.ui.modal({
 	theme: "warning",
@@ -48,24 +49,25 @@ var fileUploadModal = new ax5.ui.modal({
         btns: {
             minimize: {
                 label: '<i class="fa fa-minus-circle" aria-hidden="true"></i>', onClick: function(){
-                	fileUploadModal.minimize('bottom-right');
+                	showAndHideUploadModal('hide');
                 }
             },
             restore: {
                 label: '<i class="fa fa-plus-circle" aria-hidden="true"></i>', onClick: function(){
-                	fileUploadModal.restore();
+                	showAndHideUploadModal('show');
+                	//fileUploadModal.restore();
                 }
             },
             close: {
                 label: '<i class="fa fa-times-circle" aria-hidden="true"></i>', onClick: function(){
-                	fileUploadModal.minimize('bottom-right');
+                	showAndHideUploadModal('hide');
                 }
             }
         }
     }
 });
 
-var fileDownloadModal = new ax5.ui.modal({
+/*var fileDownloadModal = new ax5.ui.modal({
 	theme: "warning",
     header: {
         title: '<i class="glyphicon glyphicon-file" aria-hidden="true"></i> [첨부파일]',
@@ -87,7 +89,7 @@ var fileDownloadModal = new ax5.ui.modal({
             }
         }
     }
-});
+});*/
 
 noticeGrid.setConfig({
     target: $('[data-ax5grid="noticeGrid"]'),
@@ -274,9 +276,19 @@ var fileDownloadModalCallBack = function() {
 	fileDownloadModal.close();
 }
 
+// 첨부파일 업로드 모달을 숨겼다가 보여줬다가
+function showAndHideUploadModal(showAndHide) {
+	if(showAndHide === 'show') {
+		$('#' + uploadModal.config.id).css('display', 'block');
+	}
+	if(showAndHide === 'hide') {
+		$('#' + uploadModal.config.id).css('display', 'none');
+	}
+}
+
 // 첨부파일 모달 오픈
 function openFileUpload() {
-	fileUploadModal.open({
+	uploadModal = fileUploadModal.open({
         width: 600,
         height: 360,
         iframe: {
@@ -293,6 +305,7 @@ function openFileUpload() {
         }
     }, function () {
     });
+	
 }
 
 // 다운로드 모달 오픈
@@ -306,7 +319,7 @@ function openFileDownload(acptno,fileCnt) {
         height: 360,
         iframe: {
             method: "get",
-            url: 	"../modal/notice/FileDownloadModal.jsp",
+            url: 	"../modal/notice/FileDownloadModalNew.jsp",
             param: "callBack=fileDownloadModalCallBack"
         },
         onStateChanged: function () {

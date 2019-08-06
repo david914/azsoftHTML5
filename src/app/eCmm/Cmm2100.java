@@ -201,7 +201,7 @@ public class Cmm2100{
 		ConnectionContext connectionContext = new ConnectionResource();
 		try {
 			conn = connectionContext.getConnection();
-			strQuery.append("select CM_ACPTNO,CM_SEQNO,CM_ATTFILE,CM_SVFILE \n");
+			strQuery.append("select CM_ACPTNO,CM_SEQNO,CM_ATTFILE,CM_SVFILE, CM_FILESIZE	\n");
 			strQuery.append("from cmm0220 			\n");
 			strQuery.append("where cm_acptno=?  	\n");	//AcptNo
 			strQuery.append("and cm_gbncd='1'		\n");
@@ -214,10 +214,11 @@ public class Cmm2100{
             rtList.clear();
             while (rs.next()){
             	rst = new HashMap<String, String>();
-				rst.put("cm_acptno", rs.getString("CM_ACPTNO")); 		//신청번호
-				rst.put("cm_seqno", rs.getString("CM_SEQNO")); 			//공지사항
-				rst.put("orgname", rs.getString("CM_ATTFILE"));			//제목
-				rst.put("savename", rs.getString("CM_SVFILE"));			//내용
+				rst.put("cm_acptno", rs.getString("CM_ACPTNO")); 		// 신청번호
+				rst.put("cm_seqno", rs.getString("CM_SEQNO")); 			// 공지사항
+				rst.put("orgname", rs.getString("CM_ATTFILE"));			// 제목
+				rst.put("savename", rs.getString("CM_SVFILE"));			// 내용
+				rst.put("fileSize", rs.getString("CM_FILESIZE"));		// 파일 사이즈
 				strQuery.setLength(0);
 
 				rtList.add(rst);

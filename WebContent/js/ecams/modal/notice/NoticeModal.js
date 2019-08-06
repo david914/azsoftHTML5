@@ -244,7 +244,7 @@ function successUpdateNotice(data) {
 	// 첨부파일 존재시
 	if(window.parent.fileLength > 1) {
 		window.parent.uploadAcptno = data;
-		window.parent.fileUploadModal.restore();
+		window.parent.showAndHideUploadModal('show');
 		$(window.parent.fileUploadBtn).trigger('click');
 	}
 	dialog.alert('등록 되었습니다.', function () {
@@ -262,7 +262,9 @@ function fileOpen() {
 		window.parent.downFileCnt = noticeInfo.fileCnt;
 		window.parent.openFileDownload('','');
 	} else {
-		if(window.parent.checkModalLength() > 1) window.parent.fileUploadModal.restore();
+		if(window.parent.checkModalLength() > 1) {
+			window.parent.showAndHideUploadModal('show');
+		}
 		else window.parent.openFileUpload();
 	}
 }

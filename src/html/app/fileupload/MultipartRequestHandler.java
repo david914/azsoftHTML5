@@ -66,12 +66,14 @@ public class MultipartRequestHandler {
 			// 2.1 instantiate Apache FileUpload classes
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			factory.setSizeThreshold(1024*1024*1024*1024*1);
+			
 			// 임시파일 저장위치 설정
 			/*File tmpFolder = new File("C:\\tmpFileupload");
 			if(!tmpFolder.exists()) {
 				tmpFolder.mkdirs();
 			}
 			factory.setRepository(tmpFolder);*/
+			
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			upload.setHeaderEncoding("utf-8");
 			// 2.2 Parse the request
@@ -98,7 +100,7 @@ public class MultipartRequestHandler {
 						temp.setFileName(item.getName());
 						temp.setContent(item.getInputStream());
 						temp.setFileType(item.getContentType());
-						temp.setFileSize(item.getSize()/1024+ "Kb");
+						temp.setFileSize(Long.toString(item.getSize()));
 						
 						// 파일 올라가는 디렉토리 없으면 생성
 						String fileUploadDir = systemPath.getTmpDir("01");
