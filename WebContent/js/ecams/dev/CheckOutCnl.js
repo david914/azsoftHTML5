@@ -753,7 +753,7 @@ function confCall(GbnCd)
 	            }
 	        }
 		});
-		
+		 
 		gyulPopUp = Confirm_select(PopUpManager.createPopUp(this, Confirm_select, true));
 		gyulPopUp.parentfuc = reqQuest;
 		gyulPopUp.parentvar = etcObj;
