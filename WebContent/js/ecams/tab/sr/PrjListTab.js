@@ -39,57 +39,59 @@ ax5.info.weekNames = [
 $('#datStD').val(getDate('DATE',-1));
 $('#datEdD').val(getDate('DATE',0));
 
-picker.bind({
-  target: $('[data-ax5picker="basic"]'),
-  direction: "top",
-  content: {
-      width: 220,
-      margin: 10,
-      type: 'date',
-      config: {
-          control: {
-              left: '<i class="fa fa-chevron-left"></i>',
-              yearTmpl: '%s',
-              monthTmpl: '%s',
-              right: '<i class="fa fa-chevron-right"></i>'
-          },
-          dateFormat: 'yyyy/MM/dd',
-          lang: {
-              yearTmpl: "%s년",
-              months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-              dayTmpl: "%s"
-          }
-      },
-      formatter: {
-          pattern: 'date'
-      }
-  },
-  onStateChanged: function () {
-  },
-  btns: {
-      today: {
-          label: "Today", onClick: function () {
-              var today = new Date();
-              this.self
-                      .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                      .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                      .close();
-          }
-      },
-      thisMonth: {
-          label: "This Month", onClick: function () {
-              var today = new Date();
-              this.self
-                      .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-                      .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-                              + '/'
-                              + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-                      .close();
-          }
-      },
-      ok: {label: "Close", theme: "default"}
-  }
-});
+picker.bind(defaultPickerInfo('basic', 'top'));
+
+//picker.bind({
+//  target: $('[data-ax5picker="basic"]'),
+//  direction: "top",
+//  content: {
+//      width: 220,
+//      margin: 10,
+//      type: 'date',
+//      config: {
+//          control: {
+//              left: '<i class="fa fa-chevron-left"></i>',
+//              yearTmpl: '%s',
+//              monthTmpl: '%s',
+//              right: '<i class="fa fa-chevron-right"></i>'
+//          },
+//          dateFormat: 'yyyy/MM/dd',
+//          lang: {
+//              yearTmpl: "%s년",
+//              months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+//              dayTmpl: "%s"
+//          }
+//      },
+//      formatter: {
+//          pattern: 'date'
+//      }
+//  },
+//  onStateChanged: function () {
+//  },
+//  btns: {
+//      today: {
+//          label: "Today", onClick: function () {
+//              var today = new Date();
+//              this.self
+//                      .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+//                      .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+//                      .close();
+//          }
+//      },
+//      thisMonth: {
+//          label: "This Month", onClick: function () {
+//              var today = new Date();
+//              this.self
+//                      .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
+//                      .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
+//                              + '/'
+//                              + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+//                      .close();
+//          }
+//      },
+//      ok: {label: "Close", theme: "default"}
+//  }
+//});
 
 
 firstGrid.setConfig({
@@ -143,7 +145,9 @@ $(document).ready(function() {
 	//getPrjList();
 
 	$('#datStD').prop("disabled", true); 
-	$('#datEdD').prop("disabled", true); 
+	$('#datEdD').prop("disabled", true);
+	$('#btnStD').prop("disabled", true); 
+	$('#btnEdD').prop("disabled", true);
 	$('#dateDiv').css('pointer-events','none');
 });
 
@@ -152,10 +156,14 @@ function changeQryGbn(){
 	if(getSelectedVal('cboQryGbn').value === "01"){
 		$('#datStD').prop("disabled", true); 
 		$('#datEdD').prop("disabled", true); 
+		$('#btnStD').prop("disabled", true); 
+		$('#btnEdD').prop("disabled", true);
 		$('#dateDiv').css('pointer-events','none');
 	} else {
 		$('#datStD').prop("disabled", false); 
-		$('#datEdD').prop("disabled", false); 
+		$('#datEdD').prop("disabled", false);
+		$('#btnStD').prop("disabled", false); 
+		$('#btnEdD').prop("disabled", false);
 		$('#dateDiv').css('pointer-events','auto');
 	}
 	getPrjList();
@@ -290,6 +298,8 @@ function resetScreen() {
 	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", '01', true);
 	$('#datStD').prop("disabled", true); 
 	$('#datEdD').prop("disabled", true); 
+	$('#btnStD').prop("disabled", true);
+	$('#btnEdD').prop("disabled", true);
 
 	var today = getDate('DATE',-1);
 	today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);

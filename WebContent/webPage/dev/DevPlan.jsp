@@ -10,7 +10,7 @@
         <!-- history E-->         
 	    
 	    <!-- PrjListTab.jsp -->
-	    <div class="az_board_basic" style="height:25%">
+	    <div class="az_board_basic" style="height:28%">
 			<div class="l_wrap width-48 dib vat" style="width:100%; height:100%">
 				<!-- frmPrjList -->
     			<iframe id="frmPrjList" name="frmPrjList" src='/webPage/tab/sr/PrjListTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
