@@ -119,6 +119,7 @@ function getFileList() {
 
 // 첨부파일 리스트 가져오기 완료
 function successGetFileList(data) {
+	console.log(data);
 	downGrid.setData(data);
 }
 

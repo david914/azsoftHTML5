@@ -454,12 +454,12 @@ function successGetPrgCbo(data){
 function changeSrId(){
 	
 	$('#reqText').val('');
-	$('#btnSrInfo').attr('disabled',true);
+	$('#btnSR').prop('disabled',true);
 
 	if (getSelectedIndex('cboSrId') < 1) return;
 	
 	$('#reqText').val(getSelectedVal('cboSrId').text);
-	$('#btnSrInfo').attr('disabled',false);
+	$('#btnSR').prop('disabled',false);
 	
 }
 
@@ -1326,8 +1326,8 @@ function cmdReqInfo_Click(){
 	form.srid.value = getSelectedVal('cboSrId').value;    //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)	
 	form.acptno.value = '';
 	
-	nHeight	= 1200;
-    nWidth = 725;
+	nHeight	= 725;
+    nWidth = 1200;
     
     winDevRep = winOpen(form, 'devRep', '/webPage/winpop/PopSRInfo.jsp', nHeight, nWidth);
 }
