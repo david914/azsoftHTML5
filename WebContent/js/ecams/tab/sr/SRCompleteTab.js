@@ -6,34 +6,20 @@
  * 	버전 : 1.1
  *  수정일 : 2019-07-29
  */
-/*
+
 var userName 	 	= window.parent.userName;
 var userId 		 	= window.parent.userId;
 var adminYN 		= window.parent.adminYN;
 var userDeptName 	= window.parent.userDeptName;
 var userDeptCd 	 	= window.parent.userDeptCd;
 var strReqCd	 	= window.parent.strReqCd; 
-
 var strStatus		= window.parent.strStatus; //SR상태 "2";
 var strIsrId		= window.parent.strIsrId; //"R201906-0003";  
-*/
-/* 가져와야 하는 데이터들
-  tab6.strIsrId = strIsrId;
-	tab6.strUserId = strUserId;
-	tab6.strStatus = tab0.grdPrj.selectedItem.cc_status;
-	tab6.strReqCd = strReqCD;
-	tab6.screenInit("M");
-	strAcptNo = ReqNo;
-	tab6.strIsrTitle = tab0.grdPrj.selectedItem.cc_reqtitle;
-	tab6.strEditor = tab0.grdPrj.selectedItem.cc_lastupuser;
-	tab6.strQryGbn = tab0.cboQryGbn.selectedItem.cm_micode;
-	tab6.srendInfoCall();
- */
-var strAcptNo = "";
+var strIsrTitle 	= window.parent.strIsrTitle;
+
 //var strIsrId = 'R201708-0001';
-var strIsrId = 'R201808-0001';
-var userId = 'MASTER';
-var strReqCd = "69";
+//var strIsrId = 'R201808-0001';
+var strAcptNo = "";
 var cboUserData = null;
 var retMsg = "";
 var confAcpt = "";
@@ -67,6 +53,11 @@ devListGrid.setConfig({
 });
 
 $(document).ready(function() {
+	console.log(userId);
+	console.log(strStatus);
+	console.log(strReqCd);
+	console.log(strIsrId);
+	console.log(strIsrTitle);
 	getStrAcptno();	// AcptNo 가져오기
 	srendInfoCall();
 	
@@ -79,8 +70,7 @@ $(document).ready(function() {
 function srendInfoCall(){
 	if(strIsrId != null){
 		$('#txtSRID').val(strIsrId);
-		//$('#txtSRTitle').val(strIsrTitle);
-		$('#txtSRTitle').val("테스트");
+		$('#txtSRTitle').val(strIsrTitle);
 		
 		// 그리드 초기화
 		devListGrid.setData([]);
@@ -110,7 +100,7 @@ function srendInfoCall(){
 					$("#lbTxt").show();
 					$("#divTxt").show();
 				} else if(retMsg != "1") {
-					alert("결재정보 체크 중 오류가 발생했습니다.");
+					dialog.alert("결재정보 체크 중 오류가 발생했습니다.");
 				}
 				
 			}
@@ -189,13 +179,12 @@ function getSREnd(){
 				$("#rdoOpt2").prop('checked', true);
 			}
 			
-			/*
+			
 			if((strStatus == "6" || strStatus == "D") && strUserId == strEditor){
 				$("#btnReg").attr('disabled', false);
 				$("#txtReqContent").attr('readonly', false);
-			}*/
+			}
 		} else {
-			/*
 			if(strStatus == "6" && strUserId == strEditor){
 				$("#btnReg").attr('disabled', false);
 				$("#txtReqContent").attr('readonly', false);
@@ -210,7 +199,7 @@ function getSREnd(){
 				$("#rdoOpt2").attr('disabled', false);
 				$("#rdoOpt1").attr('disabled', true);
 				$("#rdoOpt2").prop('checked', true);
-			}*/
+			}
 		}
 	}
 }
@@ -223,7 +212,7 @@ function screenInit(tmp){
 // 결재버튼 클릭
 function btnOk_click(){
 	if($('#"txtConMsg"').val().length === 0){
-    	alert("결재의견을 입력하여 주시기 바랍니다.");
+    	dialog.alert("결재의견을 입력하여 주시기 바랍니다.");
     	return;
     }
 	
@@ -243,8 +232,6 @@ function confChk1(){
 	gyulData.txtConMsg = $('#"txtConMsg"').val();
 	gyulData.strReqCd = strReqCd;
 	
-	console.log(gyulData);
-	
 	var gyulInfo = {
 		gyulData: 	gyulData,
 		requestType: 	'nextConf'
@@ -263,7 +250,7 @@ function gyulProc_result(result){
 		window.close();
 		return;
 	} else {
-		alert("[" + resultMSG + "] 처리에 실패하였습니다.");
+		dialog.alert("[" + resultMSG + "] 처리에 실패하였습니다.");
 	}
 	
 	screenInit("S");

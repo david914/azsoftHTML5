@@ -286,7 +286,8 @@ function getPrjList() {
 		
 		if(firstGridData.length > 0) {
 			firstGrid.select(0);
-			window.parent.iSRID_Click(firstGrid.list[firstGrid.selectedDataIndexs]);
+			//window.parent.iSRID_Click(firstGrid.list[firstGrid.selectedDataIndexs]);
+			window.parent.callSRRegister(firstGrid.list[firstGrid.selectedDataIndexs]);
 		}
 	}
 }

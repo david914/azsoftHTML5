@@ -56,7 +56,7 @@ $(document).ready(function() {
 	$('#frmPrgList').get(0).contentWindow.strReqCd = "XX";
 	
 	initScreen();
-	clickTabMenu();
+	//clickTabMenu();
 	
 	//PrjInfo.getPrjList(tmpObj);
 	var tmpInfo = new Object();
@@ -71,7 +71,7 @@ $(document).ready(function() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETPRJLIST'
 	}
-	ajaxAsync('/webPage/winpop/PopSRInfoServlet', tmpInfoData, 'json', successPrjList);
+	ajaxAsync('/webPage/winpop/PopSRInfoServlet', tmpInfoData, 'json', successPrjList, clickTabMenu);
 });
 
 function initScreen() {

@@ -715,9 +715,6 @@ function confirmEnd(){
 		SRData.cc_srid = selectedSr.cc_srid;
 		SRData.cc_createuser = selectedSr.cc_createuser;
 		SRData.cc_status = selectedSr.cc_status;
-	} else {
-		SRData.cc_srid = "";
-		SRData.cc_createuser = "";
 	}
 	
 	if(ins_sw){

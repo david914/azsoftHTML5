@@ -17,9 +17,6 @@ var strReqCd	 	= window.parent.strReqCd;
 var strStatus		= window.parent.strStatus; //SR상태 "2";
 var strIsrId		= window.parent.strIsrId; //"R201906-0003";  
 
-//var strIsrId = 'R201708-0001';
-//var userId = 'MASTER';
-//var strReqCd = "";
 var cboUserData = null;
 
 var PrgListGridData = null;
