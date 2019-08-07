@@ -13,7 +13,7 @@ var adminYN 		= window.parent.adminYN;
 var userDeptName 	= window.parent.userDeptName;
 var userDeptCd 	 	= window.parent.userDeptCd;
 var strReqCd	 	= window.parent.strReqCd; 
-var strStatus		= window.parent.strStatus; //SR상태 "2";
+var strStatus		= window.parent.strStatus; //SR상태 "2"; 
 var strIsrId		= window.parent.strIsrId; //"R201906-0003";  
 var strIsrTitle 	= window.parent.strIsrTitle;
 
@@ -54,10 +54,10 @@ devListGrid.setConfig({
 
 $(document).ready(function() {
 	console.log(userId);
-	console.log(strStatus);
-	console.log(strReqCd);
+	console.log(strStatus); //
+	console.log(strReqCd);  
 	console.log(strIsrId);
-	console.log(strIsrTitle);
+	console.log(strIsrTitle); //
 	getStrAcptno();	// AcptNo 가져오기
 	srendInfoCall();
 	
