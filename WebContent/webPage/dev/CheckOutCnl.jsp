@@ -14,7 +14,7 @@
 					<!-- 시스템 -->		
                     <div class="width-30 dib">
                     	<div class="tit_150 poa">
-                        	<label id="lbUser">*시스템</label>
+                        	<label>*시스템</label>
                         </div>
                         <div class="ml_150">
 							<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
@@ -23,7 +23,7 @@
 					<!-- SR-ID -->		
                     <div class="width-50 dib tar por">
                     	<div class="tit_150 poa">
-                        	<label id="lbUser">*SR-ID</label>
+                        	<label>*SR-ID</label>
                         </div>
                         <div class="ml_150 tal">
 							<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"  >
@@ -33,7 +33,7 @@
 					</div>
                     <div class="width-20 dib tar por vat">
 						<div class="vat poa_r">
-							<button id="btnSR" class="btn_basic_s margin-5-left" >SR정보</button>
+							<button id="btnSR" class="btn_basic_s margin-5-left" disabled=true style="width:70px;">SR정보</button>
 						</div>
 					</div>
 				</div>	
@@ -42,7 +42,7 @@
 					<!-- 프로그램명/설명 -->		
                     <div class="width-80 dib">
                     	<div class="tit_150 poa" style="text-align: left;">
-                        	<label id="lbUser">*프로그램명/설명</label>
+                        	<label>*프로그램명/설명</label>
                         </div>
                         <div class="ml_150 tal">
 							<input id="txtRsrcName" type="text" placeholder="" class="width-100 dib">
@@ -50,7 +50,7 @@
 					</div>
                     <div class="width-20 dib tar por vat">
 						<div class="vat dib">
-							 <button id="btnSearch" class="btn_basic_s poa_r" >검색</button>
+							 <button id="btnSearch" class="btn_basic_s poa_r" style="width:70px;">검색</button>
 						</div>
 					</div>
 				</div>
@@ -87,7 +87,7 @@
 		<div class="row">
 			<!-- 요청부서 -->
 			<div class="tit_80 poa">
-				<label id="lbUser">*신청사유</label>
+				<label>*신청사유</label>
 			</div>
 			<div class="ml_80">
 				<input id="txtSayu" type="text" placeholder="" class="width-84">

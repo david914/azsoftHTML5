@@ -49,6 +49,7 @@ var befCheck = false; // 체크박스 변경시 이벤트가 바로 걸려 체�
 var confirmInfoData = null;
 var uploadCk = false; // 파일 업로드 체크
 var acptNo = "";
+var winDevRep        = null; //SR정보 새창
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -218,6 +219,10 @@ $('[data-ax5select="cboRsrccd"]').ax5select({
     options: []
 });
 
+$('[data-ax5select="cboReqGbn"]').ax5select({
+	options: []
+});
+
 $(document).ready(function(){
 	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
@@ -262,6 +267,10 @@ $(document).ready(function(){
 		}
 	});
 	
+	$("#btnSR").bind('click',function(){
+		cmdReqInfo_Click();
+	});
+	
 	//프로그램 유형
 	$('#cboRsrccd').bind('change',function(){
 		if(getSelectedIndex('cboRsrccd') > -1 || $('#txtRsrcName').val().trim().length > 0){
@@ -281,6 +290,7 @@ $(document).ready(function(){
 		$("#btnFileUpload").hide();
 	}
 	else if (reqCd == '03'){ //테스트배포
+		porgRowEdit();
 		$('#btnRequest').text('테스트배포신청');
 		$('#cboReqDiv').hide();
 		$('#chkBefJob').parent('div.wCheck').hide();
@@ -288,6 +298,7 @@ $(document).ready(function(){
 		$('#btnDiff').hide();
 	}
 	else{ //운영배포
+		porgRowEdit();
 		$('#btnRequest').text('운영배포신청');
 		$('#chkBefJob').show();
 		$('#cboReqDiv').hide();
@@ -367,7 +378,21 @@ $(document).ready(function(){
 	dateInit();
 	getCodeInfoList();
 	getSrIdCbo();
+	
 });
+
+//프로그램명/설명 높이 수정 
+function porgRowEdit(){
+	$('#progRow').removeClass();
+	
+	$('#progRow').addClass('dib vat');
+	$('#progRow').width('23.6%');
+	$('#progRow').children('.tit_150').addClass('text-right');
+	$('#txtRsrcName').removeClass().addClass('width-100');
+	
+	$('#cboReqDiv').after($('#progRow'));
+	$('#progRow').after('#searchBox');
+}
 
 function dateInit() {
 	$('#txtReqDate').val(getDate('DATE',0));
@@ -394,7 +419,7 @@ function getCodeInfoList() {
 		options: cboOptions
 	});
 	if(reqCd == '03'){ // 테스트배포
-		$('[data-ax5select="cboReqGbn"]').ax5select("disable");
+		$('[data-ax5select="cboReqGbn"]').ax5select('disable');
 	}
 	cboOptions = [];
 	cboOptions.push({value:'99', text:'신규+수정'});
@@ -425,7 +450,7 @@ function successGetSysCbo(data) {
 	sysData = data;
 	
 	if(sysData.length == 0 && reqCd == '03'){
-		showTost('권한이 있는 시스템중 테스트환경이 존재하는 시스템이 없습니다. 메뉴의 적용->운영배포 화면을 이용하여 주십시요.');
+		dialog.alert('권한이 있는 시스템중 테스트환경이 존재하는 시스템이 없습니다. 메뉴의 적용->운영배포 화면을 이용하여 주십시요.');
 		return;
 	}
 	
@@ -1394,7 +1419,7 @@ function FileUpLoad_Handler_diff(ret){
 	}
 	PopUpManager.removePopUp(fileUpDownPop);
 	if (findSw) {
-		Alert.show("로컬에 파일이 없습니다. 확인 후 진행하여 주시기 바랍니다. \n"+tmpMsg);
+		dialog.alert("로컬에 파일이 없습니다. 확인 후 진행하여 주시기 바랍니다. \n"+tmpMsg);
 	} else {
 		diffNext();	
 	}
@@ -2111,9 +2136,9 @@ function cmdReqInfo_Click(){
 	form.user.value = userId; 	 						  //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 	form.srid.value = getSelectedVal('cboSrId').value;    //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)	
 	form.acptno.value = '';
-	
-	nHeight	= 1200;
-    nWidth = 725;
+
+	nHeight	= 725;
+    nWidth = 1200;
     
     winDevRep = winOpen(form, 'devRep', '/webPage/winpop/PopSRInfo.jsp', nHeight, nWidth);
 }

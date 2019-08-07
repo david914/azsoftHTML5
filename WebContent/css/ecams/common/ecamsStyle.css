@@ -1236,7 +1236,7 @@ input{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
 input::-webkit-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input:-ms-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input::-moz-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
-input{margin: 0 auto; height: 25px; border: 1px solid #ddd; box-sizing: border-box; padding-left: 10px; font-family: inherit; color: #444;}
+input{margin: 0 auto; height: 25px; border: 1px solid #ddd; box-sizing: border-box; padding-left: 5px; font-family: inherit; color: #444;}
 input[type="radio"]{display: inline-block; width: 15px; height: 15px; vertical-align: middle; margin: 0 5px;}
 input[type="checkbox"]{display: inline-block; width: 15px; height: 15px; vertical-align: middle; margin: 0 5px; border: 1px solid #ddd;}
 select {width: 200px; height:25px; padding: 0 7px; border: 1px solid #ddd; border-radius: 0; font-family: inherit; background: #fff url('../../../img/arrow.png') no-repeat 95% 50%; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
@@ -1493,3 +1493,9 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 	background: #fff;
 }
 #divPicker{font-size: 0;}
+
+.contentFrame{overflow: auto;}
+
+.row:first-child, .sm-row:first-child{margin-top: 0px;}
+
+.row{margin-top: 5px;}
