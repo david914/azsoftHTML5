@@ -66,6 +66,9 @@ public class SRRegisterTab extends HttpServlet {
 				case "insertSRInfo" :
 					response.getWriter().write( insertSRInfo(jsonElement) );
 					break;
+				case "updateSRInfo" :
+					response.getWriter().write( updateSRInfo(jsonElement) );
+					break;	
 				default:
 					break;
 			}
@@ -110,4 +113,15 @@ public class SRRegisterTab extends HttpServlet {
 		return gson.toJson(cmc0100.insertSRInfo(tmp_obj, devuser_ary, ConfList));
 	}
 	
+	private String updateSRInfo(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> tmp_obj = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"SRInfoData"));
+		
+		ArrayList<HashMap<String, Object>> ConfList = new ArrayList<HashMap<String, Object>>();
+		ConfList = ParsingCommon.jsonStrToArrObj(ParsingCommon.jsonEtoStr(jsonElement,"confirmData"));
+		
+		ArrayList<HashMap<String, String>> devuser_ary = new ArrayList<HashMap<String, String>>();
+		devuser_ary = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"devuser_ary"));
+		
+		return gson.toJson(cmc0100.updateSRInfo(tmp_obj, devuser_ary, ConfList));
+	}
 }
