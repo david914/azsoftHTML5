@@ -385,8 +385,7 @@ $(document).ready(function(){
 function porgRowEdit(){
 	$('#progRow').removeClass();
 	
-	$('#progRow').addClass('dib vat');
-	$('#progRow').width('23.6%');
+	$('#progRow').addClass('dib vat width-25');
 	$('#progRow').children('.tit_150').addClass('text-right');
 	$('#txtRsrcName').removeClass().addClass('width-100');
 	

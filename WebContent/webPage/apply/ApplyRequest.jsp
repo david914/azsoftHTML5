@@ -3,14 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
 <link rel="stylesheet" href="<c:url value="/styles/bootstrap-timepicker.css"/>" />
-<style>
-	.fontStyle-cncl {
-		color: #FF0000;
-	}
-	.fontStyle-module {
-		color: #FF8080;
-	}
-</style>
 
 <div class="contentFrame">
  <!-- history S-->
@@ -30,31 +22,30 @@
 						<button id="btnSR" class="btn_basic_s margin-5-left" disabled=true style="width:70px;">SR정보</button>
 					</div>
 				</div>
-				<div class="row por">					
-					<!-- 요청부서 -->	
-					<div class="width-35 dib">
-	                    <div class="tit_150 poa">
-	                        <label>*시스템</label>
-	                    </div>
-	                    <div class="ml_150">
-	                    	<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+				<div class="row por">			
+                    <div class="tit_150 poa">
+                        <label>*시스템</label>
+                    </div>		
+                    <div class="ml_150">
+						<div class="width-30 dib">
+		                    <div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 						</div>
-					</div>
-                    <div class="width-23 dib">
-                    	<div class="tit_150 poa text-right">
-                        	<label>프로그램 유형</label>
-                        </div>
-                        <div class="ml_150">
-                        	<div id="cboRsrccd" data-ax5select="cboRsrccd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+	                    <div class="width-25 dib">
+	                    	<div class="tit_100 poa text-right">
+	                        	<label>프로그램 유형</label>
+	                        </div>
+	                        <div class="ml_100">
+	                        	<div id="cboRsrccd" data-ax5select="cboRsrccd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+							</div>
 						</div>
-					</div>
-					
-					<div class="dib" style="width:23.6%" id="cboReqDiv">
-                    	<div class="tit_150 poa text-right">
-                        	<label>신청구분</label>
-                        </div>
-	                    <div class="ml_150">
-	                    	<div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+						
+						<div class="width-25 dib" id="cboReqDiv">
+	                    	<div class="tit_100 poa text-right">
+	                        	<label>신청구분</label>
+	                        </div>
+		                    <div class="ml_100">
+		                    	<div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+							</div>
 						</div>
 					</div>
 				</div>	
