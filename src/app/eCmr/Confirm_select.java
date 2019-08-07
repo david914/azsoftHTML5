@@ -214,7 +214,7 @@ public class Confirm_select {
 			//parentvar.UserID,parentvar.SysCd,parentvar.ReqCD,parentvar.Rsrccd,parentvar.Type,parentvar.EmgSw,parentvar.PrjNo,parentvar.JobCd,parentvar.QryCd
 			String UserId = etcData.get("UserID");
 			String SysCd  = etcData.get("SysCd");
-			String ReqCd  = etcData.get("ReqCD");
+			String ReqCd  = etcData.get("ReqCd");
 			String RsrcCd = etcData.get("Rsrccd");
 			String PgmType = etcData.get("Type");
 			String EmgSw  = etcData.get("EmgSw");
@@ -225,7 +225,7 @@ public class Confirm_select {
 			if (etcData.get("svryn") != null) SvrYN  = etcData.get("svryn");
 			
 			String OutPos  = "S";
-			if (etcData.get("OutPos") != null && etcData.get("OutPos") != "") {
+			if (etcData.get("OutPos") != null && !"".equals(etcData.get("OutPos"))) {
 				OutPos = etcData.get("OutPos");
 			}
 			
@@ -310,7 +310,7 @@ public class Confirm_select {
 	            		}
 	    			}
 	            }
-	            if (PgmType != null && PgmType != "") {
+	            if (PgmType != null && !"".equals(PgmType)) {
 		           	String[] aPgmType = PgmType.split(",");
 		            if (FindSw  == false && QrySw == true && aPgmType.length > 0 && rs.getString("cm_pgmtype") != null) {
 		            	FindSw = false;
@@ -342,7 +342,7 @@ public class Confirm_select {
 
 					FindSw = true;
 //					sameSw = false;
-					if (SvLine != "") {
+					if (!"".equals(SvLine)) {
 						//ecamsLogger.error("++++ cm_gubun,strHoli, SvLine++++"+rs.getString("cm_gubun")+", "+strHoli+", "+SvLine);
 						if (rs.getString("cm_gubun").equals("3") || rs.getString("cm_gubun").equals("6")) {
 							svRgtCd = rs.getString("cm_position").split(",");
@@ -814,7 +814,7 @@ public class Confirm_select {
 							FindSw = false;
 
 							svRgtCd = rs.getString("cm_position").split(",");
-							if (JobCd != null && JobCd != "") svJobCd = JobCd.split(",");
+							if (JobCd != null && !"".equals(JobCd)) svJobCd = JobCd.split(",");
 							
 							strQuery.setLength(0);
 							strQuery.append("select distinct a.cm_userid,a.cm_username,          \n");
@@ -843,7 +843,7 @@ public class Confirm_select {
 							} else {
 								strQuery.append("and exists (select 1 from cmm0044 y,cmm0044 x \n");
 								strQuery.append("             where x.cm_userid=?              \n");
-								if (SysCd != null && SysCd != "" && !SysCd.equals("99999")) {
+								if (SysCd != null && !"".equals(SysCd) && !SysCd.equals("99999")) {
 									strQuery.append("               and x.cm_syscd=?           \n");
 								}
 								strQuery.append("               and x.cm_closedt is null       \n");
@@ -866,7 +866,7 @@ public class Confirm_select {
 								}
 				            } else {
 				            	pstmt2.setString(pstmtcount++, UserId);
-				            	if (SysCd != null && SysCd != "" && !SysCd.equals("99999")) 
+				            	if (SysCd != null && !"".equals(SysCd) && !SysCd.equals("99999")) 
 				            		pstmt2.setString(pstmtcount++, SysCd);
 				            }
 				            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
@@ -1027,7 +1027,7 @@ public class Confirm_select {
 					}
 //					Strgubun ="";
 					ecamsLogger.error("FindSw:"+FindSw+",SvLine:"+SvLine);
-					if (FindSw == true && SvLine != "" && SvLine != null) {
+					if (FindSw == true && !"".equals(SvLine) && SvLine != null) {
 						if (rs.getString("cm_gubun").equals("C") ||
 							rs.getString("cm_gubun").equals("3") ||
 							rs.getString("cm_gubun").equals("6")) {

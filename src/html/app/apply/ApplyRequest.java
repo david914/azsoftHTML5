@@ -176,10 +176,10 @@ public class ApplyRequest extends HttpServlet {
 	}
 	private String confSelect(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> confirmInfoData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"confirmInfoData"));
-		return gson.toJson(cmr0200.confSelect(confirmInfoData.get("sysCd"), 
+		return gson.toJson(cmr0200.confSelect(confirmInfoData.get("SysCd"), 
 															   confirmInfoData.get("ReqCd"),
 															   confirmInfoData.get("strRsrcCd"),
-															   confirmInfoData.get("userId"),
+															   confirmInfoData.get("UserID"),
 															   confirmInfoData.get("strQry")));
 			
 	}

@@ -33,7 +33,7 @@
 	                        	</div>
 							</div>
 							<div class="vat poa_r">
-								<button id="btnReg" class="btn_basic_s margin-5-left">SR정보</button>
+								<button id="btnSR" class="btn_basic_s margin-5-left">SR정보</button>
 								<button id="btnExcelLoad" class="btn_basic_s margin-5-left" style="display:none;">엑셀등록</button>
 								<input type="file" name="excelFile" id="excelFile" style="display:none;"/>
 							</div>
@@ -56,11 +56,7 @@
 	                        	<label id="lbUser">*프로그램명/설명</label>
 	                        </div>
 	                        <div class="ml_150 tal">
-								<input 
-								id="txtRsrcName" 
-								name="txtRsrcName"
-								class="width-60 dib tal" 
-								placeholder="프로그램설명 을 입력"/>
+								<input id="txtRsrcName" class="width-60 dib tal" placeholder="프로그램설명 을 입력"/>
 							    <div class="dib vat" style="margin-left:5px;"><input type="checkbox" class='checkbox-pie' name = 'chkbox_subnode' id ='chkbox_subnode' data-label="하위폴더 포함하여 조회" checked> </div>
 							</div>						
 							<div class="vat dib">
@@ -89,10 +85,10 @@
 					      		<strong>총 <span id = 'totalCnt'>0</span>건</strong>
 							</div>
 							<div class="vat dib">
-								<button id="btnAdd" name="btnReg" class="btn_basic_s margin-5-left">추가</button>
+								<button id="btnAdd" class="btn_basic_s margin-5-left">추가</button>
 							</div>
 							<div class="vat dib">
-								<button id="btnDel" name="btnReg" class="btn_basic_s margin-5-left">제거</button>
+								<button id="btnDel" class="btn_basic_s margin-5-left">제거</button>
 							</div>
 						</div>
 					</div>
@@ -114,7 +110,7 @@
 				<label id="lbUser">*신청사유</label>
 			</div>
 			<div class="ml_80">
-				<input id="reqText" name="Txt_Find" type="text" placeholder="" class="width-84">
+				<input id="reqText" type="text" placeholder="" class="width-84">
 				<div class='ml150 tal float-right' style="display:inline; ">
 					<button id="btnDiff" class="btn_basic_s margin-5-left" style='display:none;'>파일비교</button>
 					<button id="btnReq" class="btn_basic_s margin-5-left">체크아웃</button>

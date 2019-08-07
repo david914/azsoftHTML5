@@ -28,6 +28,7 @@ var options 	= [];
 var strAcptNo = null;
 var srSw 		= false;
 var strAcptNo = "";
+var winDevRep        = null; //SR정보 새창
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="first-grid"]'),
@@ -187,7 +188,7 @@ $(document).ready(function() {
 	});
 	
 	$('#btnSR').bind('click',function(){
-		idx_button_srinfo();
+		cmdReqInfo_Click()();
 	});
 	
 	$('#btnSearch').bind('click',function(){
@@ -666,10 +667,11 @@ function cnclConfirm(){
 
 	var confirmInfoData = new Object();
 	confirmInfoData.SysCd = getSelectedVal('cboSys').value;
+	confirmInfoData.strReqCd = reqCd;
+	confirmInfoData.strRsrcCd = strRsrcCd;
 	confirmInfoData.ReqCd = reqCd;
-	confirmInfoData.RsrcCd = strRsrcCd;
-	confirmInfoData.UserId = userId;
-	confirmInfoData.QryCd = reqCd;
+	confirmInfoData.UserID = userId;
+	confirmInfoData.strQry = strQry;
 	
 	var tmpData = {
 			requestType : 'confSelect',
@@ -721,7 +723,7 @@ function confCall(GbnCd)
 	confirmData = null;
 	var confirmInfoData = new Object();
 	confirmInfoData.UserID = userId;
-	confirmInfoData.ReqCD  = reqCd;
+	confirmInfoData.ReqCd  = reqCd;
 	confirmInfoData.SysCd  = getSelectedVal('cboSys').value;
 	confirmInfoData.Rsrccd = tmpRsrc;
 	confirmInfoData.QryCd = strQry;
@@ -754,12 +756,6 @@ function confCall(GbnCd)
 	        }
 		});
 		 
-		gyulPopUp = Confirm_select(PopUpManager.createPopUp(this, Confirm_select, true));
-		gyulPopUp.parentfuc = reqQuest;
-		gyulPopUp.parentvar = etcObj;
-		
-        PopUpManager.centerPopUp(gyulPopUp);//팝업을 중앙에 위치하도록 함
-        gyulPopUp.minitApp();
         
 	} else if (GbnCd == "N") {
 		
@@ -877,7 +873,32 @@ function successRequest(data){
 		}
 */
 
-
+/*
+ * SR 정보 
+ */
+function cmdReqInfo_Click(){
+	if (getSelectedIndex('cboSrId') < 1) {
+		dialog.alert('SR정보를 확인 할 SR-ID를 선택하십시오.',function(){});
+		return;
+	}
+	
+	//ExternalInterface.call("winopen",userId,"SRINFO",cboIsrId.selectedItem.cc_srid);
+	var nHeight, nWidth;
+	if(winDevRep != null
+			&& !winDevRep.closed) {
+		winDevRep.close();
+	}	
+	
+	var form = document.popPam;   						  //폼 name
+	form.user.value = userId; 	 						  //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.srid.value = getSelectedVal('cboSrId').value;    //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)	
+	form.acptno.value = '';
+	
+	nHeight	= 1200;
+    nWidth = 725;
+    
+    winDevRep = winOpen(form, 'devRep', '/webPage/winpop/PopSRInfo.jsp', nHeight, nWidth);
+}
 
 
 

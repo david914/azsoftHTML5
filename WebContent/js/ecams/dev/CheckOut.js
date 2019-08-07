@@ -276,7 +276,7 @@ $(document).ready(function() {
 	});
 	
 	$('#btnSR').bind('click',function(){
-		idx_button_srinfo();
+		cmdReqInfo_Click();
 	});
 	
 	$('#btnSearch').bind('click',function(){
@@ -320,9 +320,6 @@ $(document).ready(function() {
 		//fileTypeCheck(this);
 	});
 	
-	$('#btnReg').bind('click',function(){
-		cmdReqInfo_Click();
-	});
 });
 
 function screenInit() {
@@ -1074,11 +1071,11 @@ function ckoConfirm(){
 	}
 	
 	var confirmInfoData = new Object();
-	confirmInfoData.sysCd = getSelectedVal('cboSys').value;
+	confirmInfoData.SysCd = getSelectedVal('cboSys').value;
 	confirmInfoData.strReqCd = reqCd;
 	confirmInfoData.strRsrcCd = strRsrcCd;
 	confirmInfoData.ReqCd = reqCd;
-	confirmInfoData.userId = userId;
+	confirmInfoData.UserID = userId;
 	confirmInfoData.strQry = strQry;
 	
 	var tmpData = {
@@ -1124,7 +1121,7 @@ function confCall(GbnCd){
 
 	var confirmInfoData = new Object();
 	confirmInfoData.UserID = userId;
-	confirmInfoData.ReqCD  = reqCd;
+	confirmInfoData.ReqCd  = reqCd;
 	confirmInfoData.SysCd  = getSelectedVal('cboSys').value;
 	confirmInfoData.Rsrccd = tmpRsrc;
 	confirmInfoData.QryCd = strQry;
@@ -1329,8 +1326,8 @@ function cmdReqInfo_Click(){
 	form.srid.value = getSelectedVal('cboSrId').value;    //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)	
 	form.acptno.value = '';
 	
-	nHeight	= 1046;
-    nWidth = 735;
+	nHeight	= 1200;
+    nWidth = 725;
     
     winDevRep = winOpen(form, 'devRep', '/webPage/winpop/PopSRInfo.jsp', nHeight, nWidth);
 }

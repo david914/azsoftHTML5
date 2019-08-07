@@ -625,11 +625,12 @@ function set_info(){
 	}
 	
 	if(strStatus == "0" || strStatus == "C" || $("#chkNew").is(':checked')){
-		var confirmInfoData = new Object();
-		confirmInfoData.sysCd = "99999";
+		confirmInfoData = new Object();
+		confirmInfoData.SysCd = "99999";
+		confirmInfoData.EmgSw = "0";
 		confirmInfoData.strRsrcCd = "";
 		confirmInfoData.ReqCd = strReqCd;
-		confirmInfoData.userId = userid;
+		confirmInfoData.UserID = userid;
 		confirmInfoData.strQry = "";
 		
 		var tmpData = {

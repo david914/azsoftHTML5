@@ -146,7 +146,7 @@ $(document).ready(function() {
 
 	$('#btnSearch').bind('click',function(){
 		if($('#txtName').val().trim().length <1 ){
-			showToast("검색할 사용자를 입력한 후 처리하시기 바랍니다.");
+			dialog.alert("검색할 사용자를 입력한 후 처리하시기 바랍니다.");
 			$('#txtName').focus();
 			return;
 		}
@@ -270,7 +270,7 @@ function successGetSignList(data){
 
 function contextMenuClick(data, item){
 	if (data.delsw == false && item.label == "참조") {
-		showToast("해당단계는 참조로 변경할 수 없습니다.");
+		dialog.alert("해당단계는 참조로 변경할 수 없습니다.");
 		return;
 	}
 	//tmpRender.data.cm_sgnname = tmpItem.caption;
@@ -299,12 +299,12 @@ function confSet(data){
 	var swFind = false;
 	
 	if (data == null || data == "") {
-		showToast("결재자를 선택한 후 처리하시기 바랍니다.");
+		dialog.alert("결재자를 선택한 후 처리하시기 바랍니다.");
 		return;
 	}
 	
 	if (data.length > 1) {
-		showToast("결재자를 다수로 선택할 수 없습니다. 한사람씩 선택하여 주시기 바랍니다.");
+		dialog.alert("결재자를 다수로 선택할 수 없습니다. 한사람씩 선택하여 주시기 바랍니다.");
 		return;
 	}
 	
@@ -331,7 +331,7 @@ function confSet(data){
 			  	if (secondGridData[i].cm_gubun == "3" || secondGridData[i].cm_gubun == "6") {
 			  		if (secondGridData[i].cm_baseuser != null) {
 			  			if (secondGridData[i].cm_baseuser == data.cm_signuser) {
-			  				showToast("이미 결재단계에 등록된 결재자입니다. 확인 후 처리하시기 바랍니다.");
+			  				dialog.alert("이미 결재단계에 등록된 결재자입니다. 확인 후 처리하시기 바랍니다.");
 		  					return;
 		  				}
 			  		}
@@ -411,14 +411,14 @@ function deleteRow(){
 		}
 	}
 	if(findSw){
-		showToast('삭제대상을 선택한 후 처리하시기 바랍니다.');
+		dialog.alert('삭제대상을 선택한 후 처리하시기 바랍니다.');
 		return;
 	}
 }
 
 function register(){
 	if(secondGridData.length == 0){
-		showToast('결재정보가 없습니다. 관리자에게 등록요청한 후 처리하시기 바랍니다.');
+		dialog.alert('결재정보가 없습니다. 관리자에게 등록요청한 후 처리하시기 바랍니다.');
 		return;
 	}
 	var Msg = '결재절차를 등록하고, 계속 진행하시겠습니까?';
@@ -448,7 +448,7 @@ function registerAfter(){
 	for (i = 0;secondGridData.length>i;i++) {
 		if (secondGridData[i].cm_gubun != "8") {
 			if (secondGridData[i].arysv[0].SvUser == null || secondGridData[i].arysv[0].SvUser == "") {
-				   showToast("[" + secondGridData[i].cm_name + "]에 대한 결재자를 지정한 후 처리하십시오.");
+				   dialog.alert("[" + secondGridData[i].cm_name + "]에 대한 결재자를 지정한 후 처리하십시오.");
 				   return;
 			}
 		}
@@ -497,7 +497,7 @@ function successGetConfirmInfo(data){
 	secondGrid.setData(secondGridData);
 	
 	if(secondGridData.length == 0 ){
-		showToast('결재정보가 없습니다. 관리자에게 등룍요청한 후 처리하시기 바랍니다.');
+		dialog.alert('결재정보가 없습니다. 관리자에게 등룍요청한 후 처리하시기 바랍니다.');
 		$("#btnReq").prop('disabled',true);
 		return;
 	}
