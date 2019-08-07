@@ -193,17 +193,34 @@ secondGrid.setConfig({
 
 if(reqCd != '07'){ // 테스트배포, 운영배포 그리드 컬럼수정
     var columns = [
-        {key: "cr_rsrcname", label: "프로그램명",  width: '7%'},
+    	{key: "view_dirpath", label: "프로그램경로",  width: '30%'},
+    	{key: "basename", label: "배포모듈",  width: '15%'},
+        {key: "jobname", label: "업무명",  width: '7%'},
         {key: "jawon", label: "프로그램종류",  width: '7%'},
         {key: "cr_story", label: "프로그램설명",  width: '7%'},
-        {key: "pcdir", label: "프로그램경로",  width: '30%'},
+        {key: "codename", label: "상태",  width: '5%'},
+        {key: "cr_lstver", label: "형상관리버전",  width: '5%'},
+        {key: "cr_realver", label: "배포버전",  width: '5%'},
+        {key: "cm_username", label: "수정자",  width: '5%'},
+        {key: "lastdt", label: "수정일",  width: '18%'}
+    ];
+    
+    firstGrid.config.columns = columns;
+    firstGrid.setConfig();
+    
+    var columns2 = [
+    	{key: "view_dirpath", label: "프로그램경로",  width: '30%'},
+        {key: "cr_rsrcname", label: "프로그램명",  width: '15%'},
         {key: "editRow", label: "컴파일순서",  width: '7%', editor: {type: "text"}},
-        {key: "cr_lstver", label: "형상관리버전",  width: '7%'},
-        {key: "cr_version", label: "배포대상버전",  width: '7%'},
+        {key: "jobname", label: "업무명",  width: '7%'},
+        {key: "jawon", label: "프로그램종류",  width: '10%'},
+        {key: "cr_story", label: "프로그램설명",  width: '8%'},
+        {key: "cr_lstver", label: "형상관리버전",  width: '9%'},
+        {key: "cr_version", label: "배포대상버전",  width: '8%'},
         {key: "cr_realver", label: "현운영버전",  width: '7%'}
     ];
     
-    secondGrid.config.columns = columns;
+    secondGrid.config.columns = columns2;
     secondGrid.setConfig();
 }
 
@@ -676,6 +693,7 @@ function findProc() {
 	tmpObj.DirPath = "";
 	tmpObj.SysInfo = getSelectedVal('cboSys').cm_sysinfo;
 	tmpObj.RsrcCd = "";
+	tmpObj.ReqCD = reqCd;
 	if(rsrccdData.length > 0){
 		tmpObj.RsrcCd = getSelectedVal('cboRsrccd').value;
 	}
@@ -710,13 +728,13 @@ function successGetProgramList(data) {
 			return;
 		}
 	}
-		
-	if(reqCd != '07'){ //체크인이 아니라면
+	if(reqCd != '07'){
 		$(firstGridData).each(function(){
 			this.pcdir = this.view_dirpath;
 			this.cm_codename = this.codename;
 			this.enddate = this.lastdt;
 		});
+		
 	}
 	
 	if(firstGridData.length > 0 && reqCd == '03'){
