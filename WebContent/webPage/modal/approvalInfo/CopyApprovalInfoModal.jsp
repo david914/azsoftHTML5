@@ -52,7 +52,7 @@
 	<!--line2-->				
 	<div class="row">
 		<div>
-			<div class="az_board_basic" style="height:40%">
+			<div class="az_board_basic" style="height:42%">
 		    	<div data-ax5grid="grdApprovalInfo" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 			</div>
 		</div>
@@ -81,7 +81,7 @@
 	<!--line5-->	
 	<div class="row">
 		<div class="scrollBind" id="lstSysDiv">
- 			<ul class="list-group" id="lstSys" style="height: 90%; border: 1px dotted gray;">
+ 			<ul class="list-group" id="lstSys" style="height: 90%;">
   			</ul>
 		</div>
 	</div>

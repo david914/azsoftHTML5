@@ -50,18 +50,18 @@ grdApprovalInfo.setConfig({
     	}
     },
     columns: [
-        {key: "manid", 			label: "구분",  		width: 70},
-        {key: "cm_seqno",		label: "순서",  		width: 60},
-        {key: "cm_name", 		label: "단계명칭",  	width: 150},
-        {key: "cm_codename", 	label: "결재구분",  	width: 100},
-        {key: "common", 		label: "정상",  		width: 100},
-        {key: "blank",			label: "부재",  		width: 100},
-        {key: "holi", 			label: "업무후",  	width: 100},
-        {key: "emg", 			label: "긴급",  		width: 100},
-        {key: "emg2", 			label: "긴급[후]",  	width: 100},
-        {key: "deptcd", 		label: "결재조직",  	width: 100},
-        {key: "rgtcd", 			label: "결재직무",  	width: 100},
-        {key: "rsrccd", 		label: "프로그램종류",	width: 100},
+        {key: "manid", 			label: "구분",  		width: 70,  align: 'center'},
+        {key: "cm_seqno",		label: "순서",  		width: 60,  align: 'center'},
+        {key: "cm_name", 		label: "단계명칭",  	width: 150, align: 'left'},
+        {key: "cm_codename", 	label: "결재구분",  	width: 100, align: 'left'},
+        {key: "common", 		label: "정상",  		width: 100, align: 'center'},
+        {key: "blank",			label: "부재",  		width: 100, align: 'center'},
+        {key: "holi", 			label: "업무후",  	width: 100, align: 'center'},
+        {key: "emg", 			label: "긴급",  		width: 100, align: 'center'},
+        {key: "emg2", 			label: "긴급[후]",  	width: 100, align: 'center'},
+        {key: "deptcd", 		label: "결재조직",  	width: 100, align: 'left'},
+        {key: "rgtcd", 			label: "결재직무",  	width: 100, align: 'left'},
+        {key: "rsrccd", 		label: "프로그램종류",	width: 100, align: 'left'},
     ]
 });
 
@@ -158,8 +158,10 @@ function successSysInfo(data) {
 	lstSysData.forEach(function(lstSysData, Index) {
 		addId = lstSysData.cm_syscd;
 		liStr  = '';
-		liStr += '<li class="list-group-item">';
-		liStr += '<label><input type="checkbox" class="checkbox-syscd" id="lstSys'+addId+'" value="'+lstSysData.cm_syscd+'"/>'+lstSysData.cm_sysmsg+'</label>';
+		liStr += '<li class="list-group-item dib width-50" style="min-width: 200px;">';
+		liStr += '<div class="margin-3-top">';
+		liStr += '	<input type="checkbox" class="checkbox-syscd" id="lstSys'+addId+'" data-label="'+lstSysData.cm_sysmsg+'"  value="'+lstSysData.cm_syscd+'" />';
+		liStr += '</div>';
 		liStr += '</li>';
 		
 		$('#lstSys').append(liStr);

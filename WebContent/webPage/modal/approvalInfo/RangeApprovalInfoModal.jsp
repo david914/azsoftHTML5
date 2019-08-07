@@ -40,7 +40,7 @@
 				</div>	
 				<div class="row por">
 					<label class="title_s">대결가능범위</label><input type="checkbox" class="poa_r checkbox-pie" id="chkAll" data-label="전체선택"/>
-					<div class="row scrollBind" style="width:100%; height: 70%;">
+					<div class="row scrollBind" style="width:100%; height:544px">
 				     	<ul id="lstPos" class="ztree"></ul>
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 	 	<div class="r_wrap width-70">
 	 		<div class="margin-5-left">
 				<label class="title_s">등록리스트</label>
-				<div class="row az_board_basic" style="width:100%; height:80%">
+				<div class="row az_board_basic" style="width:100%; height:614px">
 					<div data-ax5grid="grdRangeList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="width:100%; height: 100%;"></div>
 				</div>
 			</div>

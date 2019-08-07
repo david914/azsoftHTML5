@@ -29,6 +29,7 @@ grdAllApprovalInfo.setConfig({
     target: $('[data-ax5grid="grdAllApprovalInfo"]'),
     sortable: true, 
     multiSort: true,
+    multipleSelect: false,
     showRowSelector: false,
     header: {
         align: "center",
@@ -46,21 +47,21 @@ grdAllApprovalInfo.setConfig({
     	}
     },
     columns: [
-        {key: "reqname", 		label: "결재유형",  		width: 120},
-        {key: "cm_sysmsg",		label: "시스템",  		width: 100},
-        {key: "manid", 			label: "직원구분",  		width: 80},
-        {key: "cm_seqno", 		label: "순서",  			width: 60},
-        {key: "cm_name", 		label: "단계명칭",  		width: 150},
-        {key: "cm_codename",	label: "결재구분",  		width: 100},
-        {key: "common", 		label: "정상",  			width: 100},
-        {key: "blank", 			label: "부재",  			width: 100},
-        {key: "holi", 			label: "업무후",  		width: 100},
-        {key: "emg", 			label: "긴급",  			width: 100},
-        {key: "emg2", 			label: "긴급[후]",  		width: 100},
-        {key: "deptcd", 		label: "결재조직",  		width: 100},
-        {key: "rgtcd", 			label: "결재직무",  		width: 100},
-        {key: "rsrccd", 		label: "프로그램종류",		width: 100},
-        {key: "pgmtype", 		label: "프로그램등급", 		width: 100}
+        {key: "reqname", 		label: "결재유형",  		width: 120, align: 'left'},
+        {key: "cm_sysmsg",		label: "시스템",  		width: 140, align: 'left'},
+        {key: "manid", 			label: "직원구분",  		width: 80, 	align: 'center'},
+        {key: "cm_seqno", 		label: "순서",  			width: 60, 	align: 'center'},
+        {key: "cm_name", 		label: "단계명칭",  		width: 150, align: 'left'},
+        {key: "cm_codename",	label: "결재구분",  		width: 100, align: 'center'},
+        {key: "common", 		label: "정상",  			width: 100, align: 'center'},
+        {key: "blank", 			label: "부재",  			width: 100, align: 'center'},
+        {key: "holi", 			label: "업무후",  		width: 100, align: 'center'},
+        {key: "emg", 			label: "긴급",  			width: 100, align: 'center'},
+        {key: "emg2", 			label: "긴급[후]",  		width: 100, align: 'center'},
+        {key: "deptcd", 		label: "결재조직",  		width: 100, align: 'left'},
+        {key: "rgtcd", 			label: "결재직무",  		width: 100, align: 'left'},
+        {key: "rsrccd", 		label: "프로그램종류",		width: 100, align: 'left'},
+        {key: "pgmtype", 		label: "프로그램등급", 		width: 100, align: 'left'}
     ]
 });
 
