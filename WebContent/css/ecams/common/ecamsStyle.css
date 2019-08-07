@@ -1499,3 +1499,6 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 .row:first-child, .sm-row:first-child{margin-top: 0px;}
 
 .row{margin-top: 5px;}
+
+.thumbnail span {margin-right: 0px !important;}
+.thumbnail {margin-top: 9px !important;}
