@@ -140,8 +140,12 @@
 	</div>
 	<!--하단 컨텐츠 버튼 -->
 	<div class="btn_wrap_r">
-		<button id="btnRegister" name="btnRegister" class="btn_basic">등록</button><button id="btnUpdate" name="btnUpdate" class="btn_basic">수정</button><button id="btnDelete" name="btnDelete" class="btn_basic">반려</button>
+		<button id="btnConf" name="btnConf" class="btn_basic" style="display: none;">결재정보</button><button id="btnRegister" name="btnRegister" class="btn_basic">등록</button><button id="btnUpdate" name="btnUpdate" class="btn_basic">수정</button><button id="btnDelete" name="btnDelete" class="btn_basic">반려</button>
 	</div>
+	
 </div>
-
+<form name="popPam">
+	<input type="hidden" name="acptno"/>
+	<input type="hidden" name="user"/>
+</form>
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/sr/SRRegisterTab.js"/>"></script>

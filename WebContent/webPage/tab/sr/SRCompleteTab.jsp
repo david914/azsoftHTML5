@@ -64,7 +64,7 @@
 </div>
 <!--버튼 S-->
 <div class="row tar">
-	<button id="btnOk" class="btn_basic_p" style="display: none;">결재</button><button id="btnCncl" class="btn_basic_p margin-5-left" style="display: none;">반려</button><button id="btnConf" class="btn_basic_s margin-5-left" style="display: none;">결재정보</button><button id="btnReg" class="btn_basic_s margin-5-left">등록/수정</button>
+	<button id="btnOk" class="btn_basic_p" style="display: none;">결재</button><button id="btnCncl" class="btn_basic_p margin-5-left" style="display: none;">반려</button><button id="btnConf" class="btn_basic_s margin-5-left" style="display: none;">결재정보</button><button id="btnReg" class="btn_basic_s margin-5-left" disabled>등록/수정</button>
 </div>
 <!--게시판 S-->
 <div class="row az_board_basic" style="height: 40%">
@@ -75,6 +75,10 @@
 		data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}"
 		style="height: 100%;"></div>
 </div>	
+<form name="popPam">
+	<input type="hidden" name="acptno"/>
+	<input type="hidden" name="user"/>
+</form>
 <body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
 
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/sr/SRCompleteTab.js"/>"></script>

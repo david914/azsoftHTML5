@@ -53,11 +53,6 @@ devListGrid.setConfig({
 });
 
 $(document).ready(function() {
-	console.log(userId);
-	console.log(strStatus); //
-	console.log(strReqCd);  
-	console.log(strIsrId);
-	console.log(strIsrTitle); //
 	getStrAcptno();	// AcptNo 가져오기
 	srendInfoCall();
 	
@@ -65,7 +60,100 @@ $(document).ready(function() {
 	$('#btnOk').bind('click', function() {
 		btnOk_click();
 	});
+	
+	// 등록/수정버튼 클릭
+	$('#btnReg').bind('click', function() {
+		format_confirm();
+	});
+	
+	// 결재정보
+	$('#btnConf').bind('click', function() {
+		openApprovalInfo(2, confAcpt, "R60");
+	});
 });
+
+// 등록/수정 클릭
+function format_confirm(){
+	if($("#txtReqContent").val().length === 0 || $("#txtReqContent").val() == ""){
+		dialog.alert("완료의견을 입력하여 주시기 바랍니다.");
+    	return;
+	}
+	
+	confirmInfoData = new Object();
+	confirmInfoData.SysCd = "99999";
+	confirmInfoData.EmgSw = "0";
+	confirmInfoData.strRsrcCd = "";
+	confirmInfoData.PrjNo = strIsrId;
+	confirmInfoData.ReqCd = strReqCd;
+	confirmInfoData.UserID = userId;
+	confirmInfoData.strQry = "";
+	
+	var tmpData = {
+			requestType : 'confSelect',
+			confirmInfoData : confirmInfoData
+	}	
+	ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
+	
+	if(ajaxReturnData == "Y"){
+		confselect2();
+	}
+}
+
+function confselect2(){
+	approvalModal.open({
+        width: 820,
+        height: 365,
+        iframe: {
+            method: "get",
+            url: "../../modal/request/ApprovalModal.jsp",
+            param: "callBack=modalCallBack"
+	    },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+            	if(confirmData.length > 0){
+            		endSr();
+            	}
+            	ingSw = false;
+                mask.close();
+            }
+        }
+	});
+}
+
+function endSr(){
+	// eCmc0900_tab.mxml line 170
+}
+
+//결재 정보 창 띄우기
+function openApprovalInfo(type, acptNo, reqCd) {
+	var nHeight, nWidth, cURL, winName;
+	
+	if ( (type+'_'+reqCd) == winName ) {
+		if (myWin != null) {
+	        if (!myWin.closed) {
+	        	myWin.close();
+	        }
+		}
+	}
+
+    winName = type+'_'+reqCd;
+    
+	var form = document.popPam;   		//폼 name
+    
+	form.acptno.value	= acptNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    
+    if(type === 2) {
+    	nHeight = 471;
+        nWidth  = 1033;
+    	cURL	= '/webPage/winpop/PopApprovalInfo.jsp';
+    }
+    
+	myWin = winOpen(form, winName, cURL, nHeight, nWidth);
+}
 
 function srendInfoCall(){
 	if(strIsrId != null){
@@ -93,9 +181,9 @@ function srendInfoCall(){
 				if(retMsg == "0"){
 					$("#btnOk").show();
 					
-					//if(strStatus != "9"){	// 나중에 주석처리 제거해야됨
+					if(strStatus != "9"){	// 나중에 주석처리 제거해야됨
 						$("#btnCncl").show();
-					//}
+					}
 					
 					$("#lbTxt").show();
 					$("#divTxt").show();
@@ -216,11 +304,13 @@ function btnOk_click(){
     	return;
     }
 	
-	if(confirm("결재처리하시겠습니까?") == true){
-		confChk1();
-    } else {
-    	return;
-    }
+	confirmDialog.confirm({
+		msg: '결재처리하시겠습니까?',
+	}, function(){
+		if(this.key === 'ok') {
+			confChk1();
+		}
+	});
 }
 
 function confChk1(){
