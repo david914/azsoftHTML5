@@ -189,8 +189,10 @@ function successGetBlankList(data) {
 						
 						addId = lstPosData[i].cm_macode + "_" + lstPosData[i].cm_micode;
 						liStr  = '';
-						liStr += '<li class="list-group-item">';
-						liStr += '<label><input type="checkbox" class="checkbox-cm_micode" id="lstPos'+addId+'" value="'+data.cm_micode+'"/>'+data.cm_codename+'</label>';
+						liStr += '<li class="list-group-item dib width-50" style="min-width: 200px;">';
+						liStr += '<div class="margin-3-top">';
+						liStr += '	<input type="checkbox" class="checkbox-cm_micode" id="lstPos'+addId+'" data-label="'+data.cm_codename+'"  value="'+data.cm_micode+'" />';
+						liStr += '</div>';
 						liStr += '</li>';
 						
 						$('#lstPos'+lstPosData[k-1].cm_macode + "_" + lstPosData[k-1].cm_micode).after(liStr);
@@ -209,8 +211,10 @@ function successGetBlankList(data) {
 						
 						addId = lstRgtData[i].cm_macode + "_" + lstRgtData[i].cm_micode;
 						liStr  = '';
-						liStr += '<li class="list-group-item">';
-						liStr += '<label><input type="checkbox" class="checkbox-cm_micode" id="lstPos'+addId+'" value="'+data.cm_micode+'"/>'+data.cm_codename+'</label>';
+						liStr += '<li class="list-group-item dib width-50" style="min-width: 200px;">';
+						liStr += '<div class="margin-3-top">';
+						liStr += '	<input type="checkbox" class="checkbox-cm_micode" id="lstPos'+addId+'" data-label="'+data.cm_codename+'"  value="'+data.cm_micode+'" />';
+						liStr += '</div>';
 						liStr += '</li>';
 						
 						$('#lstPos'+lstRgtData[k-1].cm_macode + "_" + lstRgtData[k-1].cm_micode).after(liStr);
@@ -409,8 +413,10 @@ function setLstPos(data) {
 	data.forEach(function(data, Index) {
 		addId = data.cm_macode + "_" + data.cm_micode;
 		liStr  = '';
-		liStr += '<li class="list-group-item">';
-		liStr += '<label><input type="checkbox" class="checkbox-cm_micode" id="lstPos'+addId+'" value="'+data.cm_micode+'"/>'+data.cm_codename+'</label>';
+		liStr += '<li class="list-group-item dib width-50" style="min-width: 200px;">';
+		liStr += '<div class="margin-3-top">';
+		liStr += '	<input type="checkbox" class="checkbox-cm_micode" id="lstPos'+addId+'" data-label="'+data.cm_codename+'"  value="'+data.cm_micode+'" />';
+		liStr += '</div>';
 		liStr += '</li>';
 		
 		$('#lstPos').append(liStr);

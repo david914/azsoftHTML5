@@ -69,6 +69,9 @@ public class SRRegisterTab extends HttpServlet {
 				case "updateSRInfo" :
 					response.getWriter().write( updateSRInfo(jsonElement) );
 					break;	
+				case "deleteSRInfo" :
+					response.getWriter().write( deleteSRInfo(jsonElement) );
+					break;		
 				default:
 					break;
 			}
@@ -87,6 +90,12 @@ public class SRRegisterTab extends HttpServlet {
 	private String selectSRInfo(JsonElement jsonElement) throws SQLException, Exception {
 		String srid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "srInfoData") );
 		return gson.toJson(cmc0100.selectSRInfo(srid));
+	}
+	
+	private String deleteSRInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String userid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strUserId") );
+		String srid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "srId") );
+		return gson.toJson(cmc0100.deleteSRInfo(userid, srid));
 	}
 	
 	private String getDocList(JsonElement jsonElement) throws SQLException, Exception {

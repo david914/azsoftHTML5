@@ -42,7 +42,7 @@
 					</div>
 					<div class="row view_g font_12" style="height:150px">
 						<!-- 결재조직 트리-->
-						<div class="scrollBind" style="height: 100%; border: 1px dotted gray;" id="treeDeptDiv">
+						<div class="scrollBind" style="height: 100%;" id="treeDeptDiv">
 							<ul id="treeDept" class="ztree"></ul>
 						</div>
 					</div>
@@ -79,7 +79,7 @@
 						<div class="row view_g" style="height:150px;">
 							<!-- 직무 체크리스트 -->
 							<div class="scrollBind" id="lstRgtDiv" style="height: 100%">
-			    				<ul class="list-group" id="lstRgt" style="height: 100%; border: 1px dotted gray;"> <!-- 결재직무 -->
+			    				<ul class="list-group" id="lstRgt" style="height: 100%;"> <!-- 결재직무 -->
 				    			</ul>
 			    			</div>
 						</div>
@@ -123,7 +123,7 @@
 						<div class="row view_g" style="height:150px;">
 							<!-- 프로그램등급 -->
 							<div class="scrollBind" id="lstGradeDiv" style="height: 100%">
-			    				<ul class="list-group" id="lstGrade" style="height: 100%; border: 1px dotted gray;"> <!-- lstType -->
+			    				<ul class="list-group" id="lstGrade" style="height: 100%;"> <!-- lstType -->
 				    			</ul>
 			    			</div>
 						</div>
@@ -161,7 +161,7 @@
 					<div class="row view_g" style="height:150px;">
 						<!-- 프로그램종류 체크리스트 -->
 						<div class="scrollBind" id="lstJawonDiv" style="height: 100%">
-		    				<ul class="list-group" id="lstJawon" style="height: 100%; border: 1px dotted gray;"> <!-- lstProg --> 
+		    				<ul class="list-group" id="lstJawon" style="height: 100%;"> <!-- lstProg --> 
 			    			</ul>
 		    			</div>
 					</div>

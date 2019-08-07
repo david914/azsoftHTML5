@@ -19,6 +19,8 @@ var strIsrId  = "";
 var strQryGbn = "";
 var strWorkD  = "";
 var strAcptNo = "";
+var strStatus = "";
+var strIsrTitle = "";
 var cboQryGbnData = [];
 
 var prjListData = [];
@@ -56,7 +58,7 @@ $(document).ready(function() {
 	$('#frmPrgList').get(0).contentWindow.strReqCd = "XX";
 	
 	initScreen();
-	clickTabMenu();
+	//clickTabMenu();
 	
 	//PrjInfo.getPrjList(tmpObj);
 	var tmpInfo = new Object();
@@ -71,7 +73,7 @@ $(document).ready(function() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETPRJLIST'
 	}
-	ajaxAsync('/webPage/winpop/PopSRInfoServlet', tmpInfoData, 'json', successPrjList);
+	ajaxAsync('/webPage/winpop/PopSRInfoServlet', tmpInfoData, 'json', successPrjList, clickTabMenu);
 });
 
 function initScreen() {
@@ -85,10 +87,13 @@ function initScreen() {
 
 function successPrjList(data) {
 	prjListData = data;
+	console.log(prjListData);
 	if(prjListData.length > 0) {
 		$("#txtSRID").val(strIsrId);
 		$("#txtSRTitle").val(prjListData[0].cc_reqtitle);
 		$("#txtSRSta").val(prjListData[0].status);
+		strIsrTitle = prjListData[0].cc_reqtitle;
+		strStatus = prjListData[0].status;
 		iSRID_Click(prjListData[0]);
 	}
 }
@@ -233,6 +238,9 @@ function changeTabMenu() {
 		tmpTab.strEditor = prjListData[0].cc_lastupuser;
 		tmpTab.strQryGbn = "00";
 		//tmpTab.srendInfoCall();
+		
+		console.log("cc_status: " + prjListData[0].cc_status);
+		console.log("strIsrTitle: " + prjListData[0].cc_reqtitle);
 	}
 }
 

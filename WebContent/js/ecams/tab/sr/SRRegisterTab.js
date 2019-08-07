@@ -52,7 +52,7 @@ var selSubDeptCd="";
 var fileGrid = true;
 var confirmData = [];
 var confirmInfoData = null;
-
+var acptno = "";
 // 파일첨부 팝업
 var fileUploadModal = new ax5.ui.modal(
 		{
@@ -298,9 +298,41 @@ $(document).ready(function() {
 	});
 	// 삭제버튼
 	$('#btnDelete').bind('click', function() {
-		
+		cmdCncl_click();
+	});
+	// 결재정보
+	$('#btnConf').bind('click', function() {
+		openApprovalInfo(2, acptno, "R60");
 	});
 });
+
+//결재 정보 창 띄우기
+function openApprovalInfo(type, acptNo, reqCd) {
+	var nHeight, nWidth, cURL, winName;
+	
+	if ( (type+'_'+reqCd) == winName ) {
+		if (myWin != null) {
+	        if (!myWin.closed) {
+	        	myWin.close();
+	        }
+		}
+	}
+
+    winName = type+'_'+reqCd;
+    
+	var form = document.popPam;   		//폼 name
+    
+	form.acptno.value	= acptNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.user.value 	= userid;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    
+    if(type === 2) {
+    	nHeight = 471;
+        nWidth  = 1033;
+    	cURL	= '/webPage/winpop/PopApprovalInfo.jsp';
+    }
+    
+	myWin = winOpen(form, winName, cURL, nHeight, nWidth);
+}
 
 //소소조직 선택 창 오픈
 function openOranizationModal() {
@@ -389,7 +421,6 @@ function elementInit(initDivision) {
 		$('#txtRegDate').attr('disabled', true);
 		$('#txtReqSecu').val('');
 		$('#txtReqSecu').css('display', 'none');
-
 		$('[data-ax5select="cboCatTypeSR"]').ax5select("setValue", '00', true);
 		$('[data-ax5select="cboChgType"]').ax5select("setValue", '00', true);
 		$('[data-ax5select="cboWorkRank"]').ax5select("setValue", '00', true);
@@ -458,6 +489,7 @@ function elementInit(initDivision) {
 		$('#txtRegUser').attr('disabled', true);
 		$('#txtRegDate').attr('disabled', true);
 	}
+	$("#btnConf").hide();
 	$('#txtDocuNum').val('');
 	$('#txtReqSubject').val('');
 	$('#texReqContent').val('');
@@ -715,9 +747,6 @@ function confirmEnd(){
 		SRData.cc_srid = selectedSr.cc_srid;
 		SRData.cc_createuser = selectedSr.cc_createuser;
 		SRData.cc_status = selectedSr.cc_status;
-	} else {
-		SRData.cc_srid = "";
-		SRData.cc_createuser = "";
 	}
 	
 	if(ins_sw){
@@ -754,6 +783,42 @@ function confirmEnd(){
 			ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
 		}
 	}
+}
+
+
+//SR 반려
+function cmdCncl_click(){
+	if(ing_sw){
+		dialog.alert("현재 작업이 진행중입니다. 잠시후 다시 시도해주세요");
+		return;
+	}
+	
+	confirmDialog.confirm({
+		msg: '반려처리하시겠습니까?',
+	}, function(){
+		if(this.key === 'ok') {
+			cnclChk();
+		}
+	});
+}
+
+function cnclChk(){
+	ing_sw = true;
+	
+	var SRInfo = {
+			strUserId : userid,
+			srId 	  : $('#txtSRID').val(),
+			requestType: 	'deleteSRInfo'
+		}
+		
+	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', SRInfo, 'json');
+	if(ajaxReturnData !== 'ERR') {
+		dialog.alert("삭제가 완료되었습니다");
+		elementInit("NEW");
+		ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
+	}
+	
+	ing_sw = false;
 }
 
 // 개발자 추가 버튼
@@ -880,11 +945,9 @@ function firstGridClick(srid) {
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab',
 			srInfo, 'json');
 	if (ajaxReturnData !== 'ERR') {
-		console.log(ajaxReturnData);
-
 		$('#chkNew').wCheck('check', false);
 		clickChkNew();
-
+		console.log(ajaxReturnData);
 		$('#txtSRID').val(ajaxReturnData[0].cc_srid);
 		$('#txtRegUser').val(ajaxReturnData[0].createuser);
 		$('#txtRegDate').val(ajaxReturnData[0].createdate);
@@ -893,7 +956,11 @@ function firstGridClick(srid) {
 		$('#txtOrg').val(ajaxReturnData[0].reqdept);
 		
 		$('#txtReqSubject').val(ajaxReturnData[0].cc_reqtitle);
-
+		if(ajaxReturnData[0].acptno != "" && ajaxReturnData[0].acptno != undefined){
+			acptno = ajaxReturnData[0].acptno;
+			$("#btnConf").show();
+		}
+		
 		var tempDate = ajaxReturnData[0].cc_reqcompdate.substring(0, 4) + "/"
 				+ ajaxReturnData[0].cc_reqcompdate.substring(4, 6) + "/"
 				+ ajaxReturnData[0].cc_reqcompdate.substring(6, 8);

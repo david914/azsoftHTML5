@@ -6,7 +6,7 @@
  * 	버전 : 1.1
  *  수정일 : 2019-07-25
  */
-/*
+
 var userName 	 	= window.parent.userName;
 var userId 		 	= window.parent.userId;
 var adminYN 		= window.parent.adminYN;
@@ -16,9 +16,6 @@ var strReqCd	 	= window.parent.strReqCd;
 
 var strStatus		= window.parent.strStatus; //SR상태 "2";
 var strIsrId		= window.parent.strIsrId; //"R201906-0003";  
-*/
-var strIsrId = 'R201708-0001';
-var userId = 'MASTER';
 var strReqCd = "";
 
 var cboUserData = null;

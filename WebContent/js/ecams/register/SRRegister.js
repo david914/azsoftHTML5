@@ -16,13 +16,25 @@ var strReqCd	 	= window.top.reqCd;
 var selectedSr		= null;
 var testFlag = false;
 var cboQryGbnData = [];
-
+var loadSrReg = false;
 /******************** eCmc0100.mxml ********************/
 
 $(document).ready(function(){
 	strReqCd = "41";
 	setCbo();
 });
+
+// 페이지 로딩 완료시 다음 진행 
+var inter = null;
+
+function callSRRegister(data) {
+   inter = setInterval(function(){
+      if(loadSrReg) {
+         iSRID_Click(data);
+         clearInterval(inter);
+      }
+   },100);
+}
 
 //PrjListTab 대상구분 콤보박스 데이터
 function setCbo() {

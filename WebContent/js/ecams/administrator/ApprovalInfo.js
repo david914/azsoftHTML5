@@ -69,20 +69,20 @@ grdSign.setConfig({
     	}
     },
     columns: [
-        {key: "manid", 		label: "구분",		width: '3%'},
-        {key: "cm_seqno", 	label: "순서",  		width: '3%'},
-        {key: "cm_name", 	label: "단계명칭",		width: '11%'},
-        {key: "cm_codename",label: "결재구분",		width: '10%'},
-        {key: "common", 	label: "정상", 		width: '8%'},
-        {key: "blank", 		label: "부재",  		width: '8%'},
-        {key: "holi", 		label: "업무후", 		width: '8%'},
-        {key: "emg", 		label: "긴급",  		width: '8%'},
-        {key: "emg2", 		label: "긴급[후]",	width: '8%'},
-        {key: "deptcd", 	label: "결재조직",  	width: '13%'},
-        {key: "rgtcd", 		label: "결재직무",  	width: '13%'},
-        {key: "cm_orgstep", label: "삭제가능",  	width: '5%'},
-        {key: "rsrccd", 	label: "프로그램종류", 	width: '10%'},
-        {key: "pgmtype", 	label: "프로그램등급", 	width: '13%'}
+        {key: "manid", 		label: "구분",		width: '3%',  align: 'center'},
+        {key: "cm_seqno", 	label: "순서",  		width: '3%',  align: 'center'},
+        {key: "cm_name", 	label: "단계명칭",		width: '11%', align: 'left'},
+        {key: "cm_codename",label: "결재구분",		width: '10%', align: 'left'},
+        {key: "common", 	label: "정상", 		width: '8%',  align: 'center'},
+        {key: "blank", 		label: "부재",  		width: '8%',  align: 'center'},
+        {key: "holi", 		label: "업무후", 		width: '8%',  align: 'center'},
+        {key: "emg", 		label: "긴급",  		width: '8%',  align: 'center'},
+        {key: "emg2", 		label: "긴급[후]",	width: '8%',  align: 'center'},
+        {key: "deptcd", 	label: "결재조직",  	width: '13%', align: 'left'},
+        {key: "rgtcd", 		label: "결재직무",  	width: '13%', align: 'left'},
+        {key: "cm_orgstep", label: "삭제가능",  	width: '5%',  align: 'center'},
+        {key: "rsrccd", 	label: "프로그램종류", 	width: '10%', align: 'left'},
+        {key: "pgmtype", 	label: "프로그램등급", 	width: '13%', align: 'left'}
     ]
 });
 
@@ -356,6 +356,7 @@ function cboSgnGbn_Change() {
 	switch (getSelectedVal('cboSgnGbn').value) {
 	    case "1":
 	    case "2":
+	    	console.log("case2")
 	    case "3":
 	    case "4":
 	    case "5": //처리팀
@@ -559,6 +560,7 @@ function cboSgnGbn_Change() {
 	    	break;
 	    case "P":
 	    default:
+	    	console.log("default");
 	    	$('#chkAllRgt').wCheck("disabled", true);
 	    	$('#chkAllRgt').wCheck("check", false);
 	    	document.getElementById("lstRgtDiv").style.backgroundColor = "#E2E2E2"; //lstRgtCd.enabled = false;
@@ -619,8 +621,10 @@ function setLstJawon() {
 		lstJawonData.forEach(function(lstJawonData, Index) {
 			addId = lstJawonData.cm_micode;
 			liStr  = '';
-			liStr += '<li class="list-group-item">';
-			liStr += '<label><input type="checkbox" class="checkbox-jawon" id="lstJawon'+addId+'" value="'+lstJawonData.cm_micode+'"/>'+lstJawonData.cm_codename+'</label>';
+			liStr += '<li class="list-group-item dib width-50" style="min-width: 200px;">';
+			liStr += '<div class="margin-3-top">';
+			liStr += '	<input type="checkbox" class="checkbox-jawon" id="lstJawon'+addId+'" data-label="'+lstJawonData.cm_codename+'"  value="'+lstJawonData.cm_micode+'" />';
+			liStr += '</div>';
 			liStr += '</li>';
 			
 			$('#lstJawon').append(liStr);
@@ -668,8 +672,10 @@ function setLstRgt() {
 	lstRgtData.forEach(function(lstRgtData, Index) {
 		addId = lstRgtData.cm_micode;
 		liStr  = '';
-		liStr += '<li class="list-group-item">';
-		liStr += '<label><input type="checkbox" class="checkbox-rgtcd" id="lstRgt'+addId+'" value="'+lstRgtData.cm_micode+'"/>'+lstRgtData.cm_codename+'</label>';
+		liStr += '<li class="list-group-item dib width-50" style="min-width: 200px;">';
+		liStr += '<div class="margin-3-top">';
+		liStr += '	<input type="checkbox" class="checkbox-rgtcd" id="lstRgt'+addId+'" data-label="'+lstRgtData.cm_codename+'"  value="'+lstRgtData.cm_micode+'" />';
+		liStr += '</div>';
 		liStr += '</li>';
 		
 		$('#lstRgt').append(liStr);
@@ -689,8 +695,10 @@ function setLstGrade() {
 	lstGradeData.forEach(function(lstGradeData, Index) {
 		addId = lstGradeData.cm_micode;
 		liStr  = '';
-		liStr += '<li class="list-group-item">';
-		liStr += '<label><input type="checkbox" class="checkbox-grade" id="lstGrade'+addId+'" value="'+lstGradeData.cm_micode+'"/>'+lstGradeData.cm_codename+'</label>';
+		liStr += '<li class="list-group-item dib width-50" style="min-width: 200px;">';
+		liStr += '<div class="margin-3-top">';
+		liStr += '	<input type="checkbox" class="checkbox-grade" id="lstGrade'+addId+'" data-label="'+lstGradeData.cm_codename+'"  value="'+lstGradeData.cm_micode+'" />';
+		liStr += '</div>';
 		liStr += '</li>';
 		
 		$('#lstGrade').append(liStr);
