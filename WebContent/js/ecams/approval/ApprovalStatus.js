@@ -41,7 +41,13 @@ approGrid.setConfig({
         	this.self.clearSelect();
             this.self.select(this.dindex);
         },
-        onDBLClick: function () {},
+        onDBLClick: function () {
+        	if(approGrid.selectedDataIndexs.length < 1 ) {
+        		return;
+        	}
+        	var item = approGrid.list[approGrid.selectedDataIndexs];
+        	openApprovalInfo(1, item.cr_acptno, item.cr_qrycd, item.cc_srid);
+        },
     	trStyleClass: function () {
     		if(this.item.colorsw === '0'){
     			return "fontStyle-ing";
@@ -81,7 +87,8 @@ approGrid.setConfig({
         	return true;
         },
         onClick: function (item, param) {
-        	openApprovalInfo(item.type, param.item.cr_acptno, param.item.qrycd2);
+        	console.log(param);
+        	openApprovalInfo(item.type, param.item.cr_acptno, param.item.cr_qrycd, param.item.cc_srid);
         	approGrid.contextMenu.close();
         }
     },
@@ -177,7 +184,7 @@ $(document).ready(function() {
 });
 
 // 결재 정보 창 띄우기
-function openApprovalInfo(type, acptNo, reqCd) {
+function openApprovalInfo(type, acptNo, reqCd, srId) {
 	var nHeight, nWidth, cURL, winName;
 	
 	if ( (type+'_'+reqCd) == winName ) {
@@ -194,20 +201,25 @@ function openApprovalInfo(type, acptNo, reqCd) {
     
 	form.acptno.value	= acptNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 	form.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.srid.value 	= srId;    		//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 	
     if(type === 1) {
     	nHeight = screen.height - 300;
 	    nWidth  = screen.width - 400;
-	    cURL = "/webPage/winpop/PopRequestDetail.jsp";
+	    
+	    if(Number(reqCd) < 20) {
+	    	cURL = "/webPage/winpop/PopRequestDetail.jsp";
+	    } else {
+	    	cURL = '/webPage/winpop/PopSRInfo.jsp';
+	    }
     }
     
-    
     if(type === 2) {
-    	nHeight = 468;
+		nHeight = 468;
         nWidth  = 900;
     	cURL	= '/webPage/winpop/PopApprovalInfo.jsp';
     }
-    
+   
 	myWin = winOpen(form, winName, cURL, nHeight, nWidth);
 }
 
