@@ -12,12 +12,6 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.Part;
-import com.oreilly.servlet.multipart.FilePart;
-import com.oreilly.servlet.multipart.MultipartParser;
-import com.oreilly.servlet.multipart.ParamPart;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.*;
-import com.google.gson.internal.LinkedTreeMap;
 
 import app.common.PrjInfo;
 import app.common.SysInfo;
@@ -36,12 +29,10 @@ import app.eCmr.Cmr0100;
 import app.eCmr.Cmr0200;
 import app.eCmr.Confirm_select;
 import html.app.common.ParsingCommon;
-import sun.security.jca.GetInstance.Instance;
 
 @WebServlet("/webPage/dev/CheckOutServlet")
 public class CheckOutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final JsonElement SystemPath = null;
 	Gson gson = new Gson();
 	Cmr0100 cmr0100  = new Cmr0100();
 	SysInfo sysinfo = new SysInfo();

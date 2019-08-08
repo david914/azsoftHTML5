@@ -1,6 +1,8 @@
 
 var acptNo 	= window.parent.acptNo;				//신청번호
 var gubun      = "1";
+var filepath		= "";
+var filename		= "";
 
 var uploadCk  = window.parent.uploadCk;
 var firstGrid  	= new ax5.ui.grid();
@@ -9,8 +11,7 @@ var firstGridData = []; 							//선후행목록 데이타
 var data          = null;							//json parameter
 var fileIndex = 0;
 var fileData = [];
-var nowMonth = (""+(new Date().getMonth()+1)).length === 1 ?  '0'+ (new Date().getMonth()+1) : (new Date().getMonth()+1);
-var saveName = "/"+new Date().getFullYear()+"/"+nowMonth;
+var TotalFileSize = 0;
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -56,7 +57,9 @@ firstGrid.setConfig({
 
 $(document).ready(function() {
 	firstGridData = window.parent.upFiles;
+	filepath 	= window.parent.acptNo.substr(0,4) + "/" +  window.parent.acptNo.substr(4,2);
 	acptNo 	= window.parent.acptNo;
+	filename 	= window.parent.acptNo.substr(6);
 	if(firstGridData != undefined && firstGridData.length > 0){
 		firstGrid.setData(firstGridData);
 	}
@@ -107,15 +110,30 @@ function popClose(){
 function fileChange(file){
 
 	var jqueryFiles = $("#"+file).get(0);
+	var fileSizeArr = [' KB', ' MB', ' GB'];
 	
 	if (jqueryFiles.files && jqueryFiles.files[0]) { 
 
 		for(var i=0; i<jqueryFiles.files.length; i++){
-			
+			var sizeCount = 0;
 			var size = jqueryFiles.files[i].size/1024; // Byte, KB, MB, GB
-			size = Math.round(size*10)/10.0 + "KB";
+			while(size > 1024 && sizeCount < 2){
+				size = size/1024;
+				sizeCount ++;
+			}
+			size = Math.round(size*10)/10.0 + fileSizeArr[sizeCount];
 			var sizeReal = jqueryFiles.files[i].size;
 			var name = jqueryFiles.files[i].name
+			if(jqueryFiles.files[i].size > 500*1024*1024){ // 50MB 제한
+				dialog.alert('<div>파일명 : '+name+'</div> <div>파일은 500MB를 넘어 업로드 할 수 없습니다.</div>',function(){});
+				continue;
+			}
+			TotalFileSize = TotalFileSize + sizeReal;
+			if(TotalFileSize > 1 *1024*1024*1024){ // 총파일 사이즈 1GB 제한
+				dialog.alert('첨부파일의 총 용량은 1GB 를 초과할 수 없습니다.',function(){});
+				TotalFileSize = TotalFileSize - sizeReal;
+				break;
+			}
 			var fileCk = true;
 			
 			for(var j=0; j<firstGridData.length; j++){
@@ -136,7 +154,6 @@ function fileChange(file){
 				tmpObj.filegb = "1";
 				tmpObj.realName = name;
 				tmpObj.file = jqueryFiles.files[i];
-				tmpObj.fullpath = saveName;
 				
 				firstGridData.push(tmpObj);
 			}
@@ -177,8 +194,8 @@ function fileUpload(){
 	for(var i=0; i<firstGridData.length; i++){
 		var index = i + 1;
 		formData.append('fullName',tmpPath);
-		formData.append('fullpath',tmpPath+firstGridData[i].fullpath);
-		formData.append('saveName',firstGridData[i].serverFileName+index);
+		formData.append('fullpath',tmpPath+filepath);
+		formData.append('saveName',filename+"."+index);
 		formData.append('file',firstGridData[i].file);
 		
 		firstGridData[i].index = index;
@@ -188,6 +205,7 @@ function fileUpload(){
     $.ajax({
         url:'/webPage/fileupload/FileUpload.jsp',
         type:'POST',
+        enctype: 'multipart/form-data',
         data:formData,
         async: true,
         cache:false,
@@ -222,8 +240,7 @@ function onUploadCompleteData(){
 	var dbFileData = clone(firstGridData);
 	for(var key in dbFileData){ // 파일 데이터가 있으면 Json HashMap 변환에 에러가 뜨므로 파일 데이터를 지워서 전달
 		dbFileData[key].file = null;
-		dbFileData[key].serverFileName = acptNo+"."; //서버에 저장될 파일명
-		dbFileData[key].saveName = dbFileData[key].fullpath+"/"+acptNo;
+		dbFileData[key].saveName = filepath+"/"+filename;
 		dbFileData[key].acptno = acptNo;
 	}
 	
@@ -231,7 +248,6 @@ function onUploadCompleteData(){
 			fileList   :   dbFileData,
 			requestType	: 	'fileUpload'
 		}
-		
 	ajaxResultData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
 	if(ajaxResultData == "ok"){
 
