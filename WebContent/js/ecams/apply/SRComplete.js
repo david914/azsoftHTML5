@@ -127,8 +127,6 @@ function iSRID_Click(data) {
 		$("#tab2").bind("click", clickTabMenu());
 	}
 	
-	$("#tab3").bind("click", clickTabMenu());
-	
 	data = null;
 	changeTabMenu();
 
@@ -191,6 +189,7 @@ function changeTabMenu() {
 		tmpTab.strIsrTitle = tmpSelectedGridItem.cc_reqtitle;
 		tmpTab.strEditor = tmpSelectedGridItem.cc_lastupuser;
 		tmpTab.strQryGbn = "00";
+		tmpTab.getStrAcptno();
 		tmpTab.srendInfoCall();
 	}
 }
