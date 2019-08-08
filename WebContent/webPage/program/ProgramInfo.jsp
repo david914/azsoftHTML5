@@ -52,9 +52,9 @@
 		<div class="half_wrap margin-10-top">
 			<!-- tab_기본정보 S-->
 			<div class="tab_wrap">
-				<ul class="tabUl">
-					<li rel="tab1" id="tab1Li" class="on">기본정보</li>
-					<li rel="tab2" id="tab2Li">변경내역</li>
+				<ul class="tabs">
+					<li rel="tab1" id="tab1Li" class="on" style="vertical-align: middle;">기본정보</li>
+					<li rel="tab2" id="tab2Li" style="vertical-align: middle;">변경내역</li>
 				</ul>
 			</div>
 			<!-- tab E-->			
