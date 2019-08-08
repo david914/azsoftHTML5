@@ -3,9 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
 
+<style>
+.width-75 {
+	width: calc(90% - 60px);
+}
+</style>
+
 <!-- contener S -->
 <div id="wrapper">
-    <div class="content">
+    <div class="contentFrame">
         <!-- history S-->
         <div id="history_wrap">보고서 <strong>&gt; 형상관리신청현황</strong></div>
         <!-- history E-->         
@@ -17,14 +23,14 @@
 	                	<!--시스템S-->
 	                	<div class="width-25 dib poa" style="min-width: 270px;">
 		                	<label class="dib">시스템　</label>
-		                    <div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
+		                    <div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>
 						<!--SR-ID/SR명 S-->
 						<div class="width-50 dib vat" style="margin-left: 50%;">
 		                	<label class="tit_100">SR-ID/SR명</label>
-							<input id="srId" data-ax-path="srId" type="text" class="width-60" />
+							<input id="srId" data-ax-path="srId" type="text" class="width-40" />
 						</div>
 					</div>
 					<!--line2-->
@@ -32,21 +38,21 @@
 						<!--시스템S-->
 						<div class="width-25 dib">
 							<label>신청구분</label>
-							<div id="reqDivSel" data-ax5select="reqDivSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
+							<div id="reqDivSel" data-ax5select="reqDivSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>	
 						<!--신청부서S-->
 						<div class="width-25 dib">
 		                	<label>신청부서</label>
-							<div id="reqDeptSel" data-ax5select="reqDeptSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
+							<div id="reqDeptSel" data-ax5select="reqDeptSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>
 						<!--신청인S-->
 						<div class="width-50 dib vat">
 		                	<label class="tit_100">신청자</label>
-							<input id="reqUser" data-ax-path="reqUser" type="text"  class="width-60 " />
+							<input id="reqUser" data-ax-path="reqUser" type="text"  class="width-40 " />
 						</div>
 					</div>
 					<!--line3-->
@@ -54,21 +60,21 @@
 						<!--진행상태S-->
 						<div class="width-25 dib">
 							<label>진행상태</label>
-							<div id="statusSel" data-ax5select="statusSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
+							<div id="statusSel" data-ax5select="statusSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>	
 						<!--처리구분S-->
 						<div class="width-25 dib">
 		                	<label>처리구분</label>
-							<div id="prcdDivSel" data-ax5select="prcdDivSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib tal">
+							<div id="prcdDivSel" data-ax5select="prcdDivSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>
 						<!--신청인S-->
 						<div class="width-50 dib vat">
 		                	<label class="tit_100">프로그램명/설명</label>
-							<input id="descript" name="descript" type="text" class="width-60" />
+							<input id="descript" name="descript" type="text" class="width-40" />
 						</div>
 					</div>		
 				</div>

@@ -10,7 +10,7 @@
 
 <!-- contener S -->
 <div id="wrapper">
-    <div class="content">
+    <div class="contentFrame">
         <!-- history S-->
         <div id="history_wrap">보고서 <strong>&gt; 프로그램목록</strong></div>
         <!-- history E-->    

@@ -6,7 +6,7 @@
 
 <!-- contener S -->
 <div id="wrapper">
-    <div class="content">
+    <div class="contentFrame">
         <!-- history S-->
         <div id="history_wrap">개발 <strong>&gt;??현황 </strong></div>
         <!-- history E-->         

@@ -22,7 +22,7 @@
 </style>
 
 <div id="wrapper">
-	<div class="content">
+	<div class="contentFrame">
 		<div id="history_wrap">보고서 <strong>&gt; 개발/SR기준(집계)</strong></div>
 		<div class="az_search_wrap" style="min-width: 1050px;">
 			<div class="az_in_wrap sr_status">

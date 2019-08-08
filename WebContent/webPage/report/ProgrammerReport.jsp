@@ -37,7 +37,7 @@
 </style>
 
 <div id="wrapper">
-	<div class="content">
+	<div class="contentFrame">
 		<div id="history_wrap">보고서 <strong>&gt; 개발자별현황</strong></div>
 		<div class="az_search_wrap">
 			<div class="az_in_wrap sr_status">

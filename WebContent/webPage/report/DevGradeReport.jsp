@@ -33,7 +33,7 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <div id="wrapper">
-	<div class="content">
+	<div class="contentFrame">
 		<div id="history_wrap">보고서 <strong>&gt; 개발실적등급별보고서</strong></div>
 		<div class="az_search_wrap">
 			<div class="az_in_wrap sr_status">
