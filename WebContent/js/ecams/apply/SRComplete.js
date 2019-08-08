@@ -41,6 +41,9 @@ $(document).ready(function(){
 	
 	initScreen();
 	
+	var url = $('#frmPrjList').attr('src');
+	$('#frmPrjList').attr('src', url);
+	
 	document.getElementById('frmPrjList').onload = function() {
 		setCbo();
 	};
@@ -181,7 +184,6 @@ function changeTabMenu() {
 		tmpTab = $('#frmSRComplete').get(0).contentWindow;
 		
 		if(tmpTab.strIsrId == strIsrId) return;
-		
 		tmpTab.strIsrId = strIsrId;
 		tmpTab.userId = userId;
 		tmpTab.strStatus = tmpSelectedGridItem.cc_status;

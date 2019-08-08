@@ -105,7 +105,7 @@ public class SRCompleteTab extends HttpServlet {
 	}
 	
 	private String insertSREnd(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String> tmp_obj = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"SRInfoData"));
+		HashMap<String, String> tmp_obj = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"EndSRData"));
 		
 		ArrayList<HashMap<String, Object>> ConfList = new ArrayList<HashMap<String, Object>>();
 		ConfList = ParsingCommon.jsonStrToArrObj(ParsingCommon.jsonEtoStr(jsonElement,"confirmData"));

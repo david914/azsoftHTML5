@@ -28,7 +28,7 @@ var confirmInfoData = null;
 
 var devListGridData = null;
 var devListGrid 	= new ax5.ui.grid();
-
+var approvalModal 		= new ax5.ui.modal();
 devListGrid.setConfig({
     target: $('[data-ax5grid="devListGrid"]'),
     sortable: true, 
@@ -52,9 +52,11 @@ devListGrid.setConfig({
 });
 
 $(document).ready(function() {
-	getStrAcptno();	// AcptNo 가져오기
-	srendInfoCall();
-	
+	if(strIsrId != ""){
+		screenInit();
+		getStrAcptno();	// AcptNo 가져오기
+		srendInfoCall();
+	}
 	// 결재버튼 클릭
 	$('#btnOk').bind('click', function() {
 		btnOk_click();
@@ -75,6 +77,21 @@ $(document).ready(function() {
 		openApprovalInfo(2, confAcpt, "R60");
 	});
 });
+
+// 화면 초기화
+function screenInit(){
+	$("#txtSRID").val("");
+	$("#txtSRTitle").val("");
+	
+	$("#applyUserDate").hide();
+	$("#txtApplyUser").val("");
+	$("#txtApplyDate").val("");
+	$("#txtReqContent").val("");
+	
+	$("#btnConf2").hide();
+	$("#btnReg").attr("disabled", true);
+	
+}
 
 // 등록/수정 클릭
 function format_confirm2(){
@@ -188,6 +205,7 @@ function openApprovalInfo(type, acptNo, reqCd) {
 }
 
 function srendInfoCall(){
+	screenInit();
 	if(strIsrId != null){
 		$('#txtSRID').val(strIsrId);
 		$('#txtSRTitle').val(strIsrTitle);
@@ -301,19 +319,19 @@ function getSREnd(){
 			}
 			
 			
-			if((strStatus == "6" || strStatus == "D") && strUserId == strEditor){
+			if((strStatus == "6" || strStatus == "D") && userId == strEditor){
 				$("#btnReg").attr('disabled', false);
 				$("#txtReqContent").attr('readonly', false);
 			}
 		} else {
-			if(strStatus == "6" && strUserId == strEditor){
+			if(strStatus == "6" && userId == strEditor){
 				$("#btnReg").attr('disabled', false);
 				$("#txtReqContent").attr('readonly', false);
 				$("#rdoOpt1").attr('disabled', false);
 				$("#rdoOpt2").attr('disabled', false);
 				$("#rdoOpt1").prop('checked', true);
 				$("#rdoOpt2").attr('disabled', true);
-			} else if(strStatus != "6" &&  strUserId == strEditor && strQryGbn == "02") {
+			} else if(strStatus != "6" &&  userId == strEditor && strQryGbn == "02") {
 				$("#btnReg").attr('disabled', false);
 				$("#txtReqContent").attr('readonly', false);
 				$("#rdoOpt1").attr('disabled', false);

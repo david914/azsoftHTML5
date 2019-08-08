@@ -64,7 +64,10 @@
 </div>
 <!--버튼 S-->
 <div class="row tar">
-	<button id="btnOk" class="btn_basic_p" style="display: none;">결재</button><button id="btnCncl" class="btn_basic_p margin-5-left" style="display: none;">반려</button><button id="btnConf2" class="btn_basic_s margin-5-left" style="display: none;">결재정보</button><button id="btnReg" class="btn_basic_s margin-5-left" disabled>등록/수정</button>
+	<button id="btnOk" class="btn_basic_p" style="display: none;">결재</button>
+	<button id="btnCncl" class="btn_basic_p margin-5-left" style="display: none;">반려</button>
+	<button id="btnConf2" class="btn_basic_s margin-5-left" style="display: none;">결재정보</button>
+	<button id="btnReg" class="btn_basic_s margin-5-left" disabled>등록/수정</button>
 </div>
 <!--게시판 S-->
 <div class="row az_board_basic" style="height: 40%">
