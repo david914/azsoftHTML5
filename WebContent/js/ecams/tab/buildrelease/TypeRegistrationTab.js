@@ -105,13 +105,7 @@ $('input.checkbox-view').wCheck({theme: 'square-classic red', selector: 'checkma
 
 $(document).ready(function() {
 	
-	_promise(50,getCodeInfo())
-		.then(function(){
-			return _promise(100,getBldCd())
-						.then(function() {
-							return _promise(100, $('#cboBldGbn').trigger('change'));
-						});
-		});
+	getCodeInfo();
 	
 	$('#cboBldGbnB').bind('change', function() {
 		$('#btnQry').trigger('click');
@@ -273,10 +267,7 @@ function delScript() {
 function successDelScript(data) {
 	if(data > 0) {
 		dialog.alert('삭제처리를 완료하였습니다.', function() {
-			_promise(100,getBldCd())
-				.then(function() {
-					return _promise(100, $('#cboBldGbn').trigger('change'));
-				});
+			getBldCd();
 		});
 	} else {
 		dialog.alert('새이름으로 저장처리 중 오류가 발생했습니다. 관리자에게 문의하시기 바랍니다.', function() {});
@@ -306,10 +297,7 @@ function copyScript() {
 function successCopyScript(data) {
 	if(data > 0) {
 		dialog.alert('새이름으로 저장처리를 완료하였습니다.', function() {
-			_promise(100,getBldCd())
-				.then(function() {
-					return _promise(100, $('#cboBldGbn').trigger('change'));
-				});
+			getBldCd();
 		});
 	} else {
 		dialog.alert('새이름으로 저장처리 중 오류가 발생했습니다. 관리자에게 문의하시기 바랍니다.', function() {});
@@ -346,10 +334,7 @@ function insertScript() {
 function successInsertScript(data) {
 	if(data > 0) {
 		dialog.alert('등록처리를 완료하였습니다.', function() {
-			_promise(100,getBldCd())
-				.then(function() {
-					return _promise(100, $('#cboBldGbn').trigger('change'));
-				});
+			getBldCd();
 		});
 	} else {
 		dialog.alert('등록처리 중 오류가 발생했습니다. 관리자에게 문의하시기 바랍니다.', function() {});
@@ -429,7 +414,12 @@ function getBldCd(){
 	data = {
 		requestType	: 'getBldCd'
 	}
-	ajaxAsync('/webPage/administrator/BuildReleaseInfo', data, 'json',successGetBldCd);
+	ajaxAsync('/webPage/administrator/BuildReleaseInfo', data, 'json',successGetBldCd, changeCboBldGbn);
+}
+
+// 트리거 콜백으로 쓰기위해서 function으로 뺌
+function changeCboBldGbn() {
+	$('#cboBldGbn').trigger('change');
 }
 
 // 우형구분 가져오기 완료
@@ -462,5 +452,6 @@ function getCodeInfo() {
 	$('[data-ax5select="cboBldGbnB"]').ax5select({
         options: cboOptions
 	});
-	
+	getBldCd();
+	getExistScript();
 };

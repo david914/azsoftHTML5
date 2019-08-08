@@ -102,7 +102,7 @@ accGrid.setConfig({
 });
 
 
-$('input.checkbox-usr').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
+$('input.checkbox-usr').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 
 /////////////////// 계정정보 화면 세팅 end////////////////////////////////////////////////
 
@@ -115,10 +115,9 @@ $(document).ready(function(){
 	// 업무별 서버관리
 	if(sysInfo.substr(8,1) === '1') {
 		getUlSvrInfo();
-		//sysjob.getJobInfo_Rpt(strUserId,strSysCd,"N","");
-		//chkAll3.enabled = true;  계정정보탭의 전체선택 사용가능
+		$('#chkAllSvrJob').wCheck('disabled', false);
 	} else  {
-		//chkAll3.enabled = false; 계정정보탭의 전체선택 사용가능
+		$('#chkAllSvrJob').wCheck('disabled', true);
 	}
 	
 	_promise(50,getCodeInfo())
@@ -194,14 +193,17 @@ $(document).ready(function(){
 		});
 		
 		if(sysInfo.substr(8,1) === '1') {
-			ulSvrInfoData.forEach(function( ulItem, index) {
-				if(tmpJob.length > 0 ) tmpJob += ',';
-				else tmpJob += ulItem.cm_jobcd; 
+			ulSvrInfoData.forEach(function(jobItem, index) {
+				var id = jobItem.cm_jobcd;
+				if( $('#chkJob'+id).is(':checked')) {
+					if(tmpJob.length > 0 ) tmpJob += ',';
+					tmpJob +=  $('#chkJob'+id).val();
+				}
 			});
+			
 		} else {
 			tmpJob = '****';
 		}
-		
 		
 		var svrUsrCloseData = new Object();
 		svrUsrCloseData = {
@@ -277,9 +279,10 @@ function checkValUsr() {
 	
 	if (sysInfo.substr(8,1) == "1") {
 		ulSvrInfoData.forEach(function(jobItem, index) {
-			var id = Number(jobItem.cm_jobcd);
+			var id = jobItem.cm_jobcd;
 			if( $('#chkJob'+id).is(':checked')) jobSw = true;
-				
+			console.log($('#chkJob'+id).is(':checked'));
+			console.log('#chkJob'+id);
 		});
 		
 		if(!jobSw) {
@@ -320,10 +323,10 @@ function checkValUsr() {
 	
 	if (sysInfo.substr(8,1) == "1") {
 		ulSvrInfoData.forEach(function(jobItem, index) {
-			var id = Number(jobItem.cm_jobcd);
+			var id = jobItem.cm_jobcd;
 			if( $('#chkJob'+id).is(':checked')) {
 				if(tmpJob.length > 0 ) tmpJob += ',';
-				else tmpJob +=  $('#chkJob'+id).val();
+				tmpJob +=  $('#chkJob'+id).val();
 			}
 		});
 	} else {
@@ -352,7 +355,7 @@ function successUsrReq(data) {
 	if(data === 'OK') {
 		getSecuList();
 	} else {
-		dialog.alert('계정정보 등록중 오류가 발생했습니다. 관리자에게 문의하시기 바랍니다.', function(){});
+		dialog.alert('계정정보 등록중 오류가 발생했습니다. 관리자에게 문의하시기 바랍니다.\n' + data , function(){});
 	}
 	
 }

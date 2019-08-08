@@ -36,7 +36,7 @@
 		</div>
 	</div>
 	<!--line2-->
-	<div class="sm-row az_board_basic" style="height: 83%">
+	<div class="sm-row az_board_basic" style="height: 72%">
 		<div data-ax5grid="releaseGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>
 	<div class="sm-row cb">
@@ -47,13 +47,13 @@
 			<label for="optUnCheck">해제</label>
 		</div>
 		<div class="l_wrap width-30">
-	     	<input type="checkbox" class="checkbox-rel" id="chkSun" data-label="일"/>
-			<input type="checkbox" class="checkbox-rel" id="chkMon" data-label="월"/>
-			<input type="checkbox" class="checkbox-rel" id="chkTue" data-label="화"/>
-			<input type="checkbox" class="checkbox-rel" id="chkWed" data-label="수"/>
-			<input type="checkbox" class="checkbox-rel" id="chkThu" data-label="목"/>
-			<input type="checkbox" class="checkbox-rel" id="chkFri" data-label="금"/>
-			<input type="checkbox" class="checkbox-rel" id="chkSat" data-label="토"/>
+	     	<input type="checkbox" class="checkbox-rel" id="chkSun" name="date" data-label="일"/>
+			<input type="checkbox" class="checkbox-rel" id="chkMon" name="date" data-label="월"/>
+			<input type="checkbox" class="checkbox-rel" id="chkTue" name="date" data-label="화"/>
+			<input type="checkbox" class="checkbox-rel" id="chkWed" name="date" data-label="수"/>
+			<input type="checkbox" class="checkbox-rel" id="chkThu" name="date" data-label="목"/>
+			<input type="checkbox" class="checkbox-rel" id="chkFri" name="date" data-label="금"/>
+			<input type="checkbox" class="checkbox-rel" id="chkSat" name="date" data-label="토"/>
 		</div>
 		<div class="r_wrap width-60 tar">
 			<div class="width-40 dib">

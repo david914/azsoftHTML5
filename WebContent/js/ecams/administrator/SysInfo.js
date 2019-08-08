@@ -80,8 +80,8 @@ sysInfoGrid.setConfig({
     columns: [
         {key: "cm_syscd", 	label: "시스템코드",	width: '10%'},
         {key: "cm_sysmsg", 	label: "시스템명",  	width: '37%', align: 'left'},
-        {key: "sysgb", 		label: "시스템유형",  	width: '14%'},
-        {key: "servername", label: "기준서버구분", 	width: '13%'},
+        {key: "sysgb", 		label: "시스템유형",  	width: '14%', align: 'left'},
+        {key: "servername", label: "기준서버구분", 	width: '13%', align: 'left'},
         {key: "scmopen", 	label: "형상관리오픈", 	width: '13%'},
         {key: "sysopen", 	label: "시스템오픈",  	width: '13%'}
     ]
@@ -161,6 +161,8 @@ $('#timeDeployE').timepicker({
 });
 
 $(document).ready(function(){
+	$('#txtPrc').prop('disabled', true);
+	
 	dateInit();
 	getSysCodeInfo();
 	getSysInfoCbo();
@@ -220,6 +222,9 @@ $(document).ready(function(){
 		
 		jobGrid.clearSelect();
 		
+		disableCal(true, 'datStDate');
+		disableCal(true, 'datEdDate');
+		
 		$('#datStDate').prop( "disabled", 	true );
 		$('#timeDeploy').prop( "disabled", 	true );
 		$('#datEdDate').prop( "disabled", 	true );
@@ -255,7 +260,8 @@ $(document).ready(function(){
 	$('input.checkbox-sysInfo').bind('click', function(e) {
 		var selectedSysInfo = Number(this.value); 
 		var selectedIndexs = sysInfoGrid.selectedDataIndexs;
-		if(selectedIndexs.length == 0 && !($('#chkOpen').is(':checked')) ) {
+		if( selectedIndexs.length == 0 && !($('#chkOpen').is(':checked')) 
+				&& getSelectedIndex('cboSys') === 0) {
 			e.preventDefault();
 		    e.stopPropagation();
 		    dialog.alert('그리드를 선택후 속성을 선택 하실 수 있습니다.', function() {});
@@ -269,6 +275,9 @@ $(document).ready(function(){
 		}
 		
 		if(selectedSysInfo === 4 && $(this).is(':checked')) {
+			disableCal(false, 'datStDate');
+			disableCal(false, 'datEdDate');
+			
 			$('#datStDate').prop( "disabled",   false );
 			$('#timeDeploy').prop( "disabled", 	false );
 			$('#datEdDate').prop( "disabled", 	false );
@@ -279,6 +288,9 @@ $(document).ready(function(){
 		}
 		
 		if(selectedSysInfo === 4 && !($(this).is(':checked')) ) {
+			disableCal(true, 'datStDate');
+			disableCal(true, 'datEdDate');
+			
 			$('#datStDate').prop( "disabled", 	true );
 			$('#timeDeploy').prop( "disabled", 	true );
 			$('#datEdDate').prop( "disabled", 	true );
@@ -354,8 +366,8 @@ $(document).ready(function(){
 	// 정기배포설정
 	$('#btnReleaseTimeSet').bind('click', function() {
 		relModal.open({
-	        width: 1400,
-	        height: 800,
+	        width: 1200,
+	        height: 600,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/sysinfo/ReleaseTimeSetModal.jsp",
@@ -770,6 +782,9 @@ function successSysClose(data) {
 function screenInit() {
 	$('#chkSelfDiv').css('visibility','hidden');
 	
+	disableCal(true, 'datStDate');
+	disableCal(true, 'datEdDate');
+	
 	$('#datStDate').prop( "disabled", 	true );
 	$('#timeDeploy').prop( "disabled", 	true );
 	$('#datEdDate').prop( "disabled", 	true );
@@ -871,7 +886,7 @@ function getSysInfoCbo() {
 	sysInfoCbo 			= new Object();
 	sysInfoCbo.UserId 	= userId;
 	sysInfoCbo.SelMsg 	= 'SEL';
-	sysInfoCbo.CloseYn 	= 'Y';
+	sysInfoCbo.CloseYn 	= 'N';
 	sysInfoCbo.SysCd 	= null;
 	
 	sysInfoCboData = new Object();
@@ -907,6 +922,7 @@ function successGetSysInfoCbo(data) {
 
 //	하단 시스템 콤보 선택
 function cboSysClick() {
+	
 	var selectedIndex = getSelectedIndex('cboSys');
 	var findSw = false;
 	var gridSelectedIndex = sysInfoGrid.selectedDataIndexs;
@@ -970,6 +986,9 @@ function cboSysClick() {
 		}
 		
 		if(sysInfoStr.substr(3,1) === '1' &&  selectedGridItem.hasOwnProperty('cm_stdate') && selectedGridItem.hasOwnProperty('cm_eddate')) {
+			disableCal(false, 'datStDate');
+			disableCal(false, 'datEdDate');
+			
 			$('#datStDate').prop( "disabled", 	false );
 			$('#timeDeploy').prop( "disabled", 	false );
 			$('#datEdDate').prop( "disabled", 	false );
@@ -995,11 +1014,20 @@ function cboSysClick() {
 			$('#timeDeployE').val(strTime);
 			
 		} else {
+			disableCal(true, 'datStDate');
+			disableCal(true, 'datEdDate');
+			
 			$('#datStDate').prop( "disabled", true );
 			$('#timeDeploy').prop( "disabled", true );
 			$('#datEdDate').prop( "disabled", true );
 			$('#timeDeployE').prop( "disabled", true );
 			
+			
+			$('#datStDate').val('');
+			$('#timeDeploy').val('');
+			$('#datEdDate').val('');
+			$('#timeDeployE').val('');
+
 			$('#datStDateDiv').css('pointer-events','none');
 			$('#datEdDateDiv').css('pointer-events','none');
 		}
@@ -1024,6 +1052,24 @@ function cboSysClick() {
 	}
 	
 	getSysJobInfo(selectedSysCboSysInfo.value);
+	getProcType(selectedSysCboSysInfo.value);
+}
+
+// 프로세스 유형가져오기
+function getProcType(syscd) {
+	var data		= new Object();;
+	data = {
+		syscd		: syscd,
+		requestType	: 'getProcType'
+	}
+	ajaxAsync('/webPage/administrator/SysInfoServlet', data, 'json',successGetProcType);
+}
+
+// 프로세스 유형가져오기 완료
+function successGetProcType(data) {
+	if(data.length > 0 ) {
+		$('#txtPrc').val(data);
+	}
 }
 
 //	선택된 시스템 JOB

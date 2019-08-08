@@ -22,6 +22,8 @@ $(document).ready(function(){
 	if(selCode !== null) {
 		$('#txtCode').val(selCode);
 		$('#txtVal').val(selVal);
+	} else {
+		$('#lblTitle').text('[업무정보 만들기]');
 	}
 	
 	$('#btnJobUp').bind('click',function() {

@@ -393,13 +393,45 @@ function clone(obj){
 }
 
 /**
+ * IP 유효성 체크
+ * ---------------------------------------------
+ * 정상적인 IP인지 체크
+ * 정상 예1) 222.107.254.169
+ * 정상 예2) 222.7.54.69
+ * 비정상 예1) 022.107.254.169
+ * 비정상 예2) 222107.254.169
+ * 비정상 예3) 222.107.254.1699
+ * 비정상 예4) 222.107.254.
+ * 비정상 예5) 222.107.254
+ * 비정상 예6) 222.107.254.169:80
+ * @param strIP
+ * @returns
+ */
+function checkIP(strIP) {
+    var expUrl = /^(1|2)?\d?\d([.](1|2)?\d?\d){3}$/;
+    return expUrl.test(strIP);
+}
+
+/**
+ *	캘린더 아이콘의 배경색을 바꿔줍니다. 
+ */
+function disableCal(sw, id) {
+	var cal = $('#'+id).next();
+	if(sw) {
+		$(cal[0]).css('background-color', 'rgb(235, 235, 228)');
+	} else {
+		$(cal[0]).css('background-color', '#fff');
+	}
+}
+
+/**
  * 캘린더 선택시 앞의 input 창에 클릭 이벤트를 주어 달력이 켜지도록
  * @returns
  */
 $('.btn_calendar').bind('click', function() {
 	if($(this).css('background-color') === 'rgb(255, 255, 255)') {
 		var inputs = $(this).siblings().prevAll('input');
-		$(inputs[0]).trigger('click');
+		$(inputs.prevObject[0]).trigger('click');
 	}
 });
 

@@ -126,9 +126,11 @@ $('[data-ax5select="cboDiffSayu"]').ax5select({
 $('input.checkbox-file').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function() {
-	if(adminYN !== 'Y') {
+	
+	if(!adminYN) {
 		$('#btnDel').prop('disabled', true);
 	}
+	
 	$('#txtErr').val('1');
 	$('#txtDiffSayu').css('display','none');
 	$('#txtSys').prop('disabled', true);
@@ -294,7 +296,6 @@ function getMismatchList() {
 function successGetMismatchList(data) {
 	fileGridData = data;
 	fileGrid.setData(fileGridData);
-	$('#lblCnt').text('총 ' + fileGridData.length + '건');
 }
 
 // 불일치 발생사유 가져오기

@@ -69,6 +69,9 @@ public class SysInfoServlet extends HttpServlet {
 				case "updateSystem" :
 					response.getWriter().write(udpateSystem(jsonElement));
 					break;
+				case "getProcType" :
+					response.getWriter().write(getProcType(jsonElement));
+					break;
 				case "TEST" :
 					response.getWriter().write(testMethod(jsonElement));
 					break;
@@ -119,6 +122,12 @@ public class SysInfoServlet extends HttpServlet {
 	private String udpateSystem(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> systemInfo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"systemInfo"));
 		return gson.toJson(	cmm0200.sysInfo_Updt(systemInfo) );
+	}
+	
+	// [시스템정보] 프로세스 유형 가져오기
+	private String getProcType(JsonElement jsonElement) throws SQLException, Exception {
+		String syscd = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"syscd"));
+		return gson.toJson(	cmm0200.process_Gb(syscd) );
 	}
 	
 	// TEST METHOD입니다.

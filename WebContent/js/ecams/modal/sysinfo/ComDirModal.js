@@ -64,6 +64,7 @@ dirGrid.setConfig({
 $(document).ready(function(){
 	sysCd = selectedSystem.cm_syscd;
 	$('#txtSysMsg').val(sysCd + ' ' + selectedSystem.cm_sysmsg);
+	$('#txtSysMsg').prop('disabled', true);
 	getCodeInfo();
 	getDirList();
 	
@@ -127,6 +128,12 @@ function checkVal(){
 		dialog.alert('서버IP를 입력하여 주시기 바랍니다.', function() {});
 		return;
 	}
+	
+	if(!checkIP(txtSvrIp)) {
+		dialog.alert('정상적인 IP를 입력하여 주시기 바랍니다.', function() {});
+		return;
+	}
+	
 	if(txtPort.length === 0) {
 		dialog.alert('Port를 입력하여 주시기 바랍니다.', function() {});
 		return;

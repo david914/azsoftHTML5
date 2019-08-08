@@ -54,7 +54,7 @@
 	<div class="sm-row">
 		<div class="half_wrap_cb">
 			<!--처리속성선택-->
-			<div class="l_wrap width-50">
+			<div class="l_wrap width-30">
 				<div class="margin-5-right">
 					<div class="width-100 dib vat">
 						<label id="lbUser" class="title">[처리속성선택]</label>
@@ -66,7 +66,7 @@
 			</div>
 		
 			<!--대상확장자-->
-			<div class="r_wrap width-50">
+			<div class="r_wrap width-70">
 				<div class="margin-5-left">
 					<div class="sm-row">
 						<label id="lbSub" class="poa tit_80">대상확장자</label>
@@ -82,7 +82,7 @@
 									<li>
 										<label class="tit_150 dib poa">동시적용프로그램종류</label>
 										<div class="ml_150">
-											<div id="cboSame" class="dib vat" data-ax5select="cboSame" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:70%;"></div>
+											<div id="cboSame" class="dib vat" data-ax5select="cboSame" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:85%;"></div>
 											<div class="dib vat">
 												<input type="checkbox" class="checkbox-prg" id="chkCmd" data-label="커맨드사용"  />
 											</div>
@@ -92,14 +92,14 @@
 										<label class="tit_150 dib poa">동시적용룰(기준/변경)</label>
 										<div class="ml_150">
 											<input id="txtBase" type="text" class="width-45">
-											<input id="txtChgRule"  type="text" class="width-45">
+											<input id="txtChgRule"  type="text" class="width-54">
 										</div>
 									</li>
 									<li class="sm-row">
 										<label class="tit_150 dib poa">디렉토리룰(기준/변경)</label>
 										<div class="ml_150">
 											<input id="txtBaseDir" type="text" class="width-45"> 
-											<input id="txtChgDir" type="text" class="width-45">
+											<input id="txtChgDir" type="text" class="width-54">
 										</div>
 									</li>
 								</ul>

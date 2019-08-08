@@ -441,6 +441,9 @@ function getRelatList() {
 
 // 맵핑연결 리스트 가져오기 완료
 function successGetRelatList(data) {
+	var rowSelector = $('[data-ax5grid-column-attr="rowSelector"]');
+	$(rowSelector).attr('data-ax5grid-selected',"false");
+	
 	modListGridData = data;
 	modListGrid.setData(modListGridData);
 }

@@ -98,7 +98,9 @@
 				<ul class="list-group" id="ulSyrInfo"></ul>
 			</div>
 	 		<div class="tar">
-	 			<input type="checkbox" class="checkbox-IP" id="chkBase" data-label="기준서버"  />
+	 			<div class="dib" id="dibChkBase">
+		 			<input type="checkbox" class="checkbox-IP" id="chkBase" data-label="기준서버"  />
+	 			</div>
 	 			<input type="checkbox" class="checkbox-IP" id="chkErr" data-label="장애"  />
 	 			<input type="checkbox" class="checkbox-IP" id="chkStop" data-label="일시정지"  />
 	 		</div>
@@ -114,7 +116,7 @@
 	</div>
 </div>
 <!--테이블 S-->
-<div class="scroll_x sm-row">
+<div class="sm-row">
 	<div class="az_board_basic" style="height: 50%;">
 		<div data-ax5grid="svrInfoGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>

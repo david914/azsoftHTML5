@@ -253,6 +253,7 @@ function checkVal() {
 		dirList 	: dirList,
 		requestType	: 'copySys'
 	}
+	console.log(data);
 	ajaxAsync('/webPage/modal/sysinfo/SysCopyServlet', data, 'json',successCopySys);
 }
 

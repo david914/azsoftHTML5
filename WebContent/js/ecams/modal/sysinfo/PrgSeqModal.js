@@ -380,7 +380,7 @@ function successGetCodeSelInfo(data) {
 	var liStr = null;
 	var addId = null;
 	var checkSw = false;
-	
+	var focusId	= null;
 	ulCodeData.sort(function(a,b) {
 		return a.cm_codename < b.cm_codename ? -1 : a.cm_codename > b.cm_codename ? 1: 0;
 	});
@@ -401,10 +401,16 @@ function successGetCodeSelInfo(data) {
 	$('input.checkbox-code').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 	
 	
+	
 	ulCodeData.forEach(function(codeItem, sysInfoIndex) {
 		addId = Number(codeItem.cm_micode);
-		if(codeItem.enable === '0' ) $('#chkCode' + addId).wCheck('disabled',true);
+		if(codeItem.enable === '0' ) {
+			$('#chkCode' + addId).wCheck('disabled',true);
+		} else {
+			if(codeItem.checkbox === '1' && focusId === null) focusId = addId;
+		}
 	});
+	$('#chkCode' + focusId).focus();
 }
 
 
