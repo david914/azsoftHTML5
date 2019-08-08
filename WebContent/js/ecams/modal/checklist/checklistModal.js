@@ -22,6 +22,7 @@ $(this).ready(function() {
 	}
 })
 
+//확인 클릭 시
 function submit() {	
 	if(gbn === "EQUAL" || gbn === "LOW") {
 		newItemInfo();
@@ -30,6 +31,7 @@ function submit() {
 	}
 }
 
+//항목 등록
 function newItemInfo() {
 	
 	var dataObj = new Object();
@@ -49,6 +51,7 @@ function newItemInfo() {
 	ajaxAsync('/webPage/administrator/ChecklistReg', ajaxData, 'json', successNewItemInfo);	
 }
 
+//항목 등록 성공
 function successNewItemInfo(data) {
 	if(data === "OK") {		
 		dialog.alert({
@@ -66,6 +69,7 @@ function successNewItemInfo(data) {
 	}	
 }
 
+//항목명 변경
 function updateItemInfo() {
 	console.log(userid);
 	
@@ -85,6 +89,7 @@ function updateItemInfo() {
 	ajaxAsync('/webPage/administrator/ChecklistReg', ajaxData, 'json', successUpdateItemInfo);	
 }
 
+//항목명 변경 성공
 function successUpdateItemInfo(data) {
 	if(data === "OK") {		
 		window.parent.dialog.alert("정상적으로 수정되었습니다.")

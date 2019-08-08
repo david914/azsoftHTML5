@@ -1,5 +1,3 @@
-
-
 var userName 	= window.top.userName;
 var userid 		= window.top.userId;
 var adminYN 	= window.top.adminYN;
@@ -115,6 +113,7 @@ firstGrid.setConfig({
  			openWindow(1, this.item.qrycd, this.item.acptno,'');
          },
      	trStyleClass: function () {
+     		//처리 상태에 따른 컬러지정
      		if (this.item.errflag !== '1'){
 	     		if (this.item.cr_status === '3'){
 	     			return "fontStyle-cncl";
@@ -171,39 +170,8 @@ firstGrid.setConfig({
          	else return item.type == 1 | item.type == 2;
          },
          onClick: function (item, param) {
-     		/*swal({
-                 title: item.label+"팝업",
-                 text: "신청번호 ["+param.item.acptno+"]["+param.item.qrycd+"]"
-             });*/
-     		if (item.type === 3) {
-     			if (param.item.befsw === 'Y') {
-     				swal({
-                         title: "선행작업확인",
-                         text: "다른 사용자가 선행작업으로 지정한 신청 건이 있습니다. \n\n"+
-		                          "해당 신청 건 사용자에게 선행작업 해제 요청 후 \n" +
-		                          "선행작업으로 지정한 신청 건이 없는 상태에서\n진행하시기 바랍니다."
-                     });
-     				return;
-     			}
-
-             	mask.open();
-     			confirmDialog.confirm({
-     				title: '전체회수 여부확인',
-     				msg: '신청번호 ['+param.item.acptno+'] 를  \n전체회수 하시겠습니까?',
-     			}, function(){
-     				if(this.key === 'ok') {
-     					console.log('OK click!!');
-     				} else {
-     					console.log(this.key);
-     				}
-         			mask.close();
-     			});
-     			
-     		} else {
-     			openWindow(item.type, param.item.qrycd, param.item.acptno,'');
-     		}
-     		
-             firstGrid.contextMenu.close();//또는 return true;
+     		openWindow(item.type, param.item.qrycd, param.item.acptno,'');
+            firstGrid.contextMenu.close();//또는 return true;
          }
      },
      columns: [
@@ -229,6 +197,7 @@ $(document).ready(function(){
 	$('input:radio[name=rdoDate]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 	$('input:checkBox[name=checkSelf]').wCheck({theme: 'circle-radial blue', selector: 'checkmark', highlightLabel: true});
 	
+	//콤보박스 데이터 세팅
 	getCodeInfo();
 	prcdSet();
 	cboGbnSet();
@@ -280,6 +249,7 @@ $(document).ready(function(){
 		}
 	});
 	
+	//콤보박스 데이터 세팅이 완료되기 전에 리스트가 불러와져서 타임아웃 설정 
 	setTimeout(function() {
 		getFileList();
 	}, 300);
@@ -329,12 +299,13 @@ function getSysInfo(){
 }
 
 
-
+//신청종류 가져오기
 function getCodeInfo() {
 	var data = { requestType : 'getCodeInfo' };
 	ajaxAsync('/webPage/dev/DistributeStatus', data, 'json', successGetCodeInfo);
 }
 
+//신청종류 가져오기 완료
 function successGetCodeInfo(data) {
 	options = [];
 	var chkOut = ["00", "01", "02", "11"];
@@ -343,6 +314,7 @@ function successGetCodeInfo(data) {
 	var count = 0;
 	console.log(data);
 	
+	//reqCd에 따라서 신청종류 데이터를 다르게 세팅
 	switch(strReqCD) {	
 	case "01" :
 		for(var i = 0; i < data.length; i++) {
@@ -379,6 +351,7 @@ function successGetCodeInfo(data) {
 	typeDefaultSet();
 }
 
+//reqCd에 따른 신청종류 default값 세팅
 function typeDefaultSet() {
 	if(strReqCD == '01') {
 		$("#gbnLabel").attr("style", "visibility: hidden;");
@@ -393,6 +366,7 @@ function typeDefaultSet() {
 	}
 }
 
+//진행상테 세팅
 function prcdSet() {
 	$('[data-ax5select="cboStat"]').ax5select({
 		options : [
@@ -404,6 +378,7 @@ function prcdSet() {
 	})
 }
 
+//처리구분 세팅
 function cboGbnSet() {
 	$('[data-ax5select="cboGbn"]').ax5select({
 		options : [
@@ -440,10 +415,10 @@ function getFileList(){
 	var prjData = new Object();
 	
 	prjData.syscd		= $('[data-ax5select="cboSysCd"]').ax5select("getValue")[0].value;
-	prjData.jobcd		= "0000";;
+	prjData.jobcd		= "0000";
 	prjData.spms		= $("#txtId").val().trim() == "" ? null : $("#txtId").val().trim();
-	prjData.stepcd		= $('[data-ax5select="cboStat"]').ax5select("getValue")[0].value
-	prjData.reqcd		= $('[data-ax5select="cboType"]').ax5select("getValue")[0].value
+	prjData.stepcd		= $('[data-ax5select="cboStat"]').ax5select("getValue")[0].value;
+	prjData.reqcd		= $('[data-ax5select="cboType"]').ax5select("getValue")[0].value;
 	prjData.req 		= strReqCD;
 	prjData.UserID	 	= userid;
 	prjData.dategbn		= $("#rdoStrDate").is(':checked') ? 0 : 1;
@@ -451,7 +426,7 @@ function getFileList(){
 	prjData.edDt 		= $("#datEdD").val();
 	if(strReqCD == '04') {
 		prjData.docno	= "0";
-		prjData.gbn		= $('[data-ax5select="cboGbn"]').ax5select("getValue")[0].value
+		prjData.gbn		= $('[data-ax5select="cboGbn"]').ax5select("getValue")[0].value;
 	} else {
 		prjData.docno	= "0";
 		prjData.gbn		= "ALL";
@@ -466,7 +441,6 @@ function getFileList(){
 		prjData.chkSelf = "false";
 		prjData.userName = $("#txtName").val().trim();		
 	}
-	
 	
 	var data =  new Object();
 	data = {

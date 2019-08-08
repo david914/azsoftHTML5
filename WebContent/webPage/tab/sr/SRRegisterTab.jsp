@@ -137,10 +137,20 @@
 				</dd>
 			</dl>
 		</div>
+		<div class="row" id="gyulDiv" style="display: none;">
+			<dl>
+				<dt><label>결재/반려의견</label></dt>
+				<dd>
+					<form>
+						<textarea id="txtConMsg" name="txtConMsg" style="align-content:left;width:100%;height:50px;resize: none;"></textarea>
+					</form>
+				</dd>
+			</dl>
+		</div>
 	</div>
 	<!--하단 컨텐츠 버튼 -->
 	<div class="btn_wrap_r">
-		<button id="btnConf" name="btnConf" class="btn_basic" style="display: none;">결재정보</button><button id="btnRegister" name="btnRegister" class="btn_basic">등록</button><button id="btnUpdate" name="btnUpdate" class="btn_basic">수정</button><button id="btnDelete" name="btnDelete" class="btn_basic">반려</button>
+		<button id="btnOK" name="btnOK" class="btn_basic" style="display: none;">결재</button><button id="btnCncl" name="btnCncl" class="btn_basic" style="display: none;">반려</button><button id="btnConf" name="btnConf" class="btn_basic" style="display: none;">결재정보</button><button id="btnRegister" name="btnRegister" class="btn_basic">등록</button><button id="btnUpdate" name="btnUpdate" class="btn_basic">수정</button><button id="btnDelete" name="btnDelete" class="btn_basic">삭제</button>
 	</div>
 	
 </div>
