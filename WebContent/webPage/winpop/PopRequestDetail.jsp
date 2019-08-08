@@ -65,7 +65,7 @@
 								<input id="txtAcptDate" class="width-100" type="text" readonly>
 							</div>
 						</div>
-						<div class="dib width-33 margin-10-left">
+						<div class="dib margin-10-left" style="width:calc(67% - 225px);"><!-- width-33 -->
 	                    	<label class="tit_80 poa">완료일시</label>
 	                        <div class="ml_80">
 								<input id="txtPrcDate" class="width-100" type="text" readonly>
