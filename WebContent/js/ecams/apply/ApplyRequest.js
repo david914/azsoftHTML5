@@ -724,11 +724,13 @@ function successGetProgramList(data) {
 	console.log(firstGridData);
 	if(firstGridData.length == 0 ){
 		dialog.alert('검색 결과가 없습니다.');
+		qrySw = false;
 		return;		
 	}
 	else if (firstGridData.length > 0){
 		if(firstGridData[0].ID =='MAX'){
 			dialog.alert('검색결과가 너무 많으니 검색조건을 입력하여 검색하여 주시기 바랍니다.');
+			qrySw = false;
 			return;
 		}
 	}
