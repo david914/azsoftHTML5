@@ -17,8 +17,6 @@ var strStatus		= window.parent.strStatus; //SR상태 "2";
 var strIsrId		= window.parent.strIsrId; //"R201906-0003";  
 var strIsrTitle 	= window.parent.strIsrTitle;
 
-//var strIsrId = 'R201708-0001';
-//var strIsrId = 'R201808-0001';
 var strAcptNo = "";
 var cboUserData = null;
 var retMsg = "";
@@ -60,6 +58,11 @@ $(document).ready(function() {
 	// 결재버튼 클릭
 	$('#btnOk').bind('click', function() {
 		btnOk_click();
+	});
+	
+	// 반려버튼 클릭
+	$('#btnCncl').bind('click', function() {
+		btnCncl_click();
 	});
 	
 	// 등록/수정버튼 클릭
@@ -128,7 +131,32 @@ function confselect2(){
 
 function endSr(){
 	// eCmc0900_tab.mxml line 170
+	var EndSRData = new Object();
+	var ajaxReturnData = null;
 	
+	EndSRData.cc_srid = strIsrId;
+	EndSRData.cc_editor = userId;
+	EndSRData.reqcd = strReqCd;
+	EndSRData.cc_confmsg = $("#txtReqContent").val();
+	EndSRData.endgbn = "01";
+	
+	var EndSRInfo = {
+			EndSRData: 	EndSRData,
+			confirmData:    confirmData,
+			requestType: 	'insertSREnd'
+		}
+		
+	ajaxReturnData = ajaxCallWithJson('/webpage/tab/SR/SRCompleteTab', EndSRInfo, 'json');
+	console.log(ajaxReturnData);
+	if(ajaxReturnData !== 'ERR') {
+		if(ajaxReturnData === "INSERT"){
+			dialog.alert("등록이 완료되었습니다.");
+		} else {
+			dialog.alert("수정이 완료되었습니다.");
+		}
+		
+		parent.document.location.reload();
+	}
 }
 
 //결재 정보 창 띄우기
@@ -296,14 +324,9 @@ function getSREnd(){
 	}
 }
 
-// 화면 클리어
-function screenInit(tmp){
-	
-}
-
 // 결재버튼 클릭
 function btnOk_click(){
-	if($('#"txtConMsg"').val().length === 0){
+	if($("#txtConMsg").val().length === 0){
     	dialog.alert("결재의견을 입력하여 주시기 바랍니다.");
     	return;
     }
@@ -312,12 +335,12 @@ function btnOk_click(){
 		msg: '결재처리하시겠습니까?',
 	}, function(){
 		if(this.key === 'ok') {
-			confChk1();
+			confChk2();
 		}
 	});
 }
 
-function confChk1(){
+function confChk2(){
 	var gyulData = new Object();
 	var ajaxReturnData = null;
 	
@@ -328,6 +351,7 @@ function confChk1(){
 	
 	var gyulInfo = {
 		gyulData: 	gyulData,
+		cnt     :   "1",
 		requestType: 	'nextConf'
 	}
 	
@@ -342,11 +366,48 @@ function confChk1(){
 function gyulProc_result(result){
 	if(result == "0"){
 		window.close();
-		return;
 	} else {
 		dialog.alert("[" + resultMSG + "] 처리에 실패하였습니다.");
 	}
 	
-	screenInit("S");
-	srendInfoCall();
+	parent.document.location.reload();
+}
+
+// 반려 버튼 클릭
+function btnCncl_click(){
+	if($("#txtConMsg").val().length === 0){
+    	dialog.alert("반려의견을 입력하여 주시기 바랍니다.");
+    	return;
+    }
+	
+	confirmDialog.confirm({
+		msg: '반려처리하시겠습니까?',
+	}, function(){
+		if(this.key === 'ok') {
+			cnclChk2();
+		}
+	});
+}
+
+function cnclChk2(){
+	var gyulData2 = new Object();
+	var ajaxReturnData = null;
+	
+	gyulData2.strAcptno = strAcptNo;
+	gyulData2.strUserId = userId;
+	gyulData2.txtConMsg = $('#txtConMsg').val();
+	gyulData2.strReqCd = strReqCd;
+	
+	var gyulInfo2 = {
+		gyulData: 	gyulData2,
+		cnt     :   "3",
+		requestType: 	'nextConf'
+	}
+	
+	ajaxReturnData = ajaxCallWithJson('/webpage/tab/SR/SRCompleteTab', gyulInfo2, 'json');
+	console.log(ajaxReturnData);
+	if(ajaxReturnData !== 'ERR') {
+		resultMSG = "반려";
+		gyulProc_result(ajaxReturnData);
+	}
 }

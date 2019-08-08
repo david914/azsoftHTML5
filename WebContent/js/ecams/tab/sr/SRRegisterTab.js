@@ -347,7 +347,7 @@ function confChk1(){
 	
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo1, 'json');
 	if(ajaxReturnData !== 'ERR') {
-		parent.document.location.reload()
+		parent.document.location.reload();
 		ing_sw = false; 
 	}
 }
@@ -390,7 +390,7 @@ function cnclChk(){
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo2, 'json');
 	if(ajaxReturnData !== 'ERR') {
 		ing_sw = false;
-		parent.document.location.reload()
+		parent.document.location.reload();
 	}
 }
 

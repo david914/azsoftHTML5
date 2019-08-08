@@ -2,6 +2,7 @@ package html.app.tab.SR;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -63,6 +64,9 @@ public class SRCompleteTab extends HttpServlet {
 				case "nextConf" :
 					response.getWriter().write( nextConf(jsonElement) );
 					break;
+				case "insertSREnd" :
+					response.getWriter().write( insertSREnd(jsonElement) );
+					break;	
 				default:
 					break;
 			}
@@ -96,7 +100,17 @@ public class SRCompleteTab extends HttpServlet {
 	
 	private String nextConf(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> gyulDataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "gyulData") );
-		return gson.toJson(cmr3100.nextConf(gyulDataMap.get("strAcptno"), gyulDataMap.get("strUserId"), gyulDataMap.get("txtConMsg"), "1", gyulDataMap.get("strReqCd")));
+		String cnt = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cnt") );
+		return gson.toJson(cmr3100.nextConf(gyulDataMap.get("strAcptno"), gyulDataMap.get("strUserId"), gyulDataMap.get("txtConMsg"), cnt, gyulDataMap.get("strReqCd")));
+	}
+	
+	private String insertSREnd(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> tmp_obj = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"SRInfoData"));
+		
+		ArrayList<HashMap<String, Object>> ConfList = new ArrayList<HashMap<String, Object>>();
+		ConfList = ParsingCommon.jsonStrToArrObj(ParsingCommon.jsonEtoStr(jsonElement,"confirmData"));
+
+		return gson.toJson(prjinfo.insertSREnd(tmp_obj, ConfList));
 	}
 	
 }

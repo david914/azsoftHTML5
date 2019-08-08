@@ -22,17 +22,17 @@
 		<div class="row half cb">
 			<dl>
 				<dt><label>문서번호</label></dt>
-				<dd><input id="txtDocuNum" name="txtDocuNum" type="text"></dd>
+				<dd><input id="txtDocuNum" name="txtDocuNum" type="text" autocomplete="off"></dd>
 			</dl>
 			<dl>
 				<dt class="tar"><label>*요청부서</label></dt>
-				<dd><input id="txtOrg" name="txtOrg" type="text"></dd>
+				<dd><input id="txtOrg" name="txtOrg" type="text" autocomplete="off"></dd>
 			</dl>
 		</div>
 		<div class="row">
 			<dl>
 				<dt><label>*요청제목</label></dt>
-				<dd><input id="txtReqSubject" name="txtReqSubject" type="text"></dd>
+				<dd><input id="txtReqSubject" name="txtReqSubject" type="text" autocomplete="off"></dd>
 			</dl>
 		</div>
 		<div class="row">
@@ -78,7 +78,7 @@
 		    	<dt><label id="lbUser">보안요구사항</label></dt>
 			    <dd>
 					<div id="cboReqSecu" data-ax5select="cboReqSecu" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
-					<input id="txtReqSecu" name="txtReqSecu" class="form-control" type="text" style="display:none;"></input>
+					<input id="txtReqSecu" name="txtReqSecu" class="form-control" type="text" style="display:none;" autocomplete="off"></input>
 				</dd>
 			</dl>
 		</div>
@@ -96,7 +96,7 @@
 				<dt><label>*완료요청일</label></dt>
 				<dd>
 					<div class="az_input-group" data-ax5picker="basic2">
-		            	<input id="datReqComDate" type="text" class="f-cal" placeholder="yyyy/mm/dd"><span class="btn_calendar poa_r"><i class="fa fa-calendar-o"></i></span>
+		            	<input id="datReqComDate" type="text" class="f-cal" placeholder="yyyy/mm/dd" autocomplete="off"><span class="btn_calendar poa_r"><i class="fa fa-calendar-o"></i></span>
 		         	</div>
 		        </dd>
 			</dl>
@@ -124,7 +124,7 @@
 				<dt><label>*담당개발자</label></dt>						
 				<dd>
 					<div class="vat">
-						<input id="txtUser" name="txtUser" type="text" style="width:15%;" class="vat">
+						<input id="txtUser" name="txtUser" type="text" style="width:15%;" class="vat" autocomplete="off">
 						<div id="cboDevUser" data-ax5select="cboDevUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="dib width-60"></div>
 						<div  class="poa_r vat">
 							<button id="btnAddDevUser" name="btnAddDevUser" class="btn_basic_s">추가</button>
