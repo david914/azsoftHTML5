@@ -15,8 +15,12 @@ var userDeptCd 	 	= window.top.userDeptCd;
 var strReqCd	 	= window.top.reqCd;
 
 //public
-var strIsrId = "";
+var strIsrId  = "";
 var strQryGbn = "";
+var strWorkD  = "";
+var strAcptNo = "";
+var strStatus = "";
+var strIsrTitle = "";
 var cboQryGbnData = [];
 
 var urlArr = [];
@@ -25,7 +29,8 @@ $(document).ready(function(){
 	//tab메뉴
 	$('#tabSRRegister').width($('#tabSRRegister').width()+10);
 	$('#tabDevPlan').width($('#tabDevPlan').width()+10);
-	$("#tabDevPlan").show(); //개발계획실적탭
+	$('#tabSRComplete').width($('#tabSRComplete').width()+10);
+	$("#tabSRComplete").show(); 
 	
 	strQryGbn = "01";
 	if(strReqCd != null && strReqCd != "") {
@@ -44,9 +49,9 @@ $(document).ready(function(){
 		setSRRegData();
 	};
 	
-//	document.getElementById('frmDevPlan').onload = function() {
+	document.getElementById('frmDevPlan').onload = function() {
 		clickTabMenu();
-//	}
+	}
 });
 
 function setCbo() {
@@ -94,25 +99,24 @@ function iSRID_Click(data) {
 	$("#tab1").unbind("click");
 	//$("#tab2").prop('disabled',true);
 	$("#tab2").unbind("click");
+	$("#tab3").unbind("click");
 	
 	if(data == null) return;
 	
 	strIsrId = data.cc_srid;
 	
 	if(data.isrproc.indexOf("41") >= 0) {
-		//$("#tab1").prop('disabled',false);
 		$("#tab1").bind("click", clickTabMenu());
 	}
 	if(data.isrproc.indexOf("42") >= 0) {
-		//$("#tab2").prop('disabled',false);
 		$("#tab2").bind("click", clickTabMenu());
 	}
 	
+	$("#tab3").bind("click", clickTabMenu());
+	
 	data = null;
 	changeTabMenu();
-	//clickTabMenu();
-	
-	//$('#tab2').trigger('click');
+
 }
 
 //tabnavi_click
@@ -165,15 +169,12 @@ function changeTabMenu() {
 		
 		tmpTab.strIsrId = strIsrId;
 		tmpTab.userId = userId;
-		tmpTab.strStatus = prjListData[0].cc_status;
+		tmpTab.strStatus = tmpSelectedGridItem.cc_status;
 		//tmpTab.screenInit("M");
-		tmpTab.strIsrTitle = prjListData[0].cc_reqtitle;
-		tmpTab.strEditor = prjListData[0].cc_lastupuser;
+		tmpTab.strIsrTitle = tmpSelectedGridItem.cc_reqtitle;
+		tmpTab.strEditor = tmpSelectedGridItem.cc_lastupuser;
 		tmpTab.strQryGbn = "00";
 		//tmpTab.srendInfoCall();
-		
-		console.log("cc_status: " + prjListData[0].cc_status);
-		console.log("strIsrTitle: " + prjListData[0].cc_reqtitle);
 	}
 }
 

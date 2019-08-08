@@ -32,7 +32,7 @@
 					<input id="txtSRTitle" class="width-100" type="text" readonly/>
 				</div>
 			</div>
-			<div class="row por">
+			<div class="row por" style="display: none;" id="applyUserDate">
 				<div class="width-45 dib">
 					<label class="tit_100 poa">확인자</label>
 					<div class="ml_100">

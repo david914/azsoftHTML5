@@ -277,6 +277,7 @@ function getSREnd(){
 	console.log(ajaxReturnData);
 	if(ajaxReturnData !== 'ERR') {
 		if(ajaxReturnData.length > 0){
+			$("#applyUserDate").show();
 			$("#txtReqContent").val(ajaxReturnData[0].cc_confmsg);
 			$("#txtApplyDate").val(ajaxReturnData[0].lastdt);
 			$("#txtApplyUser").val(ajaxReturnData[0].cm_username);

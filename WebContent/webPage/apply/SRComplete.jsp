@@ -52,4 +52,4 @@
 <!-- contener E -->
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
-<script type="text/javascript" src="<c:url value="/js/ecams/dev/DevPlan.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/apply/SRComplete.js"/>"></script>
