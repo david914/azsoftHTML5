@@ -71,7 +71,7 @@ $(document).ready(function() {
 	});
 	
 	// 결재정보
-	$('#btnConf').bind('click', function() {
+	$('#btnConf2').bind('click', function() {
 		openApprovalInfo(2, confAcpt, "R60");
 	});
 });
@@ -284,7 +284,7 @@ function getSREnd(){
 			confAcpt = "";
 			
 			if(ajaxReturnData[0].acptno != null){
-				$("#btnConf").show();
+				$("#btnConf2").show();
 				confAcpt = ajaxReturnData[0].acptno;
 			}
 			

@@ -357,6 +357,10 @@ $(document).ready(function(){
 		}
 		else{
             mask.open();
+            confirmDialog.setConfig({
+                title: "확인",
+                theme: "info"
+            });
 			confirmDialog.confirm({
 				msg: '기 선택된 선행작업이 있습니다. \n 체크해제 시 선행작업이 무시됩니다. \n계속 진행할까요?',
 			}, function(){
@@ -858,6 +862,10 @@ function addDataRow() {
 	}
 	
 	if (strRsrcName.length > 0 && reqCd =='07'){
+        confirmDialog.setConfig({
+            title: "확인",
+            theme: "info"
+        });
 		confirmDialog.confirm({
 			msg: '이전버전으로 체크아웃받은 프로그램이 있습니다. \n"'+strRsrcName + '"\n계속 진행할까요?',
 		}, function(){
@@ -1920,6 +1928,10 @@ function bntRequestClick(){
 		return;
 	}
 	mask.open();
+    confirmDialog.setConfig({
+        title: "확인",
+        theme: "info"
+    });
 	confirmDialog.confirm({
 		msg : $('#btnRequest').text()+"을 하시겠습니까?",
 	}, function(){

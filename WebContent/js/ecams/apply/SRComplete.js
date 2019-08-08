@@ -22,7 +22,7 @@ var strAcptNo = "";
 var strStatus = "";
 var strIsrTitle = "";
 var cboQryGbnData = [];
-
+var loadSrReg = false;
 var urlArr = [];
 
 $(document).ready(function(){
@@ -53,6 +53,18 @@ $(document).ready(function(){
 		clickTabMenu();
 	}
 });
+
+//페이지 로딩 완료시 다음 진행 
+var inter = null;
+
+function callSRRegister(data) {
+   inter = setInterval(function(){
+      if(loadSrReg) {
+         iSRID_Click(data);
+         clearInterval(inter);
+      }
+   },100);
+}
 
 function setCbo() {
 	//PrjListTab 대상구분 콤보박스 데이터
@@ -163,6 +175,9 @@ function changeTabMenu() {
 			tmpTab.initDevPlan(); //tab2.devPlanCall();
 		}
 	} else if(document.getElementById("tab3").className == "on") { //SR완료
+		var tmpGrid = $('#frmPrjList').get(0).contentWindow.firstGrid;
+		var tmpGridSelectedIndex = tmpGrid.selectedDataIndexs;
+		var tmpSelectedGridItem = tmpGrid.list[tmpGrid.selectedDataIndexs];
 		tmpTab = $('#frmSRComplete').get(0).contentWindow;
 		
 		if(tmpTab.strIsrId == strIsrId) return;
@@ -174,7 +189,7 @@ function changeTabMenu() {
 		tmpTab.strIsrTitle = tmpSelectedGridItem.cc_reqtitle;
 		tmpTab.strEditor = tmpSelectedGridItem.cc_lastupuser;
 		tmpTab.strQryGbn = "00";
-		//tmpTab.srendInfoCall();
+		tmpTab.srendInfoCall();
 	}
 }
 

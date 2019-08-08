@@ -1048,6 +1048,10 @@ function checkOutClick()
 		dialog.alert("현재 처리중입니다. 잠시 기다려 주시기 바랍니다.");
 		return;
 	}
+    confirmDialog.setConfig({
+        title: "확인",
+        theme: "info"
+    });
 	confirmDialog.confirm({
 		msg: '체크아웃 하시겠습니까?',
 	}, function(){
