@@ -242,10 +242,6 @@ $(document).ready(function() {
 	
 	setCboElement();
 	setCboDevUser();
-	/*
-	 * 다른화면에서 사용시 구현... if (strAcptNo != null && strAcptNo != "") {
-	 * Cmr3100.gyulChk(strAcptNo,strUserId);//결재자 인지 체크 }
-	 */
 
 	// 신규등록 - 체크박스 선택
 	$('#chkNew').bind('click', function() {
@@ -304,7 +300,99 @@ $(document).ready(function() {
 	$('#btnConf').bind('click', function() {
 		openApprovalInfo(2, acptno, "R60");
 	});
+	
+	// 결재 버튼 클릭
+	$('#btnOK').bind('click', function() {
+		cmdOkclick();
+	});
+	// 반려 버튼 클릭
+	$('#btnCncl').bind('click', function() {
+		cmdCnclclick();
+	});
 });
+// 결재 버튼 클릭
+function cmdOkclick(){
+	if(ing_sw){
+		dialog.alert("현재 작업이 진행중입니다. 잠시후 다시 시도해주세요");
+		return;
+	}
+	
+	if($("#txtConMsg").val().length == 0){
+		dialog.alert("결재 의견을 입력하여 주세요.");
+		return;
+	}
+	
+	confirmDialog.confirm({
+		msg: '결재처리하시겠습니까?',
+	}, function(){
+		if(this.key === 'ok') {
+			confChk1();
+		}
+	});
+}
+
+function confChk1(){
+	ing_sw = true;
+	
+	var ajaxReturnData = null;
+	
+	var gyulInfo1 = {
+		strAcptNo : acptno,
+		strUserId : userid,
+		txtConMsg : $("#txtConMsg").val(),
+		cnt		  : "1",
+		strReqCd  : strReqCd,
+		requestType: 	'nextConf1'
+	}
+	
+	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo1, 'json');
+	if(ajaxReturnData !== 'ERR') {
+		parent.document.location.reload()
+		ing_sw = false; 
+	}
+}
+
+// 반려 버튼 클릭
+function cmdCnclclick(){
+	if(ing_sw){
+		dialog.alert("현재 작업이 진행중입니다. 잠시후 다시 시도해주세요");
+		return;
+	}
+	
+	if($("#txtConMsg").val().length == 0){
+		dialog.alert("반려 의견을 입력하여 주세요.");
+		return;
+	}
+	
+	confirmDialog.confirm({
+		msg: '반려처리하시겠습니까?',
+	}, function(){
+		if(this.key === 'ok') {
+			cnclChk();
+		}
+	});
+}
+
+function cnclChk(){
+	ing_sw = true;
+	
+	var ajaxReturnData = null;
+	
+	var gyulInfo2 = {
+		strAcptNo : acptno,
+		strUserId : userid,
+		txtConMsg : $("#txtConMsg").val(),
+		cnt		  : "3",
+		strReqCd  : strReqCd,
+		requestType: 	'nextConf1'
+	}
+	
+	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo2, 'json');
+	if(ajaxReturnData !== 'ERR') {
+		ing_sw = false;
+		parent.document.location.reload()
+	}
+}
 
 //결재 정보 창 띄우기
 function openApprovalInfo(type, acptNo, reqCd) {
@@ -794,15 +882,15 @@ function cmdCncl_click(){
 	}
 	
 	confirmDialog.confirm({
-		msg: '반려처리하시겠습니까?',
+		msg: '삭제처리하시겠습니까?',
 	}, function(){
 		if(this.key === 'ok') {
-			cnclChk();
+			delSr();
 		}
 	});
 }
 
-function cnclChk(){
+function delSr(){
 	ing_sw = true;
 	
 	var SRInfo = {
@@ -932,6 +1020,25 @@ function closeModal() {
 	btn_addDever();
 }
 
+function gyulChk1(acptno){
+	var gyulInfo = {
+			strUserId : userid,
+			strAcptno : acptno,
+			requestType: 	'gyulChk1'
+		}
+		
+	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo, 'json');
+	if(ajaxReturnData !== 'ERR') {
+		if(ajaxReturnData == "0"){
+			$("#gyulDiv").show();
+			$("#btnOK").show();
+			$("#btnCncl").show();
+		} else if(ajaxReturnData != "1"){
+			dialog.alert("결재정보 체크 중 오류가 발생하였습니다.");
+		}
+	}
+}
+
 // sr 리스트 클릭 이벤트
 function firstGridClick(srid) {
 	$('#txtReqSecu').css('display', 'none');
@@ -959,6 +1066,7 @@ function firstGridClick(srid) {
 		if(ajaxReturnData[0].acptno != "" && ajaxReturnData[0].acptno != undefined){
 			acptno = ajaxReturnData[0].acptno;
 			$("#btnConf").show();
+			gyulChk1(acptno);
 		}
 		
 		var tempDate = ajaxReturnData[0].cc_reqcompdate.substring(0, 4) + "/"

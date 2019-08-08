@@ -25,6 +25,7 @@ import app.common.CodeInfo;
 import app.common.PrjInfo;
 import app.common.TeamInfo;
 import app.eCmc.Cmc0100;
+import app.eCmr.Cmr3100;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/srcommon/SRRegisterTab")
@@ -32,7 +33,7 @@ public class SRRegisterTab extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
 	Cmc0100 cmc0100 = new Cmc0100();
-	
+	Cmr3100 cmr3100 = new Cmr3100();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		super.doGet(req, resp);
@@ -71,7 +72,13 @@ public class SRRegisterTab extends HttpServlet {
 					break;	
 				case "deleteSRInfo" :
 					response.getWriter().write( deleteSRInfo(jsonElement) );
-					break;		
+					break;	
+				case "gyulChk1" :
+					response.getWriter().write( gyulChk1(jsonElement) );
+					break;
+				case "nextConf1" :
+					response.getWriter().write( nextConf1(jsonElement) );
+					break;	
 				default:
 					break;
 			}
@@ -90,6 +97,21 @@ public class SRRegisterTab extends HttpServlet {
 	private String selectSRInfo(JsonElement jsonElement) throws SQLException, Exception {
 		String srid = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "srInfoData") );
 		return gson.toJson(cmc0100.selectSRInfo(srid));
+	}
+	
+	private String gyulChk1(JsonElement jsonElement) throws SQLException, Exception {
+		String strUserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strUserId") );
+		String strAcptno = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strAcptno") );
+		return gson.toJson(cmr3100.gyulChk(strAcptno,strUserId));
+	}
+	
+	private String nextConf1(JsonElement jsonElement) throws SQLException, Exception {
+		String strAcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strAcptNo") );
+		String strUserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strUserId") );
+		String txtConMsg = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "txtConMsg") );
+		String cnt = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cnt") );
+		String strReqCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strReqCd") );
+		return gson.toJson(cmr3100.nextConf(strAcptNo,strUserId,txtConMsg,cnt,strReqCd));
 	}
 	
 	private String deleteSRInfo(JsonElement jsonElement) throws SQLException, Exception {

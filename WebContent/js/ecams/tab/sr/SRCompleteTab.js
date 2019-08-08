@@ -25,7 +25,8 @@ var retMsg = "";
 var confAcpt = "";
 var resultMSG ="";
 
-
+var confirmData = [];
+var confirmInfoData = null;
 
 var devListGridData = null;
 var devListGrid 	= new ax5.ui.grid();
@@ -63,7 +64,7 @@ $(document).ready(function() {
 	
 	// 등록/수정버튼 클릭
 	$('#btnReg').bind('click', function() {
-		format_confirm();
+		format_confirm2();
 	});
 	
 	// 결재정보
@@ -73,7 +74,9 @@ $(document).ready(function() {
 });
 
 // 등록/수정 클릭
-function format_confirm(){
+function format_confirm2(){
+	var ajaxReturnData = null;
+	
 	if($("#txtReqContent").val().length === 0 || $("#txtReqContent").val() == ""){
 		dialog.alert("완료의견을 입력하여 주시기 바랍니다.");
     	return;
@@ -125,6 +128,7 @@ function confselect2(){
 
 function endSr(){
 	// eCmc0900_tab.mxml line 170
+	
 }
 
 //결재 정보 창 띄우기
@@ -319,7 +323,7 @@ function confChk1(){
 	
 	gyulData.strAcptno = strAcptNo;
 	gyulData.strUserId = userId;
-	gyulData.txtConMsg = $('#"txtConMsg"').val();
+	gyulData.txtConMsg = $('#txtConMsg').val();
 	gyulData.strReqCd = strReqCd;
 	
 	var gyulInfo = {
