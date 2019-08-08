@@ -73,12 +73,12 @@
 						</div>
 					</div>					
 					<div class="row thumbnail">
-						<span class="r_nail" style="background-color: #f16832;margin-right: 0px;">접수</span>
-						<span class="p_nail" style="background-color: #00523d;margin-right: 0px;">개발</span>
-						<span class="g_nail" style="background-color: #8f6fff;margin-right: 0px;">테스트</span>
-						<span class="b_nail" style="background-color: #326aab;margin-right: 0px;">적용</span>
-						<span class="b_nail" style="background-color: #2B2B2B;margin-right: 0px;">처리완료</span>
-						<span class="b_nail" style="background-color: #d12832;margin-right: 0px;">반려 또는 취소</span>
+						<span class="r_nail" style="background-color: #f16832;margin-top: 10px;">접수</span>
+						<span class="p_nail" style="background-color: #00523d;margin-top: 10px;">개발</span>
+						<span class="g_nail" style="background-color: #8f6fff;margin-top: 10px;">테스트</span>
+						<span class="b_nail" style="background-color: #326aab;margin-top: 10px;">적용</span>
+						<span class="b_nail" style="background-color: #2B2B2B;margin-top: 10px;">처리완료</span>
+						<span class="b_nail" style="background-color: #d12832;margin-top: 10px;">반려 또는 취소</span>
 					</div>			
 				</div>
 				<div class="r_wrap width-35 poa_r vat">

@@ -16,7 +16,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import app.common.SysInfo;
+import app.eCmr.Cmr0200;
 import app.eCmr.Cmr0600;
+import app.eCmr.Confirm_select;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/apply/RollBackReqServlet")
@@ -28,6 +30,8 @@ public class RollBackReqServlet extends HttpServlet {
 	Gson gson = new Gson();
 	SysInfo sysInfo  = new SysInfo();
 	Cmr0600 cmr0600  = new Cmr0600();
+	Cmr0200 cmr0200  = new Cmr0200();
+	Confirm_select confirm_select = new Confirm_select();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -58,6 +62,15 @@ public class RollBackReqServlet extends HttpServlet {
 					break;
 				case "getDownFileList" :
 					response.getWriter().write( getDownFileList(jsonElement) );
+					break;
+				case "confSelect" :
+					response.getWriter().write( confSelect(jsonElement) );
+					break;
+				case "Confirm_Info" :
+					response.getWriter().write( Confirm_Info(jsonElement) );
+					break;
+				case "request_Check_In" :
+					response.getWriter().write( request_Check_In(jsonElement) );
 					break;
 				default:
 					break;
@@ -101,5 +114,39 @@ public class RollBackReqServlet extends HttpServlet {
 		HashMap<String, String>	param = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "param") );
 		
 		return gson.toJson(cmr0600.getDownFileList(gridData,param));
+	}
+	
+	private String confSelect(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> confirmInfoData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"confirmInfoData"));
+		return gson.toJson(cmr0200.confSelect(confirmInfoData.get("SysCd"), 
+															   confirmInfoData.get("ReqCd"),
+															   confirmInfoData.get("strRsrcCd"),
+															   confirmInfoData.get("UserID"),
+															   confirmInfoData.get("strQry")));
+			
+	}
+	
+	private String Confirm_Info(JsonElement jsonElement) throws SQLException, Exception{
+		HashMap<String, String> confirmInfoData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"confirmInfoData"));
+		return gson.toJson(confirm_select.Confirm_Info(confirmInfoData));
+	}
+
+	private String request_Check_In(JsonElement jsonElement) throws SQLException, Exception {
+		
+		ArrayList<HashMap<String, String>> reqData = new ArrayList<HashMap<String, String>>();
+		reqData = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"reqData"));
+
+		HashMap<String, String> requestData = new HashMap<String, String>();
+		requestData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"requestData"));
+		
+		ArrayList<HashMap<String, Object>> confirmInfoData = new ArrayList<HashMap<String, Object>>();
+		confirmInfoData = ParsingCommon.jsonStrToArrObj(ParsingCommon.jsonEtoStr(jsonElement,"confirmInfoData"));
+		
+		String confFg = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "confFg") );
+		
+		ArrayList<HashMap<String, String>> scriptList = new ArrayList<HashMap<String, String>>();
+		
+		return gson.toJson(cmr0600.request_Check_In(reqData, requestData, confirmInfoData, confFg, scriptList));
+			
 	}
 }

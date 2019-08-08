@@ -6,17 +6,22 @@ var reqCd = window.top.reqCd;
 
 var firstGrid	   = new ax5.ui.grid();
 var secondGrid	   = new ax5.ui.grid();
-//var thirdGrid	   = new ax5.ui.grid();
 var confirmDialog  = new ax5.ui.dialog();   //확인 창
 var picker  	   = new ax5.ui.picker();
 
 var firstGridData  = null; //롤백가능 운영요청건 데이타
 var secondGridData = null; //추가대상그리드 데이타
-//var thirdGridData  = null; //롤백대상그리드 데이타
 var cboSysCdData   = null; //시스템 데이타
+var confirmData    = null; //결재정보 데이타
 
+var myWin 		   = null;
 var data           = null; //json parameter
+var ajaxReturnData = null;
 var options 	   = [];
+
+var acptNo		   = ""; //롤백신청번호
+
+var confirmInfoData= new Object();
 
 confirmDialog.setConfig({
 	Title: "확인",
@@ -117,8 +122,9 @@ firstGrid.setConfig({
         {key: "cc_reqtitle", label: "SR제목",  width: '20%', align: 'left'},
         {key: "acptno", label: "신청번호",  width: '10%'},
         {key: "acptdate", label: "신청일시",  width: '10%'},
+        {key: "prcdate", label: "완료일시", width: '10%'},
         {key: "cm_username", label: "신청자",  width: '10%'},
-        {key: "cr_passcd", label: "신청사유",  width: '40%', align: 'left'} 
+        {key: "cr_passcd", label: "신청사유",  width: '30%', align: 'left'} 
     ]
 });
 
@@ -131,7 +137,8 @@ secondGrid.setConfig({
     showLineNumber: true,
     header: {
         align: "center",
-        columnHeight: 30
+        columnHeight: 30,
+        selector: false
     },
     body: {
         columnHeight: 28,
@@ -159,33 +166,7 @@ secondGrid.setConfig({
     	    this.self.repaint();
     	}
     },
-    contextMenu: {/*
-        iconWidth: 20,
-        acceleratorWidth: 100,
-        itemClickAndClose: false,
-        icons: {
-            'arrow': '<i class="fa fa-caret-right"></i>'
-        },
-        items: [
-            {type: 1, label: "추가"}
-        ],
-        popupFilter: function (item, param) {
-        	secondGrid.clearSelect();
-        	secondGrid.select(Number(param.dindex));
-       	 
-	       	var selIn = secondGrid.selectedDataIndexs;
-	       	if(selIn.length === 0) return;
-       	 
-        	if (param.item == undefined) return false;
-        	if (param.dindex < 0) return false;
-        	
-        	return true;
-        },
-        onClick: function (item, param) {
-	       	thirdGridAdd();
-        	secondGrid.contextMenu.close();//또는 return true;
-        }*/
-    },
+    contextMenu: {},
     columns: [
         {key: "cm_dirpath", label: "프로그램경로",  width: '25%', align: 'left'},
         {key: "cr_rsrcname", label: "프로그램명",  width: '10%', align: 'left'},
@@ -198,86 +179,14 @@ secondGrid.setConfig({
         {key: "cr_story", label: "프로그램설명",  width: '17%', align: 'left'} 
     ]
 });
-/*
-thirdGrid.setConfig({
-    target: $('[data-ax5grid="thirdGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: true,
-    showLineNumber: true,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 28,
-        onClick: function () {
-        	//this.self.clearSelect();
-        	this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if (this.dindex < 0) return;
 
-	       	var selIn = thirdGrid.selectedDataIndexs;
-	       	if(selIn.length === 0) return;
-	       	if (this.item.cr_itemid != this.item.cr_baseitem) return;
-	       	
-	       	//thirdGrid에서 제거
-	       	thirdGridDel();
-        },
-    	trStyleClass: function () {
-    		if (this.item.cr_itemid != this.item.cr_baseitem){
-    			return "fontStyle-module";
-    		} 
-    	},
-    	onDataChanged: function(){
-    	    this.self.repaint();
-    	}
-    },
-    contextMenu: {
-        iconWidth: 20,
-        acceleratorWidth: 100,
-        itemClickAndClose: false,
-        icons: {
-            'arrow': '<i class="fa fa-caret-right"></i>'
-        },
-        items: [
-            {type: 1, label: "제거"}
-        ],
-        popupFilter: function (item, param) {
-        	thirdGrid.clearSelect();
-        	thirdGrid.select(Number(param.dindex));
-       	 
-	       	var selIn = thirdGrid.selectedDataIndexs;
-	       	if(selIn.length === 0) return;
-       	 
-        	if (param.item == undefined) return false;
-        	if (param.dindex < 0) return false;
-	       	if (this.item.cr_itemid != this.item.cr_baseitem) return;
-        	
-        	return true;
-        },
-        onClick: function (item, param) {
-	       	thirdGridDel();
-        	thirdGrid.contextMenu.close();//또는 return true;
-        }
-    },
-    columns: [
-        {key: "cr_rsrcname", label: "프로그램경로",  width: '20%'},
-        {key: "cr_story", label: "프로그램명",  width: '10%'},
-        {key: "cm_dirpath", label: "프로그램종류",  width: '20%'},
-        {key: "cm_jobname", label: "운영버전",  width: '10%'},
-        {key: "cr_version", label: "롤백버전",  width: '10%'},
-        {key: "cm_dirpath", label: "최종수정일",  width: '20%'},
-        {key: "checkin", label: "체크결과",  width: '10%'}
-    ]
-});
-*/
 $(document).ready(function(){
 	var today = getDate('DATE',0);
 	today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);
 	$('#datStD').val(today);
 	$('#datEdD').val(today);
+
+	$('#btnReq').prop('disabled',true);
 	
 	//조회버튼 클릭
 	$('#btnQry').bind('click',function(){
@@ -285,36 +194,39 @@ $(document).ready(function(){
 			confirmDialog.alert('시스템을 선택하시기 바랍니다.');
 			return;
 		}
-		
 		rollbackReqSearch();
 	});
-	/*
-	//추가버튼 클릭
-	$('#btnAdd').bind('click',function(){
-		thirdGridAdd();
-	});
-	//제거버튼 클릭
-	$('#btnDel').bind('click',function(){
-		thirdGridDel();
-	});
-	*/
+	
 	//신청버튼 클릭
 	$('#btnReq').bind('click',function(){
+		if ( $('#txtSayu').val().length == 0 ) {
+			confirmDialog.alert('신청사유를 입력하시기 바랍니다.');
+			return;
+		}
+		var errflag = false;
+		var secondGridSelList = new Array;
+		var secondGridSeleted = secondGrid.getList("selected");
+		$(secondGridSeleted).each(function(i){
+			if (secondGridSeleted[i].ermsg != '정상') errflag = true;
+			secondGridSelList.push($.extend({}, this, {__index: undefined}));
+		});
+		
+		if ( secondGridSelList.length < 1 ) {
+			confirmDialog.alert('롤백대상 프로그램을 목록에서 선택하시기 바랍니다.');
+			return;
+		}
+		if (errflag) {
+			confirmDialog.alert('체크결과 원복할 수 없는 파일이 있습니다. 제외한 후 신청하시기 바랍니다.');
+			return;
+		}
+		
+		//롤백신청 처리
+		requestRollBack(secondGridSelList);
 	});
 	
 	//시스템정보 가져오기
 	system_getData();
 });
-/*
-//신청목록에 추가
-function thirdGridAdd() {
-	
-}
-//신청목록에서 제거
-function thirdGridDel() {
-	
-}
-*/
 //시스템정보 가져오기
 function system_getData() {
 	data =  new Object();
@@ -333,7 +245,8 @@ function successGetSysInfo(data) {
 	cboSysCdData = data;
 	options = [];
 	$.each(cboSysCdData,function(key,value) {
-	    options.push({value: value.cm_syscd, text: value.cm_sysmsg, TstSw: value.TstSw, cm_sysinfo: value.cm_sysinfo, cm_sysfc1: value.cm_sysfc1});
+	    options.push({value: value.cm_syscd, text: value.cm_sysmsg, 
+	    	TstSw: value.TstSw, cm_sysinfo: value.cm_sysinfo, cm_sysfc1: value.cm_sysfc1, cm_sysgb: value.cm_sysgb});
 	});
 	$('[data-ax5select="cboSysCd"]').ax5select({
         options: options
@@ -395,12 +308,6 @@ function successGetBefReq_Prog(data){
 
 	var calcnt = 0;
 	for (i=0; i<secondGridData.length; i++){
-		console.log('++++++++++++++++:'+secondGridData[i].selected_flag+','+ secondGridData[i].cr_status);
-		/*if (secondGridData[i].selected_flag == '1' || secondGridData[i].cr_status != '0'){
-			secondGridData.splice(i--,1);
-			continue;
-		}*/
-		console.log('++++++++++++++++3,8:'+(secondGridData[i].cm_info).substr(3,1)+','+(secondGridData[i].cm_info).substr(8,1));
 		if ((secondGridData[i].cm_info).substr(3,1) == '1'){
 			calcnt++;
 		}
@@ -429,68 +336,222 @@ function successGetBefReq_Prog(data){
 			ajaxAsync('/webPage/apply/RollBackReqServlet', data, 'json', successGetDownFileList);
 		} else {
 			secondGrid.setData(secondGridData);
-			secondGrid.repaint();
+			secondGridDefaultCheck(secondGridData);
 		}
 	}
 }
 //상세프로그램항목 가져오기완료
 function successGetDownFileList(data){
-	console.log(data);
-	//secondGridData = data;
-	//secondGrid.setData(secondGridData);
 	var secondGridList = new Array;
 	$(data).each(function(j){
 		data[0].disable_selection = false;
 		secondGridList.push($.extend({}, data[j], {__index: undefined}));
 	});
 	secondGrid.addRow(secondGridList);
-	secondGrid.repaint();
+	secondGridDefaultCheck(secondGridList);
+}
+//신청가능대상 자동선택
+function secondGridDefaultCheck(gridDataList) {
+	for(var i=0; i<gridDataList.length; i++) {
+		if (gridDataList[i].selected_flag == '0') {
+			secondGrid.select(i);
+			$('#btnReq').prop('disabled',false);
+		}
+	}
+}
+//롤백신청
+function requestRollBack(reqDataList) {
+	console.log('=====requestRollBack=====');
+	console.log(reqDataList);
 	
-	/*
-	var firstGridSeleted = firstGrid.getList("selected");
-	$(firstGridSeleted).each(function(i){
-	
+	mask.open();
+    confirmDialog.confirm({
+        title: '롤백신청확인',
+		msg: '선택한 프로그램을 롤백 하시겠습니까?',
+	}, function(){
+		if(this.key === 'ok') {
+			ckoConfirm(reqDataList);
+		}
 	});
-	*/
-	
+	mask.close();
 }
 
-//그리드에 마우스 툴팁 달기
-/*
-$(document).on("mouseenter","[data-ax5grid-panel='body'] span",function(event){
-	if(this.innerHTML == ""){
+function ckoConfirm(reqDataList){
+	var tmpRsrc = "";
+	var tmpJobCd = "";
+	var strQry = "";
+	for (var x=0;x<secondGridData.length;x++) {
+		if (tmpRsrc.length > 0) {
+			if (tmpRsrc.indexOf(secondGridData[x].cr_rsrccd) < 0)
+	            tmpRsrc = tmpRsrc + "," + secondGridData[x].cr_rsrccd;
+		} else tmpRsrc = secondGridData[x].cr_rsrccd;
+	
+		if (tmpJobCd.length > 0) {
+			if (tmpJobCd.indexOf(secondGridData[x].cr_jobcd) < 0)
+	            tmpJobCd = tmpJobCd + "," + secondGridData[x].cr_jobcd;
+		} else tmpJobCd = secondGridData[x].cr_jobcd;
+	
+		if (strQry.length > 0) {
+			if (strQry.indexOf(secondGridData[x].reqcd) < 0) {
+				strQry = strQry + "," + secondGridData[x].reqcd;
+			}
+		} else strQry = secondGridData[x].reqcd;
+	}
+	
+	confirmInfoData = new Object();
+	confirmInfoData.SysCd = getSelectedVal('cboSys').value;
+	confirmInfoData.ReqCd = reqCd;
+	confirmInfoData.strRsrcCd = tmpRsrc;
+	confirmInfoData.UserID = userId;
+	confirmInfoData.strQry = '';
+	
+	var tmpData = {
+		confirmInfoData : confirmInfoData,
+		requestType 	: 'confSelect'
+	}	
+	ajaxReturnData = ajaxCallWithJson('/webPage/apply/RollBackReqServlet', tmpData, 'json');
+	
+	if (ajaxReturnData == 'X') {
+		dialog.alert('로컬PC에서 파일을 전송하는 결재단계가 지정되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.');
+	} else	if (ajaxReturnData == 'C') {
+		confirmDialog.confirm({
+			msg: '결재자를 지정하시겠습니까?',
+		}, function(){
+			if (this.key === 'ok') {
+				confCall('Y', strQry, tmpRsrc, tmpJobCd, reqDataList);
+			} else {
+				confCall('N', strQry, tmpRsrc, tmpJobCd, reqDataList);
+			}
+		});
+	} else if (ajaxReturnData == 'Y') {
+		confCall('Y', strQry, tmpRsrc, tmpJobCd, reqDataList);
+    } else if (ajaxReturnData != 'N') {
+    	dialog.alert('결재정보가 등록되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.');
+    } else {
+		confCall('N', strQry, tmpRsrc, tmpJobCd, reqDataList);
+    }
+}
+
+function confCall(GbnCd, strQry, tmpRsrc, tmpJobCd, reqDataList){
+	confirmInfoData = new Object();
+	confirmInfoData.UserID = userId;
+	confirmInfoData.ReqCd  = reqCd;
+	confirmInfoData.SysCd  = getSelectedVal('cboSys').value;
+	confirmInfoData.Rsrccd = tmpRsrc;
+	confirmInfoData.QryCd = strQry;
+	confirmInfoData.EmgSw = '2';
+	confirmInfoData.JobCd = tmpJobCd;
+	confirmInfoData.deployCd = 'Y';
+	confirmInfoData.PrjNo = '';
+	
+	if (GbnCd == 'Y') {
+		approvalModal.open({
+	        width: 820,
+	        height: 365,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/request/ApprovalModal.jsp",
+	            param: "callBack=modalCallBack"
+		    },
+	        onStateChanged: function () {
+	            if (this.state === 'open') {
+	                mask.open();
+	            }
+	            else if (this.state === 'close') {
+	            	if(confirmData.length > 0){
+	            		reqQuestConf(reqDataList);
+	            	}
+	            	ingSw = false;
+	                mask.close();
+	            }
+	        }
+		});
+		
+	} else if (GbnCd == 'N') {
+		ajaxReturnData = null;
+		
+		var tmpData = {
+			confirmInfoData : confirmInfoData,
+			requestType		: 'Confirm_Info'
+		}
+		ajaxReturnData = ajaxCallWithJson('/webPage/apply/RollBackReqServlet', tmpData, 'json');
+		confirmData = ajaxReturnData;
+		for(var i=0; i<confirmData.length ; i++){
+			if (confirmData[i].arysv[0].SvUser == null || confirmData[i].arysv[0].SvUser == '') {
+				confirmData.splice(i,1);
+				i--;
+			}
+		}
+		reqQuestConf(reqDataList);
+	}
+}
+
+function reqQuestConf(reqDataList){
+	ajaxReturnData = null;
+	
+	var etcObj = new Object();
+	etcObj.UserID 	= userId;
+	etcObj.ReqCD  	= reqCd;
+	etcObj.Sayu	  	= $('#txtSayu').val().trim();
+	etcObj.cm_syscd = getSelectedVal('cboSys').value;
+	etcObj.cm_sysgb = getSelectedVal('cboSys').cm_sysgb;
+	etcObj.passok	= '2';
+	etcObj.passcd 	= $('#txtSayu').val().trim();
+	etcObj.EmgCd  	= '0';
+	etcObj.AplyDate = '';
+	etcObj.Deploy 	= '';
+	
+	data = {
+		reqData			: reqDataList,
+		confirmInfoData : confirmInfoData,
+		confFg			: 'Y',
+		scriptList		: null,
+		requestData		: etcObj,
+		requestType		: 'request_Check_In'
+	}
+	ajaxReturnData = ajaxCallWithJson('/webPage/apply/RollBackReqServlet', data, 'json');
+	
+	if(ajaxReturnData.substr(0,5) == 'ERROR'){
+		dialog.alert('에러가 발생하였습니다. 다시 신청해주세요.\n'+ajaxReturnData.substr(5));
 		return;
 	}
-	//첫번째 컬럼에만 툴팁 달기
-	if($(this).closest("td").index() > 0) return;
-	//그리드 정보 가져오기
-	var gridRowInfo = secondGrid.list[parseInt($(this).closest("td").closest("tr").attr("data-ax5grid-tr-data-index"))];
+	acptNo = ajaxReturnData;
 	
-	$(this).attr("title",'운영배포신청목록을 조회하여 롤백대상 신청건을 클릭하시면 롤백가능한 프로그램이 조회됩니다.');
+	requestEnd(acptNo);
+}
+function requestEnd(acptNo){
+	mask.open();
+	confirmDialog.confirm({
+		msg: '롤백신청완료! 상세 정보를 확인하시겠습니까?',
+	}, function(){
+		if(this.key === 'ok') {
+			openWindow(acptNo);
+		}
+	});
+	mask.close();
 	
-	// title을 변수에 저장
-	title_ = $(this).attr("title");
-	// class를 변수에 저장
-	class_ = $(this).attr("class");
-	// title 속성 삭제 ( 기본 툴팁 기능 방지 )
-	$(this).attr("title","");
+	secondGrid.setData([]);
+	$('#btnReq').prop('disabled',true);
+}
+function openWindow(acptNo) {
+	var nHeight, nWidth, cURL, winName;
 	
-	$("body").append("<div id='tip'></div>");
-	if (class_ == "img") {
-		$("#tip").html(imgTag);
-		$("#tip").css("width","100px");
-	} else {
-		$("#tip").css("display","inline-block");
-		$("#tip").html('<pre>'+title_+'</pre>');
+	if (myWin != null) {
+        if (!myWin.closed) {
+        	myWin.close();
+        }
 	}
-	
-	var pageX = event.pageX;
-	var pageY = event.pageY;
-	
-	$("#tip").css({left : pageX + "px", top : pageY + "px"}).fadeIn(100);
-	return;
-}).on('mouseleave',"[data-ax5grid-panel='body'] span",function(){
-	$(this).attr("title", '');
-	$("#tip").remove();	
-});
-*/
+
+    winName = 'rollBackrequestDetail';
+
+	var f = document.popPam;   		//폼 name
+    
+    f.acptno.value	= acptno;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    
+	nHeight = 740;
+    nWidth  = 1200;
+	cURL = "/webPage/winpop/PopRequestDetail.jsp";
+
+	myWin = winOpen(f, winName, cURL, nHeight, nWidth);
+}

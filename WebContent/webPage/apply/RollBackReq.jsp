@@ -15,7 +15,7 @@
 <body style="padding: 10px;">
     <div class="content">
         <!-- history S-->
-        <div id="history_wrap">적용 <strong>&gt; RollBack요청</strong></div>
+        <div id="history_wrap">적용 <strong>&gt; RollBack</strong></div>
 		<!-- 설명1 -->
 		<div class="width-100 float-left margin-5-top por" style="height: 30px;">
            	<label class="tit-80 dib poa">운영배포신청목록 조회</label>
@@ -63,18 +63,6 @@
 		    <div class="az_board_basic margin-5-top" style="height:50%">
 		    	<div data-ax5grid="secondGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 			</div>
-			<!--
-			//목록 추가/제거버튼
-			<div class="width-100 float-left margin-5-top por" style="height: 30px;">
-				<div class="dib poa_r">
-					<button class="btn_basic_s" id="btnAdd">추가</button><button class="btn_basic_s margin-5-left" id="btnDel">제거</button>
-				</div>
-		    </div>
-		    //롤백대상 프로그램추가
-		    <div class="az_board_basic margin-5-top" style="height: 28%">
-		    	<div data-ax5grid="thirdGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
-			</div>
-			-->
 			<!-- 신청사유 S -->
 		    <div class="width-100 float-left margin-10-top por">
 		    	<div class="dib" style="width: calc(100% - 77px);">
@@ -84,12 +72,16 @@
 		           	</div>
 	           	</div>
 				<div class="dib poa_r">
-					<button class="btn_basic_s" id="btnReq">롤백신청</button>
+					<button class="btn_basic_p" id="btnReq">롤백신청</button>
 				</div>
 		    </div>
 		</div>
 	</div>
 </body>
+<form name="popPam">
+	<input type="hidden" name="acptno"/>
+	<input type="hidden" name="user"/>
+</form>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/apply/RollBackReq.js"/>"></script>

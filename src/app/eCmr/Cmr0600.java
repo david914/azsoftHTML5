@@ -61,7 +61,8 @@ public class Cmr0600{
 			strQuery.setLength(0);
 			strQuery.append("select a.cr_acptdate,a.cr_acptno,a.cr_editor,           \n");
 			strQuery.append("       a.cr_syscd,a.cr_passcd,b.cm_sysmsg,c.cm_username,\n");
-			strQuery.append("       to_char(a.cr_acptdate,'yy-mm-dd hh24:mi') acptdate,\n");
+			strQuery.append("       to_char(a.cr_acptdate,'yyyy/mm/dd hh24:mi:ss') acptdate,\n");
+			strQuery.append("       to_char(a.cr_prcdate,'yyyy/mm/dd hh24:mi:ss') prcdate,\n");
 			strQuery.append("       to_char(sysdate-1,'yyyymmdd') sysday,            \n");
 			strQuery.append("       d.cc_srid,d.cc_reqtitle                          \n");
 			strQuery.append("  from cmm0040 c,cmr1000 a,cmm0030 b,cmc0100 d          \n");
@@ -102,12 +103,12 @@ public class Cmr0600{
             while (rs.next()) {
         		rst = new HashMap<String, String>();
 				rst.put("ID", Integer.toString(rs.getRow()));
-				rst.put("acptno", rs.getString("cr_acptno").substring(2,4)+"-"+
+				rst.put("acptno", rs.getString("cr_acptno").substring(0,4)+"-"+
 						          rs.getString("cr_acptno").substring(4,6)+"-"+
 						          rs.getString("cr_acptno").substring(6));
 				rst.put("acptdate", rs.getString("acptdate"));
-				if (rs.getString("cr_passcd") != null)
-					rst.put("cr_passcd", rs.getString("cr_passcd"));
+				rst.put("prcdate", rs.getString("prcdate"));
+				if (rs.getString("cr_passcd") != null) rst.put("cr_passcd", rs.getString("cr_passcd"));
 				rst.put("cr_acptno", rs.getString("cr_acptno"));
 				rst.put("cr_syscd", rs.getString("cr_syscd"));
 				rst.put("cm_sysmsg", rs.getString("cm_sysmsg"));
