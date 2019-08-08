@@ -2,6 +2,7 @@ package html.app.administrator;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -61,7 +62,7 @@ public class ChecklistReg extends HttpServlet {
 					response.getWriter().write( delItemInfo(jsonElement) );
 					break;
 				case "updateItemInfoStep" :
-					response.getWriter().write("");
+					response.getWriter().write( updateItemInfoStep(jsonElement) );
 					break;
 				default:
 					break;
@@ -96,5 +97,10 @@ public class ChecklistReg extends HttpServlet {
 	private String delItemInfo(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj"));
 		return gson.toJson(cmm0100.delItemInfo(dataObj));
+	}
+	
+	private String updateItemInfoStep(JsonElement jsonElement) throws SQLException, Exception {
+		ArrayList<HashMap<String, String>> dataList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
+		return gson.toJson(cmm0100.updateItemInfoStep(dataList));
 	}
 }

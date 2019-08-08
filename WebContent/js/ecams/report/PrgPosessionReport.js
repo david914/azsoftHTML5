@@ -151,6 +151,8 @@ function getRsrcCd() {
 	ajaxData.syscd = syscd;
 	
 	ajaxResult = ajaxCallWithJson('/webPage/report/PrgPosessionReport', ajaxData, 'json');
+	console.log(ajaxResult);
+	console.log(ajaxResult.length);
 	
 	columnData.push({key : "cm_sysmsg", label : "시스템", align : "center", width: "10%"});
 	columnData.push({key : "rowhap", label : "합계", align : "center", width: "5%", styleClass: "color-red"});
@@ -158,7 +160,7 @@ function getRsrcCd() {
 		columnData.push({key : "col" + value.cm_micode , label : value.cm_codename, align: "center", width : ""});
 	});
 	
-//	mainGrid.setConfig({columns : null});
+	mainGrid.setConfig({columns : null});
 	mainGrid.setConfig({
 		target : $('[data-ax5grid="mainGrid"]'),
 		columns : columnData
@@ -182,8 +184,12 @@ function getProgList(syscd) {
 	mainGrid.setData(ajaxResult);
 	
 	ajaxResult.pop();
-	successGetPieData(ajaxResult);
-	successGetBarData(ajaxResult);
+	if(ajaxResult.length > 1) {		
+		successGetPieData(ajaxResult);
+		successGetBarData(ajaxResult);
+	} else {		
+		columnData = [];
+	}
 }
 
 //피커에 오늘 날짜 세팅

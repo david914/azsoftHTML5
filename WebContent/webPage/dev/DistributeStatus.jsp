@@ -112,7 +112,7 @@
 		<!--검색E-->		
 
 	    <!-- 게시판 S-->
-	    <div class="az_board_basic" style="height: 82%">
+	    <div class="az_board_basic" style="height: 75%">
 	    	<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 		</div>	
 		<input type="hidden" id="param" value="${param.reqCd}">

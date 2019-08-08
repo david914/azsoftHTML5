@@ -11,8 +11,8 @@
 	color: red;
 }
 
-.width-70 {
-	width: calc(100% - 120px);
+.width-70a {
+	width: calc(100% - 100px);
 	min-width: 90px;
 }
 
@@ -33,7 +33,7 @@
 							<div class="tit_80 poa">
 	                        	<label>*조회구분</label>
 	                        </div>
-							<div id="dateStd" data-ax5select="dateStd" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 ml_80 dib">
+							<div id="dateStd" data-ax5select="dateStd" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70a ml_80 dib">
 						    </div>
 						    
 						</div>
@@ -41,7 +41,7 @@
 							<div class="tit_80 poa">
 	                        	<label>*요청부서</label>
 	                        </div>
-							<div id="reqDept" data-ax5select="reqDept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 ml_80 dib">
+							<div id="reqDept" data-ax5select="reqDept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70a ml_80 dib">
 						    </div>
 						    
 						</div>
@@ -49,14 +49,14 @@
 							<div class="tit_80 poa">
 	                        	<label>*SR상태</label>
 	                        </div>
-							<div id="srStat" data-ax5select="srStat" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 ml_80 dib">
+							<div id="srStat" data-ax5select="srStat" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70a ml_80 dib">
 						    </div>
 						    
 						</div>
 						<div class="width-15 dib vat" style="min-width: 223px;">
 							<label>개발시작월</label>
 							<div id="picker1" data-ax5picker="picker1" class="az_input_group dib margin-10-left pic-wid">
-					            <input id="datStD" type="text" placeholder="yyyy/mm/dd" class="width-70">
+					            <input id="datStD" type="text" placeholder="yyyy/mm/dd" class="width-70a">
 					            <span class="btn_calendar width-30"><i class="fa fa-calendar-o"></i></span>						
 							</div>
 						</div>
@@ -77,7 +77,7 @@
 							<div class="tit_80 poa">
 	                        	<label>*개발부서</label>
 	                        </div>
-							<div id="reqDept" data-ax5select="devDept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 ml_80 dib">
+							<div id="reqDept" data-ax5select="devDept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70a ml_80 dib">
 						    </div>
 						    
 						</div>
@@ -85,14 +85,14 @@
 							<div class="tit_80 poa">
 	                        	<label>*SR-ID/제목</label>
 	                        </div>
-						    <div class="ml_80 width-70 dib">
+						    <div class="ml_80 width-70a dib">
 								<input class="width-100" id="srId" type="text" placeholder="" onkeypress="">
 							</div>
 						</div>
 						<div class="width-15 dib vat" style="min-width: 223px;">
 							<label>개발종료월</label>
 							<div id="picker2" data-ax5picker="picker2" class="az_input_group dib margin-10-left pic-wid">
-					            <input id="datEdD" type="text" placeholder="yyyy/mm/dd" class="width-70">
+					            <input id="datEdD" type="text" placeholder="yyyy/mm/dd" class="width-70a">
 					            <span class="btn_calendar width-30"><i class="fa fa-calendar-o"></i></span>						
 							</div>
 						</div>
