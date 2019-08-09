@@ -52,11 +52,12 @@ devListGrid.setConfig({
 });
 
 $(document).ready(function() {
+	screenInit();
+	/*
 	if(strIsrId != ""){
-		screenInit();
 		getStrAcptno();	// AcptNo 가져오기
 		srendInfoCall();
-	}
+	}*/
 	// 결재버튼 클릭
 	$('#btnOk').bind('click', function() {
 		btnOk_click();
