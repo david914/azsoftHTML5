@@ -341,12 +341,25 @@ $('[data-ax5select="cboPrcSys"]').ax5select({
 function dateInit() {
 	$('#txtReqDate').val(getDate('DATE',0));
 	datReqDate.bind(defaultPickerInfo('txtReqDate', 'top'));
-	
+	/*
 	$('#txtReqTime').timepicker({
 	    showMeridian : false,
 	    minuteStep: 1
 	 });
+	*/
 }
+
+$(document).keyup(function (e) {
+	if ($(".numberTxt").is(":focus") && (e.keyCode == 13)) {
+		//커서 아웃될때
+		if ($('#hourTxt').val() != '' && $('#hourTxt').val().length < 2) {
+			$('#hourTxt').val('0'+$('#hourTxt').val());
+		}
+		if ($('#minTxt').val() != '' && $('#minTxt').val().length < 2) {
+			$('#minTxt').val('0'+$('#minTxt').val());
+		}
+    }
+});
 
 $(document).ready(function(){
 	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
@@ -383,7 +396,9 @@ $(document).ready(function(){
 			
 			if (reqInfoData == null || reqInfoData.length < 1 || reqInfoData[0].cr_passok != '4') {
 				$('#txtReqDate').val(getDate('DATE',0).substr(0,4)+'/'+getDate('DATE',0).substr(4,2)+'/'+getDate('DATE',0).substr(6));
-				$('#txtReqTime').val(getTime().substr(0,2)+':'+getTime().substr(2,2));
+				//$('#txtReqTime').val(getTime().substr(0,2)+':'+getTime().substr(2,2));
+				$('#hourTxt').val(Number(getTime().substr(0,2)));
+				$('#minTxt').val(Number(getTime().substr(2,2)));
 			}
 		} else {
 			$("#reqgbnDiv").css("display","none");
@@ -451,7 +466,9 @@ $(document).ready(function(){
 		var reqFullDate = null;
 		if (getSelectedVal('cboReqPass').value == '4') {
 			var reqdate = replaceAllString($('#txtReqDate').val(), '/', '');
-			var reqtime = replaceAllString($('#txtReqTime').val(), ':', '');
+			//var reqtime = replaceAllString($('#txtReqTime').val(), ':', '');
+			var reqtime = $('#hourTxt').val() + $('#minTxt').val();
+			
 			reqFullDate = reqdate + reqtime;
 			var nowFullDate = getDate('DATE',0) + getTime();
 			
@@ -1232,7 +1249,9 @@ function successGetReqList(data) {
 		if (reqInfoData[0].cr_passok == '4') {
 			//처리일시
 			$('#txtReqDate').val(reqInfoData[0].aplydate.substr(0,4)+"/"+reqInfoData[0].aplydate.substr(4,2)+"/"+reqInfoData[0].aplydate.substr(6,2));
-			$('#txtReqTime').val(reqInfoData[0].aplydate.substr(8,2)+":"+reqInfoData[0].aplydate.substr(10));
+			//$('#txtReqTime').val(reqInfoData[0].aplydate.substr(8,2)+":"+reqInfoData[0].aplydate.substr(10));
+			$('#hourTxt').val(Number(reqInfoData[0].aplydate.substr(8,2)));
+			$('#minTxt').val(Number(reqInfoData[0].aplydate.substr(10)));
 		} 
 		$('#cboReqPass').trigger('change');
 		

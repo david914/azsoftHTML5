@@ -2,7 +2,9 @@
 <%@ page import="com.ecams.common.base.StringHelper"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <c:import url="/webPage/common/common.jsp" />
+<link rel="stylesheet" href="/styles/wickedpicker.min.css">
 <link rel="stylesheet" href="<c:url value="/styles/bootstrap-timepicker.css"/>" />
 
 <%
@@ -20,9 +22,49 @@
 .fontStyle-module {
 	color: #FF8080;
 }
+.timePickerDiv{
+	width: 95px;
+	height: 25px;
+	text-align: center;
+	background-color: #fff;
+	border: 1px solid #ccc;
+}
+.numberTxt {
+	padding: 0px;
+	margin: 0px;
+	width: 35px;
+	height: 22px;
+	vertical-align: middle;
+    text-align: right;
+    border: 0px;
+}
 </style>
 
-<body style="padding: 10px;">
+<script type="text/javascript">
+	function maxLengthCheck(object) {
+		if (object.value.length > object.maxLength){
+			object.value = object.value.slice(0, object.maxLength);
+		}
+		if (object.value < Number(object.min) || object.value > Number(object.max)) {
+			object.value = '';
+		}
+	}
+	//커서 아웃될때
+	function changeTimeTxt() {
+		if (!$('#hourTxt').is(":focus")) {
+			if ($('#hourTxt').val() != '' && $('#hourTxt').val().length < 2) {
+				$('#hourTxt').val('0'+$('#hourTxt').val());
+			}
+		}
+		if (!$('#minTxt').is(":focus")) {
+			if ($('#minTxt').val() != '' && $('#minTxt').val().length < 2) {
+				$('#minTxt').val('0'+$('#minTxt').val());
+			}
+		}
+	}
+</script>
+
+<body style="padding: 10px;" onmouseup="changeTimeTxt()">
     <div class="content">
         <!-- history S-->
         <div id="history_wrap">	변경신청 <strong>&gt; 체크인요청상세</strong></div>
@@ -97,13 +139,19 @@
 						
 						<div class="dib margin-5-left width-40">
 							<div id="reqgbnDiv"  style="position: relative; display: inline-block;" >
-								<div class="input-group" data-ax5picker="txtReqDate" style="display:inline-block;" >
+								<div class="input-group dib" data-ax5picker="txtReqDate" style="display:inline-block;" >
 						            <input id="txtReqDate" type="text" class="f-cal" placeholder="yyyy/mm/dd" style="width:90px;">
 						            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 						        </div>
-						        <div style="display:inline-block;">
+						        <div class="dib vat timePickerDiv">
+						        	<!-- style="text-align: center; background-color: #fff; width:90px; height: 25px; border: 1px; border-style: inset;" -->
+						        	<!--  
 									<input id="txtReqTime" type="text" class="f-cal" required="required" style="width:55px;">
 									<span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
+									-->
+									<input class="numberTxt" style="margin-left: 5px;" type="number" id="hourTxt" min="0" max="23" maxlength="2" oninput="maxLengthCheck(this)">
+									<label style="height: 22px; vertical-align: top; font-size: 12px;">&nbsp;:&nbsp;</label>
+									<input class="numberTxt" type="number" id="minTxt" min="0" max="59" maxlength="2" oninput="maxLengthCheck(this)">
 								</div>
 							</div> 
 							<div id="reqBtnDiv" style="display: inline-block; vertical-align: top;">
@@ -250,4 +298,5 @@
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script src="<c:url value="/scripts/bootstrap-timepicker.min.js"/>" type="text/javascript"></script>
+<script src="<c:url value="/scripts/wickedpicker.min.js"/>" type="text/javascript"></script>
 <script type="text/javascript"	src="<c:url value="/js/ecams/winpop/PopRequestDetail.js"/>"></script>
