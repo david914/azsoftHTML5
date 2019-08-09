@@ -76,10 +76,10 @@
 							</div>
 						</div>
 					</div>	
-					<div class="row" style="font-size: 14px;">
+					<div class="row">
 						<div class="dib margin-7-top width-100 por">
-							<p>- 프로그램명은 소스파일 기준으로 확장자까지 입력하여 주시기 바랍니다.</p>
-							<p>- 시스템/프로그램종류/프로그램명을 검색조건으로 사용합니다.</p>
+							<p class="txt_r font_12">- 프로그램명은 소스파일 기준으로 확장자까지 입력하여 주시기 바랍니다.</p>
+							<p class="txt_r font_12">- 시스템/프로그램종류/프로그램명을 검색조건으로 사용합니다.</p>
 						</div>
 					</div>
 				</div>
