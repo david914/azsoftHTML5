@@ -54,11 +54,15 @@
 		if (!$('#hourTxt').is(":focus")) {
 			if ($('#hourTxt').val() != '' && $('#hourTxt').val().length < 2) {
 				$('#hourTxt').val('0'+$('#hourTxt').val());
+			} else if ($('#hourTxt').val() == '') {
+				$('#hourTxt').val('00');
 			}
 		}
 		if (!$('#minTxt').is(":focus")) {
 			if ($('#minTxt').val() != '' && $('#minTxt').val().length < 2) {
 				$('#minTxt').val('0'+$('#minTxt').val());
+			} else if ($('#minTxt').val() == '') {
+				$('#minTxt').val('00');
 			}
 		}
 	}
