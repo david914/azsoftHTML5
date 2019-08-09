@@ -194,15 +194,15 @@
 					    </div>
 				    </div>
 		       	</div>
-		       	<div id="tab2" class="tab_content">
-					<div class="row half_wrap_cb">
+		       	<div id="tab2" class="tab_content" style="height: 100%;">
+					<div class="row half_wrap_cb" style="height: 100%;">
 						<div class="l_wrap width-100">
 		    				<label class="tit_80 poa">배포구분</label>
 		    				<div class="ml_80 width-20 dib">
 								<div id="cboPrcSys" data-ax5select="cboPrcSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%;"></div>
 		    				</div>
 			    		</div>
-			    		<div class="l_wrap width-100 margin-10-top">
+			    		<div class="l_wrap width-100 margin-10-top" style="height: 100%;">
 						    <div class="panel-body text-center" id="gridDiv2" style="height: 85%;">
 						    	<div data-ax5grid="resultGrid"  style="height: 100%;"></div>
 						    </div>

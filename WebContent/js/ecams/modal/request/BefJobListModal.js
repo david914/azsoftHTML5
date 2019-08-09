@@ -74,22 +74,13 @@ grdBefJob.setConfig({
 });
 
 $(document).ready(function() {
-	
-	reqData		= clone(window.parent.reqInfoData);
+	reqData	= clone(window.parent.reqInfoData);
 	
 	if (reqData[0].prcsw == '0' && reqData[0].updtsw2 == '1') {
 		document.getElementById('btnBefJob').style.visibility = "visible";
 	} else {
 		document.getElementById('btnBefJob').style.visibility = "hidden";
 	}
-	
-	//선후행작업연결 내용조회
-	data = new Object();
-	data = {
-		AcptNo 		: acptNo,
-		requestType : 'befJob_List'
-	}
-	ajaxAsync('/webPage/modal/request/BefJobListModalServlet', data, 'json', successBefJob_List);
 	
 	//X버튼 닫기
 	$('#btnExit').bind('click', function() {
@@ -104,7 +95,19 @@ $(document).ready(function() {
 		window.parent.befJobListModal.close();//자기창 닫고
 		window.parent.openBefJobSetModal();//연결창 팝업
 	});
+	
+	//선후행작업연결 내용조회
+	befJob_List();
 });
+//선후행작업연결 내용조회
+function befJob_List() {
+	data = new Object();
+	data = {
+		AcptNo 		: acptNo,
+		requestType : 'befJob_List'
+	}
+	ajaxAsync('/webPage/modal/request/BefJobListModalServlet', data, 'json', successBefJob_List);
+}
 //선후행작업연결 내용조회 완료
 function successBefJob_List(data){
 	grdBefJobData = data;
@@ -122,12 +125,12 @@ function delBefJob(befacptno) {
 }
 //선행작업해제완료
 function successDelBefJob(data){
-	
 	if (data > 0) {
 		confirmDialog2.alert('선행작업 연결을 해제했습니다.');
 	} else {
 		confirmDialog2.alert('선행작업 연결해제를 실패했습니다.');
 	}
+	befJob_List();
 }
 // 팝업 닫기
 function popClose(){

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
-<c:import url="/js/ecams/common/commonscript.jsp" />
+<!--
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300&display=swap" rel="stylesheet">
 <style>
 label {
@@ -13,6 +13,21 @@ label {
 	font-weight: bold;
 }
 </style>
+-->
+
+<style>
+.fontStyle-error {
+	color: #b21db2;
+}
+.fontStyle-cncl {
+	color: #c02525;
+}
+.fontStyle-ing {
+	color: #326aab;
+}
+</style>
+
+
 <!-- contener S -->
 <div id="wrapper">
     <div class="contentFrame">
@@ -42,7 +57,7 @@ label {
 						<div class="width-25 dib vat">
 		                	<label class="tit-80 dib poa">　&nbsp;&nbsp;&nbsp;&nbsp;처리구분</label>
 		                	<div class="ml_80">
-								<div data-ax5select="cboGbn" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+								<div id="cboGbn" data-ax5select="cboGbn" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 		                	</div>
 						</div>
 						<!--신청인S-->
@@ -58,14 +73,14 @@ label {
 	                	<div class="width-25 dib vat">
 		                	<label class="tit-80 dib poa">　신청종류</label>
 		                	<div class="ml_80">
-			                    <div data-ax5select="cboSin" data-ax5select-config="{size:'sm', theme:'primary'}" style="width:100%;"></div> 	
+			                    <div id="cboSin" data-ax5select="cboSin" data-ax5select-config="{size:'sm', theme:'primary'}" style="width:100%;"></div> 	
 		                	</div>
 						</div>
 						<!--진행상태S-->
 						<div class="width-25 dib vat">
 							<label class="tit-80 dib poa">　&nbsp;&nbsp;&nbsp;&nbsp;진행상태</label>
 							<div class="ml_80">
-								<div data-ax5select="cboSta" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+								<div id="cboSta" data-ax5select="cboSta" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 		                	</div>
 						</div>
 						<!--SR-ID/SR명 S-->
@@ -92,10 +107,10 @@ label {
 							</div>		
 							<div class="dib">
 								<div id="divPicker" data-ax5picker="basic" class="az_input_group dib">
-						            <input id="datStD" name="datStD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+						            <input id="datStD" name="datStD" type="text" placeholder="yyyy/mm/dd" style="width:100px;" class="f-cal" autocomplete="off">
 						            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 						            <span class="sim">∼</span>
-						            <input id="datEdD" name="datEdD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+						            <input id="datEdD" name="datEdD" type="text" placeholder="yyyy/mm/dd" style="width:100px;" class="f-cal" autocomplete="off">
 						            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>		
 								</div>
 							</div>	
@@ -131,4 +146,5 @@ label {
 	<input type="hidden" name="user"/>
 </form>
 
+<c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript" src="<c:url value="/js/ecams/approval/RequestStatus.js"/>"></script>
