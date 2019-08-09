@@ -73,26 +73,24 @@ $(document).ready(function() {
 	// 사용자 엔터
 	$('#txtToUser').bind('keypress', function(evnet) {
 		if(event.keyCode === 13) {
-			$('#cboToUser').trigger('change');
+			setToUser();
 		}
 	});
 	
 	// 시스템 콤보 변경
 	$('#cboFromUser').bind('change', function() {
-		$('#txtFromUser').val('');
+		if(getSelectedVal('cboFromUser').cm_username !== '0000') {
+			$('#txtFromUser').val(getSelectedVal('cboFromUser').cm_username);
+		}
 		setFromUser();
 	});
+	
 	// 시스템 콤보 변경
 	$('#cboToUser').bind('change', function() {
-		var txtToUser = $('#txtToUser').val().trim();
-		if(txtToUser.length !== 0 ) {
-			for(var i=0; i<cboToUserData.length; i++) {
-				if(cboToUserData[i].cm_username === txtToUser || cboToUserData[i].cm_userid === txtToUser) {
-					$('[data-ax5select="cboToUser"]').ax5select('setValue', cboToUserData[i].cm_userid, true);
-					break;
-				}
-			}
+		if(getSelectedVal('cboToUser').cm_username !== '0000') {
+			$('#txtToUser').val(getSelectedVal('cboToUser').cm_username);
 		}
+		setToUser();
 	});
 	
 	// 직무 전체선택
@@ -175,6 +173,19 @@ function copyJob() {
 
 function successCopyJob(data) {
 	dialog.alert('사용자 권한정보 복사처리를 완료하였습니다.', function(){});
+}
+
+// cboToUser 콤보 세팅
+function setToUser() {
+	var txtToUser = $('#txtToUser').val().trim();
+	if(txtToUser.length !== 0 ) {
+		for(var i=0; i<cboToUserData.length; i++) {
+			if(cboToUserData[i].cm_username === txtToUser || cboToUserData[i].cm_userid === txtToUser) {
+				$('[data-ax5select="cboToUser"]').ax5select('setValue', cboToUserData[i].cm_userid, true);
+				break;
+			}
+		}
+	}
 }
 
 // cboFromUser 콤보 세팅

@@ -401,6 +401,12 @@ var modalCallBack = function(){
 	organizationModal.close();
 };
 
+// 글자수 바이트 세기
+function getByteLength(s,b,i,c){
+    for(b=i=0;c=s.charCodeAt(i++);b+=c>>11?2:c>>7?2:1);
+    return b;
+}
+
 // 사용자 정보 저장
 function setUserInfo() {
 	var txtUserId 	= $('#txtUserId').val().trim();
@@ -423,26 +429,38 @@ function setUserInfo() {
 	
 	if(txtUserId.length === 0 ) {
 		dialog.alert('사원번호를 입력하여 주십시오.', function(){});
+		$('#txtUserId').focus();
 		return;
 	}
+	
+	if(getByteLength(txtUserId) > 10) {
+		dialog.alert('사원번호의 길이가 허용치를 넘었습니다.\n사원번호의 길이를 줄여주세요.', function() {});
+		return;
+	}
+	
 	if(txtUserName.length === 0 ) {
 		dialog.alert('사용자명을 입력하여 주십시오.', function(){});
+		$('#txtUserName').focus();
 		return;
 	}
 	if(getSelectedIndex('cboPosition') < 1 ) {
 		dialog.alert('직급을 선택하여 주십시오.', function(){});
+		$('#cboPosition').focus();
 		return;
 	}
 	if(getSelectedIndex('cboDuty') < 1 ) {
 		dialog.alert('직위를 선택하여 주십시오.', function(){});
+		$('#cboDuty').focus();
 		return;
 	}
 	if(txtOrg.length === 0 ) {
 		dialog.alert('소속조직을 선택하여 주십시오.', function(){});
+		$('#txtOrg').focus();
 		return;
 	}
 	if(txtTel2.length === 0 ) {
 		dialog.alert('[전화번호2]에 핸드폰번호를 입력하여 주십시오.', function(){});
+		$('#txtTel2').focus();
 		return;
 	}
 	

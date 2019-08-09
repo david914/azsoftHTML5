@@ -115,6 +115,8 @@ $(document).ready(function() {
 	$('#txtUser').bind('keydown', function(evnet) {
 		if(event.keyCode === 13) {
 			getUserList();
+			ulUserInfoData = [];
+			$('#ulUserInfo').empty();
 		}
 	});
 	
@@ -329,7 +331,13 @@ function successGetUserList(data) {
 // 선택 클릭시 해당 유저 또는 팀의 유저 리스트
 function getUserOrTeamList() {
 	if(getSelectedVal('cboUser').ID === 'USER') {
-		ulUserInfoData = cboUserData;
+		if(getSelectedVal('cboUser').code === '00') {
+			return;
+		}
+		if(ulUserInfoData.indexOf(getSelectedVal('cboUser')) > -1) {
+			return;
+		}
+		ulUserInfoData.push(getSelectedVal('cboUser'));
 		makeUserInfoUlList();
 	} else {
 		getTeamUserList();

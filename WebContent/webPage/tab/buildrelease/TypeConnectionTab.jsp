@@ -30,7 +30,7 @@
 		    <div class="az_board_basic" style="height: 25%">
 		    	<div data-ax5grid="conInfoGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%;"></div>	
 			</div>									
-			<div class="tar sm-row">
+			<div class="tar sm-row" style="margin-top: 3px;">
 				 <button id="btnDell" class="btn_basic_s">삭제</button>
 			</div>
 			<!-- 게시판 E -->
@@ -45,10 +45,6 @@
 					<div class="scrollBind sm-row" style="height:210px;">
 						<ul class="list-group" id="ulPrgInfo"></ul>
 					</div>
-					<div class="sm-row font_11">							
-		    			<label class="title_s">등록순서</label>
-		    			<p>시스템선택&gt;요청구분선택&gt;프로그램종류선택&gt;업무선택&gt;실행구분선택&gt;스크립트유형선택&gt;등록버튼클릭</p>
-					</div>
 				</div>
 			</div>
 			<div class="l_wrap width-50">
@@ -60,6 +56,12 @@
 					<div class="scrollBind sm-row" style="height:210px;" id="divJob">
 						<ul class="list-group" id="ulJobInfo"></ul>
 					</div>
+				</div>
+			</div>
+			<div class="width-100">
+				<div class="sm-row font_11 margin-5-left">							
+	    			<label class="title_s">등록순서</label>
+	    			<p style="white-space: nowrap;">시스템선택&gt;요청구분선택&gt;프로그램종류선택&gt;업무선택&gt;실행구분선택&gt;스크립트유형선택&gt;등록버튼클릭</p>
 				</div>
 			</div>
 		</div>

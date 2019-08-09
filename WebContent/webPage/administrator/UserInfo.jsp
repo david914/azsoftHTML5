@@ -180,7 +180,7 @@
 						<div class="sm-row">
 	                    	<label class="tit_80 poa">부재사유</label>
 	                        <div class="ml_80">
-	                        	<textarea id="txtBlankSayu" class="width-100" rows="8" style="border: 1px solid #ddd;"></textarea>
+	                        	<textarea id="txtBlankSayu" class="width-100" rows="8" style="padding: 12px 20px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px;"></textarea>
 							</div>
 						</div>
 					</div>

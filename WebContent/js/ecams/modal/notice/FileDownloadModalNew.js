@@ -40,7 +40,7 @@ downGrid.setConfig({
         	this.self.clearSelect();
         	this.self.select(this.dindex);
         	if (this.colIndex == 2) {
-        		location.href = '/webPage/fileupload/upload?&folderPath='+noticeFolderPath+'\\'+downAcptno+'\\'+this.item.orgname;
+        		location.href = '/webPage/fileupload/upload?&fullPath='+noticeFolderPath+'\\'+downAcptno+'\\'+this.item.orgname + '&fileName=' +this.item.orgname;
         	}
         },
         onDBLClick: function () {
@@ -50,7 +50,7 @@ downGrid.setConfig({
 	       	if(selIn.length === 0) return;
 	       	
 	       	//문서열기
-			location.href = '/webPage/fileupload/upload?&folderPath='+noticeFolderPath+'\\'+downAcptno+'\\'+this.item.orgname;
+			location.href = '/webPage/fileupload/upload?&fullPath='+noticeFolderPath+'\\'+downAcptno+'\\'+this.item.orgname + '&fileName=' +this.item.orgname;
         },
     	onDataChanged: function(){
     	    this.self.repaint();
