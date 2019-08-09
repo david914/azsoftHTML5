@@ -120,7 +120,7 @@
 			</div>
 		</div>
 		<!-- 게시판 S-->
-	    <div class="az_board_basic" style="height:60%;">
+	    <div class="az_board_basic" style="height:70%;">
 	    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 		</div>	
 		<!-- 게시판 E -->

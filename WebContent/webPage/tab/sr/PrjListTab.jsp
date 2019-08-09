@@ -32,11 +32,11 @@
 			<label id="lbAcptDate">등록일</label>
 			<div id="divPicker" data-ax5picker="basic" class="az_input_group dib">
 				<input id="datStD" name="datStD" type="text"
-					placeholder="yyyy/mm/dd" style="width: 100px;"> <span
-					class="btn_calendar"><i class="fa fa-calendar-o"></i></span> <span
+					placeholder="yyyy/mm/dd" style="width: 100px;"> <button
+					id="btnStD" class="btn_calendar"><i class="fa fa-calendar-o"></i></button> <span
 					class="sim">∼</span> <input id="datEdD" name="datEdD" type="text"
-					placeholder="yyyy/mm/dd" style="width: 100px;"> <span
-					class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+					placeholder="yyyy/mm/dd" style="width: 100px;"> <button
+					id="btnEdD" class="btn_calendar"><i class="fa fa-calendar-o"></i></button>
 			</div>
 			<div class="vat dib margin-5-left">
 				<!---수정-->

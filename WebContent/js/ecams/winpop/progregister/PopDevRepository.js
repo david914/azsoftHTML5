@@ -88,10 +88,6 @@ $(document).ready(function(){
 	strUserId = $('#UserId').val();
 	strSyscd = $('#SysCd').val();
 	
-	getTempDir();
-	getSysInfo();
-	getPrjList();
-	
 	//tmpAry.filterFunction = selectedFilters;
 	
 	//디렉토리조회 클릭
@@ -125,6 +121,10 @@ $(document).ready(function(){
 			btnQry_Click();
 		}
 	});
+	
+	getTempDir();
+	//getSysInfo();
+	getPrjList();
 });
 
 //SystemPath.getTmpDir("99");
@@ -140,6 +140,8 @@ function getTempDir() {
 
 function successSystemPath(data) {
 	strTmpDir = data + "/";
+	
+	getSysInfo();
 }
 
 //PrjInfo.getPrjList(tmpObj);
@@ -525,14 +527,13 @@ function successSvrDir(data) {
 //		obj = JSON.parse(obj);
 //		treeObjData = obj;
 //		
-		
 		console.log("treeObjData.length: " + treeObjData.length);
 		
 		ztree = $.fn.zTree.init($('#treeDir'), treeSetting, treeObjData);
 		treeObj = $.fn.zTree.getZTreeObj("treeDir");
-	}
-	else{
-		console.log(treeObjData);
+	}else{
+		console.log("오류");
+		dialog.alert("오류" + treeObjData);
 	}
 	
 //	$.fn.zTree.init($("#treeDir"), treeSetting, data); //초기화
@@ -582,9 +583,13 @@ function myOnExpand(event, treeId, treeNode) {
 			requestType	: 'GETCHILDSVRDIR'
 		}
 		
+		ajaxReturnData = null;
 		ajaxReturnData = ajaxCallWithJson('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json');
 		
-		var obj = ajaxReturnData;
+		var obj = null;
+		obj = ajaxReturnData;
+		
+		console.log("ajaxReturnData", ajaxReturnData);
 		
 		for(var i in ajaxReturnData){
 			if(obj[i].cm_dirpath =='' ){
@@ -595,14 +600,20 @@ function myOnExpand(event, treeId, treeNode) {
 			delete obj[i].cm_dirpath;
 			obj[i].isParent = true;
 		}
-		obj = JSON.stringify(obj).replace(/null,/gi,'');
-		obj = JSON.parse(obj);
-		ajaxReturnData = obj;
 		
-		console.log("ajaxReturnData", ajaxReturnData);
 		
-		ztree.addNodes(treeNode,ajaxReturnData)
-		$('#'+treeNode.tId+'_ico').removeClass().addClass('button ico_open');
+		console.log("obj", obj);
+		
+		if(obj != null) {
+			obj = JSON.stringify(obj).replace(/null,/gi,'');
+			obj = JSON.parse(obj);
+			ajaxReturnData = obj;
+			
+			console.log("ajaxReturnData", ajaxReturnData);
+			
+			ztree.addNodes(treeNode,ajaxReturnData)
+			$('#'+treeNode.tId+'_ico').removeClass().addClass('button ico_open');
+		}
 	}, 200);
 };
 

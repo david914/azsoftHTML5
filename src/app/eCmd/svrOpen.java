@@ -1883,9 +1883,6 @@ public class svrOpen{
 
 			rsval.clear();
 			
-			HashMap<String, String> rtMap 				= new HashMap<>();
-			ArrayList<HashMap<String, String>> rtArr 	= new ArrayList<>();
-
 			try {
 				strBinPath = ecamsinfo.getFileInfo("14");
 				ErrSw = false;
@@ -1911,7 +1908,7 @@ public class svrOpen{
 				ret = cmr0200.execShell(shFileName, strParm, false);
 				if (ret != 0) {
 					if (ret == 1) {
-						throw new Exception("추출 디렉토리가 없습니다. run=["+strParm +"]" + " return=[" + ret + "]" );
+						//throw new Exception("추출 디렉토리가 없습니다. run=["+strParm +"]" + " return=[" + ret + "]" );
 					}else if (ret == 2) {
 						throw new Exception("디렉토리추출을 위한 분석작업 실패하였습니다. run=["+strParm +"]" + " return=[" + ret + "]" );
 					}else if (ret == 3) {
@@ -1974,13 +1971,13 @@ public class svrOpen{
 				                	}
 				                	
 				                	//20190725
-									ecamsLogger.error("## BaseDir: " + BaseDir);
-									ecamsLogger.error("## str: " + str);
+//									ecamsLogger.error("## BaseDir: " + BaseDir);
+//									ecamsLogger.error("## str: " + str);
 				                	if(BaseDir.equals(str)) dirSw = false;
 				                	
 				                	if (dirSw == true) {
-				                		if (HomeDir.length() < str.length()){
-					                		str = str.substring(HomeDir.length());
+				                		if (BaseDir.length() < str.length()){
+					                		str = str.substring(BaseDir.length());
 					                		findSw = false;
 					                		if (str.length() != 0 ) {
 					                			findSw = true;
@@ -1991,7 +1988,9 @@ public class svrOpen{
 													}
 												}
 					                		}
+//					                		ecamsLogger.error("## findSw: " + findSw + ", str: " + str);
 					                		if (findSw) {
+					                			ecamsLogger.error("### str: " + str);
 						                		pathDepth = str.substring(1).split("/");
 						                		strDir = HomeDir;
 												upSeq = 1;
@@ -2029,8 +2028,6 @@ public class svrOpen{
 															findSw = false;	
 														}
 														
-//														ecamsLogger.error("## BaseDir: " + BaseDir);
-//														ecamsLogger.error("## strDir: " + strDir);
 														if (!findSw && !BaseDir.equals(strDir)) {
 															maxSeq2 = maxSeq2 + 1;
 
@@ -2063,12 +2060,12 @@ public class svrOpen{
 				                in.close();
 				        }
 			        }
-			        //if (mFile.isFile() && mFile.exists()) mFile.delete();
+			        if (mFile.isFile() && mFile.exists()) mFile.delete();
 	            }
 	            
-	            String strBran = "";
-	            if (rsval.size() > 0) {
-					for (int i = 0;rsval.size() > i;i++) {
+//	            String strBran = "";
+//	            if (rsval.size() > 0) {
+//					for (int i = 0;rsval.size() > i;i++) {
 //						strBran = "false";
 //						for (j=0;rsval.size()>j;j++) {
 //							if (i != j) {
@@ -2087,23 +2084,22 @@ public class svrOpen{
 //		            	rtMap.put("isParent", "true"); //트리구조 아이콘 때문에 true로 셋팅
 //		            	
 //		            	rtArr.add(rtMap);
-					}
-				}
+//					}
+//				}
 				
-	            ecamsLogger.error("## rtArr.size: " + rsval.size());
 	    		return rsval;
 
 			} catch (SQLException sqlexception) {
 				sqlexception.printStackTrace();
-				ecamsLogger.error("## SystemPath.getSvrDir() SQLException START ##");
+				ecamsLogger.error("## svrOpen.getChildSvrDir_HTML5() SQLException START ##");
 				ecamsLogger.error("## Error DESC : ", sqlexception);
-				ecamsLogger.error("## SystemPath.getSvrDir() SQLException END ##");
+				ecamsLogger.error("## svrOpen.getChildSvrDir_HTML5() SQLException END ##");
 				throw sqlexception;
 			} catch (Exception exception) {
 				exception.printStackTrace();
-				ecamsLogger.error("## SystemPath.getSvrDir() Exception START ##");
+				ecamsLogger.error("## svrOpen.getChildSvrDir_HTML5() Exception START ##");
 				ecamsLogger.error("## Error DESC : ", exception);
-				ecamsLogger.error("## SystemPath.getSvrDir() Exception END ##");
+				ecamsLogger.error("## svrOpen.getChildSvrDir_HTML5() Exception END ##");
 				throw exception;
 			}finally{
 			}
