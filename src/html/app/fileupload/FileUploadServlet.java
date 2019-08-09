@@ -66,7 +66,7 @@ public class FileUploadServlet extends HttpServlet {
 	 * URL: /upload?f=value
 	 * doGet(): get file of index "f" from List<FileMeta> as an attachment
 	 ****************************************************/
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	/*protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException{
 		String setFileName		= null;
 		String fileName			= null;
@@ -90,6 +90,43 @@ public class FileUploadServlet extends HttpServlet {
 		try {	
 			
 			FileInputStream input 	= new FileInputStream(folderPath); 
+			OutputStream output = response.getOutputStream();
+			byte[] buffer = new byte[1024*10];
+			
+			for (int length = 0; (length = input.read(buffer)) > 0;) {
+				output.write(buffer, 0, length);
+			}
+			    
+			output.close();
+			input.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+	}*/
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException{
+		String fullPath 		= request.getParameter("fullPath");
+		String fileName 		= request.getParameter("fileName");
+		String userAgent 		= request.getHeader("User-Agent");
+		
+		boolean ie = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
+		
+		System.out.println(fileName);
+		if(ie) {
+			fileName = URLEncoder.encode( fileName, "UTF-8" ).replaceAll("\\+", "%20");
+		} else{
+			fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+			
+		}
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		response.setHeader("Connection", "close");
+		
+		try {	
+			
+			FileInputStream input 	= new FileInputStream(fullPath); 
 			OutputStream output = response.getOutputStream();
 			byte[] buffer = new byte[1024*10];
 			

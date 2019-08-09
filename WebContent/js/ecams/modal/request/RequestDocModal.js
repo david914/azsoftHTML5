@@ -20,10 +20,11 @@ grdReqDoc.setConfig({
     body: {
         columnHeight: 28,
         onClick: function () {
-        	//this.self.clearSelect();
-        	//this.self.select(this.dindex);
+        	this.self.clearSelect();
+        	this.self.select(this.dindex);
         	if (this.colIndex == 1) {
-        		location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+'\\'+this.item.savename;
+        		//location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+'\\'+this.item.savename;
+        		location.href = '/webPage/fileupload/upload?fullPath='+fileHomePath+'/'+this.item.savename+'&fileName='+this.item.orgname;
         	}
         },
         onDBLClick: function () {
@@ -33,7 +34,8 @@ grdReqDoc.setConfig({
 	       	if(selIn.length === 0) return;
 	       	
 	       	//문서열기
-			location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+'\\'+this.item.savename;
+			//location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+'\\'+this.item.savename;
+    		location.href = '/webPage/fileupload/upload?fullPath='+fileHomePath+'/'+this.item.savename+'&fileName='+this.item.orgname;
         },
     	onDataChanged: function(){
     	    this.self.repaint();
@@ -43,7 +45,6 @@ grdReqDoc.setConfig({
         {key: "orgname", label: "파일명",  width: '85%', align: "left"},
         {key: 'b', label: '', align: 'center', 
         	formatter: function() {
-        		//<a href="/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+'\\'+this.item.savename+'"></a>
         		return '<img width="16px" height="16px" src="/img/download.png" alt="file download" style="cursor:pointer"/>';
         	}
         }
