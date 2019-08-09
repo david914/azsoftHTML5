@@ -20,7 +20,7 @@
         <div id="history_wrap">	모니터링 <strong>&gt; 처리결과확인</strong></div>
         
         <div class="az_search_wrap" style="padding-top: 0px;">
-			<div class="az_in_wrap">			
+			<div class="az_in_wrap" style="margin-top: 5px;">			
 				<div class="row vat cb">
                     <div class="width-25 float-left">
 						<div class="margin-5-right">
