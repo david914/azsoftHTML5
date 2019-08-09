@@ -123,7 +123,7 @@ noticeGrid.setConfig({
         {key: "CM_NOTIYN", 		label: "팝업",  		width: '8%'},
         {key: "fileCnt", 		label: "첨부파일",  	width: '8%',
          formatter: function(){
-        	 var htmlStr = this.value > 0 ? "<button class='btn-ecams-grid' onclick='openFileDownload("+this.item.CM_ACPTNO+","+this.item.fileCnt+")' >첨부파일</button>" : '';
+        	 var htmlStr = this.value > 0 ? "<button class='btn-ecams-grid' onclick='openFileDownload("+this.item.CM_ACPTNO+","+this.item.fileCnt+")' ondblclick='blockDbClick(event)' >첨부파일</button>" : '';
         	 return htmlStr;
          }
         }
@@ -214,9 +214,14 @@ $(document).ready(function() {
 	});
 })
 
+// 첨부파일 더블 클릭시 열리는 공지사항 편집창 안열리게 막기
+function blockDbClick(e) {
+	e.preventDefault();
+    e.stopPropagation();
+}
+
 // 공지사항 정보 가져오기
 function getNoticeInfo() {
-	console.log('check');
 	var TxtFind_text = $('#txtFind').val().trim();
 	strStD = replaceAllString($("#start_date").val(), "/", "");
 	strEdD = replaceAllString($("#end_date").val(), "/", "");

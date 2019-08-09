@@ -68,7 +68,7 @@
 							<div class="width-50 vat r_wrap">
 								<label class="tit_100 dib poa margin-10-left">프로세스제한</label>
 								<div class="ml_100 tar">
-									<input id="txtPrcCnt" name="txtPrcCnt" type="number" class="width-100" />
+									<input id="txtPrcCnt" name="txtPrcCnt" type="text" class="width-100"/>
 								</div>
 							</div>
 						</li>
@@ -123,13 +123,13 @@
 			    					<label class="tit_80 dib poa">중단시작</label>
 			    					<div class="ml_80">
 										<div id="divPicker" data-ax5picker="datStDate" class="dib width-100 por">
-											<input id="datStDate" type="text" placeholder="yyyy/mm/dd" class="f-cal" autocomplete="off">
+											<input id="datStDate" type="text" class="f-cal" autocomplete="off">
 											<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 										</div>
 									</div>
 		    				</div>
 		    				<div class="width-40 float-right por">
-		    					<input id="timeDeploy" type="text" class="timepicker width-100" autocomplete="off" />
+		    					<input id="timeDeploy" type="text" class="timepicker width-100" autocomplete="off" maxlength="5"/>
 		    				</div>
 		    			</li>
 		   				
@@ -138,13 +138,13 @@
 		    					<label class="tit_80 dib poa">중단종료</label>
 		    					<div class="ml_80">
 									<div id="divPicker" data-ax5picker="datEdDate" class="dib width-100">
-										<input id="datEdDate" type="text" placeholder="yyyy/mm/dd" class="f-cal" autocomplete="off">
+										<input id="datEdDate" type="text" class="f-cal" autocomplete="off">
 										<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 									</div>
 								</div>
 		    				</div>
 		    				<div class="width-40 float-right">
-		    					<input id="timeDeployE" type="text" class="timepicker width-100" autocomplete="off" />
+		    					<input id="timeDeployE" type="text" class="timepicker width-100" autocomplete="off" maxlength="5"/>
 		    				</div>
 						</li>
 					</ul>
@@ -158,7 +158,7 @@
 							<div class="width-50 float-right">
 								<label class="tit_80 dib poa">적용시간</label>
 								<div class="ml_80">
-									<input id="txtTime" type="text" class="timepicker width-100" autocomplete="off" maxlength="4"/>
+									<input id="txtTime" type="text" class="timepicker width-100" autocomplete="off" maxlength="5"/>
 								</div>
 							</div>
 						</div>

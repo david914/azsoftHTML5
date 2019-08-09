@@ -414,7 +414,6 @@ $(document).ready(function(){
 	// 프로그램종류 폐기 버튼 클릭
 	$('#btnCls').bind('click', function() {
 		var selIndex = prgGrid.selectedDataIndexs;
-		console.log(selIndex);
 		var selItem = null;
 		if(selIndex.length === 0 ) {
 			dialog.alert('폐기할 프로그램을 등록된 프로그램종류 그리드에서 선택하시기 바랍니다.', function() {});
@@ -614,8 +613,18 @@ $(document).ready(function(){
 // 트리노드 클릭시 check box에 선택 되도록
 function clickTree(event, treeId, treeNode) {
 	var node = treeObj.getNodeByParam('id', treeNode.id);
-	treeObj.selectNode(node);
-	treeObj.checkNode(node,true,true);
+	var checkStatus = node.getCheckStatus();
+	var checkSw = checkStatus.checked;
+	
+	if(checkSw) {
+		treeObj.selectNode(node);
+		treeObj.checkNode(node, false, true);
+	} else {
+		treeObj.selectNode(node);
+		treeObj.checkNode(node, true, true);
+	}
+	
+	
 }
 
 function successInsertPrgInfo(data) {
