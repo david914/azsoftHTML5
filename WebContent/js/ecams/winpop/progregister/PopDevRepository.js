@@ -75,12 +75,12 @@ grdProgList.setConfig({
     	}
     },
     columns: [
-    	{key: "filename", 		label: "파일명",		width: '10%', 	align: "left"},
-        {key: "errmsg", 		label: "등록결과",	  	width: '17%',	align: "left"},
-        {key: "dirpath", 	 	label: "디렉토리",   	width: '14%',	align: "left"},
+    	{key: "filename", 		label: "파일명",		width: '19%', 	align: "left"},
+        {key: "errmsg", 		label: "등록결과",	  	width: '14%',	align: "left"},
+        {key: "dirpath", 	 	label: "디렉토리",   	width: '25%',	align: "left"},
         {key: "story", 			label: "프로그램설명", 	width: '13%',	align: "left",	editor: {type: "text"}},
         {key: "rsrccdname", 	label: "프로그램종류", 	width: '13%',	align: "left"},
-        {key: "jobname", 		label: "업무",   		width: '24%',	align: "left"}
+        {key: "jobname", 		label: "업무",   		width: '17%',	align: "left"}
     ]
 });
 
@@ -511,33 +511,12 @@ function btnQry_Click() {
 function successSvrDir(data) {
 	treeObjData = data;
 	
-	if(treeObjData !== 'ERR') {
-//		var obj = treeObjData;
-//		
-//		for(var i in treeObjData){
-//			if(obj[i].name =='' ){
-//				delete obj[i]
-//				continue;
-//			}
-//			obj[i].name = obj[i].name; //cm_dirpath
-//			delete obj[i].name; //cm_dirpath
-//			obj[i].isParent = true;
-//		}
-//		obj = JSON.stringify(obj).replace(/null,/gi,''); // delete 를 해도 empty 값으로 남아있어서 지워줌
-//		obj = JSON.parse(obj);
-//		treeObjData = obj;
-//		
-		console.log("treeObjData.length: " + treeObjData.length);
-		
-		ztree = $.fn.zTree.init($('#treeDir'), treeSetting, treeObjData);
+	if(treeObjData.constructor == String) {
+		dialog.alert(treeObjData.substr(5));
+	}else {
+		ztree = $.fn.zTree.init($('#treeDir'), treeSetting, treeObjData); //초기화
 		treeObj = $.fn.zTree.getZTreeObj("treeDir");
-	}else{
-		console.log("오류");
-		dialog.alert("오류" + treeObjData);
 	}
-	
-//	$.fn.zTree.init($("#treeDir"), treeSetting, data); //초기화
-//	treeObj = $.fn.zTree.getZTreeObj("treeDir");
 }
 
 /* 트리구조에서 folder 오픈 */
