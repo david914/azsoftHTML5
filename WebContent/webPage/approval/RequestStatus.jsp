@@ -137,7 +137,7 @@ label {
 
 	    <!-- 게시판 S-->
 	    <div class="az_board_basic" style="height: 80%">
-	    	<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 85%;"></div>
+	    	<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 		</div>	
 	</div>
 </div>

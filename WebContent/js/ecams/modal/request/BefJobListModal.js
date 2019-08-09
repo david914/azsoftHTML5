@@ -62,14 +62,14 @@ grdBefJob.setConfig({
     	}
     },
     columns: [
-        {key: "befgbn", label: "작업구분",  width: '20%'},
+        {key: "befgbn", label: "작업구분",  width: '10%'},
         {key: "linkgbn", label: "연결",  width: '10%'},
-        {key: "cr_acptno", label: "신청번호",  width: '10%'},
-        {key: "acptdate", label: "신청일시",  width: '10%'},
+        {key: "cr_acptno", label: "신청번호",  width: '15%'},
+        {key: "acptdate", label: "신청일시",  width: '15%'},
         {key: "cm_sysmsg", label: "시스템",  width: '10%'},
-        {key: "cm_username", label: "신청자",  width: '20%'},
+        {key: "cm_username", label: "신청자",  width: '10%'},
         {key: "cm_codename", label: "진행상태",  width: '10%'},
-        {key: "cr_sayu", label: "신청사유",  width: '10%'} 
+        {key: "cr_sayu", label: "신청사유",  width: '20%'} 
     ]
 });
 
@@ -77,9 +77,11 @@ $(document).ready(function() {
 	reqData	= clone(window.parent.reqInfoData);
 	
 	if (reqData[0].prcsw == '0' && reqData[0].updtsw2 == '1') {
-		document.getElementById('btnBefJob').style.visibility = "visible";
+		//document.getElementById('btnBefJob').style.visibility = "visible";
+		$("#btnBefJob").css('display', 'inline-block');
 	} else {
-		document.getElementById('btnBefJob').style.visibility = "hidden";
+		//document.getElementById('btnBefJob').style.visibility = "hidden";
+		$("#btnBefJob").css('display', 'none');
 	}
 	
 	//X버튼 닫기
