@@ -118,7 +118,7 @@
 							</div>
 						</div>
 						<div class="dib poa_r">
-							<button id="btnTestDoc" class="btn_basic_s">테스트결과서</button><button id="btnBefJob" class="btn_basic_s margin-5-left">선후행작업확인</button>
+							<button id="btnTestDoc" class="btn_basic_n">테스트결과서</button><button id="btnBefJob" class="btn_basic_n margin-5-left">선후행작업확인</button>
 						</div>
 					</div>
 				</div>						
@@ -159,7 +159,7 @@
 								</div>
 							</div> 
 							<div id="reqBtnDiv" style="display: inline-block; vertical-align: top;">
-						    	<button id="btnUpdate" class="btn_basic_s margin-5-left">수정</button>
+						    	<button id="btnUpdate" class="btn_basic_n margin-5-left">수정</button>
 						    </div>
 						</div>
 					</div>						
@@ -169,7 +169,7 @@
 							<div class="margin-5-right margin-10-top">
 		                    	<label class="tit_80 poa">신청구분</label>
 		                        <div class="ml_80">
-									<input id="txtReqGbn" class="width-100" type="text" readonly>
+									<input id="txtReqGbn" class="width-100" type="text" readonly> 
 								</div>
 							</div>
 						</div>			
@@ -182,7 +182,7 @@
 								</div>
 							</div>
 							<div class="dib poa_r">
-								<button id="btnSR" class="btn_basic_s">&nbsp;&nbsp;SR 정보 확인&nbsp;&nbsp;</button>
+								<button id="btnSR" class="btn_basic_n">&nbsp;&nbsp;SR 정보 확인&nbsp;&nbsp;</button>
 							</div>
 							-->
 							<div class="dib" style="width:calc(100% - 109.31px);">
@@ -192,7 +192,7 @@
 								</div>
 							</div>
 							<div style="display: inline-block; vertical-align: top;">
-								<button id="btnSR" class="btn_basic_s" style="width: 109.31px;">SR 정보 확인</button>
+								<button id="btnSR" class="btn_basic_n" style="width: 109.31px;">SR정보확인</button>
 						    </div>
 						</div>
 					</div>				
@@ -217,15 +217,15 @@
 				<ul class="tabs">
 					<li rel="tab1" id="tab1Li" class="on">신청목록</li><li rel="tab2" id="tab2Li">처리결과확인</li>
 					<div class="r_wrap">
-						<button class="btn_basic_s" id="btnSrcView">소스보기</button>
-						<button class="btn_basic_s margin-2-left" id="btnSrcDiff">소스비교</button>
-						<button class="btn_basic_s margin-2-left" id="btnPriority">우선적용</button>
-						<button class="btn_basic_s margin-2-left" id="btnAllCncl">전체회수</button>
-						<button class="btn_basic_s margin-2-left" id="btnRetry">전체재처리</button>
-						<button class="btn_basic_s margin-2-left" id="btnNext">다음단계진행</button>
-						<button class="btn_basic_s margin-2-left" id="btnErrRetry">오류건재처리</button>
-						<button class="btn_basic_s margin-2-left" id="btnStepEnd">단계완료</button>
-						<button class="btn_basic_s margin-2-left" id="btnLog">로그확인</button>
+						<button class="btn_basic_n" id="btnSrcView">소스보기</button>
+						<button class="btn_basic_n margin-2-left" id="btnSrcDiff">소스비교</button>
+						<button class="btn_basic_n margin-2-left" id="btnPriority">우선적용</button>
+						<button class="btn_basic_n margin-2-left" id="btnAllCncl">전체회수</button>
+						<button class="btn_basic_n margin-2-left" id="btnRetry">전체재처리</button>
+						<button class="btn_basic_n margin-2-left" id="btnNext">다음단계진행</button>
+						<button class="btn_basic_n margin-2-left" id="btnErrRetry">오류건재처리</button>
+						<button class="btn_basic_n margin-2-left" id="btnStepEnd">단계완료</button>
+						<button class="btn_basic_n margin-2-left" id="btnLog">로그확인</button>
 					</div>
 				</ul>
 			</div>
@@ -234,10 +234,10 @@
 					<div class="row half_wrap_cb" style="height: 100%;">
 						<div class="l_wrap">
 							<label><input type="checkbox" id="chkDetail"/>항목상세보기</label>
-							<button class="btn_basic_s margin-5-left" id="btnSelCncl">선택건회수</button>
+							<button class="btn_basic_n margin-5-left" id="btnSelCncl">선택건회수</button>
 				    	</div>
 						<div class="r_wrap">
-							<button class="btn_basic_s" id="btnPriorityOrder">우선순위적용</button>
+							<button class="btn_basic_n" id="btnPriorityOrder">우선순위적용</button>
 			    		</div>
 			    		<div class="l_wrap width-100 margin-10-top" style="height: 85%;">
 						    <div class="panel-body text-center" id="gridDiv1" style="height: 100%;">
@@ -275,11 +275,11 @@
 					</div>
 				</div>
 				<div class="width-35 float-right margin-10-top tar">
-					<button class="btn_basic_s" id="btnQry" >새로고침</button>
-					<button class="btn_basic_s margin-2-left" id="btnApprovalInfo">결재정보</button>
+					<button class="btn_basic_n" id="btnQry" >새로고침</button>
+					<button class="btn_basic_n margin-2-left" id="btnApprovalInfo">결재정보</button>
 					<button class="btn_basic_p margin-2-left" id="btnApproval">결재</button>
 					<button class="btn_basic_p margin-2-left" id="btnCncl">반려</button>
-					<button class="btn_basic_s margin-2-left" id="btnClose">닫기</button>
+					<button class="btn_basic_n margin-2-left" id="btnClose">닫기</button>
 				</div>
 			</div>
 		</div>

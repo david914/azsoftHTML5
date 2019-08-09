@@ -899,7 +899,10 @@ to {
 .ax5select-display:hover, .input-group [data-ax5select] .ax5select-display:hover,
 	.ax5select-display:focus, .input-group [data-ax5select] .ax5select-display:focus
 	{
-	text-decoration: none
+	text-decoration: none;
+	border: 1px solid #326aab;
+	border-radius: 0px;
+	box-shadow: none;
 }
 
 .ax5select-display .ax5select-display-table, .input-group [data-ax5select] .ax5select-display .ax5select-display-table
@@ -986,8 +989,8 @@ to {
 .ax5select-display[data-select-option-group-opened], .input-group [data-ax5select] [data-select-option-group-opened].ax5select-display
 	{
 	-webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2);
-	box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2);
-	background-image: none
+	/* box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2); */
+	background-image: none;
 }
 
 .ax5select-display[data-select-option-group-opened] .ax5select-display-table [data-ax5select-display="addon"] .addon-icon-reset
