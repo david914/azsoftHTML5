@@ -7,7 +7,7 @@
 <!-- tab E-->
 <div class="half_wrap">
 	<!--left wrap-->
-	<div class="l_wrap width-70">
+	<div class="l_wrap width-50">
 		<div class="margin-5-right">
 			<div>
 				<label class="tit_80 poa">서버종류</label>
@@ -30,7 +30,7 @@
 		</div>
  	</div>
  	<!--right wrap-->
- 	<div class="r_wrap width-30">	
+ 	<div class="r_wrap width-50">	
 		<div class="margin-5-left">
 			<div class="por">
 				<label class="title_s">[프로그램종류]</label>
@@ -38,7 +38,7 @@
 					<input type="checkbox" class="checkbox-prg" id="chkAllItem" data-label="전체선택"  />
 				</div>
 			</div>
-			<div class="scrollBind row" style="height: 198px;">
+			<div class="scrollBind row" style="height: 210px;">
     			<ul class="list-group" id="ulItemInfo"></ul>
    			</div>
    		</div>
@@ -51,7 +51,7 @@
 	</div>
 </div>
 <!--테이블 S-->
-<div class="scroll_y row">
+<div class="row">
 	<div class="az_board_basic" style="height: 55%;">
 		<div data-ax5grid="itemGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>

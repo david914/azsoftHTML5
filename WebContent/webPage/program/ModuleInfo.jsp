@@ -107,17 +107,17 @@
 				<button id="btnExcel" class="btn_basic_s">엑셀저장</button>
 			</div>
 			<div class="vat dib margin-5-left">
-				<button id="btnReq" class="btn_basic_s">등록</button>
+				<button id="btnReq" class="btn_basic_p">등록</button>
+			</div>
+			<div class="vat dib margin-5-left">
+				<button id="btnDel" class="btn_basic_p">폐기</button>
 			</div>
 		</div>
 	</div>
 	<div class="sm-row cb por">			
-		<div class="az_board_basic" style="height: 52%;">
+		<div class="az_board_basic" style="height: 55%;">
 			<div data-ax5grid="modListGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 		</div>				
-		<div class="por tar margin-10-top">
-			<button id="btnDel" class="btn_basic_p">폐기</button>
-		</div>	
 	</div>	
 </div>
 <c:import url="/js/ecams/common/commonscript.jsp" />

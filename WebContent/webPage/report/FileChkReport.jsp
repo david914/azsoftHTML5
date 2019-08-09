@@ -14,6 +14,7 @@
 				</div>
 				<div id="divPicker" class="az_input_group dib" data-ax5picker="basic">
 		            <input id="dateSt" name="start_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+					<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 					<span class="sim">&sim;</span>
 					<input id="dateEd" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
 				    <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>

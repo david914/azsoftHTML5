@@ -87,21 +87,33 @@ public class SvrUsrServlet extends HttpServlet {
 	// [시스템상세정보 > 계정정보] 사용업무 가져오기
 	private String getUlSvrInfo(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "etcData") );
-		return gson.toJson(sysinfo.getJobInfo_Rpt(etcData));
+		try { 
+			return gson.toJson(sysinfo.getJobInfo_Rpt(etcData));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
 	}
 	
 	// [시스템상세정보 > 계정정보] 계정연결정보 리스트 가져오기
 	private String getSecuList(JsonElement jsonElement) throws SQLException, Exception {
 		String SysCd 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SysCd") );
 		String sysInfo 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "sysInfo") );
-		return gson.toJson(cmm0200_svr.getSecuList(SysCd, sysInfo));
+		try { 
+			return gson.toJson(cmm0200_svr.getSecuList(SysCd, sysInfo));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
 	}
 	
 	// [시스템상세정보 > 계정정보] 계정연결정보 인서트
 	private String insertSecuInfo(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> etcData = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "etcData") );
 		ArrayList<HashMap<String, String>> svrList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "svrList") );
-		return gson.toJson(cmm0200_svr.secuInfo_Ins(etcData,svrList));
+		try { 
+			return gson.toJson(cmm0200_svr.secuInfo_Ins(etcData,svrList));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
 	}
 	
 	// [시스템상세정보 > 계정정보] 계정연결정보 삭제
@@ -109,6 +121,10 @@ public class SvrUsrServlet extends HttpServlet {
 		String SysCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SysCd") );
 		String JobCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "JobCd") );
 		ArrayList<HashMap<String, String>> svrList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "svrList") );
-		return gson.toJson(cmm0200_svr.secuInfo_Close(SysCd, JobCd, svrList));
+		try { 
+			return gson.toJson(cmm0200_svr.secuInfo_Close(SysCd, JobCd, svrList));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
 	}
 }

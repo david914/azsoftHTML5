@@ -34,7 +34,7 @@
 						<input type="checkbox" class="checkbox-usr" id="chkAllSvrJob" data-label="전체선택"  />
 					</div>
 				</div>
-				<div class="scrollBind row" style="height: 195px;">
+				<div class="scrollBind row" style="height: 210px;">
 	   				<ul class="list-group" id="ulSvrInfo"></ul>
 	   			</div>
 	   		</div>
@@ -58,7 +58,7 @@
 		 	<div class="row">
 		 		<label class="tit_80 poa">권한</label>
 			 	<div class="ml_80">
-		 			<input id="txtMode" class="width-100" type="text"></input>
+		 			<input id="txtMode" class="width-100" type="number"></input>
 		 		</div>
 		 	</div>				 			
 		 	<div class="row">
@@ -70,7 +70,7 @@
 		 	<div class="row">
 		 		<label class="tit_80 poa">DB비밀번호</label>
 			 	<div class="ml_80">
-		 			<input id="txtDbPass" class="width-100" type="text"></input>
+		 			<input id="txtDbPass" class="width-100" type="password"></input>
 		 		</div>
 		 	</div>
 		 	<div class="row">

@@ -264,6 +264,7 @@ function getStrAcptno(){
 
 // 개발자 투입시간 가져오기
 function getDevUser(){
+	console.log("GERDEVUSER");
 	var ajaxReturnData = null;
 		
 	var devInfo = {
@@ -274,25 +275,27 @@ function getDevUser(){
 	ajaxReturnData = ajaxCallWithJson('/webpage/tab/SR/SRCompleteTab', devInfo, 'json');
 	if(ajaxReturnData !== 'ERR') {
 		devListGridData = ajaxReturnData;
-		devListGrid.setData(devListGridData);
 		
-		if(ajaxReturnData[0].cmc0290_check === "Y"){
+		devListGrid.setData(devListGridData);
+		console.log(devListGridData);
+		//if(ajaxReturnData[0].cmc0290_check === "Y"){
 			getSREnd();
-		}
+		//}
 	}
 }
 
 // SREnd
 function getSREnd(){
+	console.log("GET SR END");
 	var ajaxReturnData = null;
 	
 	var SRendInfo = {
 		strIsrId : strIsrId,
 		requestType: 	'getSREnd'
 	}
-	
 	ajaxReturnData = ajaxCallWithJson('/webpage/tab/SR/SRCompleteTab', SRendInfo, 'json');
 	console.log(ajaxReturnData);
+	console.log(strEditor + "   /    " + userId);
 	if(ajaxReturnData !== 'ERR') {
 		if(ajaxReturnData.length > 0){
 			$("#applyUserDate").show();

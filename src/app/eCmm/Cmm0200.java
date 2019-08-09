@@ -681,6 +681,9 @@ public class Cmm0200{
 						if (rs.getString("cm_thu") != null) rst.put("weekname", rst.get("weekname")+"/"+rs.getString("cm_thu"));
 						if (rs.getString("cm_fri") != null) rst.put("weekname", rst.get("weekname")+"/"+rs.getString("cm_fri"));
 						if (rs.getString("cm_sat") != null) rst.put("weekname", rst.get("weekname")+"/"+rs.getString("cm_sat"));
+						
+						// 가장앞에 '/' 떼어내기
+						if(rst.get("weekname").substring(0,1).equals("/")) rst.put("weekname", rst.get("weekname").substring(1) );
 					}
 				}
 			}

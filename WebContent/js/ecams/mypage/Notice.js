@@ -316,7 +316,7 @@ function openFileDownload(acptno,fileCnt) {
 	}
 	fileDownloadModal.open({
         width: 600,
-        height: 360,
+        height: 330,
         iframe: {
             method: "get",
             url: 	"../modal/notice/FileDownloadModalNew.jsp",

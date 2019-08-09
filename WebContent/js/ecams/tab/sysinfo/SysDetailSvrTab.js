@@ -87,8 +87,8 @@ svrInfoGrid.setConfig({
         {key: "svrstop", 		label: "정지",  		width: 80}
     ]
 });
-$('input.checkbox-IP').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
-$('input.checkbox-IPC').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
+$('input.checkbox-IP').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
+$('input.checkbox-IPC').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 /////////////////// 서버정보 화면 세팅 end////////////////////////////////////////////////
 
 
@@ -97,6 +97,7 @@ $(document).ready(function(){
 	sysInfo = selectedSystem.cm_sysinfo;
 	dirBase = selectedSystem.cm_dirbase;
 	
+	$('#dibChkBase').css('display', 'none');
 	$('#lblAftIp').css('visibility','hidden');
 	$('#txtAftIp').css('visibility','hidden');
 	$('#lblSysMsg').text('시스템 : ' + selectedSystem.cm_syscd + ' ' + selectedSystem.cm_sysmsg);
@@ -106,7 +107,6 @@ $(document).ready(function(){
 			return _promise(50,getSvrInfoList());
 		});
 	
-	/////////////////////// 서버정보 버튼 event start////////////////////////////////////////////////
 	$('#chkAllSvr').bind('click',function() {
 		clickChkAllSvr($('#chkAllSvr').is(':checked'));
 	});
@@ -140,14 +140,17 @@ $(document).ready(function(){
 		}
 	});
 	
+	// 등록 클릭
 	$('#btnReq').bind('click', function() {
 		checkSvrVal(1);
 	});
 	
+	// 수정 클릭
 	$('#btnUpdt').bind('click', function() {
 		checkSvrVal(2);
 	});
 	
+	// 폐기 클릭
 	$('#btnCls').bind('click', function() {
 		var selIndex = svrInfoGrid.selectedDataIndexs;
 		if(selIndex.length < 1) {
@@ -158,22 +161,20 @@ $(document).ready(function(){
 		closeSvr();
 	});
 	
+	// 조회 클릭
 	$('#btnQry').bind('click', function() {
 		getSvrInfoList();
 	});
 	
-	$('[data-grid-control]').bind('click',function () {
-		switch (this.getAttribute('data-grid-control')) {
-			case 'excel-export':
-				svrInfoGrid.exportExcel('['+selectedSystem.cm_sysmsg+']시스템상세정보.xls');
-			break;
-		}
+	// 엑셀저장 클릭
+	$('#btnExl').bind('click',function () {
+		svrInfoGrid.exportExcel('['+selectedSystem.cm_sysmsg+']시스템상세정보.xls');
 	});
 	
+	// 닫기 클릭
 	$('#btnExit').bind('click', function() {
 		popClose();
 	});
-	/////////////////////// 서버정보 버튼 event end////////////////////////////////////////////////
 	
 });
 
@@ -410,15 +411,40 @@ function popClose(){
 function clickSvrList(selIndex) {
 	var selItem = svrInfoGrid.list[selIndex];
 	var svruse 	= selItem.cm_svruse;
+	
 	// 서버 콤보 채인지 이벤트 추가 해야함
 	$('[data-ax5select="cboSvr"]').ax5select('setValue',selItem.cm_svrcd,true);
 	$('[data-ax5select="cboOs"]').ax5select('setValue',selItem.cm_sysos,true);
-	$('[data-ax5select="cboBuffer"]').ax5select('setValue',selItem.cm_buffsize,true);
+	
+	for(var i=0; i<cboBufferData.length; i++) {
+		if(cboBufferData[i].cm_codename === selItem.ab) {
+			$('[data-ax5select="cboBuffer"]').ax5select('setValue', cboBufferData[i].cm_micode, true);
+			break;
+		}
+	}
 	
 	if(selItem.cm_svrcd == dirBase && selItem.cm_cmpsvr == 'Y') {
 		$('#chkBase').wCheck('check',true);
 	} else {
 		$('#chkBase').wCheck('check',false);
+	}
+
+	if(selItem.cm_svrcd === '01') {
+		$('#dibChkBase').css('display', '');
+	} else {
+		$('#dibChkBase').css('display', 'none');
+	}
+	
+	if(selItem.agent === '정상') {
+		$('#chkErr').wCheck('check', false);
+	} else {
+		$('#chkErr').wCheck('check', true);
+	}
+	
+	if(selItem.svrstop === 'NO') {
+		$('#chkStop').wCheck('check', false);
+	} else {
+		$('#chkStop').wCheck('check', true);
 	}
 	
 	$('#txtSvrName').val(selItem.cm_svrname);

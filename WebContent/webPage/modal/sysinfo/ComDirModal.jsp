@@ -31,6 +31,12 @@
 							<input id="txtSysMsg" class="width-100" type="text"></input>
 						</div>
 					</div>
+	                <div class="sm-row cb">
+						<label class="tit_80 poa">디렉토리구분</label>
+	                    <div class="ml_80">
+							<div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
+						</div>
+					</div>
 					<!-- line2 -->		
 	                <div class="sm-row cb">
 	                	<div class="float-left width-25">
@@ -45,7 +51,7 @@
 							<div class="margin-15-right">
 								<label class="tit_60 poa">Port</label>
 			                    <div class="ml_60">
-									<input id="txtPort" class="width-100" type="text"></input>
+									<input id="txtPort" class="width-100" type="number"></input>
 								</div>
 							</div>
 						</div>
@@ -79,7 +85,7 @@
 	                    <div class="ml_80">
 							<input id="txtShell" class="width-70" type="text"></input>
 							<div class="dib poa_r">
-								<button id="btnReg" class="btn_basic_s">등록</button>
+								<button id="btnReq" class="btn_basic_s">등록</button>
 								<button id="btnCls" class="btn_basic_s margin-5-left">폐기</button>
 								<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
 								<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
@@ -90,7 +96,7 @@
 			</div>
 			<!--검색E-->
 			<div class="sm-row">
-				<div class="az_board_basic az_board_basic_in" style="height: 60%">
+				<div class="az_board_basic az_board_basic_in" style="height: 55%">
 			    	<div data-ax5grid="dirGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 				</div>
 			</div>

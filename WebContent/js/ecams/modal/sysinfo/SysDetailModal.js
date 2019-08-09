@@ -22,6 +22,7 @@ $(document).ready(function(){
 	$('#tab2Li').width($('#tab2Li').width()+10);
 	$('#tab3Li').width($('#tab3Li').width()+10);
 	setTabMenu();
+	$('#lblSys').html('[' + selectedSystem.cm_syscd + '] ' + selectedSystem.cm_sysmsg );
 })
 
 function setTabMenu(){

@@ -15,12 +15,12 @@
 	</div>
 	<div>
       	<!-- 빌드/릴리즈유형등록 -->
-       	<div id="tab1" class="tab_content" >
+       	<div id="tab1" class="tab_content" style="padding-top: 0px;">
        		<iframe src='/webPage/tab/buildrelease/TypeRegistrationTab.jsp' width='100%' height='88%' frameborder="0"></iframe>
        	</div>
        	
        	<!-- 빌드/릴리즈유형연결 -->
-       	<div id="tab2" class="tab_content">
+       	<div id="tab2" class="tab_content" style="padding-top: 0px;">
        		<iframe src='/webPage/tab/buildrelease/TypeConnectionTab.jsp' width='100%' height='88%' frameborder="0"></iframe>
        	</div>
 	</div>

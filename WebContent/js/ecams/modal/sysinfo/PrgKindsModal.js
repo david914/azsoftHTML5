@@ -43,6 +43,9 @@ var setting = {
 			enable: true
 		}
 	},
+	callback: {
+		onClick: clickTree
+	}
 	
 };
 
@@ -396,7 +399,7 @@ $(document).ready(function(){
 			sameList : sameGridArr,
 			requestType	: 'insertPrgInfo'
 		}
-		ajaxAsync('/webPage/modal/sysinfos/PrgKindsServlet', data, 'json',successInsertPrgInfo);
+		ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successInsertPrgInfo);
 		return;
 		
 	});
@@ -440,7 +443,7 @@ $(document).ready(function(){
 	$('#btnPrgSeq').bind('click', function() {
 		prgSeqModal.open({
 	        width: 800,
-	        height: 800,
+	        height: 780,
 	        iframe: {
 	            method: "get",
 	            url: "./PrgSeqModal.jsp",
@@ -558,7 +561,10 @@ $(document).ready(function(){
 		
 		if(selIndex === 0 ) return;
 		
-		prgGrid.addRow(selItem,selIndex-1);
+		// 그리드 포커스 이동시 index 0이면 가장아래로 가는 오류? 발생 하므로 HOME으로 이동
+		var focusIn = selIndex -1 === 0 ? 'HOME' : selIndex -1; 
+		
+		prgGrid.addRow(selItem, selIndex-1, {focus: focusIn});
 		prgGrid.removeRow(selIndex+1);
 	});
 	
@@ -570,7 +576,7 @@ $(document).ready(function(){
 		
 		if(selIndex === prgGridData.length-1 ) return;
 		
-		prgGrid.addRow(selItem,selIndex+2);
+		prgGrid.addRow(selItem, selIndex+2, {focus: selIndex+1});
 		prgGrid.removeRow(selIndex);
 	});
 	
@@ -604,6 +610,13 @@ $(document).ready(function(){
 	});
 	
 });
+
+// 트리노드 클릭시 check box에 선택 되도록
+function clickTree(event, treeId, treeNode) {
+	var node = treeObj.getNodeByParam('id', treeNode.id);
+	treeObj.selectNode(node);
+	treeObj.checkNode(node,true,true);
+}
 
 function successInsertPrgInfo(data) {
 	dialog.alert('프로그램정보 등록처리를 완료하였습니다.',function() {

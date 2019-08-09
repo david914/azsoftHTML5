@@ -69,13 +69,13 @@
 				</div>
 				<div class="width-50 dib vat">
 					<div>
-						<div class="vat dib" style="float: right;">
+						<div class="vat dib margin-5-left" style="float: right;">
 							<button id="btnQry" class="btn_basic_s">조회</button>
 						</div>
-						<div class="vat dib" style="float: right;">
+						<div class="vat dib margin-5-left" style="float: right;">
 							<button id="btnDel" class="btn_basic_s">삭제</button>
 						</div>
-						<div class="vat dib" style="float: right;">
+						<div class="vat dib margin-5-left" style="float: right;">
 							<button id="btnReq" class="btn_basic_s">등록</button>
 						</div>
 						<div class="vat dib" style="float: right;">
@@ -94,11 +94,6 @@
 						<input id="txtSayu" type="text" class="width-100">
 					</div>
 					<div class="vat dib"></div>
-				</div>
-				<div class="width-50 dib vat tar">
-					<div class="tit_80" style="float: right;">
-						<label id="lblCnt">총 0 건</label>
-					</div>
 				</div>
 			</div>
 			

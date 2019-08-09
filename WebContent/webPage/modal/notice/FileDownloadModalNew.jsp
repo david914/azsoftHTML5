@@ -8,14 +8,6 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<%-- <!-- Bootstrap core CSS -->
-<link href="<c:url value="/styles/bootstrap4.0.css"/>" rel="stylesheet">
-
-<!-- Custom styles -->
-<link href="<c:url value="/styles/fileupload/jquery.dm-uploader.min.css"/>" rel="stylesheet">
-<link href="<c:url value="/styles/fileupload/styles.css"/>" rel="stylesheet">
-<link rel="stylesheet" href="<c:url value="/styles/ax5/ax5dialog.css"/>">
- --%>
 <body style="width: 100% !important; min-width: 0px !important; overflow: hidden;">
 	
 	

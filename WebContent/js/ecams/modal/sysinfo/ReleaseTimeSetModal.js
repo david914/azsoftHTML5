@@ -72,9 +72,33 @@ $(document).ready(function(){
 	
 	getReleaseTime();
 	
+	// 숫자만 입력
+	$("#txtBuildTime").on("keyup", function() {
+	    $(this).val($(this).val().replace(/[^0-9]/g,""));
+	});
+	
+	// 숫자만 입력
+	$("#txtDeployTime").on("keyup", function() {
+	    $(this).val($(this).val().replace(/[^0-9]/g,""));
+	});
+
 	// 전체/정기배포대상/정기비배포대상 라디오 클릭
 	$('input:radio[name=releaseChkS]').bind('click', function() {
 		releaseGridFilter();
+	});
+	
+	// 해제 클릭
+	$('input:radio[id=optUnCheck]').bind('click', function() {
+		$('#chkSun').wCheck('check', false);
+		$('#chkMon').wCheck('check', false);
+		$('#chkTue').wCheck('check', false);
+		$('#chkWed').wCheck('check', false);
+		$('#chkThu').wCheck('check', false);
+		$('#chkFri').wCheck('check', false);
+		$('#chkSat').wCheck('check', false);
+		
+		$('#txtBuildTime').val('');
+		$('#txtDeployTime').val('');
 	});
 	
 	// 시스템명 엔터
@@ -272,6 +296,9 @@ function getReleaseTime() {
 
 // 정기배포 설정값 조회 결과
 function successgetReleaseTime(data) {
+	var rowSelector = $('[data-ax5grid-column-attr="rowSelector"]');
+	$(rowSelector).attr('data-ax5grid-selected',"false");
+	
 	releaseGridData = data;
 	releaseGridFilter();
 	

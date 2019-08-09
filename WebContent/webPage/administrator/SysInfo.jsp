@@ -66,9 +66,9 @@
 								</div>
 							</div>
 							<div class="width-50 vat r_wrap">
-								<label class="tit_80 dib poa margin-5-left">프로세스제한</label>
-								<div class="ml_80 tar">
-									<input id="txtPrcCnt" name="txtPrcCnt" type="text" class="width-100" />
+								<label class="tit_100 dib poa margin-10-left">프로세스제한</label>
+								<div class="ml_100 tar">
+									<input id="txtPrcCnt" name="txtPrcCnt" type="number" class="width-100" />
 								</div>
 							</div>
 						</li>
@@ -94,8 +94,8 @@
 									</div>
 								</div>
 								<div class="r_wrap width-50">
-									<label class="tit_80 dib poa">형상관리오픈</label>
-									<div class="ml_80">
+									<label class="tit_100 dib poa margin-10-left">형상관리오픈</label>
+									<div class="ml_100">
 										<div id="divPicker" class="az_input_group width-100" data-ax5picker="datScmOpen">
 											<input id="datScmOpen" type="text" placeholder="yyyy/mm/dd" class="f-cal" >
 											<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
@@ -123,7 +123,7 @@
 			    					<label class="tit_80 dib poa">중단시작</label>
 			    					<div class="ml_80">
 										<div id="divPicker" data-ax5picker="datStDate" class="dib width-100 por">
-											<input id="datStDate" type="text" placeholder="yyyy/mm/dd" class="f-cal">
+											<input id="datStDate" type="text" placeholder="yyyy/mm/dd" class="f-cal" autocomplete="off">
 											<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 										</div>
 									</div>
@@ -134,11 +134,11 @@
 		    			</li>
 		   				
 		   				<li class="sm-row">
-		   					<div class="width-60 float-left">
+		   					<div class="width-60 float-left margin-5-bottom">
 		    					<label class="tit_80 dib poa">중단종료</label>
 		    					<div class="ml_80">
 									<div id="divPicker" data-ax5picker="datEdDate" class="dib width-100">
-										<input id="datEdDate" type="text" placeholder="yyyy/mm/dd" class="f-cal">
+										<input id="datEdDate" type="text" placeholder="yyyy/mm/dd" class="f-cal" autocomplete="off">
 										<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 									</div>
 								</div>
@@ -152,13 +152,13 @@
 				<div class="sm-row">
 					<div class="float-left">
 						<div class="sm-row">
-							<div class="width-50 float-left">
+							<div class="width-50 float-left" style="margin-top: 5px;">
 								<label class="tit_80 dib poa">시스템속성</label>
 							</div>
 							<div class="width-50 float-right">
 								<label class="tit_80 dib poa">적용시간</label>
 								<div class="ml_80">
-									<input id="txtTime" type="text" class="timepicker width-100" autocomplete="off" />
+									<input id="txtTime" type="text" class="timepicker width-100" autocomplete="off" maxlength="4"/>
 								</div>
 							</div>
 						</div>
@@ -174,13 +174,13 @@
 				</div>
 				<div class="sm-row">
 					<div class="width-100 float-left">
-						<div class="sm-row">
+						<div class="sm-row" style="margin-top: 5px;">
 							<label class="tit_80 dib poa">업무</label>
 							<div class="ml_80">
 								<input id="txtJobname" name="txtJobname" type="text" class="width-100" />
 							</div>
 							
-							<div class="az_board_basic scroll_h az_board_basic_in sm-row" style="height: 30%">
+							<div class="az_board_basic scroll_h az_board_basic_in sm-row" style="height: 32%">
 								<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 							</div>
 						</div>

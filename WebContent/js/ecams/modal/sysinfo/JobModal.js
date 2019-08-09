@@ -32,7 +32,7 @@ jobGrid.setConfig({
     body: {
         columnHeight: 25,
         onClick: function () {
-        	//this.self.clearSelect();
+        	this.self.clearSelect();
             this.self.select(this.dindex);
         },
         onDBLClick: function () {},
@@ -58,7 +58,7 @@ $(document).ready(function(){
 	$('#btnIn').bind('click',function() {
 		jobUpModal.open({
 	        width: 400,
-	        height: 180,
+	        height: 140,
 	        iframe: {
 	            method: "get",
 	            url: "./JobUpModal.jsp",
@@ -96,7 +96,7 @@ $(document).ready(function(){
 		
 		jobUpModal.open({
 	        width: 400,
-	        height: 180,
+	        height: 140,
 	        iframe: {
 	            method: "get",
 	            url: "./JobUpModal.jsp",

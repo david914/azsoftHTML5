@@ -57,13 +57,13 @@ fileGrid.setConfig({
         {key: "cm_dirpath", 	label: "프로그램경로", width: '20%', align: "left"},
         {key: "cm_codename",  	label: "프로그램종류", width: '10%', align: "left"},
         {key: "cd_rsrcname", 	label: "프로그램명",   width: '8%',  align: "left"},
-        {key: "cd_opendate", 	label: "최초등록일",  	width: '8%',  align: "left"},
+        {key: "cd_opendate", 	label: "최초등록일",  	width: '8%'},
         {key: "cd_lastdate", 	label: "최종등록일",  	width: '8%'},
         {key: "editor",  		label: "등록자",  	width: '5%'},
         {key: "cd_clsdate",  	label: "삭제일",  	width: '6%'},
         {key: "clseditor",  	label: "삭제자",  	width: '6%'},
         {key: "diffre",  		label: "사유구분",  	width: '6%',  align: "left"},
-        {key: "cd_reqdoc",  	label: "등록사유",  	width: '6%',  align: "left"},
+        {key: "cd_reqdoc",  	label: "등록사유",  	width: '8%',  align: "left"},
     ]
 });
 

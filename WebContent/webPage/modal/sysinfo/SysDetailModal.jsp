@@ -27,6 +27,7 @@
 				<li rel="svrTab" id="tab1Li" class="on">서버정보</li>
 				<li rel="usrTab" id="tab2Li">계정정보</li>
 				<li rel="prgTab" id="tab3Li">서버별 프로그램종류 연결정보</li>
+				<span id="lblSys" style="font-weight: bold; float: right; padding-top: 5px;"></span>
 			</ul>
 		</div>
 		<div>

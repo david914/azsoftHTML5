@@ -86,16 +86,16 @@ itemGrid.setConfig({
     	}
     },
     columns: [
-        {key: "svrcd", 		label: "서버구분",  		width: 140},
-        {key: "cm_svrname", label: "서버명",  		width: 140},
-        {key: "cm_svrip", 	label: "IP Address",  	width: 200, 	align: "center"},
-        {key: "cm_portno", 	label: "Port",  		width: 140, 	align: "center"},
-        {key: "rsrccd", 	label: "형상항목",  		width: 140},
-        {key: "cm_volpath", label: "홈디렉토리",  		width: 320},
+        {key: "svrcd", 		label: "서버구분",  		width: '15%'},
+        {key: "cm_svrname", label: "서버명",  		width: '18%'},
+        {key: "cm_svrip", 	label: "IP Address",  	width: '20%', 	align: "center"},
+        {key: "cm_portno", 	label: "Port",  		width: '7%', 	align: "center"},
+        {key: "rsrccd", 	label: "형상항목",  		width: '10%'},
+        {key: "cm_volpath", label: "홈디렉토리",  		width: '30%'},
     ]
 });
 
-$('input.checkbox-prg').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
+$('input.checkbox-prg').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 
 ///////////////////  화면 세팅 end////////////////////////////////////////////////
 
@@ -218,10 +218,9 @@ function successGetSvrItemGrid(data) {
 
 function filterSvrItemgrid() {
 	fSvrItemGridData = null;
+	fSvrItemGridData = [];
 	svrItemGridData.forEach(function(item, index) {
-		
 		if(getSelectedVal('cboSvrItem').value === item.cm_micode) {
-			fSvrItemGridData = [];
 			fSvrItemGridData.push(item);
 		}
 	})
@@ -285,13 +284,17 @@ function clickItemGrid(selIndex) {
 	$('#cboSvrItem').trigger('change');
 	fSvrItemGridData.forEach(function(svrItem, index) {
 		if(svrItem.cm_micode === item.cm_svrcd
-				&& svrItem.cm_seqno === item.cm_seqno) 
+				&& svrItem.cm_seqno === item.cm_seqno)  {
+			svrItemGrid.clearSelect();
 			svrItemGrid.select(index);
+		}
 	});
 	
 	ulItemInfoData.forEach(function(ulItem, index) {
-		if(ulItem.cm_micode === item.cm_rsrccd) 
+		if(ulItem.cm_micode === item.cm_rsrccd) {
 			$('#chkPrg'+ulItem.cm_micode).wCheck('check',true);
+			$('#chkPrg'+ulItem.cm_micode).focus();
+		} 
 	})
 	
 	$('#txtVolpath').val(item.cm_volpath);

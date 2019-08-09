@@ -11,7 +11,7 @@
 <body style="width: 100% !important; min-width: 0px !important">
 	<div class="pop-header">
 		<div>
-			<label>[업무정보편집]</label>
+			<label id="lblTitle">[업무정보편집]</label>
 		</div>
 		<div>
 			<button type="button" class="close" aria-label="닫기" onclick="popClose()">
@@ -45,7 +45,6 @@
 		</div>
 	</div>
 </body>
-
 
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/modal/sysinfo/JobUpModal.js"/>"></script>

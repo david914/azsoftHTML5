@@ -73,7 +73,7 @@
 			</div>
 		</div>
 		<div class="width-65 dib vat">
-			<label class="tit_80 poa">수행명령</label>
+			<label class="tit_80 poa margin-10-left">수행명령</label>
 			<div class="ml_80">
 				<input id="txtOrder" class="width-80">
 				<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
