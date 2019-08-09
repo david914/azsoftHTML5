@@ -4574,7 +4574,7 @@ public class Cmr0200{
 	            				pstmt2.setString(++pstmtcount, scriptList.get(i).get("chgparm1"));
 	            				pstmt2.executeUpdate();
 	            				pstmt2.close();
-            				}
+            				} 
             				if (scriptList.get(i).get("deployyn").equals("Y")) {
 	            				strQuery.setLength(0);
 	            				pstmtcount = 0;
