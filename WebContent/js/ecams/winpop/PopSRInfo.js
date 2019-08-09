@@ -228,7 +228,7 @@ function changeTabMenu() {
 	}else if(document.getElementById("tab5").className == "on") { //SR완료
 		tmpTab = $('#frmSRComplete').get(0).contentWindow;
 		
-		if(tmpTab.strIsrId == strIsrId) return;
+		//if(tmpTab.strIsrId == strIsrId) return;
 		
 		tmpTab.strIsrId = strIsrId;
 		tmpTab.userId = userId;
@@ -237,7 +237,8 @@ function changeTabMenu() {
 		tmpTab.strIsrTitle = prjListData[0].cc_reqtitle;
 		tmpTab.strEditor = prjListData[0].cc_lastupuser;
 		tmpTab.strQryGbn = "00";
-		//tmpTab.srendInfoCall();
+		tmpTab.getStrAcptno();
+		tmpTab.srendInfoCall();
 		
 		console.log("cc_status: " + prjListData[0].cc_status);
 		console.log("strIsrTitle: " + prjListData[0].cc_reqtitle);
