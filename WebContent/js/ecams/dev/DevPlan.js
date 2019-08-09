@@ -18,6 +18,7 @@ var strReqCd	 	= window.top.reqCd;
 var strIsrId = "";
 var strQryGbn = "";
 var cboQryGbnData = [];
+var loadSrReg = false;
 
 var urlArr = [];
 
@@ -48,6 +49,18 @@ $(document).ready(function(){
 		clickTabMenu();
 //	}
 });
+
+//페이지 로딩 완료시 다음 진행 
+var inter = null;
+
+function callSRRegister(data) {
+   inter = setInterval(function(){
+      if(loadSrReg) {
+         iSRID_Click(data);
+         clearInterval(inter);
+      }
+   },100);
+}
 
 function setCbo() {
 	//PrjListTab 대상구분 콤보박스 데이터
