@@ -275,10 +275,10 @@ reqGrid.setConfig({
         {key: "cr_story", label: "프로그램설명",  width: '10%'},
         {key: "cm_codename", label: "프로그램종류",  width: '10%'},
         {key: "cm_jobname", label: "업무명",  width: '10%'},
-        {key: "cr_version", label: "신청버전",  width: '10%'},
+        {key: "cr_version", label: "신청버전",  width: '10%', align: 'center'},
         {key: "cm_dirpath", label: "프로그램경로",  width: '20%'},
-        {key: "checkin", label: "수정구분",  width: '10%'},
-        {key: "priority", label: "우선순위",  width: '10%', editor: {type: "number"}} 
+        {key: "checkin", label: "수정구분",  width: '10%', align: 'center'},
+        {key: "priority", label: "우선순위",  width: '10%', editor: {type: "number"}, align: 'center'} 
     ]
 });
 
@@ -329,7 +329,7 @@ resultGrid.setConfig({
 		{key: "cm_dirpath", label: "적용경로",  width: '20%'},
 		{key: "cr_svrname", label: "적용서버",  width: '20%'},
 		{key: "prcrst", label: "처리결과",  width: '10%'},
-		{key: "prcdate", label: "처리일시",  width: '10%'} 
+		{key: "prcdate", label: "처리일시",  width: '10%', align: 'center'} 
 		]
 });
 
