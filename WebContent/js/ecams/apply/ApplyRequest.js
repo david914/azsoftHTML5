@@ -1856,11 +1856,13 @@ function requestEnd(){
 		if(this.key === 'ok') {
 			ckin_end(); //미개발
 		}
+		else{
+			getSysCbo();
+		}
 	});
 	
 	secondGrid.setData([]);
 	secondGridData = [];
-	getSysCbo();
 }
 
 function btnRequestClick(){

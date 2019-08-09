@@ -122,7 +122,7 @@ public class Cmr0200{
 			int k = 0;
 			boolean findSw = false;
 			String confTeam = "";
-			ArrayList<HashMap<String,Object>>	rData2 = null;
+			ArrayList<HashMap<String, String>>	rData2 = null;
 
     		for (i=0;strRsrcCd.length>i;i++) {
     			if (strInfo[i].substring(7,8).equals("1") ||   //파일삭제(개발서버)
@@ -139,8 +139,8 @@ public class Cmr0200{
 		    	        	    	//*************************************************
 		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 		    	        	    	Gson gson = new Gson(); 
-		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-		    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+		    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 		    	        	    	
 		    	        	    	//**************************************************
 									rData2 = myMap;
@@ -160,8 +160,8 @@ public class Cmr0200{
 		    	        	    	//*************************************************
 		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 		    	        	    	Gson gson = new Gson(); 
-		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-		    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+		    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 		    	        	    	
 		    	        	    	//**************************************************
 		    						rData2 = myMap;
@@ -216,8 +216,8 @@ public class Cmr0200{
 		    	        	    	//*************************************************
 		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 		    	        	    	Gson gson = new Gson(); 
-		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-		    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+		    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 		    	        	    	
 		    	        	    	//**************************************************
 		    						rData2 = myMap;
@@ -286,8 +286,8 @@ public class Cmr0200{
 	    	        	    	//*************************************************
 	    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 	    	        	    	Gson gson = new Gson(); 
-	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-	    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+	    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 	    	        	    	
 	    	        	    	//**************************************************
 	    						rData2 = myMap;
@@ -351,8 +351,8 @@ public class Cmr0200{
 		    	        	    	//*************************************************
 		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 		    	        	    	Gson gson = new Gson(); 
-		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-		    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+		    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 		    	        	    	
 		    	        	    	//**************************************************
 		    						rData2 = myMap;
@@ -421,8 +421,8 @@ public class Cmr0200{
 	    	        	    	//*************************************************
 	    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 	    	        	    	Gson gson = new Gson(); 
-	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-	    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+	    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 	    	        	    	
 	    	        	    	//**************************************************
 	    						rData2 = myMap;
@@ -480,8 +480,8 @@ public class Cmr0200{
 	    	        	    	//*************************************************
 	    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 	    	        	    	Gson gson = new Gson(); 
-	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-	    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+	    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 	    	        	    	
 	    	        	    	//**************************************************
 	    						rData2 = myMap;
@@ -571,8 +571,8 @@ public class Cmr0200{
 			    	        	    	//*************************************************
 			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 			    	        	    	
 			    	        	    	//**************************************************
 										rData2 = myMap;
@@ -610,8 +610,8 @@ public class Cmr0200{
 			    	        	    	//*************************************************
 			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 			    	        	    	
 			    	        	    	//**************************************************
 										rData2 = myMap;
@@ -649,8 +649,8 @@ public class Cmr0200{
 			    	        	    	//*************************************************
 			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 			    	        	    	
 			    	        	    	//**************************************************
 										rData2 = myMap;
@@ -687,8 +687,8 @@ public class Cmr0200{
 			    	        	    	//*************************************************
 			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 			    	        	    	
 			    	        	    	//**************************************************
 										rData2 = myMap;
@@ -725,8 +725,8 @@ public class Cmr0200{
 			    	        	    	//*************************************************
 			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 			    	        	    	
 			    	        	    	//**************************************************
 										rData2 = myMap;
@@ -779,8 +779,8 @@ public class Cmr0200{
 			    	        	    	//*************************************************
 			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 			    	        	    	
 			    	        	    	//**************************************************
 										rData2 = myMap;
@@ -831,8 +831,8 @@ public class Cmr0200{
 			    	        	    	//*************************************************
 			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 			    	        	    	
 			    	        	    	//**************************************************
 										rData2 = myMap;
@@ -869,8 +869,8 @@ public class Cmr0200{
 			    	        	    	//*************************************************
 			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 			    	        	    	
 			    	        	    	//**************************************************
 										rData2 = myMap;
@@ -907,8 +907,8 @@ public class Cmr0200{
 			    	        	    	//*************************************************
 			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 			    	        	    	
 			    	        	    	//**************************************************
 										rData2 = myMap;
@@ -946,8 +946,8 @@ public class Cmr0200{
 			    	        	    	//*************************************************
 			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
 			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
+			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
 			    	        	    	
 			    	        	    	//**************************************************
 										rData2 = myMap;
@@ -5180,7 +5180,7 @@ public class Cmr0200{
 		int               i = 0;
 		int               pstmtcount = 0;
 		int               SeqNo = 0;
-		ArrayList<HashMap<String,Object>>	rData2 = null;
+		ArrayList<HashMap<String, String>>	rData2 = null;
 		try {
         	if (confSw == true) {
         		for (i=0;i<ConfList.size();i++){
@@ -5225,12 +5225,13 @@ public class Cmr0200{
     	        	    	//*************************************************
     	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
     	        	    	Gson gson = new Gson(); 
-    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType();
-    	        	    	ArrayList<HashMap<String, Object>> myMap = gson.fromJson(ConfList.get(i).get("arysv").toString(), type);
+    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
+    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(i).get("arysv").toString(), type);
     	        	    	
     	        	    	//**************************************************
     	        	    	rData2 = myMap;
-	    	        	    //rData2 = (ArrayList<HashMap<String, Object>>) ConfList.get(i).get("arysv");
+	    	        	    //rData2 = (ArrayList<HashMap<String, String>>) ConfList.get(i).get("arysv");
+    	        	    	System.out.println(ConfList.get(i).get("arysv"));
 	    					pstmt.setString(++pstmtcount, (String) rData2.get(0).get("SvUser"));
 	    					rData2 = null;
     	        	    }
