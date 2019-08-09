@@ -51,7 +51,7 @@
 							<div class="margin-15-right">
 								<label class="tit_60 poa">Port</label>
 			                    <div class="ml_60">
-									<input id="txtPort" class="width-100" type="number"></input>
+									<input id="txtPort" class="width-100" type="text" maxlength="5"></input>
 								</div>
 							</div>
 						</div>

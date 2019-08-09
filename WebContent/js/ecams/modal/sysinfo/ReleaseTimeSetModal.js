@@ -73,13 +73,22 @@ $(document).ready(function(){
 	getReleaseTime();
 	
 	// 숫자만 입력
-	$("#txtBuildTime").on("keyup", function() {
-	    $(this).val($(this).val().replace(/[^0-9]/g,""));
+	$("#txtBuildTime").on("keyup", function(event) {
+		if(event.keyCode === 13) {
+			$("#txtBuildTime").focusout();
+		} else {
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+		}
+	    
 	});
 	
 	// 숫자만 입력
-	$("#txtDeployTime").on("keyup", function() {
-	    $(this).val($(this).val().replace(/[^0-9]/g,""));
+	$("#txtDeployTime").on("keyup", function(event) {
+		if(event.keyCode === 13) {
+			$("#txtBuildTime").focusout();
+		} else {
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+		}
 	});
 
 	// 전체/정기배포대상/정기비배포대상 라디오 클릭

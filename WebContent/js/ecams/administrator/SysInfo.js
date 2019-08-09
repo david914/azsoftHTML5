@@ -169,6 +169,12 @@ $(document).ready(function(){
 	getSysInfoList('');
 	screenInit();
 	
+	
+	// 프로세스제한 숫자만 입력하도록 수정
+	$("#txtPrcCnt").on("keyup", function(event) {
+		$(this).val($(this).val().replace(/[^0-9]/g,""));
+	});
+	
 	// 시스템 코드/ 시스템명 찾기
 	$('#txtFindSys').bind('keypress', function(event) {
 		if(event.keyCode === 13 ) {
@@ -523,11 +529,6 @@ $(document).ready(function(){
 
 // datepicker 날짜 오늘날짜로 초기화
 function dateInit() {
-	$('#datStDate').val(getDate('DATE',0));
-	$('#datEdDate').val(getDate('DATE',0));
-	$('#datSysOpen').val(getDate('DATE',0));
-	$('#datScmOpen').val(getDate('DATE',0));
-	
 	datStDate.bind(defaultPickerInfo('datStDate'));
 	datEdDate.bind(defaultPickerInfo('datEdDate'));
 	datSysOpen.bind(defaultPickerInfo('datSysOpen','top'));

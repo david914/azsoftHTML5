@@ -149,16 +149,20 @@ public class PopDevRepositoryServlet extends HttpServlet {
 	
 	private String getSvrDir(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
-		return gson.toJson(svropen.getSvrDir_HTML5(DataMap.get("UserId"),
-											  	   DataMap.get("SysCd"),
-											  	   DataMap.get("SvrIp"),
-											  	   DataMap.get("SvrPort"),
-											  	   DataMap.get("BaseDir"),
-											  	   DataMap.get("AgentDir"),
-											  	   DataMap.get("SysOs"),
-											  	   DataMap.get("HomeDir"),
-											  	   DataMap.get("svrName"),
-												   DataMap.get("buffSize")));
+		try {
+			return gson.toJson(svropen.getSvrDir_HTML5(DataMap.get("UserId"),
+				  	   DataMap.get("SysCd"),
+				  	   DataMap.get("SvrIp"),
+				  	   DataMap.get("SvrPort"),
+				  	   DataMap.get("BaseDir"),
+				  	   DataMap.get("AgentDir"),
+				  	   DataMap.get("SysOs"),
+				  	   DataMap.get("HomeDir"),
+				  	   DataMap.get("svrName"),
+					   DataMap.get("buffSize")));
+		}catch (Exception e) {
+			return gson.toJson("[ERR]" + e.getMessage());
+		}
 	}
 	
 	private String getChildSvrDir(JsonElement jsonElement) throws SQLException, Exception {

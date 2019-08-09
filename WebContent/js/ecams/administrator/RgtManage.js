@@ -132,12 +132,10 @@ function successSetRgtMenuList(data) {
 function successGetRgtMenuList(data) {
 	treeObj.checkAllNodes(false);
 	data.forEach(function(item, index) {
-		if(item.ID > 10) {
-			var node = treeObj.getNodeByParam('id', item.cm_menucd);
-			if(node !== null) {
-				treeObj.selectNode(node);
-				treeObj.checkNode(node,true,true);
-			}
+		var node = treeObj.getNodeByParam('id', item.cm_menucd);
+		if(node !== null && !node.isParent) {
+			treeObj.selectNode(node);
+			treeObj.checkNode(node, true, true);
 		}
 	});
 }

@@ -54,7 +54,7 @@ grdProgList.setConfig({
         {key: "cm_jobname", 	label: "업무",  			width: '13%',	align: "left"},
         {key: "jawon_code", 	label: "프로그램종류",  	width: '13%',	align: "left"},
         {key: "cm_dirpath", 	label: "프로그램경로",   	width: '24%',	align: "left"},
-        {key: "cr_lastdate", 	label: "최종등록일",  		width: '13%',	align: "center"}
+        {key: "cr_lastdate", 	label: "최종등록일",  		width: '9%',	align: "center"}
     ]
 });
 

@@ -68,6 +68,12 @@ $(document).ready(function(){
 	getCodeInfo();
 	getDirList();
 	
+	// PORT 숫자만 입력하도록 수정
+	$("#txtPort").on("keyup", function(event) {
+		$(this).val($(this).val().replace(/[^0-9]/g,""));
+	});
+	
+	
 	// 등록
 	$('#btnReq').bind('click', function() {
 		checkVal();
@@ -112,7 +118,7 @@ function closeDir() {
 }
 
 function successCloseDir(data) {
-	dialog.alert('통디렉토리정보 폐기처리를 완료하였습니다.', function(){
+	dialog.alert('공통디렉토리정보 폐기처리를 완료하였습니다.', function(){
 		$('#btnQry').trigger('click');
 	});
 }
