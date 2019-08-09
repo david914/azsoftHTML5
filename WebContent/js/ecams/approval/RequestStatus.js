@@ -223,6 +223,10 @@ $(document).ready(function(){
 	getCodeInfo();
 	getDeptInfo();
 	
+	//진행상태에따라 일자조건 활성화,비활성화 처리
+	$('#cboSta').bind('change', function() {
+		setDateEnable();
+	});
 	// 엑셀저장버튼 클릭
 	$('#btnExcel').bind('click', function() {
 		firstGrid.exportExcel("grid-to-excel.xls");
@@ -252,7 +256,16 @@ $(document).ready(function(){
 		}
 	});
 });
-
+//진행상태에따라 일자조건 활성화,비활성화 처리
+function setDateEnable() {
+	if(getSelectedIndex('cboSta') == 1){
+		$('#datStD').prop("disabled", true);
+		$('#datEdD').prop("disabled", true);
+	} else {
+		$('#datStD').prop("disabled", false);
+		$('#datEdD').prop("disabled", false);
+	}
+}
 // 어드민 여부 확인
 function getUserInfo(){
 	var data =  new Object();
@@ -349,30 +362,24 @@ function getCodeInfo(){
 	$.each(cboSinData,function(key,value) {
 		options.push({value: value.cm_micode, text: value.cm_codename});
 	});
-	
 	$('[data-ax5select="cboSin"]').ax5select({
         options: options
 	});
 	
 	options = [];
-	
 	$.each(cboStaData,function(key,value) {
 		options.push({value: value.cm_micode, text: value.cm_codename});
 	});
-	
 	$('[data-ax5select="cboSta"]').ax5select({
         options: options
 	});
-	
     $('[data-ax5select="cboSta"]').ax5select("setValue", '1', true);
-    
+    setDateEnable();
     
     options = [];
-    
 	$.each(cboGbnData,function(key,value) {
 	    options.push({value: value.cm_micode, text: value.cm_codename});
 	});
-	
 	$('[data-ax5select="cboGbn"]').ax5select({
         options: options
 	});

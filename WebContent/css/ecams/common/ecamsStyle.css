@@ -1426,7 +1426,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 .thumbnail .r_nail{font-size: 11px; color: #fff; background-color: #c02525; padding: 3px 7px; margin: 0 7px;}
 .thumbnail .p_nail{font-size: 11px; color: #fff; background-color: #b21db2; padding: 3px 7px; margin: 0 7px;}
 .thumbnail .g_nail{font-size: 11px; color: #fff; background-color: #444; padding: 3px 7px; margin: 0 7px;}
-.thumbnail .b_nail{font-size: 11px; color: #fff; background-color: #1a1a8c; padding: 3px 7px; margin: 0 7px;}
+.thumbnail .b_nail{font-size: 11px; color: #fff; background-color: #326aab; /* #1a1a8c; */ padding: 3px 7px; margin: 0 7px;}
 .thumbnail span:first-child{margin-left: 0;}
 .thumbnail span:last-child{margin-right: 0;}
 /*스크롤 영역*/
