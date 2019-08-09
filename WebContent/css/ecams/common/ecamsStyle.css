@@ -1480,6 +1480,10 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel] table tr.tr-0{
     background: #f8f8f8;
 }
+/*그리드에 마우스 이동시 커서위치에 따라 row에 색깔 표시*/
+[data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel] table tr:hover{
+	background : #e3f1ff;
+}
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel] table tr[data-ax5grid-selected="true"]{
 	background : #e3f1ff;
 }
