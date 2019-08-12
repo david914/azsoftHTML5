@@ -143,13 +143,13 @@ $(document).ready(function(){
 	});
 
 	//프로그램등급 선택
-	document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
+//	document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
 	$("#chkGrade").bind('click', function() {
 		chkGrade_Click();
 	});
 	
 	//프로그램종류 선택
-	document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
+//	document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
 	$("#chkJawon").bind('click', function() {
 		chkJawon_Click();
 	});
@@ -336,12 +336,13 @@ function cboSgnGbn_Change() {
 	var i = 0;
 	var findSw = false;
 	
-	if(getSelectedIndex('cboSgnGbn') < 0) {
+	console.log("getSelectedIndex('cboSgnGbn') :" + getSelectedIndex('cboSgnGbn') );
+	if(getSelectedIndex('cboSgnGbn') <= 0) {
 		$('#chkAllRgt').wCheck("disabled", true);
 		$('#chkDel').wCheck('check',false);
-		document.getElementById("lstRgtDiv").style.backgroundColor = "#E2E2E2"; //lstRgtCd.enabled = false;
+//		document.getElementById("lstRgtDiv").style.backgroundColor = "#E2E2E2"; //lstRgtCd.enabled = false;
 		$('#lstRgt').empty();
-		document.getElementById("treeDeptDiv").style.backgroundColor = "#E2E2E2"; //treeDept.enabled = false;  
+//		document.getElementById("treeDeptDiv").style.backgroundColor = "#E2E2E2"; //treeDept.enabled = false;  
 		$.fn.zTree.init($("#treeDept"), treeSetting, []);
 		$('#txtDept').val("");
 		tmpDeptCd = "";
@@ -356,100 +357,6 @@ function cboSgnGbn_Change() {
 	switch (getSelectedVal('cboSgnGbn').value) {
 	    case "1":
 	    case "2":
-	    	console.log("case2")
-	    case "3":
-	    case "4":
-	    case "5": //처리팀
-	    	$('[data-ax5select="cboCommon"]').ax5select("enable");
-	    	$('[data-ax5select="cboBlank"]').ax5select("enable");
-	    	$('[data-ax5select="cboComAft"]').ax5select("enable");
-	    	$('[data-ax5select="cboEmg"]').ax5select("enable");
-	    	$('[data-ax5select="cboEmgAft"]').ax5select("enable");
-	    	document.getElementById("treeDeptDiv").style.backgroundColor = "#E2E2E2"; //treeDept.enabled = false;
-	    	//treeDept.setStyle("alternatingItemColors", [0xDDDDDD, 0xDDDDDD] as Array );
-	    	$.fn.zTree.init($("#treeDept"), treeSetting, []);
-	    	$('#txtDept').val("");
-	    	tmpDeptCd = "";
-			$('#txtDept').prop("readonly", true);
-			document.getElementById("lstRgtDiv").style.backgroundColor = "#FFFFFF"; //lstRgtCd.enabled = true;
-			setLstRgt();
-			$('#chkAllRgt').wCheck("disabled", false);
-			$('#chkGrade').wCheck('check', false);
-			chkGrade_Click();
-			document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
-			$('#chkAllGrade').wCheck("disabled", true);
-			$('#chkAllGrade').wCheck("check", false);
-			$('#chkAllJawon').wCheck("disabled", true);
-			$('#chkAllJawon').wCheck("check", false);
-			document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
-			$('#chkJawon').wCheck("check", false);
-			chkJawon_Click();
-			$('#chkEnd').wCheck("check", false);
-			
-			break;
-	    case "6":
-	    case "7":
-	    case "8": //협조
-	    	$('[data-ax5select="cboCommon"]').ax5select("enable");
-	    	$('[data-ax5select="cboBlank"]').ax5select("enable");
-	    	$('[data-ax5select="cboComAft"]').ax5select("enable");
-	    	$('[data-ax5select="cboEmg"]').ax5select("enable");
-	    	$('[data-ax5select="cboEmgAft"]').ax5select("enable");
-	    	document.getElementById("treeDeptDiv").style.backgroundColor = "#E2E2E2"; //treeDept.enabled = false;
-			//treeDept.setStyle("alternatingItemColors", [0xDDDDDD, 0xDDDDDD] as Array );
-			$.fn.zTree.init($("#treeDept"), treeSetting, []);
-			$('#txtDept').val("");
-			tmpDeptCd = "";
-			$('#txtDept').prop("readonly", true);
-			document.getElementById("lstRgtDiv").style.backgroundColor = "#FFFFFF"; //lstRgtCd.enabled = true;
-			setLstRgt();
-			$('#chkAllRgt').wCheck("disabled", false);
-			$('#chkGrade').wCheck("check", false);
-			chkGrade_Click();
-			document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
-			$('#chkAllGrade').wCheck("disabled", true);
-			$('#chkAllGrade').wCheck("check", false);
-			$('#chkAllJawon').wCheck("disabled", true);
-			$('#chkAllJawon').wCheck("check", false);
-			document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
-			$('#chkJawon').wCheck("check", false);
-			chkJawon_Click();
-			$('#chkEnd').wCheck("check", false);
-			$('#chkAllJawon').wCheck("disabled", true);
-			$('#chkAllJawon').wCheck("check", false);
-			$('#chkDel').wCheck("disabled", true);
-			$('#chkDel').wCheck("check", false);
-			$('#chkDelDiv').css('visibility','visible');
-			
-			break;
-	    case "9": //특정팀/특정권한
-	    	$('[data-ax5select="cboCommon"]').ax5select("enable");
-	    	$('[data-ax5select="cboBlank"]').ax5select("enable");
-	    	$('[data-ax5select="cboComAft"]').ax5select("enable");
-	    	$('[data-ax5select="cboEmg"]').ax5select("enable");
-	    	$('[data-ax5select="cboEmgAft"]').ax5select("enable");
-	    	document.getElementById("treeDeptDiv").style.backgroundColor = "#FFFFFF"; //treeDept.enabled = true;
-			//treeDept.setStyle("alternatingItemColors", [0xFFFFFF, 0xFFFFFF] as Array );
-	    	$.fn.zTree.init($("#treeDept"), treeSetting, treeDeptData);
-	    	$('#txtDept').val("");
-	    	tmpDeptCd = "";
-			$('#txtDept').prop("readonly", false);
-			document.getElementById("lstRgtDiv").style.backgroundColor = "#FFFFFF"; //lstRgtCd.enabled = true;
-			setLstRgt();
-			$('#chkAllRgt').wCheck("disabled", false);
-			$('#chkGrade').wCheck("check", false);
-			chkGrade_Click();
-			document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
-			document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
-			$('#chkJawon').wCheck("check", false);
-			chkJawon_Click();
-			$('#chkEnd').wCheck("check", false);
-			$('#chkAllGrade').wCheck("disabled", true);
-			$('#chkAllGrade').wCheck("check", false);
-			$('#chkAllJawon').wCheck("disabled", true);
-			$('#chkAllJawon').wCheck("check", false);
-			
-			break;
 	    case "C": //결재추가
 	    	//////////////////////// 정상결재시 ////////////////////////
 	    	findSw = false;
@@ -536,41 +443,135 @@ function cboSgnGbn_Change() {
 	    	$('[data-ax5select="cboComAft"]').ax5select("disable");
 	    	$('[data-ax5select="cboEmg"]').ax5select("disable");
 	    	$('[data-ax5select="cboEmgAft"]').ax5select("disable");
-	    	document.getElementById("treeDeptDiv").style.backgroundColor = "#E2E2E2"; //treeDept.enabled = false;
+//	    	document.getElementById("treeDeptDiv").style.backgroundColor = "#E2E2E2"; //treeDept.enabled = false;
 	    	//treeDept.setStyle("alternatingItemColors", [0xDDDDDD, 0xDDDDDD] as Array );
 	    	$.fn.zTree.init($("#treeDept"), treeSetting, []);
 	    	$('#txtDept').val("");
 	    	tmpDeptCd = "";
 			$('#txtDept').prop("readonly", true);
-			document.getElementById("lstRgtDiv").style.backgroundColor = "#E2E2E2"; //lstRgtCd.enabled = false;
+//			document.getElementById("lstRgtDiv").style.backgroundColor = "#E2E2E2"; //lstRgtCd.enabled = false;
 			$('#lstRgt').empty();
 			$('#chkAllRgt').wCheck("disabled", true);
 	    	$('#chkAllRgt').wCheck("check", false);
 	    	$('#chkGrade').wCheck("check", false);
 			chkGrade_Click();
-			document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
+//			document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
 			$('#chkAllGrade').wCheck("disabled", true);
 			$('#chkAllGrade').wCheck("check", false);
 			$('#chkAllJawon').wCheck("disabled", true);
 			$('#chkAllJawon').wCheck("check", false);
-			document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
+//			document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
 			$('#chkJawon').wCheck("check", false);
 			chkJawon_Click();
 			
 	    	break;
+	    case "3":
+	    case "6":
+	    case "7":
 	    case "P":
-	    default:
-	    	console.log("default");
-	    	$('#chkAllRgt').wCheck("disabled", true);
-	    	$('#chkAllRgt').wCheck("check", false);
-	    	document.getElementById("lstRgtDiv").style.backgroundColor = "#E2E2E2"; //lstRgtCd.enabled = false;
-			$('#lstRgt').empty();
-			document.getElementById("treeDeptDiv").style.backgroundColor = "#E2E2E2"; //treeDept.enabled = false;
+	    case "8": //협조
+	    	$('[data-ax5select="cboCommon"]').ax5select("enable");
+	    	$('[data-ax5select="cboBlank"]').ax5select("enable");
+	    	$('[data-ax5select="cboComAft"]').ax5select("enable");
+	    	$('[data-ax5select="cboEmg"]').ax5select("enable");
+	    	$('[data-ax5select="cboEmgAft"]').ax5select("enable");
+//	    	document.getElementById("treeDeptDiv").style.backgroundColor = "#E2E2E2"; //treeDept.enabled = false;
 			//treeDept.setStyle("alternatingItemColors", [0xDDDDDD, 0xDDDDDD] as Array );
 			$.fn.zTree.init($("#treeDept"), treeSetting, []);
 			$('#txtDept').val("");
 			tmpDeptCd = "";
 			$('#txtDept').prop("readonly", true);
+//			document.getElementById("lstRgtDiv").style.backgroundColor = "#FFFFFF"; //lstRgtCd.enabled = true;
+			setLstRgt();
+			$('#chkAllRgt').wCheck("disabled", false);
+			$('#chkGrade').wCheck("check", false);
+			chkGrade_Click();
+//			document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
+			$('#chkAllGrade').wCheck("disabled", true);
+			$('#chkAllGrade').wCheck("check", false);
+			$('#chkAllJawon').wCheck("disabled", true);
+			$('#chkAllJawon').wCheck("check", false);
+//			document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
+			$('#chkJawon').wCheck("check", false);
+			chkJawon_Click();
+			$('#chkEnd').wCheck("check", false);
+			$('#chkAllJawon').wCheck("disabled", true);
+			$('#chkAllJawon').wCheck("check", false);
+			$('#chkDel').wCheck("disabled", false);
+			$('#chkDel').wCheck("check", false);
+			$('#chkDelDiv').css('visibility','visible');
+			
+			break;
+	    case "4":
+	    case "5": //처리팀
+	    	$('[data-ax5select="cboCommon"]').ax5select("enable");
+	    	$('[data-ax5select="cboBlank"]').ax5select("enable");
+	    	$('[data-ax5select="cboComAft"]').ax5select("enable");
+	    	$('[data-ax5select="cboEmg"]').ax5select("enable");
+	    	$('[data-ax5select="cboEmgAft"]').ax5select("enable");
+//	    	document.getElementById("treeDeptDiv").style.backgroundColor = "#E2E2E2"; //treeDept.enabled = false;
+	    	//treeDept.setStyle("alternatingItemColors", [0xDDDDDD, 0xDDDDDD] as Array );
+	    	$.fn.zTree.init($("#treeDept"), treeSetting, []);
+	    	$('#txtDept').val("");
+	    	tmpDeptCd = "";
+			$('#txtDept').prop("readonly", true);
+//			document.getElementById("lstRgtDiv").style.backgroundColor = "#FFFFFF"; //lstRgtCd.enabled = true;
+			setLstRgt();
+			$('#chkAllRgt').wCheck("disabled", false);
+			$('#chkGrade').wCheck('check', false);
+			chkGrade_Click();
+//			document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
+			$('#chkAllGrade').wCheck("disabled", true);
+			$('#chkAllGrade').wCheck("check", false);
+			$('#chkAllJawon').wCheck("disabled", true);
+			$('#chkAllJawon').wCheck("check", false);
+//			document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
+			$('#chkJawon').wCheck("check", false);
+			chkJawon_Click();
+			$('#chkEnd').wCheck("check", false);
+			
+			break;
+	    case "9": //특정팀/특정권한
+	    	$('[data-ax5select="cboCommon"]').ax5select("enable");
+	    	$('[data-ax5select="cboBlank"]').ax5select("enable");
+	    	$('[data-ax5select="cboComAft"]').ax5select("enable");
+	    	$('[data-ax5select="cboEmg"]').ax5select("enable");
+	    	$('[data-ax5select="cboEmgAft"]').ax5select("enable");
+//	    	document.getElementById("treeDeptDiv").style.backgroundColor = "#FFFFFF"; //treeDept.enabled = true;
+			//treeDept.setStyle("alternatingItemColors", [0xFFFFFF, 0xFFFFFF] as Array );
+	    	$.fn.zTree.init($("#treeDept"), treeSetting, treeDeptData);
+	    	$('#txtDept').val("");
+	    	tmpDeptCd = "";
+			$('#txtDept').prop("readonly", false);
+//			document.getElementById("lstRgtDiv").style.backgroundColor = "#FFFFFF"; //lstRgtCd.enabled = true;
+			setLstRgt();
+			$('#chkAllRgt').wCheck("disabled", false);
+			$('#chkGrade').wCheck("check", false);
+			chkGrade_Click();
+//			document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
+//			document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
+			$('#chkJawon').wCheck("check", false);
+			chkJawon_Click();
+			$('#chkEnd').wCheck("check", false);
+			$('#chkAllGrade').wCheck("disabled", true);
+			$('#chkAllGrade').wCheck("check", false);
+			$('#chkAllJawon').wCheck("disabled", true);
+			$('#chkAllJawon').wCheck("check", false);
+			
+			break;
+	    default:
+	    	console.log("default");
+	    	$('#chkAllRgt').wCheck("disabled", true);
+	    	$('#chkAllRgt').wCheck("check", false);
+//	    	document.getElementById("lstRgtDiv").style.backgroundColor = "#E2E2E2"; //lstRgtCd.enabled = false;
+			$('#lstRgt').empty();
+//			document.getElementById("treeDeptDiv").style.backgroundColor = "#E2E2E2"; //treeDept.enabled = false;
+			//treeDept.setStyle("alternatingItemColors", [0xDDDDDD, 0xDDDDDD] as Array );
+			$.fn.zTree.init($("#treeDept"), treeSetting, []);
+			$('#txtDept').val("");
+			tmpDeptCd = "";
+			$('#txtDept').prop("readonly", true);
+			break;
 	}
 	
 	if(getSelectedVal('cboSgnGbn').value == "1") {
@@ -636,11 +637,11 @@ function setLstJawon() {
 
 function chkGrade_Click() {
 	if($('#chkGrade').is(':checked')) {
-		document.getElementById("lstGradeDiv").style.backgroundColor = "#FFFFFF"; //lstType.enabled = true;
+//		document.getElementById("lstGradeDiv").style.backgroundColor = "#FFFFFF"; //lstType.enabled = true;
 		setLstGrade();
 		$('#chkAllGrade').wCheck("disabled", false);
 	}else {
-		document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
+//		document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
 		$('#lstGrade').empty();
 		$('#chkAllGrade').wCheck("check", false);
 		$('#chkAllGrade').wCheck("disabled", true);
@@ -651,10 +652,10 @@ function chkJawon_Click() {
 	if($('#chkJawon').is(':enabled') && $('#chkJawon').is(':checked') &&
 			(getSelectedVal('cboReqCd').value.substr(0,1) == "0" || getSelectedVal('cboReqCd').value.substr(0,1) == "1")) {
 		setLstJawon(); //getProgInfo();
-		document.getElementById("lstJawonDiv").style.backgroundColor = "#FFFFFF"; //lstProg.enabled = true;
+//		document.getElementById("lstJawonDiv").style.backgroundColor = "#FFFFFF"; //lstProg.enabled = true;
 		$('#chkAllJawon').wCheck("disabled", false);
 	}else {
-		document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
+//		document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
 		$('#lstJawon').empty();
 		$('#chkAllJawon').wCheck("check", false);
 		$('#chkAllJawon').wCheck("disabled", true);
@@ -829,7 +830,7 @@ function grdSign_Click() {
 	if(selectedGridItem.cm_rsrccd != null && selectedGridItem.cm_rsrccd != "") {
 		$('#chkJawon').wCheck("check", true);
 		setLstJawon();
-		document.getElementById("lstJawonDiv").style.backgroundColor = "#FFFFFF"; //lstProg.enabled = true;
+//		document.getElementById("lstJawonDiv").style.backgroundColor = "#FFFFFF"; //lstProg.enabled = true;
 		$('#chkAllJawon').wCheck("disabled", false);
 		
 		tmpWork = selectedGridItem.cm_rsrccd;
@@ -848,19 +849,19 @@ function grdSign_Click() {
 		}
 	}else {
 		$('#chkJawon').wCheck("check", false);
-		document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
+//		document.getElementById("lstJawonDiv").style.backgroundColor = "#E2E2E2"; //lstProg.enabled = false;
 		$('#lstJawon').empty();
 	}
 	
 	$('#chkGrade').wCheck("check", false);
-	document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
+//	document.getElementById("lstGradeDiv").style.backgroundColor = "#E2E2E2"; //lstType.enabled = false;
 	$('#lstGrade').empty();
 	$('#chkAllGrade').wCheck("disabled", true);
 	$('#chkAllGrade').wCheck("check", false);
 	
 	if(selectedGridItem.cm_pgmtype != null && selectedGridItem.cm_pgmtype != "") {
 		$('#chkGrade').wCheck("check", true);
-		document.getElementById("lstGradeDiv").style.backgroundColor = "#FFFFFF"; //lstType.enabled = true;
+//		document.getElementById("lstGradeDiv").style.backgroundColor = "#FFFFFF"; //lstType.enabled = true;
 		setLstGrade();
 		$('#chkAllGrade').wCheck("disabled", false);
 		
@@ -880,12 +881,12 @@ function grdSign_Click() {
 		}
 	}
 
-	document.getElementById("lstRgtDiv").style.backgroundColor = "#E2E2E2"; //lstRgtCd.enabled = false;
+//	document.getElementById("lstRgtDiv").style.backgroundColor = "#E2E2E2"; //lstRgtCd.enabled = false;
 	$('#lstRgt').empty();
 	$('#chkAllRgt').wCheck("disabled", true);
 	
 	if(selectedGridItem.cm_position != null && selectedGridItem.cm_position != "") {
-		document.getElementById("lstRgtDiv").style.backgroundColor = "#FFFFFF"; //lstRgtCd.enabled = true;
+//		document.getElementById("lstRgtDiv").style.backgroundColor = "#FFFFFF"; //lstRgtCd.enabled = true;
 		setLstRgt();
 		$('#chkAllRgt').wCheck("disabled", false);
 		
