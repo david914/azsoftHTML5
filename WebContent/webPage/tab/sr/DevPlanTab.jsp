@@ -24,7 +24,7 @@
 			<div class="l_wrap width-25 vat write_wrap write_wrap_100">
 				<div class="tit">
 					<!-- <h3>&#9642;개발계획</h3> -->
-					<h3><input type="radio" class="radio-pie" id="rdoPlan" name="group" value="HTML">개발계획</h3>
+					<h3><input type="radio" class="radio-pie" id="rdoPlan" name="group">개발계획</h3>
 				</div>
 				<div class="row">
 					<dl>
@@ -74,12 +74,12 @@
 			<div class="r_wrap width-70 vat write_wrap">
 				<div class="tit">
 					<!-- <h3>&#9642;개발실적</h3> -->
-					<h3><input type="radio" class="radio-pie" id="rdoResult" name="group" value="HTML">개발실적</h3>
+					<h3><input type="radio" class="radio-pie" id="rdoResult" name="group">개발실적</h3>
 				</div>				
 				<div class="bg_white pd_10">						
 					<dl class="dib vat">
 						<dt><label>작업일</label></dt>
-						<dd><input id="txtDevDate" name="txtDevDate" type="text" disabled="disabled" class="width-70" data-ax5picker="txtDevDate" style="width:70%"><button id="btnDevDate" class="btn_calendar" onClick="txtDevDate_Click();"><i class="fa fa-calendar-o"></i></button></dd>
+						<dd><input id="txtDevDate" name="txtDevDate" type="text" disabled="disabled" class="width-70" data-ax5picker="txtDevDate" style="width:70%"><button id="btnDevDate" class="btn_calendar" onClick="txtDevDate_Click();" disabled="disabled"><i class="fa fa-calendar-o"></i></button></dd>
 					</dl>
 					<dl class="dib vat">				
 						<dt><label>작업시간</label></dt>

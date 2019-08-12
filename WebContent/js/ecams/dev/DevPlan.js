@@ -45,6 +45,10 @@ $(document).ready(function(){
 		setSRRegData();
 	};
 	
+	document.getElementById('frmDevPlan').onload = function() {
+		loadSrReg = true;
+	}
+	
 //	document.getElementById('frmDevPlan').onload = function() {
 		clickTabMenu();
 //	}

@@ -8,7 +8,7 @@
  */
 
 var userName 	 	= window.parent.userName;
-var userId 		 	= window.parent.userId;
+var userId 		 	= window.top.userId;
 var adminYN 		= window.parent.adminYN;
 var userDeptName 	= window.parent.userDeptName;
 var userDeptCd 	 	= window.parent.userDeptCd;
@@ -228,6 +228,10 @@ function rdoPlan_click() {
 		return;
 	}
 	
+	console.log("cc_userid: " + selectedGridItem.cc_userid + ", userId: " + userId + ", status: " + strStatus);
+	console.log("devmm: " + selectedGridItem.devmm + ", rdoResult: " + $('#rdoResult').is(':checked'));
+	
+	//strStatus: SR상태
 	if(selectedGridItem.cc_userid == userId) {
 		if($('#rdoPlan').is(':checked') && (strStatus == '1' || strStatus == '2' || strStatus == '4' || strStatus == '5')) {
 			$('#btnRegPlan').prop("disabled", false);
@@ -339,7 +343,7 @@ function worktimeFiltering() {
 		gridSelectedIndex = grdWorker.selectedDataIndexs;
 		selectedGridItem = grdWorker.list[grdWorker.selectedDataIndexs];
 		
-		if(grdWorkerData == null || gridSelectedIndex < 0 || grdWorkTimeData == null) {
+		if(grdWorkerData == null || gridSelectedIndex < 0 || grdWorkTimeData == null || selectedGridItem == null) {
 			return;
 		}
 		
@@ -385,6 +389,7 @@ function grdWorker_Click() {
 							selectedGridItem.cc_devedday.substr(6,2));
 	}
 	
+	console.log("395line cnt: "+ selectedGridItem.cnt + ", devmm: " + selectedGridItem.devmm);
 	if(selectedGridItem.cnt == 0) {
 		if(selectedGridItem.devmm == null || selectedGridItem.devmm == "") {
 			$('#rdoResult').wRadio("disabled", true);
@@ -392,9 +397,11 @@ function grdWorker_Click() {
 			$('#rdoResult').wRadio("disabled", false);
 		}
 		$('#rdoPlan').wRadio("check", true);
+		$('#rdoResult').wRadio("check", false);
 	}else {
 		$('#rdoResult').wRadio("disabled", false);
 		$('#rdoPlan').wRadio("check", false);
+		$('#rdoResult').wRadio("check", true);
 	}
 	
 	if(grdWorkerData.length > 0) {
@@ -518,6 +525,11 @@ function btnRegResult_Click() {
 	
 	if($('#txtDevTime').val() == 0) {
 		dialog.alert('작업시간을 숫자(1이상)로 입력해 주시기 바랍니다.',function(){});
+		return;
+	}
+	
+	if($('#txtDevTime').val() > 24) {
+		dialog.alert('작업시간은 24시간 초과 입력을 할 수 없습니다.',function(){});
 		return;
 	}
 	

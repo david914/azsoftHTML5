@@ -22,6 +22,10 @@ var loadSrReg = false;
 $(document).ready(function(){
 	strReqCd = "41";
 	setCbo();
+	
+	document.getElementById('frmSRRegister').onload = function() {
+		loadSrReg = true;
+	}
 });
 
 // 페이지 로딩 완료시 다음 진행 

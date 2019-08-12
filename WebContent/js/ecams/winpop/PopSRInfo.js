@@ -59,21 +59,6 @@ $(document).ready(function() {
 	
 	initScreen();
 	//clickTabMenu();
-	
-	//PrjInfo.getPrjList(tmpObj);
-	var tmpInfo = new Object();
-	tmpInfo.reqcd = strReqCd;
-	tmpInfo.qrygbn = strReqCd;
-	tmpInfo.secuyn = "N";
-	tmpInfo.srid = strIsrId;
-	
-	var tmpInfoData;
-	tmpInfoData = new Object();
-	tmpInfoData = {
-		tmpInfo		: tmpInfo,
-		requestType	: 'GETPRJLIST'
-	}
-	ajaxAsync('/webPage/winpop/PopSRInfoServlet', tmpInfoData, 'json', successPrjList, clickTabMenu);
 });
 
 function initScreen() {
@@ -83,6 +68,25 @@ function initScreen() {
 	$('#tab4').attr('disabled', true);
 	$('#tab5').attr('disabled', true);
 	$("ul.tabs li").addClass('tab_disabled');
+	
+	getPrjList();
+}
+
+function getPrjList() {
+	//PrjInfo.getPrjList(tmpObj);
+	var tmpInfo = new Object();
+	tmpInfo.reqcd = strReqCd;
+	tmpInfo.qrygbn = strReqCd;
+	tmpInfo.secuyn = "N";
+	tmpInfo.srid = strIsrId;
+
+	var tmpInfoData;
+	tmpInfoData = new Object();
+	tmpInfoData = {
+		tmpInfo		: tmpInfo,
+		requestType	: 'GETPRJLIST'
+	}
+	ajaxAsync('/webPage/winpop/PopSRInfoServlet', tmpInfoData, 'json', successPrjList, clickTabMenu);
 }
 
 function successPrjList(data) {
@@ -93,7 +97,10 @@ function successPrjList(data) {
 		$("#txtSRTitle").val(prjListData[0].cc_reqtitle);
 		$("#txtSRSta").val(prjListData[0].status);
 		strIsrTitle = prjListData[0].cc_reqtitle;
-		strStatus = prjListData[0].status;
+		strStatus = prjListData[0].cc_status;
+		
+		console.log("101line. strStatus: " + strStatus);
+		
 		iSRID_Click(prjListData[0]);
 	}
 }
@@ -196,6 +203,7 @@ function changeTabMenu() {
 		
 		if(tmpTab.strIsrId == strIsrId) return;
 		
+		tmpTab.userId = userId;
 		tmpTab.strIsrId = strIsrId;
 		tmpTab.strStatus = prjListData[0].cc_status;
 		tmpTab.screenInit("M");
