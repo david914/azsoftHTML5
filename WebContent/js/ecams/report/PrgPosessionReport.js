@@ -97,6 +97,16 @@ $(document).ready(function() {
 	});
 	
 	getSysinfo();
+	
+	//창 크기 변경에 따른 차트 리사이즈
+	var timeout;
+	$(window).resize(function() {
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {				
+			getRsrcCd();
+		}, 300);
+	})
+	
 })
 
 //시스템 콤보박스 세팅
@@ -184,11 +194,13 @@ function getProgList(syscd) {
 	mainGrid.setData(ajaxResult);
 	
 	ajaxResult.pop();
-	if(ajaxResult.length > 1) {		
+	if(ajaxResult.length == 1) {		
+		successGetBarData(ajaxResult);
+	} else if(ajaxResult.length > 1){		
 		successGetPieData(ajaxResult);
 		successGetBarData(ajaxResult);
-	} else {		
-		columnData = [];
+	} else {
+		columnData = [];		
 	}
 }
 
@@ -229,6 +241,8 @@ function successGetPieData(data) {
 	    series: data
 	};
 	
+	var align = $(window).width() < 1300 ? "bottom" : "outer"; 
+	
 	var options = {
 	    chart: {
 	        width: 	 width - 10,
@@ -240,6 +254,7 @@ function successGetPieData(data) {
 	    },
 	    legend: {
 	        visible: true,
+	        align : align
 	        
 	    }
 	};
@@ -277,9 +292,7 @@ function successGetBarData(data) {
 	var width = $('#barDiv').width();
 	var barChartHeight = 370;
 	
-	
 	if($('#barAppliKinds').length > 0) $('#barAppliKinds').empty();
-	
 	
 	var container = document.getElementById('barAppliKinds');
 	var chartData = {

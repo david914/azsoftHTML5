@@ -1441,7 +1441,7 @@ public class Cmp3500{
 			strQuery.append("select b.cm_micode,b.cm_codename from cmm0020 b,   \n");
 			strQuery.append("     (select b.cr_rsrccd from cmr1010 b,cmr1000 a  \n");
 			strQuery.append("       where a.cr_qrycd='04'                       \n");
-			if (SysCd != "" && SysCd != null) strQuery.append("and a.cr_syscd=? \n");
+			if (!SysCd.equals("") && SysCd != null) strQuery.append("and a.cr_syscd=? \n");
 			if (!secuYn) {
 			   strQuery.append("     and a.cr_syscd in (select distinct cm_syscd from cmm0044     \n");
 			   strQuery.append("                         where cm_userid=? and cm_closedt is null) \n");
@@ -1464,7 +1464,7 @@ public class Cmp3500{
 
 			pstmt = conn.prepareStatement(strQuery.toString());
 			//pstmt = new LoggableStatement(conn,strQuery.toString());
-	        if (SysCd != "" && SysCd != null) pstmt.setString(++parmCnt, SysCd);
+	        if (!SysCd.equals("") && SysCd != null) pstmt.setString(++parmCnt, SysCd);
 	        if (!secuYn) pstmt.setString(++parmCnt, UserId);
 	        pstmt.setString(++parmCnt, StDate);
 	        pstmt.setString(++parmCnt, EdDate);

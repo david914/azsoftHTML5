@@ -229,6 +229,7 @@ $("#btnSearch").bind('click', function() {
 	}
 	columnData.push({key : "rowhap",label : "합계",align : "right",width: "5%", styleClass: "font-red"});
 	
+	console.log(ajaxResult);
 	//존재하는 컬럼 데이터 추가
 	$.each(ajaxResult, function(index, value) {
 		if(index === ajaxResult.length-1) {			
@@ -271,7 +272,7 @@ $("#btnSearch").bind('click', function() {
 		if(i > 3) {
 			footSumData[0].push({key: value.key, collector: function() {
 				return ajaxResult[ajaxResult.length - 1][value.key];
-				}, align: "right", styleClass: "font-red"});
+				}, align: "right"});
 		}
 	});
 	//컬럼 세팅
