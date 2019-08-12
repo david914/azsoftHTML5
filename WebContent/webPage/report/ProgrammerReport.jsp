@@ -34,6 +34,9 @@
 .mb-div {
 	padding-bottom: 3px;
 }
+.calWid {
+	width: calc(90% - 90px);
+}
 </style>
 
 <div id="wrapper">
@@ -43,27 +46,10 @@
 			<div class="az_in_wrap sr_status">
 				<div class="l-wrap width-100 vat">
 					<div>
-						<div class="width-15 dib por">
-							<div class="poa">
-	                        	<label>*연구소 실 별</label>
-						    </div>
-						</div>
-						<div class="width-15 dib por">
-							<div class="poa">
-	                        	<label>*SR등급</label>
-						    </div>
-						</div>
-						<div class="width-30 dib por">
-							<div class="poa">
-	                        	<label>*개발자ID/개발자명</label>
-	                        </div>
-							<div id="step3" data-ax5select="step3" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70 ml_80 dib">
-						    </div>						    
-						</div>
-						<div class="width-40 dib vat">
+						<div class="width-100 dib vat">
 
 							<div class="vat dib margin-10-right float-right">
-								<label style="margin-right: 180px;">*월 별</label>
+								<label style="margin-right: 180px;">월 별</label>
 								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
 							</div>
 						</div>
@@ -71,21 +57,24 @@
 					
 					<div>
 						<!-- 연구소 실 별 -->
-						<div class="width-15 dib por">
-						    <div id="dept" data-ax5select="dept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib width-90">
+						<div class="width-20 dib por">
+							<label style="margin-right: 20px;">연구소 실 별</label>
+						    <div id="dept" data-ax5select="dept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib calWid margin-10-left">
 						    </div>
 						</div>
 						<!-- SR등급 -->
-						<div class="width-15 dib por">
-							<div id="rate" data-ax5select="rate" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib width-90">
+						<div class="width-20 dib por">
+							<label style="margin-right: 20px;">SR등급</label>
+							<div id="rate" data-ax5select="rate" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib calWid  margin-10-left">
 						    </div>						    
 						</div>
 						<!-- 개발자ID/개발자명 -->
 						<div class="width-30 dib por vat">
-							<input class="width-90" id="developerId" type="text" placeholder="">
+							<label style="margin-right: 20px;">개발자ID/명</label>
+							<input class="calWid margin-10-left" id="developerId" type="text" placeholder="">
 						</div>
 
-						<div class="width-40 dib vat">
+						<div class="dib vat float-right" style="width: 295px;">
 							<div class="dib float-right">
 								<div class="dib margin-40-right date-div">
 									<button type="button" class="month-btn dateBtn" id="month-prev"><div class="mb-div">◀</div></button>

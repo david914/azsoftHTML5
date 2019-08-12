@@ -118,7 +118,7 @@ function SuccessGetSysInfo(data) {
 	$.each(data, function(i, value) {
 		combo.push({value : value.cm_syscd, text : value.cm_sysmsg});
 	});
-	combo[0].value = null;
+	combo[0].value = '';
 	
 	$('[data-ax5select="systemSel"]').ax5select({
 		options: combo
@@ -139,7 +139,7 @@ function SuccessGetDeptInfo(data) {
 	$.each(data, function(i, value) {
 		combo.push({value : value.cm_deptcd, text : value.cm_deptname});
 	});
-	combo[0].value = null;
+	combo[0].value = '';
 	
 	$('[data-ax5select="reqDeptSel"]').ax5select({
 		options: combo
@@ -161,7 +161,7 @@ function SuccessGetCodeInfo1(data) {
 	$.each(data, function(i, value) {
 		combo.push({value : value.cm_micode, text : value.cm_codename});
 	});
-	combo[0].value = null;
+	combo[0].value = '';
 	
 	$('[data-ax5select="prcdDivSel"]').ax5select({
 		options: combo
@@ -183,7 +183,7 @@ function SuccessGetCodeInfo2(data) {
 	$.each(data, function(i, value) {
 		combo.push({value : value.cm_micode, text : value.cm_codename});
 	});
-	combo[0].value = null;
+	combo[0].value = '';
 	combo.splice(1,0, {"text" : "신규+수정", "value" : "99"});
 	
 	$('[data-ax5select="reqDivSel"]').ax5select({

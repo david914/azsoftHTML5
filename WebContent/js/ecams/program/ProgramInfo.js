@@ -92,6 +92,18 @@ $(document).ready(function(){
 		screenInit_prog('I');
 	}
 	
+	//팝업으로 호출했을 시 파라메터로 넘어온 정보 표시
+	setTimeout(function() {
+		if($("#syscd").val() > 0) {
+			$('[data-ax5select="cboSysCd"]').ax5select("setValue", $("#syscd").val(), true);
+			$('[data-ax5select="cboJawon"]').ax5select("setValue", $("#rsrccd").val(), true);
+			$("#txtRsrcName").val($("#rsrcname").val());
+		}
+		$("#btnQry").trigger('click');
+		$("#txtRsrcName").prop('disabled', true);
+	}, 1000);
+	
+	
 });
 function setTabMenu(){
 	$(".tab_content:first").show();

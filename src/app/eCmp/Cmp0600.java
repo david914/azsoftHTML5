@@ -91,17 +91,17 @@ public class Cmp0600{
 				strQuery.append("and to_char(a.cr_prcdate,'yyyymmdd')>=?                    \n");
 				strQuery.append("and to_char(a.cr_prcdate,'yyyymmdd')<=?                    \n");
 			}
-			if (Txt_PrgName != null && Txt_PrgName != "") {
+			if (Txt_PrgName != null && !Txt_PrgName.equals("")) {
 				strQuery.append("and ( upper(b.cr_rsrcname) like ?                          \n");
 				strQuery.append("or upper(b.cr_story) like ? )                         		\n");
 			}
-			if (Cbo_SysCd != null && Cbo_SysCd != "") {
+			if (Cbo_SysCd != null && !Cbo_SysCd.equals("")) {
 				strQuery.append("and c.cm_syscd=?                                           \n");
 			}
-			if (Cbo_JobCd != null && Cbo_JobCd != "") {
+			if (Cbo_JobCd != null && !Cbo_JobCd.equals("")) {
 				strQuery.append("and d.cm_jobcd=?                         					\n");
 			}
-			if (Cbo_Steam != null && Cbo_Steam != "") {
+			if (Cbo_Steam != null && !Cbo_Steam.equals("")) {
 				//strQuery.append("and f.cm_project=?                       				\n");
 				strQuery.append("and f.cm_project in (select cm_deptcd         		        \n");
 				strQuery.append("                       from (select * from cmm0100		    \n");
@@ -109,28 +109,28 @@ public class Cmp0600{
 				strQuery.append("                      start with cm_deptcd=? 		        \n");
 				strQuery.append("                    connect by prior cm_deptcd=cm_updeptcd)\n");
 			}
-			if (Txt_UserId != null && Txt_UserId != "") {
+			if (Txt_UserId != null && !Txt_UserId.equals("")) {
 				strQuery.append("and f.cm_username=?                                        \n");
 			}
-			if (Cbo_Sin != null && Cbo_Sin != "") {
+			if (Cbo_Sin != null && !Cbo_Sin.equals("")) {
 				if(Cbo_Sin.equals("99")){
 					strQuery.append("and g.cm_micode in ('03','04')        					\n");
 				}else{
 					strQuery.append("and g.cm_micode=?                      				\n");
 				}
 			}
-			if (gbn != null && gbn != "") {
+			if (gbn != null && !gbn.equals("")) {
 				strQuery.append("and a.cr_passok = ?                                        \n");
 			}
 
-			if (proc != null && proc != "") {
+			if (proc != null && !proc.equals("")) {
 				if(proc.equals("1")){
 					strQuery.append("and a.cr_prcdate is null                               \n");
 				}else{
 					strQuery.append("and a.cr_prcdate is not null                           \n");
 				}
 			}
-			if (spms != null && spms != "") {
+			if (spms != null && !spms.equals("")) {
 				strQuery.append("and (a.cr_itsmid like ? or upper(a.cr_itsmtitle) like upper(?)) \n");
 			}
 			//strQuery.append("and a.cr_sayucd = j.cm_micode and j.cm_macode='REQSAYU' \n");
@@ -141,29 +141,29 @@ public class Cmp0600{
 
 			pstmt.setString(++Cnt, StDate);
 			pstmt.setString(++Cnt, EdDate);
-			if (Txt_PrgName != null && Txt_PrgName != "") {
+			if (Txt_PrgName != null && !Txt_PrgName.equals("")) {
 				pstmt.setString(++Cnt, ("%"+Txt_PrgName+"%").toUpperCase());
 				pstmt.setString(++Cnt, ("%"+Txt_PrgName+"%").toUpperCase());
 			}
-			if (Cbo_SysCd != null && Cbo_SysCd != "") {
+			if (Cbo_SysCd != null && !Cbo_SysCd.equals("")) {
 				pstmt.setString(++Cnt, Cbo_SysCd);
 			}
-			if (Cbo_JobCd != null && Cbo_JobCd != "") {
+			if (Cbo_JobCd != null && !Cbo_JobCd.equals("")) {
 				pstmt.setString(++Cnt, Cbo_JobCd);
 			}
-			if (Cbo_Steam != null && Cbo_Steam != "") {
+			if (Cbo_Steam != null && !Cbo_Steam.equals("")) {
 				pstmt.setString(++Cnt, Cbo_Steam);
 			}
-			if (Txt_UserId != null && Txt_UserId != "") {
+			if (Txt_UserId != null && !Txt_UserId.equals("")) {
 				pstmt.setString(++Cnt, Txt_UserId);
 			}
-			if (Cbo_Sin != null && Cbo_Sin != "") {
+			if (Cbo_Sin != null && !Cbo_Sin.equals("")) {
 				if(!Cbo_Sin.equals("99")) pstmt.setString(++Cnt, Cbo_Sin);
 			}
-			if (gbn != null && gbn != "") {
+			if (gbn != null && !gbn.equals("")) {
 				pstmt.setString(++Cnt, gbn);
 			}
-			if (spms != null && spms != "") {
+			if (spms != null && !spms.equals("")) {
 				pstmt.setString(++Cnt, "%"+spms+"%");
 				pstmt.setString(++Cnt, "%"+spms+"%");
 			}

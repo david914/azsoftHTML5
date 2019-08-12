@@ -4,6 +4,7 @@ var userid 		= "MASTER";
 var mainGrid		= new ax5.ui.grid();
 var SecuYn = null;
 var L_SysCd = null;
+var selectedItem = null;
 var columnData = 
 	[ 
 		{key : "job",label : "시스템",align : "center",width: "7%"}, 
@@ -32,6 +33,8 @@ $(document).ready(function() {
 	        onClick: function () {
 	        	this.self.clearSelect();
 	            this.self.select(this.dindex);
+	            selectedItem = this.item;
+	            console.log(selectedItem);
 	        },
 		},
 		columns : columnData,
@@ -44,28 +47,32 @@ $(document).ready(function() {
             },
             items: [
             	{type: 1, label: "프로그램정보"},
-                {type: 2, label: "소스보기"}
+                {type: 2, label: "소스보기"},
+                {type: 3, label: "소스비교"}
             ],
             popupFilter: function (item, param) {
-                //console.log(item, param);
-                if(param.element) {
-                    return true;
-                }else{
-                    return item.type == 1;
-                }
+                if(((selectedItem.cm_info.substr(11, 1) == "1" && selectedItem.cm_info.substr(9, 1) == "0") ||
+                	selectedItem.cm_info.substr(26, 1) == "1") && parseInt(selectedItem.cr_lstver) > 0) {
+                	if(((selectedItem.cm_info.substr(11, 1) == "1" && selectedItem.cm_info.substr(9, 1) == "0") ||
+                			selectedItem.cm_info.substr(26, 1) == "1") && parseInt(selectedItem.cr_lstver) > 1) {
+                		return true;
+                	}
+                	return item.type == 1 || item.type == 2;
+				}
+                
             },
             onClick: function (item, param) {
                 console.log(item, param);
                 
                 if(item.type === 1) {
                 	mainGrid.contextMenu.close();
-                	openWindow(item.type, 'win', '', param);
-                } else if(item.type === 2) {
+                	openWindow(item.type, 'win', '', selectedItem.cr_itemid);
+                } else if(item.type === 2 || item.type === 3) {
                 	mainGrid.contextMenu.close();
-                	openWindow(item.type, 'win', '', param);                	
+                	openWindow(item.type, 'win', '', selectedItem.cr_itemid);                	
                 } else {		                    	
                 	mainGrid.contextMenu.close();
-                	modal();		                    	
+                	openWindow(item.type, 'win', '', selectedItem.cr_itemid);                	
                 }
                 //또는 return true;
             }
@@ -230,6 +237,7 @@ $("#btnSearch").bind('click', function() {
 			requestType : "getSql_Qry"
 	}
 	var ajaxResult = ajaxCallWithJson('/webPage/report/PrgListReport', ajaxData, 'json');
+	console.log(ajaxResult);
 	mainGrid.setData(ajaxResult);
 	
 	
@@ -249,7 +257,7 @@ $("#conditionText").bind('keypress', function(event) {
 });
 
 //컨텍스트메뉴 팝업
-function openWindow(type,reqCd,reqNo,rsrcName) {
+function openWindow(type,reqCd,reqNo,itemId) {
 	var nHeight, nWidth, nTop, nLeft, cURL, cFeatures, winName;
 
 	if ( (type+'_'+reqCd) == winName ) {
@@ -265,11 +273,15 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
 	if (type === 1) {
 		nHeight = screen.height - 300;
 	    nWidth  = screen.width - 400;
-	    cURL = "../program/ProgrmInfo.jsp";
+	    cURL = "../winpop/PopProgramInfo.jsp";
 	} else if (type === 2) {
-		nHeight = 400;
-	    nWidth  = 900;
-		cURL = "../winpop/ApprovalInfo.jsp";
+		nHeight = screen.height - 400;
+		nWidth  = screen.width - 400;
+		cURL = "../winpop/PopSourceView.jsp";
+	} else if (type === 3) {
+		nHeight = screen.height - 300;
+		nWidth  = screen.width - 400;
+		cURL = "../winpop/PopSourceDiff.jsp";		
 	}
 	
 	var winWidth  = document.body.clientWidth;  // 현재창의 너비
@@ -280,8 +292,21 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
 	nTop = winY + (winHeight - nHeight) / 2;
 
 	cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
-
+	
 	var f = document.popPam;   		//폼 name
+	f.acptno.value	= reqNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.user.value 	= userid;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.itemid.value	= itemId;
+    console.log(selectedItem.cr_rsrccd);
+    console.log(selectedItem.cr_rsrcname);
+    console.log(f);
+    if(type == 1) {    	
+    	f.syscd.value = selectedItem.cr_syscd;
+    	f.rsrccd.value = selectedItem.cr_rsrccd;
+    	f.rsrcname.value = selectedItem.cr_rsrcname.trim();
+    }
+    
+    
     myWin = window.open(cURL,winName,cFeatures);
     
 //    f.formName.value	= rsrcName.item.cm_username;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)

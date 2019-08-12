@@ -116,10 +116,16 @@ function comboSet() {
 	}) 	
 }
 
-$("#btnSearch, #reset").bind('click', function() {
+$("#btnSearch, #reset").bind('click', function(event) {
 	var month = $("#month").text().slice(0, -1);
 	var year = $("#year").text().slice(0, -1);
 	if(month.length <= 1) month = '0' + month;
+	
+	if(this.id === "reset") {		
+		$('[data-ax5select="dept"]').ax5select("setValue", '', true);
+		$('[data-ax5select="rate"]').ax5select("setValue", '00', true);
+		$("#developerId").val("");
+	}
 	
 	var ajaxData = {
 		requestType : 'getRowList',

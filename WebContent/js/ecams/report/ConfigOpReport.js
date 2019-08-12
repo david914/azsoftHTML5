@@ -90,7 +90,16 @@ $(document).ready(function() {
 	isAdmin();
 	comboSet();
 	
+	//엑셀
+	$("#btnExcel").on('click', function() {
+		var st_date = new Date().toLocaleString();
+		var today = st_date.substr(0, st_date.indexOf("오"));
+		
+		mainGrid.exportExcel("형상관리운영현황 " + today + ".xls");
+	})
 })
+
+
 
 function isAdmin() {
 	var ajaxData = {
@@ -134,7 +143,7 @@ function comboSet() {
 				comboData[5].push({value :  value2.cm_micode, text : value2.cm_codename});					
 			}
 		})
-		comboData[index][0].value = null; //"전체"값은 null로 세팅
+		comboData[index][0].value = ''; //"전체"값은 공백으로 세팅
 		
 		$('[data-ax5select="' + selectMenu[index] + '"]').ax5select({
 			options: comboData[index]
@@ -171,23 +180,23 @@ $("#btnSearch").bind('click', function() {
 	}
 	
 	//유효성검사
-	if($("[data-ax5select='dateStd']").ax5select("getValue")[0].value === null) {
+	if($("[data-ax5select='dateStd']").ax5select("getValue")[0].value === '') {
 		dialog.alert("조회구분을 선택해주세요.");
 		return;
 	}
-	if($("[data-ax5select='step1']").ax5select("getValue")[0].value === null) {
+	if($("[data-ax5select='step1']").ax5select("getValue")[0].value === '') {
 		dialog.alert("1단계 조건을 선택해주세요.");
 		return;
 	}
-	if($("[data-ax5select='step2']").ax5select("getValue")[0].value === null) {
+	if($("[data-ax5select='step2']").ax5select("getValue")[0].value === '') {
 		dialog.alert("2단계 조건을 선택해주세요.");
 		return;
 	}
-	if($("[data-ax5select='step3']").ax5select("getValue")[0].value === null) {
+	if($("[data-ax5select='step3']").ax5select("getValue")[0].value === '') {
 		dialog.alert("3단계 조건을 선택해주세요.");
 		return;
 	}
-	if($("[data-ax5select='step4']").ax5select("getValue")[0].value === null) {
+	if($("[data-ax5select='step4']").ax5select("getValue")[0].value === '') {
 		dialog.alert("4단계 조건을 선택해주세요.");
 		return;
 	}
@@ -249,21 +258,31 @@ $("#btnSearch").bind('click', function() {
 	}
 	var ajaxResult = ajaxCallWithJson('/webPage/report/ConfigOpReport', ajaxData, 'json');
 	
+	console.log(ajaxResult);
+	var footSumData = [[]];
+	var gridData = [];
+	
+	$.each(ajaxResult, function(i, value) {
+		gridData.push(value);
+	});
+	
+	footSumData[0].push({label: "총계", colspan: 4, align: "center"});
+	$.each(columnData, function(i, value) {
+		if(i > 3) {
+			footSumData[0].push({key: value.key, collector: function() {
+				return ajaxResult[ajaxResult.length - 1][value.key];
+				}, align: "right", styleClass: "font-red"});
+		}
+	});
 	//컬럼 세팅
 	mainGrid.setConfig({
+		footSum : footSumData,
 		columns : columnData
 	})
 	
+	gridData.pop();	
+	
 	//그리드 세팅
-	mainGrid.setData(ajaxResult);
+	mainGrid.setData(gridData);
 })
 
-$(".btn-default").hover(function() {
-	$(this).fadeIn(1000, function() {
-		$(this).css('background', 'lightgray');
-	});
-}, function() {
-	$(this).fadeIn(1000, function() {
-		$(this).css('background', 'white');
-	})
-});

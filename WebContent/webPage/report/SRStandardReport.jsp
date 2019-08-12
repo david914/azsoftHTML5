@@ -39,7 +39,7 @@
 						</div>
 						<div class="width-25 dib por">
 							<div class="tit_80 poa">
-	                        	<label>*요청부서</label>
+	                        	<label>요청부서</label>
 	                        </div>
 							<div id="reqDept" data-ax5select="reqDept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70a ml_80 dib">
 						    </div>
@@ -47,7 +47,7 @@
 						</div>
 						<div class="width-25 dib por">
 							<div class="tit_80 poa">
-	                        	<label>*SR상태</label>
+	                        	<label>SR상태</label>
 	                        </div>
 							<div id="srStat" data-ax5select="srStat" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70a ml_80 dib">
 						    </div>
@@ -75,7 +75,7 @@
 						</div>
 						<div class="width-25 dib por">
 							<div class="tit_80 poa">
-	                        	<label>*개발부서</label>
+	                        	<label>개발부서</label>
 	                        </div>
 							<div id="reqDept" data-ax5select="devDept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="width-70a ml_80 dib">
 						    </div>
@@ -83,7 +83,7 @@
 						</div>
 						<div class="width-25 dib por vat">
 							<div class="tit_80 poa">
-	                        	<label>*SR-ID/제목</label>
+	                        	<label>SR-ID/제목</label>
 	                        </div>
 						    <div class="ml_80 width-70a dib">
 								<input class="width-100" id="srId" type="text" placeholder="" onkeypress="">

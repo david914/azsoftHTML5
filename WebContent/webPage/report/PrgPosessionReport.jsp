@@ -36,8 +36,8 @@
 							</div>													    
 						</div>
 						<div class="width-30 dib vat">
-							<div class="vat dib margin-10-right float-right" id="btnDiv">
-								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
+							<div class="vat dib margin-5-right float-right" id="btnDiv">
+								<button class="btn_basic_s margin-10-right" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
 							</div>
 						</div>
 					</div>					

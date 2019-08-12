@@ -28,6 +28,11 @@
 	padding-top : 2px;
 	color: #fff;
 }
+
+.az_board_basic label {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
 </style>
 
 <c:import url="/webPage/common/common.jsp" />
@@ -35,10 +40,10 @@
 <div id="wrapper">
 	<div class="contentFrame">
 		<div id="history_wrap">보고서 <strong>&gt; 개발실적등급별보고서</strong></div>
-		<div class="az_search_wrap">
+		<div class="az_search_wrap" style="margin-bottom: 0px;">
 			<div class="az_in_wrap sr_status">
 				<div class="l-wrap width-100 vat">
-					<div>
+					<div id="searchBar">
 						<div class="width-43 dib por"></div>
 
 						<div class="width-30 dib por">

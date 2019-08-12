@@ -70,6 +70,14 @@ for(var i = 0; i <= 1; i++) {
 
 $(document).ready(function() {
 	
+	//엑셀저장
+	$("#btnExcel").on('click', function() {
+		var st_date = new Date().toLocaleString();
+		var today = st_date.substr(0, st_date.indexOf("오"));
+		
+		mainGrid.exportExcel("개발/SR기준(집계) " + today + ".xls");
+	})
+	
 	mainGrid.setConfig({
 		header : { align: "center" },
 		target : $('[data-ax5grid="mainGrid"]'),

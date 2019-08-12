@@ -19,19 +19,19 @@
 			<div class="az_in_wrap">
 				<div class="por">					
 					<!-- 시스템 -->	
-					<div class="width-16 dib vat" style=" min-width: 215px;">
+					<div class="width-20 dib vat" style=" min-width: 215px;">
 	                    <label id="lbUser" style="margin-right: 30px;">시스템</label>
-						<div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-60 dib" style=" min-width: 130px;">
+						<div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-65 dib" style=" min-width: 130px;">
 							
 					    </div>
 					</div>				
 					<!-- 조건선택1 -->	
-					<div class="width-16 dib sel">
+					<div class="width-20 dib sel">
 						<div class="tit_100 poa">
 	                  	  <label id="lbUser">조건선택1</label>
 						</div>
 						<div class="ml_80">
-							<div id="reqDeptSel" data-ax5select="conditionSel1" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+							<div id="reqDeptSel" data-ax5select="conditionSel1" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
 								
 						    </div>
 						</div>
@@ -40,19 +40,19 @@
 		                    	<label id="prgStatusLabel"></label>
 		                    </div>
 		                    <div class="ml_80">
-								<div id="prgStatusSel" data-ax5select="prgStatusSel" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+								<div id="prgStatusSel" data-ax5select="prgStatusSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
 									
 							    </div>
 							</div>
 						</div>
 					</div>
 					<!-- 조건선택2 -->	
-					<div class="width-16 dib vat sel">
+					<div class="width-20 dib vat sel">
 						<div class="tit_180 poa">
 	                  	  <label id="lbUser">조건선택2</label>
 						</div>
 						<div class="ml_80">
-							<div id="reqDeptSel" data-ax5select="conditionSel2" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-80 dib">
+							<div id="reqDeptSel" data-ax5select="conditionSel2" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
 								
 						    </div>
 						</div>
@@ -63,12 +63,12 @@
 						</div>
 					</div>		
 					<!-- 범위 -->	
-					<div class="width-10 dib vat sel">					
+					<div class="width-20 dib vat sel">					
 						<div class="tit_180 poa">
 	                  	  <label id="lbUser">범위</label>
 						</div>
 	                    <div class="ml_60">
-							<div id="rangeSel" data-ax5select="rangeSel" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="width-90 dib">
+							<div id="rangeSel" data-ax5select="rangeSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib">
 								
 						    </div>
 						    <div class="row">
@@ -88,14 +88,21 @@
 				</div>	
 			</div>
 		</div>
-		<!--검색E-->
-		<!--테이블S-->
+		
 		<div class="az_board_basic">
 	    	<div id="mainGrid" data-ax5grid="mainGrid" data-ax5grid-config="{}" style="width:100%; height: 600px;">
 		
 			</div>
 		</div>
-		<!--테이블E-->
+		
+		<form name="popPam">
+			<input type="hidden" name="acptno"/>
+			<input type="hidden" name="user"/>
+			<input type="hidden" name="itemid"/> 
+			<input type="hidden" name="syscd"/>
+			<input type="hidden" name="rsrccd"/>
+			<input type="hidden" name="rsrcname"/>
+		</form>
     </div>
 </div>
 

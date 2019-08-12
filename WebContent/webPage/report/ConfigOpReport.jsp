@@ -43,6 +43,11 @@ label {
 .sys {
 	min-width: 140px;
 }
+
+.tr-sum td span {
+	color: red;
+	font-weight: bold;
+}
 </style>
 
 <div id="wrapper">
@@ -69,7 +74,7 @@ label {
 							<div id="step3" data-ax5select="step3" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="block1 dib por">
 						    </div>						    
 							<div class="dib vat">
-	                        	<label>*시스템</label>
+	                        	<label>시스템</label>
 	                        </div>
 							<div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="block1 dib por sys">
 						    </div>						    

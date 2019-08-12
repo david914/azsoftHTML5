@@ -385,7 +385,7 @@ public class Cmp3500{
 				qrySw = true;
 			}
 
-			if (Step2 != null && Step2 != "") {
+			if (Step2 != null && !Step2.equals("")) {
 				stepGbn = 2;
 				if (Step2.equals("1")) {
 					strQuery.append("c.cm_sysmsg, ");
@@ -408,7 +408,7 @@ public class Cmp3500{
 					qrySw = true;
 				}
 			}
-			if (Step3 != null && Step3 != "") {
+			if (Step3 != null && !Step3.equals("")) {
 				stepGbn = 3;
 				if (Step3.equals("1")) {
 					strQuery.append("c.cm_sysmsg, ");
@@ -431,7 +431,7 @@ public class Cmp3500{
 					qrySw = true;
 				}
 			}
-			if (Step4 != null && Step4 != "") {
+			if (Step4 != null && !Step4.equals("")) {
 				stepGbn = 4;
 				if (Step4.equals("1")) {
 					strQuery.append("c.cm_sysmsg, ");
@@ -482,9 +482,9 @@ public class Cmp3500{
 			if (teamSw == true) strQuery.append("and d.cr_teamcd=f.cm_deptcd                     \n");
 			if (qrySw == true)
 				strQuery.append("and e.cm_macode='CHECKIN' and e.cm_micode=b.cr_qrycd            \n");
-			if (JobCd != null && JobCd != "") {
+			if (JobCd != null && !JobCd.equals("")) {
 				strQuery.append("and b.cr_syscd=? and b.cr_jobcd=?                               \n");
-			} else if (SysCd != null && SysCd != "") {
+			} else if (SysCd != null && !SysCd.equals("")) {
 				strQuery.append("and b.cr_syscd=?                                                \n");
 			}
 
@@ -497,7 +497,7 @@ public class Cmp3500{
 			} else if (Step1.equals("5")) strQuery.append("f.cm_deptname, ");
 			else if (qrySw) strQuery.append("e.cm_codename, ");
 
-			if (Step2 != null && Step2 != "") {
+			if (Step2 != null && !Step2.equals("")) {
 				if (Step2.equals("1")) strQuery.append("c.cm_sysmsg, ");
 				else if (Step2.equals("2")) strQuery.append("a.cm_jobname, ");
 				else if (Step2.equals("3")) {
@@ -507,7 +507,7 @@ public class Cmp3500{
 				else if (qrySw) strQuery.append("e.cm_codename, ");
 			}
 
-			if (Step3 != null && Step3 != "") {
+			if (Step3 != null && !Step3.equals("")) {
 				if (Step3.equals("1")) strQuery.append("c.cm_sysmsg, ");
 				else if (Step3.equals("2")) strQuery.append("a.cm_jobname, ");
 				else if (Step3.equals("3")) {
@@ -517,7 +517,7 @@ public class Cmp3500{
 				else if (qrySw) strQuery.append("e.cm_codename, ");
 			}
 
-			if (Step4 != null && Step4 != "") {
+			if (Step4 != null && !Step4.equals("")) {
 				if (Step4.equals("1")) strQuery.append("c.cm_sysmsg, ");
 				else if (Step4.equals("2")) strQuery.append("a.cm_jobname, ");
 				else if (Step4.equals("3")) {
@@ -538,7 +538,7 @@ public class Cmp3500{
 			} else if (Step1.equals("5")) strQuery.append("f.cm_deptname, ");
 			else if (qrySw) strQuery.append("e.cm_codename, ");
 
-			if (Step2 != null && Step2 != "") {
+			if (Step2 != null && !Step2.equals("")) {
 				if (Step2.equals("1")) strQuery.append("c.cm_sysmsg, ");
 				else if (Step2.equals("2")) strQuery.append("a.cm_jobname, ");
 				else if (Step2.equals("3")) {
@@ -547,7 +547,7 @@ public class Cmp3500{
 				} else if (Step2.equals("5")) strQuery.append("f.cm_deptname, ");
 				else if (qrySw) strQuery.append("e.cm_codename, ");
 			}
-			if (Step3 != null && Step3 != "") {
+			if (Step3 != null && !Step3.equals("")) {
 				if (Step3.equals("1")) strQuery.append("c.cm_sysmsg, ");
 				else if (Step3.equals("2")) strQuery.append("a.cm_jobname, ");
 				else if (Step3.equals("3")) {
@@ -556,7 +556,7 @@ public class Cmp3500{
 				} else if (Step3.equals("5")) strQuery.append("f.cm_deptname, ");
 				else if (qrySw) strQuery.append("e.cm_codename, ");
 			}
-			if (Step4 != null && Step4 != "") {
+			if (Step4 != null && !Step4.equals("")) {
 				if (Step4.equals("1")) strQuery.append("c.cm_sysmsg, ");
 				else if (Step4.equals("2")) strQuery.append("a.cm_jobname, ");
 				else if (Step4.equals("3")) {
@@ -576,10 +576,10 @@ public class Cmp3500{
 				pstmt.setString(++parmCnt, UserId);
 				pstmt.setString(++parmCnt, UserId);
 			}
-			if (JobCd != null && JobCd != "") {
+			if (JobCd != null && !JobCd.equals("")) {
 				pstmt.setString(++parmCnt, SysCd);
 				pstmt.setString(++parmCnt, JobCd);
-			} else if (SysCd != null && SysCd != "") {
+			} else if (SysCd != null && !SysCd.equals("")) {
 				pstmt.setString(++parmCnt, SysCd);
 			}
 	        //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
@@ -609,7 +609,7 @@ public class Cmp3500{
 				else if (Step1.equals("5")) strStep1 = rs.getString("cm_deptname");
 				else strStep1 = rs.getString("cm_codename");
 
-				if (Step2 != "" && Step2 != null) {
+				if (!Step2.equals("") && Step2 != null) {
 					if (Step2.equals("1")) strStep2 = rs.getString("cm_sysmsg");
 					else if (Step2.equals("2")) strStep2 = rs.getString("cm_jobname");
 					else if (Step2.equals("3")) {
@@ -621,7 +621,7 @@ public class Cmp3500{
 					else strStep2 = rs.getString("cm_codename");
 				}
 
-				if (Step3 != "" && Step3 != null) {
+				if (!Step3.equals("") && Step3 != null) {
 					if (Step3.equals("1")) strStep3 = rs.getString("cm_sysmsg");
 					else if (Step3.equals("2")) strStep3 = rs.getString("cm_jobname");
 					else if (Step3.equals("3")) {
@@ -633,7 +633,7 @@ public class Cmp3500{
 					else strStep3 = rs.getString("cm_codename");
 				}
 
-				if (Step4 != "" && Step4 != null) {
+				if (!Step4.equals("") && Step4 != null) {
 					if (Step4.equals("1")) strStep4 = rs.getString("cm_sysmsg");
 					else if (Step4.equals("2")) strStep4 = rs.getString("cm_jobname");
 					else if (Step4.equals("3")) {
@@ -654,21 +654,21 @@ public class Cmp3500{
 			    }
 
 			    //System.out.println("svStep2 : "+svStep2+ " " + strStep2);
-			    if (rowSw == false && Step2 != null && Step2 != "") {
+			    if (rowSw == false && Step2 != null && !Step2.equals("")) {
 			    	if (svStep2 == null) rowSw = true;
 			    	else if (!svStep2.equals(strStep2)) rowSw = true;
 			    	if (rowSw == true) {
 						chgSw = 2;
 			    	}
 			    }
-			    if (rowSw == false && Step3 != null && Step3 != "") {
+			    if (rowSw == false && Step3 != null && !Step3.equals("")) {
 			    	if (svStep3 == null) rowSw = true;
 			    	else if (!svStep3.equals(strStep3)) rowSw = true;
 			    	if (rowSw == true) {
 						chgSw = 3;
 			    	}
 			    }
-			    if (rowSw == false && Step4 != null && Step4 != "") {
+			    if (rowSw == false && Step4 != null && !Step4.equals("")) {
 			    	if (svStep4 == null) rowSw = true;
 			    	else if (!svStep4.equals(strStep4)) rowSw = true;
 			    	if (rowSw == true) {

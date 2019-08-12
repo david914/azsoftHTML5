@@ -21,12 +21,28 @@ $(document).ready(function() {
 		}); 
 	}
 	
+	//조회
+	$("#btnSearch").bind('click', function() {
+		getColHeader();
+		console.log("조회클릭")
+		if($("#btnExcel").length < 1) {
+			$("#searchBar").append('<button class="btn_basic_s dib" data-grid-control="excel-export" style="width: 70px;" id="btnExcel">엑셀저장</button>');
+			console.log("조건문 발동");
+		}
+	});
+	
+	//엑셀저장
+	$("#searchBar").on('click', '#btnExcel', function() {
+		var st_date = new Date().toLocaleString();
+		var today = st_date.substr(0, st_date.indexOf("오"));
+		
+		mainGrid[0].exportExcel("부서별 의뢰 현황 " + today + ".xls");
+		mainGrid[1].exportExcel("업무 등급별 처리현황 " + today + ".xls");
+		mainGrid[2].exportExcel("연구소실 별 처리현황 " + today + ".xls");
+	})
+	
 });
 
-//조회
-$("#btnSearch").bind('click', function() {	
-	getColHeader();
-})
 
 //그리드 헤더 세팅
 function getColHeader() {
