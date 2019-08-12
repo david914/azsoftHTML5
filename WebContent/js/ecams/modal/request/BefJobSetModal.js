@@ -175,11 +175,16 @@ thirdGrid.setConfig({
 });
 
 $(document).ready(function() {
-	thirdGridData = window.parent.befJobData;
-	thirdGrid.setData(thirdGridData);
-	if(thirdGridData.length > 0){
-		getReqPgmList(thirdGridData[0]);
-		thirdGridSelect = true;
+	if(acptNo == null || acptNo == undefined){
+		acptNo = "";
+	}
+	if(window.parent.befJobData != null || window.parent.befJobData != undefined){
+		thirdGridData = window.parent.befJobData;
+		thirdGrid.setData(thirdGridData);
+		if(thirdGridData.length > 0){
+			getReqPgmList(thirdGridData[0]);
+			thirdGridSelect = true;
+		}
 	}
 	
 	$('#btnClose').bind('click',function() {
@@ -204,9 +209,8 @@ function getBefJob(){
 	if(reqCd == null || reqCd == undefined || reqCd == null){
 		reqCd = acptNo.substr(4,2);
 	}
-	
 	var tmpData = {
-		acptNo	: 	"",
+		acptNo	: 	acptNo,
 		reqCd   :   reqCd,
 		requestType	: 	'reqList_Select'
 	}
