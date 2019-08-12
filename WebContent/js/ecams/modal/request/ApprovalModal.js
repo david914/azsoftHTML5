@@ -14,6 +14,7 @@ var data          = null;							//json parameter
 var prgData		= null;
 var selCd = "";
 var beforSelIndex = -9;
+var clickConfIndex = null;
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -33,7 +34,7 @@ firstGrid.setConfig({
         columnHeight: 28,
         onClick: function () {
         	//this.self.clearSelect();
-           this.self.select(this.dindex);
+        	this.self.select(this.dindex);
         },
     	trStyleClass: function () {
     		if (this.item.colorsw == '3'){
@@ -76,7 +77,7 @@ secondGrid.setConfig({
         onClick: function () {
         	//this.self.clearSelect();
            this.self.select(this.dindex);
-       		secondGridClick(this.dindex);
+       		secondGridClick(this.dindex, this.item);
         },
     	trStyleClass: function () {
     		if (this.item.colorsw == '3'){
@@ -156,7 +157,7 @@ $(document).ready(function() {
 		getSignUser();
 	});
 	
-	$('#txtName').bind('keypress',function(){
+	$('#txtName').bind('keypress',function(event){
 		if(event.keyCode == 13){
 			$('#btnSearch').click();
 		}
@@ -173,7 +174,16 @@ $(document).ready(function() {
 			$("#AddArea").hide();
 			firstGrid.setData(firstGridSimpleData);
 		}
-	})
+	});
+
+	$('#btnDown').bind('click',function(){
+		confChange('2');
+	});
+
+	$('#btnUp').bind('click',function(){
+		confChange('1');
+	});
+	
 	
 	getConfirmInfo();
 });
@@ -514,18 +524,18 @@ function removeSecondGrid(data, index){
 
 	if (data.delyn == null || data.delyn == "") return;
 	if (data.delyn != "Y") return;
-		if (data.cm_gubun == "3" || data.cm_gubun == "6" || data.cm_gubun == "C"
-		     || data.cm_gubun == "R") {
+	if (data.cm_gubun == "3" || data.cm_gubun == "6" || data.cm_gubun == "C"
+	     || data.cm_gubun == "R") {
 
-			
-			confirmDialog.confirm({
-				msg: "결재단계 ["+data.cm_name+"]를 취소할까요?",
-			}, function(){
-				if(this.key === 'ok') {
-					cnclProc(data, index);
-				}
-			});
-		}
+		
+		confirmDialog.confirm({
+			msg: "결재단계 ["+data.cm_name+"]를 취소할까요?",
+		}, function(){
+			if(this.key === 'ok') {
+				cnclProc(data, index);
+			}
+		});
+	}
 }
 
 function cnclProc(data, index){
@@ -553,7 +563,21 @@ function cnclProc(data, index){
 	beforSelIndex = -9;
 }
 
-function secondGridClick(index){
+function secondGridClick(index, data){
+
+	var dataCk = false;
+	if (data.cm_gubun == "3" || data.cm_gubun == "6" || data.cm_gubun == "C"
+	     || data.cm_gubun == "R") {
+		dataCk = true;
+	}
+	if(dataCk){
+		$('.btnUpdate').show();
+		clickConfIndex = index;
+	}
+	else{
+		$('.btnUpdate').hide();
+		clickConfIndex = null;
+	}
 	
 	if(index == null || index == undefined){
 		return;
@@ -566,8 +590,41 @@ function secondGridClick(index){
 	
 	beforSelIndex = index;
 	
-	console.log($(":input:radio[name=optBase]:checked").val());
 	if($(":input:radio[name=optBase]:checked").val() == "변경"){
 		simpleData();
 	}
 }
+
+function confChange(change){
+	
+	if(clickConfIndex == null){
+		dialog.alert("자동처리는 순서를 변경할 수 없습니다.");
+		return;
+	}
+	
+	var tmpData = secondGridData[clickConfIndex];
+	if(change == '1'){
+		if(clickConfIndex < 1){
+			return;
+		}
+		// 그리드 포커스 이동시 index 0이면 가장아래로 가는 오류? 발생 하므로 HOME으로 이동
+		var focusIn = clickConfIndex -1 === 0 ? 'HOME' : clickConfIndex -1; 
+		
+		secondGrid.addRow(clone(secondGridData[clickConfIndex]), clickConfIndex-1, {focus: focusIn});
+		secondGrid.deleteRow(clickConfIndex+1);
+		secondGridData = clone(secondGrid.list);
+		clickConfIndex = clickConfIndex-1;
+	}else{
+		if(clickConfIndex+1 >= secondGridData.length){
+			return;
+		}
+		
+		secondGrid.addRow(clone(secondGridData[clickConfIndex]), clickConfIndex+2, {focus: clickConfIndex+1});
+		secondGrid.removeRow(clickConfIndex);
+		secondGridData = clone(secondGrid.list);
+		clickConfIndex = clickConfIndex+1;
+		
+	}
+	
+}
+

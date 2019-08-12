@@ -31,6 +31,7 @@ var firstGrid		  = new ax5.ui.grid();
 var secondGrid		  = new ax5.ui.grid();
 
 var ChkOutVerSelModal = new ax5.ui.modal();//이전버전선택 모달
+var approvalModal 		= new ax5.ui.modal();
 
 var firstGridData  = [];
 var gridSimpleData = [];
@@ -42,7 +43,8 @@ var sysData 	   = null;
 var srData 	  	   = null;
 var prgData	  	   = null;
 var treeData 	   = null;
-var confirmData	   = null;
+var confirmData	   = [];
+var confirmInfoData = null;
 
 var strAcptNo 	   = null;
 var excelAry 	   = null;
@@ -66,6 +68,8 @@ var pItemId 	 = null;  //버전선택창 파라미터: 프로그램 ITEMID
 var selectVer    = 'sel';    //선택버전
 var selectAcptno = '';    //선택한신청버전
 var updateFlag   = false; //그리드 컬럽 value 업데이트 여부
+var myWin 			= null;
+var acptNo = "";
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="first-grid"]'),
@@ -1001,6 +1005,7 @@ function checkDuplication(downFileList) {
 
 		$('[data-ax5select="cboSys"]').ax5select("disable");
 		$('#btnReq').show();
+		$('#btnReq').prop('disabled',false);
 		//$('#btnDiff').show();
 		
 		secondGrid.list.forEach(function(requestFileGridData, requestFileGridDataIndex) {
@@ -1073,10 +1078,9 @@ function ckoConfirm(){
 			}
 		} else strRsrcCd = secondGrid.list[x].cr_rsrccd;
 	}
-	
-	var confirmInfoData = new Object();
+
+	confirmInfoData = new Object();
 	confirmInfoData.SysCd = getSelectedVal('cboSys').value;
-	confirmInfoData.strReqCd = reqCd;
 	confirmInfoData.strRsrcCd = strRsrcCd;
 	confirmInfoData.ReqCd = reqCd;
 	confirmInfoData.UserID = userId;
@@ -1086,7 +1090,7 @@ function ckoConfirm(){
 			requestType : 'confSelect',
 			confirmInfoData : confirmInfoData
 	}	
-	ajaxReturnData = ajaxCallWithJson('/webPage/dev/CheckOutServlet', tmpData, 'json');
+	ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
 	
 	if (ajaxReturnData == "X") {
 		dialog.alert("로컬PC에서 파일을 전송하는 결재단계가 지정되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
@@ -1123,7 +1127,7 @@ function confCall(GbnCd){
 	}
 	
 
-	var confirmInfoData = new Object();
+	confirmInfoData = new Object();
 	confirmInfoData.UserID = userId;
 	confirmInfoData.ReqCd  = reqCd;
 	confirmInfoData.SysCd  = getSelectedVal('cboSys').value;
@@ -1137,11 +1141,26 @@ function confCall(GbnCd){
 	if (getSelectedIndex('cboSrId') > 0) confirmInfoData.PrjNo = getSelectedVal('cboSrId').value;
 	
   	if (GbnCd == "Y") {//결재팝업
-		gyulPopUp = Confirm_select(PopUpManager.createPopUp(this, Confirm_select, true));
-		gyulPopUp.parentfuc = reqQuest;
-		gyulPopUp.parentvar = confirmInfoData;
-        PopUpManager.centerPopUp(gyulPopUp);//팝업을 중앙에 위치하도록 함
-        gyulPopUp.minitApp();
+		approvalModal.open({
+	        width: 820,
+	        height: 365,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/request/ApprovalModal.jsp",
+	            param: "callBack=modalCallBack"
+		    },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	            	if(confirmData.length > 0){
+	            		requestCheckOut();
+	            	}
+	                mask.close();
+	            }
+	        }
+		});
        
 	} else if (GbnCd == "N") {
 
@@ -1150,7 +1169,7 @@ function confCall(GbnCd){
 			requestType: 	'Confirm_Info'
 		}
 		
-		ajaxReturnData = ajaxCallWithJson('/webPage/dev/CheckOutServlet', tmpData, 'json');
+		ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
 		confirmData = ajaxReturnData;
 		requestCheckOut();
 	}
@@ -1195,7 +1214,13 @@ function requestCheckOut(){
 	}
 
 	ajaxReturnData = ajaxCallWithJson('/webPage/dev/CheckOutServlet', tmpData, 'json');
+
+	if(ajaxReturnData == 'ERR' || ajaxReturnData.substr(0,5) == 'ERROR'){
+		dialog.alert('에러가 발생하였습니다. 다시 신청해주세요.');
+		return;
+	}
 	
+	acptNo = ajaxReturnData;
 	reqSw = false;
 	//파일업로드 팝업 미개발
 	/*
@@ -1239,7 +1264,7 @@ function fileSenderClose(){
 						ckout_end();
 					} else {
 						if (progFiles[0].cr_rsrcname == "ERROR") {
-							alert("결재처리 중 오류가 발생하였습니다.");
+							dialog.alert("결재처리 중 오류가 발생하였습니다.");
 							ckout_end();
 							return;
 						} else { // 파일업로드 팝업만들기 미개발
@@ -1258,7 +1283,7 @@ function fileSenderClose(){
 				
 			}
 			
-			alert(ajaxResultData + '[조치 후 체크아웃 상세화면에서 재처리하시기 바랍니다.]');
+			dialog.alert(ajaxResultData + '[조치 후 체크아웃 상세화면에서 재처리하시기 바랍니다.]');
 			ckout_end();
 			return;
 	} else {
@@ -1267,17 +1292,9 @@ function fileSenderClose(){
 }
 
 function ckout_end(){
-	confirmDialog.confirm({
-		msg: '체크아웃 신청완료! 상세 정보를 확인하시겠습니까?',
-	}, function(){
-		if(this.key === 'ok') {
-			cmd_detail(); //미개발
-		}
-	});
-	
 	secondGrid.setData([]);
 	secondGridData = [];
-	
+
 	upFiles = null;
 	upFiles = new Array();
 	
@@ -1286,27 +1303,60 @@ function ckout_end(){
 	$('#btnDiff').hide();
 	$('#btnReq').prop('disabled',true);
 	outpos = "";
-
-//neo. 화면클리어 제거됨.
-//	if (chkCLEAR.selected){//화면클리어
-//		subnode_checkbox.selected = false;
-//		rsrc_txt.text = "";
-//		if (cboIsrId.selectedIndex<1) sayu_txt.text="";
-//		list1_grid_dp1 = null;
-//		list1_grid_dp1 = new ArrayCollection();
-//			list1_grid.dataProvider = list1_grid_dp1;
-//		//jobcd_combo.selectedIndex = 0;
-//		//jobcd_combo.selectedItem = cboJob_dp.getItemAt(0);
-//	} else{//입력상태 그대로
-		if(searchMOD == "B"){//B:조회버튼 클릭시,  T:트리구조 클릭시
-			clickSearchBtn();
-		}else {
-			if (ztree.getSelectedNodes(true).length == 0){
-				return;
-			}
-			$('#'+ztree.getNodesByParam("id", ztree.getSelectedNodes(true)[0].id)[0].tId+'_a').click();
+	
+	confirmDialog.confirm({
+		msg: '체크아웃 신청완료! 상세 정보를 확인하시겠습니까?',
+	}, function(){
+		if(this.key === 'ok') {
+			cmdDetail();
 		}
+		else{
+
+		//neo. 화면클리어 제거됨.
+//			if (chkCLEAR.selected){//화면클리어
+//				subnode_checkbox.selected = false;
+//				rsrc_txt.text = "";
+//				if (cboIsrId.selectedIndex<1) sayu_txt.text="";
+//				list1_grid_dp1 = null;
+//				list1_grid_dp1 = new ArrayCollection();
+//					list1_grid.dataProvider = list1_grid_dp1;
+//				//jobcd_combo.selectedIndex = 0;
+//				//jobcd_combo.selectedItem = cboJob_dp.getItemAt(0);
+//			} else{//입력상태 그대로
+				findRefresh();
+			}
+	});
+	
 //	}
+}
+
+function findRefresh(){
+
+	if(searchMOD == "B"){//B:조회버튼 클릭시,  T:트리구조 클릭시
+		clickSearchBtn();
+	}else {
+		if (ztree.getSelectedNodes(true).length == 0){
+			return;
+		}
+		$('#'+ztree.getNodesByParam("id", ztree.getSelectedNodes(true)[0].id)[0].tId+'_a').click();
+	}
+	
+}
+
+function cmdDetail(){
+	var winName = "checkoutEnd";
+	var f = document.popPam;   		//폼 name
+    
+    f.acptno.value	= acptNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    
+	nHeight = 740;
+    nWidth  = 1200;
+
+	cURL = "/webPage/winpop/PopRequestDetail.jsp";
+    myWin = winOpen(f, winName, cURL, nHeight, nWidth);
+    
+    findRefresh();
 }
 
 /*
@@ -1403,20 +1453,6 @@ function getTmpDir(dirCdPram){
 	getTmpPath(ajaxReturnData);
 }
 
-function formatFileSize(numSize) {
-	var strReturn;
-	numSize = Number(numSize / 1000);
-	strReturn = String(numSize.toFixed(1) + " KB");
-	if (numSize > 1000) {
-		numSize = numSize / 1000;
-		strReturn = String(numSize.toFixed(1) + " MB");
-		if (numSize > 1000) {
-			numSize = numSize / 1000;
-			strReturn = String(numSize.toFixed(1) + " GB");
-		}
-	}
-	return strReturn;
-}
 function getTmpPath(result){
 	if (dirCd == "99") {
 		tmpPath = result ;
@@ -1453,7 +1489,7 @@ function startUpload(strURL) {
     	onUploadCompleteData(response);
     	
     }).fail(function(xhr,status,errorThrown){
-    	alert('오류가 발생했습니다.\r 오류명 : '+errorThrown + '\r상태 : '+status);
+    	dialog.alert('오류가 발생했습니다.\r 오류명 : '+errorThrown + '\r상태 : '+status);
     }).always(function(){
     	// file 초기화
     	var agent = navigator.userAgent.toLowerCase();
@@ -1629,7 +1665,7 @@ function difflist_resultHandler(event){
         modPopUp.parentFunc = merge_Handler;
 	    modPopUp.minitApp();	
 	} else {
-		Alert.show("수정된 부분이 없습니다. 체크아웃요청을 진행해 주시기 바랍니다.");
+		dialog.alert("수정된 부분이 없습니다. 체크아웃요청을 진행해 주시기 바랍니다.");
 		regist_button.enabled = true;
 	}
 }

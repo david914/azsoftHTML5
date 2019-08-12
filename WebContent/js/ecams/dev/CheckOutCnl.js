@@ -12,6 +12,7 @@ var adminYN		  = window.top.adminYN;
 var userDeptName = window.top.userDeptName;
 var userDeptCd 	  = window.top.userDeptCd;
 var reqCd 			  = window.top.reqCd;
+var approvalModal 		= new ax5.ui.modal();
 
 //grid 생성
 var firstGrid 	 = new ax5.ui.grid();
@@ -22,12 +23,12 @@ var sysData 	  = null;
 var srData 	  	  = null;
 var gridSimpleData = null;
 var secondGridData = [];
-var confirmData = null;
+var confirmData = [];
+var confirmInfoData = null;
 
 var options 	= [];
-var strAcptNo = null;
 var srSw 		= false;
-var strAcptNo = "";
+var acptNo = "";
 var winDevRep        = null; //SR정보 새창
 
 firstGrid.setConfig({
@@ -655,6 +656,7 @@ function checkOutCnlClick(){
 }
 
 function cnclConfirm(){
+	var strQry = ""
 	var ajaxReturnData;
 	var strRsrcCd = "";
 	for (x=0;x<secondGridData.length;x++) {
@@ -665,9 +667,8 @@ function cnclConfirm(){
 	}
 	$('#btnReq').attr('disabled',true);
 
-	var confirmInfoData = new Object();
+	confirmInfoData = new Object();
 	confirmInfoData.SysCd = getSelectedVal('cboSys').value;
-	confirmInfoData.strReqCd = reqCd;
 	confirmInfoData.strRsrcCd = strRsrcCd;
 	confirmInfoData.ReqCd = reqCd;
 	confirmInfoData.UserID = userId;
@@ -677,7 +678,7 @@ function cnclConfirm(){
 			requestType : 'confSelect',
 			confirmInfoData : confirmInfoData
 	}	
-	ajaxReturnData = ajaxCallWithJson('/webPage/dev/CheckOutCnlServlet', tmpData, 'json');
+	ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
 	confCheck(ajaxReturnData);
 }
 
@@ -720,8 +721,8 @@ function confCall(GbnCd)
 
 	if (srSw) strIsrId = getSelectedVal('cboSrId').value;
 	else strIsrId = "";
-	confirmData = null;
-	var confirmInfoData = new Object();
+	confirmData = [];
+	confirmInfoData = new Object();
 	confirmInfoData.UserID = userId;
 	confirmInfoData.ReqCd  = reqCd;
 	confirmInfoData.SysCd  = getSelectedVal('cboSys').value;
@@ -731,9 +732,8 @@ function confCall(GbnCd)
 	confirmInfoData.JobCd = "";
 	confirmInfoData.deployCd = "0";
 	confirmInfoData.PrjNo = strIsrId;
-	// 결재팝업 미개발
+	// 결재팝업
 	if (GbnCd == "Y") {
-		
 		approvalModal.open({
 	        width: 820,
 	        height: 365,
@@ -750,7 +750,7 @@ function confCall(GbnCd)
 	            	if(confirmData.length > 0){
 	            		reqQuestConf();
 	            	}
-	            	ingSw = false;
+	            	$('#btnReq').prop('disabled', false);
 	                mask.close();
 	            }
 	        }
@@ -816,14 +816,19 @@ function reqQuestConf(){
 
 function successRequest(data){
 	if (data.length == 12){
-		console.log(strAcptNo);
-		strAcptNo = data;
+		secondGrid.setData([]);
+		secondGridData = [];
+		
+		acptNo = data;
 		if (reqCd == "11"){
 			confirmDialog.confirm({
 				msg: '체크아웃취소 신청완료!\n상세 정보를 확인하시겠습니까?',
 			}, function(){
 				if(this.key === 'ok') {
-					cmd_detail1();
+					cmdDetail();
+				}
+				else{
+					findRefresh();
 				}
 			});
 		}
@@ -832,34 +837,58 @@ function successRequest(data){
 				msg: '테스트적용취소 신청완료!\n상세 정보를 확인하시겠습니까?',
 			}, function(){
 				if(this.key === 'ok') {
-					cmd_detail2();
+					cmdDetail();
+				}
+				else{
+					findRefresh();
 				}
 			})
 		}
-		secondGrid.setData([]);
-		secondGridData = [];
 		
-		firstGrid.setData([]);
-		firstGridaData = [];
-
-		$('[data-ax5select="cboSys"]').ax5select("enabled");
-		$('#btnReq').attr('disabled',true);
 	}
 	else{
 		if (reqCd == "11")  dialog.alert("체크아웃취소 신청실패.");
 	    else dialog.alert("테스트적용취소 신청실패.");
 	}
 }
+
+function findRefresh(){
+
+	firstGrid.setData([]);
+	firstGridaData = [];
+
+	$('[data-ax5select="cboSys"]').ax5select("enabled");
+	$('#btnReq').attr('disabled',true);
+	findProc();
+}
+
+function cmdDetail(){
+	
+	var winName = "checkCnlEnd";
+	var f = document.popPam;   		//폼 name
+    
+    f.acptno.value	= acptNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    
+	nHeight = 740;
+    nWidth  = 1200;
+
+	cURL = "/webPage/winpop/PopRequestDetail.jsp";
+    myWin = winOpen(f, winName, cURL, nHeight, nWidth);
+    
+    findRefresh();
+}
+
 /*
 		상세보기 미개발
 		private function cmd_detail1(event:CloseEvent):void{
 			if (event.detail == mx.controls.Alert.YES) {
-	    		ExternalInterface.call("winopen",strUserId,"G11",strAcptNo,"");
+	    		ExternalInterface.call("winopen",strUserId,"G11",acptNo,"");
 			}
 		}
 		private function cmd_detail2(event:CloseEvent):void{
 			if (event.detail == mx.controls.Alert.YES) {
-	    		ExternalInterface.call("winopen",strUserId,"G12",strAcptNo,"");
+	    		ExternalInterface.call("winopen",strUserId,"G12",acptNo,"");
 			}
 		}
 

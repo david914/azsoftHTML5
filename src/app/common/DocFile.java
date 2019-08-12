@@ -87,8 +87,8 @@ public class DocFile {
         	
 			for (int i=0;i<fileList.size();i++){
 				strQuery.setLength(0);
-				strQuery.append("insert into cmr1001 (cr_acptno,cr_gubun,cr_seqno,cr_filename,cr_reldoc) values ( \n");
-				strQuery.append(" ? , ? , ? , ? , ? ) \n");
+				strQuery.append("insert into cmr1001 (cr_acptno,cr_gubun,cr_seqno,cr_filename,cr_reldoc,cr_filesize) values ( \n");
+				strQuery.append(" ? , ? , ? , ? , ? , ? ) \n");
 				pstmt = conn.prepareStatement(strQuery.toString());
 				//pstmt = new LoggableStatement(conn,strQuery.toString());				
 				
@@ -97,6 +97,7 @@ public class DocFile {
 				pstmt.setString(3, fileList.get(i).get("index"));				
 				pstmt.setString(4, fileList.get(i).get("realName"));
 				pstmt.setString(5, fileList.get(i).get("saveName")+"."+fileList.get(i).get("index"));
+				pstmt.setString(6, fileList.get(i).get("sizeReal"));
 	            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());    
 	            pstmt.executeUpdate();
 	            pstmt.close();

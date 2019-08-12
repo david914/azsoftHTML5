@@ -57,9 +57,10 @@ firstGrid.setConfig({
 
 $(document).ready(function() {
 	firstGridData = window.parent.upFiles;
-	filepath 	= window.parent.acptNo.substr(0,4) + "/" +  window.parent.acptNo.substr(4,2);
 	acptNo 	= window.parent.acptNo;
-	filename 	= window.parent.acptNo.substr(6);
+	filepath 	= acptNo.substr(0,4) + "/" +  acptNo.substr(4,2);
+	filename 	= acptNo.substr(6);
+	
 	if(firstGridData != undefined && firstGridData.length > 0){
 		firstGrid.setData(firstGridData);
 	}
@@ -67,6 +68,7 @@ $(document).ready(function() {
 		firstGridData = [];
 	}
 	if(uploadCk){
+		$("#limitByte").hide();
 		$("#btnFileUpload").hide();
 		$("#btnFileDelete").hide();
 		$("#btnReq").text("재전송");
@@ -180,7 +182,11 @@ function successGetSignUser(data){
 function deleteData(){
 
 	var firstGridGridSeleted = firstGrid.getList("selected");
-	
+	console.log(firstGridGridSeleted.length);
+	if(firstGridGridSeleted.length < 1){
+		dialog.alert("삭제할 첨부파일을 선택해 주세요");
+		return;
+	}
 	firstGrid.removeRow("selected");
 	firstGridData = clone(firstGrid.list);
 	firstGrid.repaint();
@@ -240,20 +246,18 @@ function onUploadCompleteData(){
 	var dbFileData = clone(firstGridData);
 	for(var key in dbFileData){ // 파일 데이터가 있으면 Json HashMap 변환에 에러가 뜨므로 파일 데이터를 지워서 전달
 		dbFileData[key].file = null;
-		dbFileData[key].saveName = filepath+"/"+filename;
+		dbFileData[key].saveName = "/"+filepath+"/"+filename;
 		dbFileData[key].acptno = acptNo;
 	}
 	
 	var tmpData = {
 			fileList   :   dbFileData,
-			requestType	: 	'fileUpload'
+			requestType	: 	'setDocFile'
 		}
 	ajaxResultData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
 	if(ajaxResultData == "ok"){
-
-		dialog.alert('업로드 되었습니다.',function(){});
-
 		popClose();
+		//dialog.alert('업로드 되었습니다.',function(){});
 	}
 	else{
     	dialog.alert('<div>오류가 발생했습니다.</div><div> 재전송 버튼을 눌러 다시 등록해주시기 바랍니다.</div>',function(){});

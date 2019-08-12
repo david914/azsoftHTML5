@@ -66,7 +66,6 @@
 					</div>
 				</div>
 			</div>
-			<!--검색E-->
 			<div class="half_wrap">
 				<div class="l_wrap width-20">
 					<div style="overflow-y: auto; height: 331px; background-color: white;">
@@ -75,15 +74,12 @@
 				</div>
 				<div class="r_wrap width-80">
 					<!-- 게시판 S-->
-				    <div class="az_board_basic az_board_basic_in">
-				    	<div data-ax5grid="first-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" id="fileGrid" class="default-grid-height"></div>
+				    <div class="az_board_basic az_board_basic_in" style="height:37%">
+				    	<div data-ax5grid="first-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" id="fileGrid" style="height:100%"></div>
 					</div>	
 					<div class="por margin-5-top margin-10-bottom">
 						<div style="margin-left:5px;"><input type="checkbox" class='checkbox-pie' id='chkDetail' data-label="체크아웃항목상세보기"></div>
 						<div class="poa_r">
-							<div class="all_num dib margin-5-top">
-					      		<strong>총 <span id = 'totalCnt'>0</span>건</strong>
-							</div>
 							<div class="vat dib">
 								<button id="btnAdd" class="btn_basic_s margin-5-left">추가</button>
 							</div>
@@ -97,8 +93,8 @@
 				<div class="row">
 					<div class="margin-10-top">
 						<!-- 게시판 S-->
-					    <div class="az_board_basic az_board_basic_in">
-					    	<div data-ax5grid="second-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40, showRowSelector:true}" id="requestGrid" class="default-grid-height"></div>
+					    <div class="az_board_basic az_board_basic_in" style="height:39%">
+					    	<div data-ax5grid="second-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40, showRowSelector:true}" id="requestGrid" style="height:100%"></div>
 						</div>	
 						<!-- 게시판 E -->
 					</div>
@@ -122,7 +118,6 @@
 <form name="popPam">
 	<input type="hidden" name="acptno"/>
 	<input type="hidden" name="user"/>
-	<input type="hidden" name="srid"/>
 </form>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />

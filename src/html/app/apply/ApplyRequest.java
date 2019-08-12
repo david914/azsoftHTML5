@@ -90,8 +90,8 @@ public class ApplyRequest extends HttpServlet {
 				case "getSignLst_dept" :
 					response.getWriter().write( getSignLst_dept(jsonElement) );
 					break;
-				case "fileUpload" :
-					response.getWriter().write( fileUpload(jsonElement) );
+				case "setDocFile" :
+					response.getWriter().write( setDocFile(jsonElement) );
 					break;
 				default:
 					break;
@@ -220,7 +220,7 @@ public class ApplyRequest extends HttpServlet {
 																	 signListInfo.get("JboCd"),
 																	 signListInfo.get("tmpRgt2")));
 	}
-	private String fileUpload(JsonElement jsonElement) throws SQLException, Exception {
+	private String setDocFile(JsonElement jsonElement) throws SQLException, Exception {
 		
 		ArrayList<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
 		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));

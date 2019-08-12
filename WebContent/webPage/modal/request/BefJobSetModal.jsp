@@ -65,7 +65,7 @@
 	</div>
 	<div class="row tac">
 		<button id="btnReq" class="btn_basic">선택</button>
-		<button id="btnClose" class="btn_basic margin-5-left">닫기</button>
+		<!-- <button id="btnClose" class="btn_basic margin-5-left">닫기</button> -->
 	</div>
 </div>
 <!-- contener E -->

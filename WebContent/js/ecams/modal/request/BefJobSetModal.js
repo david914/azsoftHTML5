@@ -12,6 +12,7 @@ var secondGridData = null; 							//선후행목록 데이타
 var thirdGridData = null; 							//선후행목록 데이타
 var data          = null;							//json parameter
 var prgData		= null;
+var thirdGridSelect = false;
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -174,7 +175,13 @@ thirdGrid.setConfig({
 });
 
 $(document).ready(function() {
-
+	thirdGridData = window.parent.befJobData;
+	thirdGrid.setData(thirdGridData);
+	if(thirdGridData.length > 0){
+		getReqPgmList(thirdGridData[0]);
+		thirdGridSelect = true;
+	}
+	
 	$('#btnClose').bind('click',function() {
 		window.parent.befJobData = [];
 		popClose();
@@ -211,6 +218,9 @@ function getBefJob(){
 function successGetBefJob(data){
 	firstGridData = data;
 	firstGrid.setData(firstGridData);
+	if(thirdGridSelect){
+		firstGrid.select(0, {selected:true});
+	}
 	
 }
 

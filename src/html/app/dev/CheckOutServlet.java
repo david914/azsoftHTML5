@@ -84,12 +84,7 @@ public class CheckOutServlet extends HttpServlet {
 				case "GETLOCALHOME":
 					response.getWriter().write( getDevHome(jsonElement));
 					break;
-				case "confSelect":
-					response.getWriter().write( confSelect(jsonElement));
-					break;
-				case "Confirm_Info":
-					response.getWriter().write( Confirm_Info(jsonElement));
-					break;
+				
 				case "request_Check_Out":
 					response.getWriter().write( request_Check_Out(jsonElement));
 					break;
@@ -144,22 +139,6 @@ public class CheckOutServlet extends HttpServlet {
 		}
 		
 		return changeTargetArr;
-	}
-	
-	private String Confirm_Info(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String>	confirmInfoMap = null;
-		confirmInfoMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "confirmInfoData"));
-		return gson.toJson( confirm.Confirm_Info(confirmInfoMap) );
-	}
-	
-	private String confSelect(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String>	confirmInfoMap = null;
-		confirmInfoMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "confirmInfoData"));
-		return gson.toJson( cmr0200.confSelect(	confirmInfoMap.get("sysCd"),
-												confirmInfoMap.get("strReqCd"),
-												confirmInfoMap.get("strRsrcCd"),
-												confirmInfoMap.get("userId"),
-												confirmInfoMap.get("strQry")) );
 	}
 	
 	private String getDevHome(JsonElement jsonElement) throws SQLException, Exception {

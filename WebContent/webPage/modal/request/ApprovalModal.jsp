@@ -34,7 +34,7 @@
                 </div>
 			</div>				
 			<div class="row">
-				<div class="az_board_basic az_board_basic_in" style="height:45%">
+				<div class="az_board_basic az_board_basic_in" style="height:53%">
 					<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%"></div>
 				</div>
 			</div>
@@ -45,9 +45,12 @@
 				<div class="width-100" style="height:25px;">
                     <label id="" class="tit_80 poa">결재절차</label>
                     <div class="ml_80 tar" id="lblDel" style="display:none;"><span class="txt_r">[제외방법 : 목록에서 선택 후  결재삭제버튼 클릭]</span></div>
+                   
+               		<button class="btn_basic_s margin-5-left float-right btnUpdate" id="btnDown" style="display:none;">단계 ▼</button> 
+               		<button class="btn_basic_s margin-5-left float-right btnUpdate" id="btnUp" style="display:none;">단계 ▲</button> 
 				</div>				
 				<div class="row">
-					<div class="az_board_basic az_board_basic_in" style="height:45%">
+					<div class="az_board_basic az_board_basic_in" style="height:53%">
 		    			<div data-ax5grid="secondGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%"></div>
 					</div>
 				</div>
@@ -56,7 +59,7 @@
 	</div>
 	<div class="row">
 		<div class="tal">
-			<p class="txt_r">[추가방법 : 1.결재절차목록에서 추가 할 위치 선택 / 2.좌측에서 결재자 검색 / 3.목록에서 더블클릭]</p>
+			<p class="txt_r" style="white-space: nowrap;">[추가방법 : 1.결재절차목록에서 추가 할 위치 선택 / 2.좌측에서 결재자 검색 / 3.목록에서 더블클릭 / 4.선택한 결재단계 위(선택 안 할 시 마지막) 추가]</p>
 			<p class="txt_r">[변경방법 : 1.결재절차목록에서 변경 할 대상 선택 / 2.좌측의 목록에서 결재자 더블클릭]</p>
 		</div>
 	</div>

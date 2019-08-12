@@ -78,7 +78,7 @@
 		
 		<div>
 			<!-- 게시판 S-->
-		    <div class="az_board_basic az_board_basic_in" style="height: 38%;">
+		    <div class="az_board_basic az_board_basic_in" style="height: 39%;">
 		    	<div data-ax5grid="second-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 			</div>	
 			<!-- 게시판 E -->
@@ -98,10 +98,10 @@
 		</div>
 
 </div>
+
 <form name="popPam">
 	<input type="hidden" name="acptno"/>
 	<input type="hidden" name="user"/>
-	<input type="hidden" name="srid"/>
 </form>
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script type="text/javascript"	src="<c:url value="/js/ecams/dev/CheckOutCnl.js"/>"></script>

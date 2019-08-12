@@ -67,9 +67,6 @@ public class CheckOutCnlServlet extends HttpServlet {
 				case "getDownFileList" :
 					response.getWriter().write( getDownFileList(jsonElement) );
 					break;
-				case "confSelect" :
-					response.getWriter().write( confSelect(jsonElement) );
-					break;
 				case "Confirm_Info" :
 					response.getWriter().write( Confirm_Info(jsonElement) );
 					break;
@@ -115,17 +112,7 @@ public class CheckOutCnlServlet extends HttpServlet {
 		fileListMap = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement, "fileList"));
 		return gson.toJson( Cmr0101.getDownFileList(fileListMap));
 	}
-	
-	private String confSelect(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String>				 confMap = null;
-		confMap =  ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "confirmInfoData"));
-		return gson.toJson( Cmr0200.confSelect(confMap.get("SysCd"),
-																confMap.get("ReqCd"),
-																confMap.get("RsrcCd"),
-																confMap.get("UserId"),
-																confMap.get("QryCd")));
-	}
-	
+		
 	private String Confirm_Info(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>			 confInfoMap = null;
 		confInfoMap = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement, "confInfoData"));
