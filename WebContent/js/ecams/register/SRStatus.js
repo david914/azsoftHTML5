@@ -315,6 +315,8 @@ function data_setEnable() {
 
 	$('#datStD').prop("disabled", true);
 	$('#datEdD').prop("disabled", true);
+	$('#btnStD').prop("disabled", true);
+	$('#btnEdD').prop("disabled", true);
 	
 	if (getSelectedVal('cboSta1').value == '00' ||
 			getSelectedVal('cboSta1').value == '3' ||
@@ -324,9 +326,13 @@ function data_setEnable() {
 	    if ( getSelectedVal('cboSta2').value == '00' ) {
 			$('#datStD').prop("disabled", false);
 			$('#datEdD').prop("disabled", false);
+			$('#btnStD').prop("disabled", false);
+			$('#btnEdD').prop("disabled", false);
 	    } else {
 			$('#datStD').prop("disabled", true);
 			$('#datEdD').prop("disabled", true);
+			$('#btnStD').prop("disabled", true);
+			$('#btnEdD').prop("disabled", true);
 	    }
 	}
 	

@@ -143,10 +143,16 @@
 						
 						<div class="dib margin-5-left width-40">
 							<div id="reqgbnDiv"  style="position: relative; display: inline-block;" >
+								<!--
 								<div class="input-group dib" data-ax5picker="txtReqDate" style="display:inline-block;" >
 						            <input id="txtReqDate" type="text" class="f-cal" placeholder="yyyy/mm/dd" style="width:90px;">
 						            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 						        </div>
+						        -->
+						        <div class="input-group dib" data-ax5picker="txtReqDate" style="display:inline-block;" >
+									<input id="txtReqDate" type="text" class="f-cal" placeholder="yyyy/mm/dd" style="width:90px;">
+									<button id="btnReqDate" class="btn_calendar"><i class="fa fa-calendar-o"></i></button>
+								</div>
 						        <div class="dib vat timePickerDiv">
 						        	<!-- style="text-align: center; background-color: #fff; width:90px; height: 25px; border: 1px; border-style: inset;" -->
 						        	<!--  
@@ -174,17 +180,6 @@
 							</div>
 						</div>			
 						<div class="width-70 float-left por margin-5-top" id="SrDiv">
-							<!--
-							<div class="dib width-98">
-		                    	<label class="tit_80 poa">&nbsp;&nbsp;SR-ID</label>
-		                        <div class="ml_80">
-									<input id="txtSR" class="width-83" type="text" readonly>
-								</div>
-							</div>
-							<div class="dib poa_r">
-								<button id="btnSR" class="btn_basic_n">&nbsp;&nbsp;SR 정보 확인&nbsp;&nbsp;</button>
-							</div>
-							-->
 							<div class="dib" style="width:calc(100% - 109.31px);">
 		                    	<label class="tit_80 poa">&nbsp;&nbsp;SR-ID</label>
 		                        <div class="ml_80 margin-5-right">

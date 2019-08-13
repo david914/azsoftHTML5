@@ -107,11 +107,11 @@ label {
 							</div>		
 							<div class="dib">
 								<div id="divPicker" data-ax5picker="basic" class="az_input_group dib">
-						            <input id="datStD" name="datStD" type="text" placeholder="yyyy/mm/dd" style="width:100px;" class="f-cal" autocomplete="off">
-						            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
-						            <span class="sim">∼</span>
-						            <input id="datEdD" name="datEdD" type="text" placeholder="yyyy/mm/dd" style="width:100px;" class="f-cal" autocomplete="off">
-						            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>		
+									<input id="datStD" name="datStD" type="text" placeholder="yyyy/mm/dd" style="width:100px;" class="f-cal" autocomplete="off">
+									<button id="btnStD" class="btn_calendar"><i class="fa fa-calendar-o"></i></button>
+									<span class="sim">∼</span>
+									<input id="datEdD" name="datEdD" type="text" placeholder="yyyy/mm/dd" style="width:100px;" class="f-cal" autocomplete="off">
+									<button id="btnEdD" class="btn_calendar"><i class="fa fa-calendar-o"></i></button>
 								</div>
 							</div>	
 							<div class="dib vat">

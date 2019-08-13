@@ -261,9 +261,13 @@ function setDateEnable() {
 	if(getSelectedIndex('cboSta') == 1){
 		$('#datStD').prop("disabled", true);
 		$('#datEdD').prop("disabled", true);
+		$('#btnStD').prop("disabled", true);
+		$('#btnEdD').prop("disabled", true);
 	} else {
 		$('#datStD').prop("disabled", false);
 		$('#datEdD').prop("disabled", false);
+		$('#btnStD').prop("disabled", false);
+		$('#btnEdD').prop("disabled", false);
 	}
 }
 // 어드민 여부 확인
