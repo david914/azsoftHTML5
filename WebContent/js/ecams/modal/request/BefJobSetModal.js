@@ -88,7 +88,7 @@ firstGrid.setConfig({
         {key: "cm_sysmsg", label: "시스템",  width: '15%'},
         {key: "cm_username", label: "신청자",  width: '15%'},
         {key: "cm_codename", label: "진행상태",  width: '15%'},
-        {key: "cr_sayu", label: "신청사유",  width: '25%'}
+        {key: "cr_sayu", label: "신청사유",  width: '25%', align: 'left'}
     ]
 });
 

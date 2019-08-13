@@ -18,6 +18,7 @@ import com.google.gson.JsonParser;
 import app.common.SignInfo;
 import app.common.SysInfo;
 import app.eCmd.Cmd0100;
+import app.eCmd.Cmd1200;
 import app.eCmr.Cmr0200;
 import app.eCmr.Cmr0200_BefJob;
 import app.eCmr.Confirm_select;
@@ -38,6 +39,7 @@ public class ApplyRequest extends HttpServlet {
 	Confirm_select confirm_select = new Confirm_select();
 	SignInfo signInfo = new SignInfo();
 	DocFile docfile = new DocFile();
+	Cmd1200 cmd1200 = new Cmd1200();
 		
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -93,6 +95,8 @@ public class ApplyRequest extends HttpServlet {
 				case "setDocFile" :
 					response.getWriter().write( setDocFile(jsonElement) );
 					break;
+				case "getProgScript" :
+					response.getWriter().write(getProgScript(jsonElement) );
 				default:
 					break;
 			}
@@ -156,7 +160,6 @@ public class ApplyRequest extends HttpServlet {
 			befJobData = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"befJobData"));
 			return gson.toJson(cmr0200.request_Deploy(secondGridData, requestData, befJobData, requestConfirmData, "Y", scriptData));
 		}
-			
 	}
 	private String getDownFileList(JsonElement jsonElement) throws SQLException, Exception {
 		
@@ -225,6 +228,17 @@ public class ApplyRequest extends HttpServlet {
 		ArrayList<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
 		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
 		return gson.toJson(docfile.setDocFile(fileList));
+			
+	}
+	
+	private String getProgScript(JsonElement jsonElement) throws SQLException, Exception {
+		String sysCD = null;
+		sysCD = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "sysCd") );
+		String reqCD = null;
+		reqCD = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "reqCd") );
+		ArrayList<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
+		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
+		return gson.toJson(cmd1200.getProgScript(sysCD, reqCD, fileList));
 			
 	}
 }

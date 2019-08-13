@@ -225,7 +225,7 @@ $(document).ready(function() {
 	});
 	
 	// 등록 버튼 클릭
-	$('#btnReq').bind('click', function() {
+	$('#btnReg').bind('click', function() {
 		insertBldList();
 	});
 	
