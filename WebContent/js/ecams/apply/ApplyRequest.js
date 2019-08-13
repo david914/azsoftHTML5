@@ -16,6 +16,7 @@ var datReqDate 		= new ax5.ui.picker();
 var befJobModal 		= new ax5.ui.modal();
 var approvalModal 		= new ax5.ui.modal();
 var fileUploadModal 		= new ax5.ui.modal();
+var scriptModal 		= new ax5.ui.modal();
 
 var request         =  new Request();
 
@@ -30,6 +31,8 @@ var firstGridData = []; //신청대상그리드
 var secondGridData = [];
 var gridSimpleData = [];
 var cboReqData = [];
+var ScriptProgData = [];
+
 var firstGridColumns = null;
 var secondGridColumns = null;
 var localHome = '';
@@ -50,6 +53,7 @@ var confirmInfoData = null;
 var uploadCk = false; // 파일 업로드 체크
 var acptNo = "";
 var winDevRep        = null; //SR정보 새창
+var SelSysCd = null;
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -529,7 +533,7 @@ function successGetSysCbo(data) {
 		var selectVal = $('select[name=cboSys] option:eq(0)').val();
 		$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
 	}
-	getRsrcInfo(getSelectedVal('cboSys').value);
+	getRsrcInfo(SelSysCd);
 	changeSrId();
 	
 	if(reqCd == '04'){
@@ -725,10 +729,10 @@ function findProc() {
 	
 	var tmpObj = new Object();
 	tmpObj.UserId = userId;
-	tmpObj.SysCd = getSelectedVal('cboSys').value;
+	tmpObj.SysCd = SelSysCd;
 	tmpObj.SinCd = reqCd;
 	tmpObj.TstSw = getSelectedVal('cboSys').TstSw;
-	tmpObj.RsrcName = $('#txtRsrcName').val();
+	tmpObj.RsrcName = $('#txtRsrcName').val().trim();
 	tmpObj.DsnCd = "";
 	tmpObj.DirPath = "";
 	tmpObj.SysInfo = getSelectedVal('cboSys').cm_sysinfo;
@@ -778,18 +782,29 @@ function successGetProgramList(data) {
 		});
 		
 	}
+	else{
+		//이클립스 소스는 체크인 불가하도록 flag 값 1로 셋팅 되어야 함.
+		for ( j=0  ;firstGridData.length>j ; j++ ) {
+//		trace ("[cr_rsrcname]:"+firstGridData[j].cr_rsrcname+"  [57]:"+firstGridData[j].cm_info.substr(57,1)+"  [44]:"+firstGridData[j].cm_info.substr(44,1));
+			if ( firstGridData[j].cm_info.substr(57,1) == "1" &&  firstGridData[j].cm_info.substr(44,1) == "0" ) {
+				firstGridData[j].selected_flag = "1";
+				firstGridData[j].cm_dirpath = "이클립스에서만 체크인이 가능합니다.";
+			}
+		}
+	}
+	
+	firstGrid.setData(firstGridData);
 	
 	if(firstGridData.length > 0 && reqCd == '03'){
 		firstGrid.selectAll({selected:true, filter:function(){
 			
-				return this['selected_flag'] == '1';
+				return this['selected_flag'] != '1';
 			
 			}
 		});
-		addDataRow();
+		//addDataRow();
 	}
 	
-	firstGrid.setData(firstGridData);
 	qrySw = false;
 }
 
@@ -1196,7 +1211,7 @@ function cmdReqSubAnal(data){
 			downFileData.ReqCD = reqCd;
 			downFileData.SinCd = reqCd;
 			downFileData.TstSw = getSelectedVal('cboSys').TstSw;
-			downFileData.syscd = getSelectedVal('cboSys').value;
+			downFileData.syscd = SelSysCd;
 			downFileData.sysgb = getSelectedVal('cboSys').cm_sysgb;
 			downFileData.userid = userId;
 			if(closeSw) downFileData.closeyn = 'Y';
@@ -1335,18 +1350,22 @@ function sysDataFilter(){
 
 function changeSys(){
 
+	if(getSelectedIndex('cboSys') > 0){
+		SelSysCd = getSelectedVal('cboSys').value;
+	}
+	else{
+		SelSysCd = null;
+	}
+	
 	$('[data-ax5select="cboRsrccd"]').ax5select({
         options: []
 	});
 
-	getRsrcInfo(getSelectedVal('cboSys').value);
+	getRsrcInfo(SelSysCd);
 	
 	firstGrid.setData([]);
 	firstGridData = [];
 	localHome = "";
-
-	//$('#chkBefJob').wCheck('check',false);
-	$('#chkBefJob').hide();
 	
 	if (getSelectedVal('cboSys').cm_stopsw == "1") {
 		dialog.alert("이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.");
@@ -1406,7 +1425,7 @@ function changeSys(){
 		if(getSelectedVal('cboSys').localyn == 'A' || getSelectedVal('cboSys').localyn == 'L'){
 			var devHomeData = new Object();
 			devHomeData.UserId = userId;
-			devHomeData.SysCd = getSelectedVal('cboSys').value;
+			devHomeData.SysCd = SelSysCd;
 			
 			var tmpData = {
 				treeInfoData: 	devHomeData,
@@ -1417,10 +1436,12 @@ function changeSys(){
 			ajaxAsync('/webPage/dev/CheckOutServlet', tmpData, 'json',successGetDevHome);
 		}
 	}
-	
+	/*
+	 * 정적분석확인
 	if(getSelectedVal('cboSys').cm_sysinfo.substr(14,1) == '1'){
 		$('#chkBefJob').show();
 	}
+	*/
 	
 }
 
@@ -1515,51 +1536,6 @@ function difflist_resultHandler(event){
 
 */
 
-function cmdReq_DiffNext() {
-	var tmpObj = new Object();
-	var tmpArray = [];
-	var findSw = false;
-	
-	for (var x=0;x<secondGridData.length;x++) {
-		if (!$('#chkSvr').is(':checked') && 
-		    (secondGridData[x].cm_info.substr(38,1) == "1" || 
-		      secondGridData[x].cm_info.substr(50,1) == "1")) {
-		    findSw = true;
-		    tmpObj = new Object();
-		    tmpObj.cr_itemid = secondGridData[x].cr_itemid;
-		    tmpObj.baseitem = secondGridData[x].baseitem;
-		    tmpObj.cm_dirpath = secondGridData[x].cm_dirpath;
-		    tmpObj.cr_rsrcname = secondGridData[x].cr_rsrcname;
-		    tmpObj.cr_rsrccd = secondGridData[x].cr_rsrccd;
-		    tmpObj.cr_syscd = secondGridData[x].cr_syscd;
-		    if (secondGridData[x].cm_info.substr(38,1) == "1") tmpObj.compyes = "Y";
-		    else tmpObj.compyes = "N";
-		    if (secondGridData[x].cm_info.substr(50,1) == "1") tmpObj.deployyes = "Y";
-		    else tmpObj.deployyes = "N";
-		    if (secondGridData[x].cm_info.substr(28,1) == "1") tmpObj.progshl = "1";
-		    else tmpObj.progshl = "0";
-		    tmpArray.push(tmpObj);
-		}
-	}
-	editRowBlank();
-	if (findSw) { //빌드 및 배포스크립트실행관련
-		tmpObj = {};
-		tmpObj.reqcd  = reqCd;
-		tmpObj.syscd  = cboSys.selectedItem.cm_syscd;
-		scriptPopUp = Script_Sel(PopUpManager.createPopUp(this, Script_Sel, true));
-		scriptPopUp.width = screen.width - 80;
-		scriptPopUp.height = screen.height - 200;
-		scriptPopUp.progList_dp.source = tmpArray.toArray();
-		scriptPopUp.parentfuc = scriptRequest;
-		scriptPopUp.parentvar = tmpObj;
-        PopUpManager.centerPopUp(scriptPopUp);//팝업을 중앙에 위치하도록 함
-        scriptPopUp.minitApp();	
-		tmpObj = null;	
-	} else {
-		cmdReqSub();
-	}	
-}
-
 function editRowBlank() {
 	var iCnt = gridSimpleData.length; //항목상세보기를 제외한 모듈단위의 목록
 	for(var i=0; i<iCnt; i++) {
@@ -1574,7 +1550,18 @@ function editRowBlank() {
 		}
 	}			
 }
-
+// 컴파일 순서 미개발
+function editRowStart(event) { /*그리드 클릭시*/
+	if ( grdLst2.selectedItem == null ) return;
+	if(grdLst2.selectedItem.enabled == "0") { //비활성화 (항목상세보기) 상태이면
+		prcseq.editable = false; //컴파일순서 에디터 불가
+	} else {
+		if(event.columnIndex == 4){ //선택한 컬럼이 5번째(0부터 시작) (컴파일순서)라면
+			prcseq.editable = true;
+			grdLst2.editedItemPosition = {columnIndex:4, rowIndex:event.rowIndex}; //에디트포지션 지정
+		}
+	}
+}
 //빌드스크립트 팝업 미개발
 function scriptRequest()
 {
@@ -1616,7 +1603,7 @@ function cmdReqSub(){
 	if(reqCd != '07' && closeSw) strQry = '05';
 	
 	var confirmInfoData = new Object();
-	confirmInfoData.SysCd = getSelectedVal('cboSys').value;
+	confirmInfoData.SysCd = SelSysCd;
 	confirmInfoData.strRsrcCd = strRsrcCd;
 	confirmInfoData.ReqCd = reqCd;
 	confirmInfoData.UserID = userId;
@@ -1692,7 +1679,7 @@ function confCall(GbnCd){
 	confirmInfoData = new Object();
 	confirmInfoData.UserID = userId;
 	confirmInfoData.ReqCd  = reqCd;
-	confirmInfoData.SysCd  = getSelectedVal('cboSys').value;
+	confirmInfoData.SysCd  = SelSysCd;
 	confirmInfoData.Rsrccd = tmpRsrc;
 	confirmInfoData.QryCd = strQry;
 	confirmInfoData.EmgSw = emgSw;
@@ -1925,12 +1912,7 @@ function btnRequestClick(){
 	}, function(){
         mask.close();
 		if(this.key === 'ok') {
-			if(reqCd == '07'){
-				cmdReq_DiffNext();
-			}
-			else{
 				baepoConfirm();
-			}
 		}
 	});
 }
@@ -2067,8 +2049,8 @@ function baepoConfirm(){
 function RequestScript(){
 
 	var findSw = false;
-	var tmpArray = [];
 	var tmpObj = new Object();
+	ScriptProgData = [];
 	for (var x=0;x<secondGridData.length;x++) {
 		//운영배포 요청 이면서 스크립트 실행 있는지 확인
 		if ( reqCd == "04" &&
@@ -2087,7 +2069,7 @@ function RequestScript(){
 		    else tmpObj.deployyes = "N";
 		    if (secondGridData[x].cm_info.substr(28,1) == "1") tmpObj.progshl = "1";
 		    else tmpObj.progshl = "0";
-		    tmpArray.push(tmpObj);
+		    ScriptProgData.push(tmpObj);
 		    tmpObj = null;
 		}
 		//테스트배포 요청 이면서 스크립트 있는지 확인
@@ -2110,25 +2092,66 @@ function RequestScript(){
 		    //사용자정의스크립트(사용)[29] 일때
 		    if (secondGridData[x].cm_info.substr(28,1) == "1") tmpObj.progshl = "1";
 		    else tmpObj.progshl = "0";
-		    tmpArray.push(tmpObj);
+		    ScriptProgData.push(tmpObj);
 		    tmpObj = null;
 		}
-	}	
-	
-	//컴파일 팝업 미개발
+		//체크인 요청 이면서 스크립트 있는지 확인
+		else if (reqCd == '07' && 
+				(!$('#chkSvr').is(':checked') && 
+						(secondGridData[x].cm_info.substr(38,1) == "1" || 
+						secondGridData[x].cm_info.substr(50,1) == "1") ) ){
+		    findSw = true;
+		    tmpObj = new Object();
+		    tmpObj.cr_itemid = secondGridData[x].cr_itemid;
+		    tmpObj.baseitem = secondGridData[x].baseitem;
+		    tmpObj.cm_dirpath = secondGridData[x].cm_dirpath;
+		    tmpObj.cr_rsrcname = secondGridData[x].cr_rsrcname;
+		    tmpObj.cr_rsrccd = secondGridData[x].cr_rsrccd;
+		    tmpObj.cr_syscd = secondGridData[x].cr_syscd;
+		    if (secondGridData[x].cm_info.substr(38,1) == "1") tmpObj.compyes = "Y";
+		    else tmpObj.compyes = "N";
+		    if (secondGridData[x].cm_info.substr(50,1) == "1") tmpObj.deployyes = "Y";
+		    else tmpObj.deployyes = "N";
+		    if (secondGridData[x].cm_info.substr(28,1) == "1") tmpObj.progshl = "1";
+		    else tmpObj.progshl = "0";
+		    ScriptProgData.push(tmpObj);
+		    tmpObj = null;
+		}
+	}
+	if(reqCd == '07'){
+		editRowBlank();
+	}
+	//컴파일 팝업
 	if ( findSw ) {//컴파일 또는 릴리즈스크립트 실행이 존재하는 프로그램이 있으면 스크립트를 작성 할수 있도록 연결
-		tmpObj = new Object();
-		tmpObj.reqcd  = reqCd;
-		tmpObj.syscd  = getSelectedVal('cboSys').cm_syscd;
-		scriptPopUp = Script_Sel(PopUpManager.createPopUp(this, Script_Sel, true));
-		scriptPopUp.width = screen.width - 80;
-		scriptPopUp.height = screen.height - 100;
-		scriptPopUp.progList_dp.source = tmpArray.toArray();
-		scriptPopUp.parentfuc = scriptRequest;
-		scriptPopUp.parentvar = tmpObj;
-        PopUpManager.centerPopUp(scriptPopUp);//팝업을 중앙에 위치하도록 함
-        scriptPopUp.minitApp();
+		scriptModal.open({
+	        width: 1050,
+	        height: 630,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/request/ScriptModal.jsp",
+	            param: "callBack=modalCallBack"
+		    },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	            }
+	        }
+		});
 	}else {
+		cmdReqSub();
+	}
+}
+
+function scriptModalClose(){
+	scriptModal.close();
+	if(scriptData.length <= 0){
+		ingSw = false;
+		return;
+	}
+	else{
 		cmdReqSub();
 	}
 }
