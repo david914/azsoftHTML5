@@ -149,7 +149,8 @@ function changeTabMenu() {
 		
 		if(tmpTab.strIsrId == strIsrId) return;
 		
-		tmpTab.strStatus = tmpSelectedGridItem.cc_status;
+		//tmpTab.strStatus = tmpSelectedGridItem.cc_status;
+		tmpTab.strStatus = "XX";
 		tmpTab.strIsrId = strIsrId;
 		tmpTab.elementInit("M"); //tab1.screenInit("M");
 		tmpTab.firstGridClick(strIsrId); //tab1.grdPrj_click(strIsrId)

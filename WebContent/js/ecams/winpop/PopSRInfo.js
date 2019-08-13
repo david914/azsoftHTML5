@@ -25,6 +25,8 @@ var cboQryGbnData = [];
 
 var prjListData = [];
 
+var loadSw = false;
+var inter = null;
 
 $(document).ready(function() {
 	//tab메뉴
@@ -57,9 +59,24 @@ $(document).ready(function() {
 	
 	$('#frmPrgList').get(0).contentWindow.strReqCd = "XX";
 	
-	initScreen();
+	document.getElementById('frmSRRegister').onload = function() {
+	    loadSw = true;
+	}
+	
+	callSRRegister();
+	//initScreen();
 	//clickTabMenu();
 });
+
+//페이지 로딩 완료시 다음 진행 
+function callSRRegister() {
+   inter = setInterval(function(){
+      if(loadSw) {
+         initScreen();
+         clearInterval(inter);
+      }
+   },100);
+}
 
 function initScreen() {
 	$('#tab1').attr('disabled', true);
@@ -201,10 +218,10 @@ function changeTabMenu() {
 		//initApp();
 		
 		//tmpTab.strEditor = prjListData[0].cc_createuser
-		tmpTab.strStatus = prjListData[0].cc_status;
+		//tmpTab.strStatus = prjListData[0].cc_status;
+		tmpTab.strStatus = "XX";
 		tmpTab.firstGridClick(prjListData[0].cc_srid);
 		tmpTab.strIsrId = strIsrId;
-		
 	}else if(document.getElementById("tab2").className == "on") { //개발계획/실적등록
 		tmpTab = $('#frmDevPlan').get(0).contentWindow;
 		
