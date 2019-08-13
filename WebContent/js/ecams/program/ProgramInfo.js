@@ -98,9 +98,9 @@ $(document).ready(function(){
 			$('[data-ax5select="cboSysCd"]').ax5select("setValue", $("#syscd").val(), true);
 			$('[data-ax5select="cboJawon"]').ax5select("setValue", $("#rsrccd").val(), true);
 			$("#txtRsrcName").val($("#rsrcname").val());
+			$("#btnQry").trigger('click');
+			$("#txtRsrcName").prop('disabled', true);
 		}
-		$("#btnQry").trigger('click');
-		$("#txtRsrcName").prop('disabled', true);
 	}, 1000);
 	
 	

@@ -6,19 +6,19 @@ var mainGrid		= new ax5.ui.grid();
 var picker				= new ax5.ui.picker();
 var columnData = 
 	[ 
-		{key : "cm_sysmsg",label : "시스템",align : "center",width: "8%"}, 
-		{key : "spms",label : "SR-ID",align : "center",width: "10%"}, 
-		{key : "cm_deptname",label : "신청부서",align : "center",width: "4%"}, 
-		{key : "acptno",label : "신청번호",align : "center",width: "7%"}, 
+		{key : "cm_sysmsg",label : "시스템",align : "left",width: "8%"}, 
+		{key : "spms",label : "SR-ID",align : "left",width: "10%"}, 
+		{key : "cm_deptname",label : "신청부서",align : "left",width: "4%"}, 
+		{key : "acptno",label : "신청번호",align : "left",width: "7%"}, 
 		{key : "cm_username",label : "신청자",align : "center",width: "3%"}, 
-		{key : "cr_passcd",label : "신청사유",align : "center",width: "15%"}, 
-		{key : "cr_acptdate",label : "신청일시",align : "center",width: "5%"}, 
-		{key : "cr_prcdate",label : "완료일시",align : "center",width: "5%"}, 
+		{key : "cr_passcd",label : "신청사유",align : "left",width: "15%"}, 
+		{key : "cr_acptdate",label : "신청일시",align : "left",width: "5%"}, 
+		{key : "cr_prcdate",label : "완료일시",align : "left",width: "5%"}, 
 		{key : "requestgb",label : "신청구분",align : "center",width: "4%"}, 
 		{key : "sta",label : "진행상태",align : "center",width: "8%"}, 
 		{key : "gbn",label : "처리구분",align : "center",width: "4%"}, 
-		{key : "cm_dirpath",label : "디렉토리",align : "center",width: "15%"}, 
-		{key : "cr_rsrcname",label : "프로그램명",align : "center",width: "11%"}
+		{key : "cm_dirpath",label : "디렉토리",align : "left",width: "15%"}, 
+		{key : "cr_rsrcname",label : "프로그램명",align : "left",width: "11%"}
 	];
 
 picker.bind({
@@ -82,6 +82,7 @@ $(document).ready(function() {
 		multipleSelect : false,
 		lineNumberColumnWidth : 40,
 		rowSelectorColumnWidth : 27,
+		header : {align: "center"},
 		body : {
 			columnHeight: 24,
 	        onClick: function () {

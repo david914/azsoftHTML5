@@ -8,12 +8,12 @@ var selectedItem = null;
 var columnData = 
 	[ 
 		{key : "job",label : "시스템",align : "center",width: "7%"}, 
-		{key : "cr_rsrcname",label : "프로그램명",align : "center",width: "14%"}, 
-		{key : "cm_dirpath",label : "프로그램경로",align : "center",width: "24%"}, 
+		{key : "cr_rsrcname",label : "프로그램명",align : "left",width: "14%"}, 
+		{key : "cm_dirpath",label : "프로그램경로",align : "left",width: "24%"}, 
 		{key : "sta",label : "상태",align : "center",width: "7%"}, 
 		{key : "cr_lstver",label : "버전",align : "center",width: "5%"}, 
-		{key : "rsrccd",label : "프로그램종류",align : "center",width: "12%"}, 
-		{key : "cr_story",label : "프로그램설명",align : "center",width: "10%"}, 
+		{key : "rsrccd",label : "프로그램종류",align : "left",width: "12%"}, 
+		{key : "cr_story",label : "프로그램설명",align : "left",width: "10%"}, 
 		{key : "cm_username",label : "최종변경자",align : "center",width: "8%"}, 
 		{key : "cr_lastdate",label : "최종변경일",align : "center",width: "10%"} 
 	];
@@ -28,6 +28,7 @@ $(document).ready(function() {
 		multipleSelect : false,
 		lineNumberColumnWidth : 40,
 		rowSelectorColumnWidth : 27,
+		header : {align: "center"},
 		body : {
 			columnHeight: 24,
 	        onClick: function () {
