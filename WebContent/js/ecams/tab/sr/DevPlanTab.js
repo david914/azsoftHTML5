@@ -15,8 +15,8 @@ var userDeptCd 	 	= window.parent.userDeptCd;
 var strReqCd	 	= window.parent.strReqCd; 
 
 //public
-var strStatus		= window.parent.strStatus; //SR상태 "2";
-var strIsrId		= window.parent.strIsrId; //"R201906-0003";  
+var strStatus		= window.parent.strStatus;
+var strIsrId		= window.parent.strIsrId;  
 
 var txtExpStdatePicker	= new ax5.ui.picker(); //예상개발시작일
 var txtExpEnddatePicker = new ax5.ui.picker(); //예상개발종료일
@@ -121,7 +121,8 @@ $('input.radio-pie').wRadio({theme: 'circle-radial red', selector: 'checkmark'})
 $(document).ready(function(){
 	getWorkDays();
 	getDevrRate();
-	//initDevPlan();
+	
+	disableCal(true, 'txtDevDate');
 	
 	//예상개발시작일, 예살개방종료일, 작업일
 	today = getDate('DATE',0);
@@ -154,10 +155,6 @@ $(document).ready(function(){
 	$("#chkAll").change(function(){
 		worktimeFiltering();
     });
-	
-	//테스트
-//	$('#rdoPlan').prop("checked", true);
-//	rdoPlan_click();
 });
 
 //연도별월근무일수조회 Cmc0200.getWorkDays(new Date().getFullYear());
@@ -229,9 +226,6 @@ function rdoPlan_click() {
 	}
 	
 	console.log("selectedGridItem", selectedGridItem);
-	console.log("cc_userid: " + selectedGridItem.cc_userid + ", userId: " + userId + ", status: " + strStatus);
-	console.log("devmm: " + selectedGridItem.devmm + ", rdoResult: " + $('#rdoResult').is(':checked'));
-	
 	//strStatus: SR상태
 	if(selectedGridItem.cc_userid == userId) {
 		if($('#rdoPlan').is(':checked') && (strStatus == '1' || strStatus == '2' || strStatus == '4' || strStatus == '5')) {
@@ -246,23 +240,33 @@ function rdoPlan_click() {
 	
 	if($('#rdoPlan').is(':checked') && $('#btnRegPlan').is(':enabled')) {
 		$('#txtExpTime').prop("disabled", false);
+		
+		disableCal(false, 'txtExpStdate');
 		$('#txtExpStdate').prop("disabled", false);
-		$('#btnExpStdate').prop("disabled", false);
+		
+		disableCal(false, 'txtExpEnddate');
 		$('#txtExpEnddate').prop("disabled", false);
-		$('#btnExpEnddate').prop("disabled", false);
+		
 		$('#txtDevTime').prop("disabled", true);
+		
+		disableCal(true, 'txtDevDate');
 		$('#txtDevDate').prop("disabled", true);
-		$('#btnDevDate').prop("disabled", true);
+		
 		$('[data-ax5select="cboRate"]').ax5select("enable");
 	}else if($('#rdoResult').is(':checked') && $('#btnRegResult').is(':enabled')) {
 		$('#txtExpTime').prop("disabled", true);
+		
+		disableCal(true, 'txtExpStdate');
 		$('#txtExpStdate').prop("disabled", true);
-		$('#btnExpStdate').prop("disabled", true);
+		
+		disableCal(true, 'txtExpEnddate');
 		$('#txtExpEnddate').prop("disabled", true);
-		$('#btnExpEnddate').prop("disabled", true);
+		
 		$('#txtDevTime').prop("disabled", false);
+		
+		disableCal(false, 'txtDevDate');
 		$('#txtDevDate').prop("disabled", false);
-		$('#btnDevDate').prop("disabled", false);
+		
 		$('[data-ax5select="cboRate"]').ax5select("disable");
 	}
 }
@@ -390,7 +394,7 @@ function grdWorker_Click() {
 							selectedGridItem.cc_devedday.substr(6,2));
 	}
 	
-	console.log("395line cnt: "+ selectedGridItem.cnt + ", devmm: " + selectedGridItem.devmm);
+	console.log("397line selectedGridItem: ", selectedGridItem);
 	if(selectedGridItem.cnt == 0) {
 		if(selectedGridItem.devmm == null || selectedGridItem.devmm == "") {
 			$('#rdoResult').wRadio("disabled", true);
@@ -398,11 +402,9 @@ function grdWorker_Click() {
 			$('#rdoResult').wRadio("disabled", false);
 		}
 		$('#rdoPlan').wRadio("check", true);
-		//$('#rdoResult').wRadio("check", false);
 	}else {
 		$('#rdoResult').wRadio("disabled", false);
-		$('#rdoPlan').wRadio("check", false);
-		//$('#rdoResult').wRadio("check", true);
+		$('#rdoResult').wRadio("check", true);
 	}
 	
 	if(grdWorkerData.length > 0) {
@@ -563,17 +565,4 @@ function successWorkResult(data) {
 	}else {
 		dialog.alert('개발실적등록 중 오류가 발생하였습니다.',function(){});
 	}
-}
-
-function txtExpStdate_Click() {
-	$('[data-ax5picker="txtExpStdate"]').focus();
-}
-
-function txtExpEnddate_Click() {
-	$('[data-ax5picker="txtExpEnddate"]').focus();
-}
-
-
-function txtDevDate_Click() {
-	$('[data-ax5picker="txtDevDate"]').focus();
 }
