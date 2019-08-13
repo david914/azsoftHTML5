@@ -4,27 +4,6 @@
 <c:import url="/webPage/common/common.jsp" />
 <link rel="stylesheet" href="<c:url value="/styles/bootstrap-timepicker.css"/>" />
 
-<style>
-.fontStyle-cncl {
-	color: #d12832;
-}
-.fontStyle-rec {
-	color: #f16832;
-}
-.fontStyle-dev {
-	color: #00523d;
-}
-.fontStyle-test {
-	color: #8f6fff;
-}
-.fontStyle-apply {
-	color: #326aab;
-}
-.fontStyle-end {
-	color: #2B2B2B;
-}
-</style>
-
 <div class="contentFrame">
 	<!-- history S-->
 	<div id="history_wrap">등록 <strong>&gt; SR진행현황</strong></div>

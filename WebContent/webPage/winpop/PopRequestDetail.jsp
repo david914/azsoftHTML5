@@ -13,15 +13,6 @@
 %>
 
 <style>
-.fontStyle-error {
-	color: #BE81F7;
-}
-.fontStyle-cncl {
-	color: #FF0000;
-}
-.fontStyle-module {
-	color: #FF8080;
-}
 .timePickerDiv{
 	width: 95px;
 	height: 25px;

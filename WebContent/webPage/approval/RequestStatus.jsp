@@ -2,30 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
-<!--
-<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300&display=swap" rel="stylesheet">
-<style>
-label {
-	font-family: "Noto Sans KR", sans-serif;
-}
-
-.thumbnail span {
-	font-weight: bold;
-}
-</style>
--->
-
-<style>
-.fontStyle-error {
-	color: #b21db2;
-}
-.fontStyle-cncl {
-	color: #c02525;
-}
-.fontStyle-ing {
-	color: #326aab;
-}
-</style>
 
 <div class="contentFrame">
     <!-- history S-->

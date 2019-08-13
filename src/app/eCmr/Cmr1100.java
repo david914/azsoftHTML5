@@ -375,7 +375,7 @@ public class Cmr1100 {
 
 		try {
 			conn = connectionContext.getConnection();
-			strQuery.append("select a.cr_acptno,a.cr_editor,a.cr_syscd,a.cr_status,     \n");
+			strQuery.append("select /*+ RULE */  a.cr_acptno,a.cr_editor,a.cr_syscd,a.cr_status,     \n");
 			strQuery.append("to_char(a.CR_ACPTDATE,'yyyy/mm/dd hh24:mi') as acptdate,   \n");
 			strQuery.append("a.cr_acptno,a.cr_editor,a.cr_syscd,a.cr_status,            \n");
 			strQuery.append("a.cr_passcd,a.cr_sysgb,a.cr_qrycd,a.cr_passok,             \n");
