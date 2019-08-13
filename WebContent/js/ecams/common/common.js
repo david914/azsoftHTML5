@@ -428,7 +428,9 @@ function disableCal(sw, id) {
  * 캘린더 선택시 앞의 input 창에 클릭 이벤트를 주어 달력이 켜지도록
  * @returns
  */
-$('.btn_calendar').bind('click', function() {
+$('.btn_calendar').bind('click', function(e) {
+	e.preventDefault();
+    e.stopPropagation();
 	if($(this).css('background-color') === 'rgb(255, 255, 255)') {
 		var inputs = $(this).siblings().prevAll('input');
 		$(inputs.prevObject[0]).trigger('click');

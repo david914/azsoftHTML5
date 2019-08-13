@@ -33,7 +33,7 @@
 		</div>
 		<div class="row vat">
 			<div class="width-100 dib">
-				<div class="az_board_basic" style="height: 60%;">
+				<div class="az_board_basic" style="height: 67%;">
 					<div data-ax5grid="approvalGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 				</div>
 			</div>

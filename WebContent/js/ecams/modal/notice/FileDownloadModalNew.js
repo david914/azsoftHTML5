@@ -92,6 +92,12 @@ $(document).ready(function() {
 		
 		delFile(selItem.orgname);
 	});
+	
+	// 일괄다운로드
+	$('#btnAllDw').bind('click', function() {
+		var zipName = '공지사항일괄다운';
+		location.href = '/webPage/fileupload/upload?&zipPath='+noticeFolderPath+'\\'+downAcptno + '&zipName=' + zipName;
+	});
 });
 
 // 공지사항 다운로드 경로 가져오기
