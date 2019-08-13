@@ -1242,10 +1242,13 @@ input:-ms-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input::-moz-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input{margin: 0 auto; height: 25px; border: 1px solid #ddd; box-sizing: border-box; padding-left: 5px; font-family: inherit; color: #444;}
 input:hover{border: 1px solid #326aab; border-radius: 0px; box-shadow: none;}
+input[readonly]{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
+input[readonly]:hover{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
 input:focus{border: 1px solid #326aab; border-radius: 0px; box-shadow: none;}
+input[readonly]:focus{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
 input[type="radio"]{display: inline-block; width: 15px; height: 15px; vertical-align: middle; margin: 0 5px;}
 input[type="checkbox"]{display: inline-block; width: 15px; height: 15px; vertical-align: middle; margin: 0 5px; border: 1px solid #ddd;}
-select {width: 200px; height:25px; padding: 0 7px; border: 1px solid #ddd; border-radius: 0; font-family: inherit; background: #fff url('../../../img/arrow.png') no-repeat 95% 50%; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
+select {width: 200px;height:25px;padding: 0 7px;border: 1px solid #ddd;border-radius: 0;font-family: inherit;background: #fff url('../../../img/arrow.png') no-repeat 95% 50%;-webkit-appearance: none;-moz-appearance: none;appearance: none;}
 select::-ms-expand {display: none;}
 textarea{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
 /*common*/

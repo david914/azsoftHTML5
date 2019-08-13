@@ -254,8 +254,8 @@
 								<div id="cboPrcSys" data-ax5select="cboPrcSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%;"></div>
 		    				</div>
 			    		</div>
-			    		<div class="l_wrap width-100 margin-10-top" style="height: 100%;">
-						    <div class="panel-body text-center" id="gridDiv2" style="height: 85%;">
+			    		<div class="l_wrap width-100 margin-10-top" style="height: 85%;">
+						    <div class="panel-body text-center" id="gridDiv2" style="height: 100%;">
 						    	<div data-ax5grid="resultGrid"  style="height: 100%;"></div>
 						    </div>
 					    </div>
