@@ -29,7 +29,14 @@
 	background-color: #fff;
 	border: 1px solid #ccc;
 }
-.numberTxt {
+.timePickerDiv:hover, .timePickerDiv:focus{
+	width: 95px;
+	height: 25px;
+	text-align: center;
+	background-color: #fff;
+	border: 1px solid #326aab;
+}
+.numberTxt, .numberTxt:hover, .numberTxt:focus {
 	padding: 0px;
 	margin: 0px;
 	width: 35px;
@@ -68,10 +75,10 @@
 	}
 </script>
 
-<body style="padding: 10px;" onmouseup="changeTimeTxt()">
+<body id="reqBody" style="padding: 10px;" onmouseup="changeTimeTxt()">
     <div class="content">
         <!-- history S-->
-        <div id="history_wrap">	변경신청 <strong>&gt; 체크인요청상세</strong></div>
+        <div id="history_wrap">	변경신청 <strong>&gt; 요청상세</strong></div>
         <!-- history E-->
 		<div class="az_search_wrap">
 			<div class="az_in_wrap">			

@@ -38,6 +38,19 @@ pReqCd = pReqNo.substr(4,2);
 pUserId = f.user.value;
 
 reqCd = pReqCd;
+//상위 TITLE TEXT SET
+var subTitle = "";
+if (reqCd == '01') subTitle = '체크아웃';
+else if (reqCd == '02') subTitle = '이전버전체크아웃';
+else if (reqCd == '03') subTitle = '테스트적용';
+else if (reqCd == '04') subTitle = '운영적용';
+else if (reqCd == '06') subTitle = '롤백';
+else if (reqCd == '07') subTitle = '체크인';
+else if (reqCd == '16') subTitle = '일괄등록';
+else if (reqCd == '11') subTitle = '체크아웃취소';
+else if (reqCd == '12') subTitle = '테스트적용취소';
+var contentHistory = "변경신청 <strong> &gt; "+ subTitle+"요청상세</strong>";
+$('#reqBody').contents().find('#history_wrap').html(contentHistory);
 
 confirmDialog.setConfig({
     lang:{
