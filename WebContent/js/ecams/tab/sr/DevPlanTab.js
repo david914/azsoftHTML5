@@ -228,6 +228,7 @@ function rdoPlan_click() {
 		return;
 	}
 	
+	console.log("selectedGridItem", selectedGridItem);
 	console.log("cc_userid: " + selectedGridItem.cc_userid + ", userId: " + userId + ", status: " + strStatus);
 	console.log("devmm: " + selectedGridItem.devmm + ", rdoResult: " + $('#rdoResult').is(':checked'));
 	
@@ -397,11 +398,11 @@ function grdWorker_Click() {
 			$('#rdoResult').wRadio("disabled", false);
 		}
 		$('#rdoPlan').wRadio("check", true);
-		$('#rdoResult').wRadio("check", false);
+		//$('#rdoResult').wRadio("check", false);
 	}else {
 		$('#rdoResult').wRadio("disabled", false);
 		$('#rdoPlan').wRadio("check", false);
-		$('#rdoResult').wRadio("check", true);
+		//$('#rdoResult').wRadio("check", true);
 	}
 	
 	if(grdWorkerData.length > 0) {
