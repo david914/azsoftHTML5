@@ -99,13 +99,15 @@ function successPrjList(data) {
 		strIsrTitle = prjListData[0].cc_reqtitle;
 		strStatus = prjListData[0].cc_status;
 		
-		console.log("101line. strStatus: " + strStatus);
+		//console.log("101line. strStatus: " + strStatus);
+		console.log("103line. prjListData: " , prjListData);
 		
 		iSRID_Click(prjListData[0]);
 	}
 }
 
 function iSRID_Click(data) {
+	console.log("110line data", data);
 	if(data == null) return;
 	
 	var tabIdx = 0;
@@ -151,12 +153,17 @@ function iSRID_Click(data) {
 		}
 		//SR등록.initApp();
 	}
-	console.log("data.isrproc: " + data.isrproc);
-	console.log("tabIdx: " + tabIdx);
-	console.log("strAcptNo: " + strAcptNo);
-	//tabIdx = tabIdx + 1;
-	$('#tab' + tabIdx).trigger('click');
-	clickTabMenu();
+//	console.log("data.isrproc: " + data.isrproc);
+//	console.log("tabIdx: " + tabIdx);
+//	console.log("strAcptNo: " + strAcptNo);
+	
+	tabIdx = tabIdx + 1;
+	var activeTab = $('#tab' + tabIdx).attr("rel");
+	$('#tab' + tabIdx).addClass("on");
+	$("#" + activeTab).fadeIn();
+	changeTabMenu();
+	//$('#tab' + tabIdx).trigger('click');
+	//clickTabMenu();
 }
 
 //탭메뉴 클릭 이벤트
