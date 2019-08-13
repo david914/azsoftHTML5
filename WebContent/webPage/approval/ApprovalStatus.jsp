@@ -32,9 +32,9 @@
 					</div>
 					
 					<div class="width-25 dib vat">
-						<label class="tit_80 poa">&nbsp;&nbsp;&nbsp;신청인</label>
+						<label class="tit_80 poa">&nbsp;&nbsp;&nbsp;신청자</label>
 						<div class="ml_80">
-							<input id=txtUser type="text" class="width-100" placeholder="신청인을 입력하세요.">
+							<input id=txtUser type="text" class="width-100" placeholder="신청자을 입력하세요.">
 						</div>
 						<div class="vat dib"></div>
 					</div>

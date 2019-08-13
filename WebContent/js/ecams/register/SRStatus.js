@@ -328,11 +328,6 @@ function data_setEnable() {
 			$('#datEdD').prop("disabled", false);
 			$('#btnStD').prop("disabled", false);
 			$('#btnEdD').prop("disabled", false);
-	    } else {
-			$('#datStD').prop("disabled", true);
-			$('#datEdD').prop("disabled", true);
-			$('#btnStD').prop("disabled", true);
-			$('#btnEdD').prop("disabled", true);
 	    }
 	}
 	

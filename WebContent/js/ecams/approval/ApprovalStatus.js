@@ -96,7 +96,7 @@ approGrid.setConfig({
         {key: "cm_sysmsg", 	label: "시스템",  	width: '5%', align: "left"},
         {key: "spms",	 	label: "SR-ID",  	width: '15%', align: "left"},
         {key: "acptno", 	label: "신청번호",  	width: '8%'},
-        {key: "editor", 	label: "신청인",  	width: '5%'},
+        {key: "editor", 	label: "신청자",  	width: '5%'},
         {key: "qrycd",  	label: "신청종류",  	width: '6%', align: "left"},
         {key: "REQPASS", 	label: "처리구분",  	width: '6%'},
         {key: "acptdate", 	label: "신청일시",  	width: '8%',  align: "left"},
@@ -141,7 +141,7 @@ $(document).ready(function() {
 	getSysInfo();
 	getTeamInfo();
 	
-	// 신청인 엔터
+	// 신청자 엔터
 	$('#txtUser').bind('keypress', function(event) {
 		if(event.keyCode === 13) {
 			$('#btnQry').trigger('click');

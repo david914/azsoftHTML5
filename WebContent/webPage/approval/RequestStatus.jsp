@@ -57,11 +57,11 @@ label {
 							<div id="cboGbn" data-ax5select="cboGbn" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 	                	</div>
 					</div>
-					<!--신청인S-->
+					<!--신청자S-->
 					<div class="width-25 dib vat">
-	                	<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;&nbsp;신청인</label>
+	                	<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;&nbsp;신청자</label>
 	                	<div class="ml_80 vat">
-							<input id="txtUser" type="text" placeholder="신청인을 입력하세요." class="width-100" />
+							<input id="txtUser" type="text" placeholder="신청자을 입력하세요." class="width-100" />
 	                	</div>
 					</div>
 				</div>

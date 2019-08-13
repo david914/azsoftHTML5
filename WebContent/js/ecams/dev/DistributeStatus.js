@@ -175,19 +175,19 @@ firstGrid.setConfig({
          }
      },
      columns: [
-         {key: "cc_srid", label: "SR-ID",  width: ""},
-         {key: "genieid", label: "GENIE번호",  width: ""},
-         {key: "sysgbname", label: "시스템",  width: ""},
-         {key: "sin", label: "신청종류",  width: ""},
-         {key: "editor", label: "신청자",  width: ""},
-         {key: "acptno", label: "신청번호",  width: ""},
-         {key: "acptdate", label: "신청일시",  width: ""},
-         {key: "cm_codename", label: "진행상태",  width: ""},
-         {key: "procgbn", label: "처리구분",  width: ""},
-         {key: "grdprcreq", label: "적용예정일시",  width: ""},
-         {key: "prcdate", label: "완료일시",  width: ""},
-         {key: "rsrcnamememo", label: "신청내용",  width: ""},
-         {key: "cr_sayu", label: "신청사유",  width: ""}         
+         {key: 'cc_srid', label: 'SR-ID',  width: '6%'},
+         {key: 'genieid', label: '문서번호',  width: '6%', align: 'left'},
+         {key: 'sysgbname', label: '시스템',  width: '6%', align: 'left'},
+         {key: 'sin', label: '신청종류',  width: '6%', align: 'left'},
+         {key: 'editor', label: '신청자',  width: '6%'},
+         {key: 'acptno', label: '신청번호',  width: '7%'},
+         {key: 'acptdate', label: '신청일시',  width: '8%', align: 'left'},
+         {key: 'cm_codename', label: '진행상태',  width: '8%'},
+         {key: 'procgbn', label: '처리구분',  width: '5%'},
+         {key: 'grdprcreq', label: '적용예정일시',  width: '8%'},
+         {key: 'prcdate', label: '완료일시',  width: '8%'},
+         {key: 'rsrcnamememo', label: '신청내용',  width: '10%', align: 'left'},
+         {key: 'cr_sayu', label: '신청사유',  width: '10%', align: 'left'}         
      ]
 });
 
@@ -249,12 +249,15 @@ $(document).ready(function(){
 		}
 	});
 	
+	//진행상태 change
+	$('#cboStat').bind('change', function() {
+		data_setEnable();
+	});
 	//콤보박스 데이터 세팅이 완료되기 전에 리스트가 불러와져서 타임아웃 설정 
 	setTimeout(function() {
 		getFileList();
 	}, 300);
 });
-
 // 어드민 여부 확인
 function getUserInfo(){
 	var data =  new Object();
@@ -354,8 +357,9 @@ function successGetCodeInfo(data) {
 //reqCd에 따른 신청종류 default값 세팅
 function typeDefaultSet() {
 	if(strReqCD == '01') {
-		$("#gbnLabel").attr("style", "visibility: hidden;");
-		$("#cboGbn").attr("style", "visibility: hidden;");
+		$("#reqGbnDiv").css("display","none");
+		//$("#gbnLabel").attr("style", "visibility: hidden;");
+		//$("#cboGbn").attr("style", "visibility: hidden;");
 		$('[data-ax5select="cboType"]').ax5select("setValue", '01', true);
 	} else if (strReqCD == '07'){
 		$('[data-ax5select="cboType"]').ax5select("setValue", '07', true);
@@ -399,7 +403,7 @@ function resetScreen(){
 	$('[data-ax5select="cboStat"]').ax5select("setValue", '00', true);
 	$('[data-ax5select="cboGbn"]').ax5select("setValue", 'ALL', true);
 	$('#rdoStrDate').trigger('click');										// 신청일 기준으로 초기화
-	$("#txtName").val('');													// 신청인 초기화 
+	$("#txtName").val('');													// 신청자 초기화 
 	$("#txtId").val('');													// SR-ID 초기화
 	$("#txtDisc").val('');													// SR-ID 초기화
 	$('#datStD').val(today);
@@ -408,8 +412,23 @@ function resetScreen(){
 		$("#checkSelf").trigger('click');
 	}
 	typeDefaultSet();
+	data_setEnable();
 }
+function data_setEnable() {
+	if (getSelectedIndex('cboStat') < 0) return;
 
+	$('#datStD').prop("disabled", false);
+	$('#datEdD').prop("disabled", false);
+	$('#btnStD').prop("disabled", false);
+	$('#btnEdD').prop("disabled", false);
+	
+	if (getSelectedVal('cboStat').value == '1') {
+		$('#datStD').prop("disabled", true);
+		$('#datEdD').prop("disabled", true);
+		$('#btnStD').prop("disabled", true);
+		$('#btnEdD').prop("disabled", true);
+	}
+}
 // 신청현황 리스트 가져오기
 function getFileList(){
 	var prjData = new Object();

@@ -249,7 +249,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	// 신청인 input 박스 엔터
+	// 신청자 input 박스 엔터
 	$('#txtUser').bind('keypress', function(event){
 		if(event.keyCode==13) {
 			$('#btnQry').trigger('click');
@@ -400,7 +400,7 @@ function resetScreen(){
 	$('[data-ax5select="cboSysCd"]').ax5select("setValue", 	'00000',true);	// 시스템 초기화
 	$('[data-ax5select="cboDept"]').ax5select("setValue", 	'0', 	true); 	// 신청부서 초기화
 	$('#rdoStrDate').prop('checked','checked');								// 신청일 기준으로 초기화
-	$("#txtUser").val('');													// 신청인 초기화 
+	$("#txtUser").val('');													// 신청자 초기화 
 	$("#txtSpms").val('');													// SR-ID 초기화
 	$('#datStD').val(today);
 	$('#datEdD').val(today);
