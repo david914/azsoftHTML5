@@ -118,6 +118,7 @@
 <form name="popPam">
 	<input type="hidden" name="acptno"/>
 	<input type="hidden" name="user"/>
+	<input type="hidden" name="srid"/>
 </form>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
