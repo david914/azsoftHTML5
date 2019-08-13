@@ -41,7 +41,7 @@
 				<div class="row por">
 					<label class="title_s">대결가능범위</label><input type="checkbox" class="poa_r checkbox-pie" id="chkAll" data-label="전체선택"/>
 					<div class="row scrollBind" style="width:100%; height:544px">
-				     	<ul id="lstPos" class="ztree"></ul>
+				     	<ul class="list-group" id="lstPos" style="height: 100%;"></ul>
 					</div>
 				</div>
 			</div>

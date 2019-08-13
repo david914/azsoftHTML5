@@ -178,49 +178,34 @@ function successGetBlankList(data) {
 	var j = 0;
 	var k = 0;
 	
+	//초기화
 	for(j=0; j<tmpData.length; j++) {
-		if($('#rdoPos').is(':checked')) { 
+		if($('#rdoPos').is(':checked')) { //직위
+			for(i=0; i<lstPosData.length; i++) {
+				addId = lstPosData[i].cm_macode + "_" + lstPosData[i].cm_micode;
+				$('#lstPos'+addId).wCheck('check', false);
+			}
+		}else { //직무
+			for(i=0; i<lstRgtData.length; i++) {
+				addId = lstRgtData[i].cm_macode + "_" + lstRgtData[i].cm_micode;
+				$('#lstPos'+addId).wCheck('check', false);
+			}
+		}
+	}
+	
+	for(j=0; j<tmpData.length; j++) {
+		if($('#rdoPos').is(':checked')) { //직위
 			for(i=0; i<lstPosData.length; i++) {
 				if(tmpData[j].cm_sposition == lstPosData[i].cm_micode) {
 					addId = lstPosData[i].cm_macode + "_" + lstPosData[i].cm_micode;
 					$('#lstPos'+addId).wCheck('check', true);
-					if(i>k) {
-						$('#lstPos'+addId).remove();
-						
-						addId = lstPosData[i].cm_macode + "_" + lstPosData[i].cm_micode;
-						liStr  = '';
-						liStr += '<li class="list-group-item dib width-50" style="min-width: 200px;">';
-						liStr += '<div class="margin-3-top">';
-						liStr += '	<input type="checkbox" class="checkbox-cm_micode" id="lstPos'+addId+'" data-label="'+data.cm_codename+'"  value="'+data.cm_micode+'" />';
-						liStr += '</div>';
-						liStr += '</li>';
-						
-						$('#lstPos'+lstPosData[k-1].cm_macode + "_" + lstPosData[k-1].cm_micode).after(liStr);
-					}else {
-						k++;
-					}
 				}
 			}
-		}else {
+		}else { //직무
 			for(i=0; i<lstRgtData.length; i++) {
 				if(tmpData[j].cm_sposition == lstRgtData[i].cm_micode) {
 					addId = lstRgtData[i].cm_macode + "_" + lstRgtData[i].cm_micode;
 					$('#lstPos'+addId).wCheck('check', true);
-					if(i>k) {
-						$('#lstPos'+addId).remove();
-						
-						addId = lstRgtData[i].cm_macode + "_" + lstRgtData[i].cm_micode;
-						liStr  = '';
-						liStr += '<li class="list-group-item dib width-50" style="min-width: 200px;">';
-						liStr += '<div class="margin-3-top">';
-						liStr += '	<input type="checkbox" class="checkbox-cm_micode" id="lstPos'+addId+'" data-label="'+data.cm_codename+'"  value="'+data.cm_micode+'" />';
-						liStr += '</div>';
-						liStr += '</li>';
-						
-						$('#lstPos'+lstRgtData[k-1].cm_macode + "_" + lstRgtData[k-1].cm_micode).after(liStr);
-					}else {
-						k++;
-					}
 				}
 			}
 		}

@@ -24,7 +24,7 @@
 			<div class="l_wrap width-25 vat write_wrap write_wrap_100">
 				<div class="tit">
 					<!-- <h3>&#9642;개발계획</h3> -->
-					<h3><input type="radio" class="radio-pie" id="rdoPlan" name="group">개발계획</h3>
+					<h3><input type="radio" class="radio-pie" id="rdoPlan" name="group" data-label="개발계획"></h3>
 				</div>
 				<div class="row">
 					<dl>
@@ -74,7 +74,7 @@
 			<div class="r_wrap width-70 vat write_wrap">
 				<div class="tit">
 					<!-- <h3>&#9642;개발실적</h3> -->
-					<h3><input type="radio" class="radio-pie" id="rdoResult" name="group">개발실적</h3>
+					<h3><input type="radio" class="radio-pie" id="rdoResult" name="group" data-label="개발실적"></h3>
 				</div>				
 				<div class="bg_white pd_10">						
 					<dl class="dib vat">

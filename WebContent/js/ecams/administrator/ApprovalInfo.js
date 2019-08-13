@@ -612,7 +612,7 @@ function successProgInfo(data) {
 }
 
 function setLstJawon() {
-	$('#lstRgt').empty(); //리스트 초기화
+	$('#lstJawon').empty(); //리스트 초기화
 	var addId = null;
 	var liStr = null;
 	
