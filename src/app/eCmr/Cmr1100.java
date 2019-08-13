@@ -375,7 +375,7 @@ public class Cmr1100 {
 
 		try {
 			conn = connectionContext.getConnection();
-			strQuery.append("select /*+ RULE */  a.cr_acptno,a.cr_editor,a.cr_syscd,a.cr_status,     \n");
+			strQuery.append("select /*+ index(h CMR1010_PK) */  a.cr_acptno,a.cr_editor,a.cr_syscd,a.cr_status,     \n");
 			strQuery.append("to_char(a.CR_ACPTDATE,'yyyy/mm/dd hh24:mi') as acptdate,   \n");
 			strQuery.append("a.cr_acptno,a.cr_editor,a.cr_syscd,a.cr_status,            \n");
 			strQuery.append("a.cr_passcd,a.cr_sysgb,a.cr_qrycd,a.cr_passok,             \n");
@@ -402,7 +402,7 @@ public class Cmr1100 {
 			}else if(etcData.get("req").equals("04")){
 				strQuery.append("where a.cr_qrycd in ('03','04','07','06','12') \n");
 			}else{
-				strQuery.append("where a.cr_qrycd in ('07') 			   \n");
+				strQuery.append("where a.cr_qrycd = '07' 			   \n");
 			}
 			//else{
 			//	strQuery.append("where a.cr_qrycd in ('03','04','06','12') \n");
