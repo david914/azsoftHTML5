@@ -166,14 +166,14 @@
 					<div class="row vat cb">
 						<!-- line4 -->		
 	                    <div class="width-30 float-left">
-							<div class="margin-5-right margin-10-top">
+							<div class="margin-5-right margin-5-top">
 		                    	<label class="tit_80 poa">신청구분</label>
 		                        <div class="ml_80">
 									<input id="txtReqGbn" class="width-100" type="text" readonly> 
 								</div>
 							</div>
 						</div>			
-						<div class="width-70 float-left por margin-10-top" id="SrDiv">
+						<div class="width-70 float-left por margin-5-top" id="SrDiv">
 							<!--
 							<div class="dib width-98">
 		                    	<label class="tit_80 poa">&nbsp;&nbsp;SR-ID</label>
