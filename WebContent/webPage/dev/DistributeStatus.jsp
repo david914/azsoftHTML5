@@ -49,23 +49,23 @@
 						<div class="width-25 dib vat">
 							<label class="dib poa">프로그램명/설명</label>
 							<div class="ml_100 vat">
-								<input id="txtDisc" type="text" placeholder="SR-ID/SR명을 입력하세요." class="width-90" />
+								<input id="txtDisc" type="text" placeholder="프로그램명/설명을 입력하세요." class="width-90" />
 		                	</div>
 						</div>
 						<!--SR-ID/SR명 S-->
 						<div class="width-25 dib vat">
 		                	<label class="dib poa">신청자명</label>
 		                	<div class="ml_100 vat">
-								<input id="txtName" type="text" placeholder="SR-ID/SR명을 입력하세요." class="width-90" />
+								<input id="txtName" type="text" placeholder="신청자명을 입력하세요." class="width-90" />
 		                	</div>
 						</div>
-						<div class="dib margin-5-top">
+						<div class="dib">
 							<input id="checkSelf" tabindex="8" type="checkbox" value="optCkOut" style="margin-top: 5px;"s name="checkSelf"/>
 							<label for="checkSelf" style="margin-top: -5px;">&nbsp;본인건만</label>
 						</div>
 					</div>					
 					<div class="row thumbnail">
-						<div class="width-35 dib">
+						<div class="width-35 dib padding-5-top">
 							<span class="r_nail margin-10-top">반려 또는 취소</span>
 							<span class="p_nail">시스템처리 중 에러발생</span>
 							<span class="g_nail">처리완료</span>

@@ -194,8 +194,8 @@ firstGrid.setConfig({
 
 $(document).ready(function(){
 	
-	$('input:radio[name=rdoDate]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
-	$('input:checkBox[name=checkSelf]').wCheck({theme: 'circle-radial blue', selector: 'checkmark', highlightLabel: true});
+	$('input:radio[name=rdoDate]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
+	$('input:checkBox[name=checkSelf]').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 	
 	//콤보박스 데이터 세팅
 	getCodeInfo();
