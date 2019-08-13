@@ -215,8 +215,8 @@ function openApprovalInfo(type, acptNo, reqCd, srId) {
     }
     
     if(type === 2) {
-		nHeight = 518;
-        nWidth  = 1040;
+		nHeight = 480;
+        nWidth  = 1046;
     	cURL	= '/webPage/winpop/PopApprovalInfo.jsp';
     }
    

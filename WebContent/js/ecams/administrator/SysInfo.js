@@ -266,10 +266,10 @@ $(document).ready(function(){
 	$('input.checkbox-sysInfo').bind('click', function(e) {
 		var selectedSysInfo = Number(this.value); 
 		var selectedIndexs = sysInfoGrid.selectedDataIndexs;
+		
 		if( selectedIndexs.length == 0 && !($('#chkOpen').is(':checked')) 
 				&& getSelectedIndex('cboSys') === 0) {
-			e.preventDefault();
-		    e.stopPropagation();
+			$(this).wCheck('check', false);
 		    dialog.alert('그리드를 선택후 속성을 선택 하실 수 있습니다.', function() {});
 			return;
 		}
@@ -302,6 +302,11 @@ $(document).ready(function(){
 			$('#datEdDate').prop( "disabled", 	true );
 			$('#timeDeployE').prop( "disabled", true );
 			
+			$('#datStDate').val('');
+			$('#timeDeploy').val('');
+			$('#datEdDate').val('');
+			$('#timeDeployE').val('');
+			
 			$('#datStDateDiv').css('pointer-events','none');
 			$('#datEdDateDiv').css('pointer-events','none');
 		}
@@ -312,6 +317,7 @@ $(document).ready(function(){
 		
 		if(selectedSysInfo === 6 && !($(this).is(':checked')) ) {
 			$('#txtTime').prop( "disabled", true );
+			$('#txtTime').val('');
 		}
 		
 		if(selectedSysInfo === 13 && $(this).is(':checked') ) {
