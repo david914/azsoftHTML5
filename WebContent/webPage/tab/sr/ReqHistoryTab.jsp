@@ -8,8 +8,8 @@
 	<div class="row por">					
 		<div class="dib vat">
 			<label class="tit_80 poa">개발자</label>
-			<div class="ml_80">
-				<div class="ml_80 width-60">
+			<div class="ml_20">
+				<div class="ml_80 width-80">
 					<div id="cboProgramer2" data-ax5select="cboProgramer2" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100"></div>
 				</div>
 			</div>
@@ -33,5 +33,11 @@
 			style="height: 100%;"></div>
 	</div>
 </body>
+
+<form name="popPam">
+	<input type="hidden" name="acptno"/>
+	<input type="hidden" name="user"/>
+	<input type="hidden" name="srid"/>
+</form>
 		
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/sr/ReqHistoryTab.js"/>"></script>

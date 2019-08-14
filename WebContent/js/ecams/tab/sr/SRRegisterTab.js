@@ -495,6 +495,7 @@ function elementInit(initDivision) {
 		 * this.parentDocument.tab0.grdPrj.selectedIndex = -1; }
 		 */
 		ins_sw = true;
+		$('#txtReqSecu').attr('disabled', false);
 		$('#datReqComDate').val('');
 		$('#chkNew').wCheck('check', true);
 		$('#btnUpdate').attr('disabled', true);
@@ -593,6 +594,7 @@ function elementInit(initDivision) {
 		$('#chkNew').wCheck('disabled', true);
 		$('#btnUpdate').attr('disabled', true);
 		$('#btnRegister').attr('disabled', true);
+		$('#txtReqSecu').attr('disabled', true);
 		$('#btnDelete').attr('disabled', true);
 		$('#btnAddDevUser').attr('disabled', true);
 		$('#btnDelDevUser').attr('disabled', true);

@@ -41,7 +41,7 @@ $(document).ready(function() {
 	strIsrId = $('#SRId').val();
 	strAcptNo = $('#AcptNo').val(); 
 	userId = $('#UserId').val();
-	strReqCd = "99";
+	strReqCd = "XX";
 	
 //  테스트 후 주석
 //	strIsrId = "R201907-0002";
@@ -89,8 +89,8 @@ function initScreen() {
 function getPrjList() {
 	//PrjInfo.getPrjList(tmpObj);
 	var tmpInfo = new Object();
-	tmpInfo.reqcd = strReqCd;
-	tmpInfo.qrygbn = strReqCd;
+	tmpInfo.reqcd = "99";
+	tmpInfo.qrygbn = "99";
 	tmpInfo.secuyn = "N";
 	tmpInfo.srid = strIsrId;
 
@@ -131,7 +131,7 @@ function iSRID_Click(data) {
 		$('#tab5').removeClass('tab_disabled');
 		if(strAcptNo != null && strAcptNo != "") {
 			if(strAcptNo.substr(4,2) == "69") {
-				tabIdx = 7;
+				tabIdx = 4;
 			}
 		}
 	}
@@ -215,8 +215,8 @@ function changeTabMenu() {
 		//initApp();
 		
 		//tmpTab.strEditor = prjListData[0].cc_createuser
-		//tmpTab.strStatus = prjListData[0].cc_status;
-		tmpTab.strStatus = "XX";
+		tmpTab.strStatus = prjListData[0].cc_status;
+		tmpTab.strReqCd = "XX";
 		tmpTab.strIsrId = strIsrId;
 		tmpTab.elementInit("M"); //tab1.screenInit("M");
 		tmpTab.firstGridClick(prjListData[0].cc_srid);

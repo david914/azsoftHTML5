@@ -30,6 +30,8 @@ PrgListGrid.setConfig({
     target: $('[data-ax5grid="PrgListGrid"]'),
     sortable: true, 
     multiSort: true,
+    showRowSelector: false,
+    multipleSelect: false,
     header: {
         align: "center",
         columnHeight: 30
@@ -39,17 +41,20 @@ PrgListGrid.setConfig({
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
-        }
+        },
+        onDataChanged: function(){
+    		this.self.repaint();
+    	}
     },
     columns: [
-        {key: "qrycd", label: "신청구분",  width: '10%'},
-        {key: "cm_sysmsg", label: "시스템",  width: '10%'},
-        {key: "cm_dirpath", label: "프로그램경로",  width: '30%'},
-        {key: "cr_rsrcname", label: "프로그램명",  width: '10%'},
-        {key: "status", label: "상태",  width: '10%'},
+        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
+        {key: "cm_sysmsg", label: "시스템",  width: '10%', align: "left"},
+        {key: "cm_dirpath", label: "프로그램경로",  width: '30%', align: "left"},
+        {key: "cr_rsrcname", label: "프로그램명",  width: '10%', align: "left"},
+        {key: "status", label: "상태",  width: '10%', align: "left"},
         {key: "rsrccd", label: "프로그램유형",  width: '10%'},
         {key: "lastdate", label: "최종변경일",  width: '10%'},
-        {key: "cr_story", label: "프로그램설명",  width: '10%'},
+        {key: "cr_story", label: "프로그램설명",  width: '10%', align: "left"},
     ]
 });
 
@@ -126,4 +131,3 @@ function getPrgList() {
 		PrgListGrid.setData(PrgListGridData);
 	}
 }
-
