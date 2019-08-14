@@ -1522,7 +1522,8 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 }
 #divPicker{font-size: 0;}
 
-.contentFrame{overflow: auto;}
+.contentFrame{/* overflow: auto; */}
+.contentFrame:after{content:""; display:block; clear:both;}
 
 .row:first-child, .sm-row:first-child{margin-top: 0px;}
 

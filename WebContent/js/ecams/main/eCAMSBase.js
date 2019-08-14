@@ -18,6 +18,7 @@ var iframeHeight= 0;
 var menuData	= null;
 var contentHeight = 0;
 var contentHistory = "";
+var resizeInterval = null;
 
 $(document).ready(function() {
 	
@@ -105,7 +106,6 @@ function resize(){
 	}
 	 
 	var addHeight = 0;
-	var intervalck = 1;
 	var contentFrameHeight = 0;
 	var frameHeight = 0;
 	
@@ -113,9 +113,9 @@ function resize(){
 	contentFrameHeight = Math.round($('#iFrm').contents().find(".contentFrame").height()+addHeight); // 프레임 내부에 컨텐츠 div 높이 구해오기
 	
 	
-	/*console.log('resize menu [' + contentHistory + ']');
+	console.log('resize menu [' + contentHistory + ']');
 	console.log('프레임 height [' + contentFrameHeight + ']');
-	console.log('전체 height [' + contentHeight + ']');*/
+	console.log('전체 height [' + contentHeight + ']');
 	
 	if(contentHeight > contentFrameHeight){
 		frameHeight = contentHeight;
@@ -136,13 +136,15 @@ function frameLoad(){
 	if($('#iFrm').contents().find(".contentFrame").length == 0){
 		return;
 	}
-	
+
 	var frameHeight = 0;
 	var addHeight = 0;
+	var check = 1;
 	contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
 
-	var resize_test = setInterval(function(){
+	resizeInterval = setInterval(function(){
 		resize();	
+		//console.log(check++);
 		contentFrameHeight = Math.round($('#iFrm').contents().find(".contentFrame").height()+addHeight); // 프레임 내부에 컨텐츠 div 높이 구해오기
 		 if(contentHeight > contentFrameHeight){
 			 frameHeight = contentHeight;
@@ -152,7 +154,7 @@ function frameLoad(){
 		 }
 
 		 if($('#iFrm').height() == frameHeight ){
-			 clearInterval(resize_test);
+			 clearInterval(resizeInterval);
 			 return;
 		 }
 	 },1);
@@ -254,6 +256,8 @@ function meneSet() {
 }
 
 function clickSideMenu(event) {
+
+	clearInterval(resizeInterval);
 	event.preventDefault();
 	var $iFrm = '';
 	var pathName = event.target.getAttribute('link');
