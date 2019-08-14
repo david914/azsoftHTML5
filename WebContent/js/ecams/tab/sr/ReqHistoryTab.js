@@ -41,16 +41,26 @@ ReqListGrid.setConfig({
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
-        }
+        },
+        onDBLClick: function () {
+        	if(ReqListGrid.selectedDataIndexs.length < 1 ) {
+        		return;
+        	}
+        	var item = ReqListGrid.list[ReqListGrid.selectedDataIndexs];
+        	openApprovalInfo(1, item.cr_acptno, item.cr_qrycd, item.cc_srid);
+        }, 
+        onDataChanged: function(){
+    		this.self.repaint();
+    	}
     },
     columns: [
-        {key: "cm_sysmsg", label: "시스템",  width: '15%'},
-        {key: "qrycd", label: "신청구분",  width: '10%'},
-        {key: "acptno", label: "신청번호",  width: '15%'},
+        {key: "cm_sysmsg", label: "시스템",  width: '15%', align: "left"},
+        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
+        {key: "acptno", label: "신청번호",  width: '15%', align: "left"},
         {key: "acptdate", label: "신청일",  width: '10%'},
-        {key: "status", label: "상태",  width: '10%'},
+        {key: "status", label: "상태",  width: '10%', align: "left"},
         {key: "prcdate", label: "완료일",  width: '10%'},
-        {key: "passok", label: "처리구분",  width: '10%'},
+        {key: "passok", label: "처리구분",  width: '10%', align: "left"},
         {key: "prcreq", label: "적용예정일시",  width: '20%'}
     ]
 });
@@ -157,13 +167,13 @@ function getReqList() {
 			// 컬럼 추가하기
 			ReqListGridColumns = ReqListGrid.columns;
 			if(ReqListGridColumns[4].key != 'cm_dirpath'){
-				var excelDataColums = {key: 'cm_dirpath', label: '경로',  width: '15%'};
+				var excelDataColums = {key: 'cm_dirpath', label: '경로',  width: '15%', align: "left"};
 				ReqListGridColumns.splice(4, 0,excelDataColums);
 				ReqListGrid.config.columns = ReqListGridColumns;
 				ReqListGrid.setConfig();
 				
 				ReqListGridColumns = ReqListGrid.columns;
-				var excelDataColums = {key: 'cr_rsrcname', label: '파일명',  width: '15%'};
+				var excelDataColums = {key: 'cr_rsrcname', label: '파일명',  width: '15%', align: "left"};
 				ReqListGridColumns.splice(5, 0,excelDataColums);
 				ReqListGrid.config.columns = ReqListGridColumns;
 				ReqListGrid.setConfig();
@@ -175,3 +185,32 @@ function getReqList() {
 	}
 }
 
+//신청 상세내역 팝업창 띄우기
+function openApprovalInfo(type, acptNo, reqCd, srId) {
+	var nHeight, nWidth, cURL, winName;
+	
+	if ( (type+'_'+reqCd) == winName ) {
+		if (myWin != null) {
+	        if (!myWin.closed) {
+	        	myWin.close();
+	        }
+		}
+	}
+
+    winName = type+'_'+reqCd;
+    
+	var form = document.popPam;   		//폼 name
+    
+	form.acptno.value	= acptNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.srid.value 	= srId;    		//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	
+    if(type === 1) {
+    	nHeight = screen.height - 300;
+	    nWidth  = screen.width - 400;
+	    
+	    cURL = "/webPage/winpop/PopRequestDetail.jsp";
+    }
+      
+	myWin = winOpen(form, winName, cURL, nHeight, nWidth);
+}

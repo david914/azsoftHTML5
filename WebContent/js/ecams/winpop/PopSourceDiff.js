@@ -409,6 +409,7 @@ function btnChgPart_click() {
 		}	
 	}
 	grdDiffSrc.select(svIdx);
+	grdDiffSrc.focus(svIdx);
 	
 }
 
@@ -439,6 +440,7 @@ function btnLeft_click() {
 		}	
 	}
 	grdDiffSrc.select(svIdx);
+	grdDiffSrc.focus(svIdx);
 	
 }
 
@@ -467,6 +469,7 @@ function btnRight_click() {
 		}	
 	}
 	grdDiffSrc.select(svIdx);
+	grdDiffSrc.focus(svIdx);
 	
 }
 function optradio_change() {
@@ -560,6 +563,7 @@ function btnSearch_click() {
 		return;
 	}
 	grdDiffSrc.select(svIdx);
+	grdDiffSrc.focus(svIdx);
 	
 	if(searchGbn == 'L') {
 		svIdx = -1;

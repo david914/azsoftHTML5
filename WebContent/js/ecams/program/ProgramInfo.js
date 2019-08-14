@@ -106,15 +106,26 @@ $(document).ready(function(){
 	
 });
 function setTabMenu(){
-	$(".tab_content:first").show();
+	$(".tab_content:first").show();	
 	
-	$("ul.tabUl li").click(function () {
-		$(".tab_content").css('display','none');
+	clickTabMenu();
+}
+
+function clickTabMenu(){
+	
+	$("ul.tabs li").click(function () {
+		if($(this).hasClass("on")) {
+			return;
+		}
+		$(".tab_content").hide();
 		var activeTab = $(this).attr("rel");
-		$("ul.tabUl li").removeClass('on');
+		
+		//tab메뉴 클릭에 따라 색상 변경
+		$("ul.tabs li").removeClass('on');
 		$(this).addClass("on");
-		$('#'+activeTab).css('display','block');
+		$("#" + activeTab).fadeIn();
 	});
+	
 }
 function screenInit() {
 	
@@ -140,11 +151,19 @@ function screenInit_prog(gbn) {
 		}
 		return;
 	}
+	
+	/*$("#tab1").unbind("click");
+	$("#tab2").unbind("click");*/
+	
 	progInfoData = [];
 	tmpTab1 = $('#frmProgBase').get(0).contentWindow;
 	tmpTab1.screenInit(gbn);
 	tmpTab2 = $('#frmProgHistory').get(0).contentWindow;	
-	tmpTab2.screenInit(gbn);
+	tmpTab2.screenInit(gbn);	
+	
+	//$("#tab1").bind("click", clickTabMenu());
+	$('#tab1').trigger('click');
+	$("#tabProgBase").show(); //기본정보
 	
 }
 //시스템조회 SysInfo.getSysInfo(strUserId,SecuYn,"","N","04");

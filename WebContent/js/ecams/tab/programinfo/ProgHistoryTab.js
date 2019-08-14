@@ -33,7 +33,7 @@ grdProgHistory.setConfig({
         columnHeight: 28,
         onClick: function () {
         	this.self.clearSelect();
-           this.self.select(this.dindex);
+            this.self.select(this.dindex);
         },
         onDBLClick: function () {
         	if (this.dindex < 0) return;
@@ -147,6 +147,10 @@ function successHistory(data) {
 	
 	grdProgHistoryData = data;
 	grdProgHistory.setData(grdProgHistoryData);
+	if (grdProgHistoryData.length > 0) {
+		grdProgHistory.select(0);
+		grdProgHistory.focus(0);
+	}
 	
 }
 function openWindow(reqCd,reqNo,itemId) {
