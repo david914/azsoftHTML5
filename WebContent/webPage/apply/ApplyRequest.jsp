@@ -107,7 +107,7 @@
                   <input id="txtSayu" name="txtSayu" class="width-100" type="text" style="align-content:left;"></input>
 			</div>
 	    </div>
-		<div class="row">
+		<div class="row floatRow">
 			<div class="width-30 dib float-left">
 				<div class="tit_80 poa">
 					<label id="lblReqGbn">*처리구분</label>

@@ -136,7 +136,7 @@ function frameLoad(){
 	if($('#iFrm').contents().find(".contentFrame").length == 0){
 		return;
 	}
-
+	$('#iFrm').contents().find("html").css('overflow', 'hidden');
 	var frameHeight = 0;
 	var addHeight = 0;
 	var check = 1;

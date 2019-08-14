@@ -1334,7 +1334,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 .lang_menu ul li div.active{position: absolute; display: block; border-top: solid 3px #2471c8; min-width: 150px;}
 .lang_menu ul li div.active:before{border-bottom: 6px solid #2471c8; border-left: 6px solid transparent; border-right: 6px solid transparent; content: ""; display: inline-block; position: absolute; left: 30px; margin-right: auto; margin-left: auto; width: 1px; top: -8px;}
 .lang_menu ul li .menu_box{position: absolute;display: none;background-color: #fff;margin-top: -3px;z-index: 1000;-webkit-box-shadow: 0 6px 16px rgba(0,0,0,.175);box-shadow: 0 6px 16px rgba(0,0,0,.175);}
-.lang_menu ul li .menu_box p{display: block; padding: 10px 5px; border-bottom: 1px solid #eee; text-align: left; font-size: 12px; cursor: pointer;}
+.lang_menu ul li .menu_box p{display: block;padding: 10px 5px;border-bottom: 1px solid #eee;text-align: left;font-size: 12px;cursor: pointer;}
 .lang_menu ul li .menu_box p:last-child{border-bottom: 0;}
 .lang_menu ul li .menu_box p img{margin-top: 2px;}
 .log{position: absolute; right: 0; top: 18px; font-size: 13px;}
@@ -1523,7 +1523,7 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 #divPicker{font-size: 0;}
 
 .contentFrame{/* overflow: auto; */}
-.contentFrame:after{content:""; display:block; clear:both;}
+.contentFrame:after{/* content:""; *//* display:block; *//* clear:both; */}
 
 .row:first-child, .sm-row:first-child{margin-top: 0px;}
 
@@ -1531,3 +1531,7 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 
 .thumbnail span {margin-right: 0px !important;}
 .thumbnail {margin-top: 9px !important;}
+
+.floatRow:after{content:""; display:block; clear:both;}
+
+
