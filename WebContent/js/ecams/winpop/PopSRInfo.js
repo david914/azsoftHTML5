@@ -49,14 +49,11 @@ $(document).ready(function() {
 //	document.getElementById('frmPrjList').onload = function() {
 //		console.log("frmPrjList is loaded");
 //	};
-	
+
 	$('#frmSRRegister').get(0).contentWindow.strReqCd = "XX";
-	
 	$('#frmDevPlan').get(0).contentWindow.strReqCd = "42";
 	$('#frmDevPlan').get(0).contentWindow.strWorkD = strWorkD;	
-	
 	$('#frmReqHistory').get(0).contentWindow.strReqCd = "43";
-	
 	$('#frmPrgList').get(0).contentWindow.strReqCd = "XX";
 	
 	document.getElementById('frmSRRegister').onload = function() {
@@ -220,8 +217,9 @@ function changeTabMenu() {
 		//tmpTab.strEditor = prjListData[0].cc_createuser
 		//tmpTab.strStatus = prjListData[0].cc_status;
 		tmpTab.strStatus = "XX";
-		tmpTab.firstGridClick(prjListData[0].cc_srid);
 		tmpTab.strIsrId = strIsrId;
+		tmpTab.elementInit("M"); //tab1.screenInit("M");
+		tmpTab.firstGridClick(prjListData[0].cc_srid);
 	}else if(document.getElementById("tab2").className == "on") { //개발계획/실적등록
 		tmpTab = $('#frmDevPlan').get(0).contentWindow;
 		

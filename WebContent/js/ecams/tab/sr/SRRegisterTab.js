@@ -587,6 +587,8 @@ function elementInit(initDivision) {
 	grid_fileList.setData([]); // grid 초기화
 	devUserGrid.setData([]); // grid 초기화
 	
+	console.log(strReqCd);
+	
 	if(strReqCd == 'XX') {
 		$('#chkNew').wCheck('disabled', true);
 		$('#btnUpdate').attr('disabled', true);
