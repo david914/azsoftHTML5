@@ -117,7 +117,7 @@
 				</div>
 	
 			</div>
-			<div class="width-44 dib float-left" id="panCal" style="visibility:hidden; margin-left:50px;">
+			<div class="width-37 dib float-left" id="panCal" style="display:none;; margin-left:50px;">
 				<div class="tit_80 poa">
 					<label>*적용일시</label>
 				</div>

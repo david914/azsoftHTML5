@@ -248,7 +248,7 @@ $(document).ready(function(){
 	porgRowEdit();
 	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
-	document.getElementById('panCal').style.visibility = "hidden";
+	$("#panCal").css('display', 'inline-block');
 	
 	$('#chkDetail').bind('click',function(){
 		simpleData();
@@ -682,10 +682,10 @@ function cboReqGbnClick() {
 			swEmg = true;
 		}
 		else	if (getSelectedVal('cboReqGbn').value == '4') {
-			document.getElementById('panCal').style.visibility = "visible";
+			$("#panCal").css('display', 'inline-block');
 			return;
 		}
-		document.getElementById('panCal').style.visibility = "hidden";
+		$("#panCal").hide();
 	}
 }
 
