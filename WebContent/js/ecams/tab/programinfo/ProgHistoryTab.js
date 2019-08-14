@@ -147,6 +147,9 @@ function successHistory(data) {
 	
 	grdProgHistoryData = data;
 	grdProgHistory.setData(grdProgHistoryData);
+	if (grdProgHistoryData.length > 0) {
+		grdProgHistory.select(0);
+	}
 	
 }
 function openWindow(reqCd,reqNo,itemId) {

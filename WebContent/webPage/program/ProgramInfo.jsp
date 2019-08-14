@@ -29,7 +29,7 @@
                     <div class="ml_80">
 						<input id="txtRsrcName" name="txtRsrcName" type="text" class="width-95 dib" style="width:calc(100% - 38px);" >
 					</div>
-					<button id="btnQry" name="btnQry" class="btn_basic_s margin-5-left margin-10-right poa_r" data-grid-control="excel-export">조회</button>
+					<button id="btnQry" name="btnQry" class="btn_basic_n margin-5-left margin-10-right poa_r" data-grid-control="excel-export">조회</button>
 				</div>				
 				<div class="margin-5-top">
 				    <!-- 프로그램경로 -->
@@ -53,20 +53,20 @@
 			<!-- tab_기본정보 S-->
 			<div class="tab_wrap">
 				<ul class="tabs">
-					<li rel="tab1" id="tab1Li" class="on" style="vertical-align: middle;">기본정보</li>
-					<li rel="tab2" id="tab2Li" style="vertical-align: middle;">변경내역</li>
+					<li rel="tabProgBase" id="tab1" class="on" style="vertical-align: middle;">기본정보</li>
+					<li rel="tabProgHistory" id="tab2" style="vertical-align: middle;">변경내역</li>
 				</ul>
 			</div>
 			<!-- tab E-->			
 			<div style="height:38%"> <!--  tab_container -->
 		       	<!-- 프로그램기본정보 -->
-		       	<div id="tab1" class="tab_content" style="width:100%">
+		       	<div id="tabProgBase" class="tab_content" style="width:100%">
 		       		<iframe id="frmProgBase" name="frmProgBase" src='/webPage/tab/programinfo/ProgBaseTab.jsp' width='100%' height='100%' frameborder="0" scrolling="no" ></iframe>
 		       	</div>
 		       	<!-- 프로그램기본정보  END -->
 		       	
 		       	<!-- 변경내역 START -->
-		       	<div id="tab2" class="tab_content" style="width:100%">
+		       	<div id="tabProgHistory" class="tab_content" style="width:100%">
 		       		<iframe id="frmProgHistory" name="frmProgHistory" src='/webPage/tab/programinfo/ProgHistoryTab.jsp' width='100%' height='100%' frameborder="0" scrolling="no"></iframe>
 		       	</div>
 		       	<!-- 변경내역 END -->
