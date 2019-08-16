@@ -74,11 +74,17 @@ function openOranizationModal() {
 					tmpTab.txtUserName = txtUserName;
 					tmpTab.deptName = deptName;
 					tmpTab.deptCd = deptCd;
+					tmpTab.selDeptSw = selDeptSw; 
+					tmpTab.subSw = subSw;
 					tmpTab.closeModal();
 				} else {
 					if(selDeptSw) {
+						var tmpTab = $('#frmSRRegister').get(0).contentWindow;
 						tmpTab.selDeptCd = selDeptCd;
 						tmpTab.txtOrg = txtOrg;
+						tmpTab.selDeptSw = selDeptSw;
+						tmpTab.subSw = subSw;
+						tmpTab.closeModal()
 					}
 				}
 			}

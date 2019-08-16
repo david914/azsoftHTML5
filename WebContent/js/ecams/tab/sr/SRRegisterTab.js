@@ -200,7 +200,7 @@ $(document).ready(function() {
 	});
 
 	// 담당개발자
-	$('#txtUser').bind('dblclick', function() {
+	$('#txtUser').bind('click', function() {
 		window.parent.subSw = true;
 		window.parent.selDeptSw = false;
 		window.parent.openOranizationModal();
@@ -865,8 +865,7 @@ function btn_addDever() {
 			return;
 		}
 	}
-	
-	if(getSelectedVal('cboDevUser').cm_userid != null && getSelectedVal('cboDevUser').cm_userid != undefined){
+	if(getSelectedVal('cboDevUser').cm_userid != ""){
 		var tmp = new Object();
 		tmp.cm_username = getSelectedVal('cboDevUser').cm_username;
 		tmp.cm_deptcd = getSelectedVal('cboDevUser').cm_deptcd;
@@ -926,10 +925,10 @@ function clickChkNew() {
 }
 
 function closeModal() {
-	if(!selDeptSw) { //부서(0)
+	if(selDeptSw) { //부서(0)
 		$('#txtOrg').val(txtOrg);
-	}else { //사람(1)
-		$('#txtUser').val(userName);
+	}else if(txtUserId != "") { //사람(1)
+		$('#txtUser').val(txtUserName);
 		
 		cboDevUserData = null;
 		var cboDevUserDataArray = [];
@@ -961,9 +960,9 @@ function closeModal() {
 			$('[data-ax5select="cboDevUser"]').ax5select("setValue", txtUserId,
 					true);
 		}
+		btn_addDever();
 	}
-
-	btn_addDever();
+	
 }
 
 function gyulChk1(acptno){

@@ -353,7 +353,7 @@ function dbClickTree(event, treeId, treeNode) {
 		// 조직 선택시
 		if(selDeptSw) {
 			window.parent.selDeptCd = treeNode.id;
-			window.parent.txtOrg = treeNode.nam
+			window.parent.txtOrg = treeNode.name;
 		} else {
 			// 조직(겸직)선택시
 			window.parent.selSubDeptCd = treeNode.id;
