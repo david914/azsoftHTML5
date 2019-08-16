@@ -7,14 +7,11 @@ var userDeptCd 	 	= window.top.userDeptCd;
 var grdProgHistory	= new ax5.ui.grid();   //프로그램그리드
 
 var selOptions 		= [];
-var selectedIndex;		//select 선택 index
-var selectedItem;		//select 선택 item
-var gridSelectedIndex;  //그리드 선택 index
-var selectedGridItem;	//그리드 선택 item
 
 var cboReqData		   = null;	//신청구분 데이터
 var progInfoData       = null;
 var myWin 			   = null;
+var pUserId            = null;
 
 var selSw = false;
 
@@ -27,10 +24,10 @@ grdProgHistory.setConfig({
     multiSort: true,
     header: {
         align: 'center',
-        columnHeight: 30
+        columnHeight: 28
     },
     body: {
-        columnHeight: 28,
+        columnHeight: 24,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -43,8 +40,7 @@ grdProgHistory.setConfig({
     	trStyleClass: function () {
     		if (this.item.cr_status === '3'){
     			return 'fontStyle-cncl';
-    		} else {
-    		}
+    		} 
     	},
     	onDataChanged: function(){
     	    this.self.repaint();
@@ -58,7 +54,7 @@ grdProgHistory.setConfig({
         {key: 'passok', 	    label: '배포구분',   	width:  '8%',	align: 'center'},
         {key: 'prcdate',   	    label: '완료일시',  	width: '11%',	align: 'center'},
         {key: 'cr_aftviewver',	label: '버전',    	width: '10%',	align: 'center'},
-        {key: 'srinfo'   , 	    label: 'SR-ID',   	width: '15%',	align: 'center'},
+        {key: 'srinfo'   , 	    label: 'SR-ID',   	width: '15%',	align: 'left'},
         {key: 'cr_sayu', 	    label: '변경사유',   	width: '25%',	align: 'left'}
     ]
 });
@@ -71,8 +67,9 @@ $(document).ready(function(){
 	});
 });
 
-function screenInit(gbn) {
+function screenInit(gbn,userId) {
 	
+	pUserId = userId;
 	grdProgHistory.setData([]);
 	
 	$('#txtProgId2').val('');
@@ -112,25 +109,26 @@ function getCodeInfo(){
 	}
 }
 
-function successProgInfo(data,selectedGridItem) {
+function successProgInfo(data) {
 	var strInfo = '';
 	progInfoData = data;
 	
 	if (progInfoData.length > 0) {
-		$('#btnQry2').prop('disabled','false');
-		$('#txtProgId2').val(selectedGridItem.cr_rsrcname);
+		$('#btnQry2').prop('disabled',false);
+		$('#txtProgId2').val(progInfoData[0].cr_rsrcname);
 		$('#txtStory2').val(progInfoData[0].Lbl_ProgName);	
 		
-		getHistoryList(selectedGridItem.cr_syscd,selectedGridItem.cr_jobcd,selectedGridItem.cr_itemid,'ALL');
+		getHistoryList(progInfoData[0].cr_syscd,progInfoData[0].WkJobCd,progInfoData[0].cr_itemid,'ALL');
 	}
 }
 function getHistoryList(sysCd,jobCd,itemId,reqCd){
 	
 	grdProgHistoryData = [];
 	grdProgHistory.setData(grdProgHistoryData);
+	grdProgHistory.clearSelect();
 	
 	tmpInfo = new Object();
-	tmpInfo.UserId = userId;
+	tmpInfo.UserId = pUserId;
 	tmpInfo.L_SysCd  = sysCd;
 	tmpInfo.L_ItemId = itemId;
 	tmpInfo.L_JobCd  = jobCd;
@@ -169,7 +167,7 @@ function openWindow(reqCd,reqNo,itemId) {
 	var f = document.popPam;   		//폼 name
     
     f.acptno.value	= reqNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.user.value 	= pUserId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
     f.itemid.value	= itemId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 
     nHeight = screen.height - 300;

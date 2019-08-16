@@ -4,14 +4,13 @@ var adminYN 		= window.top.adminYN;
 var userDeptName 	= window.top.userDeptName;
 var userDeptCd 	 	= window.top.userDeptCd;
 
-var selectedGridItem;	//그리드 선택 item
-
 var cboRsrcCdData	   = null;	//프로그램종류 데이터
 var cboJobData		   = null;	//업무 데이터
 var cboDirData		   = null;	//프로그램경로 데이터
 var cboSRData		   = null;	//SRID 데이터
 var progInfoData       = null;
 var myWin 			   = null;
+var pUserId            = null;
 
 var selSw = false;
 
@@ -20,7 +19,6 @@ var tmpInfoData = new Object();
 
 $(document).ready(function(){	
 	
-	//reSize();
 	//프로그램종류
 	$('#cboRsrcCd').bind('change', function() {
 		cboRsrcCd_Change();
@@ -51,43 +49,7 @@ $(document).ready(function(){
 		btnClose_Click();
 	});
 });
-
-function ResizeFrame(name)
-
-{
-  console.log(name);
-  // IFRAME 내부의 body 개체
-  var fBody  = document.frames(name).document.body;
-
-  // IFRAME 개체
-  var fName  = document.all(name);
-
-  // IFRAME 내부의 body개체의 넓이를 계산하여 IFRAME의 넓이를 설정해 준다.
-  fName.style.width = fBody.scrollWidth + (fBody.offsetWidth - fBody.clientWidth);
-
-  // IFRAME 내부의 body개체의 높이를 계산하여 IFRAME의 높이를 설정해 준다.
-  fName.style.height = fBody.scrollHeight + (fBody.offsetHeight - fBody.clientHeight);
-
-
-  // 만약 IFRAME의 크기 설정에 실패 하였다면 기본크기로 설정한다.
-  if (Frame_name.style.height == "0px" || Frame_name.style.width == "0px")
-
-  {
-
-    fName.style.width = "1024px";     //기본 iframe 너비
-    fName.style.height = "300px";    //기본 iframe 높이
-
-  }
-
-}
-function reSize() {
-	
-	$("#txtCkInLastDt").width($("#lbckin").width()+$("#txtCkInEditor").width()+15);
-	$("#txtDevLastDt").width($("#lbdev").width()+$("#txtDevEditor").width()+15);
-	$("#txtTestLastDt").width($("#lbtest").width()+$("#txtTestEditor").width()+15);
-	$("#txtRealLastDt").width($("#lbreal").width()+$("#txtRealEditor").width()+15);
-}
-function screenInit(gbn) {	
+function screenInit(gbn,userId) {	
 	if(gbn == 'M') {
 		$('[data-ax5select="cboJob"]').ax5select({
 	        options: []
@@ -97,7 +59,7 @@ function screenInit(gbn) {
 	        options: []
 		});
 	}
-
+	pUserId = userId;
 	$('#divPrgCbo').css('display', 'none');
 	$('#divPrgTxt').css('display', 'block');
 	
@@ -153,26 +115,10 @@ function screenInit(gbn) {
 	$('#cboDir').prop('disabled', true);
 }
 
-function setTabMenu(){
-	$("#tabProgBase").show(); //기본정보
-	
-	$("ul.tabs li").click(function () {
-		$(".tab_content").hide();
-		var activeTab = $(this).attr("rel");
-		
-		//tab메뉴 클릭에 따라 색상 변경
-		$("ul.tabs li").removeClass('on');
-		$(this).addClass("on");
-		
-		$("#" + activeTab).fadeIn();
-	});
-	
-	tab_Click();
-}
 //SR조회 prjCall();
 function getSRID() {
 	tmpInfo = new Object();
-	tmpInfo.userid = userId;
+	tmpInfo.userid = pUserId;
 	tmpInfo.reqcd = '07';
 	tmpInfo.secuyn = 'Y';
 	tmpInfo.qrygbn = '01';		
@@ -248,19 +194,20 @@ function successJawon(data) {
 	}
 	
 }
-function successProgInfo(data,selectedGrid) {
+function successProgInfo(data) {
 	var strInfo = '';
 	progInfoData = data;
 	
-	selectedGridItem = selectedGrid;
 	if (progInfoData.length > 0) {
-		strInfo = selectedGridItem.cm_info;
-		$('#txtSysMsg').val(selectedGridItem.cm_sysmsg);
+		if (progInfoData[0].adminsw == 'Y') adminYN = true;
+		else adminYN = false;
+		strInfo = progInfoData[0].cm_info;
+		$('#txtSysMsg').val(progInfoData[0].cm_sysmsg);
 		$('#txtJawon').val(progInfoData[0].RsrcName);
-		$('#txtProgId').val(selectedGridItem.cr_rsrcname);
-		$('#txtProgSta').val(selectedGridItem.sta);
+		$('#txtProgId').val(progInfoData[0].cr_rsrcname);
+		$('#txtProgSta').val(progInfoData[0].sta);
 		$('#txtStory').val(progInfoData[0].Lbl_ProgName);
-		$('#txtDir').val(selectedGridItem.cm_dirpath);
+		$('#txtDir').val(progInfoData[0].cm_dirpath);
 		$('#txtCreator').val(progInfoData[0].Lbl_Creator);
 		$('#txtEditor').val(progInfoData[0].Lbl_Editor);
 		$('#txtCreatDt').val(progInfoData[0].Lbl_CreatDt);
@@ -346,11 +293,11 @@ function getDirList(rsrcCd){
 	});
 	
 	tmpInfo = new Object();
-	tmpInfo.userId = userId;
-	tmpInfo.sysCd  = selectedGridItem.cr_syscd;
-	tmpInfo.itemId  = selectedGridItem.cr_itemid;
+	tmpInfo.userId = pUserId;
+	tmpInfo.sysCd  = progInfoData[0].cr_syscd;
+	tmpInfo.itemId  = progInfoData[0].cr_itemid;
 	tmpInfo.rsrcCd  = rsrcCd;
-	tmpInfo.dsnCd   = selectedGridItem.cr_dsncd;
+	tmpInfo.dsnCd   = progInfoData[0].cr_dsncd;
 	tmpInfo.findFg  = 'false';
 	if(adminYN) {
 		tmpInfo.secuYn = 'N';
@@ -378,7 +325,7 @@ function successDirList(data) {
 		$('[data-ax5select="cboDir"]').ax5select({
 	        options: cboDirData
 		});
-		$('[data-ax5select="cboDir"]').ax5select('setValue',selectedGridItem.cr_dsncd,true);
+		$('[data-ax5select="cboDir"]').ax5select('setValue',progInfoData[0].cr_dsncd,true);
 	}
 	
 }
@@ -389,7 +336,7 @@ function getEditorList(editor){
         options: cboEditorData
 	});
 	tmpInfo = new Object();
-	tmpInfo.itemId  = selectedGridItem.cr_itemid;
+	tmpInfo.itemId  = progInfoData[0].cr_itemid;
 	tmpInfo.editor  = editor;
 	tmpInfoData = new Object();
 	tmpInfoData = {
@@ -462,10 +409,10 @@ function btnRegist_Click() {
 	}
 	
 	tmpInfo = new Object();
-	tmpInfo.userid = userId;
-	tmpInfo.itemId = selectedGridItem.cr_itemid;
+	tmpInfo.userid = pUserId;
+	tmpInfo.itemId = progInfoData[0].cr_itemid;
 	
-	if (selectedGridItem.cr_jobcd != getSelectedVal('cboJob').value) {
+	if (progInfoData[0].WkJobCd != getSelectedVal('cboJob').value) {
 		tmpInfo.jobcd = getSelectedVal('cboJob').value;
 		findSw = true;
 	} else tmpInfo.jobcd = "";
@@ -480,7 +427,7 @@ function btnRegist_Click() {
 		findSw = true;
 	} else tmpInfo.srid = "";
 
-	if( !$('#cboDir').prop('disabled') && selectedGridItem.cr_dsncd != getSelectedVal('cboDir').value) {
+	if( !$('#cboDir').prop('disabled') && progInfoData[0].cr_dsncd != getSelectedVal('cboDir').value) {
 		tmpInfo.dsncd = getSelectedVal('cboDir').value;
 		findSw = true;
 	} else tmpInfo.dsncd = "";
@@ -526,8 +473,8 @@ function btnDel_Click() {
 		if(this.key === 'ok') {			
 			tmpInfoData = new Object();
 			tmpInfoData = {
-				userId		: userId,
-				itemId      : selectedGridItem.cr_itemid,
+				userId		: pUserId,
+				itemId      : progInfoData[0].cr_itemid,
 				requestType	: 'DELETEPROG'
 			}
 			ajaxAsync('/webPage/program/ProgramInfoServlet', tmpInfoData, 'json', successDELETE);
@@ -554,8 +501,8 @@ function btnClose_Click() {
 		if(this.key === 'ok') {			
 			tmpInfoData = new Object();
 			tmpInfoData = {
-				userId		: userId,
-				itemId      : selectedGridItem.cr_itemid,
+				userId		: pUserId,
+				itemId      : progInfoData[0].cr_itemid,
 				requestType	: 'CLOSEPROG'
 			}
 			ajaxAsync('/webPage/program/ProgramInfoServlet', tmpInfoData, 'json', successClose);
@@ -575,14 +522,14 @@ function btnDiff_Click() {
 	
 	if ($('#txtProgId').val().length == 0) return;
 	
-	openWindow('R52', '', selectedGridItem.cr_itemid);
+	openWindow('R52', '', progInfoData[0].cr_itemid);
 }
 
 function btnView_Click() {
 	
 	if ($('#txtProgId').val().length == 0) return;
 	
-	openWindow('R53', '', selectedGridItem.cr_itemid);
+	openWindow('R53', '', progInfoData[0].cr_itemid);
 }
 function openWindow(reqCd,reqNo,itemId) {
 	var nHeight, nWidth, cURL, winName;
@@ -600,7 +547,7 @@ function openWindow(reqCd,reqNo,itemId) {
 	var f = document.popPam;   		//폼 name
     
     f.acptno.value	= reqNo;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-    f.user.value 	= userId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    f.user.value 	= pUserId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
     f.itemid.value	= itemId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 
 	nHeight = screen.height - 50;

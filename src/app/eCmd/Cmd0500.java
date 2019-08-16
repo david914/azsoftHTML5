@@ -20,6 +20,7 @@ import java.util.Hashtable;
 import org.apache.log4j.Logger;
 //import app.common.LoggableStatement;
 import app.common.LoggableStatement;
+import app.common.UserInfo;
 
 import com.ecams.common.dbconn.ConnectionContext;
 import com.ecams.common.dbconn.ConnectionResource;
@@ -196,6 +197,14 @@ public class Cmd0500{
 		ConnectionContext connectionContext = new ConnectionResource();
 		try {
 			conn = connectionContext.getConnection();
+			boolean adminSw = false;
+			if ("X".equals(etcData.get("SecuYn"))) {
+				UserInfo userinfo = new UserInfo();
+				adminSw = userinfo.isAdmin_conn(etcData.get("UserId"),conn);
+				userinfo = null;
+			} else {
+				if ("Y".equals(etcData.get("SecuYn"))) adminSw = true;
+			}
 			String			  inProgName = "";
 			if (etcData.get("Txt_ProgId") != null && !"".equals(etcData.get("Txt_ProgId"))) {
 				inProgName = etcData.get("Txt_ProgId");
@@ -215,38 +224,46 @@ public class Cmd0500{
 			strQuery.append("          where cm_macode='CMR0020'                      \n");
 			strQuery.append("            and cm_micode=a.cr_status) CMR0020           \n");
 	        strQuery.append("  from cmm0030 c,cmr0020 a,cmm0070 b,cmm0036 g           \n");
-	        strQuery.append(" where a.cr_syscd=?                                      \n");	 
+	        if (etcData.get("itemid") != null && !"".equals(etcData.get("itemid"))) {
+	        	strQuery.append(" where a.cr_itemid=?                                 \n");	 
+	        } else {
+	        	strQuery.append(" where a.cr_syscd=?                                  \n");
+		        if ("Y".equals(etcData.get("SecuYn")) && "false".equals(etcData.get("ViewFg"))) {
+		        	strQuery.append("   and exists (select 1 from cmm0044                 \n");
+		        	strQuery.append("                where cm_userid=?                    \n");
+		        	strQuery.append("                  and cm_syscd=a.cr_syscd            \n");
+		        	strQuery.append("                  and cm_jobcd=a.cr_jobcd            \n");
+		        	strQuery.append("                  and cm_closedt is null)            \n");
+		        }
+		        if (inProgName.length()>0) {
+			        strQuery.append("   and upper(a.cr_rsrcname) like upper(?)            \n");	// %Txt_ProgId%
+		        }
+		        if (etcData.get("Rsrccd") != null && !"".equals(etcData.get("Rsrccd"))) {
+		        	strQuery.append("   and a.cr_rsrccd=?                                 \n");
+		        }
+		        if (etcData.get("DirPath") != null && !"".equals(etcData.get("DirPath"))) {
+		        	strQuery.append("   and upper(b.cm_dirpath) like upper(?)		      \n");
+		        }
+	        }	        	 
 	        strQuery.append("   and a.cr_syscd=c.cm_syscd                             \n");	
-	        if ("Y".equals(etcData.get("SecuYn")) && "false".equals(etcData.get("ViewFg"))) {
-	        	strQuery.append("   and exists (select 1 from cmm0044                 \n");
-	        	strQuery.append("                where cm_userid=?                    \n");
-	        	strQuery.append("                  and cm_syscd=a.cr_syscd            \n");
-	        	strQuery.append("                  and cm_jobcd=a.cr_jobcd            \n");
-	        	strQuery.append("                  and cm_closedt is null)            \n");
-	        }
-	        if (inProgName.length()>0) {
-		        strQuery.append("   and upper(a.cr_rsrcname) like upper(?)            \n");	// %Txt_ProgId%
-	        }
-	        if (etcData.get("Rsrccd") != null && !"".equals(etcData.get("Rsrccd"))) {
-	        	strQuery.append("   and a.cr_rsrccd=?                                 \n");
-	        }
-	        if (etcData.get("DirPath") != null && !"".equals(etcData.get("DirPath"))) {
-	        	strQuery.append("   and upper(b.cm_dirpath) like upper(?)		      \n");
-	        }
 		    strQuery.append("   and a.cr_syscd=b.cm_syscd and a.cr_dsncd=b.cm_dsncd   \n");
 		    strQuery.append("   and a.cr_syscd=g.cm_syscd and a.cr_rsrccd=g.cm_rsrccd \n");
 
 		    //pstmt = conn.prepareStatement(strQuery.toString());
 	        pstmt =  new LoggableStatement(conn, strQuery.toString());
 	        int CNT = 0;
-		    pstmt.setString(++CNT, etcData.get("L_Syscd"));
-		    if ("Y".equals(etcData.get("SecuYn")) && "false".equals(etcData.get("ViewFg"))) {
-		    	pstmt.setString(++CNT, etcData.get("UserId"));
-		    }
-		    if (inProgName.length()>0) pstmt.setString(++CNT, "%"+inProgName+"%");
-		    if (etcData.get("Rsrccd") != null && !"".equals(etcData.get("Rsrccd"))) pstmt.setString(++CNT, etcData.get("Rsrccd"));
-		    if (etcData.get("DirPath") != null && !"".equals(etcData.get("DirPath"))) pstmt.setString(++CNT, "%"+etcData.get("DirPath")+"%");
-	        ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+	        if (etcData.get("itemid") != null && !"".equals(etcData.get("itemid"))) {
+	        	pstmt.setString(++CNT, etcData.get("itemid"));
+	        } else {
+			    pstmt.setString(++CNT, etcData.get("L_Syscd"));
+			    if ("Y".equals(etcData.get("SecuYn")) && "false".equals(etcData.get("ViewFg"))) {
+			    	pstmt.setString(++CNT, etcData.get("UserId"));
+			    }
+			    if (inProgName.length()>0) pstmt.setString(++CNT, "%"+inProgName+"%");
+			    if (etcData.get("Rsrccd") != null && !"".equals(etcData.get("Rsrccd"))) pstmt.setString(++CNT, etcData.get("Rsrccd"));
+			    if (etcData.get("DirPath") != null && !"".equals(etcData.get("DirPath"))) pstmt.setString(++CNT, "%"+etcData.get("DirPath")+"%");
+	        }
+			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
             rtList.clear();
@@ -272,6 +289,8 @@ public class Cmd0500{
 				rst.put("cm_sysinfo", rs.getString("cm_sysinfo"));
 				rst.put("subset", "N");
 				rst.put("base","0");
+				if (adminSw) rst.put("adminsw", "Y");
+				else rst.put("adminsw", "N");
 				rtList.add(rst);
 				rst = null;
 			}//end of while-loop statement
@@ -291,15 +310,15 @@ public class Cmd0500{
 
 		} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();
-			ecamsLogger.error("## Cmd0500.getRsrcInfo_Rpt() SQLException START ##");
+			ecamsLogger.error("## Cmd0500.getSql_Qry() SQLException START ##");
 			ecamsLogger.error("## Error DESC : ", sqlexception);
-			ecamsLogger.error("## SysInfo.getRsrcInfo_Rpt() SQLException END ##");
+			ecamsLogger.error("## SysInfo.getSql_Qry() SQLException END ##");
 			throw sqlexception;
 		} catch (Exception exception) {
 			exception.printStackTrace();
-			ecamsLogger.error("## SysInfo.getRsrcInfo_Rpt() Exception START ##");
+			ecamsLogger.error("## SysInfo.getSql_Qry() Exception START ##");
 			ecamsLogger.error("## Error DESC : ", exception);
-			ecamsLogger.error("## SysInfo.getRsrcInfo_Rpt() Exception END ##");
+			ecamsLogger.error("## SysInfo.getSql_Qry() Exception END ##");
 			throw exception;
 		}finally{
 			if (rtObj != null)	rtObj = null;
@@ -391,14 +410,24 @@ public class Cmd0500{
 		ConnectionContext connectionContext = new ConnectionResource();
 		try {
 			conn = connectionContext.getConnection();
-
+			boolean adminSw = false;
+			if ("X".equals(etcData.get("SecuYn"))) {
+				UserInfo userinfo = new UserInfo();
+				adminSw = userinfo.isAdmin_conn(etcData.get("UserId"),conn);
+				userinfo = null;
+			} else {
+				if ("Y".equals(etcData.get("SecuYn"))) adminSw = true;
+			}
     		strQuery.setLength(0);
     		strQuery.append("select a.cr_rsrcname,a.cr_story,a.cr_editor,a.cr_isrid,	     \n");
     		strQuery.append("       to_char(a.cr_opendate,'yyyy/mm/dd hh24:mi') cr_opendate, \n");
     		strQuery.append("       to_char(a.cr_lstdat,'yyyy/mm/dd hh24:mi') cr_lastdate,   \n");
     		strQuery.append("       a.cr_jobcd,a.cr_creator,a.cr_status,a.cr_lstver,         \n");
-    		strQuery.append("       a.cr_rsrccd,a.cr_lstusr,b.cm_info,a.cr_syscd,            \n");
+    		strQuery.append("       a.cr_rsrccd,a.cr_lstusr,b.cm_info,a.cr_syscd,a.cr_itemid,\n");
+    		strQuery.append("       a.cr_dsncd,                                              \n");
     		strQuery.append("       a.cr_ckinacpt,a.cr_devacpt,a.cr_testacpt,a.cr_realacpt,  \n");
+    		strQuery.append("       (select cm_sysmsg from cmm0030                           \n");
+    		strQuery.append("         where cm_syscd=a.cr_syscd) cm_sysmsg,                  \n");
     		strQuery.append("       (select cm_username from cmm0040                         \n");
     		strQuery.append("         where cm_userid=a.cr_creator) creator,                 \n");
     		strQuery.append("       (select cm_username from cmm0040                         \n");
@@ -406,6 +435,12 @@ public class Cmd0500{
     		strQuery.append("       (select cm_codename from cmm0020                         \n");
     		strQuery.append("         where cm_macode='JAWON'                                \n");
     		strQuery.append("           and cm_micode=a.cr_rsrccd) cm_codename,              \n");
+    		strQuery.append("       (select cm_dirpath from cmm0070                          \n");
+    		strQuery.append("         where cm_syscd=a.cr_syscd                              \n");
+    		strQuery.append("           and cm_dsncd=a.cr_dsncd) cm_dirpath,                 \n");
+			strQuery.append("       (select cm_codename from cmm0020                         \n");
+			strQuery.append("          where cm_macode='CMR0020'                             \n");
+			strQuery.append("            and cm_micode=a.cr_status) CMR0020,                 \n");
     		strQuery.append("       (select count(*) from cmm0044                            \n");
     		strQuery.append("         where cm_syscd=a.cr_syscd                              \n");
     		strQuery.append("           and cm_jobcd=a.cr_jobcd                              \n");
@@ -435,7 +470,9 @@ public class Cmd0500{
 				rst.put("cr_isrid", "");
 				rst.put("Lbl_Creator","");
 				rst.put("Lbl_Editor","");
-				
+				rst.put("cm_sysmsg","");
+
+				rst.put("cm_sysmsg",rs.getString("cm_sysmsg"));
 				rst.put("Lbl_ProgName",rs.getString("cr_story"));
 				rst.put("Lbl_CreatDt",rs.getString("cr_opendate"));
 				rst.put("Lbl_LastDt",rs.getString("cr_lastdate"));
@@ -446,9 +483,15 @@ public class Cmd0500{
 				rst.put("WkRsrcCd",rs.getString("cr_rsrccd"));
 				rst.put("cr_editor",rs.getString("cr_editor"));
 				rst.put("RsrcName", rs.getString("cm_codename"));
+				rst.put("cr_rsrcname", rs.getString("cr_rsrcname"));
+				rst.put("cm_dirpath", rs.getString("cm_dirpath"));
+				rst.put("cr_itemid", rs.getString("cr_itemid"));
+				rst.put("cr_syscd", rs.getString("cr_syscd"));
+				rst.put("cr_dsncd", rs.getString("cr_dsncd"));
 				rst.put("cr_isrid", rs.getString("cr_isrid"));
+				rst.put("sta", rs.getString("CMR0020"));
 				rst.put("WkSecu","false");
-				if ("Y".equals(etcData.get("SecuYn")) || etcData.get("UserId").equals(rs.getString("cr_editor")) || 
+				if (adminSw || etcData.get("UserId").equals(rs.getString("cr_editor")) || 
 					rs.getInt("progsecu")>0) {
 					rst.put("WkSecu","true");
 				}
@@ -458,7 +501,8 @@ public class Cmd0500{
 				if (rs.getString("cr_editor") != null){
 					rst.put("Lbl_Editor",rs.getString("editor"));
 		        }
-
+				if (adminSw) rst.put("adminsw", "Y");
+				else rst.put("adminsw", "N");
 				
 				if (rs.getString("cr_ckinacpt") != null){
 	        	   	strQuery.setLength(0);
