@@ -19,9 +19,10 @@
 	    top: 0px;
 	    padding-top: 18px;
 	    background: white;
-	    z-index: 999999;
+	    z-index: 0;
 	    border-bottom: 1px solid #ddd;
     }
+    
 </style>
 
 <body style="width: 100% !important; min-width: 0px !important;">
@@ -33,11 +34,22 @@
 			<ul id="ulMenu"></ul>
 		</div>
 		<div class="log" id="status">
-			<a id="approvalCnt" style="font-weight: bold; color: blue;">미결[0]</a>l
-			<a id="srCnt" style="font-weight: bold; color: green;">SR[0]</a>l
-			<a id="errCnt" style="font-weight: bold; color: red;">오류[0]</a>l
-			<a id="loginUser"></a>l
-			<a id="logOut">로그아웃</a>
+			<div class="dib" id="msrBd"style="width: 191px; height: 30px;position: relative; overflow: hidden;">
+				<div class="dib por" id="msrDiv" style="min-width: 191px;">
+					<a class="cntInfo" id="approvalCnt" style="font-weight: bold; color: blue;">미결[0]</a><span>l</span>
+					<a class="cntInfo" id="srCnt" style="font-weight: bold; color: green;">SR[0]</a><span>l</span>
+					<a class="cntInfo" id="errCnt" style="font-weight: bold; color: red;">오류[0]</a>
+				</div>
+			</div>
+			<div class="dib vat" id="msrIcon" style="margin-right: 5px; display: none; height: 32px;">
+				<img src="../../img/menu2.png" id="menuIcon" style="width: 20px; height: 15px; margin-top: 1px;">
+			</div>
+			<span id="spn1" class="vat" style="margin-left: -4px; margin-right: -4px;">l</span>
+			<div id="subbox" class="poa" style="width: 183; height: 40px; background: white; margin-top: 29px; display: none; margin-left: -34px; padding-top: 9px; border-top: 3px solid #2471c8; box-shadow: 0 6px 16px rgba(0,0,0,.175);">
+			
+			</div>
+			<a id="loginUser" class="vat"></a><span class="vat">l</span>
+			<a id="logOut" class="vat">로그아웃</a>
 		</div>
 	</div>
 

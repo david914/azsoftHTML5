@@ -19,15 +19,45 @@ var menuData	= null;
 var contentHeight = 0;
 var contentHistory = "";
 var resizeInterval = null;
+var folding = null;
+var resizeDelay = null;
 
 $(document).ready(function() {
 	
 	contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
 	screenInit();
 	
+	//압축메뉴 마우스오버효과
+	$("#msrIcon, #subbox").bind('mouseover', function() {
+		$("#subbox").css({"display" : "inline-block"});
+		$("#menuIcon").attr("src", "../../img/menu2_highlight.png");
+	})
+	$("#msrIcon, #subbox").bind('mouseout', function() {
+		$("#subbox").css({"display" : "none"});				
+		$("#menuIcon").attr("src", "../../img/menu2.png");
+	})
+	
+	//미결 SR 오류 마우스오버효과
+	var color = "";
+	$(".cntInfo").hover(function() {	
+		color = this.style.color;
+		$(this).css({"text-shadow" : " 0 0 2px " + color, "color" : "white"});
+	}, function() {
+		$(this).css({"text-shadow" : " 0 0 0px white", "color" : color});
+	})
+	
+	setTimeout(function() {
+		folding = $(window).width() < 1200 ? false : true;
+		$(window).trigger('resize');
+	}, 300);
+	
 	// ifrmae contents의 height에 맞게 height 값 추가
-	$(window).resize(function(){
-		resize();
+	$(window).resize(function(){		
+		clearTimeout(resizeDelay);
+		resizeDelay = setTimeout(function() {	
+			resize();
+			menuFolding();
+		}, 200);
 	});
 	
 	// azsoft 로고 클릭시 메인 페이지 이동
@@ -50,6 +80,9 @@ $(document).ready(function() {
 	$('#approvalCnt, #errCnt, #srCnt').bind('click', function() {
 		changePage(this.id);
 	});
+	
+	
+	
 });
 
 // eCAMS Main Load [session 에서 유저정보 가져온 후 로딩됨]
@@ -127,6 +160,15 @@ function resize(){
 		$('#iFrm').css("height", frameHeight + "px");
 		console.log($('#iFrm').hasVerticalScrollBar());
 	}
+	
+//	var winWidth = window.width();
+//	var folding = winWidth < 1150 ? true : false;
+//	
+//	if(!folding) {
+//		$("#msrDiv").animate({"margin-left": 300}, 500, function() {alert("숨김")});
+//	}else {
+//		$("#msrDiv").animate({"margin-left": 0}, 500, function() {alert("보임")});		
+//	}
 }
 
 // 프레임을 불러오고나서 height 가 변하는 부분이 있을경우 사용
@@ -296,3 +338,21 @@ function logOut() {
 	window.location.replace('/webPage/login/ecamsLogin.jsp');
 }
 
+function menuFolding() {
+	var winWidth = $(window).width();
+	
+	if(winWidth < 1200 && !folding) {
+		$("#msrDiv").animate({"margin-left": 300}, 500, function() {
+			$("#subbox").append($("#msrDiv").children());
+		});
+		$("#msrIcon").fadeIn(700);
+		$("#msrBd").animate({"width":"0px"}, 500);
+		folding = true;
+	} else if(winWidth >= 1200 && folding){
+		$("#msrDiv").append($("#subbox").children());
+		$("#msrIcon").fadeOut();
+		$("#msrBd").animate({"width":"191px"}, 500);
+		$("#msrDiv").animate({"margin-left": 0}, 500);	
+		folding = false;
+	}
+}

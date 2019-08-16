@@ -30,7 +30,7 @@ var myWin		= null;
 
 $(document).ready(function(){
 	console.log('ecamsMain userId : '+userId);
-	$('#lblPieTitle').text(userName + '님의 최근 한달간 운영 신청 프로그램 종류');
+	$('#lblPieTitle').text('최근 한달간 운영 신청 프로그램 종류');
 	getCalInfo();
 	getPrcLabel();
 	getSrList();
@@ -53,6 +53,18 @@ $(document).ready(function(){
 	        height: $('#pieAppliKinds').parent('div').height()-5
 		});*/
 	}); 
+	
+	//창 크기 변경에 따른 차트 리사이즈
+	var timeout;
+	setTimeout(function() {		
+		$(window).resize(function() {
+			clearTimeout(timeout);
+			timeout = setTimeout(function() {				
+				getPieData();
+				line_chart();		
+			}, 300);
+		})
+	}, 500);
 });
 
 // 파이차트 데이터 가져오기
@@ -85,9 +97,10 @@ function successGetPieData(data) {
 	    categories: ['신청종류'],
 	    series: data
 	};
-	
+	var visible = $(window).width() < 1300 ? false : true;
 	var options = {
 	    chart: {
+	    	title: {text: ""},
 	        width: 	 width - 10,
 	        height:  pieChartHeight,
 	    },
@@ -96,8 +109,10 @@ function successGetPieData(data) {
 	        radiusRange: ['70%', '100%']
 	    },
 	    legend: {
-	        visible: true,
-	        
+	        visible: visible
+	    },
+	    chartExportMenu: {
+	    	visible: false
 	    }
 	};
 	
@@ -264,6 +279,7 @@ function getPrcLabel() {
 
 // 미결/SR/오류 라벨 건수 가져오기 완료
 function successGetPrcLabel(data) {
+	
 	// 미결 / SR / 오류 라벨 세팅
 	$('#approvalCnt', parent.document).html('미결['+data.approvalCnt+']');
 	$('#srCnt', parent.document).html('SR['+data.srCnt+']');
@@ -278,6 +294,8 @@ function successGetPrcLabel(data) {
 	$('#devSrCnt').html(data.devSrCnt + '/' + data.devPrgCnt);
 	$('#testSrCnt').html(data.testSrCnt + '/' + data.testPrgCnt);
 	$('#appySrCnt').html(data.appySrCnt + '/' + data.appyPrgCnt);
+	
+	window.parent.inner = $("#msrDiv", parent.document)[0];
 }
 
 
@@ -417,6 +435,8 @@ function getCalFullDate() {
 }
 
 function line_chart(){
+	
+	if($('#pieAppliKinds').length > 0) $('#line-chart').empty();
 	var container = document.getElementById('line-chart');
 	var data = {
 	    categories: ['01/01/2016', '02/01/2016', '03/01/2016', '04/01/2016', '05/01/2016', '06/01/2016', '07/01/2016', '08/01/2016', '09/01/2016', '10/01/2016', '11/01/2016', '12/01/2016'],

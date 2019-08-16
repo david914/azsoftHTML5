@@ -190,5 +190,5 @@ $("#btnSearch").bind('click', function() {
 	console.log(ajaxData);
 	var ajaxResult = ajaxCallWithJson('/webPage/report/SRStandardReport', ajaxData, 'json');
 	mainGrid.setData(ajaxResult);
-//	console.log(ajaxResult);
+	console.log(ajaxResult);
 })

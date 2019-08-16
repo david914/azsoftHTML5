@@ -54,7 +54,7 @@
 	margin-bottom: 12px;
 	/*padding-top: 1px;
 	padding-bottom: 1px;*/
-	box-shadow: 1px 1px 2px 1px #eee !important;
+	box-shadow: 1px 1px 4px 1px #e5e5e5 !important;
 }
 
 .timeline .item i{
@@ -68,10 +68,11 @@
 }
 
 .timeline .item_info{
-	margin:0px 0 4px 10px;
-	white-space: nowrap;
+	margin: 0px 0 -3px 10px;
+    white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    padding-bottom: 4px;
 }
 
 .timeline .item_info p{
@@ -144,7 +145,7 @@ td.fc-more-cell{
 
 .card_info dl dt{
 	width:44%;
-	height:80px;
+	height:78px;
 	background: transparent;
 	vertical-align: top;
 	padding-top:7px;
@@ -191,7 +192,7 @@ td.fc-more-cell{
 	width:50%;
 	text-align: right;
 	padding: 0 0 0 0;
-	padding-top:4px;
+	padding-top:13px;
 	padding-right:30px;
 }
 
@@ -256,7 +257,7 @@ tr:first-child > td > .fc-day-grid-event:hover {
 .angle-double-right:before,
 .fa-file-movie-o:before,
 .fa-deviantart:before,
-.fa-git:before{font-size: 28px; color: #666;}
+.fa-git:before{font-size: 46px; color: #39afd;}
 .card_info dl dt{padding-top: 16px;}
 </style>
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300&display=swap" rel="stylesheet">
@@ -310,7 +311,7 @@ tr:first-child > td > .fc-day-grid-event:hover {
 		
 		<!-- 타임라인 -->
 		<div class="timeline timelineDiv contntBd">
-			<div class="titleLb">
+			<div class="titleLb tac">
 				<label class="sm-font" style="vertical-align: middle;" id="">타임라인</label>
 			</div>
 			<div class="scauto">
