@@ -19,7 +19,7 @@
 	    top: 0px;
 	    padding-top: 18px;
 	    background: white;
-	    z-index: 0;
+	    z-index: 999999;
 	    border-bottom: 1px solid #ddd;
     }
     
