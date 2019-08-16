@@ -16,7 +16,7 @@
 		<div class="row">
 			<dl>				
 				<dt><label>등록인</label></dt>
-				<dd><input id="txtRegUser" name="txtRegUser" type="text" disabled="disabled"></dd>
+				<dd><input id="txtRegUser" name="txtRegUser" type="text" disabled="disabled" autocomplete="off"></dd>
 			</dl>
 		</div>
 		<div class="row half cb">
@@ -125,7 +125,7 @@
 				<dd>
 					<div class="vat">
 						<input id="txtUser" name="txtUser" type="text" style="width:15%;" class="vat" autocomplete="off">
-						<div id="cboDevUser" data-ax5select="cboDevUser" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="Cbo_User_Click()" class="dib width-60"></div>
+						<div id="cboDevUser" data-ax5select="cboDevUser" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib width-60"></div>
 						<div  class="poa_r vat">
 							<button id="btnAddDevUser" name="btnAddDevUser" class="btn_basic_s">추가</button>
 							<button id="btnDelDevUser" name="btnDelDevUser" class="btn_basic_s">삭제</button>
@@ -139,7 +139,7 @@
 		</div>
 		<div class="row" id="gyulDiv" style="display: none;">
 			<dl>
-				<dt><label>결재/반려의견</label></dt>
+				<dt><label style="margin-left:-10px">결재/반려의견</label></dt>
 				<dd>
 					<form>
 						<textarea id="txtConMsg" name="txtConMsg" style="align-content:left;width:100%;height:50px;resize: none;"></textarea>

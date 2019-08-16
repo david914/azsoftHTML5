@@ -599,17 +599,19 @@ function elementInit(initDivision) {
 		$('#btnAddDevUser').attr('disabled', true);
 		$('#btnDelDevUser').attr('disabled', true);
 		$('#btnFileAdd').attr('disabled', true);
+		$('#txtUser').attr('disabled', true);
 		
 	}if(strReqCd == 'XX' || ($('#btnRegister')[0].disabled && $('#btnUpdate')[0].disabled && $('#btnDelete')[0].disabled)) { //disable이면 true
 		if(cboCatTypeSRData != null) {
 			$('[data-ax5select="cboCatTypeSR"]').ax5select("disable");
 			$('[data-ax5select="cboChgType"]').ax5select("disable");
 			$('[data-ax5select="cboWorkRank"]').ax5select("disable");
+			$('[data-ax5select="cboDevUser"]').ax5select("disable");
 			$('[data-ax5select="cboReqSecu"]').ax5select("disable");
 		}
 		
 		$('#datReqComDate').attr('disabled', true);
-		
+		$('.btn_calendar').css('background-color','#ddd');
 		$('#txtReqSubject').attr('disabled', true);
 		$('#texReqContent').attr('disabled', true);
 		$('#txtDocuNum').attr('disabled', true);
@@ -624,12 +626,11 @@ function elementInit(initDivision) {
 		}
 		
 		$('#datReqComDate').attr('disabled', false);
-		
+		$('.btn_calendar').css('background-color','#fff');
 		$('#txtReqSubject').attr('disabled', false);
 		$('#texReqContent').attr('disabled', false);
 		$('#txtDocuNum').attr('disabled', false);
 		$('#txtOrg').attr('disabled', false);
-		$('#txtRegUser').attr('disabled', false);
 	}
 }
 

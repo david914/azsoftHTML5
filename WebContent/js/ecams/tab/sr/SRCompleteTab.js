@@ -148,7 +148,6 @@ function confselect2(){
 }
 
 function endSr(){
-	// eCmc0900_tab.mxml line 170
 	var EndSRData = new Object();
 	var ajaxReturnData = null;
 	
