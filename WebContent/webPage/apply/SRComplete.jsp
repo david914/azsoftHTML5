@@ -10,7 +10,7 @@
         <!-- history E-->         
 	    
 	    <!-- PrjListTab.jsp -->
-	    <div class="az_board_basic" style="height:28%">
+	    <div class="az_board_basic" style="height:30%">
 			<div class="l_wrap width-48 dib vat" style="width:100%; height:100%">
 				<!-- frmPrjList -->
     			<iframe id="frmPrjList" name="frmPrjList" src='/webPage/tab/sr/PrjListTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
@@ -18,7 +18,7 @@
 	    </div>
 	    
 		<!-- 하단 S-->
-		<div class="half_wrap margin-10-top" style="height: 68%">
+		<div class="half_wrap" style="height: 67%">
 			<!-- tab S-->
 			<div class="tab_wrap">
 				<ul class="tabs">
@@ -27,7 +27,7 @@
 			</div>
 			<!-- tab E-->
 			
-			<div class="half_wrap margin-10-top" style="height:90%"> <!--  tab_container -->
+			<div class="half_wrap margin-10-top" style="height:91%"> <!--  tab_container -->
 		       	<!-- SR등록/접수 START -->
 		       	<div id="tabSRRegister" class="tab_content" style="width:100%">
 		       		<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/tab/sr/SRRegisterTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
