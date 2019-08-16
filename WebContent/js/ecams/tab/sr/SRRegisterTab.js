@@ -16,7 +16,7 @@ var userDeptName = window.top.userDeptName;
 var userDeptCd = window.top.userDeptCd;
 var strReqCd = window.parent.strReqCd;
 
-var organizationModal = new ax5.ui.modal(); // 조직도 팝업
+//var organizationModal = new ax5.ui.modal(); // 조직도 팝업
 var approvalModal 		= new ax5.ui.modal();
 var grid_fileList = new ax5.ui.grid();
 var devUserGrid = new ax5.ui.grid();
@@ -43,6 +43,8 @@ var txtUserId = "";
 var txtUserName = "";
 var deptName = "";
 var deptCd = "";
+var txtOrg = "";
+var selDeptCd = "";
 var srSw = true;
 var strSel = "";
 var ins_sw = false;
@@ -106,72 +108,7 @@ ax5.info.weekNames = [ {
 	label : "토"
 } ];
 
-picker.bind({
-	target : $('[data-ax5picker="basic2"]'),
-	direction : "top",
-	content : {
-		width : 220,
-		margin : 10,
-		type : 'date',
-		config : {
-			control : {
-				left : '<i class="fa fa-chevron-left"></i>',
-				yearTmpl : '%s',
-				monthTmpl : '%s',
-				right : '<i class="fa fa-chevron-right"></i>'
-			},
-			dateFormat : 'yyyy/MM/dd',
-			lang : {
-				yearTmpl : "%s년",
-				months : [ '01', '02', '03', '04', '05', '06', '07', '08',
-						'09', '10', '11', '12' ],
-				dayTmpl : "%s"
-			}
-		},
-		formatter : {
-			pattern : 'date'
-		}
-	},
-	onStateChanged : function() {
-	},
-	btns : {
-		today : {
-			label : "Today",
-			onClick : function() {
-				var today = new Date();
-				this.self.setContentValue(this.item.id, 0,
-						ax5.util.date(today, {
-							"return" : "yyyy/MM/dd"
-						})).setContentValue(this.item.id, 1,
-						ax5.util.date(today, {
-							"return" : "yyyy/MM/dd"
-						})).close();
-			}
-		},
-		thisMonth : {
-			label : "This Month",
-			onClick : function() {
-				var today = new Date();
-				this.self.setContentValue(this.item.id, 0,
-						ax5.util.date(today, {
-							"return" : "yyyy/MM/01"
-						})).setContentValue(
-						this.item.id,
-						1,
-						ax5.util.date(today, {
-							"return" : "yyyy/MM"
-						})
-								+ '/'
-								+ ax5.util.daysOfMonth(today.getFullYear(),
-										today.getMonth())).close();
-			}
-		},
-		ok : {
-			label : "Close",
-			theme : "default"
-		}
-	}
-});
+picker.bind(defaultPickerInfo('basic2', 'top'));
 
 grid_fileList.setConfig({
 	target : $('[data-ax5grid="grid_fileList"]'),
@@ -257,16 +194,16 @@ $(document).ready(function() {
 	// selDeptSw = true > 사람검색
 	// selDeptSw = false > 부서검색
 	$('#txtOrg').bind('click', function() {
-		subSw = false;
-		selDeptSw = true;
-		openOranizationModal();
+		window.parent.subSw = false;
+		window.parent.selDeptSw = true;
+		window.parent.openOranizationModal();
 	});
 
 	// 담당개발자
 	$('#txtUser').bind('dblclick', function() {
-		subSw = true;
-		selDeptSw = false;
-		openOranizationModal();
+		window.parent.subSw = true;
+		window.parent.selDeptSw = false;
+		window.parent.openOranizationModal();
 	});
 
 	// 담당 개발자 추가 버튼
@@ -422,6 +359,7 @@ function openApprovalInfo(type, acptNo, reqCd) {
 	myWin = winOpen(form, winName, cURL, nHeight, nWidth);
 }
 
+/*
 //소소조직 선택 창 오픈
 function openOranizationModal() {
 	organizationModal.open({
@@ -445,7 +383,7 @@ function openOranizationModal() {
 	}, function() {
 	});
 }
-
+*/
 var modalCallBack = function() {
 	organizationModal.close();
 };
@@ -927,17 +865,20 @@ function btn_addDever() {
 			return;
 		}
 	}
-	var tmp = new Object();
-	tmp.cm_username = getSelectedVal('cboDevUser').cm_username;
-	tmp.cm_deptcd = getSelectedVal('cboDevUser').cm_deptcd;
-	tmp.cm_deptname = getSelectedVal('cboDevUser').cm_deptname;
-	tmp.cc_userid = getSelectedVal('cboDevUser').cm_userid
-	tmp.delyn = "OK";
+	
+	if(getSelectedVal('cboDevUser').cm_userid != null && getSelectedVal('cboDevUser').cm_userid != undefined){
+		var tmp = new Object();
+		tmp.cm_username = getSelectedVal('cboDevUser').cm_username;
+		tmp.cm_deptcd = getSelectedVal('cboDevUser').cm_deptcd;
+		tmp.cm_deptname = getSelectedVal('cboDevUser').cm_deptname;
+		tmp.cc_userid = getSelectedVal('cboDevUser').cm_userid;
+		tmp.delyn = "OK";
 
-	devUserGrid.addRow($.extend({}, tmp, {
-		__index : undefined
-	}));
-	devUserGrid.repaint();
+		devUserGrid.addRow($.extend({}, tmp, {
+			__index : undefined
+		}));
+		devUserGrid.repaint();
+	}
 }
 
 // 개발자 삭제 버튼
@@ -986,40 +927,40 @@ function clickChkNew() {
 
 function closeModal() {
 	if(!selDeptSw) { //부서(0)
-		
+		$('#txtOrg').val(txtOrg);
 	}else { //사람(1)
+		$('#txtUser').val(userName);
 		
-	}
-	
-	cboDevUserData = null;
-	var cboDevUserDataArray = [];
-	var cboDevUserDataObject = {};
-	cboDevUserDataObject.cm_userid = '0000';
-	cboDevUserDataObject.cm_username = '';
-	cboDevUserDataObject.cm_idname = '선택하세요';
-	cboDevUserDataObject.cm_deptcd = '';
-	cboDevUserDataObject.cm_deptname = '';
-	cboDevUserDataArray.push(cboDevUserDataObject);
+		cboDevUserData = null;
+		var cboDevUserDataArray = [];
+		var cboDevUserDataObject = {};
+		cboDevUserDataObject.cm_userid = '0000';
+		cboDevUserDataObject.cm_username = '';
+		cboDevUserDataObject.cm_idname = '선택하세요';
+		cboDevUserDataObject.cm_deptcd = '';
+		cboDevUserDataObject.cm_deptname = '';
+		cboDevUserDataArray.push(cboDevUserDataObject);
 
-	cboDevUserDataObject = {};
-	cboDevUserDataObject.cm_userid = txtUserId;
-	cboDevUserDataObject.cm_username = txtUserName;
-	cboDevUserDataObject.cm_idname = txtUserName + '[' + txtUserId + ']';
-	cboDevUserDataObject.cm_deptcd = deptCd;
-	cboDevUserDataObject.cm_deptname = deptName;
-	cboDevUserDataArray.push(cboDevUserDataObject);
+		cboDevUserDataObject = {};
+		cboDevUserDataObject.cm_userid = txtUserId;
+		cboDevUserDataObject.cm_username = txtUserName;
+		cboDevUserDataObject.cm_idname = txtUserName + '[' + txtUserId + ']';
+		cboDevUserDataObject.cm_deptcd = deptCd;
+		cboDevUserDataObject.cm_deptname = deptName;
+		cboDevUserDataArray.push(cboDevUserDataObject);
 
-	cboDevUserData = cboDevUserDataArray;
+		cboDevUserData = cboDevUserDataArray;
 
-	options = [];
+		options = [];
 
-	$('[data-ax5select="cboDevUser"]').ax5select({
-		options : injectCboDataToArr(cboDevUserData, 'cm_userid', 'cm_idname')
-	});
+		$('[data-ax5select="cboDevUser"]').ax5select({
+			options : injectCboDataToArr(cboDevUserData, 'cm_userid', 'cm_idname')
+		});
 
-	if (cboDevUserData.length === 2) {
-		$('[data-ax5select="cboDevUser"]').ax5select("setValue", txtUserId,
-				true);
+		if (cboDevUserData.length === 2) {
+			$('[data-ax5select="cboDevUser"]').ax5select("setValue", txtUserId,
+					true);
+		}
 	}
 
 	btn_addDever();

@@ -16,7 +16,19 @@ var strReqCd	 	= window.top.reqCd;
 var selectedSr		= null;
 var testFlag = false;
 var cboQryGbnData = [];
+
+var txtUserId = "";
+var txtUserName = "";
+var deptCd = "";
+var deptName = ""; 
+var subSw = false;
+var selDeptSw = false;
+var selDeptCd = "";
+var txtOrg = "";
+
 var loadSrReg = false;
+
+var organizationModal = new ax5.ui.modal(); // 조직도 팝업
 /******************** eCmc0100.mxml ********************/
 
 $(document).ready(function(){
@@ -38,6 +50,41 @@ function callSRRegister(data) {
          clearInterval(inter);
       }
    },100);
+}
+
+//소소조직 선택 창 오픈
+function openOranizationModal() {
+	organizationModal.open({
+		width : 400,
+		height : 700,
+		iframe : {
+			method : "get",
+			url : "../modal/OrganizationModal.jsp",
+			param : "callBack=modalCallBack"
+		},
+		onStateChanged : function() {
+			if (this.state === "open") {
+				mask.open();
+			} else if (this.state === "close") {
+				mask.close();
+				if(subSw === true && selDeptSw === false){
+					var tmpTab = $('#frmSRRegister').get(0).contentWindow;
+					
+					tmpTab.txtUserId = txtUserId;
+					tmpTab.txtUserName = txtUserName;
+					tmpTab.deptName = deptName;
+					tmpTab.deptCd = deptCd;
+					tmpTab.closeModal();
+				} else {
+					if(selDeptSw) {
+						tmpTab.selDeptCd = selDeptCd;
+						tmpTab.txtOrg = txtOrg;
+					}
+				}
+			}
+		}
+	}, function() {
+	});
 }
 
 //PrjListTab 대상구분 콤보박스 데이터

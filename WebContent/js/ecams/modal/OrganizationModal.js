@@ -342,7 +342,6 @@ function dbClickTree(event, treeId, treeNode) {
 			dialog.alert('사용자를 선택해 주시기 바랍니다.', function() {});
 			return;
 		} else {
-			$('#txtUser', window.parent.document).val(treeNode.userName);
 			window.parent.txtUserId 	= treeNode.userId;
 			window.parent.txtUserName 	= treeNode.userName;
 			window.parent.txtUserId 	= treeNode.userId;
@@ -354,7 +353,7 @@ function dbClickTree(event, treeId, treeNode) {
 		// 조직 선택시
 		if(selDeptSw) {
 			window.parent.selDeptCd = treeNode.id;
-			$('#txtOrg', window.parent.document).val(treeNode.name);
+			window.parent.txtOrg = treeNode.nam
 		} else {
 			// 조직(겸직)선택시
 			window.parent.selSubDeptCd = treeNode.id;
