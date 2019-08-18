@@ -27,18 +27,79 @@ var selDeptCd = "";
 var txtOrg = "";
 
 var loadSrReg = false;
+var picker 		= new ax5.ui.picker();
+var focusCk = false;
+
+//이 부분 지우면 영어명칭으로 바뀜
+//ex) 월 -> MON
+ax5.info.weekNames = [
+{label: "일"},
+{label: "월"},
+{label: "화"},
+{label: "수"},
+{label: "목"},
+{label: "금"},
+{label: "토"}
+];
+
 
 var organizationModal = new ax5.ui.modal(); // 조직도 팝업
 /******************** eCmc0100.mxml ********************/
 
 $(document).ready(function(){
+	var timeOut = null;
+	var timeOut2 = null;
 	strReqCd = "41";
 	setCbo();
 	
 	document.getElementById('frmSRRegister').onload = function() {
 		loadSrReg = true;
 	}
+
+	$('#datStD').val(getDate('DATE',-1));
+	$('#datEdD').val(getDate('DATE',0));
+
+	picker.bind(defaultPickerInfo('basic', 'top'));
+	
+	$("#datStD, #datEdD").bind('change', function(){
+		var dataId = $(this).prop("id");
+		var dataStd = $('#frmPrjList').contents().find("#"+dataId).val($(this).val());
+	});
+	
+	$("#datStD, #datEdD").focusout (function(){
+		//console.log("element focus Out");
+		timeOut = setTimeout(function(){$('[data-picker-btn="ok"]').click(); /*console.log("elemet Timeout");*/}, 100); 
+	});
+	
+	$("#datStD, #datEdD").focusin(function(){
+		//console.log("element focusin");
+		//console.log("element Clear");
+		clearTimeout(timeOut);
+		clearTimeout(timeOut2);
+	});
+	
+	$(document).focusout(function(){
+		//console.log("document Focus Out");
+		timeOut2 = setTimeout(function(){$('[data-picker-btn="ok"]').click();  /*console.log("document Timeout");*/}, 100); 
+	});
+	
+	$(document).on("DOMSubtreeModified",'.ax5-ui-picker',function(){
+		//console.log("picker Modified");
+		//console.log("modified Clear");
+		clearTimeout(timeOut);
+		clearTimeout(timeOut2);
+	});
+
+	$('.btn_calendar').bind('click', function(e) {
+		e.preventDefault();
+	    e.stopPropagation();
+		if($(this).css('background-color') === 'rgb(255, 255, 255)') {
+			var inputs = $(this).siblings().prevAll('input');
+			$(inputs.prevObject[0]).trigger('click');
+		}
+	});
 });
+
 
 // 페이지 로딩 완료시 다음 진행 
 var inter = null;

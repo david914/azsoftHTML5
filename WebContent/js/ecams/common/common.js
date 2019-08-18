@@ -438,6 +438,18 @@ $('.btn_calendar').bind('click', function(e) {
 });
 
 /**
+ * 타임피커 선택시 앞의 input 창에 포커스 이벤트를 주어 켜지도록
+ * @returns
+ */
+$('.btn_time').bind('click', function(e) {
+	e.preventDefault();
+    e.stopPropagation();
+	if($(this).css('background-color') === 'rgb(255, 255, 255)') {
+		var inputs = $(this).siblings("input");
+		$(inputs).focus();
+	}
+});
+/**
  * byte 용량을 환산하여 반환
  * 용량의 크기에 따라 MB, KB, byte 단위로 환산함
  * ex) byte(102020, 1) > 102.0 KB

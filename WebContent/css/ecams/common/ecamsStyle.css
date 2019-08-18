@@ -1319,8 +1319,12 @@ textarea{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
 .btn_gray_s{background: #ddd; border: 1px solid #ccc; color:#333; font-weight:bold; padding: 0 7px 2px; height: 25px;}
 
 .input-group-addon{background: #fff; border: 1px solid #ccc; color:#333; line-height: 2px;}
-.btn_calendar{display: inline-block; font-size: 14px; height: 25px; line-height: 13px; padding: 4px 12px 3px;/* margin-right: 15px;*/ color: #333; text-align: center; background-color: #fff; border: 1px solid #ccc;}
+.btn_calendar{display: inline-block;font-size: 14px;height: 25px;line-height: 13px;padding: 4px 12px 3px;/* margin-right: 15px;*/color: #333;text-align: center;background-color: #fff;border: 1px solid #ccc;}
 .btn_calendar:disabled {display: inline-block; font-size: 14px; height: 25px; line-height: 13px; padding: 4px 12px 3px;/* margin-right: 15px;*/ color: #333; text-align: center; background-color: #ebebe4; border: 1px solid #ccc;}
+
+.btn_time{display: inline-block;font-size: 14px;height: 25px;line-height: 13px;padding: 4px 12px 3px;/* margin-right: 15px;*/color: #333;text-align: center;background-color: #fff;border: 1px solid #ccc;}
+.btn_time:disabled {display: inline-block; font-size: 14px; height: 25px; line-height: 13px; padding: 4px 12px 3px;/* margin-right: 15px;*/ color: #333; text-align: center; background-color: #ebebe4; border: 1px solid #ccc;}
+
 .fa_wrap{display: inline-block; font-size: 12px; height: 25px; line-height: 13px; padding: 4px 12px 3px; color: #333; text-align: center; background-color: #fff; border: 1px solid #ccc; cursor: pointer;}
 .fas:before {font-family: FontAwesome; font-style: normal;}
 /********************************** 
@@ -1374,7 +1378,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 #wrapper .content{position: relative;margin: 10px;margin-bottom: 0;}
 #history_wrap{position: relative;font-size: 14px;line-height: 14px;font-weight: 500;color: #245490;margin-bottom: 10px;}
 #divContent {width: 580px; background: #f8f8f8; padding: 20px; margin: 0 auto;}
-#footer{position: relative; width: 100%; height: 30px; background: #ddd;}
+#footer{position: relative;width: 100%;height: 30px;background: #ddd;/* bottom: 0; */}
 #footer ul:after{content: ''; display: block; clear: both;}
 #footer ul li{position: relative; float: left; width: 50%; zoom: 1;}
 #footer ul li.logo_f{text-align: left; padding-left: 15px;}
@@ -1421,7 +1425,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 /* #tip {position:absolute; color:#FFFFFF; padding:5px; display:none; background:#FFA200; border-radius: 5px;} */
 #tip {position:absolute; padding:5px; display:none; border-radius: 5px; border: solid 1px black;}
 /*검색 - 테이블상단*/
-.az_search_wrap{display: inline-block; width: 100%; /*height: 47px;*/ padding: 10px 0; margin-bottom: 12px; background: #f8f8f8; border-top: 1px solid #ccc;}
+.az_search_wrap{display: inline-block;width: 100%;/* height: 47px; */padding: 10px 0;margin-bottom: 12px;background: #f8f8f8;border-top: 1px solid #ccc;}
 .az_in_wrap{display: block; padding: 0 10px; font-size: 0;}
 .sim{margin: 0 7px; font-size: 14px;}
 .az_search_wrap div.l_wrap button.btn_basic_s{padding: 1px 7px 2px; margin: 0 7px;}
@@ -1523,7 +1527,7 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 #divPicker{font-size: 0;}
 
 .contentFrame{/* overflow: auto; */}
-.contentFrame:after{/* content:""; *//* display:block; *//* clear:both; */}
+.contentFrame:after{ content:"";  display:block;  clear:both; */}
 
 .row:first-child, .sm-row:first-child{margin-top: 0px;}
 

@@ -16,7 +16,7 @@
 	<!-- PrjListTab.jsp -->
   	<div class="az_board_basic" style="height:35%">
 		<div class="l_wrap width-48 dib vat" style="width:100%; height:100%">
-		<div id="divPicker" data-ax5picker="basic" class="az_input_group dib poa" style=" right:119px; top: 11px;">
+		<div id="divPicker" data-ax5picker="basic" class="az_input_group dib poa" style=" right:118px; top: 11px;">
 				<input id="datStD" name="datStD" type="text"
 					placeholder="yyyy/mm/dd" style="width: 100px;"> <button
 					id="btnStD" class="btn_calendar"><i class="fa fa-calendar-o"></i></button> <span

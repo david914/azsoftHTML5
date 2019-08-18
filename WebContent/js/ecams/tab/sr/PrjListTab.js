@@ -145,9 +145,13 @@ $(document).ready(function() {
 	//getPrjList();
 
 	$('#datStD').prop("disabled", true); 
-	$('#datEdD').prop("disabled", true);
-	$('#btnStD').prop("disabled", true); 
+	window.parent.$("#datStD").prop("disabled", true);
+	$('#datEdD').prop("disabled", true); 
+	window.parent.$("#datEdD").prop("disabled", true);
+	$('#btnStD').prop("disabled", true);
+	window.parent.$("#btnStD").prop("disabled", true);
 	$('#btnEdD').prop("disabled", true);
+	window.parent.$("#btnEdD").prop("disabled", true);
 	$('#dateDiv').css('pointer-events','none');
 });
 
@@ -155,15 +159,23 @@ $(document).ready(function() {
 function changeQryGbn(){
 	if(getSelectedVal('cboQryGbn').value === "01"){
 		$('#datStD').prop("disabled", true); 
+		window.parent.$("#datStD").prop("disabled", true);
 		$('#datEdD').prop("disabled", true); 
-		$('#btnStD').prop("disabled", true); 
+		window.parent.$("#datEdD").prop("disabled", true);
+		$('#btnStD').prop("disabled", true);
+		window.parent.$("#btnStD").prop("disabled", true);
 		$('#btnEdD').prop("disabled", true);
+		window.parent.$("#btnEdD").prop("disabled", true);
 		$('#dateDiv').css('pointer-events','none');
 	} else {
 		$('#datStD').prop("disabled", false); 
-		$('#datEdD').prop("disabled", false);
-		$('#btnStD').prop("disabled", false); 
+		window.parent.$("#datStD").prop("disabled", false);
+		$('#datEdD').prop("disabled", false); 
+		window.parent.$("#datEdD").prop("disabled", false);
+		$('#btnStD').prop("disabled", false);
+		window.parent.$("#btnStD").prop("disabled", false);
 		$('#btnEdD').prop("disabled", false);
+		window.parent.$("#btnEdD").prop("disabled", false);
 		$('#dateDiv').css('pointer-events','auto');
 	}
 	getPrjList();
@@ -298,17 +310,23 @@ function resetScreen() {
 	$('[data-ax5select="cboCatType"]').ax5select("setValue", '00', true);
 	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", '01', true);
 	$('#datStD').prop("disabled", true); 
+	window.parent.$("#datStD").prop("disabled", true);
 	$('#datEdD').prop("disabled", true); 
+	window.parent.$("#datEdD").prop("disabled", true);
 	$('#btnStD').prop("disabled", true);
+	window.parent.$("#btnStD").prop("disabled", true);
 	$('#btnEdD').prop("disabled", true);
+	window.parent.$("#btnEdD").prop("disabled", true);
 
 	var today = getDate('DATE',-1);
 	today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);
 	$('#datStD').val(today);
+	window.parent.$("#datStD").val(today);
 	
 	today = getDate('DATE',0);
 	today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);
 	$('#datEdD').val(today);
+	window.parent.$("#datEdD").val(today);
 	
 	getPrjList();
 }

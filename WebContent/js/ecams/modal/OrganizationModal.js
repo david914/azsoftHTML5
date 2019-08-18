@@ -344,8 +344,6 @@ function dbClickTree(event, treeId, treeNode) {
 		} else {
 			window.parent.txtUserId 	= treeNode.userId;
 			window.parent.txtUserName 	= treeNode.userName;
-			window.parent.txtUserId 	= treeNode.userId;
-			window.parent.txtUserName 	= treeNode.userName;
 			window.parent.deptName 		= treeNode.deptName;
 			window.parent.deptCd 		= treeNode.pId;
 		}

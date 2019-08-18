@@ -122,13 +122,13 @@
 					<label>*적용일시</label>
 				</div>
 				<div class="ml_80 dib">
-					<div class="input-group width-40 dib" data-ax5picker="txtReqDate"style=" font-size:0px;" >
+					<div class="input-group width-40 dib vat" data-ax5picker="txtReqDate"style=" font-size:0px;" >
 			            <input id="txtReqDate" type="text" class="f-cal" placeholder="yyyy/mm/dd">
-			            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+			            <button id="btnEdD" class="btn_calendar"><i class="fa fa-calendar-o"></i></button>
 			        </div>
-			        <div style="font-size:0px; " class='width-40 dib'>
+			        <div style="font-size:0px; " class='width-40 dib vat'>
 						<input id="txtReqTime" name="txtReqTime" type="text" class="f-cal"></input>
-						<span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
+						<button id="btnTime" class="btn_time"><i class="fa fa-clock-o"></i></button>
 					</div>
 				</div>
 			</div>
@@ -151,5 +151,4 @@
 </form>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
-<script src="<c:url value="/scripts/bootstrap-timepicker.min.js"/>" type="text/javascript"></script>
 <script type="text/javascript"	src="<c:url value="/js/ecams/apply/ApplyRequest.js"/>"></script>
