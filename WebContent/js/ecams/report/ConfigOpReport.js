@@ -232,11 +232,7 @@ $("#btnSearch").bind('click', function() {
 	console.log(ajaxResult);
 	//존재하는 컬럼 데이터 추가
 	$.each(ajaxResult, function(index, value) {
-		if(index === ajaxResult.length-1) {			
-			columnData.push({key : "col" + value.cm_micode, label : value.cm_codename, align : "right", width : (68 - (5 * ajaxResult.length)) + "%"});
-		} else {			
-			columnData.push({key : "col" + value.cm_micode, label : value.cm_codename, align : "right", width : "5%"});
-		}
+		columnData.push({key : "col" + value.cm_micode, label : value.cm_codename, align : "right", width : "5%"});
 	})
 	
 	ajaxData, inputData = null;
@@ -259,7 +255,6 @@ $("#btnSearch").bind('click', function() {
 	}
 	var ajaxResult = ajaxCallWithJson('/webPage/report/ConfigOpReport', ajaxData, 'json');
 	
-	console.log(ajaxResult);
 	var footSumData = [[]];
 	var gridData = [];
 	
@@ -275,6 +270,29 @@ $("#btnSearch").bind('click', function() {
 				}, align: "right"});
 		}
 	});
+	
+	var testColumnData = [
+        {key: "isrid", label: "SR-ID",  width: '6%'},
+        {key: "genieid", label: "문서번호",  width: '6%', align: 'left'},
+        {key: "recvdate", label: "등록일",  width: '5%'},
+        {key: "reqdept", label: "요청부서",  width: '5%', align: 'left'},
+        {key: "reqsta1", label: "SR상태",  width: '5%', align: 'left'},
+        {key: "reqtitle", label: "요청제목",  width: '15%', align: 'left'},
+        {key: "reqedday", label: "완료요청일",  width: '5%'},
+        {key: "comdept", label: "등록부서",  width: '5%', align: 'left'},
+        {key: "recvuser", label: "등록인",  width: '4%'},
+        {key: "recvdept", label: "개발부서",  width: '5%', align: 'left'},
+        {key: "devuser", label: "개발담당자",  width: '5%'},
+        {key: "reqsta2", label: "개발자상태",  width: '5%', align: 'left'},
+        {key: "chgdevterm", label: "개발기간", width: '8%', align: 'left'},
+        {key: "chgdevtime", label: "개발계획공수", width: '6%'},
+        {key: "realworktime", label: "개발투입공수", width: '6%'},
+        {key: "chgpercent", label: "개발진행율", width: '6%'},
+        {key: "chgedgbn", label: "변경종료구분", width: '6%', align: 'left'},
+        {key: "chgeddate", label: "변경종료일", width: '6%'},
+        {key: "isredgbn", label: "SR완료구분", width: '6%', align: 'left'},
+        {key: "isreddate", label: "SR완료일", width: '6%'}
+    ];
 	//컬럼 세팅
 	mainGrid.setConfig({
 		footSum : footSumData,
@@ -282,6 +300,9 @@ $("#btnSearch").bind('click', function() {
 	})
 	
 	gridData.pop();	
+	
+	console.log(testColumnData);
+	console.log(columnData);
 	
 	//그리드 세팅
 	mainGrid.setData(gridData);
