@@ -23,6 +23,19 @@
 	    border-bottom: 1px solid #ddd;
     }
     
+    #subbox {
+    	width: 183;
+    	height: 40px;
+    	background: white;
+    	margin-top: 29px;
+    	display: none;
+    	margin-left: -34px;
+    	padding-top: 9px;
+    	border-top: 3px solid #2471c8;
+    	box-shadow: 0 6px 16px rgba(0,0,0,.175);
+    	padding-left: 5px;
+    	padding-right: 5px;
+    }
 </style>
 
 <body style="width: 100% !important; min-width: 0px !important;">
@@ -45,7 +58,7 @@
 				<img src="../../img/menu2.png" id="menuIcon" style="width: 20px; height: 15px; margin-top: 1px;">
 			</div>
 			<span id="spn1" class="vat" style="margin-left: -4px; margin-right: -4px;">l</span>
-			<div id="subbox" class="poa" style="width: 183; height: 40px; background: white; margin-top: 29px; display: none; margin-left: -34px; padding-top: 9px; border-top: 3px solid #2471c8; box-shadow: 0 6px 16px rgba(0,0,0,.175);">
+			<div id="subbox" class="poa" style="">
 			
 			</div>
 			<a id="loginUser" class="vat"></a><span class="vat">l</span>
