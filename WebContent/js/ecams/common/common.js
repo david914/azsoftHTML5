@@ -77,7 +77,7 @@ function ajaxAsync(url, requestData, dataType,successFunc,callbackFunc) {
 			changeCursor(false);
 		}
 	}).then(successFunc, function(err) {
-		console.log('============================에러발생가 발생한 호출 함수명 [' +calleeFuncName.name + ']==================');
+		console.log('============================에러가 발생한 호출 함수명 [' +calleeFuncName.name + ']==================');
 		console.log('============================Ajax 통신중 error 발생 Error message START============================');
 		console.log(err);
 		console.log('============================Error message END============================');
