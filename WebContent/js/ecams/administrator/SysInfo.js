@@ -947,12 +947,12 @@ function cboSysClick() {
 			if(sysInfoGridData[i].cm_syscd == selectedSysCboSysInfo.value) {
 				sysInfoGrid.clearSelect();
 				sysInfoGrid.select(i);
+				sysInfoGrid.focus(i);
 				selectedGridItem = sysInfoGrid.list[i];
 				break;
 			}
 		}
 	}
-	
 	
 	$('#txtTime').val('');
 	$('#txtSysCd').val(selectedSysCboSysInfo.value);
