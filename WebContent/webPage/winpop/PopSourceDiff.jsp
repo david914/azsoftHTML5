@@ -59,13 +59,13 @@
 					<div class="r_wrap">
 						<div class="margin-10-right">
 		                	<div>
-								<button id="btnVerDiff" class="btn_basic_s">버전비교</button>
+								<button id="btnVerDiff" class="btn_basic_n">버전비교</button>
 		                	</div>
 		                	<div class="margin-3-top">
-								<button id="btnSrcDiff" class="btn_basic_s">변경내용</button>
+								<button id="btnSrcDiff" class="btn_basic_n">변경내용</button>
 		                	</div>
 		                	<div class="margin-3-top">
-								<button id="btnChgPart" class="btn_basic_s">변경위치</button>
+								<button id="btnChgPart" class="btn_basic_n">변경위치</button>
 		                	</div>
 		                	<div class="margin-3-top">
 								<span class="fa_wrap dib"><i class="fas fa-caret-left" id="btnLeft"></i></span>
@@ -125,8 +125,8 @@
 				<input id="optLine" type="radio"  name="optradio"  value="L" onchange="optradio_change();"/>
 				<label for="optLine">라인검색</label>
 				<input id="txtSearch" name="txtSearch" type="text" style="width:200px;" onchange="txtSearch_change();" >
-				<button id="btnSearch" name="btnSearch"  class="btn_basic_s margin-5-left" >찾기</button>
-				<button id="btnExcel" class="btn_basic_s margin-5-left">엑셀저장</button>
+				<button id="btnSearch" name="btnSearch"  class="btn_basic_n margin-5-left" >찾기</button>
+				<button id="btnExcel" class="btn_basic_n margin-5-left">엑셀저장</button>
 			</div>
 		</div>	
 		<!-- line3 e-->	

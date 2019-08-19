@@ -78,7 +78,7 @@ $(document).ready(function(){
 	screenInit('M');
 	
 	//닫기클릭
-	$('#btnClose').bind('click', function() {
+	$('#btnExit').bind('click', function() {
 		close();
 	});
 	
