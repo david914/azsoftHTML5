@@ -2,6 +2,7 @@ package html.app.mypage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -52,14 +53,17 @@ public class UserConfig extends HttpServlet {
 				case "UserInfo" :
 					response.getWriter().write( checkAdmin(jsonElement) );
 					break;
-				case "SysInfo" :
-					response.getWriter().write( getSelSysname(jsonElement) );
+				case "getSysInfo" :
+					response.getWriter().write( getSysInfo(jsonElement) );
 					break;
-				case "Cmd1300" :
-					response.getWriter().write( getGrid1(jsonElement) );
+				case "getUserConfigList" :
+					response.getWriter().write( getUserConfigList(jsonElement) );
 					break;
-				case "Cmd1300_1" :
-					response.getWriter().write( getUpdateDir(jsonElement) );
+				case "insertUserConfig" :
+					response.getWriter().write( insertUserConfig(jsonElement) );
+					break;
+				case "deleteUserConfig" :
+					response.getWriter().write( deleteUserConfig(jsonElement) );
 					break;
 				default:
 					break;
@@ -79,27 +83,30 @@ public class UserConfig extends HttpServlet {
 		return gson.toJson(userinfo.isAdmin(userId));
 	}
 	
-	private String getSelSysname(JsonElement jsonElement) throws SQLException, Exception {
-		String userId = null;
-		userId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
-		String secuYn = null;
-		secuYn = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SecuYn") );
-		return gson.toJson(sysinfo.getSysInfo(userId, secuYn, "SEL", "N", ""));
+	private String getSysInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"UserId"));
+		String secuYn 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"secuYn"));
+		String SelMsg 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"SelMsg"));
+		String CloseYn 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"CloseYn"));
+		String ReqCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"ReqCd"));
+		return gson.toJson(sysinfo.getSysInfo(UserId, secuYn, SelMsg, CloseYn, ReqCd));
 	}
 	
-	private String getGrid1(JsonElement jsonElement) throws SQLException, Exception {
-		String userId = null;
-		userId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+	private String getUserConfigList(JsonElement jsonElement) throws SQLException, Exception {
+		String userId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"userId"));
 		return gson.toJson(cmd1300.getSql_Qry(userId));
 	}
 	
-	private String getUpdateDir(JsonElement jsonElement) throws SQLException, Exception {
-		String userId = null;
-		userId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
-		String selSysCd = null;
-		selSysCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "selSysCd") );
-		String txtDir = null;
-		txtDir = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "txtDir") );
-		return gson.toJson(cmd1300.getTblUpdate(userId, selSysCd, txtDir));
+	private String insertUserConfig(JsonElement jsonElement) throws SQLException, Exception {
+		String userId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"userId"));
+		String sysCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"sysCd"));
+		String devDir 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"devDir"));
+		String agentDir = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"agentDir"));
+		return gson.toJson(cmd1300.getTblUpdate(userId, sysCd, devDir, agentDir));
+	}
+	private String deleteUserConfig(JsonElement jsonElement) throws SQLException, Exception {
+		String userId 								= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"userId"));
+		ArrayList<HashMap<String, String>> delList 	= ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"delList"));
+		return gson.toJson(cmd1300.getTblDelete(userId, delList));
 	}
 }

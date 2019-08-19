@@ -21,7 +21,7 @@ var modListGrid	= new ax5.ui.grid();
 var prgGridData 	= [];
 var fPrgGridData 	= [];
 var modGridData	 	= [];
-var fModGridData	 	= [];
+var fModGridData	= [];
 var modListGridData	= [];
 
 var cboSysCdData	= [];

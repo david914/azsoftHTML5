@@ -249,7 +249,7 @@ public class Cmd1300{
 
 	}//end of Cbo_Select() method statement
 
-    public int getTblUpdate(String UserId,String SysCd,String Lbl_Dir) throws SQLException, Exception{
+    public int getTblUpdate(String userId,String sysCd,String devDir, String agentDir) throws SQLException, Exception{
     	Connection			conn				= null;
     	PreparedStatement	pstmt				= null;
     	StringBuffer		strQuery			= new StringBuffer();
@@ -263,20 +263,22 @@ public class Cmd1300{
     		strQuery.append("delete cmd0300 where cd_syscd=? \n");//SysCd
     		strQuery.append(" and cd_userid=?  \n");//UserId
     		pstmt = conn.prepareStatement(strQuery.toString());
-    		pstmt.setString(1, SysCd);
-    		pstmt.setString(2, UserId);
+    		pstmt.setString(1, sysCd);
+    		pstmt.setString(2, userId);
     		rtn_cnt = pstmt.executeUpdate();
     		pstmt.close();
 
     		strQuery.setLength(0);
-    		strQuery.append("insert into cmd0300 (CD_USERID,CD_SYSCD,CD_DEVHOME) values (\n");
+    		strQuery.append("insert into cmd0300 (CD_USERID,CD_SYSCD,CD_DEVHOME, CD_AGENTDIR) values (\n");
     		strQuery.append("?, \n");//UserId
 			strQuery.append("?, \n");//SysCd
+			strQuery.append("?, \n");//Lbl_Dir
 			strQuery.append("?) \n");//Lbl_Dir
 			pstmt = conn.prepareStatement(strQuery.toString());
-			pstmt.setString(1, UserId);
-			pstmt.setString(2, SysCd);
-			pstmt.setString(3, Lbl_Dir);
+			pstmt.setString(1, userId);
+			pstmt.setString(2, sysCd);
+			pstmt.setString(3, devDir);
+			pstmt.setString(4, agentDir);
 			rtn_cnt = pstmt.executeUpdate();
 			pstmt.close();
 
@@ -316,17 +318,25 @@ public class Cmd1300{
     	try{
     		conn = connectionContext.getConnection();
 
-    		strQuery.setLength(0);
-    		strQuery.append("delete cmd0300 where \n");//SysCd
-    		strQuery.append(" cd_userid=?  \n");//UserId
-    		pstmt = conn.prepareStatement(strQuery.toString());
-    		pstmt.setString(1, UserId);
-    		rtn_cnt = pstmt.executeUpdate();
-    		pstmt.close();
+    		
 
     		for (int i=0 ; i<rvList.size() ; i++){
-	    		strQuery.setLength(0);
-	    		strQuery.append("insert into cmd0300 (CD_USERID,CD_SYSCD,CD_DEVHOME) values (\n");
+    			
+    			
+    			strQuery.setLength(0);
+        		strQuery.append("delete from cmd0300 where \n");//SysCd
+        		strQuery.append(" cd_userid=?  \n");//UserId
+        		strQuery.append(" and CD_SYSCD=?  \n");//UserId
+        		strQuery.append(" and CD_DEVHOME=?  \n");//UserId
+        		pstmt = conn.prepareStatement(strQuery.toString());
+        		pstmt.setString(1, UserId);
+        		pstmt.setString(2, rvList.get(i).get("cd_syscd"));
+				pstmt.setString(3, rvList.get(i).get("cd_devhome"));
+        		rtn_cnt = pstmt.executeUpdate();
+        		pstmt.close();
+    			
+	    		/*strQuery.setLength(0);
+	    		strQuery.append("delete from cmd0300 (CD_USERID,CD_SYSCD,CD_DEVHOME) values (\n");
 	    		strQuery.append("?, \n");//UserId
 				strQuery.append("?, \n");//SysCd
 				strQuery.append("?) \n");//Lbl_Dir
@@ -335,7 +345,7 @@ public class Cmd1300{
 				pstmt.setString(2, rvList.get(i).get("cd_syscd"));
 				pstmt.setString(3, rvList.get(i).get("cd_devhome"));
 				rtn_cnt = pstmt.executeUpdate();
-				pstmt.close();
+				pstmt.close();*/
     		}
 
     		conn.commit();
@@ -516,7 +526,7 @@ public class Cmd1300{
 			conn = connectionContext.getConnection();
 
 			strQuery.setLength(0);
-			strQuery.append("select b.cd_syscd,a.cm_sysmsg,b.cd_devhome \n");
+			strQuery.append("select b.cd_syscd,a.cm_sysmsg,b.cd_devhome, cd_agentdir\n");
 			strQuery.append(" from cmd0300 b,cmm0030 a \n");
 			strQuery.append(" where b.cd_userid=? \n");//UserId
 			strQuery.append("   and b.cd_syscd=a.cm_syscd \n");
@@ -535,6 +545,7 @@ public class Cmd1300{
 				}
 				rst.put("cd_syscd", rs.getString("cd_syscd"));
 				rst.put("cd_devhome", rs.getString("cd_devhome"));
+				rst.put("cd_agentdir", rs.getString("cd_agentdir"));
 				rtList.add(rst);
 				rst = null;
 	        }
