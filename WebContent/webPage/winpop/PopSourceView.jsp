@@ -57,7 +57,7 @@
 		</div>
 		<!-- line2 E-->
 		<!-- line3 S-->
-		<div class="margin-5-top tar width-100" style="float:right">
+		<div class="margin-5-top tar width-100" style="float:right;margin-bottom:5px">
 			<input id="optWord"  type="radio" name="optradio"  value="W" onchange="optradio_change();" checked/>
 			<label for="optWord">단어검색</label>
 			<input id="optLine" type="radio"  name="optradio"  value="L" onchange="optradio_change();"/>
@@ -68,7 +68,7 @@
 			<button id="btnExit" name="btnExit" class="btn_basic_n">닫기</button>
 		</div>
 		<!-- line4 S -->
-		<div class="scrollBind row" style="height:calc(100% - 310px);overflow:auto;" id="htmlView"  >
+		<div class="scrollBind" style="height:calc(100% - 310px);overflow:auto;" id="htmlView"  >
 		    <pre style="width:100%;height:100%;"><code id="htmlSrc"></code></pre>
 		</div>
 		<!-- line4 E -->

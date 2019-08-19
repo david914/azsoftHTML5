@@ -39,105 +39,113 @@ public class Cmr5200 {
 		String strParm = "";
 		BufferedReader in1  = null;
 		BufferedReader in2  = null;
-
+		File outFile1 = null;
+		File outFile2 = null;
 		int	linecnt;
 		int ret;
-		File shfile=null;
 
 		try {
 			tmpPath = etcData.get("tmpdir");
-			fileName1 = "F:\\Azsoft\\HTML5\\save\\MASTER000000326526.1";
-			fileName2 = "F:\\Azsoft\\HTML5\\save\\MASTER000000326526.2";
-			/*
-			Cmr0200 cmr0200 = new Cmr0200();
-			
 			shFileName = etcData.get("userid") + "_" + etcData.get("itemid") +"_cmpsrc.sh";
 			fileName = etcData.get("userid") + "_" + etcData.get("itemid");
-
+			fileName1 = tmpPath + "/" + fileName + ".1";
+			fileName2 = tmpPath + "/" + fileName + ".2";
+			outFile1 = new File(fileName1);
+			outFile2 = new File(fileName1);
+			outFile1.delete();
+			outFile2.delete();
+			
+			//fileName1 = "F:\\Azsoft\\HTML5\\save\\MASTER000000326526.1";
+			//fileName2 = "F:\\Azsoft\\HTML5\\save\\MASTER000000326526.2";
+			
+			Cmr0200 cmr0200 = new Cmr0200();
 			strParm = "./ecams_cmpsrc CMPSRC " + etcData.get("itemid") + " " + etcData.get("diffgbn1") + " " + etcData.get("befver") + " " + etcData.get("itemid") + " " + etcData.get("diffgbn2") + " " + etcData.get("aftver") + " " + fileName;
 			ret = cmr0200.execShell(shFileName, strParm, false);
 			cmr0200 = null;
 			if (ret != 0) {
-				throw new Exception("해당 소스 생성  실패. run=["+strParm +"]" + " return=[" + ret + "]" );
-			}
-
-			fileName1 = tmpPath + "/" + fileName + ".1";
-			fileName2 = tmpPath + "/" + fileName + ".2";
-			*/
-			in1 = new BufferedReader(new InputStreamReader(new FileInputStream(fileName1),"MS949"));
-			in2 = new BufferedReader(new InputStreamReader(new FileInputStream(fileName2),"MS949"));
-
-			rtList.clear();
-			linecnt = 1;
-			while( ((readline1 = in1.readLine()) != null ) && ((readline2 = in2.readLine()) != null ))
-			{
 				rst = new HashMap<String, String>();
-				rst.put("lineno",Integer.toString(linecnt));
-
-				if (readline1 != null){
-					if (readline1.substring(0, 2).equals("D ")){
-						rst.put("file1diff",readline1.substring(0, 2));
-						rst.put("file1", readline1.substring(2));
-					}
-					else if (readline1.substring(0, 2).equals("I ")){
-						rst.put("file1diff",readline1.substring(0, 2));
-						rst.put("file1", readline1.substring(2));
-					}
-					else if (readline1.substring(0, 2).equals("RO")){
-						rst.put("file1diff",readline1.substring(0, 2));
-						rst.put("file1", readline1.substring(2));
-					}
-					else if (readline1.substring(0, 2).equals("RN")){
-						rst.put("file1diff",readline1.substring(0, 2));
-						rst.put("file1", readline1.substring(2));
-					}
-					else{
-						rst.put("file1diff","");
-						rst.put("file1", readline1);
-					}
-					//ecamsLogger.error("11111111111111"+readline1);
-				}
-				if (readline2 != null){
-					if (readline2.substring(0, 2).equals("D ")){
-						rst.put("file2diff",readline2.substring(0, 2));
-						rst.put("file2", readline2.substring(2));
-					}
-					else if (readline2.substring(0, 2).equals("I ")){
-						rst.put("file2diff",readline2.substring(0, 2));
-						rst.put("file2", readline2.substring(2));
-					}
-					else if (readline2.substring(0, 2).equals("RO")){
-						rst.put("file2diff",readline2.substring(0, 2));
-						rst.put("file2", readline2.substring(2));
-					}
-					else if (readline2.substring(0, 2).equals("RN")){
-						rst.put("file2diff",readline2.substring(0, 2));
-						rst.put("file2", readline2.substring(2));
-					}
-					else{
-						rst.put("file2diff","");
-						rst.put("file2", readline2);
-					}
-					//ecamsLogger.error("22222222222222"+readline2);
-				}
+				rst.put("error","Y");
+				rst.put("errmsg","소스비교 실패. run=["+strParm +"]" + " return=[" + ret + "]");
 				rtList.add(rst);
 				rst = null;
-				linecnt++;
+			} else if (!outFile1.exists() || !outFile2.exists()) {
+				rst = new HashMap<String, String>();
+				rst.put("error","Y");
+				rst.put("errmsg","소스비교결과 없음. ["+fileName1 +"] [" + fileName2 + "]");
+				rtList.add(rst);
+				rst = null;
+			} else {			
+				in1 = new BufferedReader(new InputStreamReader(new FileInputStream(fileName1),"MS949"));
+				in2 = new BufferedReader(new InputStreamReader(new FileInputStream(fileName2),"MS949"));
+	
+				rtList.clear();
+				linecnt = 1;
+				while( ((readline1 = in1.readLine()) != null ) && ((readline2 = in2.readLine()) != null ))
+				{
+					rst = new HashMap<String, String>();
+					rst.put("lineno",Integer.toString(linecnt));
+					rst.put("error","N");
+					if (readline1 != null){
+						if (readline1.substring(0, 2).equals("D ")){
+							rst.put("file1diff",readline1.substring(0, 2));
+							rst.put("file1", readline1.substring(2));
+						}
+						else if (readline1.substring(0, 2).equals("I ")){
+							rst.put("file1diff",readline1.substring(0, 2));
+							rst.put("file1", readline1.substring(2));
+						}
+						else if (readline1.substring(0, 2).equals("RO")){
+							rst.put("file1diff",readline1.substring(0, 2));
+							rst.put("file1", readline1.substring(2));
+						}
+						else if (readline1.substring(0, 2).equals("RN")){
+							rst.put("file1diff",readline1.substring(0, 2));
+							rst.put("file1", readline1.substring(2));
+						}
+						else{
+							rst.put("file1diff","");
+							rst.put("file1", readline1);
+						}
+						//ecamsLogger.error("11111111111111"+readline1);
+					}
+					if (readline2 != null){
+						if (readline2.substring(0, 2).equals("D ")){
+							rst.put("file2diff",readline2.substring(0, 2));
+							rst.put("file2", readline2.substring(2));
+						}
+						else if (readline2.substring(0, 2).equals("I ")){
+							rst.put("file2diff",readline2.substring(0, 2));
+							rst.put("file2", readline2.substring(2));
+						}
+						else if (readline2.substring(0, 2).equals("RO")){
+							rst.put("file2diff",readline2.substring(0, 2));
+							rst.put("file2", readline2.substring(2));
+						}
+						else if (readline2.substring(0, 2).equals("RN")){
+							rst.put("file2diff",readline2.substring(0, 2));
+							rst.put("file2", readline2.substring(2));
+						}
+						else{
+							rst.put("file2diff","");
+							rst.put("file2", readline2);
+						}
+						//ecamsLogger.error("22222222222222"+readline2);
+					}
+					rtList.add(rst);
+					rst = null;
+					linecnt++;
+				}
+				in1.close();
+				in2.close();
+				in1 = null;
+				in2 = null;
+				
+				outFile1.delete();
+				outFile2.delete();				
 			}
-			in1.close();
-			in2.close();
-			in1 = null;
-			in2 = null;
-
-			/*
-			shfile = new File(fileName1);
-			shfile.delete();
-			shfile = null;
-
-			shfile = new File(fileName2);
-			shfile.delete();
-			shfile = null;
-			*/
+			
+			outFile1 = null;
+			outFile2 = null;
 			ecamsLogger.error(rtList.toString());
 			
 			return rtList.toArray();
@@ -149,7 +157,8 @@ public class Cmr5200 {
 			ecamsLogger.error("## Cmr5300.getDiffAry() Exception END ##");
 			throw exception;
 		}finally{
-			if (shfile != null) shfile.delete();shfile = null;
+			if (outFile1 != null) outFile1.delete();outFile1 = null;
+			if (outFile2 != null) outFile2.delete();outFile2 = null;
 			if (rtList != null)	rtList = null;
 			//fileStr = fileStream.toString("EUC-KR");
 		}

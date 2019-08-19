@@ -76,12 +76,7 @@ $(document).ready(function(){
 	}
 	
 	screenInit('M');
-	
-	//닫기클릭
-	$('#btnExit').bind('click', function() {
-		close();
-	});
-	
+		
 	//소스다운 클릭
 	$('#btnSrcDown').bind('click', function() {
 		btnSrcDown_click();
@@ -92,6 +87,10 @@ $(document).ready(function(){
 		btnSearch_click();
 	});
 	
+	//닫기클릭
+	$('#btnExit').bind('click', function() {
+		close();
+	});
 	getTmpDir('99,F1');
 	
 	getProgHistory(pItemId);
@@ -163,16 +162,16 @@ function successProgList(data) {
 			if(grdProgHistoryData[i].cr_acptno == pReqNo) {
 				grdProgHistory.clearSelect();
 				grdProgHistory.select(i);
-				selectedGridItem = grdProgHistory.list[i];
+				//selectedGridItem = grdProgHistory.list[i];
 				break;
 			}
 		}
 	} else {
 		grdProgHistory.clearSelect();
 		grdProgHistory.select(0);
-		selectedGridItem = grdProgHistory.list[0];
+		//selectedGridItem = grdProgHistory.list[0];
 	}
-	
+	grdProgHistory_Click();
 }
 
 function grdProgHistory_Click() {
@@ -180,9 +179,6 @@ function grdProgHistory_Click() {
 	
 	selectedGridItem = grdProgHistory.list[grdProgHistory.selectedDataIndexs];
 
-	if (selectedGridItem.cr_sayu != null) {
-		$('#txtSayu').val(selectedGridItem.cr_sayu);
-	}
 	if (selectedGridItem.rstmsg != 'OK') {
 		dialog.alert(selectedGridItem.rstmsg);
 		return;
@@ -213,7 +209,21 @@ function successVersion(data) {
 	
 	var lineData = '';
 	
+	if (data == null) {
+		dialog.alert("소스보기 중 오류가 발생하였습니다.");
+		return;
+	}
 	srcArray = data;
+	
+	if (srcArray.length < 1) {
+		dialog.alert("소스보기에 실패하였습니다.");
+		return;	
+	}
+	if (srcArray[0].error == 'Y') {
+		dialog.alert(srcArray[0].errmsg);
+		return;	
+	}
+	
 	srcData = '';
 	$.each(srcArray,function(key,value) {
 		lineData = value.line + ' ' + value.src;

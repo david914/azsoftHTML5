@@ -58,36 +58,49 @@ public class Cmr5300 {
 
 		try {		
 			String tmpPath = etcData.get("tmpdir");
-			fileName = "F:\\Azsoft\\HTML5\\save\\AutoSeq.java";
-			/*	
-			
 			fileName = tmpPath + "/" + etcData.get("outname");
+			//fileName = "F:\\Azsoft\\HTML5\\save\\AutoSeq.java";
+			File outFile = new File(fileName);
+			outFile.delete();			
+			
 			Cmr0200 cmr0200 = new Cmr0200();
 			strParm = "./ecams_gensrc " + etcData.get("gbncd") + " " + etcData.get("cr_itemid") + " " + etcData.get("cr_acptno") + " " + fileName;
 			shFileName = etcData.get("userid")+"apcmd.sh";
 			ret = cmr0200.execShell(shFileName, strParm, false);
 			if (ret != 0) {
-				throw new Exception("해당 소스 생성  실패. run=["+strParm +"]" + " return=[" + ret + "]" );
-			}
-			*/
-			in1 = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "MS949"));
-
-			strQuery.setLength(0);
-			int i = 0;
-			String strLine = "";
-			while( (readline1 = in1.readLine()) != null ){
 				rst = new HashMap<String, String>();
-				strLine = String.format("%5d", ++i);
-				rst.put("line",strLine);
-				rst.put("src", readline1+"\n");
+				rst.put("error","Y");
+				rst.put("errmsg","해당 소스 생성  실패. run=["+strParm +"]" + " return=[" + ret + "]");
 				rtList.add(rst);
 				rst = null;
-				//strQuery.append(strLine+" " + readline1+"\n");
+			} else if (!outFile.exists()) {
+				rst = new HashMap<String, String>();
+				rst.put("error","Y");
+				rst.put("errmsg","파일이 존재하지 않습니다. ["+fileName+"]");
+				rtList.add(rst);
+				rst = null;
+			} else {
+				in1 = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "MS949"));
+	
+				strQuery.setLength(0);
+				int i = 0;
+				String strLine = "";
+				while( (readline1 = in1.readLine()) != null ){
+					rst = new HashMap<String, String>();
+					strLine = String.format("%5d", ++i);
+					rst.put("line",strLine);
+					rst.put("src", readline1+"\n");
+					rst.put("error","N");
+					rtList.add(rst);
+					rst = null;
+					//strQuery.append(strLine+" " + readline1+"\n");
+				}
+				in1.close();
+	
+				in1 = null;
+				rst = null;
 			}
-			in1.close();
-
-			in1 = null;
-			rst = null;
+			outFile.delete();
 			//return strQuery.toString();
 			return rtList.toArray();
 

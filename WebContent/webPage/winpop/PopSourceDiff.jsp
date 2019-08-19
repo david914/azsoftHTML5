@@ -125,8 +125,9 @@
 				<input id="optLine" type="radio"  name="optradio"  value="L" onchange="optradio_change();"/>
 				<label for="optLine">라인검색</label>
 				<input id="txtSearch" name="txtSearch" type="text" style="width:200px;" onchange="txtSearch_change();" >
-				<button id="btnSearch" name="btnSearch"  class="btn_basic_n margin-5-left" >찾기</button>
-				<button id="btnExcel" class="btn_basic_n margin-5-left">엑셀저장</button>
+				<button id="btnSearch" name="btnSearch"  class="btn_basic_n" >찾기</button>
+				<button id="btnExcel" class="btn_basic_n">엑셀저장</button>
+				<button id="btnExit" name="btnExit" class="btn_basic_n">닫기</button>
 			</div>
 		</div>	
 		<!-- line3 e-->	

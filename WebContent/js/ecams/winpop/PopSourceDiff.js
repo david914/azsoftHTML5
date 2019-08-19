@@ -163,6 +163,11 @@ $(document).ready(function(){
 		grdDiffSrc.exportExcel("grid-to-excel.xls");
 	});
 	
+	//닫기클릭
+	$('#btnExit').bind('click', function() {
+		close();
+	});
+	
 	getTmpDir('99,F1');
 	
 	getProgHistory(pItemId);
@@ -318,9 +323,24 @@ function successDiffList(data) {
 	var befCnt = 0;
 	var addCnt = 0;
 	var aftCnt = 0;
-	
+
+	if (data == null) {
+		dialog.alert("소스비교 중 오류가 발생하였습니다.");
+		return;
+	}
 	grdDiffSrcData = data;
 	diffSrcData = data;
+	
+	srcArray = data;
+	
+	if (grdDiffSrcData.length < 1) {
+		dialog.alert("소스비교에 실패하였습니다.");
+		return;	
+	}
+	if (grdDiffSrcData[0].error == 'Y') {
+		dialog.alert(grdDiffSrcData[0].errmsg);
+		return;	
+	}
 	
 	for(var i=0; i<grdDiffSrcData.length; i++) {
 		if (grdDiffSrcData[i].file1diff != null) {
