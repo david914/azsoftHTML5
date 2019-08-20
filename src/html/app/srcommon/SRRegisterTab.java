@@ -81,7 +81,9 @@ public class SRRegisterTab extends HttpServlet {
 					break;
 				case "getUserId" :
 					response.getWriter().write( getUserId(jsonElement) );
-					break;	
+					break;
+				case "insertDocList" :
+					response.getWriter().write(insertDocList(jsonElement));
 				default:
 					break;
 			}
@@ -162,5 +164,17 @@ public class SRRegisterTab extends HttpServlet {
 		devuser_ary = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"devuser_ary"));
 		
 		return gson.toJson(cmc0100.updateSRInfo(tmp_obj, devuser_ary, ConfList));
+	}
+	
+	private String insertDocList(JsonElement jsonElement) throws SQLException, Exception {
+
+		String strIsrId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strIsrId") );
+		String strUserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strUserId") );
+		String strReqCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "strReqCd") );
+		
+		ArrayList<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
+		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
+		
+		return gson.toJson(cmc0100.insertDocList(strIsrId, strReqCd, strUserId, fileList));
 	}
 }

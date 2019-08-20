@@ -55,6 +55,10 @@ var fileGrid = true;
 var confirmData = [];
 var confirmInfoData = null;
 var acptno = "";
+var fileIndex = 0;
+var fileData = [];
+var uploadUrl = "";
+var TotalFileSize = 0;
 // 파일첨부 팝업
 var fileUploadModal = new ax5.ui.modal(
 		{
@@ -123,6 +127,9 @@ grid_fileList.setConfig({
 		onClick : function() {
 			this.self.clearSelect();
 			this.self.select(this.dindex);
+		},
+		onDBLClick : function() {
+			fileDbClick(this.dindex, this.item);
 		}
 	},
 	columns : [ {
@@ -253,7 +260,19 @@ $(document).ready(function() {
 	$('#btnCncl').bind('click', function() {
 		cmdCnclclick();
 	});
+	
+	//문서 홈 경로 가져오기
+	data = new Object();
+	data = {
+		pathCd 		: '21',
+		requestType : 'getTmpDir'
+	}
+	ajaxAsync('/webPage/modal/request/RequestDocModalServlet', data, 'json', successGetTmpDir);
 });
+
+function successGetTmpDir(data){
+	uploadUrl = data;
+}
 // 결재 버튼 클릭
 function cmdOkclick(){
 	if(ing_sw){
@@ -537,8 +556,9 @@ function elementInit(initDivision) {
 	$('#texReqContent').val('');
 	$('#txtUser').val('');
 	$('#txtOrg').val('');
-
+	
 	grid_fileList.setData([]); // grid 초기화
+	fileData = [];
 	devUserGrid.setData([]); // grid 초기화
 	
 	console.log(strReqCd);
@@ -589,6 +609,14 @@ function elementInit(initDivision) {
 
 // 파일첨부
 function fileOpen() {
+	if($("#file"+fileIndex).val() != "" && $("#file"+fileIndex).val() != "null"){
+		fileIndex++;
+		$('#fileSave').append('<input type="file" id="file'+fileIndex+'" name="file'+fileIndex+'" onchange="fileChange(\'file'+fileIndex+'\')" accept-charset="UTF-8" multiple="multiple" />');
+	}
+	$("#file"+fileIndex).click();
+	
+	
+	/*
 	fileUploadModal.open({
 		width : 600,
 		height : 360,
@@ -604,8 +632,123 @@ function fileOpen() {
 		}
 	}, function() {
 	});
+	*/
 }
 
+function fileDbClick(index,item){
+	if(index == undefined || index == null ){
+		return;
+	}
+	if(item.cc_savename == null || item.cc_saveName == ""){
+		confirmDialog.setConfig({
+            title: "확인",
+            theme: "info"
+        });
+		confirmDialog.confirm({
+			msg: '선택한 ['+ item.name + "] 파일을 삭제할까요?",
+			btns :{
+				ok: {
+                    label:'삭제'
+                },
+                cancel: {
+                    label:'취소'
+                }
+			}
+		}, function(){
+			if(this.key === 'ok') {
+				grid_fileList.deleteRow(index);
+				fileData = clone(grid_fileList.list);
+			}
+			else{
+				return;
+			}
+		});
+		return;
+	}
+	else{
+		//파일다운
+		//console.log(item);
+		location.href = '/webPage/fileupload/upload?fullPath='+uploadUrl+'/'+item.cc_savename+'&fileName='+item.name;
+	}
+	
+}
+
+function fileChange(file){
+
+	var jqueryFiles = $("#"+file).get(0);
+	var fileSizeArr = [' KB', ' MB', ' GB'];
+	var spcChar = "{}<>?|~`!@#$%^&*+\"'\\/";
+	
+	if (jqueryFiles.files && jqueryFiles.files[0]) { 
+		var fileCk = true;
+		
+		for(var i=0; i<jqueryFiles.files.length; i++){
+			var sizeCount = 0;
+			var size = jqueryFiles.files[i].size/1024; // Byte, KB, MB, GB
+			while(size > 1024 && sizeCount < 2){
+				size = size/1024;
+				sizeCount ++;
+			}
+			size = Math.round(size*10)/10.0 + fileSizeArr[sizeCount];
+			var sizeReal = jqueryFiles.files[i].size;
+			var name = jqueryFiles.files[i].name
+			if(jqueryFiles.files[i].size > 500*1024*1024){ // 50MB 제한
+				dialog.alert('<div>파일명 : '+name+'</div> <div>파일은 500MB를 넘어 업로드 할 수 없습니다.</div>',function(){});
+				continue;
+			}
+			TotalFileSize = TotalFileSize + sizeReal;
+			if(TotalFileSize > 1 *1024*1024*1024){ // 총파일 사이즈 1GB 제한
+				dialog.alert('첨부파일의 총 용량은 1GB 를 초과할 수 없습니다.',function(){});
+				TotalFileSize = TotalFileSize - sizeReal;
+				break;
+			}
+			
+			for(var j=0; j<fileData.length; j++){
+
+				for (k=0;spcChar.length>k;k++) {
+					if (name.indexOf(spcChar.substr(k,1))>=0) {
+						dialog.alert("첨부파일명에 특수문자를 입력하실 수 없습니다. 특수문자를 제외하고 첨부하여 주시기 바랍니다.");
+						$("#"+file).remove();
+						fileCk = false;
+						break;
+					}
+				}
+				if(!fileCk){
+					break;
+				}
+				
+				if(fileData[j].name == name){
+					dialog.alert("이미 추가 되어 있는 파일명 입니다. 확인 후 다시 첨부하여 주세요.");
+					$("#"+file).remove();
+					fileCk = false;
+					break;
+				}
+				fileCk = true;
+			}
+
+			if(fileCk){
+				var tmpObj = new Object(); // 그리드에 추가할 파일 속성
+				tmpObj.name = name;
+				tmpObj.size = size;
+				tmpObj.sizeReal = sizeReal;
+				tmpObj.filegb = "1";
+				tmpObj.realName = name;
+				tmpObj.file = jqueryFiles.files[i];
+				
+				fileData.push(tmpObj);
+			}
+			else{
+				break;
+			}
+		}
+		grid_fileList.setData(fileData);
+		if(fileCk){
+			dialog.alert("파일첨부 시 등록/수정 버튼을 클릭해야 파일이 저장됩니다.");
+		}
+
+	} 
+	
+}
 // SR등록
 function format_confirm(sel){
 	/*날짜 구하기*/
@@ -809,9 +952,7 @@ function confirmEnd(){
 		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', SRInfo, 'json');
 		console.log(ajaxReturnData);
 		if(ajaxReturnData !== 'ERR') {
-			dialog.alert(strSel + "이 완료되었습니다.");
-			elementInit("NEW");
-			ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
+			srComplet();
 		}
 	} else if ( !ins_sw && strSel == "수정"){
 		console.log("수정");
@@ -825,12 +966,100 @@ function confirmEnd(){
 			
 		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', SRInfo, 'json');
 		console.log(ajaxReturnData);
+		strIsrId = ajaxReturnData;
 		if(ajaxReturnData !== 'ERR') {
-			dialog.alert(strSel + "이 완료되었습니다.");
-			elementInit("NEW");
-			window.parent.subCmdQry_Click();
-			ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
+			srComplet();
 		}
+	}
+}
+
+function srComplet(){
+	if(fileData.length > 0){
+		fileupload();
+	}
+	else{
+		dialog.alert(strSel + "이 완료되었습니다.");
+		elementInit("NEW");
+		window.parent.subCmdQry_Click();
+		ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
+	}
+}
+
+function fileupload(){
+	
+	var ajaxResultData = "";
+	var fileseq = 0;
+	var formData = new FormData();
+	tmpPath = 'C:\\eCAMS\\webTmp\\'; //uploadUrl; //테스트 임시경로
+	for(var key in fileData){
+		formData.append('fullName',tmpPath);
+		formData.append('fullpath',tmpPath+"/SR/"+ strIsrId.substr(1,6) + "/");
+		formData.append('saveName',strIsrId+"_"+strReqCd+"_"+fileseq);
+		formData.append('file',fileData[key].file);
+
+		var selSaveFile = "";
+	
+		if(fileseq < 10){
+			selSaveFile =  "/SR/"+ strIsrId.substr(1,6) + "/"+strIsrId+"_"+strReqCd+"_0"+fileseq;
+			fileData[key].fileseq = "0"+fileseq;
+		}else{
+			selSaveFile =  "/SR/"+ strIsrId.substr(1,6) + "/"+strIsrId+"_"+strReqCd+"_"+fileseq;
+			fileData[key].fileseq = fileseq;
+		}
+		fileData[key].sendflag = false;
+		fileData[key].savefile = selSaveFile;
+		fileData[key].fullpath = uploadUrl;
+		fileData[key].fullName = uploadUrl+selSaveFile;
+		fileData[key].fileseq = fileseq;
+		fileseq++;
+		
+	}
+
+	// ajax
+    $.ajax({
+        url:'/webPage/fileupload/FileUpload.jsp',
+        type:'POST',
+        enctype: 'multipart/form-data',
+        data:formData,
+        async: true,
+        cache:false,
+        contentType:false,
+        processData: false
+    }).done(function(response){
+    	onUploadCompleteData(response);
+    	
+    }).fail(function(xhr,status,errorThrown){
+    	dialog.alert('<div>파일등록 오류가 발생했습니다.</div><div>파일을 다시 등록해주시기 바랍니다.</div>',function(){});
+		ing_sw = false;
+    	return;
+    });
+
+	
+}
+
+function onUploadCompleteData(){
+
+	for(var key in fileData){ // 파일 데이터가 있으면 Json HashMap 변환에 에러가 뜨므로 파일 데이터를 지워서 전달
+		fileData[key].file = null;
+	}
+	
+	var tmpData = {
+			fileList   :   fileData,
+			strIsrId : strIsrId,
+			strUserId : userid,
+			strReqCd : strReqCd,
+			requestType	: 	'insertDocList'
+		}
+	ajaxResultData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', tmpData, 'json');
+	if(ajaxResultData == "OK"){
+		elementInit('NEW');
+		ing_sw = false;
+		//dialog.alert('업로드 되었습니다.',function(){});
+	}
+	else{
+    	dialog.alert('<div>파일등록 오류가 발생했습니다.</div><div> 재전송 버튼을 눌러 다시 등록해주시기 바랍니다.</div>',function(){});
+		ing_sw = false;
+    	return;
 	}
 }
 
@@ -1068,7 +1297,9 @@ function firstGridClick(srid) {
 		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab',
 				docSr, 'json');
 		if (ajaxReturnData !== 'ERR') {
-			grid_fileList.setData(ajaxReturnData);
+			fileData = ajaxReturnData;
+			console.log(fileData);
+			grid_fileList.setData(fileData);
 		}
 
 		ajaxReturnData = null;

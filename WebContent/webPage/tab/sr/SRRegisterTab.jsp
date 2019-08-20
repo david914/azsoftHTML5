@@ -111,6 +111,7 @@
 			<dl>
 				<dt>
 					<div>
+						<div style="display:none;" id="fileSave"></div>
 						<button id="btnFileAdd" name="btnFileAdd" class="btn_basic_s vat mt3m">파일첨부</button>
 					</div>
 				</dt>
