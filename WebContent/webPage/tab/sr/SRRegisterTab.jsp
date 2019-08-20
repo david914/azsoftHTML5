@@ -2,6 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
+<style>
+[data-ax5select] .ax5select-display.input-sm, [data-ax5select] .input-group-sm>.ax5select-display.form-control, [data-ax5select] .input-group-sm>.ax5select-display.input-group-addon, [data-ax5select] .input-group-sm>.input-group-btn>.ax5select-display.btn
+{
+	min-width : 0px !important;
+}
+
+</style>
 
 <div class="half_wrap">
 	<!--하단 좌측-->
@@ -49,7 +56,7 @@
 		    <dl>
 		    	<dt><label id="lbUser">*분류유형</label></dt>
 			    <dd>
-					<div id="cboCatTypeSR" data-ax5select="cboCatTypeSR" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
+					<div id="cboCatTypeSR" data-ax5select="cboCatTypeSR" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib" style="min-width: 0;"></div>
 				</dd>
 			</dl>
 		</div>
@@ -58,7 +65,7 @@
 		    <dl>
 		    	<dt><label id="lbUser">*변경종류</label></dt>
 			    <dd>
-					 <div id="cboChgType" data-ax5select="cboChgType" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
+					 <div id="cboChgType" data-ax5select="cboChgType" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib" style="min-width: 0;"></div>
 				</dd>
 			</dl>
 		</div>				
@@ -67,7 +74,7 @@
 		    <dl>
 		    	<dt><label id="lbUser">*작업순위</label></dt>
 			    <dd>
-					<div id="cboWorkRank" data-ax5select="cboWorkRank" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
+					<div id="cboWorkRank" data-ax5select="cboWorkRank" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib" style="min-width: 0;"></div>
 				</dd>
 			</dl>
 		</div>			
@@ -76,8 +83,8 @@
 		    <dl>
 		    	<dt><label id="lbUser">보안요구사항</label></dt>
 			    <dd>
-					<div id="cboReqSecu" data-ax5select="cboReqSecu" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
-					<input id="txtReqSecu" name="txtReqSecu" class="form-control" type="text" style="display:none;" autocomplete="off"></input>
+					<div id="cboReqSecu" data-ax5select="cboReqSecu" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib" style="min-width: 0;"></div>
+					<input id="txtReqSecu" name="txtReqSecu" class="form-control" type="text" style="display:none; min-width: 0;" autocomplete="off"></input>
 				</dd>
 			</dl>
 		</div>
