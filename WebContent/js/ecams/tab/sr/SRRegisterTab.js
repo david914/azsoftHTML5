@@ -809,6 +809,7 @@ function confirmEnd(){
 		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', SRInfo, 'json');
 		console.log(ajaxReturnData);
 		if(ajaxReturnData !== 'ERR') {
+			dialog.alert(strSel + "이 완료되었습니다.");
 			elementInit("NEW");
 			ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
 		}
@@ -825,6 +826,7 @@ function confirmEnd(){
 		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', SRInfo, 'json');
 		console.log(ajaxReturnData);
 		if(ajaxReturnData !== 'ERR') {
+			dialog.alert(strSel + "이 완료되었습니다.");
 			elementInit("NEW");
 			ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
 		}
