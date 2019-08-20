@@ -828,6 +828,7 @@ function confirmEnd(){
 		if(ajaxReturnData !== 'ERR') {
 			dialog.alert(strSel + "이 완료되었습니다.");
 			elementInit("NEW");
+			window.parent.subCmdQry_Click();
 			ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
 		}
 	}
