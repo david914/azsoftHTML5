@@ -200,10 +200,17 @@ $(document).ready(function() {
 	});
 
 	// 담당개발자
-	$('#txtUser').bind('click', function() {
+	$('#txtUser').bind('dblclick', function() {
 		window.parent.subSw = true;
 		window.parent.selDeptSw = false;
 		window.parent.openOranizationModal();
+	});
+	
+	// 사용자 엔터
+	$('#txtUser').bind('keypress', function(evnet) {
+		if(event.keyCode === 13) {
+			getUserId();
+		}
 	});
 
 	// 담당 개발자 추가 버튼
@@ -359,34 +366,42 @@ function openApprovalInfo(type, acptNo, reqCd) {
 	myWin = winOpen(form, winName, cURL, nHeight, nWidth);
 }
 
-/*
-//소소조직 선택 창 오픈
-function openOranizationModal() {
-	organizationModal.open({
-		width : 400,
-		height : 700,
-		iframe : {
-			method : "get",
-			url : "../../modal/OrganizationModal.jsp",
-			param : "callBack=modalCallBack"
-		},
-		onStateChanged : function() {
-			if (this.state === "open") {
-				mask.open();
-			} else if (this.state === "close") {
-				mask.close();
-				if(subSw === true && selDeptSw === false){
-					closeModal();
-				}
-			}
-		}
-	}, function() {
-	});
+//사용자 정보 가져오기
+function getUserId() {
+	var data = new Object();
+	data = {
+		UserName 	: $('#txtUser').val().trim(),
+		requestType	: 'getUserId'
+	}
+	ajaxAsync('/webPage/srcommon/SRRegisterTab', data, 'json',successGetUserId);
 }
-*/
-var modalCallBack = function() {
-	organizationModal.close();
-};
+
+// 사용자 정보 가져오기 완료
+function successGetUserId(data) {
+	console.log(data);
+	cboUserData = data;
+	$('[data-ax5select="cboDevUser"]').ax5select({
+	    options: []
+	});
+	
+	var tmpuserID = "";
+	
+	$('[data-ax5select="cboDevUser"]').ax5select({
+		options : injectCboDataToArr(cboUserData, 'cm_userid', 'cm_idname')
+	});
+	
+	for(var zm = 0 ; zm < cboUserData.length ; zm++){
+		if($('#txtUser').val().trim() == cboUserData[zm].cm_username){
+			tmpuserID = cboUserData[zm].cm_userid;
+		}
+	}
+	
+	if (cboUserData.length === 2) {
+		$('[data-ax5select="cboDevUser"]').ax5select("setValue", tmpuserID,	true);
+	}
+	
+	btn_addDever();
+}
 
 function changeCboReqSecu() {
 	if (getSelectedVal('cboReqSecu').value === '6') {

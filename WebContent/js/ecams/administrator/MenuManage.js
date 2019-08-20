@@ -249,12 +249,12 @@ function Cmd_Ip_Click(num){
 	switch (num) {
 		case 0:
 			if($('#Txt_MaCode').val() === "" || $('#Txt_MaCode').val() == null){
-				alert("메뉴명을 입력하세요.");
+				dialog.alert("메뉴명을 입력하세요.");
 				return;
 			}
 			
 			if($('#Txt_MaFile').val() === "" || $('#Txt_MaFile').val() == null){
-				alert("링크파일명을 입력하세요.");
+				dialog.alert("링크파일명을 입력하세요.");
 				return;
 			}
 			
@@ -269,16 +269,16 @@ function Cmd_Ip_Click(num){
 	    	ajaxResultData = ajaxCallWithJson('/webPage/administrator/MenuManage', tmpData, 'json');
 	    	// 임시 alert 창
 	    	if(ajaxResultData == ""){
-	    		alert("저장완료");
+	    		dialog.alert("저장완료");
 	    		CboMaCode();
 	    		Cbo_MaCode_click();
 	    	}else{
-	    		alert("저장실패");
+	    		dialog.alert("저장실패");
 	    	}
 			break;
 	    case 1:
 	    	if($('[data-ax5select="Cbo_MaCode"]').ax5select("getValue")[0].cm_menucd === "000"){
-	    		alert("삭제할 메뉴명을 선택하여주세요.");
+	    		dialog.alert("삭제할 메뉴명을 선택하여주세요.");
 	    		return;
 	    	}
 	    	
@@ -290,11 +290,11 @@ function Cmd_Ip_Click(num){
 	    	ajaxResultData = ajaxCallWithJson('/webPage/administrator/MenuManage', tmpData, 'json');
 	    	// 임시 alert 창
 	    	if(ajaxResultData == ""){
-	    		alert("삭제완료");
+	    		dialog.alert("삭제완료");
 	    		CboMaCode();
 	    		Cbo_MaCode_click();
 	    	}else{
-	    		alert("삭제실패");
+	    		dialog.alert("삭제실패");
 	    	}
 	    	break;
 	    case 2:
@@ -326,10 +326,10 @@ function Cmd_Ip_Click(num){
 	    	ajaxResultData = ajaxCallWithJson('/webPage/administrator/MenuManage', tmpData, 'json');
 	    	// 임시 alert 창
 	    	if(ajaxResultData == ""){
-	    		alert("적용완료");
+	    		dialog.alert("적용완료");
 	    		Cmd_Ip_Click(2);
 	    	}else{
-	    		alert("적용실패");
+	    		dialog.alert("적용실패");
 	    	}
 	    	break;
 	}
