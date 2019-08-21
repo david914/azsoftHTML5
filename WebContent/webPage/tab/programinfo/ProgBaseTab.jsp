@@ -17,14 +17,14 @@
         <div class="width-33 dib vat">
             <label id="lbSysMsg" class="tit_80 poa">시스템</label>
             <div class="ml_80">
-		          <input id="txtSysMsg" name="txtSysMsg" type="text" class="width-80">
+		          <input id="txtSysMsg" name="txtSysMsg" type="text" class="width-80" readonly>
 			</div>
 		</div>	
 	    <!-- 프로그램 종류 -->
         <div class="width-33 dib vat">
             <label id="lbRsrcCd" class="tit_80 poa">프로그램종류</label>
             <div class="ml_80" id="divPrgTxt">
-				<input id="txtRsrcCd" name="txtRsrcCd" type="text" class="width-80">
+				<input id="txtRsrcCd" name="txtRsrcCd" type="text" class="width-80" readonly>
 			</div>
 			<div class="ml_80" id="divPrgCbo">
 				<div id="cboRsrcCd" data-ax5select="cboRsrcCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="" class="width-80 dib"></div>
@@ -34,7 +34,7 @@
         <div class="width-33 dib vat" style="float:right">
             <label id="lbJob" class="tit_80 poa">업무</label>
             <div class="ml_80" id="divJobTxt">
-				<input id="txtJob" name="txtRsrcCd" type="text" class="dib" style="width:100%">
+				<input id="txtJob" name="txtRsrcCd" type="text" class="dib" style="width:100%" readonly>
 			</div>
             <div class="ml_80" id="divJobCbo">
 				<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:100%"></div>
@@ -46,21 +46,21 @@
         <div class="width-33 dib vat">
             <label id="lbProgId" class="tit_80 poa">프로그램명</label>
             <div class="ml_80">
-				<input id="txtProgId" name="txtProgId" type="text" class="width-80">
+				<input id="txtProgId" name="txtProgId" type="text" class="width-80" readonly>
 			</div>
 		</div>	
 	    <!-- 상태 -->
         <div class="width-33 dib vat">
             <label id="lbProgSta" class="tit_80 poa">상태</label>
             <div class="ml_80">
-				<input id="txtProgSta" name="txtProgSta" type="text" class="width-80">
+				<input id="txtProgSta" name="txtProgSta" type="text" class="width-80" readonly>
 			</div>
 		</div>
 	    <!-- SR-ID -->
         <div class="width-33 dib vat" style="float:right">
             <label id="lbSRID" class="tit_80 poa">SR-ID</label>
             <div class="ml_80" id="divSRTxt">
-				<input id="txtSR" name="txtSR" type="text" class="dib" style="width:100%" >
+				<input id="txtSR" name="txtSR" type="text" class="dib" style="width:100%" readonly >
 			</div>
             <div class="ml_80" id="divSRCbo">
 			    <div id="cboSR" data-ax5select="cboSR" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:100%"></div>
@@ -77,7 +77,7 @@
 	<div class="margin-5-top por width-100">
         <label id="lbDir" class="tit_80 poa">프로그램경로</label>
         <div class="ml_80" id="divDirTxt">
-			<input id="txtDir" name="txtDir" type="text" class="width-100">
+			<input id="txtDir" name="txtDir" type="text" class="width-100" readonly>
 		</div>
         <div class="ml_80" id="divDirCbo">
 		    <div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
@@ -89,27 +89,27 @@
         <div class="width-18 dib vat">
              <label id="lbCreator" class="tit_80 poa">신규등록인</label>
              <div class="ml_80">
-				<input id="txtCreator" name="txtCreator" type="text" class="width-90">
+				<input id="txtCreator" name="txtCreator" type="text" class="width-90" readonly>
 			</div>	
 	    </div>		
         <!-- 최종변경인 -->
         <div class="width-32 dib vat">
             <label id="lbEditor" class="tit_80 poa">최종변경인</label>
             <div class="ml_80">
-	        	<input id="txtEditor" name="txtEditor" type="text" class="dib" style="width:80px;">
-	        	<div id="cboEditor" data-ax5select="cboEditor" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 90px);"></div>
+	        	<input id="txtEditor" name="txtEditor" type="text" class="dib" style="width:80px;" readonly>
+	        	<div id="cboEditor" data-ax5select="cboEditor" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 90px);" readonly></div>
         	</div>
 	    </div>
         <div class="dib vat width-24">
              <label id="lbLastCkIn" class="tit_80 poa" style="text-align:center;">최종체크인</label>
              <div class="ml_80">
-             	<input id="txtLastCkIn" name="txtCkInEditor" type="text" class="dib" style="width:calc(100% - 10px);">
+             	<input id="txtLastCkIn" name="txtCkInEditor" type="text" class="dib" style="width:calc(100% - 10px);" readonly>
              </div>
         </div>
         <div class="dib vat width-24" style="float:right">
              <label id="lbLastDev" class="tit_80 poa" style="text-align:center;">개발적용</label>
              <div class="ml_80">
-             	<input id="txtLastDev" name="txtLastDev" type="text" class="dib width-100" >
+             	<input id="txtLastDev" name="txtLastDev" type="text" class="dib width-100" readonly >
              </div>
         </div>
 	</div>
@@ -119,26 +119,26 @@
         <div class="width-18 dib vat">
              <label id="lbCreatDt" class="tit_80 poa">신규등록일</label>
              <div class="ml_80">
-		         <input id="txtCreatDt" name="txtCreatDt" type="text" class="width-90">
+		         <input id="txtCreatDt" name="txtCreatDt" type="text" class="width-90" readonly>
 	         </div>
         </div>				
 	    <!-- 최종변경일 -->
         <div class="width-32 dib vat">
              <label id="lbLastDt" class="tit_80 poa">최종변경일</label>
              <div class="ml_80">
-	 			 <input id="txtLastDt" name="txtLastDt" type="text" style="width:calc(100% - 5px);">
+	 			 <input id="txtLastDt" name="txtLastDt" type="text" style="width:calc(100% - 5px);" readonly>
 			 </div>
 		</div>
 		<div class="dib vat width-24">
              <label id="lbLastTest" class="tit_80 poa" style="text-align:center;">테스트적용</label>
              <div class="ml_80">
-		     	<input id="txtLastTest" name="txtLastTest" type="text" class="dib" style="width:calc(100% - 10px);">
+		     	<input id="txtLastTest" name="txtLastTest" type="text" class="dib" style="width:calc(100% - 10px);" readonly>
 		     </div>
 	    </div>
         <div class="dib vat width-24" style="float:right">
              <label id="lbLastReal" class="tit_80 poa" style="text-align:center;">운영적용</label>
              <div class="ml_80">
-		     	<input id="txtLastReal" name="txtLastReal" type="text" class="dib width-100" >
+		     	<input id="txtLastReal" name="txtLastReal" type="text" class="dib width-100" readonly >
 		     </div>
 	    </div>
 	</div>	

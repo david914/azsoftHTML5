@@ -75,12 +75,13 @@ function screenInit(gbn,userId) {
 	$('#txtSysMsg').val('');
 	$('#txtProgId').val('');
 	$('#txtProgSta').val('');
-	$('#txtSRID').val('');
+	$('#txtSR').val('');
 	$('#txtStory').val('');
 	$('#txtCreator').val('');
 	$('#txtCreatDt').val('');
 	$('#txtEditor').val('');
 	$('#txtLastDt').val('');
+	$('#txtStory').prop("readonly", true);
 	
 	$('#txtLastCkIn').val('');
 	$('#txtLastDev').val('');
@@ -222,7 +223,7 @@ function successProgInfo(data) {
 		$('[data-ax5select="cboRsrcCd"]').ax5select('setValue',progInfoData[0].WkRsrcCd,true);
 		
 		if (progInfoData[0].cr_isrid != null && progInfoData[0].cr_isrid != '') {
-			$('#txtSRID').val(progInfoData[0].cr_isrid); 
+			$('#txtSR').val(progInfoData[0].cr_isrid); 
 			
 			if (progInfoData[0].WkSta == '3' && progInfoData[0].WkSecu == 'true') {
 				$('[data-ax5select="cboSR"]').ax5select('setValue',progInfoData[0].cr_isrid,true);
@@ -246,8 +247,9 @@ function successProgInfo(data) {
 			
 			$('#divDirCbo').css('display', 'block');
 			$('#divDirTxt').css('display', 'none');
+
 			
-			getDirList(progInfoData[0].wkRsrcCd);
+			getDirList(progInfoData[0].WkRsrcCd);
 			getEditorList(progInfoData[0].cr_editor);
 			
 			if (progInfoData[0].WkSta == '3' || progInfoData[0].WkSta == '0') {
@@ -259,6 +261,8 @@ function successProgInfo(data) {
 				if (progInfoData[0].WkSta == '0') { 
 					$('#btnClose').prop('disabled', false); //폐기버튼 활성화
 				}
+
+				$('#txtStory').prop("readonly", false);
 			} else if (progInfoData[0].WkSta == '9') { 
 				$('#btnDel').prop('disabled', false);      //삭제버튼 활성화
 			}

@@ -73,14 +73,14 @@ public class Cmd0500{
 	        strQuery.append("and c.cm_rsrccd=?                                          \n");
 
 	        pstmt = conn.prepareStatement(strQuery.toString());
-	        //pstmt =  new LoggableStatement(conn, strQuery.toString());
+	        pstmt =  new LoggableStatement(conn, strQuery.toString());
 	        int CNT = 0;
 	        pstmt.setString(++CNT, L_ItemId);
 		    if (!SecuYn.equals("Y")){
 		    	pstmt.setString(++CNT, UserId);
 		    }
 			pstmt.setString(++CNT, RsrcCd);
-			//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	        rs = pstmt.executeQuery();
 			while (rs.next()){
 				if (L_DsnCd != "" && FindFg.equals("false")){

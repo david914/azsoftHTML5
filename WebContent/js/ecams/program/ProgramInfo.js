@@ -76,6 +76,19 @@ $(document).ready(function(){
 		cboSysCd_Change();
 	});
 	
+	// 프로그램명 엔터
+	$('#txtRsrcName').bind('keypress', function(event) {
+		if(event.keyCode === 13) {
+			$('#btnQry').trigger('click');
+		}
+	});
+
+	// 프로그램경로명 엔터
+	$('#txtDirPath').bind('keypress', function(event) {
+		if(event.keyCode === 13) {
+			$('#btnQry').trigger('click');
+		}
+	});
 	//조회
 	$('#btnQry').bind('click',function() {
 		btnQry_Click();

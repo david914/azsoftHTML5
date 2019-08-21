@@ -5,7 +5,10 @@
 
 <!-- contener S -->
 <div id="wrapper">
-    <div class="content">    
+    <div class="contentFrame"> 
+        <!-- history S-->
+        <div id="history_wrap">프로그램<strong>&gt; 프로그램정보</strong></div>
+        <!-- history E-->       
 	    <!-- 검색 S-->    
 		<div class="az_search_wrap">
 			<div class="az_in_wrap por">
@@ -27,7 +30,7 @@
                 <div class="width-33 dib vat">
                     <label id="lbRsrcName" class="tit_80 poa">프로그램명</label>
                     <div class="ml_80">
-						<input id="txtRsrcName" name="txtRsrcName" type="text" class="width-95 dib" style="width:calc(100% - 38px);" >
+						<input id="txtRsrcName" name="txtRsrcName" type="text" class="width-95 dib" style="width:calc(100% - 38px);">
 					</div>
 					<button id="btnQry" name="btnQry" class="btn_basic_n margin-5-left margin-10-right poa_r" data-grid-control="excel-export">조회</button>
 				</div>				
@@ -44,7 +47,7 @@
 		</div>
 	    <!-- 검색 E-->
 	    <!-- 게시판 S-->
-	    <div class="az_board_basic" style="height:45%;">
+	    <div class="az_board_basic" style="height:40%;">
 	    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 		</div>	
 		<!-- 게시판 E -->

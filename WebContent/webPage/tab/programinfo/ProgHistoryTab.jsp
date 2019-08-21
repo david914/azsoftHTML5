@@ -17,14 +17,14 @@
         <div class="width-40 dib vat">
             <label id="lbProgId2" class="tit_100 poa">프로그램명</label>
             <div class="ml_80">
-				<input id="txtProgId2" name="" type="text" class="width-100">
+				<input id="txtProgId2" name="" type="text" class="width-100" readonly>
 			</div>
 		</div>	
 	    <!-- 프로그램한글명 -->
-        <div class="dib vat" style="margin-left: 10px;width:calc(60% - 40px);">
+        <div class="dib vat" style="margin-left: 10px;width:calc(60% - 15px);">
             <label id="lbStory2" class="tit_100 poa">프로그램한글명</label>
             <div class="ml_100">
-				<input id="txtStory2" name="txtStory2" type="text" class="width-100">
+				<input id="txtStory2" name="txtStory2" type="text" class="width-100" readonly>
 			</div>
 		</div>				
 	</div>		
@@ -39,8 +39,8 @@
 	</div>
 	<!-- 하단 입력 E-->			
     <!-- 테이블 S-->
-    <div class="row az_board_basic az_board_basic_in" style="height: calc(100% - 80px);width:calc(100% - 25px);">
-	    <div data-ax5grid="grdProgHistory" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;width:100%"></div>
+    <div class="row az_board_basic" style="height: calc(100% - 80px);">
+	    <div data-ax5grid="grdProgHistory" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>	
 	<!-- 테이블  E -->
 </div>
