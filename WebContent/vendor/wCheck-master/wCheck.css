@@ -108,6 +108,7 @@
 .wCheck-theme-circle-radial.wCheck-theme-blue { background-image: url('./img/circle-radial-blue.png'); }
 .wCheck-theme-circle-radial.wCheck-theme-yellow { background-image: url('./img/circle-radial-yellow.png'); }
 
+.wCheck-selector-checkmark_black { background-image: url('./img/selector-checkmark_back.png'); }
 .wCheck-selector-checkmark { background-image: url('./img/selector-checkmark.png'); }
 .wCheck-selector-circle { background-image: url('./img/selector-circle.png'); }
 .wCheck-selector-circle-solid { background-image: url('./img/selector-circle-solid.png'); }

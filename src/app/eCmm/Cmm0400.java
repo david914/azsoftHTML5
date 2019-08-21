@@ -2155,4 +2155,92 @@ public class Cmm0400{
 			}
 		}
     }
+	
+	public Object[] getDevProgramList(String UserId) throws SQLException, Exception{
+    	Connection			conn		= null;
+    	PreparedStatement	pstmt		= null;
+		ResultSet         	rs          = null;
+		StringBuffer      	strQuery    = new StringBuffer();
+		ArrayList<HashMap<String, String>>  rsval = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String>			  	rst	  = null;
+
+		ConnectionContext connectionContext = new ConnectionResource();
+
+		try{
+			conn = connectionContext.getConnection();
+			
+			strQuery.setLength(0);
+			strQuery.append("select b.cm_sysmsg, e.cm_jobname, d.cm_codename jawon, a.cr_rsrcname, a.cr_status, f.cm_codename sta, 		\n");
+			strQuery.append("       c.cm_dirpath, a.cr_story, a.cr_itemid, nvl(a.cr_realver,'0')||'.'||nvl(a.cr_devver,'0') version,	\n");
+			strQuery.append("       decode(decode(a.cr_status, '3', 'O', '5', 'O', 'B', 'O', 'E', 'O', 'G', 'O', 'X'), 'O', a.cr_itemid,g.cr_acptno) popinfo	\n");
+			strQuery.append("  from cmr0020 a, cmm0030 b, cmm0070 c, cmm0020 d, cmm0102 e, cmm0020 f,cmm0036 h,							\n");
+			strQuery.append("       (select y.cr_acptno, x.cr_itemid from cmr1010 x, cmr1000 y 											\n");
+			strQuery.append("         where x.cr_acptno=y.cr_acptno and x.cr_status='0' and y.cr_status='0') g							\n");
+			strQuery.append(" where a.cr_status not in ('0','9') and b.cm_closedt is null												\n");
+			strQuery.append("   and decode(a.cr_status, '3', a.cr_creator, '5', a.cr_ckoutuser, a.cr_editor) = ?						\n");
+			strQuery.append("   and a.cr_syscd = b.cm_syscd and a.cr_jobcd = e.cm_jobcd													\n");
+			strQuery.append("   and a.cr_syscd = c.cm_syscd and a.cr_dsncd = c.cm_dsncd													\n");
+			strQuery.append("   and a.cr_rsrccd = d.cm_micode and d.cm_macode='JAWON'													\n");
+			strQuery.append("   and a.cr_status = f.cm_micode and f.cm_macode='CMR0020'													\n");
+			strQuery.append("   and not exists (select 1 from cmm0037 where cm_syscd=a.cr_syscd and cm_rsrccd=a.cr_rsrccd and cm_samersrc <> a.cr_rsrccd)	\n");
+			strQuery.append("   and g.cr_itemid = a.cr_itemid																			\n");
+			strQuery.append("   and a.cr_syscd = h.cm_syscd and a.cr_rsrccd = h.cm_rsrccd and substr(h.cm_info,26,1) = '0'				\n");
+			strQuery.append(" order by b.cm_sysmsg, a.cr_baseitem, a.cr_itemid															\n");
+            pstmt = conn.prepareStatement(strQuery.toString());
+            pstmt.setString(1,UserId);
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+            	rst = new HashMap<String, String>();
+            	rst.put("cm_sysmsg", rs.getString("cm_sysmsg"));
+            	rst.put("cm_jobname", rs.getString("cm_jobname"));
+            	rst.put("jawon", rs.getString("jawon"));
+            	rst.put("cr_rsrcname", rs.getString("cr_rsrcname"));
+            	rst.put("cr_status", rs.getString("cr_status"));
+            	rst.put("sta", rs.getString("sta"));
+            	rst.put("cm_dirpath", rs.getString("cm_dirpath"));
+            	rst.put("cr_story", rs.getString("cr_story"));
+            	rst.put("cr_itemid", rs.getString("cr_itemid"));
+            	rst.put("version", rs.getString("version"));
+            	rst.put("popinfo", rs.getString("popinfo"));
+            	rsval.add(rst);
+            	rst = null;
+            }
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+            rs = null;
+            pstmt = null;
+            conn = null;
+
+			return rsval.toArray();
+
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## Cmm0400.getDevProgramList() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## Cmm0400.getDevProgramList() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## Cmm0400.getDevProgramList() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## Cmm0400.getDevProgramList() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (rsval != null)  	rsval = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmm0400.getDevProgramList() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+    }
 }

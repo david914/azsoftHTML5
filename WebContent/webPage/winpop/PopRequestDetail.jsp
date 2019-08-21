@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
-<link rel="stylesheet" href="/styles/wickedpicker.min.css">
 <link rel="stylesheet" href="<c:url value="/styles/bootstrap-timepicker.css"/>" />
 
 <%
@@ -295,5 +294,4 @@
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
 <script src="<c:url value="/scripts/bootstrap-timepicker.min.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/scripts/wickedpicker.min.js"/>" type="text/javascript"></script>
 <script type="text/javascript"	src="<c:url value="/js/ecams/winpop/PopRequestDetail.js"/>"></script>
