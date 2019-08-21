@@ -68,12 +68,12 @@ pgmGrid.setConfig({
                     	openWindow(1, this.item.popinfo);
         			}
         		}
-        		//location.href = '/webPage/fileupload/upload?fullPath='+fileHomePath+'/'+this.item.savename+'&fileName='+this.item.orgname;
         	}
         },
         onDBLClick: function () {
          	if (this.dindex < 0) return;
          	if (this.item.cr_itemid == null || this.item.cr_itemid == '') return;
+         	if (this.colIndex == 8) return;
          	
         	openWindow(2, this.item.cr_itemid);
         },
@@ -101,6 +101,7 @@ pgmGrid.setConfig({
        	 
         	if (param.item == undefined) return false;
         	if (param.dindex < 0) return false;
+        	if (param.colIndex == 8) return false;
         	
         	return true;
         },
@@ -248,6 +249,7 @@ function successGetUserInfo(data){
 	$('#txtBlankTerm').val(userInfo.Txt_BlankTerm);
 	$('#txtBlankSayu').val(userInfo.Txt_BlankSayu);
 	$('#txtLogin').val(userInfo.cm_logindt);
+	$('#txtCreatdt').val(userInfo.cm_creatdt);
 	$('#txtErrCnt').val(userInfo.cm_ercount);
 	$('#txtOrg').val(userInfo.deptname1);
 	$('#txtOrgAdd').val(userInfo.deptname2);

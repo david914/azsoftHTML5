@@ -58,10 +58,10 @@ public class Cmm0400{
 			conn = connectionContext.getConnection();
 
 			strQuery.setLength(0);
-			strQuery.append("select cm_userid,cm_username,to_char(cm_logindt,'yyyy-mm-dd hh24:mi') cm_logindt,cm_ercount,");
+			strQuery.append("select cm_userid,cm_username,to_char(cm_logindt,'yyyy-mm-dd hh24:mi:ss') cm_logindt,cm_ercount,");
 			strQuery.append("cm_admin,cm_manid,cm_status,cm_project,cm_position,cm_duty,cm_ipaddress,cm_active,cm_telno1,");
 			strQuery.append("cm_telno2,cm_project2,cm_handrun,cm_dumypw,cm_juminnum,cm_blankdts,cm_blankdte,cm_daegyul,to_char(sysdate,'yyyymmdd') as sysdt, ");
-			strQuery.append("cm_daegmsg,cm_daesayu,cm_email from cmm0040 where ");
+			strQuery.append("cm_daegmsg,cm_daesayu,cm_email,to_char(cm_creatdt,'yyyy-mm-dd hh24:mi:ss') cm_creatdt from cmm0040 where ");
 			String tmpStr = "";
 			if (!"".equals(UserId)){
 				tmpStr = UserId;
@@ -86,6 +86,8 @@ public class Cmm0400{
 				rst.put("cm_admin",rs.getString("cm_admin"));
 				rst.put("cm_manid",rs.getString("cm_manid"));
 				rst.put("cm_project",rs.getString("cm_project"));
+				rst.put("cm_creatdt", rs.getString("cm_creatdt"));
+				
 				if (rs.getString("cm_project") != null && rs.getString("cm_project") != ""){
 					strQuery.setLength(0);
 					strQuery.append("select cm_deptname from cmm0100 where \n");
