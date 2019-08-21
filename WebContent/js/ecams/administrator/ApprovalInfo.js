@@ -122,6 +122,7 @@ $(document).ready(function(){
 	$('#chkAllGrade').wCheck("check", false);
 	$('#chkAllJawon').wCheck("check", false);
 	$('#chkJawon').wCheck("disabled", true);
+	$('#chkAllJawon').wCheck("disabled", true);
 	$('#txtDept').prop("readonly", true);
 	
 	//조직 toolTip
@@ -587,9 +588,11 @@ function cboSys_Change() {
 	
 	if(getSelectedIndex('cboSys') < 1) {
 		$('#chkJawon').wCheck("disabled", true);
+		$('#chkAllJawon').wCheck("disabled", true);
 		return;
 	}
 	$('#chkJawon').wCheck("disabled", false);
+	$('#chkAllJawon').wCheck("disabled", false);
 	$('#chkSys').wCheck("check", false);
 	
 	getProgInfo();
