@@ -27,6 +27,7 @@ var tmpInfoData = new Object();
 
 var tmpTab1            = null;
 var tmpTab2            = null;
+var gridSw             = false;
 
 grdProgList.setConfig({
     target: $('[data-ax5grid="grdProgList"]'),
@@ -65,11 +66,11 @@ $(document).ready(function(){
 	$('#tab1Li').width($('#tab1Li').width()+10);
 	$('#tab2Li').width($('#tab2Li').width()+10);
 	
-	setTabMenu();
+	//setTabMenu();
 	
 	$('#tabProgBase').width($('#tabProgBase').width()+10);
 	$('#tabProgHistory').width($('#tabProgHistory').width()+10);
-	$("#tabProgBase").show(); //기본정보
+	//$("#tabProgBase").show(); //기본정보
 	
 	//시스템
 	$('#cboSysCd').bind('change', function() {
@@ -103,7 +104,7 @@ $(document).ready(function(){
 		load2Sw = true;
 		screenInit_prog('I');
 	}
-	
+	clickTabMenu();
 	//팝업으로 호출했을 시 파라메터로 넘어온 정보 표시
 	setTimeout(function() {
 		if($("#syscd").val() > 0) {
@@ -117,11 +118,6 @@ $(document).ready(function(){
 	
 	
 });
-function setTabMenu(){
-	$('.tab_content:first').show();	
-	
-	clickTabMenu();
-}
 
 function clickTabMenu(){
 	
@@ -141,6 +137,11 @@ function clickTabMenu(){
 			setTimeout(function() {
 				tmpTab2 = $('#frmProgHistory').get(0).contentWindow;
 				tmpTab2.upFocus();
+				
+				if (!gridSw) {
+					tmpTab2.createViewGrid();
+					gridSw = true;
+				}
 			}, 10);
 		}
 	});

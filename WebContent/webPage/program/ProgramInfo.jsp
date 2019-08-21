@@ -7,8 +7,8 @@
 <div id="wrapper">
     <div class="contentFrame"> 
         <!-- history S-->
-        <div id="history_wrap">프로그램<strong>&gt; 프로그램정보</strong></div>
-        <!-- history E-->       
+        <div id="history_wrap"></div>
+        <!-- history E-->   
 	    <!-- 검색 S-->    
 		<div class="az_search_wrap">
 			<div class="az_in_wrap por">

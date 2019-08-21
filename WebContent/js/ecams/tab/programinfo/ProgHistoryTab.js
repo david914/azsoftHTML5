@@ -18,61 +18,74 @@ var selSw = false;
 var tmpInfo = new Object();
 var tmpInfoData = new Object();
 
-grdProgHistory.setConfig({
-    target: $('[data-ax5grid="grdProgHistory"]'),
-    sortable: true, 
-    multiSort: true,
-    header: {
-        align: 'center',
-        columnHeight: 28
-    },
-    body: {
-        columnHeight: 24,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if (this.dindex < 0) return;
-     	
-        	openWindow(this.item.cr_qrycd, this.item.cr_acptno,'');
-        },
-    	trStyleClass: function () {
-    		if (this.item.cr_status === '3'){
-    			return 'fontStyle-cncl';
-    		} 
-    	},
-    	onDataChanged: function(){
-    	    this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: 'acptdate', 	    label: '신청일시',  	width: '11%',	align: 'center'},
-        {key: 'cm_username',    label: '신청인',   	width:  '8%',	align: 'center'},
-        {key: 'REQUEST', 	    label: '신청구분',    	width: '10%',	align: 'left'},
-        {key: 'acptno', 	    label: '신청번호',	  	width: '10%',	align: 'center'},
-        {key: 'passok', 	    label: '배포구분',   	width:  '8%',	align: 'center'},
-        {key: 'prcdate',   	    label: '완료일시',  	width: '11%',	align: 'center'},
-        {key: 'cr_aftviewver',	label: '버전',    	width: '10%',	align: 'center'},
-        {key: 'srinfo'   , 	    label: 'SR-ID',   	width: '15%',	align: 'left'},
-        {key: 'cr_sayu', 	    label: '변경사유',   	width: '25%',	align: 'left'}
-    ]
-});
+
+
 $(document).ready(function(){
+	createViewGrid();
+	
 	getCodeInfo();
 	
 	//변경이력조회
 	$('#btnQry2').bind('click',function() {
 		btnQry2_Click();
 	});
+	
+	
 });
 
 function upFocus() {
 	grdProgHistory.focus('HOME');
 }
 
-function screenInit(gbn,userId) {
+function createViewGrid() {
 	
+	grdProgHistory	= new ax5.ui.grid();
+	grdProgHistory.setConfig({
+	    target: $('[data-ax5grid="grdProgHistory"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showLineNumber: true, 
+	    lineNumberColumnWidth: 40,
+	    header: {
+	        align: 'center',
+	        columnHeight: 28
+	    },
+	    body: {
+	        columnHeight: 24,
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	        },
+	        onDBLClick: function () {
+	        	if (this.dindex < 0) return;
+	     	
+	        	openWindow(this.item.cr_qrycd, this.item.cr_acptno,'');
+	        },
+	    	trStyleClass: function () {
+	    		if (this.item.cr_status === '3'){
+	    			return 'fontStyle-cncl';
+	    		} 
+	    	},
+	    	onDataChanged: function(){
+	    	    this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: 'acptdate', 	    label: '신청일시',  	width: '11%',	align: 'center'},
+	        {key: 'cm_username',    label: '신청인',   	width:  '8%',	align: 'center'},
+	        {key: 'REQUEST', 	    label: '신청구분',    	width: '10%',	align: 'left'},
+	        {key: 'acptno', 	    label: '신청번호',	  	width: '10%',	align: 'center'},
+	        {key: 'passok', 	    label: '배포구분',   	width:  '8%',	align: 'center'},
+	        {key: 'prcdate',   	    label: '완료일시',  	width: '11%',	align: 'center'},
+	        {key: 'cr_aftviewver',	label: '버전',    	width: '10%',	align: 'center'},
+	        {key: 'srinfo'   , 	    label: 'SR-ID',   	width: '15%',	align: 'left'},
+	        {key: 'cr_sayu', 	    label: '변경사유',   	width: '25%',	align: 'left'}
+	    ]
+	});
+	
+}
+function screenInit(gbn,userId) {
+
 	pUserId = userId;
 	grdProgHistory.setData([]);
 	

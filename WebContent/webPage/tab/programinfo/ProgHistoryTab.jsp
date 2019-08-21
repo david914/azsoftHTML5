@@ -10,6 +10,7 @@
 
 <c:import url="/webPage/common/common.jsp" />
 <!-- contener S -->
+<body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
 <div id="wrapper" style="overflow-y: hidden;">
 	<!-- 하단 입력 S-->
 	<div class="margin-5-top">
@@ -40,10 +41,11 @@
 	<!-- 하단 입력 E-->			
     <!-- 테이블 S-->
     <div class="row az_board_basic" style="height: calc(100% - 80px);">
-	    <div data-ax5grid="grdProgHistory" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+	    <div data-ax5grid="grdProgHistory" style="height: 100%;"></div>
 	</div>	
 	<!-- 테이블  E -->
 </div>
+</body>
 <!-- contener E -->
 
 <form name="popPam">
