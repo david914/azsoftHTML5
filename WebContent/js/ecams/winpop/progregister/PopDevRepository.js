@@ -72,7 +72,13 @@ grdProgList.setConfig({
         },
     	onDataChanged: function(){
     		this.self.repaint();
-    	}
+    	},
+    	trStyleClass: function () {
+     		if(this.item.error == '1'){
+     			return "fontStyle-cncl";
+     		}else {
+     		}
+     	}
     },
     columns: [
     	{key: "filename", 		label: "파일명",		width: '19%', 	align: "left"},
@@ -814,17 +820,30 @@ function btnRegist_Click() {
 		}
 		
 		if(checkedGridItem[i].cm_dirpath.length > 499) {
+			grdProgList.setValue(checkedGridItem[i].__index, "error", "1");
 			grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "프로그램경로가 너무 큼(최대 500)");
 			errSw = true;
 		}else if(checkedGridItem[i].cm_dirpath.substr(0, tmpHomedir.length) != tmpHomedir) {
-			grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "홈디렉토리불일치");
-			errSw = true;
+			//windows 경로 \로 통일
+			if($('[data-ax5select="cboSvr"]').ax5select("getValue")[0].cm_sysos == "03") {
+				//g: 발생한 모든 문자열 패턴 replace, i: 대소문자 구분X
+				if(checkedGridItem[i].cm_dirpath.substr(0, tmpHomedir.length).replace(/\\/gi,'/') != tmpHomedir.replace(/\\/gi,'/')) {
+					grdProgList.setValue(checkedGridItem[i].__index, "error", "1");
+					grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "홈디렉토리불일치");
+					errSw = true;
+				}
+			}else {
+				grdProgList.setValue(checkedGridItem[i].__index, "error", "1");
+				grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "홈디렉토리불일치");
+				errSw = true;
+			}
 		}else {
 			if(checkedGridItem[i].filename.lastIndexOf(",") >= 0) {
+				grdProgList.setValue(checkedGridItem[i].__index, "error", "1");
 				grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "프로그램명컴마제외");
 				errSw = true;
 			}else if($('[data-ax5select="cboJawon"]').ax5select("getValue")[0].cm_info.substr(26,1) == "1") {
-				// tmpObj 쓰는 곳 없음
+				//tmpObj 쓰는 곳 없음
 				//tmpObj = {};
 				//tmpObj = tmpAry.getItemAt(i);
 				//tmpObj.filename = tmpObj.filename.substr(0,tmpObj.filename.indexOf("."));
@@ -837,10 +856,12 @@ function btnRegist_Click() {
 						rsrcExe = $('#txtExeName').val().toUpperCase();
 						
 						if(rsrcExe.indexOf(tmpExe) < 0) {
+							grdProgList.setValue(checkedGridItem[i].__index, "error", "1");
 							grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "확장자불일치");
 							errSw = true;
 						}
 					}else {
+						grdProgList.setValue(checkedGridItem[i].__index, "error", "1");
 						grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "확장자불일치");
 						errSw = true;
 					}
