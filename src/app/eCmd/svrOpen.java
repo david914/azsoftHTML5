@@ -1108,6 +1108,8 @@ public class svrOpen{
 	        			rst.put("cr_itemid", retMsg.substring(1));
 	        			rst.put("baseitem", retMsg.substring(1));
 	        			rst.put("cm_info",strRsrcInfo);
+	        			rst.put("error", "");
+		        		rst.put("errmsg", "");
 		        	} else {
 		        		rst.put("error", "1");
 		        		rst.put("errmsg", "등록실패");

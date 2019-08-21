@@ -621,7 +621,8 @@ function successCheckProg(data) {
 
 function btnDel_Click() {
 	confirmDialog.confirm({
-		msg: '선택된 프로그램을 정말로 삭제하시겠습니까?',
+		title: '삭제확인',
+		msg: '선택된 프로그램을 정말로 삭제하시겠습니까?'
 	}, function(){
 		if(this.key === 'ok') {
 			var findSW = false;

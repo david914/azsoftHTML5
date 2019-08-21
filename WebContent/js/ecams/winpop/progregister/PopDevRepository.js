@@ -927,8 +927,8 @@ function successRegistProg(data) {
 					tmpArray[i].filename == grdProgListData[j].filename) {
 				if(tmpArray[i].error == "1") {
 					findSw = true;
-					grdProgList.setValue(grdProgList[j].__index, "errmsg", tmpArray[i].errmsg);
-					grdProgList.setValue(grdProgList[j].__index, "error", tmpArray[i].error);
+					grdProgList.setValue(grdProgListData[j].__index, "errmsg", tmpArray[i].errmsg);
+					grdProgList.setValue(grdProgListData[j].__index, "error", tmpArray[i].error);
 					grdProgList.select(j, {selected: false});
 				}else {
 					grdProgList.removeRow(j--);
