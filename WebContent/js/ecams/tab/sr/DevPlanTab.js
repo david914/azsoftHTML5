@@ -210,13 +210,40 @@ function screenInit(gbn) {
 	
 	$('#btnRegPlan').prop("disabled", true);
 	$('#btnRegResult').prop("disabled", true);
+
+	//개발계획 비활성화
+	$('#txtExpTime').prop("disabled", true);
+	disableCal(true, 'txtExpStdate');
+	$('#txtExpStdate').prop("disabled", true);
+	disableCal(true, 'txtExpEnddate');
+	$('#txtExpEnddate').prop("disabled", true);
+	$('[data-ax5select="cboRate"]').ax5select("disable");
+	
+	//개발실적 비활성화
+	$('#txtDevTime').prop("disabled", true);
+	disableCal(true, 'txtDevDate');
+	$('#txtDevDate').prop("disabled", true);
+	
 	$('#chkAll').prop("checked", false);
-	$('[data-ax5select="cboRate"]').ax5select("enable");
+	//$('[data-ax5select="cboRate"]').ax5select("enable");
 }
 
 function rdoPlan_click() {
 	$('#btnRegPlan').prop("disabled", true);
 	$('#btnRegResult').prop("disabled", true);
+	
+	//개발계획 비활성화
+	$('#txtExpTime').prop("disabled", true);
+	disableCal(true, 'txtExpStdate');
+	$('#txtExpStdate').prop("disabled", true);
+	disableCal(true, 'txtExpEnddate');
+	$('#txtExpEnddate').prop("disabled", true);
+	$('[data-ax5select="cboRate"]').ax5select("disable");
+	
+	//개발실적 비활성화
+	$('#txtDevTime').prop("disabled", true);
+	disableCal(true, 'txtDevDate');
+	$('#txtDevDate').prop("disabled", true);
 	
 	gridSelectedIndex = grdWorker.selectedDataIndexs;
 	selectedGridItem = grdWorker.list[grdWorker.selectedDataIndexs];
