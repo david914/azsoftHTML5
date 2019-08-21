@@ -26,7 +26,10 @@ var cboQryGbnData = [];
 var prjListData = [];
 
 var loadSw = false;
+var loadSw2 = false;
 var inter = null;
+var inter2 = null;
+var gridSw = false;
 
 $(document).ready(function() {
 	//tab메뉴
@@ -60,7 +63,12 @@ $(document).ready(function() {
 	    loadSw = true;
 	}
 	
+	document.getElementById('frmDevPlan').onload = function() {
+	    loadSw2 = true;
+	}
+	
 	callSRRegister();
+	callDevPlan();
 	//initScreen();
 	//clickTabMenu();
 });
@@ -73,6 +81,14 @@ function callSRRegister() {
          clearInterval(inter);
       }
    },100);
+}
+
+function callDevPlan() {
+	inter2 = setInterval(function(){
+      if(loadSw2) {
+    	  $('#frmDevPlan').get(0).contentWindow.createViewGrid();
+      }
+	},100);
 }
 
 function initScreen() {
@@ -223,6 +239,15 @@ function changeTabMenu() {
 	}else if(document.getElementById("tab2").className == "on") { //개발계획/실적등록
 		tmpTab = $('#frmDevPlan').get(0).contentWindow;
 		
+		if(this.id == 'tab2') {
+			setTimeout(function() {
+				if (!gridSw) {
+					tmpTab.createViewGrid();
+					gridSw = true;
+				}
+			}, 10);
+		}
+		
 		if(tmpTab.strIsrId == strIsrId) return;
 		
 		tmpTab.userId = userId;
@@ -233,7 +258,6 @@ function changeTabMenu() {
 		if(strIsrId != null) {
 			tmpTab.initDevPlan();
 		}
-		
 	}else if(document.getElementById("tab3").className == "on") { //변경요청이력
 		var tmpTab = $('#frmReqHistory').get(0).contentWindow;
 		
