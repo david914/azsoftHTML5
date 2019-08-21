@@ -197,7 +197,8 @@ function clickApprovalGrid(index) {
 		return;
 	}
 	
-	if(selItem.teamcd2 !== '3' && selItem.teamcd2 !== '4' && selItem.teamcd2 !== '6' 
+	// && selItem.teamcd2 !== '4' > 특정팀 대결 불가능하도록 수정
+	if(selItem.teamcd2 !== '3' && selItem.teamcd2 !== '6' 
 		&& selItem.teamcd2 !== '7' && selItem.teamcd2 !== '8') {
 		return;
 	}
@@ -328,6 +329,8 @@ function successSelectLocat(data) {
 	
 	if (confLocat.msg !== undefined && confLocat.msg.length !== 0) {
 		$('#txtLocatCncl').val(confLocat.msg);
+	} else {
+		$('#txtLocatCncl').css('display', 'none');
 	}
 	
 	if (reqSta === '0' && (strAdmin === 'Y' || strEditor === userId)) {

@@ -104,11 +104,15 @@ $('[data-ax5select="cboSys"]').ax5select({
 
 
 $('#txtDeploy').timepicker({
-    showMeridian : false,
-    minuteStep: 1
+	timeFormat: 'HH:mm',
+    interval: 30,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
  });
 
-$('input.checkbox-file').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
+
+$('input.checkbox-file').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function() {
 	getSysInfo();

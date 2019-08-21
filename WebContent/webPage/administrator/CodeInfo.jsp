@@ -78,7 +78,7 @@
 						<label>소구분순서</label>
 					</div>
 					<div class="ml_80 vat tal">
-						<input id="txtMaCode" name="txtMaCode" type="text" class="width-100 vat dib">
+						<input id="txtSeq" name="txtSeq" type="text" class="width-80 vat dib">
 					</div>
 				</div>
 				<div class="width-15 dib vat margin-3-top">

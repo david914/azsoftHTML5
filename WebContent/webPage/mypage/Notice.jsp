@@ -27,7 +27,7 @@
 				<div class="vat dib">
 					<button id="btnReg" name="btnReg" class="btn_basic_s">공지사항등록</button>
 				</div>
-				<div class="vat dib">
+				<div class="vat dib margin-5-left">
 					<button class="btn_basic_s" data-grid-control="excel-export" id="btnExcel">엑셀저장</button>
 				</div>
 			</div>

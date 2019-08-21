@@ -8,7 +8,7 @@
 <div class="az_search_wrap">
 	<div class="az_in_wrap">
 		<div class="row vat">
-			<div class="dib width-80">
+			<div class="dib width-40">
 				<div class="tit_100 poa">
 					<label>작업구분</label>
 				</div>
@@ -17,7 +17,7 @@
 				</div>
 			</div>
 			
-			<div class="vat dib">
+			<div class="vat dib margin-5-left">
 				<button id="btnSave" name="btnSave" class="btn_basic_s">등록</button>
 			</div>
 		</div>
@@ -31,7 +31,7 @@
 					<input id="txtCycle" type="text" class="width-100"> 
 				</div>
 			</div>
-			<div class="width-60 dib vat">
+			<div class="width-20 dib vat">
 				<div id="cboCycle" data-ax5select="cboCycle" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
 			</div>
 		</div>
@@ -42,7 +42,8 @@
 					<label>작업시간</label>
 				</div>
 				<div class="ml_100 vat">
-					<input id="txtRunTime" name="txtRunTime" type="text" class="vat"><span class="btn_calendar vat"><i class="fa fa-clock-o"></i></span>
+					<input id="txtRunTime" name="txtRunTime" type="text" class="vat" autocomplete="off">
+					<span class="btn_calendar vat"><i class="fa fa-clock-o"></i></span>
 				</div>
 			</div>
 		</div>
@@ -67,10 +68,10 @@
 					<input id="txtDelCycle" type="text" class="width-100"> 
 				</div>
 			</div>
-			<div class="width-60 dib vat">
+			<div class="width-20 dib vat">
 				<div id="cboDelCycle" data-ax5select="cboDelCycle" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
 			</div>
-			<div class="width-10 dib vat">
+			<div class="width-10 dib vat margin-5-left">
 				<input type="checkbox" class="checkbox-file" id="chkAllSys" data-label="전체선택"/>
 			</div>
 		</div>

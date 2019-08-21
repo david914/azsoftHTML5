@@ -754,11 +754,11 @@ ul.tabs li.active {
 
 .btn-ecams-grid {
 	background-color: #fff;
-    border-color: #e4e5e7;
-    color: #6a6c6f;
-    font-size: 10px;
-    margin: 0 0 10px 20px;
-    border-radius: 2px;
+	border-color: #e4e5e7;
+	color: #6a6c6f;
+	font-size: 10px;
+	margin: 0 0 10px 20px;
+	border-radius: 2px;
 }
 
 .fontStyle-error {
@@ -1145,7 +1145,7 @@ ul.tabs li.active {
     width : 70%; /* 구식 브라우저를 위한 대비책(fallback) */
     width : -webkit-calc(100% - 40px); /* for Chrome, Safari */
     width :    -moz-calc(100% - 40px); /* for Firefox */
-    width :         calc(100% - 40px); /* for IE */
+    width: calc(100% - 40px); /* for IE */
 }
 .ax-button-wrap button {
 	background: #fff; border: 1px solid #ccc; color:#333; font-weight:bold; padding: 0 7px 2px; height: 25px;
@@ -1408,7 +1408,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 .az_board_basic table tr:nth-child(even){background: #fff;}
 .az_board_basic table tr td{height: 28px; padding: 0 3px; text-align: center; border-right: 1px solid #ddd;}
 .az_board_basic table tr td:last-child{border-right: none;}
-.az_board_basic table tr td button{border: 1px solid #ccc; background: #fff; padding: 1px 5px; font-size: 11px;}
+.az_board_basic table tr td button{border: 1px solid #ccc;background: #fff;padding: 1px 5px;font-size: 11px;}
 
 .az_board_search{margin-top: 7px;}
 .az_board_search button.btn_gray_s{margin-left: 7px; line-height: 16px;}

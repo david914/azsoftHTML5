@@ -6,6 +6,13 @@
  * 	버전 : 1.1
  *  수정일 : 2019-08-06
  */
+
+var userName 	= window.parent.userName;		// 접속자 Name
+var userId 		= window.parent.userId;			// 접속자 ID
+var adminYN 	= window.parent.adminYN;		// 관리자여부
+var userDeptName= window.parent.userDeptName;	// 부서명
+var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
+
 var dialog 			= new ax5.ui.dialog({title: "확인"});
 var confirmDialog 	= new ax5.ui.dialog();	//알럿,확인창
 var downAcptno 		= null;
@@ -21,7 +28,7 @@ var uploadSelectedFileLength = 0;
 var downGrid  		= new ax5.ui.grid();
 
 confirmDialog.setConfig({
-    title: "파일 업로드 알림",
+    title: "파일다운로드창 알림",
     theme: "info"
 });
 
@@ -77,6 +84,12 @@ $(document).ready(function() {
 	getNoticeFolderPath();
 	downAcptno  = window.parent.downAcptno;
 	downFileCnt = window.parent.downFileCnt; 
+	
+	if(window.parent.noticeGrid.list[window.parent.noticeGrid.selectedDataIndexs].CM_EDITOR !== userId) {
+		$('.filebox').css('display', 'none');
+		$('#btnDel').css('display', 'none');
+	}
+	
 	if(downFileCnt > 0 ) {
 		getFileList();
 	}
@@ -95,8 +108,14 @@ $(document).ready(function() {
 	
 	// 일괄다운로드
 	$('#btnAllDw').bind('click', function() {
-		var zipName = '공지사항일괄다운';
-		location.href = '/webPage/fileupload/upload?&zipPath='+noticeFolderPath+'\\'+downAcptno + '&zipName=' + zipName;
+		if(downFileCnt > 0) {
+			var zipName = '공지사항일괄다운';
+			location.href = '/webPage/fileupload/upload?&zipPath='+noticeFolderPath+'\\'+downAcptno + '&zipName=' + zipName;
+			return;
+		} else {
+			dialog.alert('다운로드 받을 파일이 없습니다.', function() {});
+		}
+		
 	});
 });
 

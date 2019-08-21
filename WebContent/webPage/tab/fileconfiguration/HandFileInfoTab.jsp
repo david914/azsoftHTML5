@@ -4,22 +4,23 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-
 <div class="az_search_wrap">
 	<div class="az_in_wrap">
 		<div class="row vat">
-			<div class="dib">
-				<div class="tit_100 poa">
+			<div class="width-20 dib">
+				<div class="tit_80 poa">
 					<label>작업일자</label>
 				</div>
-				<div class="ml_100">
-					<div id="divPicker" data-ax5picker="dateDeploy">
-			            <input id="dateDeploy" name="dateDeploy" type="text" placeholder="yyyy/mm/dd"><span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+				<div class="ml_80">
+					<div id="divPicker" data-ax5picker="dateDeploy" class="width-100">
+			            <input id="dateDeploy" name="dateDeploy" type="text" class="f-cal" placeholder="yyyy/mm/dd"><span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 					</div>
 				</div>
 			</div>
-			<div class="dib vat">
-				<input id="txtDeploy" name="txtDeploy" type="text" class="width-70"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
+			<div class="width-20 dib vat" style="margin-left: 2px;">
+				<div class="width-100">
+					<input id="txtDeploy" name="txtDeploy" type="text" class="f-cal" autocomplete="off"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
+				</div>
 			</div>
 			<div class="dib vat">
 				<input type="checkbox" class="checkbox-file" id="chkTime" data-label="즉시실행"/>
@@ -27,25 +28,25 @@
 		</div>
 		
 		<div class="row vat">
-			<div class="width-30 dib">
-				<div class="tit_100 poa">
+			<div class="width-20 dib">
+				<div class="tit_80 poa">
 					<label>시스템</label>
 				</div>
-				<div class="ml_100 vat">
+				<div class="ml_80 vat">
 					<input id="txtSys" name="txtSys" type="text" class="width-100 vat">
 				</div>
 			</div>
-			<div class="width-30 dib vat">
+			<div class="width-20 dib vat">
 				<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
 			</div>
 		</div>
 		
 		<div class="row vat">
 			<div class="width-40 dib vat">
-				<div class="tit_100 poa">
+				<div class="tit_80 poa">
 					<label>서버</label>
 				</div>
-				<div class="ml_100 vat">
+				<div class="ml_80 vat">
 					<input id="txtSvrIp" name="txtSvrIp" type="text" class="width-100 vat">
 				</div>
 			</div>

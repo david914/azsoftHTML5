@@ -24,14 +24,16 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div>
-					<label id="lbSub">제목</label>
-					<input id="txtTitle" name="txtTitle" class="form-control" type="text"></input>
+					<label id="lbSub" class="tit_60 poa">제목</label>
+					<div class="ml_60">
+						<input id="txtTitle" name="txtTitle" type="text" class="width-100"></input>
+					</div>
 				</div>
 			</div>
 			<!--CM_TITLE -->
 			<div class="row">
-				<div>
-					<textarea id="textareaContents" name="textareaContents" class="form-control margin-15-top" rows="14"></textarea>
+				<div class="write_wrap">
+					<textarea id="textareaContents" name="textareaContents" class=" width-100 margin-15-top" style="height: 255px;"></textarea>
 				</div>
 			</div>
 			<div class="row">
@@ -41,6 +43,7 @@
 				<div class="dib">
 					<div id="divPicker" class="az_input_group" data-ax5picker="basic">
 			            <input id="dateStD" name="dateStD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
+			            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 			            <span class="sim">∼</span>
 			            <input id="dateEdD" name="dateEdD" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
 			            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>

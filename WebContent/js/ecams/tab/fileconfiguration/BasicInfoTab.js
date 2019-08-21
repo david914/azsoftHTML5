@@ -32,11 +32,14 @@ $('[data-ax5select="cboDelCycle"]').ax5select({
 });
 
 $('#txtRunTime').timepicker({
-    showMeridian : false,
-    minuteStep: 1
+	timeFormat: 'HH:mm',
+    interval: 30,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
  });
 
-$('input.checkbox-file').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
+$('input.checkbox-file').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function() {
 	$('#txtRundate').prop('disabled', true);
@@ -60,6 +63,18 @@ $(document).ready(function() {
 	$('#btnSave').bind('click', function() {
 		setFileInf();
 	});
+	
+	// 작업주기 숫자만입력
+	$('#txtCycle').keyup(function (event) { 
+		var v = $(this).val();
+		$(this).val(v.replace(/[^a-z0-9]/gi,''));
+	});
+	// 삭제주기 숫자만입력
+	$('#txtDelCycle').keyup(function (event) { 
+		var v = $(this).val();
+		$(this).val(v.replace(/[^a-z0-9]/gi,''));
+	});
+
 });
 
 // 기본정보 등록

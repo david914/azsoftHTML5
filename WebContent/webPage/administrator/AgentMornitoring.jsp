@@ -29,7 +29,7 @@
 					<button id="btnExcel" name="btnReg" class="btn_basic_s" style="cursor: pointer;" >엑셀저장</button>
 				</div>
 				<div class="vat dib">
-					<button id="btnQry" class="btn_basic_s" style="cursor: pointer;">조회</button>
+					<button id="btnQry" class="btn_basic_s margin-5-left" style="cursor: pointer;">조회</button>
 				</div>
 			</div>
 		</div>

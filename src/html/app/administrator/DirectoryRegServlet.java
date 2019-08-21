@@ -71,6 +71,9 @@ public class DirectoryRegServlet extends HttpServlet {
 		}
 		
 	}
+
+	
+	
 	// [디렉토리등록] 시스템 콤보 가져오기
 	private String getSysInfo(JsonElement jsonElement) throws SQLException, Exception {
 		String UserId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"UserId"));
@@ -95,15 +98,19 @@ public class DirectoryRegServlet extends HttpServlet {
 	// [디렉토리등록] 디렉토리 삭제
 	private String removePath(JsonElement jsonElement) throws SQLException, Exception {
 		String sysCD 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"sysCD"));
-		String spath 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"spath"));
-		String dsnCD 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"dsnCD"));
-		return gson.toJson(cmm1200.removePath(sysCD, spath, dsnCD));
+		ArrayList<HashMap<String, String>> dirList 	= ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"dirList"));
+		return gson.toJson(cmm1200.removePaths(sysCD, dirList));
 	}
 	// [디렉토리등록] 디렉토리 등록
 	private String savePath(JsonElement jsonElement) throws SQLException, Exception {
 		String sysCD 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"sysCD"));
 		String UserId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"UserId"));
 		ArrayList<HashMap<String, String>> saveList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"saveList"));
-		return gson.toJson(cmm1200.savePath(sysCD, UserId, saveList));
+		try {
+			return gson.toJson(cmm1200.savePath(sysCD, UserId, saveList));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
+		
 	}
 }

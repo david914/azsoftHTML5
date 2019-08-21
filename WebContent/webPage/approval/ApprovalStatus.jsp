@@ -18,7 +18,7 @@
 						</div>
 					</div>
 					<div class="width-25 dib vat">
-						<label class="tit_80 poa">&nbsp;&nbsp;&nbsp;결재사유</label>
+						<label class="tit_80 poa">&nbsp;&nbsp;&nbsp;신청종류</label>
 						<div class="ml_80">
 							<div id="cboAppro" data-ax5select="cboAppro" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 						</div>
@@ -61,7 +61,7 @@
 					</div>
 					
 					<div class="width-25 dib vat">
-						<label class="tit_80 poa">&nbsp;&nbsp;&nbsp;입력조건</label>
+						<label class="tit_80 poa">&nbsp;&nbsp;&nbsp;SR-ID/SR명</label>
 						<div class="ml_80">
 							<input id=txtSr type="text" class="width-100" placeholder="SR-ID/SR명을 입력하세요.">
 						</div>

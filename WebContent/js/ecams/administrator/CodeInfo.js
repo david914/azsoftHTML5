@@ -26,7 +26,7 @@ codeGrid.setConfig({
     target: $('[data-ax5grid="codeGrid"]'),
     sortable: true, 
     multiSort: true,
-    showRowSelector: true,
+    showRowSelector: false,
     header: {
         align: "center",
         columnHeight: 30
@@ -77,7 +77,18 @@ $(document).ready(function() {
 			$('[data-ax5select="cboQry"]').ax5select('setValue', '00', true);
 			$('#btnQry').trigger('click');
 		}
+		
+		
 	});
+	
+	// 대구분 코드값 한글입력 막기
+	$("#txtMaCode").keyup(function(event) { 
+		if (!(event.keyCode >=37 && event.keyCode<=40)) {
+			var v = $(this).val();
+			$(this).val(v.replace(/[^a-z0-9]/gi,''));
+		}
+	});
+	
 	// 대구분 코드설명 엔터
 	$('#txtMaName').bind('keypress', function(event) {
 		if(event.keyCode === 13) {
@@ -130,7 +141,6 @@ function openJobModal() {
             }
             else if (this.state === "close") {
                 mask.close();
-                $('#btnQry').trigger('click');
             }
         }
     }, function () {
@@ -248,7 +258,7 @@ function successgGetCodeName(data) {
 	if(selItem.closeYN === '사용') {
 		$('#optUse').wRadio('check', true);
 	} else {
-		$('#optNotUse').wRadio('check', false);
+		$('#optNotUse').wRadio('check', true);
 	}
 }
 

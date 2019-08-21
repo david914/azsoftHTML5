@@ -107,6 +107,17 @@ $(document).ready(function(){
 			return _promise(50,getSvrInfoList());
 		});
 	
+	
+	$('#txtPort').keyup(function (event) { 
+		var v = $(this).val();
+		$(this).val(v.replace(/[^a-z0-9]/gi,''));
+	});
+	
+	$('#txtSeq').keyup(function (event) { 
+		var v = $(this).val();
+		$(this).val(v.replace(/[^a-z0-9]/gi,''));
+	});
+	
 	$('#chkAllSvr').bind('click',function() {
 		clickChkAllSvr($('#chkAllSvr').is(':checked'));
 	});

@@ -25,6 +25,11 @@ var memo_date 	= null;
 var noticeInfo 	= null;
 var dialog 		= new ax5.ui.dialog({title: "확인"});
 
+confirmDialog.setConfig({
+    title: "공지사항 확인",
+    theme: "info"
+});
+
 picker.bind({
     target: $('[data-ax5picker="basic"]'),
     direction: "bottom",
@@ -45,6 +50,12 @@ picker.bind({
                 months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
                 dayTmpl: "%s"
             },
+            dimensions: {
+				height: 140,
+				width : 75,
+				colHeadHeight: 11,
+				controlHeight: 25,
+			},
             marker: (function () {
                 var marker = {};
                 marker[ax5.util.date(new Date(), {'return': 'yyyy/MM/dd', 'add': {d: 0} } )] = true;
@@ -135,7 +146,7 @@ function popNoticeInit() {
 			$('#divPicker').css('display','');
 			$('#dateStD').val(startDate);
 			$('#dateEdD').val(endDate);
-			$('#exampleCheck1').prop('checked',true);
+			$('#chkPop').wCheck('check', true);
 		}
 		
 		$('#txtTitle').val(noticeInfo.CM_TITLE);
@@ -146,12 +157,12 @@ function popNoticeInit() {
 			$('#btnReg').css('display','none');
 			
 			if(noticeInfo.CM_NOTIYN === 'Y') {
-				$('#divPicker').empty();
-				var htmlStr = '';
-				htmlStr += '<input id="dateStD" name="dateStD" type="text" class="form-control" value="'+noticeInfo.CM_STDATE+'">';
-				htmlStr += '	<span class="input-group-addon">~</span>';
-				htmlStr += '<input id="dateEdD" name="dateEdD" type="text" class="form-control" value="'+noticeInfo.CM_EDDATE+'">';
-				$('#divPicker').html(htmlStr);
+				$('#chkPop').wCheck("disabled", true);
+				
+				disableCal(true, 'dateStD');
+				disableCal(true, 'dateEdD');
+				$('#dateStD').prop( "disabled", 	true );
+				$('#dateEdD').prop( "disabled", 	true );
 			}
 			
 			$('#txtTitle').attr('disabled',true);

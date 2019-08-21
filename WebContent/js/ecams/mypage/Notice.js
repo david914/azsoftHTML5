@@ -15,9 +15,6 @@ var adminYN 	= window.top.adminYN;		// 관리자여부
 var userDeptName= window.top.userDeptName;	// 부서명
 var userDeptCd 	= window.top.userDeptCd;	// 부서코드
 
-var userDeptName= window.parent.userDeptName;	// 부서명
-var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
-
 var picker				= new ax5.ui.picker();		// DATE PICKER
 var popNoticeModal 		= new ax5.ui.modal();		// 공지사항등록/수정 팝업
 var fileDownloadModal 	= new ax5.ui.modal();		// 파일다운로드모달 (하나씩 파일첨부 가능)
@@ -52,12 +49,12 @@ var fileUploadModal = new ax5.ui.modal({
                 	showAndHideUploadModal('hide');
                 }
             },
-            restore: {
+           /* restore: {
                 label: '<i class="fa fa-plus-circle" aria-hidden="true"></i>', onClick: function(){
                 	showAndHideUploadModal('show');
                 	//fileUploadModal.restore();
                 }
-            },
+            },*/
             close: {
                 label: '<i class="fa fa-times-circle" aria-hidden="true"></i>', onClick: function(){
                 	showAndHideUploadModal('hide');
@@ -248,7 +245,7 @@ function successGetNoticeInfo(data) {
 function openPopNotice(){
 	popNoticeModal.open({
         width: 600,
-        height: 440,
+        height: 400,
         iframe: {
             method: "get",
             url: "../modal/notice/NoticeModal.jsp",
@@ -294,8 +291,8 @@ function showAndHideUploadModal(showAndHide) {
 // 첨부파일 모달 오픈
 function openFileUpload() {
 	uploadModal = fileUploadModal.open({
-        width: 600,
-        height: 360,
+        width: 520,
+        height: 300,
         iframe: {
             method: "get",
             url: 	"../modal/notice/FileUpModal.jsp",
@@ -315,12 +312,13 @@ function openFileUpload() {
 
 // 다운로드 모달 오픈
 function openFileDownload(acptno,fileCnt) {
+	
 	if(acptno !== '') {
 		downAcptno = acptno;
 		downFileCnt = fileCnt;
 	}
 	fileDownloadModal.open({
-        width: 600,
+        width: 520,
         height: 330,
         iframe: {
             method: "get",

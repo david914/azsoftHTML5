@@ -44,6 +44,7 @@
     /* overwrites .ui-menu */
     margin: 0;
     padding: 2px;
+    z-index: 999 !important;;
 }
 .ui-timepicker-standard a {
     border: 1px solid transparent;

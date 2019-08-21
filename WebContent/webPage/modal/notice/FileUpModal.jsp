@@ -33,10 +33,12 @@
 	
 	<div class="row">
 		<div class="col-md-6 col-sm-12 ">
-			<button id="selectBtn" class="btn_basic_s">선택완료</button>
-			<div class="filebox" id="drag-and-drop-zone" style="display: inline-block;"> 
-				<label for="ex_file">파일첨부</label> 
-				<input type="file" id="ex_file"> 
+			<div class="float-right">
+				<div class="filebox" id="drag-and-drop-zone" style="display: inline-block;"> 
+					<label for="ex_file">파일첨부</label> 
+					<input type="file" id="ex_file"> 
+				</div>
+				<button id="selectBtn" class="btn_basic_s">선택완료</button>
 			</div>
 		</div>
 		

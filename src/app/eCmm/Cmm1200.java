@@ -366,7 +366,181 @@ public class Cmm1200{
 			}
 		}
 	}//end of getBaseInfo() method statement
+    
+    
+    public HashMap<String, String> removePaths(String sysCD, ArrayList<HashMap<String, String>> dirList) throws SQLException, Exception {
+		Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		ResultSet         rs          = null;
+		StringBuffer      strQuery    = new StringBuffer();
+		HashMap<String, String>			  rst		  = null;
+		ConnectionContext connectionContext = new ConnectionResource();
+		int			      	cnt0020 = 0;
+		String 				dsnCD 	= null;
+		String 				spath	= null;
 
+		try {
+			conn = connectionContext.getConnection();
+			conn.setAutoCommit(false);
+			for(int i = 0; i < dirList.size(); i++) {
+				dsnCD 	= dirList.get(i).get("cm_dsncd");
+				spath	= dirList.get(i).get("cm_dirpath");
+
+				strQuery.setLength(0);
+				strQuery.append("select count(*) as cnt from cmr0020 \n");
+				strQuery.append("where cr_syscd= ? \n");
+				strQuery.append("and cr_dsncd= ? \n");
+				
+				pstmt = conn.prepareStatement(strQuery.toString());
+				
+				pstmt.setString(1, sysCD);
+				pstmt.setString(2, dsnCD);
+				
+				rs = pstmt.executeQuery();
+				
+				cnt0020 = 0;
+				if (rs.next()){
+					cnt0020 = rs.getInt("cnt");
+				}
+				rs.close();
+				pstmt.close();
+				
+				if (cnt0020> 0){
+					rst = new HashMap<String, String>();
+					rst.put("retVal", "1");
+					rst.put("retMsg", "["+spath+"]로  등록된 프로그램이 존재하여 삭제가 불가능합니다.");
+					conn.close();
+					conn = null;
+					return rst;
+				}
+				conn.setAutoCommit(false);
+				strQuery.setLength(0);
+				strQuery.append("delete cmm0072 \n");
+				strQuery.append("where cm_syscd= ? \n");
+				strQuery.append("and cm_dsncd= ? \n");
+				pstmt = conn.prepareStatement(strQuery.toString());
+				
+				pstmt.setString(1, sysCD);
+				pstmt.setString(2, dsnCD);
+				
+				
+				pstmt.executeUpdate();
+				pstmt.close();
+				
+				strQuery.setLength(0);
+				strQuery.append("delete cmm0073 \n");
+				strQuery.append("where cm_syscd= ? \n");
+				strQuery.append("and cm_dsncd= ? \n");
+				pstmt = conn.prepareStatement(strQuery.toString());
+				
+				pstmt.setString(1, sysCD);
+				pstmt.setString(2, dsnCD);
+				
+				
+				pstmt.executeUpdate();
+				pstmt.close();
+				
+				
+				strQuery.setLength(0);
+				strQuery.append("delete cmm0070 \n");
+				strQuery.append("where cm_syscd= ? \n");
+				strQuery.append("and cm_dsncd= ? \n");
+				pstmt = conn.prepareStatement(strQuery.toString());
+				
+				pstmt.setString(1, sysCD);
+				pstmt.setString(2, dsnCD);
+				
+				pstmt.executeUpdate();
+				pstmt.close();
+				
+				rst = new HashMap<String, String>();
+				rst.put("retVal", "0");
+				rst.put("retMsg", "삭제처리가 완료되었습니다.");
+			}
+
+            conn.commit();
+            conn.setAutoCommit(true);
+            conn.close();
+            pstmt = null;
+            conn = null;
+            
+
+            return rst;
+            //ecamsLogger.error(rsval.toString());
+
+
+		} catch (SQLException sqlexception) {
+			if (rs != null){
+				try{
+					rs.close();
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
+			if (pstmt != null){
+				try{
+					pstmt.close();
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
+			if (conn != null){
+				try{
+					conn.rollback();
+					conn.close();
+					conn = null;
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## Cmm1200.removePaths() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## Cmm1200.removePaths() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			if (rs != null){
+				try{
+					rs.close();
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
+			if (pstmt != null){
+				try{
+					pstmt.close();
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
+			if (conn != null){
+				try{
+					conn.rollback();
+					conn.close();
+					conn = null;
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
+			exception.printStackTrace();
+			ecamsLogger.error("## Cmm1200.removePaths() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## Cmm1200.removePaths() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmm1200.removePaths() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+	}//end of removePath() method statement
 
     public HashMap<String, String> removePath(String sysCD,String spath,String dsnCD) throws SQLException, Exception {
 		Connection        conn        = null;

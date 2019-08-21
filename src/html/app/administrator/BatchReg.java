@@ -118,21 +118,36 @@ public class BatchReg extends HttpServlet {
 	private String getArrayCollection(JsonElement jsonElement) throws SQLException, Exception {
 		String filePath 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "filePath") );
 		ArrayList<String> headerDef = ParsingCommon.jsonStrToArrStr( ParsingCommon.jsonEtoStr(jsonElement, "headerDef") );
-		return gson.toJson(excelUtil.getArrayCollection(filePath, headerDef));
+		
+		try {
+			return gson.toJson(excelUtil.getArrayCollection(filePath, headerDef));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
 	}
 	
 	// [관리자 > 일괄등록] 사용자가 올린 엑셀 파일 가져오기
 	private String getFileListExcel(JsonElement jsonElement) throws SQLException, Exception {
 		ArrayList<HashMap<String, String>> fileList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "fileList") );
 		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
-		return gson.toJson(cmm1600.getFileList_excel(fileList, dataObj));
+		
+		try {
+			return gson.toJson(cmm1600.getFileList_excel(fileList, dataObj));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
 	}
 	
 	// [관리자 > 일괄등록] 사용자가 올린 엑셀 파일 가져오기
 	private String requestCheckIn(JsonElement jsonElement) throws SQLException, Exception {
 		ArrayList<HashMap<String, String>> chkInList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "chkInList") );
 		HashMap<String, String> etcData = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "etcData") );
-		return gson.toJson(cmm1600.request_Check_In(chkInList, etcData));
+		
+		try {
+			return gson.toJson(cmm1600.request_Check_In(chkInList, etcData));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
 	}
 	
 	// [관리자 > 소스모듈 일괄등록] 시스템 정보 가져오기
@@ -140,18 +155,32 @@ public class BatchReg extends HttpServlet {
 		String UserId 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		String SecuYn 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SecuYn") );
 		String SelMsg 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
-		return gson.toJson(cmd0900.getSysInfo(UserId, SecuYn, SelMsg));
+		
+		try {
+			return gson.toJson(cmd0900.getSysInfo(UserId, SecuYn, SelMsg));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
 	}
 	// [관리자 > 소스모듈 일괄등록] 모듈리스트 유효성 검사
 	private String getModListExcel(JsonElement jsonElement) throws SQLException, Exception {
 		ArrayList<HashMap<String, String>> fileList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "fileList") );
 		HashMap<String, String> dataObj = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "dataObj") );
-		return gson.toJson(cmm1600.getModList_excel(fileList, dataObj));
+		
+		try {
+			return gson.toJson(cmm1600.getModList_excel(fileList, dataObj));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
 	}
 	// [관리자 > 소스모듈 일괄등록] 모듈리스트 유효성 검사
 	private String relatUpdt(JsonElement jsonElement) throws SQLException, Exception {
 		ArrayList<HashMap<String, String>> chkInList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "chkInList") );
 		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
-		return gson.toJson(cmm1600.relatUpdt(chkInList, UserId));
+		try {
+			return gson.toJson(cmm1600.relatUpdt(chkInList, UserId));
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		}
 	}
 }

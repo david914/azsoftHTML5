@@ -24,7 +24,7 @@
 				</div>
 				
 				<div class="row vat">
-					<label class="tit_80 poa">현재상황</label>
+					<label class="tit_80 poa">진행상태</label>
 					<div class="ml_80 vat">
 						<input type="text" class="width-100" id="txtLocat" readonly>
 					</div>
@@ -46,14 +46,14 @@
 				</div>
 			</div>
 			<div class="width-25 dib vat">
-				<label class="tit_80 poa" id="lblSayu">사유구분</label>
+				<label class="tit_80 poa margin-10-left" id="lblSayu">사유구분</label>
 				<div class="ml_80 vat" id="divSayu">
 					<div id="cboSayu" data-ax5select="cboSayu" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 				</div>
 			</div>
 			<div class="width-25 dib vat" id="divUser">
-				<label class="tit_80 poa">대결재</label>
-				<div class="ml_80 vat">
+				<label class="tit_60 poa margin-10-left">대결재</label>
+				<div class="ml_60 vat">
 					<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 				</div>
 			</div>

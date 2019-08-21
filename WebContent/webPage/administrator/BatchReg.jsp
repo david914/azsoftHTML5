@@ -29,14 +29,10 @@
 				
 				<div class="width-40 dib">
 					<div>
-						<div class="vat dib" style="float: right;">
-							<button id="btnSmm"  class="btn_basic_s mw-85">맵핑</button>
-						</div>
-						<div class="vat dib" style="float: right;">
-							<button id="btnReq"  class="btn_basic_s mw-85">일괄&nbsp;&nbsp;&nbsp;등록</button>
-						</div>
-						<div class="vat dib" style="float: right;">
+						<div class="vat dib float-right">
 							<button id="btnLoadExl" class="btn_basic_s mw-85">엑셀파일</button>
+							<button id="btnReq"  class="btn_basic_s mw-85 margin-5-left">일괄등록</button>
+							<button id="btnSmm"  class="btn_basic_s mw-85 margin-5-left">맵핑</button>
 						</div>
 					</div>
 				</div>
@@ -65,13 +61,9 @@
 				
 				<div class="width-40 dib vat">
 						<div class="vat dib" style="float: right;">
-							<button id="btnDel"  class="btn_basic_s vat mw-85">삭제</button>
-						</div>
-						<div class="vat dib" style="float: right;">
-							<button id="btnExlTmp"  class="btn_basic_s vat mw-85">엑셀템플릿</button>
-						</div>
-						<div class="vat dib" style="float: right;">
 							<button id="btnSaveExl" class="btn_basic_s vat mw-85">엑셀저장</button>
+							<button id="btnExlTmp"  class="btn_basic_s vat mw-85 margin-5-left">엑셀템플릿</button>
+							<button id="btnDel"  class="btn_basic_s vat mw-85 margin-5-left">삭제</button>
 						</div>
 				</div>
 			</div>

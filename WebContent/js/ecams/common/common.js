@@ -433,7 +433,9 @@ $('.btn_calendar').bind('click', function(e) {
     e.stopPropagation();
 	if($(this).css('background-color') === 'rgb(255, 255, 255)') {
 		var inputs = $(this).siblings().prevAll('input');
+		console.log(inputs);
 		$(inputs.prevObject[0]).trigger('click');
+		$(inputs.prevObject[0]).focus();
 	}
 });
 

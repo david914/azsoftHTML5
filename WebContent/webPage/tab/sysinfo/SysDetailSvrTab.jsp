@@ -28,10 +28,10 @@
 			 			<input id="txtSvrIp" class="width-100" type="text" />
 			 		</div>
 			 		<div class="l_wrap width-25 tar" style="margin-left: 12px;">
-						<input id="txtPort" class="width-100" type="text" />
+						<input id="txtPort" class="width-100" type="text"/>
 			 		</div>
 			 		<div class="r_wrap width-25 tar">
-						<input id="txtSeq" class="width-100" type="text" />
+						<input id="txtSeq" class="width-100" type="text"/>
 			 		</div>
 			 	</div>
 			</div>

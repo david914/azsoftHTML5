@@ -129,6 +129,11 @@ $(document).ready(function(){
 		});
 	
 	
+	$('#txtMode').keyup(function (event) { 
+		var v = $(this).val();
+		$(this).val(v.replace(/[^a-z0-9]/gi,''));
+	});
+	
 	/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
 	$('#cboSvrUsr').bind('change',function(){
 		

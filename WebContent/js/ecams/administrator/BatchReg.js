@@ -63,7 +63,7 @@ batchGrid.setConfig({
         {key: "story", 		label: "프로그램설명",  	width: '10%', align: "left"},
         {key: "dirpath", 	label: "프로그램경로",  	width: '25%', align: "left"},
         {key: "jawon", 		label: "프로그램종류",  	width: '10%', align: "left"},
-        {key: "errmsg", 	label: "체크결과",  		width: '10%', align: "left"},
+        {key: "errmsg", 	label: "체크결과",  		width: '15%', align: "left"},
     ]
 });
 
@@ -135,7 +135,7 @@ $(document).ready(function() {
 	// 엑셀템플릿
 	// fileUploadServlet 사용.
 	$('#btnExlTmp').bind('click', function() {
-		location.href = '/webPage/fileupload/upload?f=excel_templet.xls&folderPath='+templetPath;
+		location.href = '/webPage/fileupload/upload?fileName=excel_templet.xls&fullPath='+templetPath + '\\excel_templet.xls';
 	});
 	// 삭제
 	$('#btnDel').bind('click', function() {
@@ -167,6 +167,12 @@ function winOpenMapping() {
 // 선택된 데이터 그리드에서만 삭제
 function deleteGridData() {
 	var selIn = batchGrid.selectedDataIndexs;
+	
+	if(selIn.length === 0 ) {
+		dialog.alert('삭제 할 그리드를 선택해주세요.', function() {});
+		return;
+	}
+	
 	var delInArr = [];
 	selIn.forEach(function (selIndex, index) {
 		delInArr.push(batchGrid.list[selIndex].NO);
@@ -384,14 +390,23 @@ function onUploadCompleteData(filePath){
 
 // 읽어온 엑셀 정보 그리드에 세팅
 function successGetArrayCollection(data) {
+	var findSw = false;
 	batchGridData = data;
 	batchGridData.splice(0,1);
 	batchGrid.setData(batchGridData);
 	
-	if(batchGridData[0].sysmsg !== getSelectedVal('cboSysCd').cm_sysmsg) {
-		dialog.alert('시스템명이 선택한 시스템명과 일치하지 않습니다.', function() {});
-		return;
+	/*for(var i=0; i<batchGridData.length; i++) {
+		if(batchGridData[i].sysmsg !== getSelectedVal('cboSysCd').cm_sysmsg) {
+			dialog.alert('시스템명이 선택한 시스템명과 일치하지 않습니다.', function() {});
+			findSw = true;
+			break;
+		}
 	}
+	
+	if(findSw) {
+		return;
+	}*/
+	
 	batchGrid.setData(batchGridData);
 	getFileListExcel();
 }

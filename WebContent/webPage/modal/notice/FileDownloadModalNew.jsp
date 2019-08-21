@@ -35,7 +35,7 @@
 				<label id="lblAdd" for="ex_file">파일첨부</label> 
 				<input type="file" id="ex_file"> 
 			</div>
-			<button id="btnDel" class="btn_basic_s">파일삭제</button>
+			<button id="btnDel" class="btn_basic_s" style="margin-left: -6px;">파일삭제</button>
 			<button id="btnAllDw" class="btn_basic_s">일괄다운로드</button>
 			<button id="btnClose" class="btn_basic_s">닫기</button>
 		</div>

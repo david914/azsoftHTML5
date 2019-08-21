@@ -22,6 +22,11 @@ var ulPrgInfoData	= [];
 var ulJobInfoData	= [];
 var delIndex		= -1;
 
+confirmDialog.setConfig({
+    title: "디렉토리 확인",
+    theme: "info"
+});
+
 dirGrid.setConfig({
     target: $('[data-ax5grid="dirGrid"]'),
     sortable: true, 
@@ -38,7 +43,7 @@ dirGrid.setConfig({
             clickDirGrid(this.dindex);
         },
         onDBLClick: function () {
-        	dblClickDirGrid(this.dindex);
+        	dblClickDirGrid(this.dindex, 'dbClick');
         },
     	trStyleClass: function () {},
     	onDataChanged: function(){
@@ -100,6 +105,9 @@ $(document).ready(function() {
 	$('#btnQry').bind('click', function() {
 		getPathList();
 	});
+	$('#btnDel').bind('click', function() {
+		dblClickDirGrid(null, 'btn');
+	});
 	// 등록
 	$('#btnReq').bind('click', function() {
 		savePath();
@@ -108,16 +116,11 @@ $(document).ready(function() {
 
 // 등록
 function savePath() {
-	var selIn = dirGrid.selectedDataIndexs;
-	var saveList = [];
-	if(selIn.length === 0 ) {
+	var saveList = dirGrid.getList('selected');
+	if(saveList.length === 0 ) {
 		dialog.alert('등록할 디렉토리를 선택하여 주십시오.', function(){});
 		return;
 	}
-	
-	selIn.forEach(function(sel, index) {
-		saveList.push(dirGrid.list[sel]);
-	});
 	
 	var data  = new Object();
 	data = {
@@ -219,30 +222,42 @@ function addPath() {
 }
 
 // 리스트 더블 클릭(삭제)
-function dblClickDirGrid(index) {
-	var selItem = dirGrid.list[index];
+function dblClickDirGrid(index, division) {
+	var selArr = [];
+	if(division === 'dbClick') {
+		var selItem = dirGrid.list[index];
+		selArr.push(selItem);
+	} else {
+		var selIn = dirGrid.selectedDataIndexs;
+		if(selIn.length === 0 ) {
+			return;
+		}
+		selArr = dirGrid.getList("selected");
+	}
+	
 	confirmDialog.confirm({
-		msg: '['+ selItem.cm_dirpath +'] 를 삭제할까요?',
+		msg: (division === 'dbClick' ? '해당' : '체크된') +'디렉토리를 삭제하시겠습니까?',
 	}, function(){
 		if(this.key === 'ok') {
 			var data  = new Object();
 			data = {
 				sysCD		: getSelectedVal('cboSysCd').value,
-				spath		: selItem.cm_dirpath,
-				dsnCD		: selItem.cm_dsncd,
+				dirList		: selArr,
 				requestType	: 'removePath'
 			}
-			delIndex = index;
+			//delIndex = index;
 			ajaxAsync('/webPage/administrator/DirectoryReg', data, 'json',successRemovePath);
 		}
 	});
 }
+
 // 삭제 완료
 function successRemovePath(data) {
 	dialog.alert(data.retMsg, function() {});
-	dirGridData.splice(delIndex,1);
-	dirGrid.setData(dirGridData);
-	delIndex = -1;
+	//dirGridData.splice(delIndex,1);
+	//dirGrid.setData(dirGridData);
+	//delIndex = -1;
+	$('#btnQry').trigger('click');
 }
 
 // 프로그램 전체선택

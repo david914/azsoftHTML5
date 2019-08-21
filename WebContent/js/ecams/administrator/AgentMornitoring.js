@@ -48,9 +48,9 @@ agentGrid.setConfig({
     columns: [
         {key: "sysCdMsg", 	label: "시스템",  		width: '15%', align: "left"},
         {key: "cm_svrname",	label: "서버명",  		width: '10%', align: "left"},
-        {key: "cm_svrip", 	label: "IP Address",  	width: '20%'},
-        {key: "cm_portno", 	label: "PORT",  		width: '10%'},
-        {key: "cm_svrusr", 	label: "계정",  			width: '10%'},
+        {key: "cm_svrip", 	label: "IP Address",  	width: '20%', align: "left"},
+        {key: "cm_portno", 	label: "PORT",  		width: '10%', align: "left"},
+        {key: "cm_svrusr", 	label: "계정",  			width: '10%', align: "left"},
         {key: "cm_dir", 	label: "Agent설치위치",  	width: '25%', align: "left"},
         {key: "statusName", label: "Agent상태",  		width: '10%'},
     ]

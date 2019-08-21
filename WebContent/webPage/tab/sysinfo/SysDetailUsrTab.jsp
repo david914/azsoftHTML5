@@ -58,7 +58,7 @@
 		 	<div class="row">
 		 		<label class="tit_80 poa">권한</label>
 			 	<div class="ml_80">
-		 			<input id="txtMode" class="width-100" type="text" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></input>
+		 			<input id="txtMode" class="width-100" type="text" maxlength="3"></input>
 		 		</div>
 		 	</div>				 			
 		 	<div class="row">

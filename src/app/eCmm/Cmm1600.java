@@ -268,9 +268,35 @@ public class Cmm1600{
 				_editor = "";
 				_dirpath = "";
 				_dsncd = "";
+				
+				
+				if(fileList.get(i).get("sysmsg").trim().length() == 0) {
+					errMsg = "시스템명 입력없음/";
+					errSw = true;
+				} else {
+					strQuery.setLength(0);
+					strQuery.append("select cm_sysmsg							\n");
+					strQuery.append("  from cmm0030                 			\n");
+	                strQuery.append(" where cm_syscd=?                        	\n");
+
+	                pstmt = conn.prepareStatement(strQuery.toString());
+	                pstmt.setString(1, _syscd);
+	                rs = pstmt.executeQuery();
+	                
+	                if(rs.next()) {
+	                	if(!rs.getString("cm_sysmsg").equals(rst.get("sysmsg"))) {
+	                		errMsg = errMsg + "선택한 시스템과 시스템명 다름/";
+	    					errSw = true;
+	                	}
+	                }
+	                rs.close();
+					pstmt.close();
+				}
+				
+				
 
 				if (fileList.get(i).get("jawon") == "" && fileList.get(i).get("jawon") == null){
-					errMsg = "프로그램종류 입력없음/";
+					errMsg = errMsg + "프로그램종류 입력없음/";
 					errSw = true;
 				}else{
 					strQuery.setLength(0);
@@ -345,7 +371,7 @@ public class Cmm1600{
                 }else{
                 	errMsg = errMsg + "미등록 사용자/";
                 	_editor = "ADMIN";
-                	//errSw = true;
+                	errSw = true; 
                 }
                 rst.put("_editor",_editor);
 				rs.close();
@@ -553,21 +579,12 @@ public class Cmm1600{
 					////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 					rs  = pstmt.executeQuery();
 					if (rs.next()){
-						/*
-						if (_syscd.equals("00005") || _syscd.equals("00006")) {
-							if (strInfo.substring(26,27).equals("1")) {
-					        	if (rs.getInt("cr_lstver") >0 || !rs.getString("cr_status").equals("3")){
-									rst.put("errmsg","버전:"+rs.getString("cr_lstver")+",상태:"+rs.getString("cr_status"));
-									rst.put("errsw", "1");
-									++errCnt;
-									errSw = true;
-					        	}
-							}
-						}
-						*/
+						++errCnt;
+						errMsg = errMsg + "기등록 프로그램/";
+						errSw = true;
 						if (errSw == false) {
-			        		//_baseItem = rs.getString("cr_itemid");
-							rst.put("_itemid", rs.getString("cr_itemid"));
+							// 2019 08 20 기등록된 프로그램 에러처리
+							/*rst.put("_itemid", rs.getString("cr_itemid"));
 							rst.put("errmsg","정상");
 							rst.put("errsw", "0");
 
@@ -586,27 +603,19 @@ public class Cmm1600{
 			        		pstmt2.setString(4, rst.get("_editor"));
 			        		pstmt2.setString(5, rs.getString("cr_itemid"));
 			        		pstmt2.executeUpdate();
-			        		pstmt2.close();
+			        		pstmt2.close();*/
 						}
 					}else{
-						//if (_syscd.equals("00005") || _syscd.equals("00006")) {
-							/*if (strInfo.substring(26,27).equals("1")) {
-								rst.put("errmsg","미등록된파일");
-								rst.put("errsw", "1");
-								++errCnt;
-								errSw = true;
-							} else {*/
-								rst.put("_itemid", "insert");
-								rst.put("errmsg","정상");
-								rst.put("errsw", "0");
-							//}
-						//} else {
-							//_baseItem = "insert";
-							rst.put("_itemid", "insert");
-							rst.put("errmsg","정상");
-							rst.put("errsw", "0");
-						//}
+						rst.put("_itemid", "insert");
+						rst.put("errmsg","정상");
+						rst.put("errsw", "0");
 					}
+					if (errSw == true){
+						++errCnt;
+						rst.put("errsw", "1");
+						rst.put("errmsg", errMsg);
+					}
+					
 			        rs.close();
 			        pstmt.close();
 				}

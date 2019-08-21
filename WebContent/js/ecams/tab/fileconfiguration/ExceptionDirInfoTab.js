@@ -123,8 +123,6 @@ function successDelEtcDir(data) {
 	} else {
 		dialog.alert('예외 디렉토리 [삭제] 정상적으로 완료되었습니다.', function() {});
 	}
-	dirGridData = [];
-	dirGrid.setData(dirGridData);
 	getEtcDir();
 }
 
@@ -157,8 +155,6 @@ function successSetEtcDir(data) {
 	} else {
 		dialog.alert('예외 디렉토리 [등록] 정상적으로 완료되었습니다.', function() {});
 	}
-	dirGridData = [];
-	dirGrid.setData(dirGridData);
 	getEtcDir();
 }
 

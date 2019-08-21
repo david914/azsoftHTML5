@@ -55,9 +55,10 @@
 		</div>
 			
 		<div class="r_wrap dib width-60 vat margin-10-top">
-			<button id="btnAdd" name="btnAdd" class="btn_basic_s" style="cursor: pointer;">추가</button>
-			<button id="btnReq" name="btnReq" class="btn_basic_s" style="cursor: pointer;">등록</button>
-			<button id="btnQry" name="btnQry" class="btn_basic_s" style="cursor: pointer;">조회</button>
+			<button id="btnAdd" class="btn_basic_s">추가</button>
+			<button id="btnReq" class="btn_basic_s">등록</button>
+			<button id="btnDel" class="btn_basic_s">삭제</button>
+			<button id="btnQry" class="btn_basic_s">조회</button>
 		</div>
 			
 	</div>
