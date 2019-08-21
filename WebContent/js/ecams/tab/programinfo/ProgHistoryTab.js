@@ -67,6 +67,10 @@ $(document).ready(function(){
 	});
 });
 
+function upFocus() {
+	grdProgHistory.focus('HOME');
+}
+
 function screenInit(gbn,userId) {
 	
 	pUserId = userId;

@@ -136,7 +136,16 @@ function clickTabMenu(){
 		$('ul.tabs li').removeClass('on');
 		$(this).addClass('on');
 		$('#' + activeTab).fadeIn();
+		
+		if(this.id === 'tab2') {
+			setTimeout(function() {
+				tmpTab2 = $('#frmProgHistory').get(0).contentWindow;
+				tmpTab2.upFocus();
+			}, 10);
+		}
 	});
+	
+	
 	
 }
 function screenInit() {

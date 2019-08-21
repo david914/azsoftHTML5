@@ -35,6 +35,7 @@ var downFileCnt = 0;
 
 var fileUploadBtn 	= null;
 var uploadModal 	= null;
+var selectedGridItem= null;
 
 var title_;
 var class_;
@@ -239,6 +240,16 @@ function getNoticeInfo() {
 function successGetNoticeInfo(data) {
 	noticeGridData = data;
 	noticeGrid.setData(noticeGridData);
+	
+	// 기존 선택 되어있던 로우 재선택
+	if(selectedGridItem !== null) {
+		for(var i = 0; i < noticeGridData.length; i++) {
+			if(noticeGridData[i].CM_ACPTNO === selectedGridItem.CM_ACPTNO) {
+				//noticeGrid.select();
+				break;
+			}
+		}
+	}
 }
 
 // 공지사항 등록 /수정 오픈
@@ -292,7 +303,7 @@ function showAndHideUploadModal(showAndHide) {
 function openFileUpload() {
 	uploadModal = fileUploadModal.open({
         width: 520,
-        height: 300,
+        height: 325,
         iframe: {
             method: "get",
             url: 	"../modal/notice/FileUpModal.jsp",
@@ -329,6 +340,7 @@ function openFileDownload(acptno,fileCnt) {
             if (this.state === "open") {
             }
             else if (this.state === "close") {
+            	selectedGridItem = noticeGrid.getList('selected');
             	$('#btnQry').trigger('click');
             }
         }
