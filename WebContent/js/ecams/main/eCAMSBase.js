@@ -113,7 +113,22 @@ function changePage(division) {
 		mainTitle = '결재확인';
 		subTitle = '신청현황';
 	}
-	
+
+	if(division == '3' || division == '5') {
+		pathName = '/webPage/apply/ApplyRequest.jsp';
+		mainTitle = '개발';
+		subTitle = '체크인';
+	} else if(division == 'B' || division == 'E') {
+		pathName = '/webPage/apply/ApplyRequest.jsp';
+		mainTitle = '테스트';
+		subTitle = '테스트배포';
+	} else if(division == 'G') {
+		pathName = '/webPage/apply/ApplyRequest.jsp';
+		mainTitle = '운영';
+		subTitle = '운영배포';
+	} else {
+		return;
+	}
 	
 	$('#eCAMSFrame').empty();
 	$iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="'+pathName+'" style=" width:100%;  height:'+contentHeight+'px; min-width:1024px;" marginwidth="0" marginheight="0"  onload="frameLoad()"></IFRAME>');

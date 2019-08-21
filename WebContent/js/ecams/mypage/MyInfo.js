@@ -60,8 +60,7 @@ pgmGrid.setConfig({
         		if (this.item.cr_status == '3' || this.item.cr_status == '5' ||
         			this.item.cr_status == 'B' || this.item.cr_status == 'E' || this.item.cr_status == 'G') {
                 	console.log("신청 페이지 이동!!");
-                	
-                	changePage(this.item.cr_status);
+                	window.parent.changePage(this.item.cr_status);
         		} else {
         			if (this.item.popinfo != null && this.item.popinfo != '') {
                     	console.log("상세페이지로  이동!! ");
@@ -132,36 +131,7 @@ pgmGrid.setConfig({
         }
     ]
 });
-function changePage(pgmsta) {
-	var pathName = '';
-	var mainTitle = '';
-	var subTitle = '';
-	
-	if(pgmsta == '3' || pgmsta == '5') {
-		pathName = '/webPage/apply/ApplyRequest.jsp';
-		mainTitle = '개발';
-		subTitle = '체크인';
-	} else if(pgmsta == 'B' || pgmsta == 'E') {
-		pathName = '/webPage/apply/ApplyRequest.jsp';
-		mainTitle = '테스트';
-		subTitle = '테스트배포';
-	} else if(pgmsta == 'G') {
-		pathName = '/webPage/apply/ApplyRequest.jsp';
-		mainTitle = '운영';
-		subTitle = '운영배포';
-	} else {
-		return;
-	}
-	
-	console.log(this.parent.$('#eCAMSFrame'));
-	this.parent.$('#eCAMSFrame').empty();
-	var $iFrm = $('<IFRAME id="iFrm" frameBorder="0" name="iFrm" scrolling="yes" src="'+pathName+'" style=" width:100%;  height:'+this.parent.contentHeight+'px; min-width:1024px;" marginwidth="0" marginheight="0"  onload="frameLoad()"></IFRAME>');
-	$iFrm.appendTo('#eCAMSFrame');
 
-	//상위 TITLE TEXT SET
-	var contentHistory = mainTitle + "<strong> &gt; "+ subTitle+"</strong>";
-	this.parent.$('#iFrm').contents().find('#history_wrap').html(contentHistory);
-}
 $('[data-ax5select="cboPosition"]').ax5select({
     options: []
 });
