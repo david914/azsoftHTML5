@@ -65,35 +65,51 @@ pgmGrid.setConfig({
         			if (this.item.popinfo != null && this.item.popinfo != '') {
                     	console.log("상세페이지로  이동!! ");
                     	
-                    	var nHeight, nWidth, cURL, winName;
-                    	if ( (this.item.popinfo.substr(5,2)) == winName ) {
-                    		if (myWin != null) {
-                    	        if (!myWin.closed) {
-                    	        	myWin.close();
-                    	        }
-                    		}
-                    	}
-                        winName = this.item.popinfo.substr(5,2);
-                        
-                    	var f = document.popPam;
-                        f.acptno.value	= this.item.popinfo;
-                        f.user.value 	= userId;
-                        
-                		nHeight = 740;
-                	    nWidth  = 1200;
-                		cURL = "/webPage/winpop/PopRequestDetail.jsp";
-                    	
-                        myWin = winOpen(f, winName, cURL, nHeight, nWidth);
+                    	openWindow(1, this.item.popinfo);
         			}
         		}
         		//location.href = '/webPage/fileupload/upload?fullPath='+fileHomePath+'/'+this.item.savename+'&fileName='+this.item.orgname;
         	}
         },
-        onDBLClick: function () {},
+        onDBLClick: function () {
+         	if (this.dindex < 0) return;
+         	if (this.item.cr_itemid == null || this.item.cr_itemid == '') return;
+         	
+        	openWindow(2, this.item.cr_itemid);
+        },
     	trStyleClass: function () {},
     	onDataChanged: function(){
     		this.self.repaint();
     	}
+    }, 
+    contextMenu: {
+        iconWidth: 20,
+        acceleratorWidth: 100,
+        itemClickAndClose: false,
+        icons: {
+            'arrow': '<i class="fa fa-caret-right"></i>'
+        },
+        items: [
+            {type: 1, label: "프로그램정보"}
+        ],
+        popupFilter: function (item, param) {
+        	pgmGrid.clearSelect();
+        	pgmGrid.select(Number(param.dindex));
+       	 
+	       	var selIn = pgmGrid.selectedDataIndexs;
+	       	if(selIn.length === 0) return;
+       	 
+        	if (param.item == undefined) return false;
+        	if (param.dindex < 0) return false;
+        	
+        	return true;
+        },
+        onClick: function (item, param) {
+         	if (param.item.cr_itemid == null || param.item.cr_itemid == '') return;
+         	
+        	openWindow(2, param.item.cr_itemid);
+        	pgmGrid.contextMenu.close();//또는 return true;
+        }
     },
     columns: [
         {key: "cm_sysmsg", 	label: "시스템",  		width: '10%', align: 'left'},
@@ -311,4 +327,35 @@ function getUserJobList() {
 function successGetUserJobList(data) {
 	jobGridData = data;
 	jobGrid.setData(jobGridData);
+}
+
+function openWindow(type, popinfo) {
+	var nHeight, nWidth, cURL, winName;
+	if ( (type+'_'+popinfo.substr(5,2)) == winName ) {
+		if (myWin != null) {
+	        if (!myWin.closed) {
+	        	myWin.close();
+	        }
+		}
+	}
+    winName = type+'_'+popinfo.substr(5,2);
+    
+	var f = document.popPam;
+    f.user.value 	= userId;
+    
+    if (type == '1') {
+        f.acptno.value	= popinfo;
+        
+		nHeight = 740;
+	    nWidth  = 1200;
+		cURL = "/webPage/winpop/PopRequestDetail.jsp";
+    } else {
+        f.itemid.value	= popinfo;
+        
+    	nHeight = 350;
+    	nWidth  = 1200;
+		cURL = "/webPage/winpop/PopProgramInfo.jsp";
+    }
+	
+    myWin = winOpen(f, winName, cURL, nHeight, nWidth);
 }

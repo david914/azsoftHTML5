@@ -182,6 +182,7 @@
 </div>
 <form name="popPam">
 	<input type="hidden" name="acptno"/>
+	<input type="hidden" name="itemid"/>
 	<input type="hidden" name="user"/>
 </form>
 

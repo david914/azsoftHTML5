@@ -1471,13 +1471,14 @@ function openWindow(type,acptNo, etcInfo) {
 		}
 	}
 
-    winName = type+'_'+pReqCd;
+    winName = type+'_pop_'+pReqCd;
 
     nWidth  = 1046;
 	nHeight = 700;
     if (type === 1) {//프로그램정보
-		nHeight = 630;
-	    cURL = "/webPage/winpop/.jsp";
+	    nHeight = 350;
+	    nWidth  = 1200;
+		cURL = "/webPage/winpop/PopProgramInfo.jsp";
 	} else if (type === 2) {//처리결과확인
 		cURL = "/webPage/winpop/PopPrcResultLog.jsp";
 	} else if (type === 3) {//스크립트확인
