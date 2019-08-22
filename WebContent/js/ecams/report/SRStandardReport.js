@@ -1,17 +1,11 @@
 var SecuYn = null;
-var userid 		= 'MASTER';
-//var userid 		= window.top.userId;
+//var userid 		= 'MASTER';
+var userid 		= window.top.userId;
+var reqCd = window.top.reqCd;
 var picker = [new ax5.ui.picker(), new ax5.ui.picker()];
 var mainGrid = new ax5.ui.grid();
-var columnData = 
-	[ 
-		{key : "ownerdept",label : "요청본부",align : "center",width: "10%"}, 
-		{key : "dept1",label : "요청부서",align : "center",width: "10%"}, 
-		{key : "dept2",label : "개발부서",align : "center",width: "10%"}, 
-		{key : "sysmsg",label : "시스템",align : "center",width: "15%"}, 
-		{key : "chkDate",label : "기간",align : "center",width: "15%"}, 
-		{key : "CntSum",label : "합계",align : "right",width: "40%"} 
-	];
+var columnData = null;
+
 
 //picker세팅
 for(var i = 0; i <= 1; i++) {
@@ -74,9 +68,39 @@ $(document).ready(function() {
 	$("#btnExcel").on('click', function() {
 		var st_date = new Date().toLocaleString();
 		var today = st_date.substr(0, st_date.indexOf("오"));
-		
-		mainGrid.exportExcel("개발/SR기준(집계) " + today + ".xls");
+		if(reqCd == '01' || reqCd == '03') {			
+			mainGrid.exportExcel("개발/SR기준(집계) " + today + ".xls");
+		} else {
+			mainGrid.exportExcel("개발/SR기준(상세) " + today + ".xls");			
+		}
 	})
+	
+	if(reqCd == '01' || reqCd == '03') {
+		columnData = 
+			[ 
+				{key : "ownerdept",label : "요청본부",align : "center",width: "10%"}, 
+				{key : "dept1",label : "요청부서",align : "center",width: "10%"}, 
+				{key : "dept2",label : "개발부서",align : "center",width: "10%"}, 
+				{key : "sysmsg",label : "시스템",align : "center",width: "15%"}, 
+				{key : "chkDate",label : "기간",align : "center",width: "15%"}, 
+				{key : "CntSum",label : "합계",align : "right",width: "40%"} 
+			];
+	} else {
+		columnData =
+			[ 
+				{key : "ownerdept",label : "요청본부",align : "center",width: "7%"}, 
+				{key : "dept1",label : "요청부서",align : "center",width: "7%"}, 
+				{key : "dept3",label : "접수부서",align : "left",width: "7%"}, 
+				{key : "srid",label : "SR-ID",align : "center",width: "8%"}, 
+				{key : "reqtitle",label : "요청제목",align : "left",width: "23%"}, 
+				{key : "reqdate",label : "요청일",align : "center",width: "7%"}, 
+				{key : "cattype",label : "분류유형",align : "center",width: "7%"}, 
+				{key : "dept2",label : "개발부서",align : "center",width: "7%"}, 
+				{key : "sysmsg",label : "시스템",align : "center",width: "10%"}, 
+				{key : "chkDate",label : "기간",align : "center",width: "7%"}, 
+				{key : "CntSum",label : "합계",align : "right",width: "10%"} 
+			];		
+	}
 	
 	mainGrid.setConfig({
 		header : { align: "center" },
@@ -108,6 +132,8 @@ $(document).ready(function() {
 	});
 	isAdmin();
 	comboSet();
+	console.log(reqCd);
+	console.log(columnData);
 })
 
 //콤보 데이터 셋
@@ -182,7 +208,7 @@ $("#btnSearch").bind('click', function() {
 	ajaxData = {
 			inputData : inputData,
 			userId : userid,
-			reqCd : "01",
+			reqCd : reqCd,
 			secuYn : SecuYn,
 			requestType : "getProgCnt"
 	}
