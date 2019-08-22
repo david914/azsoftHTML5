@@ -114,67 +114,6 @@ ax5.info.weekNames = [ {
 
 picker.bind(defaultPickerInfo('basic2', 'top'));
 
-grid_fileList.setConfig({
-	target : $('[data-ax5grid="grid_fileList"]'),
-	sortable : true,
-	multiSort : true,
-	header : {
-		align : "center",
-		columnHeight : 30
-	},
-	body : {
-		columnHeight : 28,
-		onClick : function() {
-			this.self.clearSelect();
-			this.self.select(this.dindex);
-		},
-		onDBLClick : function() {
-			fileDbClick(this.dindex, this.item);
-		}
-	},
-	columns : [ {
-		key : "name",
-		label : "파일명",
-		width : '100%'
-	} ],
-	page : {
-		display : false
-	}
-});
-
-devUserGrid.setConfig({
-	target : $('[data-ax5grid="devUserGrid"]'),
-	sortable : true,
-	multiSort : true,
-	header : {
-		align : "center",
-		columnHeight : 30
-	},
-	body : {
-		columnHeight : 28,
-		onClick : function() {
-			this.self.clearSelect();
-			this.self.select(this.dindex);
-		}
-	},
-	columns : [ {
-		key : "cm_deptname",
-		label : "소속부서",
-		width : '30%'
-	}, {
-		key : "cm_username",
-		label : "담당개발자",
-		width : '40%'
-	}, {
-		key : "cm_codename",
-		label : "상태",
-		width : '30%'
-	} ],
-	page : {
-		display : false
-	}
-});
-
 $('input.checkbox-pie').wCheck({
 	theme : 'square-inset blue',
 	selector : 'checkmark',
@@ -182,11 +121,15 @@ $('input.checkbox-pie').wCheck({
 });
 
 $(document).ready(function() {
+	createViewGrid();
 	elementInit('');
-	
 	setCboElement();
 	setCboDevUser();
+	
+	//var today = getDate('DATE',0);
+	//today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);
 
+	//$('#datReqComDate').val(today);
 	// 신규등록 - 체크박스 선택
 	$('#chkNew').bind('click', function() {
 		clickChkNew();
@@ -269,6 +212,70 @@ $(document).ready(function() {
 	}
 	ajaxAsync('/webPage/modal/request/RequestDocModalServlet', data, 'json', successGetTmpDir);
 });
+
+
+function createViewGrid(){
+	grid_fileList.setConfig({
+		target : $('[data-ax5grid="grid_fileList"]'),
+		sortable : true,
+		multiSort : true,
+		header : {
+			align : "center",
+			columnHeight : 30
+		},
+		body : {
+			columnHeight : 28,
+			onClick : function() {
+				this.self.clearSelect();
+				this.self.select(this.dindex);
+			},
+			onDBLClick : function() {
+				fileDbClick(this.dindex, this.item);
+			}
+		},
+		columns : [ {
+			key : "name",
+			label : "파일명",
+			width : '100%'
+		} ],
+		page : {
+			display : false
+		}
+	});
+
+	devUserGrid.setConfig({
+		target : $('[data-ax5grid="devUserGrid"]'),
+		sortable : true,
+		multiSort : true,
+		header : {
+			align : "center",
+			columnHeight : 30
+		},
+		body : {
+			columnHeight : 28,
+			onClick : function() {
+				this.self.clearSelect();
+				this.self.select(this.dindex);
+			}
+		},
+		columns : [ {
+			key : "cm_deptname",
+			label : "소속부서",
+			width : '30%'
+		}, {
+			key : "cm_username",
+			label : "담당개발자",
+			width : '40%'
+		}, {
+			key : "cm_codename",
+			label : "상태",
+			width : '30%'
+		} ],
+		page : {
+			display : false
+		}
+	});
+}
 
 function successGetTmpDir(data){
 	uploadUrl = data;

@@ -290,6 +290,14 @@ function defaultPickerInfo(dataAx5picker, direction) {
 				pattern: 'date'
 			}
 		},
+		onStateChanged: function () {
+            if (this.state == "open") {
+                var selectedValue = this.self.getContentValue(this.item["$target"]);
+                if (!selectedValue) {
+                    this.item.pickerCalendar[0].ax5uiInstance.setSelection([ax5.util.date(new Date(), {'add': {d: 0}})]);
+                }
+            }
+        },
 		btns: {
 			today: {
 				label: "Today", onClick: function () {

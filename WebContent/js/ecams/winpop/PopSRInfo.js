@@ -98,11 +98,11 @@ $(document).ready(function() {
 function callSRRegister() {
    inter = setInterval(function(){
       if(loadSw) {
+    	  $('#frmSRRegister').get(0).contentWindow.createViewGrid();
          initScreen();
          clearInterval(inter);
       }
    },100);
-   //callDevPlan();
 }
 
 function callDevPlan() {
@@ -112,7 +112,6 @@ function callDevPlan() {
     	  clearInterval(inter2);
       }
 	},100);
-	//callSRRegister();
 }
 
 function callReqHistory() {
