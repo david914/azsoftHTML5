@@ -554,8 +554,9 @@ function openWindow(reqCd,reqNo,itemId) {
     f.user.value 	= pUserId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
     f.itemid.value	= itemId;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 
-	nHeight = screen.height - 50;
-    nWidth  = screen.width - 100;
+	nHeight = screen.height - 100;
+    nWidth  = screen.width - 200;
+    //console.log(nHeight+', '+nWidth);
 	if (reqCd == 'R53') {
 		cURL = "/webPage/winpop/PopSourceView.jsp";	    
 	} else if (reqCd == 'R52') {

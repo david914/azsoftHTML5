@@ -10,7 +10,6 @@
 
 <c:import url="/webPage/common/common.jsp" />
 <!-- contener S -->
-<body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
 <div id="wrapper" style="overflow-y: hidden;">
 	<!-- 하단 입력 S-->
 	<div class="margin-5-top">
@@ -36,16 +35,15 @@
 			    <div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 11px);"></div>
 		    </div>
 		</div>
-		<button id="btnQry2" class="btn_basic_n margin-5-left poa" data-grid-control="excel-export" style="top: 0;">조회</button>
+		<button id="btnQry2" class="btn_basic_n margin-5-left poa " data-grid-control="excel-export" style="top: 0;">조회</button>
 	</div>
 	<!-- 하단 입력 E-->			
     <!-- 테이블 S-->
-    <div class="row az_board_basic" style="height: calc(100% - 80px);">
+    <div class="row az_board_basic" style="height: calc(100% - 100px);">
 	    <div data-ax5grid="grdProgHistory" style="height: 100%;"></div>
 	</div>	
 	<!-- 테이블  E -->
 </div>
-</body>
 <!-- contener E -->
 
 <form name="popPam">

@@ -35,7 +35,6 @@ var inter2 = null;
 var inter3 = null;
 var inter4 = null;
 var inter5 = null;
-var count=0;
 var gridSw = false;
 
 $(document).ready(function() {
@@ -87,7 +86,7 @@ $(document).ready(function() {
 	}
 	
 	callSRRegister();
-	//callDevPlan();
+	callDevPlan();
 	callReqHistory();
 	callPrgList();
 	callSRComplete();
@@ -103,21 +102,16 @@ function callSRRegister() {
          clearInterval(inter);
       }
    },100);
-   callDevPlan();
+   //callDevPlan();
 }
 
 function callDevPlan() {
 	inter2 = setInterval(function(){
       if(loadSw2) {
     	  $('#frmDevPlan').get(0).contentWindow.createViewGrid();
-    	  count++;
-    	  console.log("count: " + count);
-    	  if(count==2) {
-    		  console.log("count 222222222");
-    		  clearInterval(inter2);
-    	  }
+    	  clearInterval(inter2);
       }
-	},1000);
+	},100);
 	//callSRRegister();
 }
 

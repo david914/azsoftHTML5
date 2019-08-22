@@ -10,11 +10,11 @@
 %>
 <c:import url="/webPage/common/common.jsp" />
 
-<body style="padding: 10px;height: 300px;">
+<body style="padding: 10px;height: 330px;">
     <div class="content" style="height: 100%;">
         <div id="history_wrap">	프로그램 <strong>&gt; 프로그램정보</strong></div>
 		<!-- 하단 S-->
-		<div class="az_search_wrap" style="height: 100%;">
+		<div class="az_search_wrap" style="height:calc(100% - 10px);">
 			<div class="az_in_wrap" style="height: 100%;">
 				<!-- tab_기본정보 S-->
 				<div class="tab_wrap">

@@ -12,6 +12,7 @@ var cboReqData		   = null;	//신청구분 데이터
 var progInfoData       = null;
 var myWin 			   = null;
 var pUserId            = null;
+var grdProgHistoryData = null;
 
 var selSw = false;
 
@@ -73,15 +74,19 @@ function createViewGrid() {
 	    columns: [
 	        {key: 'acptdate', 	    label: '신청일시',  	width: '11%',	align: 'center'},
 	        {key: 'cm_username',    label: '신청인',   	width:  '8%',	align: 'center'},
-	        {key: 'REQUEST', 	    label: '신청구분',    	width: '10%',	align: 'left'},
-	        {key: 'acptno', 	    label: '신청번호',	  	width: '10%',	align: 'center'},
+	        {key: 'REQUEST', 	    label: '신청구분',    	width: '9%',	align: 'left'},
+	        {key: 'acptno', 	    label: '신청번호',	  	width: '9%',	align: 'center'},
 	        {key: 'passok', 	    label: '배포구분',   	width:  '8%',	align: 'center'},
 	        {key: 'prcdate',   	    label: '완료일시',  	width: '11%',	align: 'center'},
 	        {key: 'cr_aftviewver',	label: '버전',    	width: '10%',	align: 'center'},
 	        {key: 'srinfo'   , 	    label: 'SR-ID',   	width: '15%',	align: 'left'},
-	        {key: 'cr_sayu', 	    label: '변경사유',   	width: '25%',	align: 'left'}
+	        {key: 'cr_sayu', 	    label: '변경사유',   	width: '20%',	align: 'left'}
 	    ]
 	});
+	
+	if (grdProgHistoryData != null && grdProgHistoryData.length > 0) {
+		grdProgHistory.setData(grdProgHistoryData);
+	}
 	
 }
 function screenInit(gbn,userId) {
@@ -164,7 +169,6 @@ function successHistory(data) {
 	grdProgHistory.setData(grdProgHistoryData);
 	if (grdProgHistoryData.length > 0) {
 		grdProgHistory.select(0);
-		grdProgHistory.focus(0);
 	}
 	
 }

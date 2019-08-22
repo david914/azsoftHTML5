@@ -6,6 +6,7 @@ var tmpInfoData = new Object();
 
 var load1Sw = false;
 var load2Sw = false;
+var gridSw  = false;
 
 var f = document.getSrcData;
 
@@ -25,8 +26,6 @@ $(document).ready(function(){
 		return;
 	}
 		
-	setTabMenu();
-	
 	$('#tabProgBase').width($('#tabProgBase').width()+10);
 	$('#tabProgHistory').width($('#tabProgHistory').width()+10);
 	$("#tabProgBase").show(); //기본정보
@@ -41,18 +40,14 @@ $(document).ready(function(){
 		screenInit_prog('I');
 	}
 
-
+	clickTabMenu();
+	
 	//닫기클릭
 	$('#btnExit').bind('click', function() {
 		close();
 	});
 	
 });
-function setTabMenu(){
-	$('.tab_content:first').show();	
-	
-	clickTabMenu();
-}
 
 function clickTabMenu(){
 	
@@ -67,6 +62,21 @@ function clickTabMenu(){
 		$('ul.tabs li').removeClass('on');
 		$(this).addClass('on');
 		$('#' + activeTab).fadeIn();
+
+		if(this.id === 'tab2') {
+			setTimeout(function() {
+				tmpTab2 = $('#frmProgHistory').get(0).contentWindow;
+				tmpTab2.upFocus();
+			}, 10);
+		}
+		
+		if (!gridSw) {
+			setTimeout(function() {
+				tmpTab2 = $('#frmProgHistory').get(0).contentWindow;
+				tmpTab2.createViewGrid();
+			}, 10);
+			gridSw = true;
+		}
 	});
 	
 }
@@ -75,9 +85,9 @@ function screenInit_prog(gbn) {
 	if (gbn == 'I') {
 		if (load1Sw && load2Sw) {
 			getProgBase();
+		} else {
 			return;
 		}
-		return;
 	}
 	
 	tmpTab1 = $('#frmProgBase').get(0).contentWindow;
@@ -93,7 +103,7 @@ function screenInit_prog(gbn) {
 	
 }
 function getProgBase() {
-
+	
 	tmpInfo = new Object();
 	tmpInfo.UserId = pUserId;
 	tmpInfo.itemid = pItemId;
@@ -193,7 +203,8 @@ function successProgInfo(data) {
 	tmpTab1 = $('#frmProgBase').get(0).contentWindow;
 	tmpTab1.successProgInfo(data);
 	
-
+	$('#tab1').trigger('click');
+	
 	tmpTab2 = $('#frmProgHistory').get(0).contentWindow;
 	tmpTab2.successProgInfo(data);
 }

@@ -16,8 +16,11 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <!-- contener S -->
-<div id="wrapper">
-    <div class="content">
+<body id="wrapper" style="padding: 10px;">
+   <div class="content">
+        <!-- history S-->
+        <div id="history_wrap"></div>
+        <!-- history E-->
         <!-- line1 S-->    
 		<div class="az_search_wrap">
 			<div class="az_in_wrap por">
@@ -74,6 +77,7 @@
 		<!-- line4 E -->
 	</div>
 </div>
+</body>
 <form name="getSrcData">
 	<input type="hidden" name="acptno" value="<%=acptNo%>"/>
 	<input type="hidden" name="user" value="<%=userId%>"/>
