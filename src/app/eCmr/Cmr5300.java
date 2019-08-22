@@ -56,7 +56,7 @@ public class Cmr5300 {
 		ArrayList<HashMap<String, String>>  rtList = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String>			  rst		  = null;
 
-		try {		
+		//try {		
 			String tmpPath = etcData.get("tmpdir");
 			fileName = tmpPath + "/" + etcData.get("outname");
 			//fileName = "F:\\Azsoft\\HTML5\\save\\AutoSeq.java";
@@ -104,7 +104,7 @@ public class Cmr5300 {
 			//return strQuery.toString();
 			return rtList.toArray();
 
-		} catch (Exception exception) {
+		/*} catch (Exception exception) {
 			exception.printStackTrace();
 			ecamsLogger.error("## Cmr5300.getFileText() Exception START ##");
 			ecamsLogger.error("## Error DESC : ", exception);
@@ -114,7 +114,7 @@ public class Cmr5300 {
 			if (in1 != null) in1 = null;
 			if (strQuery != null) 	strQuery = null;
 			if (rtList != null) 	rtList = null;
-		}
+		}*/
 	}//end of while-loop statement
 
 	

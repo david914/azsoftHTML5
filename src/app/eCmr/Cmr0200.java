@@ -6883,7 +6883,7 @@ public class Cmr0200{
 		File outf = null;
 		//ByteArrayOutputStream fileStream = null;
 		
-		try {
+		//try {
 			
 			tmpPath = cTempGet.getTmpDir("99");
 			strBinPath = cTempGet.getTmpDir("14");
@@ -6937,7 +6937,7 @@ public class Cmr0200{
 				shfile.delete();
 			}								
 			return p.exitValue();			
-			
+		/*	
 		} catch (Exception exception) {
 			exception.printStackTrace();
 			ecamsLogger.error("## Cmr0200.execShell() Exception START ##");				
@@ -6945,8 +6945,7 @@ public class Cmr0200{
 			ecamsLogger.error("## Cmr0200.execShell() Exception END ##");				
 			throw exception;
 		}finally{
-			//fileStr = fileStream.toString("EUC-KR");	
-		}
+		}*/
 	}//execShell
 
 	public int execShell_was(String shFile,String parmName,boolean viewSw) throws Exception {

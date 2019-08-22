@@ -115,8 +115,8 @@ $('input:radio[name^="optSysGbn"]').wRadio({theme: 'circle-radial blue', selecto
 
 $(document).ready(function(){
 	
-	//pUserId = 'MASTER';
-	//pItemId = '000000179672';
+	pUserId = 'MASTER';
+	pItemId = '000000179672';
 	if (pUserId == null || pUserId.length == 0) {
 		dialog.alert('로그인 후 사용하시기 바랍니다.',function(){});
 		return;		
@@ -167,6 +167,13 @@ $(document).ready(function(){
 	$('#btnExit').bind('click', function() {
 		close();
 	});
+
+	// 검색단어입력 후 엔터
+	$('#txtSearch').bind('keypress', function(event) {		
+		if(event.keyCode === 13) {
+			$('#btnSearch').trigger('click');
+		}
+	});
 	
 	getTmpDir('99,F1');
 	
@@ -184,6 +191,19 @@ function screenInit(gbn){
 	}
 	grdDiffSrc.setData([]);
 	grdDiffSrc.repaint();
+
+	$('#txtBefSrc').val('');
+	$('#txtAftSrc').val('');
+	
+	$('#btnSrcDiff').prop('disabled', true); 
+	$('#btnChgPart').prop('disabled', true); 
+	$('#btnLeft').prop('disabled', true); 
+	$('#btnRight').prop('disabled', true); 
+	$('#btnSearch').prop('disabled', true); 
+	$('#btnExcel').prop('disabled', true); 
+	$('#txtSearch').val('');
+	$('#txtSearch').prop("readonly", true);
+	
 	
 		
 }
@@ -274,6 +294,8 @@ function btnVerDiff_click() {
 	var firstLine = 0;
 	var secondLine = 0;
 	
+	screenInit('S');
+	
 	diffGbn = 'A';
 	svIdx = -1;
 	svWord = '';
@@ -323,9 +345,13 @@ function successDiffList(data) {
 	var befCnt = 0;
 	var addCnt = 0;
 	var aftCnt = 0;
-
-	if (data == null) {
+	
+	if (data == null || data.length < 5) {
 		dialog.alert("소스비교 중 오류가 발생하였습니다.");
+		return;
+	}
+	if (data.substr(0,5) == 'ERROR') {
+		dialog.alert(data.substr(5));
 		return;
 	}
 	grdDiffSrcData = data;
@@ -372,12 +398,16 @@ function successDiffList(data) {
 	
 	grdDiffSrc.setData(grdDiffSrcData);
 	
-	if (diffSrcData.length == 0) {
-		$('#btnSrcDiff').prop('disabled', true); 
-		$('#btnChgPart').prop('disabled', true); 
-		$('#btnLeft').prop('disabled', true); 
-		$('#btnRight').prop('disabled', true); 
+	if (diffSrcData.length > 0) {
+		$('#btnSrcDiff').prop('disabled', false); 
+		$('#btnChgPart').prop('disabled', false); 
+		$('#btnLeft').prop('disabled', false); 
+		$('#btnRight').prop('disabled', false); 
 	}
+	$('#btnSearch').prop('disabled', false); 
+	$('#btnExcel').prop('disabled', false); 
+	$('#txtSearch').val('');
+	$('#txtSearch').prop("readonly", false);
 	
 }
 function grdSrcDiff_Click() {

@@ -12,8 +12,11 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <!-- contener S -->
-<div id="wrapper">
-    <div class="content">
+<body id="wrapper" style="padding: 10px;">
+   <div class="content">
+        <!-- history S-->
+        <div id="history_wrap"></div>
+        <!-- history E-->
         <!-- line1 S-->    
 		<div class="az_search_wrap">
 			<div class="az_in_wrap por">
@@ -134,24 +137,24 @@
 		<!-- line4 s-->
 		<div class="margin-5-top width-100" style="height:calc(100% - 370px);">
 			<!-- 게시판 S-->
-		    <div class="az_board_basic" style="height:100%";>
+		    <div class="az_board_basic margin-5-bottom" style="height:100%";>
 		    	<div data-ax5grid="grdDiffSrc" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 			</div>	
 			<!-- 게시판 E -->
+			<!-- line4 e-->
+			<div class="row">
+	        	<label class="tit_60 poa">변경(전)</label>
+	            <div class="ml_60">
+					<input id="txtBefSrc" class="width-100" type="text" readonly />
+				</div>
+			</div>
+			<div class="margin-5-top">
+	        	<label class="tit_60 poa">변경(후)</label>
+	            <div class="ml_60">
+					<input id="txtAftSrc" class="width-100" type="text" readonly />
+				</div>
+			</div>
 		</div>	
-		<!-- line4 e-->
-		<div class="row">
-        	<label class="tit_60 poa">변경(전)</label>
-            <div class="ml_60">
-				<input id="txtBefSrc" class="width-100" type="text" readonly />
-			</div>
-		</div>
-		<div class="margin-5-top">
-        	<label class="tit_60 poa">변경(후)</label>
-            <div class="ml_60">
-				<input id="txtAftSrc" class="width-100" type="text" readonly />
-			</div>
-		</div>
 	</div>
 </div>
 

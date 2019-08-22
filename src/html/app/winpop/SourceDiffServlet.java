@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
+import com.ecams.common.logger.EcamsLogger;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -30,6 +33,7 @@ public class SourceDiffServlet extends HttpServlet {
 	SystemPath systempath = new SystemPath();
 	Cmr5200 cmr5200 = new Cmr5200();
 	Cmr5300 cmr5300 = new Cmr5300();
+	Logger ecamsLogger  = EcamsLogger.getLoggerInstance();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -78,6 +82,22 @@ public class SourceDiffServlet extends HttpServlet {
 	}
 	private String getDiffSrc(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
-		return gson.toJson(cmr5200.getDiffAry(DataMap));
+		try { 
+			return gson.toJson(cmr5200.getDiffAry(DataMap));
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ecamsLogger.error("## cmr5200.getDiffAry() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", e);
+			ecamsLogger.error("## cmr5200.getDiffAry() SQLException END ##");
+
+			return gson.toJson("ERROR"+e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			ecamsLogger.error("## cmr5200.getDiffAry() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", e);
+			ecamsLogger.error("## cmr5200.getDiffAry() Exception END ##");
+			
+			return gson.toJson("ERROR"+e.getMessage());
+		} 
 	}
 }

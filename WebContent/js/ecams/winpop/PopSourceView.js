@@ -91,6 +91,14 @@ $(document).ready(function(){
 	$('#btnExit').bind('click', function() {
 		close();
 	});
+
+	// 검색단어입력 후 엔터
+	$('#txtSearch').bind('keypress', function(event) {		
+		if(event.keyCode === 13) {
+			$('#btnSearch').trigger('click');
+		}
+	});
+	
 	getTmpDir('99,F1');
 	
 	getProgHistory(pItemId);
@@ -107,8 +115,8 @@ function screenInit(gbn){
 	}
 	$('#btnSrcDown').prop('disabled', true); 
 	$('#btnSearch').prop('disabled', true); 
-	$('#txtSayu').val('');
-	$('#txtWord').val('');
+	$('#txtSearch').val('');
+	$('#txtSearch').prop("readonly", true);
 	
 	var htmlObj = document.getElementById("htmlSrc");
 	htmlObj = null;
@@ -209,8 +217,14 @@ function successVersion(data) {
 	
 	var lineData = '';
 	
-	if (data == null) {
+	//console.log(data);
+	
+	if (data == null || data.length < 5) {
 		dialog.alert("소스보기 중 오류가 발생하였습니다.");
+		return;
+	}
+	if (data.substr(0,5) == 'ERROR') {
+		dialog.alert(data.substr(5));
 		return;
 	}
 	srcArray = data;
@@ -238,6 +252,7 @@ function successVersion(data) {
 	//console.log(prettify);
 	$('#btnSrcDown').prop('disabled', false); 
 	$('#btnSearch').prop('disabled', false); 
+	$('#txtSearch').prop("readonly", false);
 	
 }
 function optradio_change() {
