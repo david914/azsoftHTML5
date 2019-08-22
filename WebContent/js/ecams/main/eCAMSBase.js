@@ -55,8 +55,8 @@ $(document).ready(function() {
 	$(window).resize(function(){		
 		clearTimeout(resizeDelay);
 		resizeDelay = setTimeout(function() {	
-			resize();
 			menuFolding();
+			resize();
 		}, 200);
 	});
 	
@@ -158,15 +158,18 @@ function resize(){
 	var iFrame = $('#iFrm').contents();
 	contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
 	if(window.innerHeight < 768){
-		return;
+		//return;
 	}
 	var heightArr = new Array() ;
-
+	var contentFrame = iFrame.find(".contentFrame");
 	$('#iFrm').css('min-height',768 - $('#header').height() - $('#footer').height() - 20+'px');
 	$('#iFrm').height(contentHeight);
-	//iFrame.find(".contentFrame").height(contentHeight);
+	//contentFrame.height(contentHeight);
 	var cnt = 0;
-
+	var heightCk = false;
+	if(contentHeight > contentFrame.height()+2){
+		heightCk = true;
+	}
 
 	iFrame.find("[data-ax5grid-container='root']").each(function(){
 		var gridId = $(this).attr("data-ax5grid-instance");
@@ -201,8 +204,11 @@ function resize(){
 		if(obj[key] == 'grid@'){
 			for(var i=0; i<heightArr.length; i++){
 				if(obj[key].id == heightArr[i].gridId){
-					obj[key].setHeight(heightArr[i].height);
 					heightArr[i].grid = obj[key];
+					if(contentHeight <= contentFrame.height()+2){
+						console.log("---------------------------");
+						obj[key].setHeight(heightArr[i].height);
+					}
 					cnt ++;
 					if(cnt > heightArr.length){
 						break;
@@ -213,19 +219,19 @@ function resize(){
 	};
 
 
-	console.log("contentHeight = " + contentHeight, "contentFrame = "+iFrame.find(".contentFrame").height())
+	console.log("--Start-- contentHeight = " + contentHeight, "contentFrame = "+contentFrame.height())
 	setTimeout(function(){	
-		if(contentHeight > iFrame.find(".contentFrame").height()+2){
-			var simHeight = (contentHeight - iFrame.find(".contentFrame").height()-2) / heightArr.length;
+		if(contentHeight > contentFrame.height()){
+			var simHeight = (contentHeight - contentFrame.height()) / heightArr.length;
 			for(var i=0; i<heightArr.length; i++ ){
 				heightArr[i].grid.setHeight(heightArr[i].height + simHeight);
 				console.log("grid Name : "+ heightArr[i].gridId, "grid Height : "+ heightArr[i].height,  "simHeight :" + simHeight)
 			}
 		}
-		console.log("contentHeight = " + contentHeight, "contentFrame = "+iFrame.find(".contentFrame").height())
+		console.log("---Add---contentHeight = " + contentHeight, "contentFrame = "+contentFrame.height())
 	},100)
 
-	console.log("End contentHeight = " + contentHeight, "contentFrame = "+iFrame.find(".contentFrame").height())
+	console.log("-End- contentHeight = " + contentHeight, "contentFrame = "+contentFrame.height())
 
 	return;
 	
