@@ -54,7 +54,7 @@
 		<div>
 			<div class="l_wrap width-100">
 			    <div class="az_board_basic" style="height:150px;">
-			    	<div data-ax5grid="grdProgHistory" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+			    	<div data-ax5grid="grdProgHistory" style="height: 100%;"></div>
 				</div>	
 			</div>
 		</div>
@@ -66,9 +66,9 @@
 			<input id="optLine" type="radio"  name="optradio"  value="L" onchange="optradio_change();"/>
 			<label for="optLine">라인검색</label>
 			<input id="txtSearch" name="txtSearch" type="text" style="width:200px;" onchange="txtSearch_change();" >
-			<button id="btnSearch" name="btnSearch" class="btn_basic_n"  >찾기</button>
-			<button id="btnSrcDown" name="btnSrcDown" class="btn_basic_n" >소스다운</button>
-			<button id="btnExit" name="btnExit" class="btn_basic_n">닫기</button>
+			<button id="btnSearch" name="btnSearch" class="btn_basic_s"  >찾기</button>
+			<button id="btnSrcDown" name="btnSrcDown" class="btn_basic_s" >소스다운</button>
+			<button id="btnExit" name="btnExit" class="btn_basic_s">닫기</button>
 		</div>
 		<!-- line4 S -->
 		<div class="scrollBind" style="height:calc(100% - 310px);overflow:auto;" id="htmlView"  >

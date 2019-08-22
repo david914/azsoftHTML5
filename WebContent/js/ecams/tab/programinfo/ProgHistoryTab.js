@@ -46,13 +46,10 @@ function createViewGrid() {
 	    sortable: true, 
 	    multiSort: true,
 	    showLineNumber: true, 
-	    lineNumberColumnWidth: 40,
 	    header: {
-	        align: 'center',
-	        columnHeight: 28
+	        align: 'center'
 	    },
 	    body: {
-	        columnHeight: 24,
 	        onClick: function () {
 	        	this.self.clearSelect();
 	            this.self.select(this.dindex);

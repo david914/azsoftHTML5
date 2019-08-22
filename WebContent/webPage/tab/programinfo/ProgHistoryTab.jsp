@@ -35,7 +35,7 @@
 			    <div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 11px);"></div>
 		    </div>
 		</div>
-		<button id="btnQry2" class="btn_basic_n margin-5-left poa " data-grid-control="excel-export" style="top: 0;">조회</button>
+		<button id="btnQry2" class="btn_basic_s margin-5-left poa " data-grid-control="excel-export" style="top: 0;">조회</button>
 	</div>
 	<!-- 하단 입력 E-->			
     <!-- 테이블 S-->

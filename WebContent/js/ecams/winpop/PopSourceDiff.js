@@ -34,13 +34,12 @@ grdProgHistory.setConfig({
     target: $('[data-ax5grid="grdProgHistory"]'),
     sortable: true, 
     multiSort: true,
+    showLineNumber: true,
     //showRowSelector: true,
     header: {
-        align: "center",
-        columnHeight: 28
+        align: "center"
     },
     body: {
-        columnHeight: 26,
         onClick: function () {
            this.self.clearSelect();
            this.self.select(this.dindex);
@@ -66,11 +65,9 @@ grdDiffSrc.setConfig({
     sortable: false, 
     multiSort: false,
     header: {
-        align: "center",
-        columnHeight: 28
+        align: "center"
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
            this.self.clearSelect();
            this.self.select(this.dindex);
@@ -115,8 +112,8 @@ $('input:radio[name^="optSysGbn"]').wRadio({theme: 'circle-radial blue', selecto
 
 $(document).ready(function(){
 	
-	pUserId = 'MASTER';
-	pItemId = '000000179672';
+	//pUserId = 'MASTER';
+	//pItemId = '000000179672';
 	if (pUserId == null || pUserId.length == 0) {
 		dialog.alert('로그인 후 사용하시기 바랍니다.',function(){});
 		return;		

@@ -55,20 +55,20 @@
 						<div class="margin-5-right">                	
 							<!-- 게시판 S-->
 						    <div class="az_board_basic" style="height:150px;">
-						    	<div data-ax5grid="grdProgHistory" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+						    	<div data-ax5grid="grdProgHistory" style="height: 100%;"></div>
 							</div>	
 						</div>
 					</div>
 					<div class="r_wrap">
 						<div class="margin-10-right">
 		                	<div>
-								<button id="btnVerDiff" class="btn_basic_n">버전비교</button>
+								<button id="btnVerDiff" class="btn_basic_s">버전비교</button>
 		                	</div>
 		                	<div class="margin-3-top">
-								<button id="btnSrcDiff" class="btn_basic_n">변경내용</button>
+								<button id="btnSrcDiff" class="btn_basic_s">변경내용</button>
 		                	</div>
 		                	<div class="margin-3-top">
-								<button id="btnChgPart" class="btn_basic_n">변경위치</button>
+								<button id="btnChgPart" class="btn_basic_s">변경위치</button>
 		                	</div>
 		                	<div class="margin-3-top">
 								<span class="fa_wrap dib"><i class="fas fa-caret-left" id="btnLeft"></i></span>
@@ -128,9 +128,9 @@
 				<input id="optLine" type="radio"  name="optradio"  value="L" onchange="optradio_change();"/>
 				<label for="optLine">라인검색</label>
 				<input id="txtSearch" name="txtSearch" type="text" style="width:200px;" onchange="txtSearch_change();" >
-				<button id="btnSearch" name="btnSearch"  class="btn_basic_n" >찾기</button>
-				<button id="btnExcel" class="btn_basic_n">엑셀저장</button>
-				<button id="btnExit" name="btnExit" class="btn_basic_n">닫기</button>
+				<button id="btnSearch" name="btnSearch"  class="btn_basic_s" >찾기</button>
+				<button id="btnExcel" class="btn_basic_s">엑셀저장</button>
+				<button id="btnExit" name="btnExit" class="btn_basic_s">닫기</button>
 			</div>
 		</div>	
 		<!-- line3 e-->	
@@ -138,7 +138,7 @@
 		<div class="margin-5-top width-100" style="height:calc(100% - 370px);">
 			<!-- 게시판 S-->
 		    <div class="az_board_basic margin-5-bottom" style="height:100%";>
-		    	<div data-ax5grid="grdDiffSrc" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+		    	<div data-ax5grid="grdDiffSrc" style="height: 100%;"></div>
 			</div>	
 			<!-- 게시판 E -->
 			<!-- line4 e-->

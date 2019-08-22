@@ -82,7 +82,7 @@
         <div class="ml_80" id="divDirCbo">
 		    <div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
 		</div>
-		<!-- <button class="btn_basic_n margin-5-left margin-10-right poa_r" data-grid-control="excel-export">경로복사</button>-->
+		<!-- <button class="btn_basic_s margin-5-left margin-10-right poa_r" data-grid-control="excel-export">경로복사</button>-->
 	</div>
 	<div class="margin-5-top">
 	    <!-- 신규등록인 -->
@@ -97,7 +97,7 @@
             <label id="lbEditor" class="tit_80 poa">최종변경인</label>
             <div class="ml_80">
 	        	<input id="txtEditor" name="txtEditor" type="text" class="dib" style="width:80px;" readonly>
-	        	<div id="cboEditor" data-ax5select="cboEditor" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 90px);" readonly></div>
+	        	<div id="cboEditor" data-ax5select="cboEditor" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 100px);" readonly></div>
         	</div>
 	    </div>
         <div class="dib vat width-24">
@@ -144,11 +144,11 @@
 	</div>	
 	
 	<div class="tar margin-10-top" style="float:right">
-		<button id="btnDel" name="btnDel" onclick="btnDel_Click()" class="btn_basic_n">삭제</button>
-		<button id="btnDiff" name="btnDiff" onclick="btnDiff_Click()" class="btn_basic_n">소스비교</button>
-		<button id="btnView" name="btnView" onclick="btnView_Click()" class="btn_basic_n">소스보기</button>
-		<button id="btnRegist" name="btnRegist" onclick="btnRegist_Click()" class="btn_basic_n">수정</button>
-		<button id="btnClose" name="btnClose" onclick="btnClose_Click()" class="btn_basic_n">폐기</button>
+		<button id="btnDel" name="btnDel" onclick="btnDel_Click()" class="btn_basic_s">삭제</button>
+		<button id="btnDiff" name="btnDiff" onclick="btnDiff_Click()" class="btn_basic_s">소스비교</button>
+		<button id="btnView" name="btnView" onclick="btnView_Click()" class="btn_basic_s">소스보기</button>
+		<button id="btnRegist" name="btnRegist" onclick="btnRegist_Click()" class="btn_basic_s">수정</button>
+		<button id="btnClose" name="btnClose" onclick="btnClose_Click()" class="btn_basic_s">폐기</button>
 	<!-- <button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">닫기</button>-->
 	</div>
 	<!--페이지버튼 E-->

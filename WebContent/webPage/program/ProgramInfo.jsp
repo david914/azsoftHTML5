@@ -32,7 +32,7 @@
                     <div class="ml_80">
 						<input id="txtRsrcName" name="txtRsrcName" type="text" class="width-95 dib" style="width:calc(100% - 38px);">
 					</div>
-					<button id="btnQry" name="btnQry" class="btn_basic_n margin-5-left margin-10-right poa_r" data-grid-control="excel-export">조회</button>
+					<button id="btnQry" name="btnQry" class="btn_basic_s margin-5-left margin-10-right poa_r" data-grid-control="excel-export">조회</button>
 				</div>				
 				<div class="margin-5-top">
 				    <!-- 프로그램경로 -->
@@ -48,7 +48,7 @@
 	    <!-- 검색 E-->
 	    <!-- 게시판 S-->
 	    <div class="az_board_basic" style="height:40%;">
-	    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+	    	<div data-ax5grid="grdProgList" style="height: 100%;"></div>
 		</div>	
 		<!-- 게시판 E -->
 		<!-- 하단 S-->
