@@ -28,47 +28,9 @@ $('[data-ax5select="cboProgramer2"]').ax5select({
     options: []
 });
 
-ReqListGrid.setConfig({
-    target: $('[data-ax5grid="ReqListGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 28,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	if(ReqListGrid.selectedDataIndexs.length < 1 ) {
-        		return;
-        	}
-        	var item = ReqListGrid.list[ReqListGrid.selectedDataIndexs];
-        	openApprovalInfo(1, item.cr_acptno, item.cr_qrycd, item.cc_srid);
-        }, 
-        onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_sysmsg", label: "시스템",  width: '15%', align: "left"},
-        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
-        {key: "acptno", label: "신청번호",  width: '15%', align: "left"},
-        {key: "acptdate", label: "신청일",  width: '10%'},
-        {key: "status", label: "상태",  width: '10%', align: "left"},
-        {key: "prcdate", label: "완료일",  width: '10%'},
-        {key: "passok", label: "처리구분",  width: '10%', align: "left"},
-        {key: "prcreq", label: "적용예정일시",  width: '20%'}
-    ]
-});
-
-
-
 $(document).ready(function() {
 	strReqCd = "XX";
+	createViewGrid();
 	
 	getReqDepartInfo();
 	
@@ -95,6 +57,46 @@ $(document).ready(function() {
 		ReqListGrid.exportExcel(excelStr);
 	});
 });
+
+// 그리드 생성
+function createViewGrid() {
+	ReqListGrid.setConfig({
+	    target: $('[data-ax5grid="ReqListGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    header: {
+	        align: "center",
+	        columnHeight: 30
+	    },
+	    body: {
+	        columnHeight: 28,
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	        },
+	        onDBLClick: function () {
+	        	if(ReqListGrid.selectedDataIndexs.length < 1 ) {
+	        		return;
+	        	}
+	        	var item = ReqListGrid.list[ReqListGrid.selectedDataIndexs];
+	        	openApprovalInfo(1, item.cr_acptno, item.cr_qrycd, item.cc_srid);
+	        }, 
+	        onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_sysmsg", label: "시스템",  width: '15%', align: "left"},
+	        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
+	        {key: "acptno", label: "신청번호",  width: '15%', align: "left"},
+	        {key: "acptdate", label: "신청일",  width: '10%'},
+	        {key: "status", label: "상태",  width: '10%', align: "left"},
+	        {key: "prcdate", label: "완료일",  width: '10%'},
+	        {key: "passok", label: "처리구분",  width: '10%', align: "left"},
+	        {key: "prcreq", label: "적용예정일시",  width: '20%'}
+	    ]
+	});
+}
 
 //개발자 가져오기
 function getReqDepartInfo() {

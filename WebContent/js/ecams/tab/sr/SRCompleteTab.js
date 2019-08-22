@@ -29,29 +29,9 @@ var confirmInfoData = null;
 var devListGridData = null;
 var devListGrid 	= new ax5.ui.grid();
 var approvalModal 		= new ax5.ui.modal();
-devListGrid.setConfig({
-    target: $('[data-ax5grid="devListGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 28,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-        }
-    },
-    columns: [
-        {key: "gbn", label: "구분",  width: '20%'},
-        {key: "cm_username", label: "담당자명",  width: '20%'},
-        {key: "cc_worktime", label: "투입시간",  width: '60%'}
-    ]
-});
 
 $(document).ready(function() {
+	createViewGrid();
 	screenInit();
 	/*
 	if(strIsrId != ""){
@@ -78,6 +58,31 @@ $(document).ready(function() {
 		openApprovalInfo(2, confAcpt, "R60");
 	});
 });
+
+//그리드 생성
+function createViewGrid() {
+	devListGrid.setConfig({
+	    target: $('[data-ax5grid="devListGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    header: {
+	        align: "center",
+	        columnHeight: 30
+	    },
+	    body: {
+	        columnHeight: 28,
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	        }
+	    },
+	    columns: [
+	        {key: "gbn", label: "구분",  width: '20%'},
+	        {key: "cm_username", label: "담당자명",  width: '20%'},
+	        {key: "cc_worktime", label: "투입시간",  width: '60%'}
+	    ]
+	});
+}
 
 // 화면 초기화
 function screenInit(){

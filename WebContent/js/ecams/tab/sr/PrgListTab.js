@@ -26,42 +26,9 @@ $('[data-ax5select="cboProgramer"]').ax5select({
     options: []
 });
 
-PrgListGrid.setConfig({
-    target: $('[data-ax5grid="PrgListGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    multipleSelect: false,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 28,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-        },
-        onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
-        {key: "cm_sysmsg", label: "시스템",  width: '10%', align: "left"},
-        {key: "cm_dirpath", label: "프로그램경로",  width: '30%', align: "left"},
-        {key: "cr_rsrcname", label: "프로그램명",  width: '10%', align: "left"},
-        {key: "status", label: "상태",  width: '10%', align: "left"},
-        {key: "rsrccd", label: "프로그램유형",  width: '10%'},
-        {key: "lastdate", label: "최종변경일",  width: '10%'},
-        {key: "cr_story", label: "프로그램설명",  width: '10%', align: "left"},
-    ]
-});
-
-
 $(document).ready(function() {
 	strReqCd = "XX";
-	
+	createViewGrid();
 	getReqDepartInfo();
 	
 	getPrgList();
@@ -77,6 +44,41 @@ $(document).ready(function() {
 		PrgListGrid.exportExcel(excelStr);
 	});
 });
+
+//그리드 생성
+function createViewGrid() {
+	PrgListGrid.setConfig({
+	    target: $('[data-ax5grid="PrgListGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: false,
+	    multipleSelect: false,
+	    header: {
+	        align: "center",
+	        columnHeight: 30
+	    },
+	    body: {
+	        columnHeight: 28,
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	        },
+	        onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
+	        {key: "cm_sysmsg", label: "시스템",  width: '10%', align: "left"},
+	        {key: "cm_dirpath", label: "프로그램경로",  width: '30%', align: "left"},
+	        {key: "cr_rsrcname", label: "프로그램명",  width: '10%', align: "left"},
+	        {key: "status", label: "상태",  width: '10%', align: "left"},
+	        {key: "rsrccd", label: "프로그램유형",  width: '10%'},
+	        {key: "lastdate", label: "최종변경일",  width: '10%'},
+	        {key: "cr_story", label: "프로그램설명",  width: '10%', align: "left"},
+	    ]
+	});
+}
 
 //개발자 가져오기
 function getReqDepartInfo() {
