@@ -35,6 +35,8 @@ var grdWorkerData 			= null; //담당자그리드 데이터
 var grdWorkTimeData			= null; //작업시간내역그리드 데이터
 var grdWorkTimeData_filter  = null; //작업시간내역그리드 필터링 데이터
 
+var createGrid = false;
+
 ax5.info.weekNames = [
     {label: "일"},
     {label: "월"},
@@ -59,9 +61,10 @@ txtDevDatePicker.bind(defaultPickerInfo('txtDevDate', 'top'));
 $('input.radio-pie').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 
 $(document).ready(function(){
+	createGrid = false;
 	createViewGrid();
-	getWorkDays();
-	getDevrRate();
+//	getWorkDays();
+//	getDevrRate();
 	
 	disableCal(true, 'txtDevDate');
 	
@@ -99,64 +102,71 @@ $(document).ready(function(){
 });
 
 function createViewGrid() {
-	grdWorker.setConfig({
-	    target: $('[data-ax5grid="grdWorker"]'),
-	    sortable: true, 
-	    multiSort: true,
-	    showRowSelector: false,
-	    multipleSelect: false,
-	    header: {
-	        align: "center",
-	        columnHeight: 30
-	    },
-	    body: {
-	        columnHeight: 20,
-	        onClick: function () {
-	        	this.self.clearSelect();
-	            this.self.select(this.dindex);
-	            grdWorker_Click();
-	        },
-	    	onDataChanged: function(){
-	    		this.self.repaint();
-	    	}
-	    },
-	    columns: [
-	        {key: "cm_username", label: "담당자",			width: '15%', 	align: "center"},
-	        {key: "cm_codename", label: "진행상태",	  	width: '30%',	align: "center"},
-	        {key: "devtime", 	 label: "예상소요시간",   	width: '15%',	align: "center"},
-	        {key: "devstday", 	 label: "예상개발시작일",  	width: '20%',	align: "center"},
-	        {key: "devedday", 	 label: "예상개발종료일",  	width: '20%',	align: "center"}
-	    ]
-	});
-
-	grdWorkTime.setConfig({
-	    target: $('[data-ax5grid="grdWorkTime"]'),
-	    sortable: true, 
-	    multiSort: true,
-	    showRowSelector: false,
-	    header: {
-	        align: "center",
-	        columnHeight: 30
-	    },
-	    body: {
-	        columnHeight: 20,
-	        onClick: function () {
-	        	this.self.clearSelect();
-	            this.self.select(this.dindex);
-	        },
-	        onDBLClick: function () {
-	        	grdWorkTime_dbClick();
-	        },
-	    	onDataChanged: function(){
-	    		this.self.repaint();
-	    	}
-	    },
-	    columns: [
-	        {key: "cc_workday",  label: "등록일",		width: '33%', 	align: "center"},
-	        {key: "cc_worktime", label: "시간",	  	width: '33%', 	align: "center"},
-	        {key: "cm_username", label: "담당자명",   	width: '33%', 	align: "center"}
-	    ]
-	});	
+//	if(!createGrid) {
+		grdWorker.setConfig({
+		    target: $('[data-ax5grid="grdWorker"]'),
+		    sortable: true, 
+		    multiSort: true,
+		    showRowSelector: false,
+		    multipleSelect: false,
+		    header: {
+		        align: "center",
+		        columnHeight: 30
+		    },
+		    body: {
+		        columnHeight: 20,
+		        onClick: function () {
+		        	this.self.clearSelect();
+		            this.self.select(this.dindex);
+		            grdWorker_Click();
+		        },
+		    	onDataChanged: function(){
+		    		this.self.repaint();
+		    	}
+		    },
+		    columns: [
+		        {key: "cm_username", label: "담당자",			width: '15%', 	align: "center"},
+		        {key: "cm_codename", label: "진행상태",	  	width: '30%',	align: "center"},
+		        {key: "devtime", 	 label: "예상소요시간",   	width: '15%',	align: "center"},
+		        {key: "devstday", 	 label: "예상개발시작일",  	width: '20%',	align: "center"},
+		        {key: "devedday", 	 label: "예상개발종료일",  	width: '20%',	align: "center"}
+		    ]
+		});
+	
+		grdWorkTime.setConfig({
+		    target: $('[data-ax5grid="grdWorkTime"]'),
+		    sortable: true, 
+		    multiSort: true,
+		    showRowSelector: false,
+		    header: {
+		        align: "center",
+		        columnHeight: 30
+		    },
+		    body: {
+		        columnHeight: 20,
+		        onClick: function () {
+		        	this.self.clearSelect();
+		            this.self.select(this.dindex);
+		        },
+		        onDBLClick: function () {
+		        	grdWorkTime_dbClick();
+		        },
+		    	onDataChanged: function(){
+		    		this.self.repaint();
+		    	}
+		    },
+		    columns: [
+		        {key: "cc_workday",  label: "등록일",		width: '33%', 	align: "center"},
+		        {key: "cc_worktime", label: "시간",	  	width: '33%', 	align: "center"},
+		        {key: "cm_username", label: "담당자명",   	width: '33%', 	align: "center"}
+		    ]
+		});
+		
+		getWorkDays();
+		getDevrRate();
+//	}
+	
+	createGrid = true;
 }
 
 //연도별월근무일수조회 Cmc0200.getWorkDays(new Date().getFullYear());
