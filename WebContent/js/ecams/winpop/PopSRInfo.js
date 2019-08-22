@@ -86,10 +86,7 @@ $(document).ready(function() {
 	}
 	
 	callSRRegister();
-	callDevPlan();
-	callReqHistory();
-	callPrgList();
-	callSRComplete();
+	
 	//initScreen();
 	//clickTabMenu();
 });
@@ -98,9 +95,9 @@ $(document).ready(function() {
 function callSRRegister() {
    inter = setInterval(function(){
       if(loadSw) {
-    	  $('#frmSRRegister').get(0).contentWindow.createViewGrid();
-         initScreen();
+    	 $('#frmSRRegister').get(0).contentWindow.createViewGrid();
          clearInterval(inter);
+         callDevPlan();
       }
    },100);
 }
@@ -110,6 +107,7 @@ function callDevPlan() {
       if(loadSw2) {
     	  $('#frmDevPlan').get(0).contentWindow.createViewGrid();
     	  clearInterval(inter2);
+    	  callReqHistory();
       }
 	},100);
 }
@@ -119,6 +117,7 @@ function callReqHistory() {
       if(loadSw3) {
     	  $('#frmReqHistory').get(0).contentWindow.createViewGrid();
     	  clearInterval(inter3);
+    	  callPrgList();
       }
 	},100);
 }
@@ -128,6 +127,7 @@ function callPrgList() {
       if(loadSw4) {
     	  $('#frmPrgList').get(0).contentWindow.createViewGrid();
     	  clearInterval(inter4);
+    	  callSRComplete();
       }
 	},100);
 }
@@ -137,6 +137,7 @@ function callSRComplete() {
       if(loadSw5) {
     	  $('#frmSRComplete').get(0).contentWindow.createViewGrid();
     	  clearInterval(inter5);
+    	  initScreen();
       }
 	},100);
 }
@@ -275,7 +276,7 @@ function changeTabMenu() {
 	
 	if(document.getElementById("tab1").className == "on") { //SR등록/접수
 		tmpTab = $('#frmSRRegister').get(0).contentWindow;
-		
+		tmpTab.createViewGrid();
 		if(tmpTab.strIsrId == strIsrId) return;
 		
 		//initApp();
@@ -303,7 +304,7 @@ function changeTabMenu() {
 		}
 	}else if(document.getElementById("tab3").className == "on") { //변경요청이력
 		var tmpTab = $('#frmReqHistory').get(0).contentWindow;
-		
+		tmpTab.createViewGrid();
 		if(tmpTab.strIsrId == strIsrId) return;
 		
 		//tmpTab.screenInit();
@@ -313,7 +314,7 @@ function changeTabMenu() {
 		
 	}else if(document.getElementById("tab4").className == "on") { //프로그램목록
 		tmpTab = $('#frmPrgList').get(0).contentWindow;
-		
+		tmpTab.createViewGrid();
 		if(tmpTab.strIsrId == strIsrId) return;
 		
 		tmpTab.strIsrId = strIsrId;
@@ -324,7 +325,7 @@ function changeTabMenu() {
 		
 	}else if(document.getElementById("tab5").className == "on") { //SR완료
 		tmpTab = $('#frmSRComplete').get(0).contentWindow;
-		
+		tmpTab.createViewGrid();
 		//if(tmpTab.strIsrId == strIsrId) return;
 		
 		tmpTab.strIsrId = strIsrId;

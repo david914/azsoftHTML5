@@ -13,6 +13,13 @@
     String AcptNo = request.getParameter("acptno");
 %> 
 
+<input type=hidden id="UserId" value=<%=UserId%>>
+<input type=hidden id="SRId" value=<%=SRId%>>
+<input type=hidden id="AcptNo" value=<%=AcptNo%>>
+
+<c:import url="/js/ecams/common/commonscript.jsp" />
+<script type="text/javascript" src="<c:url value="/js/ecams/winpop/PopSRInfo.js"/>"></script>
+
 <!-- contener S -->
 <body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
     <div class="content">
@@ -101,10 +108,3 @@
     </div>
 </body>
 <!-- contener E -->
-
-<input type=hidden id="UserId" value=<%=UserId%>>
-<input type=hidden id="SRId" value=<%=SRId%>>
-<input type=hidden id="AcptNo" value=<%=AcptNo%>>
-
-<c:import url="/js/ecams/common/commonscript.jsp" />
-<script type="text/javascript" src="<c:url value="/js/ecams/winpop/PopSRInfo.js"/>"></script>

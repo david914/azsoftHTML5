@@ -41,59 +41,6 @@ $('#datEdD').val(getDate('DATE',0));
 
 picker.bind(defaultPickerInfo('basic', 'top'));
 
-//picker.bind({
-//  target: $('[data-ax5picker="basic"]'),
-//  direction: "top",
-//  content: {
-//      width: 220,
-//      margin: 10,
-//      type: 'date',
-//      config: {
-//          control: {
-//              left: '<i class="fa fa-chevron-left"></i>',
-//              yearTmpl: '%s',
-//              monthTmpl: '%s',
-//              right: '<i class="fa fa-chevron-right"></i>'
-//          },
-//          dateFormat: 'yyyy/MM/dd',
-//          lang: {
-//              yearTmpl: "%s년",
-//              months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-//              dayTmpl: "%s"
-//          }
-//      },
-//      formatter: {
-//          pattern: 'date'
-//      }
-//  },
-//  onStateChanged: function () {
-//  },
-//  btns: {
-//      today: {
-//          label: "Today", onClick: function () {
-//              var today = new Date();
-//              this.self
-//                      .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-//                      .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-//                      .close();
-//          }
-//      },
-//      thisMonth: {
-//          label: "This Month", onClick: function () {
-//              var today = new Date();
-//              this.self
-//                      .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-//                      .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-//                              + '/'
-//                              + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-//                      .close();
-//          }
-//      },
-//      ok: {label: "Close", theme: "default"}
-//  }
-//});
-
-
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
     sortable: true, 

@@ -88,6 +88,7 @@ function setCbo() {
 
 function setSRRegData() {
 	var tmpTab = $('#frmSRRegister').get(0).contentWindow;
+	tmpTab.createViewGrid();
 	tmpTab.strReqCd = "XX";
 }
 
@@ -145,7 +146,7 @@ function changeTabMenu() {
 		var tmpGridSelectedIndex = tmpGrid.selectedDataIndexs;
 		var tmpSelectedGridItem = tmpGrid.list[tmpGrid.selectedDataIndexs];
 		var tmpTab = $('#frmSRRegister').get(0).contentWindow;
-		
+		tmpTab.createViewGrid();
 		console.log("tmpGridSelectedIndex: " + tmpGridSelectedIndex);
 		
 		if(tmpGridSelectedIndex < 0) {

@@ -81,6 +81,7 @@ function setCbo() {
 
 function setSRRegData() {
 	var tmpTab = $('#frmSRRegister').get(0).contentWindow;
+	tmpTab.createViewGrid();
 	tmpTab.strReqCd = "XX";
 }
 
@@ -139,7 +140,7 @@ function changeTabMenu() {
 		var tmpGridSelectedIndex = tmpGrid.selectedDataIndexs;
 		var tmpSelectedGridItem = tmpGrid.list[tmpGrid.selectedDataIndexs];
 		var tmpTab = $('#frmSRRegister').get(0).contentWindow;
-		
+		tmpTab.createViewGrid();
 		console.log("tmpGridSelectedIndex: " + tmpGridSelectedIndex);
 		
 		if(tmpGridSelectedIndex < 0) {
@@ -160,7 +161,7 @@ function changeTabMenu() {
 		var tmpGridSelectedIndex = tmpGrid.selectedDataIndexs;
 		var tmpSelectedGridItem = tmpGrid.list[tmpGrid.selectedDataIndexs];
 		var tmpTab = $('#frmDevPlan').get(0).contentWindow;
-		
+		tmpTab.createViewGrid();
 		if(tmpGridSelectedIndex < 0) {
 			tmpTab.screenInit("M"); //tab2.screenInit("M");
 			return;
@@ -180,8 +181,8 @@ function changeTabMenu() {
 		var tmpGrid = $('#frmPrjList').get(0).contentWindow.firstGrid;
 		var tmpGridSelectedIndex = tmpGrid.selectedDataIndexs;
 		var tmpSelectedGridItem = tmpGrid.list[tmpGrid.selectedDataIndexs];
-		tmpTab = $('#frmSRComplete').get(0).contentWindow;
-		
+		var tmpTab = $('#frmSRComplete').get(0).contentWindow;
+		tmpTab.createViewGrid();
 		if(tmpTab.strIsrId == strIsrId) return;
 		tmpTab.strIsrId = strIsrId;
 		tmpTab.userId = userId;
