@@ -389,7 +389,7 @@ $(document).keyup(function (e) {
 $(document).ready(function(){
 	createViewGrid1();
 	createViewGrid2();
-	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
+	$('input.checkbox-detail').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 	
 	if (pReqNo == null) {
 		confirmDialog2.alert('신청정보가 없습니다.\n다시 로그인 하시기 바랍니다.');
