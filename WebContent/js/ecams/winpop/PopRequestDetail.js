@@ -1490,7 +1490,7 @@ function openWindow(type,acptNo, etcInfo) {
 	} else if (type === 5) {//소스보기
 		cURL = "/webPage/winpop/PopSourceView.jsp";
 	} else if (type === 6) {//소스비교
-		cURL = "/webPage/winpop/PopSourceDiffView.jsp";
+		cURL = "/webPage/winpop/PopSourceDiff.jsp";
 	} else if (type === 7) {//로그확인
 		cURL = "/webPage/winpop/PopServerLog.jsp";
 	} else if (type === 8) {//결재정보
