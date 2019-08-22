@@ -1512,7 +1512,7 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="header"] [data-ax5grid-panel] table tr td [data-ax5grid-cellHolder][data-ax5grid-text-align="center"]{
 	color: #245490;
 	font-weight: bold;
-	background-color: #6699ff1c; /* grid header color 추가 */
+	background-color: #E8EEF9; /* grid header color 추가 */
 }
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel] table tr.tr-0{
     background: #f8f8f8;
