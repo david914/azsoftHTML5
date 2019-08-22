@@ -141,9 +141,12 @@ function changePage(division) {
 //세로 스크롤바
 (function($) {
     $.fn.hasVerticalScrollBar = function() {
+
+    	/*
     	console.log(this.get(0));
     	console.log(this.get(0).scrollHeight);
     	console.log(this.innerHeight());
+    	*/
         return this.get(0) ? this.get(0).scrollHeight > this.innerHeight() : false;
     }
 })(jQuery);
@@ -152,18 +155,92 @@ function resize(){
 	if($('#iFrm').contents().find(".contentFrame").length == 0){
 		return;
 	}
-	 
+	var iFrame = $('#iFrm').contents();
+	contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
+	if(window.innerHeight < 768){
+		return;
+	}
+	var heightArr = new Array() ;
+
+	$('#iFrm').css('min-height',768 - $('#header').height() - $('#footer').height() - 20+'px');
+	$('#iFrm').height(contentHeight);
+	//iFrame.find(".contentFrame").height(contentHeight);
+	var cnt = 0;
+
+
+	iFrame.find("[data-ax5grid-container='root']").each(function(){
+		var gridId = $(this).attr("data-ax5grid-instance");
+		var height = contentHeight;
+		var gridParent = $(this).parent("div").parent("div.az_board_basic")[0].style.height;
+		if(gridParent.indexOf('%') < 1){
+			return;
+		}
+
+		var parentTopHeihgt = gridParent.replace("%",""); 
+		//var parentHeight = $(this).parent("div")[0].style.height.replace("%",""); 100% 로 고정
+
+		if(parentTopHeihgt > 100 || parentTopHeihgt.length > 3){
+			return true;
+		}
+
+		height = Math.round(height * ( parentTopHeihgt / 100 ));
+
+		var tmpObj = new Object();
+		tmpObj.gridId = gridId;
+		tmpObj.height = height;
+
+		heightArr.push(tmpObj);
+	});
+
+	var obj = $('#iFrm').get(0).contentWindow;
+	for(var key in obj){
+		if(obj[key]== null || key == null || obj[key].length < 0){
+			continue;
+		}
+
+		if(obj[key] == 'grid@'){
+			for(var i=0; i<heightArr.length; i++){
+				if(obj[key].id == heightArr[i].gridId){
+					obj[key].setHeight(heightArr[i].height);
+					heightArr[i].grid = obj[key];
+					cnt ++;
+					if(cnt > heightArr.length){
+						break;
+					}
+				}
+			}
+		}
+	};
+
+
+	console.log("contentHeight = " + contentHeight, "contentFrame = "+iFrame.find(".contentFrame").height())
+	setTimeout(function(){	
+		if(contentHeight > iFrame.find(".contentFrame").height()+2){
+			var simHeight = (contentHeight - iFrame.find(".contentFrame").height()-2) / heightArr.length;
+			for(var i=0; i<heightArr.length; i++ ){
+				heightArr[i].grid.setHeight(heightArr[i].height + simHeight);
+				console.log("grid Name : "+ heightArr[i].gridId, "grid Height : "+ heightArr[i].height,  "simHeight :" + simHeight)
+			}
+		}
+		console.log("contentHeight = " + contentHeight, "contentFrame = "+iFrame.find(".contentFrame").height())
+	},100)
+
+	console.log("End contentHeight = " + contentHeight, "contentFrame = "+iFrame.find(".contentFrame").height())
+
+	return;
+	
 	var addHeight = 0;
 	var contentFrameHeight = 0;
 	var frameHeight = 0;
 	
-	contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
+	//contentHeight = window.innerHeight - $('#header').height() - $('#footer').height() - 20;
 	contentFrameHeight = Math.round($('#iFrm').contents().find(".contentFrame").height()+addHeight); // 프레임 내부에 컨텐츠 div 높이 구해오기
 	
-	
+	/*
 	console.log('resize menu [' + contentHistory + ']');
 	console.log('프레임 height [' + contentFrameHeight + ']');
 	console.log('전체 height [' + contentHeight + ']');
+	*/
 	
 	if(contentHeight > contentFrameHeight){
 		frameHeight = contentHeight;
@@ -173,7 +250,7 @@ function resize(){
 	
 	if($('#iFrm').height() != frameHeight ){
 		$('#iFrm').css("height", frameHeight + "px");
-		console.log($('#iFrm').hasVerticalScrollBar());
+		//console.log($('#iFrm').hasVerticalScrollBar());
 	}
 	
 //	var winWidth = window.width();
@@ -189,6 +266,9 @@ function resize(){
 // 프레임을 불러오고나서 height 가 변하는 부분이 있을경우 사용
 function frameLoad(){
 	$('#iFrm').contents().find('#history_wrap').html(contentHistory);
+	
+	resize();
+	return;
 	
 	if($('#iFrm').contents().find(".contentFrame").length == 0){
 		return;

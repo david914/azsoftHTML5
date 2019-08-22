@@ -206,7 +206,7 @@ if(reqCd != '07'){ // 테스트배포, 운영배포 그리드 컬럼수정
         {key: "cr_lstver", label: "형상관리버전",  width: '5%'},
         {key: "cr_realver", label: "배포버전",  width: '5%'},
         {key: "cm_username", label: "수정자",  width: '5%'},
-        {key: "lastdt", label: "수정일",  width: '18%'}
+        {key: "lastdt", label: "수정일",  width: '15%'}
     ];
     
     firstGrid.config.columns = columns;
@@ -419,9 +419,9 @@ function porgRowEdit(){
 		
 		$('#cboReqDiv').after($('#progRow'));
 		$('#progRow').after('#searchBox');
-		
-		$('[data-ax5grid="firstGrid"]').parent('div.az_board_basic').height('36%');
-		$('[data-ax5grid="secondGrid"]').parent('div.az_board_basic').height('38%');
+
+		$('[data-ax5grid="firstGrid"]').parent('div.az_board_basic').height('34%');
+		$('[data-ax5grid="secondGrid"]').parent('div.az_board_basic').height('34%');
 	}
 }
 

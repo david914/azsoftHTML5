@@ -87,10 +87,10 @@
 						<div class="dib">
 							<div id="divPicker" class="az_input_group dib" data-ax5picker="basic">
 								<input id="dateSt" name="start_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
-								<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+								<button class="btn_calendar"><i class="fa fa-calendar-o"></i></button>
 								<span class="sim">&sim;</span>
 								<input id="dateEd" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
-								<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+								<button class="btn_calendar"><i class="fa fa-calendar-o"></i></button>
 							</div>
 						</div>
 						<div class="dib vat">
@@ -109,7 +109,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="az_board_basic" style="height: 80%;">
+	<div class="az_board_basic" style="height: 78%;">
 		<div data-ax5grid="approGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 	</div>
 </div>

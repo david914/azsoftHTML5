@@ -65,7 +65,7 @@
 		<!--검색E-->
 	    <!-- 게시판 S-->
 		<div>
-		    <div class="az_board_basic az_board_basic_in" style="height:36%">
+		    <div class="az_board_basic az_board_basic_in" style="height:34%">
 		    	<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%;"></div>
 			</div>	
 			<!-- 게시판 E -->
@@ -84,7 +84,7 @@
 	
 		    <!-- 게시판 S-->
 		<div>
-		    <div class="az_board_basic az_board_basic_in" style="height:38%">
+		    <div class="az_board_basic az_board_basic_in" style="height:34%">
 		    	<div data-ax5grid="secondGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%"></div>
 			</div>
 		</div>		

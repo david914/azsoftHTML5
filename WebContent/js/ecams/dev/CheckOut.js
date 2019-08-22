@@ -260,6 +260,18 @@ secondGrid.setConfig({
     ]
 });
 
+$('[data-ax5select="cboSrId"]').ax5select({
+    options: []
+});
+
+$('[data-ax5select="cboSys"]').ax5select({
+    options: []
+});
+
+$('[data-ax5select="cboRsrccd"]').ax5select({
+    options: []
+});
+
 //이전버전 선택 모달 창 닫기
 var chkOutVerSelModalCallBack = function() {
 	ChkOutVerSelModal.close();

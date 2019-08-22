@@ -73,7 +73,7 @@
 						<span class="g_nail">처리완료</span>
 						<span class="b_nail">진행중</span>
 					</div>	
-					<div class="dib r_wrap">		
+					<div class="dib r_wrap" style="margin-top:5px;">		
 						<div class="dib vat">
 							<input id="rdoStrDate"  type="radio" name="rdoDate" value="0" checked="checked"/>
 							<label for="rdoStrDate" >신청일기준</label>
@@ -107,7 +107,7 @@
 	</div>
 	<!--검색E-->		
     <!-- 게시판 S-->
-    <div class="az_board_basic" style="height: 80%">
+    <div class="az_board_basic" style="height: 78%">
     	<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>	
 </div>

@@ -67,33 +67,35 @@
 				</div>
 			</div>
 			<div class="half_wrap">
-				<div class="l_wrap width-20">
-					<div style="overflow-y: auto; height: 331px; background-color: white;">
-						<ul id="treeDemo" class="ztree"></ul>				
-					</div>
-				</div>
-				<div class="r_wrap width-80">
-					<!-- 게시판 S-->
-				    <div class="az_board_basic az_board_basic_in" style="height:37%">
-				    	<div data-ax5grid="first-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" id="fileGrid" style="height:100%"></div>
-					</div>	
-					<div class="por margin-5-top margin-10-bottom">
-						<div style="margin-left:5px;"><input type="checkbox" class='checkbox-pie' id='chkDetail' data-label="체크아웃항목상세보기"></div>
-						<div class="poa_r">
-							<div class="vat dib">
-								<button id="btnAdd" class="btn_basic_s margin-5-left">추가</button>
-							</div>
-							<div class="vat dib">
-								<button id="btnDel" class="btn_basic_s margin-5-left">제거</button>
-							</div>
+				<div class="row">
+					<div class="l_wrap width-20">
+						<div style="overflow-y: auto; height: 41%; background-color: white;">
+							<ul id="treeDemo" class="ztree"></ul>				
 						</div>
 					</div>
-					<!-- 게시판 E -->
+					<div class="r_wrap width-80">
+						<!-- 게시판 S-->
+					    <div class="az_board_basic az_board_basic_in" style="height:35%">
+					    	<div data-ax5grid="first-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" id="fileGrid" style="height:100%"></div>
+						</div>	
+						<div class="por margin-5-top margin-10-bottom">
+							<div style="margin-left:5px;"><input type="checkbox" class='checkbox-pie' id='chkDetail' data-label="체크아웃항목상세보기"></div>
+							<div class="poa_r">
+								<div class="vat dib">
+									<button id="btnAdd" class="btn_basic_s margin-5-left">추가</button>
+								</div>
+								<div class="vat dib">
+									<button id="btnDel" class="btn_basic_s margin-5-left">제거</button>
+								</div>
+							</div>
+						</div>
+						<!-- 게시판 E -->
+					</div>
 				</div>
 				<div class="row">
 					<div class="margin-10-top">
 						<!-- 게시판 S-->
-					    <div class="az_board_basic az_board_basic_in" style="height:39%">
+					    <div class="az_board_basic az_board_basic_in" style="height:34%">
 					    	<div data-ax5grid="second-grid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40, showRowSelector:true}" id="requestGrid" style="height:100%"></div>
 						</div>	
 						<!-- 게시판 E -->

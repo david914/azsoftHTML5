@@ -50,7 +50,7 @@ firstGrid.setConfig({
         }
     },
     columns: [
-        {key: "name", label: "File",  width: '70%'},
+        {key: "name", label: "File",  width: '70%', align:'left'},
         {key: "size", label: "Size",  width: '30%'}
     ]
 });
