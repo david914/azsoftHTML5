@@ -1212,6 +1212,10 @@ td.fc-more-cell {
 .btn_basic_n:hover {border: 1.1px solid #666d80; font-weight:bold; padding: 0 7px 2px; height: 25px;}
 .btn_basic_n:disabled {background: #ddd; border: 1px solid #ccc; color:#ccc; font-weight:normal; padding: 0 7px 2px; height: 25px;}
 
+.btn_basic_n2 {background: #fff;border: 1px solid #ccc; color:#6d6d6d; font-weight:bold; padding: 0 7px 2px;height: 25px;}
+.btn_basic_n2:hover {border: 1.3px solid #2477c1; color: #2477c1; font-weight:bold; padding: 0 7px 2px; height: 25px;}
+.btn_basic_n2:disabled {background: #ddd; border: 1px solid #ccc; color:#ccc; font-weight:normal; padding: 0 7px 2px; height: 25px;}
+
 .lang_menu ul li .menu_box p:hover {
 	color: #2471c8;
 	font-weight: bold;

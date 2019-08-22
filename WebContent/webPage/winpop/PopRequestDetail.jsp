@@ -209,8 +209,8 @@
 				<ul class="tabs">
 					<li rel="tab1" id="tab1Li" class="on">신청목록</li><li rel="tab2" id="tab2Li">처리결과확인</li>
 					<div class="r_wrap">
-						<button class="btn_basic_n" id="btnSrcView">소스보기</button>
-						<button class="btn_basic_n margin-2-left" id="btnSrcDiff">소스비교</button>
+						<button class="btn_basic_n2" id="btnSrcView">소스보기</button>
+						<button class="btn_basic_n2 margin-2-left" id="btnSrcDiff">소스비교</button>
 						<button class="btn_basic_n margin-2-left" id="btnPriority">우선적용</button>
 						<button class="btn_basic_n margin-2-left" id="btnAllCncl">전체회수</button>
 						<button class="btn_basic_n margin-2-left" id="btnRetry">전체재처리</button>
