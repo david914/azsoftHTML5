@@ -7,7 +7,6 @@
 {
 	min-width : 0px !important;
 }
-
 </style>
 
 <div class="half_wrap">
