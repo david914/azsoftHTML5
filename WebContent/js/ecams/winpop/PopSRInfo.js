@@ -27,8 +27,14 @@ var prjListData = [];
 
 var loadSw = false;
 var loadSw2 = false;
+var loadSw3 = false;
+var loadSw4 = false;
+var loadSw5 = false;
 var inter = null;
 var inter2 = null;
+var inter3 = null;
+var inter4 = null;
+var inter5 = null;
 var count=0;
 var gridSw = false;
 
@@ -68,8 +74,23 @@ $(document).ready(function() {
 	    loadSw2 = true;
 	}
 	
+	document.getElementById('frmReqHistory').onload = function() {
+	    loadSw3 = true;
+	}
+	
+	document.getElementById('frmPrgList').onload = function() {
+	    loadSw4 = true;
+	}
+	
+	document.getElementById('frmSRComplete').onload = function() {
+	    loadSw5 = true;
+	}
+	
 	callSRRegister();
 	//callDevPlan();
+	callReqHistory();
+	callPrgList();
+	callSRComplete();
 	//initScreen();
 	//clickTabMenu();
 });
@@ -98,6 +119,33 @@ function callDevPlan() {
       }
 	},1000);
 	//callSRRegister();
+}
+
+function callReqHistory() {
+	inter3 = setInterval(function(){
+      if(loadSw3) {
+    	  $('#frmReqHistory').get(0).contentWindow.createViewGrid();
+    	  clearInterval(inter3);
+      }
+	},100);
+}
+
+function callPrgList() {
+	inter4 = setInterval(function(){
+      if(loadSw4) {
+    	  $('#frmPrgList').get(0).contentWindow.createViewGrid();
+    	  clearInterval(inter4);
+      }
+	},100);
+}
+
+function callSRComplete() {
+	inter5 = setInterval(function(){
+      if(loadSw5) {
+    	  $('#frmSRComplete').get(0).contentWindow.createViewGrid();
+    	  clearInterval(inter5);
+      }
+	},100);
 }
 
 function initScreen() {
