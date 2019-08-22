@@ -255,56 +255,58 @@ $("#btnSearch").bind('click', function() {
 	}
 	var ajaxResult = ajaxCallWithJson('/webPage/report/ConfigOpReport', ajaxData, 'json');
 	
-	var footSumData = [[]];
-	var gridData = [];
-	
-	$.each(ajaxResult, function(i, value) {
-		gridData.push(value);
-	});
-	
-	footSumData[0].push({label: "총계", colspan: 4, align: "center"});
-	$.each(columnData, function(i, value) {
-		if(i > 3) {
-			footSumData[0].push({key: value.key, collector: function() {
-				return ajaxResult[ajaxResult.length - 1][value.key];
+	if(ajaxResult.length > 0) {		
+		var footSumData = [[]];
+		var gridData = [];
+		
+		$.each(ajaxResult, function(i, value) {
+			gridData.push(value);
+		});
+		
+		footSumData[0].push({label: "총계", colspan: 4, align: "center"});
+		$.each(columnData, function(i, value) {
+			if(i > 3) {
+				footSumData[0].push({key: value.key, collector: function() {
+					return ajaxResult[ajaxResult.length - 1][value.key];
 				}, align: "right"});
-		}
-	});
-	
-	var testColumnData = [
-        {key: "isrid", label: "SR-ID",  width: '6%'},
-        {key: "genieid", label: "문서번호",  width: '6%', align: 'left'},
-        {key: "recvdate", label: "등록일",  width: '5%'},
-        {key: "reqdept", label: "요청부서",  width: '5%', align: 'left'},
-        {key: "reqsta1", label: "SR상태",  width: '5%', align: 'left'},
-        {key: "reqtitle", label: "요청제목",  width: '15%', align: 'left'},
-        {key: "reqedday", label: "완료요청일",  width: '5%'},
-        {key: "comdept", label: "등록부서",  width: '5%', align: 'left'},
-        {key: "recvuser", label: "등록인",  width: '4%'},
-        {key: "recvdept", label: "개발부서",  width: '5%', align: 'left'},
-        {key: "devuser", label: "개발담당자",  width: '5%'},
-        {key: "reqsta2", label: "개발자상태",  width: '5%', align: 'left'},
-        {key: "chgdevterm", label: "개발기간", width: '8%', align: 'left'},
-        {key: "chgdevtime", label: "개발계획공수", width: '6%'},
-        {key: "realworktime", label: "개발투입공수", width: '6%'},
-        {key: "chgpercent", label: "개발진행율", width: '6%'},
-        {key: "chgedgbn", label: "변경종료구분", width: '6%', align: 'left'},
-        {key: "chgeddate", label: "변경종료일", width: '6%'},
-        {key: "isredgbn", label: "SR완료구분", width: '6%', align: 'left'},
-        {key: "isreddate", label: "SR완료일", width: '6%'}
-    ];
-	//컬럼 세팅
-	mainGrid.setConfig({
-		footSum : footSumData,
-		columns : columnData
-	})
-	
-	gridData.pop();	
-	
-	console.log(testColumnData);
-	console.log(columnData);
-	
-	//그리드 세팅
-	mainGrid.setData(gridData);
+			}
+		});
+		
+		var testColumnData = [
+			{key: "isrid", label: "SR-ID",  width: '6%'},
+			{key: "genieid", label: "문서번호",  width: '6%', align: 'left'},
+			{key: "recvdate", label: "등록일",  width: '5%'},
+			{key: "reqdept", label: "요청부서",  width: '5%', align: 'left'},
+			{key: "reqsta1", label: "SR상태",  width: '5%', align: 'left'},
+			{key: "reqtitle", label: "요청제목",  width: '15%', align: 'left'},
+			{key: "reqedday", label: "완료요청일",  width: '5%'},
+			{key: "comdept", label: "등록부서",  width: '5%', align: 'left'},
+			{key: "recvuser", label: "등록인",  width: '4%'},
+			{key: "recvdept", label: "개발부서",  width: '5%', align: 'left'},
+			{key: "devuser", label: "개발담당자",  width: '5%'},
+			{key: "reqsta2", label: "개발자상태",  width: '5%', align: 'left'},
+			{key: "chgdevterm", label: "개발기간", width: '8%', align: 'left'},
+			{key: "chgdevtime", label: "개발계획공수", width: '6%'},
+			{key: "realworktime", label: "개발투입공수", width: '6%'},
+			{key: "chgpercent", label: "개발진행율", width: '6%'},
+			{key: "chgedgbn", label: "변경종료구분", width: '6%', align: 'left'},
+			{key: "chgeddate", label: "변경종료일", width: '6%'},
+			{key: "isredgbn", label: "SR완료구분", width: '6%', align: 'left'},
+			{key: "isreddate", label: "SR완료일", width: '6%'}
+			];
+		//컬럼 세팅
+		mainGrid.setConfig({
+			footSum : footSumData,
+			columns : columnData
+		})
+		
+		gridData.pop();	
+		
+		console.log(testColumnData);
+		console.log(columnData);
+		
+		//그리드 세팅
+		mainGrid.setData(gridData);
+	}
 })
 
