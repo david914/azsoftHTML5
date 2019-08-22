@@ -1203,9 +1203,14 @@ td.fc-more-cell {
 .btn_basic_p {background: #3579d4; border: 1px solid #3473c8; color:#fff; font-weight:bold; padding: 0 7px 2px; height: 25px;}
 .btn_basic_p:disabled{background: #ddd; border: 1px solid #ccc; color:#ccc; font-weight:normal; padding: 0 7px 2px; height: 25px;}
 /* 전무님 요청 */
-.btn_basic_n {background: #fff; border: 1px solid #2477c1; color:#2477c1; font-weight:bold; padding: 0 7px 2px; height: 25px;}
+/*
+.btn_basic_n {background: #fff; border: 1px solid #2477c1; color: #2477c1; font-weight:bold; padding: 0 7px 2px; height: 25px;}
 .btn_basic_n:hover {background: #2477c1; border: 1px solid #2477c1; color:#fff; font-weight:bold; padding: 0 7px 2px; height: 25px;}
 .btn_basic_n:disabled{background: #ddd; border: 1px solid #ccc; color:#ccc; font-weight:normal; padding: 0 7px 2px; height: 25px;}
+*/
+.btn_basic_n {background: #fff;border: 1px solid #ccc; color:#333; font-weight:bold; padding: 0 7px 2px;height: 25px;}
+.btn_basic_n:hover {border: 1.1px solid #666d80; font-weight:bold; padding: 0 7px 2px; height: 25px;}
+.btn_basic_n:disabled {background: #ddd; border: 1px solid #ccc; color:#ccc; font-weight:normal; padding: 0 7px 2px; height: 25px;}
 
 .lang_menu ul li .menu_box p:hover {
 	color: #2471c8;
@@ -1504,7 +1509,9 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
     height: 30px;
 }
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="header"] [data-ax5grid-panel] table tr td [data-ax5grid-cellHolder][data-ax5grid-text-align="center"]{
-	color: #245490; font-weight: bold;
+	color: #245490;
+	font-weight: bold;
+	background-color: #6699ff1c; /* grid header color 추가 */
 }
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel] table tr.tr-0{
     background: #f8f8f8;
