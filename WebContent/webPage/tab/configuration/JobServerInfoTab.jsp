@@ -6,57 +6,60 @@
 
 <body style="height: 95% !important">
 	<div class="sm-row half_wrap_cb">	
-		<div class="l_wrap width-20">
-            <label class="tit_80 poa">작업구분</label>
+		<div class="l_wrap width-25">
+            <label class="tit_80 poa margin-5-left">작업구분</label>
             <div class="ml_80">
-				<div id="cboJobDiv" data-ax5select="cboJobDiv" data-ax5select-config="{size:'sm',theme:'primary'}" class="margin-5-right width-100 dib"></div>
+				<div id="cboJobDiv" data-ax5select="cboJobDiv" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 10px);"></div>
 			</div>
 		</div>		
 		<div class="l_wrap width-20">
-            <label class="tit_80 poa margin-5-left">IP Address</label>
+            <label class="tit_80 poa tac">IP Address</label>
             <div class="ml_80 por">
-            	<input id="txtIp" type="text" class="width-100 dib">
-			</div>
-		</div>				
-		<div class="l_wrap width-20">
-            <label class="tit_80 poa margin-5-left">계정</label>
-            <div class="ml_80 por">
-            	<input id="txtUser" type="text" class="width-100 dib">
-			</div>
-		</div>				
-		<div class="l_wrap width-40">
-            <label class="tit_80 poa margin-5-left">대상확장자</label>
-            <div class="ml_80 por">
-            	<input id="txtExeName" type="text" class="width-100 dib">
+            	<input id="txtIp" type="text" class="dib" style="width:calc(100% - 10px);">
 			</div>
 		</div>		
-	</div>
-	<div class="sm-row half_wrap_cb">	
+		<div class="l_wrap width-15">
+            <label class="tit_60 poa tac">Port</label>
+            <div class="ml_60 por">
+            	<input id="txtPort" type="text" class="dib" style="width:calc(100% - 10px);">
+			</div>
+		</div>							
 		<div class="l_wrap width-20">
-            <label class="tit_80 poa margin-5-left">Port</label>
+            <label class="tit_80 poa tac">계정</label>
             <div class="ml_80 por">
-            	<input id="txtPort" type="text" class="width-100 dib">
+            	<input id="txtUser" type="text" class="dib" style="width:calc(100% - 10px);">
 			</div>
 		</div>				
 		<div class="l_wrap width-20">
-            <label class="tit_80 poa margin-5-left">비밀번호</label>
+            <label class="tit_80 poa tac">비밀번호</label>
             <div class="ml_80 por">
             	<input id="txtPass" type="text" class="width-100 dib">
 			</div>
-		</div>				
-		<div class="l_wrap width-60">
+		</div>	
+	</div>
+	<div class="sm-row half_wrap_cb">	
+		<div class="l_wrap width-100">
             <label class="tit_80 poa margin-5-left">Agent경로</label>
             <div class="ml_80 por">
-            	<input id="txtAgent" type="text" class="width-80 dib"> <label class="margin-5-left"><input type="checkbox" />장애</label>
+            	<input id="txtAgent" type="text" class="dib" style="width:calc(100% - 100px);"> 
+            	<label class="margin-5-left tar"><input type="checkbox" />장애</label>
             </div>
 		</div>
+	</div>	
+	<div class="sm-row vat" style="margin-bottom:5px">		
+		<div class="l_wrap" style="width:calc(100% - 100px);">
+	        <label class="tit_80 poa margin-5-left">대상확장자</label>
+	        <div class="ml_80 por" >
+	           	<input id="txtExeName" type="text" class="width-100 dib">
+			</div>	
+		</div>				
+		<div class="l_wrap tar" style="width: 100px;">
+			<button id="btnReq" class="btn_basic_s">등록</button>
+			<button id="btnDel" class="btn_basic_s">폐기</button>
+		</div>
 	</div>
-	<div class="sm-row tar">
-		<button id="btnReq" class="btn_basic_s">등록</button>
-		<button id="btnDel" class="btn_basic_s">폐기</button>
-	</div>
-    <div class="sm-row az_board_basic" style="height: 72%">
-    	<div data-ax5grid="workGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
+    <div class="sm-row az_board_basic" style="height:calc(100% - 140px);">
+    	<div data-ax5grid="workGrid" style="height: 100%;"></div>
 	</div>	
 </body>		
 

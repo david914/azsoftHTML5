@@ -20,36 +20,6 @@ var delCycleGridData 	= null;
 var cboPathDivData		= null;
 var cboDelCycleData		= null;
 
-
-delCycleGrid.setConfig({
-    target: $('[data-ax5grid="delCycleGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 25,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-            clickDelCycleGrid(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", 	label: "디렉토리구분",  	width: '20%', align: 'left' },
-        {key: "delterm", 		label: "삭제주기",  		width: '80%' },
-    ]
-});
-
-
 $('[data-ax5select="cboPathDiv"]').ax5select({
     options: []
 });
@@ -69,15 +39,50 @@ $(document).ready(function() {
 	$('#btnDel').bind('click', function() {
 		deleteDelCycle();
 	});
+	createGridView();
 });
 
+function createGridView() {
+	
+	delCycleGrid = new ax5.ui.grid();
+	
+	delCycleGrid.setConfig({
+	    target: $('[data-ax5grid="delCycleGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: false,
+	    showLineNumber: true,
+	    header: {
+	        align: "center"
+	    },
+	    body: {
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	            clickDelCycleGrid(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_codename", 	label: "디렉토리구분",  	width: '50%', align: 'left' },
+	        {key: "delterm", 		label: "삭제주기",  		width: '50%', align: 'center' },
+	    ]
+	});
+	
 
+	if (delCycleGridData != null && delCycleGridData.length > 0) {
+		delCycleGrid.setData(delCycleGridData);
+	}
+	
+}
 // 등록
 function insertDelCycle() {
 	
-	var txtDelCycle = $('#txtDelCycle').val().trim();
-	
-	
+	var txtDelCycle = $('#txtDelCycle').val().trim();	
 	
 	if(getSelectedIndex('cboPathDiv') <1 ) {
 		dialog.alert('디렉토리구분을 선택하여 주십시오.', function() {});

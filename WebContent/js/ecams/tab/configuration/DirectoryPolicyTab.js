@@ -19,38 +19,6 @@ var dirGrid		= new ax5.ui.grid();
 var dirGridData	 	= null;
 var cboPathDivData	= null;
 
-
-dirGrid.setConfig({
-    target: $('[data-ax5grid="dirGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 25,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-            clickDirGrid(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", 	label: "디렉토리구분",  	width: '20%', align: 'left'},
-        {key: "cm_path", 		label: "디렉토리명",  		width: '40%', align: 'left' },
-        {key: "cm_downip", 		label: "배포서버IP",  		width: '20%' },
-        {key: "cm_downport", 	label: "PORT",  		width: '20%' },
-    ]
-});
-
-
 $('[data-ax5select="cboPathDiv"]').ax5select({
     options: []
 });
@@ -66,8 +34,46 @@ $(document).ready(function() {
 	$('#btnDel').bind('click', function() {
 		delDirList();
 	});
+	createGridView();
 });
 
+function createGridView() {
+	
+	dirGrid		= new ax5.ui.grid();
+
+	dirGrid.setConfig({
+	    target: $('[data-ax5grid="dirGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: false,
+	    showLineNumber: true,
+	    header: {
+	        align: "center"
+	    },
+	    body: {
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	            clickDirGrid(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_codename", 	label: "디렉토리구분",  	width: '20%', align: 'left'},
+	        {key: "cm_path", 		label: "디렉토리명",  		width: '40%', align: 'left' },
+	        {key: "cm_downip", 		label: "배포서버IP",  		width: '20%' },
+	        {key: "cm_downport", 	label: "PORT",  		width: '20%' },
+	    ]
+	});
+	if (dirGridData != null && dirGridData.length > 0) {
+		dirGrid.setData(dirGridData);
+	}
+	
+}
 // 디렉토리정책 리스트 가져오기
 function getDirList() {
 	var data = new Object();

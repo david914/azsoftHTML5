@@ -16,6 +16,12 @@ var userDeptCd 	= window.top.userDeptCd;	// 부서코드
 var urlArr 			 = [];
 var cboPassCycleData = [];
 
+var grid1Sw = false;
+var grid2Sw = false;
+var grid3Sw = false;
+var grid4Sw = false;
+var tmpTab = null;
+
 $('[data-ax5select="cboPassCycle"]').ax5select({
     options: []
 });
@@ -225,11 +231,47 @@ function getCodeInfo() {
 function setTabMenu(){
 	$(".tab_content:first").show();
 	
-	$("ul.tabUl li").click(function () {
+	$("ul.tabs li").click(function () {
 		$(".tab_content").css('display','none');
 		var activeTab = $(this).attr("rel");
-		$("ul.tabUl li").removeClass('on');
+		$("ul.tabs li").removeClass('on');
 		$(this).addClass("on");
 		$('#'+activeTab).css('display','block');
+		
+		//console.log(this.id);
+		if(this.id === 'tab2Li') {
+			if (!grid1Sw) {
+				setTimeout(function() {
+					tmpTab = $('#frame2').get(0).contentWindow;
+					console.log('createViewGrid');
+					tmpTab.createGridView();
+				}, 10);
+				grid1Sw = true;
+			}
+		} else if(this.id === 'tab3Li') {
+			if (!grid2Sw) {
+				setTimeout(function() {
+					tmpTab = $('#frame3').get(0).contentWindow;
+					tmpTab.createGridView();
+				}, 10);
+				grid2Sw = true;
+			}
+		} else if(this.id === 'tab4Li') {
+			if (!grid3Sw) {
+				setTimeout(function() {
+					tmpTab = $('#frame4').get(0).contentWindow;
+					tmpTab.createGridView();
+				}, 10);
+				grid3Sw = true;
+			}
+		} else if(this.id === 'tab5Li') {
+			if (!grid4Sw) {
+				setTimeout(function() {
+					tmpTab = $('#frame5').get(0).contentWindow;
+					tmpTab.createGridView();
+				}, 10);
+				grid4Sw = true;
+			}
+		} 
 	});
 }

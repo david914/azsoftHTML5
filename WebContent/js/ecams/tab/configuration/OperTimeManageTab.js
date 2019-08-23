@@ -25,12 +25,11 @@ operTimeGrid.setConfig({
     sortable: true, 
     multiSort: true,
     showRowSelector: false,
+    showLineNumber: true,
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -43,8 +42,8 @@ operTimeGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "운영시간구분",  	width: '20%', align: 'left' },
-        {key: "stedtime", 		label: "운영시간",  		width: '80%' },
+        {key: "cm_codename", 	label: "운영시간구분",  	width: '50%', align: 'left' },
+        {key: "stedtime", 		label: "운영시간",  		width: '51%' },
     ]
 });
 

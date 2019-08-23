@@ -29,35 +29,6 @@ var modiDeptSw 	= false;
 var subSw		= true;
 var txtUserId	= null;	// 조직도에서 선택된 유저아이디
 var txtUserName	= null; // 조직도에서 선택된 유저명
-notiGrid.setConfig({
-    target: $('[data-ax5grid="notiGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: true,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 25,
-        onClick: function () {
-            this.self.select(this.dindex);
-            clickNotiGrid(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "qrycd", 			label: "신청구분",  		width: '20%' },
-        {key: "notigbn", 		label: "알림구분",  		width: '40%' },
-        {key: "common", 		label: "업무중",  		width: '20%' },
-        {key: "holiday", 		label: "업무후",  		width: '20%' },
-    ]
-});
-
 
 $('[data-ax5select="cboUser"]').ax5select({
     options: []
@@ -100,8 +71,45 @@ $(document).ready(function() {
 	$('#btnDel').bind('click', function() {
 		delNotiList();
 	});
+	createGridView();
 });
 
+function createGridView() {
+	
+	notiGrid		= new ax5.ui.grid();
+	notiGrid.setConfig({
+	    target: $('[data-ax5grid="notiGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: true,
+	    showLineNumber: true,
+	    header: {
+	        align: "center"
+	    },
+	    body: {
+	        onClick: function () {
+	            this.self.select(this.dindex);
+	            clickNotiGrid(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "qrycd", 			label: "신청구분",  		width: '20%' },
+	        {key: "notigbn", 		label: "알림구분",  		width: '40%' },
+	        {key: "common", 		label: "업무중",  		width: '20%' },
+	        {key: "holiday", 		label: "업무후",  		width: '20%' },
+	    ]
+	});
+
+	if (notiGridData != null && notiGridData.length > 0) {
+		notiGrid.setData(notiGridData);
+	}
+	
+}
 // 알림 기준정보 폐기
 function delNotiList() {
 	

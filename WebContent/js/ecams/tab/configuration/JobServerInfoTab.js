@@ -19,41 +19,6 @@ var workGrid		= new ax5.ui.grid();
 var workGridData 	= null;
 var cboJobDivData	= null;
 
-
-workGrid.setConfig({
-    target: $('[data-ax5grid="workGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 25,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-            clickWorkServerGrid(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", 	label: "작업구분",  		width: '10%' },
-        {key: "cm_svrip", 		label: "IP Address",  	width: '20%' },
-        {key: "cm_portno", 		label: "Port",  		width: '10%' },
-        {key: "cm_svrusr", 		label: "계정",  			width: '10%' },
-        {key: "cm_svrpass", 	label: "비밀번호",  		width: '10%' },
-        {key: "cm_agentdir", 	label: "Agent 경로",  	width: '20%' },
-        {key: "cm_stopsw", 		label: "장애여부",  		width: '10%' },
-        {key: "cm_excexe", 		label: "대상확장자",  		width: '10%' },
-    ]
-});
-
 $('[data-ax5select="cboJobDiv"]').ax5select({
     options: []
 });
@@ -71,8 +36,50 @@ $(document).ready(function() {
 	$('#btnDel').bind('click', function() {
 		delWorkServerList();
 	});
+	createGridView();
 });
 
+function createGridView() {
+	
+	workGrid		= new ax5.ui.grid();
+	
+	workGrid.setConfig({
+	    target: $('[data-ax5grid="workGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: false,
+	    showLineNumber: true,
+	    header: {
+	        align: "center"
+	    },
+	    body: {
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	            clickWorkServerGrid(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_codename", 	label: "작업구분",  		width: '10%' },
+	        {key: "cm_svrip", 		label: "IP Address",  	width: '10%' },
+	        {key: "cm_portno", 		label: "Port",  		width: '5%' },
+	        {key: "cm_svrusr", 		label: "계정",  			width: '8%' },
+	        {key: "cm_agentdir", 	label: "Agent 경로",  	width: '25%' },
+	        {key: "cm_stopsw", 		label: "장애여부",  		width: '8%' },
+	        {key: "cm_excexe", 		label: "대상확장자",  		width: '34%' },
+	    ]
+	});
+	
+	if (workGridData != null && workGridData.length > 0) {
+		workGrid.setData(workGridData);
+	}
+	
+}
 // 작업서버정보 리스트 가져오기
 function getWorkServerList() {
 	var data = new Object();

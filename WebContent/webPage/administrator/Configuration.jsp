@@ -16,20 +16,20 @@
                <div class="width-25 dib vat">
                	<div>
                     <label class="tit_150 poa">IP Address(내부망)</label>
-                    <div class="ml_150">
-						<input id="txtIpIn" type="text" class="width-100">
+                    <div style="margin-left: 120px;">
+						<input id="txtIpIn" type="text" style="width:calc(100% - 10px);">
 					</div>
 				</div>
                	<div class="sm-row">
                     <label class="tit_150 poa">IP Address(외부망)</label>
-                    <div class="ml_150">
-						<input id="txtIpOut" type="text" class="width-100">
+                    <div style="margin-left: 120px;">
+						<input id="txtIpOut" type="text" style="width:calc(100% - 10px);">
 					</div>
 				</div>
                	<div class="sm-row">
                     <label class="tit_150 poa">PORT</label>
-                    <div class="ml_150">
-						<input id="txtPort" type="text" class="width-100">
+                    <div style="margin-left: 120px;">
+						<input id="txtPort" type="text" style="width:calc(100% - 10px);">
 					</div>
 				</div>
 			</div>
@@ -38,23 +38,23 @@
                	<div class="margin-5-left">
                 	<div>
 	                    <label class="tit_150 poa">비밀번호변경주기</label>
-	                    <div class="ml_150 por">
-							<input id="txtPassCycle" type="text" class="width-45 dib">
-		                    <div class="poa_r width-50 dib">
+	                    <div class="por" style="margin-left: 130px;">
+							<input id="txtPassCycle" type="text" class="dib" style="width: 50px;">
+		                    <div class="dib" style="width:calc(100% - 60px);">
 								<div id="cboPassCycle" data-ax5select="cboPassCycle" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100" ></div>
 							</div>
 						</div>
 					</div>
                 	<div class="sm-row">
 	                    <label class="tit_150 poa">비밀번호입력제한횟수</label>
-	                    <div class="ml_150">
-							<input id="txtPassLimit" type="text" class="width-100">
+	                    <div style="margin-left: 130px;">
+							<input id="txtPassLimit" type="text" style="width:calc(100% - 10px);">
 						</div>
 					</div>
                 	<div class="sm-row">
 	                    <label class="tit_150 poa">이전비밀번호보관횟수</label>
-	                    <div class="ml_150">
-							<input id="txtPassNum" type="text" class="width-100">
+	                    <div  style="margin-left: 130px;">
+							<input id="txtPassNum" type="text" style="width:calc(100% - 10px);">
 						</div>
 					</div>
 				</div>
@@ -64,20 +64,20 @@
                	<div class="margin-5-left">
                 	<div>
 	                    <label class="tit_150 poa">초기비밀번호</label>
-	                    <div class="ml_150">
-							<input id="txtInitPass" type="text" class="width-100">
+	                    <div  style="margin-left: 110px;">
+							<input id="txtInitPass" type="text" style="width:calc(100% - 10px);">
 						</div>
 					</div>
                 	<div class="sm-row">
 	                    <label class="tit_150 poa">관리자용비밀번호</label>
-	                    <div class="ml_150">
-							<input id="txtAdminPass" type="text" class="width-100">
+	                    <div  style="margin-left: 110px;">
+							<input id="txtAdminPass" type="text" style="width:calc(100% - 10px);">
 						</div>
 					</div>
                 	<div class="sm-row">
 	                    <label class="tit_150 poa">사용금지특수문자</label>
-	                    <div class="ml_150">
-							<input id="txtSpc" type="text" class="width-100">
+	                    <div  style="margin-left: 110px;">
+							<input id="txtSpc" type="text" style="width:calc(100% - 10px);">
 						</div>
 					</div>
 				</div>
@@ -87,19 +87,19 @@
                	<div class="margin-5-left">
                 	<div>
 	                    <label class="tit_150 poa">미사용ID잠금기준일</label>
-	                    <div class="ml_150">
+	                    <div style="margin-left: 115px;">
 							<input id="txtLockBaseDt" type="text" class="width-100">
 						</div>
 					</div>
                 	<div class="sm-row">
 	                    <label class="tit_150 poa">로그인이력보관기간</label>
-	                    <div class="ml_150">
+	                    <div style="margin-left: 115px;">
 							<input id="txtLoginHis" type="text" class="width-100">
 						</div>
 					</div>
                 	<div class="sm-row">
 	                    <label class="tit_150 poa">프로세스총갯수</label>
-	                    <div class="ml_150">
+	                    <div style="margin-left: 115px;">
 							<input id="txtProcTot" type="text" class="width-100">
 						</div>
 					</div>
@@ -115,7 +115,7 @@
     <!-- 검색 E-->
     <!-- tab S-->
     <div class="tab_wrap">
-		<ul class="tabUl">
+		<ul class="tabs">
 			<li class="on" rel="tab1" id="tab1Li">운영시간관리</li>
 	        <li rel="tab2" id="tab2Li">삭제기준관리</li>
 	        <li rel="tab3" id="tab3Li">디렉토리정책</li>
@@ -128,22 +128,22 @@
 	
 	<div>
 		<div id="tab1" class="tab_content">
-			<iframe src='/webPage/tab/configuration/OperTimeManageTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
+			<iframe id="frame1" src='/webPage/tab/configuration/OperTimeManageTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
 		</div>
 		<div id="tab2" class="tab_content">
-			<iframe src='/webPage/tab/configuration/DelCriteriaManageTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
+			<iframe id="frame2" src='/webPage/tab/configuration/DelCriteriaManageTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
 		</div>
 		<div id="tab3" class="tab_content">
-			<iframe src='/webPage/tab/configuration/DirectoryPolicyTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
+			<iframe id="frame3" src='/webPage/tab/configuration/DirectoryPolicyTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
 		</div>
 		<div id="tab4" class="tab_content">
-			<iframe src='/webPage/tab/configuration/JobServerInfoTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
+			<iframe id="frame4" src='/webPage/tab/configuration/JobServerInfoTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
 		</div>
 		<div id="tab5" class="tab_content">
-			<iframe src='/webPage/tab/configuration/AlertCriteriaTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
+			<iframe id="frame5" src='/webPage/tab/configuration/AlertCriteriaTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
 		</div>
 		<div id="tab6" class="tab_content">
-			<iframe src='/webPage/tab/configuration/SRTypeManageTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
+			<iframe id="frame6" src='/webPage/tab/configuration/SRTypeManageTab.jsp' width='100%' height='74%' frameborder="0"></iframe>
 		</div>
 	</div>
 </div>
