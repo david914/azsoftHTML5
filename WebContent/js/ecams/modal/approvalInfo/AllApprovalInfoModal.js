@@ -32,11 +32,9 @@ grdAllApprovalInfo.setConfig({
     multipleSelect: false,
     showRowSelector: false,
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
         },

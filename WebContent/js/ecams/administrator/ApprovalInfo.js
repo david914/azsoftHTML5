@@ -54,11 +54,9 @@ grdSign.setConfig({
     showRowSelector: false,
     showLineNumber: false,
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 20,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);

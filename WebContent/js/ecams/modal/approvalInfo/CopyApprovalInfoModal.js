@@ -35,11 +35,9 @@ grdApprovalInfo.setConfig({
     showLineNumber: false,
     header: {
         align: "center",
-        columnHeight: 30,
         selector: true
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
         },

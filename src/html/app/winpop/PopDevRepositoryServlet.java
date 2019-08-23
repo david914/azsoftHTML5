@@ -1,4 +1,4 @@
-package html.app.winpop.progregister;
+package html.app.winpop;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ import app.eCmd.Cmd0100;
 import app.eCmd.svrOpen;
 import html.app.common.ParsingCommon;
 
-@WebServlet("/webPage/winpop/progregister/PopDevRepositoryServlet")
+@WebServlet("/webPage/winpop/PopDevRepositoryServlet")
 public class PopDevRepositoryServlet extends HttpServlet {
 	/**
 	 * 

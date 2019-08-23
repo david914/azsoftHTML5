@@ -61,11 +61,9 @@ grdProgList.setConfig({
     showRowSelector: true,
     multipleSelect: true,
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 24,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -140,7 +138,7 @@ function getTempDir() {
 		requestType	: 'GETSYSTEMPATH',
 		pathcd		: '99' 
 	}
-	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfo, 'json', successSystemPath);
+	ajaxAsync('/webPage/winpop/PopDevRepositoryServlet', tmpInfo, 'json', successSystemPath);
 }
 
 
@@ -163,7 +161,7 @@ function getPrjList() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSRID'
 	}
-	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successSRID);
+	ajaxAsync('/webPage/winpop/PopDevRepositoryServlet', tmpInfoData, 'json', successSRID);
 }
 
 function successSRID(data) {
@@ -201,7 +199,7 @@ function getSysInfo() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSYSINFO'
 	}
-	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successSysInfo);
+	ajaxAsync('/webPage/winpop/PopDevRepositoryServlet', tmpInfoData, 'json', successSysInfo);
 }
 
 function successSysInfo(data) {
@@ -270,7 +268,7 @@ function cboSystem_Change() {
 			tmpInfo		: tmpInfo,
 			requestType	: 'GETJOBINFO'
 		}
-		ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successJobInfo);
+		ajaxAsync('/webPage/winpop/PopDevRepositoryServlet', tmpInfoData, 'json', successJobInfo);
 	}
 	//SysInfo.getsvrInfo(strUserId,cboSys.selectedItem.cm_syscd,"Y","");
 	tmpInfo = new Object();
@@ -284,7 +282,7 @@ function cboSystem_Change() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSVRINFO'
 	}
-	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successSvrInfo);
+	ajaxAsync('/webPage/winpop/PopDevRepositoryServlet', tmpInfoData, 'json', successSvrInfo);
 }
 
 function screenInit() {
@@ -334,7 +332,7 @@ function successJobInfo(data) {
 			tmpInfo		: tmpInfo,
 			requestType	: 'GETJAWON'
 		}
-		ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successJawon);
+		ajaxAsync('/webPage/winpop/PopDevRepositoryServlet', tmpInfoData, 'json', successJawon);
 	}
 }
 
@@ -411,7 +409,7 @@ function cboSvr_click() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETHOMEDIRLIST'
 	}
-	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successHomeDir);
+	ajaxAsync('/webPage/winpop/PopDevRepositoryServlet', tmpInfoData, 'json', successHomeDir);
 }
 
 function successHomeDir(data) {
@@ -510,7 +508,7 @@ function btnQry_Click() {
 		tmpInfo		: tmpInfo,
 		requestType	: 'GETSVRDIR'
 	}
-	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successSvrDir);
+	ajaxAsync('/webPage/winpop/PopDevRepositoryServlet', tmpInfoData, 'json', successSvrDir);
 }
 
 /* 디렉토리 트리구조 셋팅 */
@@ -569,7 +567,7 @@ function myOnExpand(event, treeId, treeNode) {
 		}
 		
 		ajaxReturnData = null;
-		ajaxReturnData = ajaxCallWithJson('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json');
+		ajaxReturnData = ajaxCallWithJson('/webPage/winpop/PopDevRepositoryServlet', tmpInfoData, 'json');
 		
 		var obj = null;
 		obj = ajaxReturnData;
@@ -706,7 +704,7 @@ function contextmenu_click(gbn) {
 		requestType	: 'GETFILELIST_THREAD'
 	}
 	
-	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successGetFileList);
+	ajaxAsync('/webPage/winpop/PopDevRepositoryServlet', tmpInfoData, 'json', successGetFileList);
 	
 	fullpath = "";
 }
@@ -910,7 +908,7 @@ function btnRegist_Click() {
 		requestType	: 'REGISTPROG'
 	}
 	
-	ajaxAsync('/webPage/winpop/progregister/PopDevRepositoryServlet', tmpInfoData, 'json', successRegistProg);
+	ajaxAsync('/webPage/winpop/PopDevRepositoryServlet', tmpInfoData, 'json', successRegistProg);
 }
 
 function successRegistProg(data) {

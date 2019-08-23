@@ -21,7 +21,6 @@
 
 <body style="padding: 10px !important; width: 100% !important; min-width: 0px !important;">
 <!-- contener S -->
-    <div class="contentFrame">
         <!-- history S-->
         <div id="history_wrap">	프로그램등록 <strong>&gt; 개발영역연결등록</strong></div>
         <!-- history E-->
@@ -63,13 +62,13 @@
 					</div>
 					<div class="width-50 float-left">
 						<div class="margin-5-left">
-	                        <div class="tit_100 poa">
-								<input id="txtDir" type="text" style="width: 615px;" placeholder="기준디렉토리기준으로 하위디렉토리 입력 후 조회"></input> <!-- class="width-200" style="width: 820px;"-->
+	                        <div class="poa" style="width:calc(50% - 130px);">
+								<input id="txtDir" type="text" class="width-100" placeholder="기준디렉토리기준으로 하위디렉토리 입력 후 조회"></input> <!-- style="width: 820px;"-->
 							</div>
 						</div>
 						<div class="margin-5-left">
-							<div style="margin-left: 615px;">
-								<button id="btnQry" class="btn_basic_s margin-5-left">디렉토리조회</button> <!-- class="ml_300" -->
+							<div class="float-right">
+									<button id="btnQry" class="btn_basic_s">디렉토리조회</button> <!-- class="ml_300" -->
 							</div>
 						</div>
 					</div>
@@ -98,21 +97,19 @@
 			</div>
 		</div>
 		<!--검색E-->
-		<div class="half_wrap margin-10-top">
-			<div class="l_wrap width-40" style="height: 400px;"> <!-- scrollBind -->
+		<div class="half_wrap margin-10-top" style="height:57%">
+			<div class="l_wrap width-30" style="height: 100%;"> <!-- scrollBind -->
 				<!-- 디렉토리 트리 -->	
 				<div class="scrollBind" style="height: 100%; border: 1px dotted gray; OVERFLOW-Y:auto">
 					<ul id="treeDir" class="ztree"></ul>
 				</div>
 			</div>
-			<div class="r_wrap width-60">
+			<div class="r_wrap width-70" style="height:100%">
 				<!-- 게시판 S-->
-				<div>
-				    <div class="az_board_basic az_board_basic_in margin-10-left">
-				    	<!-- 프로그램목록 그리드 -->
-				    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 400px; width:100%"></div>
-					</div>	
-				</div>
+			    <div class="az_board_basic az_board_basic_in margin-10-left" style="height: 100%">
+			    	<!-- 프로그램목록 그리드 -->
+			    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%; width:100%"></div>
+				</div>	
 				<!-- 게시판 E -->
 			</div>
 		</div>
@@ -126,6 +123,7 @@
 		<!-- 검색 S -->
 		<div class="az_search_wrap row">
 			<div class="az_in_wrap">
+			
 				<div class="cb">
 					<!--left-->
 					<div class="float-left width-90">
@@ -145,7 +143,7 @@
 		                    	<div class="tit_100 poa">
 		                        	<label>*업무</label>
 		                        </div>
-		                        <div class="ml_60 tal">
+		                        <div class="ml_60 tal" style="width:calc(100% - 40px) !important;">
 									<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100">
 								    </div>
 								</div>
@@ -156,7 +154,7 @@
 		                    <div class="tit_100 poa">
 		                        <label>*프로그램설명</label>
 		                    </div>
-		                    <div class="ml_100">
+		                    <div class="ml_100" style="width:calc(100% - 80px) !important;">
 		                        <input id="txtStory" type="text" class="width-100">
 		                    </div>
 						</div>				
@@ -164,7 +162,7 @@
 							<div class="tit_100 poa">
 	                        	<label>*SR-ID</label>
 	                        </div>
-	                        <div class="ml_100">
+	                        <div class="ml_100" style="width:calc(100% - 80px) !important;">
 								<div id="cboSRID" data-ax5select="cboSRID" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100">
 							    </div>
 							</div>
@@ -180,7 +178,6 @@
 			</div>
 		</div>
 		<!-- 검색 E -->
-	</div>
 <!-- contener E -->
 </body>
 
@@ -195,4 +192,4 @@
 </div>
 
 <c:import url="/js/ecams/common/commonscript.jsp" />
-<script type="text/javascript" src="<c:url value="/js/ecams/winpop/progregister/PopDevRepository.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ecams/winpop/PopDevRepository.js"/>"></script>

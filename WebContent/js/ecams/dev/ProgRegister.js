@@ -33,11 +33,9 @@ grdProgList.setConfig({
     showRowSelector: true,
     multipleSelect: true,
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 24,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -620,26 +618,29 @@ function successCheckProg(data) {
 }
 
 function btnDel_Click() {
+	var findSW = false;
+	var checkedGridItem = grdProgList.getList("selected");
+	
+	if(checkedGridItem.length > 0) {
+		findSW = true;
+	}
+	
+	if(!findSW) {
+		dialog.alert('선택된 목록이 없습니다. 목록에서 삭제 할 대상을 선택한 후 처리하십시오.',function(){});
+		return;
+	}
+	
 	confirmDialog.confirm({
 		title: '삭제확인',
 		msg: '선택된 프로그램을 정말로 삭제하시겠습니까?'
 	}, function(){
 		if(this.key === 'ok') {
-			var findSW = false;
 			var i = 0;
-			var checkedGridItem = grdProgList.getList("selected");
+			findSW = false;
+			checkedGridItem = grdProgList.getList("selected");
 			
 			if(getSelectedIndex('cboSystem') < 0) {
 				dialog.alert('시스템을 선택하여 주십시오.',function(){});
-				return;
-			}
-			
-			if(checkedGridItem.length > 0) {
-				findSW = true;
-			}
-			
-			if(!findSW) {
-				dialog.alert('선택된 목록이 없습니다. 목록에서 삭제 할 대상을 선택한 후 처리하십시오.',function(){});
 				return;
 			}
 			
@@ -680,8 +681,11 @@ function btnDevRep_Click() {
 	form.UserId.value = userId;   							//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 	form.SysCd.value  = getSelectedVal('cboSystem').value;  //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 	
-	nHeight	= screen.height;
-    nWidth = screen.width;
+//	nHeight	= screen.height;
+//  nWidth = screen.width;
     
-    winDevRep = winOpen(form, 'devRep', '/webPage/winpop/progregister/PopDevRepository.jsp', nHeight, nWidth);
+    nHeight = 780;
+    nWidth  = 1200;
+    
+    winDevRep = winOpen(form, 'devRep', '/webPage/winpop/PopDevRepository.jsp', nHeight, nWidth);
 }
