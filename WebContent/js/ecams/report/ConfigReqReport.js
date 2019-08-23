@@ -225,7 +225,8 @@ function search() {
 		strGbn : $("[data-ax5select='prcdDivSel").ax5select("getValue")[0].value,
 		strPrc : $("[data-ax5select='statusSel']").ax5select("getValue")[0].value,
 		srId : $("#srId").val() == '' ? null : $("#srId").val(),
-		dategbn : $("#radioCkIn").is(":checked") ? 0 : 1
+		dategbn : $("#radioCkIn").is(":checked") ? 0 : 1,
+		acptNo :  $("#acptNo").val() == '' ? null : replaceAllString($("#acptNo").val(), "-", ""),
 	}
 	
 	ajaxData = {

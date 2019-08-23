@@ -23,6 +23,7 @@ $(document).ready(function() {
 	$('input:checkBox[name=checkDetail]').wCheck({theme: 'circle-radial blue', selector: 'checkmark', highlightLabel: true});
 	mainGrid.setConfig({
 		target : $('[data-ax5grid="mainGrid"]'),
+		sortable : true,
 		showLineNumber : true,
 		showRowSelector : false,
 		multipleSelect : false,
@@ -82,6 +83,9 @@ $(document).ready(function() {
 	
 	isAdmin();
 	comboSet();	
+	
+	$('[data-ax5select="prgStatusSel"]').ax5select("disable");
+	$("#conditionText").prop("disabled", true);
 })
 
 function isAdmin() {
@@ -134,6 +138,7 @@ function comboSet() {
 	//콤보박스에 들어갈 데이터 세팅
 	$.each(ajaxResult, function(index, value) {
 		comboData[index] = [];
+		if(index == 0) comboData[0].push({value : null, text : "선택하세요"});
 		$.each(value, function(key, value2) {
 			if(index == 0) {
 				comboData[index].push({value : value2.cm_syscd, text : value2.cm_sysmsg});		
@@ -173,10 +178,10 @@ function comboSet() {
 	}	
 	
 	//첫 화면 디폴트 출력값 세팅
-	prgOptionSet('90001', '2');
-	$('[data-ax5select="conditionSel1"]').ax5select("setValue", '2', true);
-	$('[data-ax5select="prgStatusSel"]').ax5select("setValue", '5', true);
-	$("#btnSearch").trigger('click');
+//	prgOptionSet('90001', '2');
+//	$('[data-ax5select="conditionSel1"]').ax5select("setValue", '2', true);
+//	$('[data-ax5select="prgStatusSel"]').ax5select("setValue", '5', true);
+//	$("#btnSearch").trigger('click');
 }
 
 //조건선택1의 값에 따른 프로그램종류/상태 콤보박스 세팅
@@ -211,6 +216,11 @@ function prgOptionSet(sysCd, condCd) {
 //조회 이벤트 시
 $("#btnSearch").bind('click', function() {
 		
+	if($('[data-ax5select="systemSel"]').ax5select("getValue")[0].value == null) {
+		dialog.alert('시스템을 먼저 선택해주세요.',function(){});
+		return;
+	} 
+	
 	if($('[data-ax5select="conditionSel1"]').ax5select("getValue")[0].value == 0) {
 		dialog.alert('조건을 먼저 선택해주세요.',function(){});
 		return;

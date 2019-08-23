@@ -21,14 +21,18 @@
 				<div class="l_wrap width-70 dib">
 	                <div class="por">
 	                	<!--시스템S-->
-	                	<div class="width-25 dib poa" style="min-width: 270px;">
+	                	<div class="width-25 dib">
 		                	<label class="dib">시스템　</label>
 		                    <div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>
+	                	<div class="width-25 dib vat" style="">
+		                	<label class="dib">신청번호</label>
+		                    <input id="acptNo" data-ax-path="acptNo" type="text" class="width-75"/>
+						</div>
 						<!--SR-ID/SR명 S-->
-						<div class="width-50 dib vat" style="margin-left: 50%;">
+						<div class="width-50 dib vat" style="">
 		                	<label class="tit_100">SR-ID/SR명</label>
 							<input id="srId" data-ax-path="srId" type="text" class="width-40" />
 						</div>
@@ -93,19 +97,6 @@
 							<span class="sim">&sim;</span>
 							<input id="dateEd" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:92px;">
 							<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
-<!-- 							<div class="width-30 dib" style="min-width: 125px;"> -->
-<!-- 				            <div class="input-group" data-ax5picker="picker1"> -->
-<!-- 					            <input id="datStD" type="text" class="form-control"> -->
-<!-- 					            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span> -->
-<!-- 			        		</div> -->
-<!-- 							</div> -->
-<!-- 			        		<label class="dib">&nbsp;~&nbsp;</label> -->
-<!-- 							<div class="width-30 dib" style="min-width: 125px;"> -->
-<!-- 			        		<div class="input-group" data-ax5picker="picker2"> -->
-<!-- 					            <input id="datEdD" type="text" class="form-control"> -->
-<!-- 					            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span> -->
-<!-- 					        </div> -->
-<!-- 							</div> -->
 						</div>
 					</div>
 					<div class="row tar">

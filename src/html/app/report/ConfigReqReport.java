@@ -89,7 +89,7 @@ public class ConfigReqReport extends HttpServlet {
 												   prjDataInfoMap.get("edDt"),prjDataInfoMap.get("desc"),
 												   prjDataInfoMap.get("strSys"),prjDataInfoMap.get("strJob"),	prjDataInfoMap.get("strDept"),
 												   prjDataInfoMap.get("txtUser"),prjDataInfoMap.get("strQry"),prjDataInfoMap.get("strGbn"),
-												   prjDataInfoMap.get("strPrc"),prjDataInfoMap.get("srId"),	prjDataInfoMap.get("dategbn")) );
+												   prjDataInfoMap.get("strPrc"),prjDataInfoMap.get("srId"),	prjDataInfoMap.get("dategbn"), prjDataInfoMap.get("acptNo")) );
 	}
 	
 	private String getCodeInfo(JsonElement jsonElement) throws SQLException, Exception {

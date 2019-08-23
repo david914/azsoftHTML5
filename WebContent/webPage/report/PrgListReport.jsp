@@ -67,8 +67,8 @@
 						<div class="tit_180 poa">
 	                  	  <label id="lbUser">범위</label>
 						</div>
-	                    <div class="ml_60">
-							<div id="rangeSel" data-ax5select="rangeSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib">
+	                    <div class="ml_80">
+							<div id="rangeSel" data-ax5select="rangeSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
 								
 						    </div>
 						    <div class="row">

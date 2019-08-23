@@ -44,7 +44,7 @@ public class Cmp0600{
 	 * @throws Exception
 	 */
     public Object[] get_SelectList(String StDate, String EdDate, String Txt_PrgName, String Cbo_SysCd,
-    		String Cbo_JobCd, String Cbo_Steam, String Txt_UserId, String Cbo_Sin, String gbn, String proc, String spms, String dategbn)throws SQLException, Exception {
+    		String Cbo_JobCd, String Cbo_Steam, String Txt_UserId, String Cbo_Sin, String gbn, String proc, String spms, String dategbn, String Txt_AcptNo)throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		PreparedStatement pstmt2      = null;
@@ -112,6 +112,9 @@ public class Cmp0600{
 			if (Txt_UserId != null && !Txt_UserId.equals("")) {
 				strQuery.append("and f.cm_username=?                                        \n");
 			}
+			if (Txt_AcptNo != null && !Txt_AcptNo.equals("")) {
+				strQuery.append("and a.cr_acptno like ?                                     \n");
+			}
 			if (Cbo_Sin != null && !Cbo_Sin.equals("")) {
 				if(Cbo_Sin.equals("99")){
 					strQuery.append("and g.cm_micode in ('03','04')        					\n");
@@ -137,7 +140,7 @@ public class Cmp0600{
 			strQuery.append("order by a.cr_syscd                                            \n");
 
 			pstmt = conn.prepareStatement(strQuery.toString());
-			//pstmt = new LoggableStatement(conn,strQuery.toString());
+//			pstmt = new LoggableStatement(conn,strQuery.toString());
 
 			pstmt.setString(++Cnt, StDate);
 			pstmt.setString(++Cnt, EdDate);
@@ -157,6 +160,9 @@ public class Cmp0600{
 			if (Txt_UserId != null && !Txt_UserId.equals("")) {
 				pstmt.setString(++Cnt, Txt_UserId);
 			}
+			if (Txt_AcptNo != null && !Txt_AcptNo.equals("")) {
+				pstmt.setString(++Cnt, "%"+Txt_AcptNo+"%");
+			}
 			if (Cbo_Sin != null && !Cbo_Sin.equals("")) {
 				if(!Cbo_Sin.equals("99")) pstmt.setString(++Cnt, Cbo_Sin);
 			}
@@ -167,7 +173,7 @@ public class Cmp0600{
 				pstmt.setString(++Cnt, "%"+spms+"%");
 				pstmt.setString(++Cnt, "%"+spms+"%");
 			}
-	        //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+//	        ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	        rs = pstmt.executeQuery();
 
 	        rtList.clear();
