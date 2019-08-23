@@ -79,11 +79,9 @@ firstGrid.setConfig({
     showRowSelector: true, //checkbox option
     //rowSelectorColumnWidth: 26 
     header: {
-        align: 'center',
-        columnHeight: 30
+        align: 'center'
     },
     body: {
-        columnHeight: 28,
         onClick: function () {
 	        if (this.colIndex == 5) {//버전선택
 	        	this.self.clearSelect();
@@ -200,11 +198,9 @@ secondGrid.setConfig({
     showRowSelector: true, //checkbox option
     //rowSelectorColumnWidth: 26 
     header: {
-        align: 'center',
-        columnHeight: 30
+        align: 'center'
     },
     body: {
-        columnHeight: 28,
         onClick: function () {
             // console.log(this);
         	//this.self.clearSelect(); //기존선택된 row deselect 처리 (multipleSelect 할땐 제외해야함)
@@ -737,12 +733,19 @@ function successGetFileGridData(data){
 		}
 		alertFlag = 0;
 		
+		console.log(firstGridData);
 		$(firstGridData).each(function(i){
 
 			if(firstGridData[i].cm_info.substr(57,1) == '1' &&  firstGridData[i].cm_info.substr(44,1) == '0'){
 				firstGridData[i].selected_flag = '1';
 				firstGridData[i].view_dirpath = '이클립스에서만 체크아웃이 가능합니다.';
 			}
+			
+			$(secondGridData).each(function(j){
+				if(secondGridData[j].cr_itemid == firstGridData[i].cr_itemid){
+					firstGridData[i].selected_flag = '1';
+				}
+			})
 			
 			if(firstGridData[i].selected_flag == '1' || firstGridData[i].cr_status != '0' || firstGridData[i].cr_nomodify != '0'){
 				
@@ -755,9 +758,6 @@ function successGetFileGridData(data){
 		firstGrid.setData(firstGridData);
 		//fileGrid.refresh(); //체크아웃후 새로운 데이터 안가져옴
 		//changeFileGridStyle(firstGridData);
-		
-		secondGrid.setData([]);
-		secondGridData = [];
 	}
 }
 
@@ -1298,7 +1298,7 @@ function ckout_end(){
 	upFiles = null;
 	upFiles = new Array();
 	
-	$('[data-ax5select="cboSys"]').ax5select("disable");
+	$('[data-ax5select="cboSys"]').ax5select("enable");
 	
 	$('#btnDiff').hide();
 	$('#btnReq').prop('disabled',true);
@@ -1331,7 +1331,7 @@ function ckout_end(){
 }
 
 function findRefresh(){
-
+	
 	if(searchMOD == "B"){//B:조회버튼 클릭시,  T:트리구조 클릭시
 		clickSearchBtn();
 	}else {

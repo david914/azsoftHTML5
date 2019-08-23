@@ -62,11 +62,9 @@ firstGrid.setConfig({
     multipleSelect: true,	// 그리드 ROW 선택 시 다중 선택 가능하게 할지 여부(true/false)
     showRowSelector: true,	// 그리드에 체크박스 보이게 할지 여부(true/false)
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 28,
         onClick: function () {
         	this.self.select(this.dindex);
         },
@@ -132,11 +130,9 @@ secondGrid.setConfig({
     multipleSelect: true,	// 그리드 ROW 선택 시 다중 선택 가능하게 할지 여부(true/false)
     showRowSelector: true,	// 그리드에 체크박스 보이게 할지 여부(true/false)
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 28,
         onClick: function () {
         	this.self.select(this.dindex);
         },
