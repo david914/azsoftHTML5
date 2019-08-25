@@ -22,11 +22,9 @@ jobGrid.setConfig({
     sortable: true, 
     multiSort: true,
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -48,11 +46,9 @@ pgmGrid.setConfig({
     sortable: true, 
     multiSort: true,
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);

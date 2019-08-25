@@ -20,11 +20,9 @@ firstGrid.setConfig({
     },
     showLineNumber: true,
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 28,
     	trStyleClass: function () {
     		if (this.item.comperr == 'Y' || this.item.deployerr == 'Y' || 
     				this.item.compchg.indexOf("##PARM##") >= 0 || this.item.deploychg.indexOf("##PARM##") >= 0){

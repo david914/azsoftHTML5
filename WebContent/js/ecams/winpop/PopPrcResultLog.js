@@ -21,11 +21,9 @@ retGrid.setConfig({
     multiSort: true,
     showLineNumber: true,
     header: {
-        align: "center",
-        columnHeight: 30
+        align: "center"
     },
     body: {
-        columnHeight: 28,
         onClick: function () {
         	//this.self.clearSelect();
            this.self.select(this.dindex);
