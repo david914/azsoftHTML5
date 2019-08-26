@@ -244,6 +244,9 @@ public class Cmd0500{
 		        if (etcData.get("DirPath") != null && !"".equals(etcData.get("DirPath"))) {
 		        	strQuery.append("   and upper(b.cm_dirpath) like upper(?)		      \n");
 		        }
+		        if(etcData.get("JobCd") != null && !"".equals(etcData.get("JobCd"))) {
+		        	strQuery.append("  and a.cr_rsrccd=? 							      \n");
+		        }	
 	        }	        	 
 	        strQuery.append("   and a.cr_syscd=c.cm_syscd                             \n");	
 		    strQuery.append("   and a.cr_syscd=b.cm_syscd and a.cr_dsncd=b.cm_dsncd   \n");
@@ -262,6 +265,7 @@ public class Cmd0500{
 			    if (inProgName.length()>0) pstmt.setString(++CNT, "%"+inProgName+"%");
 			    if (etcData.get("Rsrccd") != null && !"".equals(etcData.get("Rsrccd"))) pstmt.setString(++CNT, etcData.get("Rsrccd"));
 			    if (etcData.get("DirPath") != null && !"".equals(etcData.get("DirPath"))) pstmt.setString(++CNT, "%"+etcData.get("DirPath")+"%");
+			    if(etcData.get("JobCd") != null && !"".equals(etcData.get("JobCd"))) pstmt.setString(++CNT, etcData.get("JobCd"));
 	        }
 			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
@@ -1099,5 +1103,112 @@ public class Cmd0500{
 			}
 		}
     }//end of getCbo_ReqCd_Add() method statement
+    
+    public int updateProgInfo(HashMap<String, String> etcData, ArrayList<HashMap<String,String>> dataList) throws SQLException, Exception {		
+    	Connection        conn        = null;
+    	PreparedStatement pstmt       = null;
+    	StringBuffer      strQuery    = new StringBuffer();
+    	
+    	int i = 0;
+    	int	ret = 0;
+    	int paramCnt = 0;
+    	boolean updtSw = false;
 
+    	ConnectionContext connectionContext = new ConnectionResource();
+    	try {
+    		conn = connectionContext.getConnection();
+    		
+    		ecamsLogger.error("size: " + dataList.size());
+    		for (i=0; i<dataList.size(); i++){
+    			updtSw = false;
+        		strQuery.setLength(0);
+    			strQuery.append("update cmr0020 set \n");
+    			if(etcData.get("aftjob") != null && !"0".equals(etcData.get("aftjob"))) {
+    				updtSw = true;
+    				strQuery.append("cr_jobcd = ? \n");
+    			}
+    			
+    			if(etcData.get("aftrsrccd") != null && !"0".equals(etcData.get("aftrsrccd"))) {
+    				if(updtSw) strQuery.append(", cr_rsrccd = ? \n");
+    				else {
+    					updtSw = true;
+    					strQuery.append("cr_rsrccd = ? \n");
+    				}
+    			}
+    			
+    			if(etcData.get("aftowner") != null && !"0".equals(etcData.get("aftowner"))) {
+    				if(updtSw) strQuery.append(", cr_owner = ? \n");
+    				else {
+    					updtSw = true;
+    					strQuery.append("cr_owner = ? \n");
+    				}
+    			}
+    			
+    			if(etcData.get("aftsrid") != null && !"0".equals(etcData.get("aftsrid"))) {
+    				if(updtSw) strQuery.append(", cr_isrid = ? \n");
+    				else {
+    					updtSw = true;
+    					strQuery.append("cr_isrid = ? \n");
+    				}
+    			}
+    			
+    			if(etcData.get("aftdir") != null && !"0".equals(etcData.get("aftdir"))) {
+    				if(updtSw) strQuery.append(", cr_dsncd = ? \n");
+    				else {
+    					updtSw = true;
+    					strQuery.append("cr_dsncd = ? \n");
+    				}
+    			}
+    			
+    			strQuery.append("where cr_itemid = ? 		 				\n");
+    			strQuery.append("  and (cr_status = '3' or cr_status = '0') \n");
+
+//    			pstmt = conn.prepareStatement(strQuery.toString());
+    			pstmt = new LoggableStatement(conn, strQuery.toString());
+
+    			paramCnt = 0;
+    			if(etcData.get("aftjob") != null && !"0".equals(etcData.get("aftjob"))) pstmt.setString(++paramCnt, etcData.get("aftjob"));
+    			if(etcData.get("aftrsrccd") != null && !"0".equals(etcData.get("aftrsrccd"))) pstmt.setString(++paramCnt, etcData.get("aftrsrccd"));
+    			if(etcData.get("aftowner") != null && !"0".equals(etcData.get("aftowner"))) pstmt.setString(++paramCnt, etcData.get("aftowner"));
+    			if(etcData.get("aftsrid") != null && !"0".equals(etcData.get("aftsrid"))) pstmt.setString(++paramCnt, etcData.get("aftsrid"));
+    			if(etcData.get("aftdir") != null && !"0".equals(etcData.get("aftdir"))) pstmt.setString(++paramCnt, etcData.get("aftdir"));
+    			pstmt.setString(++paramCnt, dataList.get(i).get("cr_itemid"));
+    			
+    			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+    			ret = pstmt.executeUpdate();
+    			pstmt.close();
+    		}
+			
+			conn.close();
+			
+			pstmt = null;
+			conn = null;
+
+			return ret;
+
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## Cmd0500.updateProgInfo() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## Cmd0500.updateProgInfo() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## Cmd0500.updateProgInfo() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## Cmd0500.updateProgInfo() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null)	strQuery = null;
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ex3.printStackTrace();
+				}
+			}
+		}
+	}
+    
 }//end of Cmd0500 class statement

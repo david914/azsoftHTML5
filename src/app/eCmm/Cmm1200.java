@@ -78,10 +78,10 @@ public class Cmm1200{
 			strQuery.setLength(0);
 			strQuery.append("select cm_dirpath,cm_dsncd from cmm0070 \n");
 			strQuery.append("Where cm_syscd = ? \n");
-			if (spath != null){
-				if (!spath.equals("")){
+			if (spath != null && !spath.equals("")){
+				//if (!spath.equals("")){
 					strQuery.append("AND cm_dirpath like ? \n");
-				}
+				//}
 			}
 			strQuery.append("AND cm_clsdt is null \n");
 			strQuery.append("order by cm_dirpath \n");
@@ -89,10 +89,10 @@ public class Cmm1200{
 			pstmt = conn.prepareStatement(strQuery.toString());
 
             pstmt.setString(1, sysCD);
-			if (spath != null){
-				if (!spath.equals("")){
+			if (spath != null && !spath.equals("")){
+				//if (!spath.equals("")){
 					pstmt.setString(2, "%"+spath+"%");
-				}
+				//}
 			}
 			rs = pstmt.executeQuery();
 
