@@ -104,7 +104,7 @@ function clickUserConfigGrid(selIndex) {
 	
 	// 콤보에 값 없으면 선택하세요 선택
 	if(!findSw) {
-		$('[data-ax5select="cboSysCd"]').ax5select('setValue', '00000', true);findSw
+		$('[data-ax5select="cboSysCd"]').ax5select('setValue', '00000', true);
 	}
 }
 

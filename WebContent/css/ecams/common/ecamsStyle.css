@@ -1516,6 +1516,11 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
     height: 30px;
 }
 
+[data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="header"] [data-ax5grid-panel] table tr td[data-ax5grid-column-row="null"] {
+    border-right: 0 none;
+    background-color: #E8EEF9; /* grid header 끝에 남는부분 색 변경*/
+}
+
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="header"] [data-ax5grid-panel] table tr td.hasBorder {
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
