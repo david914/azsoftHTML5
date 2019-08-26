@@ -789,6 +789,11 @@ function successGetProgramList(data) {
 		}
 	}
 	
+	$(firstGridData).each(function(i){
+		if(firstGridData[i].selected_flag == "1"){
+			firstGridData[i].__disable_selection__ = true;
+		}
+	});
 	firstGrid.setData(firstGridData);
 	
 	if(firstGridData.length > 0 && reqCd == '03'){

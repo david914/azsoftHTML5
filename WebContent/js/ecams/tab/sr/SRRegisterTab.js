@@ -1065,7 +1065,7 @@ function onUploadCompleteData(){
 		//dialog.alert('업로드 되었습니다.',function(){});
 	}
 	else{
-    	dialog.alert('<div>파일등록 오류가 발생했습니다.</div><div> 재전송 버튼을 눌러 다시 등록해주시기 바랍니다.</div>',function(){});
+    	dialog.alert('<div>파일등록 오류가 발생했습니다.</div><div> 파일을 다시 등록해주시기 바랍니다.</div>',function(){});
 		ing_sw = false;
     	return;
 	}

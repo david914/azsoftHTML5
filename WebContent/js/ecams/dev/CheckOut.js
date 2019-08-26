@@ -750,14 +750,17 @@ function successGetFileGridData(data){
 			if(firstGridData[i].selected_flag == '1' || firstGridData[i].cr_status != '0' || firstGridData[i].cr_nomodify != '0'){
 				
 				firstGridData[i].filterData = true;
+				firstGridData[i].__disable_selection__ = true;
 			}
 			else{
 				firstGridData[i].filterData = false;
+				firstGridData[i].__disable_selection__ = false;
 			}
 		});
 		firstGrid.setData(firstGridData);
 		//fileGrid.refresh(); //체크아웃후 새로운 데이터 안가져옴
 		//changeFileGridStyle(firstGridData);
+		console.log(firstGrid);
 	}
 }
 
@@ -1579,9 +1582,11 @@ function successGetFileList_excel(data){
 		if(tmpAry2[i].errmsg == '정상'){
 			
 			tmpAry2[i].filterData = false;
+			tmpAry2[i].__disable_selection__ = false;
 		}
 		else{
 			tmpAry2[i].filterData = true;
+			tmpAry2[i].__disable_selection__ = true;
 		}
 	});
 
