@@ -55,23 +55,21 @@
 		</div>
 		<!-- cell3 -->		
 		<div class="width-30 dib vat">
-              <div class="margin-10-left">
-               	<div >
-                    <label class="tit_80 poa tac">업무중</label>
-                    <div class="ml_80" style="width:calc(100% - 80px);">
-						<div id="cboCommon" data-ax5select="cboCommon" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
-					</div>
+           	<div class="row">
+				<label class="tit_80 poa tac">업무중</label>
+				<div class="ml_80">
+					<div id="cboCommon" data-ax5select="cboCommon" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 				</div>
-               	<div class="row">
-                    <label class="tit_80 poa tac">업무후</label>
-                    <div class="ml_80" style="width:calc(100% - 80px);">
-						<div id="cboHoli" data-ax5select="cboHoli" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
-					</div>
+			</div>
+			<div class="row">
+				<label class="tit_80 poa tac">업무후</label>
+				<div class="ml_80">
+					<div id="cboHoli" data-ax5select="cboHoli" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 				</div>
-				<div class="row tar" style="vertical-align:bottom;height:120px;">
-					<button id="btnReq" class="btn_basic_s">등록</button>
-					<button id="btnDel" class="btn_basic_s margin-5-left">폐기</button>
-				</div>
+			</div>
+			<div class="row tar" style="vertical-align:bottom;height:120px;">
+				<button id="btnReq" class="btn_basic_s">등록</button>
+				<button id="btnDel" class="btn_basic_s margin-5-left">폐기</button>
 			</div>
 		</div>
 	</div>

@@ -46,8 +46,8 @@
             </div>
 		</div>
 	</div>	
-	<div class="sm-row vat" style="margin-bottom:5px">		
-		<div class="l_wrap" style="width:calc(100% - 100px);">
+	<div class="sm-row vat">		
+		<div class="l_wrap" style="width:calc(100% - 100px); margin-bottom:5px">
 	        <label class="tit_80 poa margin-5-left">대상확장자</label>
 	        <div class="ml_80 por" >
 	           	<input id="txtExeName" type="text" class="width-100 dib">
