@@ -1492,6 +1492,122 @@ public class SysInfo{
 			}
 		}
 	}//end of getsvrInfo() method statement
+	
+	public Object[] getSvrList(String SysCd,String SecuYn,String SelMsg) throws SQLException, Exception {
+		Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		ResultSet         rs          = null;
+		StringBuffer      strQuery    = new StringBuffer();
+		Object[] returnObjectArray = null;
+		ArrayList<HashMap<String, String>>  rsval = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String>			  rst		  = null;
+
+		String            strSelMsg   = "";
+
+		ConnectionContext connectionContext = new ConnectionResource();
+
+		try {
+			conn = connectionContext.getConnection();
+
+			if (SelMsg != "") {
+				if (SelMsg.toUpperCase().equals("ALL")){
+					strSelMsg = "전체";
+				}
+				else if (SelMsg.toUpperCase().equals("SEL")){
+					strSelMsg = "선택하세요";
+				}
+				else{
+					strSelMsg = "";
+				}
+			}
+			
+			strQuery.append("select a.cm_svrip,a.cm_portno,a.cm_svrname,a.cm_volpath,\n");
+			strQuery.append("       a.cm_svruse,a.cm_svrcd,a.cm_seqno,a.cm_sysos,    \n");
+			strQuery.append("       b.cm_sysinfo,a.cm_dir,a.cm_buffsize,             \n");
+			strQuery.append("       nvl(a.cm_samedir,a.cm_volpath) cm_samedir        \n");
+			strQuery.append("from cmm0031 a,cmm0030 b                                \n");
+			strQuery.append("where b.cm_syscd=? and b.cm_syscd=a.cm_syscd            \n");
+			strQuery.append("  and a.cm_svrcd in ('01','03','05','13','15','23','25')\n");
+			strQuery.append("  and a.cm_closedt is null                              \n");
+			strQuery.append("order by a.cm_svrcd,a.cm_svrname                        \n");
+			//pstmt = conn.prepareStatement(strQuery.toString());
+			pstmt = new LoggableStatement(conn,strQuery.toString());
+           	pstmt.setString(1, SysCd);
+           	ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+            rs = pstmt.executeQuery();
+            rsval.clear();
+			while (rs.next()){
+				if (rs.getRow() ==1 && strSelMsg != "" && !strSelMsg.equals("") && strSelMsg.length() > 0) {
+				   rst = new HashMap<String, String>();
+				   rst.put("cboId", SelMsg);
+				   rst.put("cm_svrip", "");
+				   rst.put("cm_portno", "");
+				   rst.put("cm_svrname", strSelMsg);
+				   rst.put("cm_volpath", "");
+				   rst.put("svrinfo", strSelMsg);
+				   rsval.add(rst);
+				   rst = null;
+				}
+				rst = new HashMap<String, String>();
+				rst.put("cboId", rs.getString("cm_svrip") + rs.getString("cm_seqno"));
+				rst.put("cm_svrip", rs.getString("cm_svrip"));
+				rst.put("cm_portno", Integer.toString(rs.getInt("cm_portno")));
+				rst.put("cm_svrname", rs.getString("cm_svrname"));
+				rst.put("cm_volpath", rs.getString("cm_volpath"));
+				rst.put("cm_svrcd", rs.getString("cm_svrcd"));
+				rst.put("cm_seqno", rs.getString("cm_seqno"));
+
+				rst.put("cm_sysos", rs.getString("CM_SYSOS"));
+				rst.put("cm_sysinfo", rs.getString("cm_sysinfo"));
+				rst.put("cm_dir", rs.getString("cm_dir"));
+				rst.put("cm_svruse", rs.getString("cm_svruse"));
+				rst.put("cm_buffsize", rs.getString("cm_buffsize"));
+				rst.put("cm_samedir", rs.getString("cm_samedir"));
+				rst.put("svrinfo", rs.getString("cm_svrname")+"["+rs.getString("cm_svrip")+"]");
+
+				rsval.add(rst);
+				rst = null;
+			}//end of while-loop statement
+			rs.close();
+			pstmt.close();
+			conn.close();
+			rs = null;
+			pstmt = null;
+			conn = null;
+
+			returnObjectArray = rsval.toArray();
+			rsval.clear();
+			rsval = null;
+			return returnObjectArray;
+
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## SysInfo.getsvrInfo() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## SysInfo.getsvrInfo() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## SysInfo.getsvrInfo() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## SysInfo.getsvrInfo() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (returnObjectArray != null)	returnObjectArray = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## SysInfo.getsvrInfo() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+	}//end of getsvrInfo() method statement
+	
 	public Object[] getsvrInfo_doc(String UserID,String SelMsg) throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;

@@ -25,6 +25,13 @@ var chkData		= [];
 
 var cboSysData	= [];
 
+var colorList		= ['org','green','blue'];
+var beforeScript 	= null;
+var scriptColorIn 	= 0;
+
+var title_;
+var class_;
+
 prgGrid.setConfig({
     target: $('[data-ax5grid="prgGrid"]'),
     sortable: true, 
@@ -55,7 +62,7 @@ prgGrid.setConfig({
 	            {key: "module", 	label: "바이너리", 	align: "left"},
 	            {key: "deploy1", 	label: "배포서버", 	align: "left"},
 	            {key: "script1", 	label: "적용쉘", 		align: "left"},
-	            {key: "etc1", 		label: "비고(바이너리생성시준)", width: '25%', align: "left"},
+	            {key: "etc1", 		label: "비고(바이너리생성시준)", width: '24%', align: "left"},
             ]
         },
         {key: undefined,	label: "운영적용", columns: [
@@ -63,11 +70,13 @@ prgGrid.setConfig({
 	            {key: "build2", 	label: "컴파일", 		align: "left"},
 	            {key: "deploy2", 	label: "배포서버", 	align: "left"},
 	            {key: "script2", 	label: "적용쉘", 		align: "left"},
-	            {key: "etc2", 		label: "비고",  width: '20%', align: "left"},
+	            {key: "etc2", 		label: "비고",  width: '23%', align: "left"},
 	        ]
 	    },
     ]
 });
+
+
 
 cmdGrid.setConfig({
     target: $('[data-ax5grid="cmdGrid"]'),
@@ -86,9 +95,29 @@ cmdGrid.setConfig({
         },
         onDBLClick: function () {},
         trStyleClass: function () {
-        	if(this.item.errsw === 'Y'){
-    			return "fontStyle-cncl";
-    		}
+        	// 스크립트 조회 일시 스크립트 별 색상 넣어주기
+        	if($('input:radio[id=optQry]').is(':checked')){
+        		if(beforeScript !== null && beforeScript.cm_bldcd === this.item.cm_bldcd && beforeScript.cm_prcsys === this.item.cm_prcsys
+        				&& beforeScript.cm_qrycd === this.item.cm_qrycd && beforeScript.cm_rsrccd === this.item.cm_rsrccd) {
+        			return colorList[scriptColorIn];
+        		}
+        		
+        		beforeScript = this.item;
+        		
+        		scriptColorIn++;
+        		
+        		if(scriptColorIn >= colorList.length) {
+        			scriptColorIn = 0;
+        		}
+        		
+        		return colorList[scriptColorIn];
+        		
+        	} else {
+        		// 점검일시
+        		if(this.item.errsw === 'Y'){
+        			return "fontStyle-cncl";
+        		}
+        	}
     	},
     	onDataChanged: function(){
     		this.self.repaint();
@@ -118,8 +147,7 @@ $(document).ready(function() {
 		if(getSelectedIndex('cboSys') < 1) {
 			return;
 		} else {
-			
-			if($('#optChk').is(':checked')) {
+			if($('input:radio[id=optChk]').is(':checked')){
 				if(cmdGrid.columns.length === 5) {
 					cmdGrid.removeColumn(4);
 					cmdGrid.removeColumn(3);
@@ -263,3 +291,49 @@ function successGetSysInfo(data) {
       options: injectCboDataToArr(cboSysData, 'cm_syscd' , 'cm_sysmsg')
 	});
 }
+
+
+//그리드에 마우스 툴팁 달기
+$(document).on("mouseenter","[data-ax5grid-panel='body'] span",function(event){
+	
+	if($('input:radio[id=optQry]').is(':checked')){
+		return;
+	}
+	
+	if(this.innerHTML == ""){
+		return;
+	}
+	//첫번째 컬럼에만 툴팁 달기
+	if($(this).closest("td").index() !== 1) return;
+	//그리드 정보 가져오기
+	var gridRowInfo = cmdGrid.list[parseInt($(this).closest("td").closest("tr").attr("data-ax5grid-tr-data-index"))];
+	var contents = gridRowInfo.errmsg;
+	
+	contents = lineBreak(contents, 100);
+	
+	$(this).attr("title",contents);
+	
+	// title을 변수에 저장
+	title_ = $(this).attr("title");
+	// class를 변수에 저장
+	class_ = $(this).attr("class");
+	// title 속성 삭제 ( 기본 툴팁 기능 방지 )
+	$(this).attr("title","");
+	
+	$("body").append("<div id='tip'></div>");
+	if (class_ == "img") {
+		$("#tip").html(imgTag);
+		$("#tip").css("width","100px");
+	} else {
+		$("#tip").css("display","inline-block");
+		$("#tip").html('<pre>'+title_+'</pre>');
+	}
+	
+	var pageX = event.pageX;
+	var pageY = event.pageY;
+	$("#tip").css({left : pageX + "px", top : pageY + "px"}).fadeIn(100);
+	return;
+}).on('mouseleave',"[data-ax5grid-panel='body'] span",function(){
+	$(this).attr("title", '');
+	$("#tip").remove();	
+});

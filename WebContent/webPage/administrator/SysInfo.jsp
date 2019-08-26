@@ -120,13 +120,13 @@
 						
 						<li class="sm-row">
 		    				<div class="width-60 float-left margin-5-bottom">
-			    					<label class="tit_80 dib poa">중단시작</label>
-			    					<div class="ml_80">
-										<div id="divPicker" data-ax5picker="datStDate" class="dib width-100 por">
-											<input id="datStDate" type="text" class="f-cal" autocomplete="off">
-											<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
-										</div>
+		    					<label class="tit_80 dib poa">중단시작</label>
+		    					<div class="ml_80">
+									<div id="divPicker" data-ax5picker="datStDate" class="dib width-100 por">
+										<input id="datStDate" type="text" class="f-cal" autocomplete="off">
+										<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 									</div>
+								</div>
 		    				</div>
 		    				<div class="width-40 float-right por">
 		    					<input id="timeDeploy" type="text" class="timepicker width-100" autocomplete="off" maxlength="5"/>

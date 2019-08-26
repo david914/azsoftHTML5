@@ -18,6 +18,7 @@ var handGrid 	= new ax5.ui.grid();
 
 var handGridData 	= [];
 var cboSysData		= [];
+var cboSvrData		= [];
 
 handGrid.setConfig({
     target: $('[data-ax5grid="handGrid"]'),
@@ -101,6 +102,9 @@ picker.bind({
 $('[data-ax5select="cboSys"]').ax5select({
     options: []
 });
+$('[data-ax5select="cboSvr"]').ax5select({
+	options: [{value:'ALL',text:'전체'}]
+});
 
 
 $('#txtDeploy').timepicker({
@@ -137,6 +141,11 @@ $(document).ready(function() {
 		}
 	});
 	
+	// 시스템 선택시 서버 콤보 세팅
+	$('#cboSys').bind('change', function() {
+		getSvrList();
+	});
+	
 	// 등록 버튼 클릭
 	$('#btnRun').bind('click', function() {
 		setHandrunDiff();
@@ -162,6 +171,27 @@ $(document).ready(function() {
 		}
 	});
 });
+
+// 서버 콤보 정보 가져오기
+function getSvrList() {
+	var data = new Object();
+	data = {
+		UserId 	: userId,
+		SysCd 	: getSelectedVal('cboSys').value,
+		SecuYn 	: 'Y',
+		SelMsg 	: 'ALL',
+		requestType	: 'getSvrList'
+	}
+	ajaxAsync('/webPage/administrator/FileConfiguration', data, 'json', successGetSvrList);
+}
+
+// 서버 콤보 정보 가져오기 완료
+function successGetSvrList(data) {
+	cboSvrData = data;
+	$('[data-ax5select="cboSvr"]').ax5select({
+        options: injectCboDataToArr(cboSvrData, 'cboId' , 'svrinfo')
+	});
+}
 
 // 수기파일대사 삭제
 function delHandrunDiff() {
@@ -200,7 +230,7 @@ function successDelHandrunDiff(data) {
 // 수기파일대사 등록
 function setHandrunDiff() {
 	var etcData = new Object();
-	var txtSvrIp = $('#txtSvrIp').val().trim();
+	
 	var txtDeploy = replaceAllString($('#txtDeploy').val().trim(),':','');
 	var dateDeploy = replaceAllString($('#dateDeploy').val().trim(),'/','');
 	txtDeploy = txtDeploy.length === 3 ? '0' + txtDeploy : txtDeploy;
@@ -214,16 +244,15 @@ function setHandrunDiff() {
 			dialog.alert('작업시간을 선택하여 주시기 바랍니다.', function() {});
 			return;
 		}
-		
 		etcData.diffday = dateDeploy + txtDeploy;
 	} else {
 		etcData.diffday = '';
 	}
 	
-	if(txtSvrIp.length === 0 ) {
+	if(getSelectedVal('cboSvr').value === 'ALL') {
 		etcData.svrip = 'ALL';
 	} else {
-		etcData.svrip = txtSvrIp;
+		etcData.svrip = getSelectedVal('cboSvr').cm_svrip;
 	}
 	
 	if(getSelectedVal('cboSys').value === '00000') {

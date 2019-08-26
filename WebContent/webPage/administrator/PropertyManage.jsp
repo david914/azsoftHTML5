@@ -32,19 +32,22 @@
 	
 	<div class="az_search_wrap margin-10-top">
 		<div class="az_in_wrap">
-			<div class="l_wrap width-90">
+			<div>
+				<label class="title">형상관리 서버 프로퍼티</label>
+			</div>
+			<div class="l_wrap width-90 row">
 				<div class="vat dib">
 					<label class="dib">DBCONN</label>
 				</div>
-				<input id="txtConn" name="txtConn" type="password" class="width-20">
-				<div class="vat dib">
+				<input id="txtConn" name="txtConn" type="password" class="width-20 margin-5-left">
+				<div class="vat dib margin-10-left">
 					<label class="dib">DBUSER</label>
 				</div>
-				<input id="txtUser" name="txtUser" type="password" class="width-20">
-				<div class="vat dib">
+				<input id="txtUser" name="txtUser" type="password" class="width-20 margin-5-left">
+				<div class="vat dib margin-10-left">
 					<label class="dib">DBPASS</label>
 				</div>
-				<input id="txtPass" name="txtPass" type="password" class="width-20">
+				<input id="txtPass" name="txtPass" type="password" class="width-20 margin-5-left">
 				<button id="btnSvrSave" class="btn_basic_s" style="cursor: pointer;">Properties저장</button>
 			</div>	
 		</div>

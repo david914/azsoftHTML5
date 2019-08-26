@@ -245,7 +245,7 @@ function successGetNoticeInfo(data) {
 	if(selectedGridItem !== null) {
 		for(var i = 0; i < noticeGridData.length; i++) {
 			if(noticeGridData[i].CM_ACPTNO === selectedGridItem.CM_ACPTNO) {
-				//noticeGrid.select();
+				noticeGrid.select(i, {selected: true});
 				break;
 			}
 		}
@@ -340,7 +340,7 @@ function openFileDownload(acptno,fileCnt) {
             if (this.state === "open") {
             }
             else if (this.state === "close") {
-            	selectedGridItem = noticeGrid.getList('selected');
+            	selectedGridItem = noticeGrid.getList('selected')[0];
             	$('#btnQry').trigger('click');
             }
         }

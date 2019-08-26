@@ -512,6 +512,37 @@ function commaNum(n) {
         return arrNumber[0].split('.')[0];
     }
 }
+
+/**
+ * 긴 한줄의 string을 여러줄로 바꿔주는 함수
+ * @param contents  줄바꿈 할 string
+ * @param strNum    한줄에 몇글자를 넣을지 숫자
+ * @returns {String}
+ */
+function lineBreak(contents, strNum) {
+	
+	if(contents.length <= strNum) {
+		return contents;
+	}
+	
+	var lineBreakedContents = '';
+	var totalLine = parseInt(contents.length / strNum);
+	
+	
+	if((strNum * totalLine) < contents.length) {
+		totalLine = totalLine + 1;
+	}
+	
+	for(var i=0; i<totalLine; i++) {
+		if(i === (totalLine - 1) ) {
+			lineBreakedContents += contents.substr(i*strNum, contents.length - (i*strNum) );
+		} else {
+			lineBreakedContents += contents.substr(i*strNum, strNum) + '\n';
+		}
+	}
+	return lineBreakedContents;
+}
+
 /*
 function getRegexp(type) {
 	if( type === 'NUM')

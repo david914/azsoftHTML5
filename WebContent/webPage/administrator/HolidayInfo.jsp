@@ -10,46 +10,40 @@
 		<div id="divContent">
 			<div class="row-fluid">
 				<div class="row">
-					<div>
-						<label>년도</label>
+					<label class="tit_60 dib poa">년도</label>
+					<div class="ml_60">
+						<div id="divPicker" data-picker-date="year" class="dib width-100 por">
+							<input id="txtYear" type="text" class="f-cal" autocomplete="off"  placeholder="yyyy">
+				            <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+			            </div>
 					</div>
-					<div class="input-group" data-ax5picker="basic">
-			            <input id="txtYear" type="text" class="form-control" data-picker-date="year" placeholder="yyyy">
-			            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-			        </div>
 				</div>
 				<div class="row">
-					<div class="az_board_basic" style="height: 40%;">
+					<div class="az_board_basic" style="height: 55%;">
 						<div data-ax5grid="holidayGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%; padding-top: 20px;"></div>
 					</div>
 				</div>
 				
 				<div class="row">
-					<div>
-						<label>휴일</label>
-					</div>
-					<div>
-						<div class="input-group" data-ax5picker="basic2">
-				           <input id="txtHoliDate" type="text" class="form-control" placeholder="yyyy-mm-dd">
-				           <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-				    	</div>
+					<label class="tit_60 dib poa">휴일</label>
+					<div class="ml_60">
+				    	<div id="divPicker" data-ax5picker="basic2" class="dib width-100 por">
+							<input id="txtHoliDate" type="text" class="f-cal" autocomplete="off">
+							<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
+						</div>
 					</div>
 				</div>
 				
 				<div class="row">
-					<div>
-						<label>휴일종류</label>
-					</div>
-					<div>
+					<label class="tit_60 dib poa">휴일종류</label>
+					<div class="ml_60">
 						<div id="cboHoli" data-ax5select="cboHoli" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
 					</div>
 				</div>
 				
 				<div class="row">
-					<div>
-						<label>휴일구분</label>
-					</div>
-					<div>
+					<label class="tit_60 dib poa">휴일구분</label>
+					<div class="ml_60">
 						<div id="cboHoliDiv" data-ax5select="cboHoliDiv" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
 					</div>
 				</div>

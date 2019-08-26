@@ -705,7 +705,6 @@ function successGetUserRgtCd(data) {
 	makeDutyInfoUlList();
 	
 	getUserJobList();
-	getUserRgtDept();
 }
 
 // 사용자 업무 리스트 가져오기
@@ -722,18 +721,6 @@ function getUserJobList() {
 function successGetUserJobList(data) {
 	jobGridData = data;
 	jobGrid.setData(jobGridData);
-}
-
-function getUserRgtDept() {
-	var data = new Object();
-	data = {
-		UserId 		: $('#txtUserId').val().trim(),
-		requestType	: 'getUserRgtDept'
-	}
-	ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json',successGetUserRgtDept);
-}
-
-function successGetUserRgtDept(data) {
 }
 
 // 시스템목록 가져오기

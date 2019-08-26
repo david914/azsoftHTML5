@@ -73,6 +73,9 @@ public class FileConfiguration extends HttpServlet {
 				case "delHandrunDiff" :
 					response.getWriter().write( delHandrunDiff(jsonElement) );
 					break;
+				case "getSvrList" :
+					response.getWriter().write( getSvrList(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -146,5 +149,13 @@ public class FileConfiguration extends HttpServlet {
 		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		ArrayList<HashMap<String, String>> dirList = ParsingCommon.jsonArrToArr( ParsingCommon.jsonEtoStr(jsonElement, "dirList") );
 		return gson.toJson(cmm2900.delHandrun_diff(UserId, dirList));
+	}
+	
+	// [파일대사환경설정 > 수기파일대사] 서버정보리스트 가져오기
+	private String getSvrList(JsonElement jsonElement) throws SQLException, Exception {
+		String SysCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SysCd") );
+		String SecuYn = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SecuYn") );
+		String SelMsg = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
+		return gson.toJson(sysinfo.getSvrList(SysCd, SecuYn, SelMsg));
 	}
 }

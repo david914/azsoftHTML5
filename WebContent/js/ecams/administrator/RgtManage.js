@@ -40,24 +40,24 @@ $(document).ready(function(){
 	
 	// 직무구분 cbo 변경 이벤트
 	$('#cboDuty').bind('change', function() {
+		
+		$('#chkAll').wCheck('check', false);
+		checkAllRgtCdList();
+		
+		var selRgtCd = getSelectedVal('cboDuty').cm_micode;
+		$('#chkDuty' + selRgtCd).wCheck('check', true);
+		
 		var data = new Object();
 		data = {
-			rgtcd 		: getSelectedVal('cboDuty').cm_micode,
+			rgtcd 		: selRgtCd,
 			requestType	: 	'getRgtMenuList'
 		}
 		ajaxAsync('/webPage/administrator/RgtManageServlet', data, 'json',successGetRgtMenuList);
 	});
 	
+	// 직무리스트 전체선택
 	$('#chkAll').bind('click', function() {
-		var checkSw = $('#chkAll').is(':checked');
-		dutyUlInfoData.forEach(function(item, index) {
-			addId = item.cm_micode;
-			if(checkSw) {
-				$('#chkDuty'+addId).wCheck('check', true);
-			} else {
-				$('#chkDuty'+addId).wCheck('check', false);
-			}
-		});
+		checkAllRgtCdList();
 	});
 	
 	// 트리 전체 열기(펼치기)
@@ -123,6 +123,19 @@ $(document).ready(function(){
 	});
 });
 
+// 직무권한 리스트 전체 선택 또는 해제
+function checkAllRgtCdList() {
+	var checkSw = $('#chkAll').is(':checked');
+	dutyUlInfoData.forEach(function(item, index) {
+		addId = item.cm_micode;
+		if(checkSw) {
+			$('#chkDuty'+addId).wCheck('check', true);
+		} else {
+			$('#chkDuty'+addId).wCheck('check', false);
+		}
+	});
+}
+
 // 적용 완료
 function successSetRgtMenuList(data) {
 	dialog.alert('적용되었습니다.', function(){});
@@ -177,14 +190,16 @@ function makeDutyUlList() {
 	var liStr = null;
 	var addId = null;
 	dutyUlInfoData.forEach(function(item, index) {
-		addId = item.cm_micode;
-		liStr  = '';
-		liStr += '<li class="list-group-item">';
-		liStr += '<div class="maring-3-top" style="padding: 5px 0;">';
-		liStr += '	<input type="checkbox" class="checkbox-duty" id="chkDuty'+addId+'" data-label="'+item.cm_codename+'"  value="'+addId+'" />';
-		liStr += '</div>';
-		liStr += '</li>';
-		$('#dutyUlInfo').append(liStr);
+		if(index !== 0) {
+			addId = item.cm_micode;
+			liStr  = '';
+			liStr += '<li class="list-group-item">';
+			liStr += '<div class="maring-3-top" style="padding: 5px 0;">';
+			liStr += '	<input type="checkbox" class="checkbox-duty" id="chkDuty'+addId+'" data-label="'+item.cm_codename+'"  value="'+addId+'" />';
+			liStr += '</div>';
+			liStr += '</li>';
+			$('#dutyUlInfo').append(liStr);
+		}
 	});
 	
 	$('input.checkbox-duty').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});

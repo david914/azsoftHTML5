@@ -22,7 +22,7 @@
 					<input id="txtDeploy" name="txtDeploy" type="text" class="f-cal" autocomplete="off"><span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
 				</div>
 			</div>
-			<div class="dib vat">
+			<div class="dib vat margin-10-left">
 				<input type="checkbox" class="checkbox-file" id="chkTime" data-label="즉시실행"/>
 			</div>
 		</div>
@@ -47,13 +47,13 @@
 					<label>서버</label>
 				</div>
 				<div class="ml_80 vat">
-					<input id="txtSvrIp" name="txtSvrIp" type="text" class="width-100 vat">
+					<div id="cboSvr" data-ax5select="cboSvr" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div> 
 				</div>
 			</div>
 			<div class="width-20 dib vat">
-				<div class="vat dib" style="float: right;">
-					<button id="btnRun" name="btnRun" class="btn_basic_s vat">등록</button>
-					<button id="btnDel" name="btnDel" class="btn_basic_s vat" style="margin-left: 10px;">삭제</button>
+				<div class="vat dib">
+					<button id="btnRun" name="btnRun" class="btn_basic_s vat margin-10-left">등록</button>
+					<button id="btnDel" name="btnDel" class="btn_basic_s vat margin-10-left">삭제</button>
 				</div>
 			</div>
 		</div>

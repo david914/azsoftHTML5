@@ -129,7 +129,7 @@
 		<div class="float-left width-25">
 			<div class="margin-10-right">
 				<div>
-					<label class="title">[담장직무]</label>
+					<label class="title">담당직무</label>
 				</div>
 				<div class="scrollBind sm-row" style="height:570px;">
 					<ul class="list-group" id="ulDutyInfo"></ul>
@@ -140,7 +140,7 @@
 		<div class="float-left width-25">
 			<div class="margin-10-right">
 				<div>
-					<label class="title">[담당업무추가]</label>
+					<label class="title">담당업무추가</label>
 				</div>
             	<div class="sm-row">
                 	<label class="tit_80 poa">시스템</label>

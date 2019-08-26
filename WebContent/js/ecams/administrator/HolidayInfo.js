@@ -22,8 +22,13 @@ var holidayGridData = [];
 var cboOptions 		= [];
 
 
-var cboHoliData		= [];	// 휴일종류 콤보
+var cboHoliData				= [];	// 휴일종류 콤보
 var cboHoliDataDivData  	= [];	// 휴일구분 콤보
+
+confirmDialog.setConfig({
+    title: "휴일정보",
+    theme: "info"
+});
 
 
 $('#txtHoliDate').val(getDate('DATE',0));

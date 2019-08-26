@@ -27,7 +27,7 @@
 		</div>
 	</div>
 	
-	<div class="az_board_basic" style="height: 40%">
+	<div class="az_board_basic" style="height: 48%">
 		<div data-ax5grid="prgGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%"></div>
 	</div>
 	<div class="az_board_basic margin-10-top" style="height: 40%">
