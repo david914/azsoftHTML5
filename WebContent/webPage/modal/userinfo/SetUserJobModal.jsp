@@ -70,10 +70,10 @@
 		</div>
 		<!--button-->
 		<div class="row tar">
-			<button id="btnReq" class="btn_basic_p">등록</button>
-			<button id="btnDel" class="btn_basic_p margin-5-left">폐기</button>
-			<button id="btnQry" class="btn_basic_p margin-5-left">조회</button>
-			<button id="btnExit" class="btn_basic_p margin-5-left">닫기</button>
+			<button id="btnReq" class="btn_basic_s">등록</button>
+			<button id="btnDel" class="btn_basic_s margin-5-left">폐기</button>
+			<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
+			<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
 		</div>
 	</div>
 </body>	

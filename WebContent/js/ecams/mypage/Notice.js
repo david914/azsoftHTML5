@@ -96,10 +96,8 @@ noticeGrid.setConfig({
     showRowSelector: false,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 28,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -330,7 +328,7 @@ function openFileDownload(acptno,fileCnt) {
 	}
 	fileDownloadModal.open({
         width: 520,
-        height: 330,
+        height: 315,
         iframe: {
             method: "get",
             url: 	"../modal/notice/FileDownloadModalNew.jsp",

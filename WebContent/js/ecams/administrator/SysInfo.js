@@ -51,10 +51,8 @@ sysInfoGrid.setConfig({
     showRowSelector: false,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 20,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -94,10 +92,8 @@ jobGrid.setConfig({
 	showRowSelector: true,
 	header: {
 		align: "center",
-		columnHeight: 30
 	},
 	body: {
-		columnHeight: 25,
 		onClick: function () {
 			this.self.select(this.dindex);
 		},

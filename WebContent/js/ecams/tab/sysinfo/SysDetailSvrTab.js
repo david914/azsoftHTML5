@@ -9,10 +9,10 @@
  */
 
 var userName 	= window.parent.userName;		// 접속자 Name
-var userId 		= window.parent.userId;		// 접속자 ID
+var userId 		= window.parent.userId;			// 접속자 ID
 var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
-var userDeptCd 	= window.parent.userDeptCd;	// 부서코드
+var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
 var sysCd 	= null;	// 시스템정보 선택 코드
 var sysInfo = null;	// 시스템 속성
@@ -56,10 +56,8 @@ svrInfoGrid.setConfig({
     showRowSelector: false,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 20,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);

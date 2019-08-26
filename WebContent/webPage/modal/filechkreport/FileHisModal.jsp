@@ -36,7 +36,7 @@
 		</div>
 		<div class="r_wrap">
 			<div>
-				<button id="btnClose" name="btnClose" class="btn_basic dib">닫기</button>
+				<button id="btnClose" name="btnClose" class="btn_basic_s dib">닫기</button>
 			</div>
 		</div>
 	</div>

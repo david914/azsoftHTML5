@@ -58,7 +58,7 @@ absGrid.setConfig({
     ]
 });
 
-$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
+$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
 $(document).ready(function() {
 	getCodeInfo();

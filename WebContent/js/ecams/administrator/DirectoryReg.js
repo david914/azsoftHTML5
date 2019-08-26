@@ -34,10 +34,8 @@ dirGrid.setConfig({
     showRowSelector: true,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
             clickDirGrid(this.dindex);
@@ -60,7 +58,7 @@ dirGrid.setConfig({
 $('[data-ax5select="cboSysCd"]').ax5select({
     options: []
 });
-$('input.checkbox-dir').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
+$('input.checkbox-dir').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function() {
 	getSysInfo();

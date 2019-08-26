@@ -44,9 +44,9 @@
 		</div>
 		<!--button-->
 		<div class="row tar">
-			<button id="btnExcel" class="btn_basic_p">엑셀저장</button>
-			<button id="btnQry" class="btn_basic_p margin-5-left">조회</button>
-			<button id="btnExit" class="btn_basic_p margin-5-left">닫기</button>
+			<button id="btnExcel" class="btn_basic_s">엑셀저장</button>
+			<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
+			<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
 		</div>
 	</div>
 

@@ -49,10 +49,8 @@ userGrid.setConfig({
     showRowSelector: false,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -77,10 +75,8 @@ jobGrid.setConfig({
     showRowSelector: true,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
         },
@@ -108,8 +104,8 @@ $('[data-ax5select="cboSysCd"]').ax5select({
 	options: []
 });
 
-$('input:radio[name^="userRadio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
-$('input.checkbox-user').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
+$('input:radio[name^="userRadio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
+$('input.checkbox-user').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 
 
 $(document).ready(function() {
@@ -270,7 +266,7 @@ function openInitPassword() {
 	txtUserIdP = $('#txtUserId').val().trim();
 	initPassModal.open({
         width: 400,
-        height: 250,
+        height: 220,
         iframe: {
             method: "get",
             url: "../modal/userinfo/InitPassModal.jsp",

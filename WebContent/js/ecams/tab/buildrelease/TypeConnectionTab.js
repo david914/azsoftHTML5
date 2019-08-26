@@ -41,10 +41,8 @@ conInfoGrid.setConfig({
     showRowSelector: true,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
             clickConInfoGrid(this.dindex);
@@ -75,10 +73,8 @@ scriptGrid.setConfig({
     showRowSelector: false,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -108,8 +104,8 @@ $('[data-ax5select="cboBldCd"]').ax5select({
 	options: []
 });
 
-$('input.checkbox-view').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
-$('input:radio[name=releaseChk]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
+$('input.checkbox-view').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
+$('input:radio[name=releaseChk]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
 
 $(document).ready(function() {

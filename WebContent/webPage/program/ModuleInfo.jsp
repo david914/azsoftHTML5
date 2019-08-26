@@ -107,10 +107,10 @@
 				<button id="btnExcel" class="btn_basic_s">엑셀저장</button>
 			</div>
 			<div class="vat dib margin-5-left">
-				<button id="btnReq" class="btn_basic_p">등록</button>
+				<button id="btnReq" class="btn_basic_s">등록</button>
 			</div>
 			<div class="vat dib margin-5-left">
-				<button id="btnDel" class="btn_basic_p">폐기</button>
+				<button id="btnDel" class="btn_basic_s">폐기</button>
 			</div>
 		</div>
 	</div>

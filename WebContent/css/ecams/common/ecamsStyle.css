@@ -1228,6 +1228,8 @@ td.fc-more-cell {
 	height: 25px;
 }
 
+.filebox label:hover {border: 1px solid #2477c1; color: #2477c1; font-weight:bold; padding: 0 7px 2px; height: 25px;}
+
 .org{color: #fd7e14;}
 .green{color: #0acf97;}
 .blue{color: #727cf5;}
@@ -1513,6 +1515,13 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
     background: #f8f8f8;
     height: 30px;
 }
+
+[data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="header"] [data-ax5grid-panel] table tr td.hasBorder {
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background-color: #E8EEF9; /* grid header color 추가 group 헤더일경우 바탕색이 짤라서 나와서 추가 */
+}
+
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="header"] [data-ax5grid-panel] table tr td [data-ax5grid-cellHolder][data-ax5grid-text-align="center"]{
 	color: #245490;
 	font-weight: bold;

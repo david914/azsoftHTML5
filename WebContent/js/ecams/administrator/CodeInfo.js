@@ -29,10 +29,8 @@ codeGrid.setConfig({
     showRowSelector: false,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -65,7 +63,7 @@ $('[data-ax5select="cboCloseYn"]').ax5select({
 	options: []
 });
 
-$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
+$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
 $(document).ready(function() {
 	

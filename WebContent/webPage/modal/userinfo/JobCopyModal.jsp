@@ -65,8 +65,8 @@
 	        	<div id="cboToUser" data-ax5select="cboToUser" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib width-40" ></div>
 			</div>
 			<div class="poa_r dib vat">
-				<button id="btnCopy" class="btn_basic_p">복사</button>
-				<button id="btnExit" class="btn_basic_p margin-5-left">닫기</button>
+				<button id="btnCopy" class="btn_basic_s">복사</button>
+				<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
 			</div>
 		</div>
 	</div>

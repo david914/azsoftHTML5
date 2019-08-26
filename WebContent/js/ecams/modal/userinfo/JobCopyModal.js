@@ -30,10 +30,8 @@ jobGrid.setConfig({
     showRowSelector: true,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
         },
@@ -58,7 +56,7 @@ $('[data-ax5select="cboToUser"]').ax5select({
 	options: []
 });
 
-$('input.checkbox-jobcopy').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
+$('input.checkbox-jobcopy').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function() {
 	getAllUser();

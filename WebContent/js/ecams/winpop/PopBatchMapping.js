@@ -61,7 +61,7 @@ $('[data-ax5select="cboSysCd"]').ax5select({
 });
 
 
-$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
+$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 $('input.checkbox-batch').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function() {

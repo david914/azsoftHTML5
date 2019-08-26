@@ -64,7 +64,7 @@
 	</div>
 	    
 	<div id="divPw" class="margin-15-top" style="text-align:center">
-		<button id="btnReg" name="btnReg" class="btn_basic">등록</button>
+		<button id="btnReg" name="btnReg" class="btn_basic_s">등록</button>
 	</div>
 
 </div>

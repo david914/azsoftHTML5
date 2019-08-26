@@ -45,8 +45,8 @@
 		<div class="row txt_r">기본구조를 설정한 후 기본구조의 최하위속성에 처리속성을 맵핑합니다.</div>
 		<!--button-->
 		<div class="row tac">
-			<button id="btnReq" class="btn_basic">등록</button>
-			<button id="btnExit" class="btn_basic margin-5-left">닫기</button>
+			<button id="btnReq" class="btn_basic_s">등록</button>
+			<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
 		</div>
 	</div>
 </body>

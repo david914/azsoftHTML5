@@ -111,8 +111,8 @@
 	</div>
 	<!--button-->
 	<div class="row tac">
-		<button id="btnReq" class="btn_basic_p">복사</button>
-		<button id="btnExit" class="btn_basic_p margin-5-left">닫기</button>
+		<button id="btnReq" class="btn_basic_s">복사</button>
+		<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
 	</div>
 </div>
 

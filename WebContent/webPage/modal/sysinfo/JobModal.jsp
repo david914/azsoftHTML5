@@ -32,10 +32,10 @@
 			</div>
 		</div>
 		<div class="row tar">
-			<button id="btnIn" class="btn_basic_p">새로만들기</button>
-			<button id="btnUp" class="btn_basic_p margin-5-left">편집</button>
-			<button id="btnDel" class="btn_basic_p margin-5-left">삭제</button>
-			<button id="btnClose" class="btn_basic_p margin-5-left">닫기</button>
+			<button id="btnIn" class="btn_basic_s">새로만들기</button>
+			<button id="btnUp" class="btn_basic_s margin-5-left">편집</button>
+			<button id="btnDel" class="btn_basic_s margin-5-left">삭제</button>
+			<button id="btnClose" class="btn_basic_s margin-5-left">닫기</button>
 		</div>
 	</div>
 </body>

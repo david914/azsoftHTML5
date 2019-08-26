@@ -53,13 +53,13 @@
 			
 			<div class="row">
 				<div class="l_wrap">
-					<button id="btnFile" name="btnFile" class="btn_basic_p">파일첨부</button>
+					<button id="btnFile" name="btnFile" class="btn_basic_s">파일첨부</button>
 				</div>
 				<div class="r_wrap">
 					<div>
-						<button id="btnRem" name="btnRem" class="btn_basic_p dib">삭제</button>
-						<button id="btnReg" name="btnReg" class="btn_basic_p dib">등록</button>
-						<button id="btnClose" name="btnClose" class="btn_basic_p dib">닫기</button>
+						<button id="btnRem" name="btnRem" class="btn_basic_s dib">삭제</button>
+						<button id="btnReg" name="btnReg" class="btn_basic_s dib">등록</button>
+						<button id="btnClose" name="btnClose" class="btn_basic_s dib">닫기</button>
 					</div>
 				</div>
 			</div>

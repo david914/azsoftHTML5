@@ -36,10 +36,8 @@ batchGrid.setConfig({
     showRowSelector: true,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
         },
@@ -75,8 +73,8 @@ $('[data-ax5select="cboSvrCd"]').ax5select({
 	options: []
 });
 
-$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
-$('input:radio[name^="optradio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
+$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
+$('input:radio[name^="optradio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 $('input.checkbox-batch').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function() {

@@ -192,15 +192,15 @@
 	
 	<div class="sm-row tar">
 		<div class="width-100 float-right" style="right: 5px; margin-top: 15px;">
-			<button id="btnFact" class="btn_basic_p" >처리펙터추가</button>
-			<button id="btnReleaseTimeSet" class="btn_basic_p">정기배포설정</button>
-			<button id="btnAdd" class="btn_basic_p">등록</button>
-			<button id="btnDel" class="btn_basic_p">폐기</button>
-			<button id="btnJob" class="btn_basic_p">업무등록</button>
-			<button id="btnSysDetail" class="btn_basic_p">시스템상세정보</button>
-			<button id="btnProg" class="btn_basic_p">프로그램종류정보</button>
-			<button id="btnDir" class="btn_basic_p">공통디렉토리</button>
-			<button id="btnCopy" class="btn_basic_p">시스템정보복사</button>
+			<button id="btnFact" class="btn_basic_s" >처리펙터추가</button>
+			<button id="btnReleaseTimeSet" class="btn_basic_s">정기배포설정</button>
+			<button id="btnAdd" class="btn_basic_s">등록</button>
+			<button id="btnDel" class="btn_basic_s">폐기</button>
+			<button id="btnJob" class="btn_basic_s">업무등록</button>
+			<button id="btnSysDetail" class="btn_basic_s">시스템상세정보</button>
+			<button id="btnProg" class="btn_basic_s">프로그램종류정보</button>
+			<button id="btnDir" class="btn_basic_s">공통디렉토리</button>
+			<button id="btnCopy" class="btn_basic_s">시스템정보복사</button>
 		</div>
 	</div>
 </div>

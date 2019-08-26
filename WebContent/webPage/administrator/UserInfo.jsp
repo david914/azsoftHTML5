@@ -211,15 +211,15 @@
        <!-- 리스트 E-->                  
        <!-- 페이지버튼 S-->
        <div class="sm-row tar dib width-100">
-		<button class="btn_basic_p" id="btnQryRgtCd">사용자직무조회</button>
-		<button class="btn_basic_p" id="btnSignUp">사용자일괄등록</button>
-		<button class="btn_basic_p" id="btnDept">조직정보등록</button>
-		<button class="btn_basic_p" id="btnJobCopy">권한복사</button>
-		<button class="btn_basic_p" id="btnPassInit">비밀번호초기화</button>
-		<button class="btn_basic_p" id="btnSetJob">업무권한일괄등록</button>
-		<button class="btn_basic_p" id="btnAllUser">전체사용자조회</button>
-		<button class="btn_basic_p" id="btnSave">저장</button>
-		<button class="btn_basic_p" id="btnDel">폐기</button>
+		<button class="btn_basic_s" id="btnQryRgtCd">사용자직무조회</button>
+		<button class="btn_basic_s" id="btnSignUp">사용자일괄등록</button>
+		<button class="btn_basic_s" id="btnDept">조직정보등록</button>
+		<button class="btn_basic_s" id="btnJobCopy">권한복사</button>
+		<button class="btn_basic_s" id="btnPassInit">비밀번호초기화</button>
+		<button class="btn_basic_s" id="btnSetJob">업무권한일괄등록</button>
+		<button class="btn_basic_s" id="btnAllUser">전체사용자조회</button>
+		<button class="btn_basic_s" id="btnSave">저장</button>
+		<button class="btn_basic_s" id="btnDel">폐기</button>
 	</div>
 	<!-- 페이지버튼 E-->
 </div>

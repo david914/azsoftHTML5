@@ -56,10 +56,8 @@ sameGrid.setConfig({
     showRowSelector: false,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -74,11 +72,11 @@ sameGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "동시적용종류", width: 120, align: "center"},
-        {key: "chgname", 		label: "파일적용룰",  	width: 120, align: "center"},
-        {key: "cm_basedir", 	label: "기준Dir",  	width: 250, align: "center"},
-        {key: "cm_samedir", 	label: "변경Dir",  	width: 120, align: "center"},
-        {key: "cm_cmdyn", 		label: "커맨드",  	width: 120, align: "center"},
+        {key: "cm_codename", 	label: "동시적용종류", 	width: '19%', align: "center"},
+        {key: "chgname", 		label: "파일적용룰",  	width: '19%', align: "center"},
+        {key: "cm_basedir", 	label: "기준Dir",  	width: '35%', align: "center"},
+        {key: "cm_samedir", 	label: "변경Dir",  	width: '19%', align: "center"},
+        {key: "cm_cmdyn", 		label: "커맨드",  	width: '8%', align: "center"},
     ]
 });
 
@@ -90,10 +88,8 @@ prgGrid.setConfig({
     showRowSelector: false,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -106,10 +102,10 @@ prgGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "프로그램종류", width: 120, align: "center"},
-        {key: "cm_vercnt", 		label: "버전수",  	width: 120, align: "center"},
-        {key: "cm_time", 		label: "정기배포",  	width: 250, align: "center"},
-        {key: "cm_exename", 	label: "대상확장자",  	width: 120, align: "center"}
+        {key: "cm_codename", 	label: "프로그램종류", 	width: '20%', align: "center"},
+        {key: "cm_vercnt", 		label: "버전수",  	width: '20%', align: "center"},
+        {key: "cm_time", 		label: "정기배포",  	width: '30%', align: "center"},
+        {key: "cm_exename", 	label: "대상확장자",  	width: '30%', align: "center"}
     ]
 });
 

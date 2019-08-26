@@ -26,10 +26,8 @@ signUpGrid.setConfig({
     showRowSelector: false,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);
@@ -74,7 +72,7 @@ signUpGrid.setConfig({
     ]
 });
 
-$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
+$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
 $(document).ready(function() {
 	getTmpDir();

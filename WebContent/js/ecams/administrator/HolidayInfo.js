@@ -41,10 +41,8 @@ holidayGrid.setConfig({
     showRowSelector: false,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 28,
         onClick: function () {
         	this.self.clearSelect();
             this.self.select(this.dindex);

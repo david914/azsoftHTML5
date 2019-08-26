@@ -34,10 +34,8 @@ prgGrid.setConfig({
     showRowSelector: true,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
         },
@@ -68,10 +66,8 @@ modGrid.setConfig({
     showRowSelector: true,
     header: {
         align: "center",
-        columnHeight: 30
     },
     body: {
-        columnHeight: 25,
         onClick: function () {
             this.self.select(this.dindex);
         },
@@ -102,10 +98,8 @@ modListGrid.setConfig({
 	showRowSelector: true,
 	header: {
 		align: "center",
-		columnHeight: 30
 	},
 	body: {
-		columnHeight: 25,
 		onClick: function () {
 			this.self.select(this.dindex);
 		},
@@ -138,8 +132,8 @@ $('[data-ax5select="cboRsrc"]').ax5select({
 	options: []
 });
 
-$('input.checkbox-module').wCheck({theme: 'square-classic red', selector: 'checkmark', highlightLabel: true});
-$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
+$('input.checkbox-module').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
+$('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
 $(document).ready(function() {
 	$('#optPrg').wRadio('check', true);

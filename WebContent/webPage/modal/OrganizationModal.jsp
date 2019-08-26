@@ -43,8 +43,8 @@
 		</div>
 		<!--button-->
 		<div class="row tar">
-			<button class="btn_basic_p" id="btnReq">적용</button>
-			<button class="btn_basic_p margin-5-left" id="btnExit">취소</button>
+			<button class="btn_basic_s" id="btnReq">적용</button>
+			<button class="btn_basic_s margin-5-left" id="btnExit">취소</button>
 		</div>
 	</div>
 </body>

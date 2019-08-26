@@ -40,8 +40,8 @@
 		</div>
 		
 		<div class="row tar">
-			<button id="btnJobUp" class="btn_basic_p">적용</button>
-			<button id="btnJobUpClose" class="btn_basic_p margin-5-left">취소</button>
+			<button id="btnJobUp" class="btn_basic_s">적용</button>
+			<button id="btnJobUpClose" class="btn_basic_s margin-5-left">취소</button>
 		</div>
 	</div>
 </body>
