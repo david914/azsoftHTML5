@@ -18,39 +18,31 @@
 	</div>
        
 	<div id="divContent">
-		<div class="ab_register sm-row">
-			<div>
-				<label id="lbUser">부 재 자</label>
-			</div>
-			<div>
-				<input id="txtUser" name="txtUser" class="input-sm">
+		<div class="row">
+			<label class="tit_60 dib poa">부 재 자</label>
+			<div class="ml_60">
+				<input id="txtUser" name="txtUser" class="width-100">
 				<div id="cboUser" data-ax5select="cboUser" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
 			</div>
 		</div>
-		<div class="ab_register sm-row">
-			<div>
-				<label id="lbUser">대결재자</label>
-			</div>
-			<div>
-				<input id="txtName" name="txtName" class="input-sm">
+		<div class="row">
+			<label class="tit_60 dib poa">대결재자</label>
+			<div class="ml_60">
+				<input id="txtName" name="txtName" class="width-100">
 				<div id="cboDaeSign" data-ax5select="cboDaeSign" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
 			</div>
 		</div>
-		<div class="ab_register sm-row">
-			<div>
-				<label id="lbUser">부재사유</label>
-			</div>
-			<div>
+		<div class="row">
+			<label class="tit_60 dib poa">부재사유</label>
+			<div class="ml_60">
 				<div id="cboSayu" data-ax5select="cboSayu" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
 				<textarea id="txtSayu" name="txtSayu"  class="width-100" rows="4" cols="75" style="padding: 12px 20px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px;">
 				</textarea>
 			</div>
 		</div>
-		<div class="sm-row">
-			<div>
-				<label id="lbDate">부재기간</label>
-			</div>
-			<div>
+		<div class="row">
+			<label class="tit_60 dib poa">부재기간</label>
+			<div class="ml_60">
 				<label id="lbFrom">FROM</label>
 				<div data-ax5picker="datStD" class="dib width-100">
 					<input id="datStD" type="text" class="f-cal" autocomplete="off">
