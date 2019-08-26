@@ -959,6 +959,7 @@ function confirmEnd(){
 		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', SRInfo, 'json');
 		console.log(ajaxReturnData);
 		if(ajaxReturnData !== 'ERR') {
+			strIsrId = ajaxReturnData
 			srComplet();
 		}
 	} else if ( !ins_sw && strSel == "수정"){
@@ -973,8 +974,8 @@ function confirmEnd(){
 			
 		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', SRInfo, 'json');
 		console.log(ajaxReturnData);
-		strIsrId = ajaxReturnData;
 		if(ajaxReturnData !== 'ERR') {
+			strIsrId = ajaxReturnData;
 			srComplet();
 		}
 	}
