@@ -58,107 +58,6 @@ absGrid.setConfig({
     ]
 });
 
-/*
-picker.bind({
-    target: $('[data-ax5picker="basic"]'),
-    direction: "top",
-    content: {
-        width: 220,
-        margin: 10,
-        type: 'date',
-        config: {
-            control: {
-                left: '<i class="fa fa-chevron-left"></i>',
-                yearTmpl: '%s',
-                monthTmpl: '%s',
-                right: '<i class="fa fa-chevron-right"></i>'
-            },
-            dateFormat: 'yyyy/MM/dd',
-            lang: {
-                yearTmpl: "%s년",
-                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                dayTmpl: "%s"
-            }
-        },
-        formatter: {
-            pattern: 'date'
-        }
-    },
-    btns: {
-        today: {
-            label: "Today", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .close();
-            }
-        },
-        thisMonth: {
-            label: "This Month", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-                                + '/'
-                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-                        .close();
-            }
-        },
-        ok: {label: "Close", theme: "default"}
-    }
-});
-
-picker.bind({
-    target: $('[data-ax5picker="basic2"]'),
-    direction: "top",
-    content: {
-        width: 220,
-        margin: 10,
-        type: 'date',
-        config: {
-            control: {
-                left: '<i class="fa fa-chevron-left"></i>',
-                yearTmpl: '%s',
-                monthTmpl: '%s',
-                right: '<i class="fa fa-chevron-right"></i>'
-            },
-            dateFormat: 'yyyy/MM/dd',
-            lang: {
-                yearTmpl: "%s년",
-                months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-                dayTmpl: "%s"
-            }
-        },
-        formatter: {
-            pattern: 'date'
-        }
-    },
-    btns: {
-        today: {
-            label: "Today", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
-                        .close();
-            }
-        },
-        thisMonth: {
-            label: "This Month", onClick: function () {
-                var today = new Date();
-                this.self
-                        .setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
-                        .setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
-                                + '/'
-                                + ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
-                        .close();
-            }
-        },
-        ok: {label: "Close", theme: "default"}
-    }
-});
-*/
 $('input:radio[name^="radio"]').wRadio({theme: 'circle-radial red', selector: 'checkmark'});
 
 $(document).ready(function() {
@@ -176,7 +75,7 @@ $(document).ready(function() {
 		absGrid.setData(absGridData);
 		
 		getAbsenceInfo();
-		getAbsenceList();
+		//getAbsenceList();
 		getAbsenceState();
 	});
 	// 대결재자 콤보 변경
@@ -264,7 +163,7 @@ function getUserInfo() {
 	var data = new Object();
 	data = {
 		UserId 		: userId,
-		Sv_Admin 	: adminYN,
+		Sv_Admin 	: adminYN ? 'Y' : 'N',
 		requestType : 'getUserInfo'
 	}
 	ajaxAsync('/webPage/mypage/AbsenceRegister', data, 'json',successGetUserInfo);
@@ -294,7 +193,7 @@ function getAbsenceInfo() {
 		cm_manid 	: 'Y',
 		requestType : 'getAbsenceInfo'
 	}
-	ajaxAsync('/webPage/mypage/AbsenceRegister', data, 'json',successGetAbsenceInfo);
+	ajaxAsync('/webPage/mypage/AbsenceRegister', data, 'json',successGetAbsenceInfo, getAbsenceList);
 }
 
 //대결재자 리스트 가져오기 완료

@@ -42,23 +42,25 @@
 			</div>
 			<div>
 				<div id="cboSayu" data-ax5select="cboSayu" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
-				<textarea id="txtSayu" name="txtSayu" sm-rows="4" cols="75" style="width: 540px;"></textarea>
+				<textarea id="txtSayu" name="txtSayu"  class="width-100" rows="4" cols="75" style="padding: 12px 20px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px;">
+				</textarea>
 			</div>
 		</div>
-		<div class="ab_register sm-row">
+		<div class="sm-row">
 			<div>
 				<label id="lbDate">부재기간</label>
 			</div>
 			<div>
 				<label id="lbFrom">FROM</label>
-				<div class="input-group" data-ax5picker="datStD" style="width:100%;">
-					<input id="datStD" name="datStD" type="text" class="form-control" placeholder="yyyy/mm/dd">
-					<span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+				<div data-ax5picker="datStD" class="dib width-100">
+					<input id="datStD" type="text" class="f-cal" autocomplete="off">
+					<span class="btn_calendar" style="margin-left: -5px;"><i class="fa fa-calendar-o"></i></span>
 				</div>
+				
 				<label id="lbTo">TO</label>
-				<div class="input-group" data-ax5picker="datEdD" style="width:100%;">
-					<input id="datEdD" name="datEdD" type="text" class="form-control" placeholder="yyyy/mm/dd">
-					<span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+				<div data-ax5picker="datEdD" class="dib width-100">
+					<input id="datEdD" type="text" class="f-cal" autocomplete="off">
+					<span class="btn_calendar" style="margin-left: -5px;"><i class="fa fa-calendar-o"></i></span>
 				</div>
 			</div>
 		</div>

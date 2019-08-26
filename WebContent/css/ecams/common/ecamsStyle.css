@@ -1330,7 +1330,7 @@ new
 .btn_basic_s:disabled {background: #ddd; border: 1px solid #ccc; color:#ccc; font-weight:normal; padding: 0 7px 2px; height: 25px;}
 
 .input-group-addon{background: #fff; border: 1px solid #ccc; color:#333; line-height: 2px;}
-.btn_calendar{display: inline-block;font-size: 14px;height: 25px;line-height: 13px;padding: 4px 12px 3px;/* margin-right: 15px;*/color: #333;text-align: center;background-color: #fff;border: 1px solid #ccc;}
+.btn_calendar{display: inline-block;font-size: 14px;height: 25px;line-height: 13px;padding: 4px 12px 3px;/* margin-right: 15px;*/color: #333;text-align: center;background-color: #fff;border: 1px solid #ccc; cursor: pointer;}
 .btn_calendar:disabled {display: inline-block; font-size: 14px; height: 25px; line-height: 13px; padding: 4px 12px 3px;/* margin-right: 15px;*/ color: #333; text-align: center; background-color: #ebebe4; border: 1px solid #ccc;}
 
 .btn_time{display: inline-block;font-size: 14px;height: 25px;line-height: 13px;padding: 4px 12px 3px;/* margin-right: 15px;*/color: #333;text-align: center;background-color: #fff;border: 1px solid #ccc;}
