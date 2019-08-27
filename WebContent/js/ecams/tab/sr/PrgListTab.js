@@ -19,7 +19,7 @@ var strIsrId		= window.parent.strIsrId; //"R201906-0003";
 
 var cboUserData = null;
 
-var PrgListGridData = null;
+var PrgListGridData = [];
 var PrgListGrid 	= new ax5.ui.grid();
 
 $('[data-ax5select="cboProgramer"]').ax5select({
@@ -78,6 +78,10 @@ function createViewGrid() {
 	        {key: "cr_story", label: "프로그램설명",  width: '10%', align: "left"},
 	    ]
 	});
+	
+	if(PrgListGridData.length > 0){
+		PrgListGrid.setData(PrgListGridData);
+	}
 }
 
 //개발자 가져오기

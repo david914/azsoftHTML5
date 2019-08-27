@@ -809,6 +809,10 @@ function addDataRow() {
 //		continue;
 //		}
 		
+		if(this.cr_lstver == '선택하세요'){
+			return true;
+		}
+		
 		//RSCHKITEM	[27]-개발툴연계, [04]-동시적용항목CHECK, [47]-디렉토리기준관리, [09] 실행모듈Check
 		if ((this.cm_info.substr(26,1) == "1" || this.cm_info.substr(3,1) == "1" || 
 				this.cm_info.substr(46,1) == "1" || this.cm_info.substr(8,1) == "1") && this.filterData == false){
