@@ -45,19 +45,10 @@ $(document).ready(function() {
 	$('#tabPrgList').width($('#tabPrgList').width()+10);
 	$('#tabSRComplete').width($('#tabSRComplete').width()+10);
 	
-	//$("#tabDevPlan").show();
-	
 	strIsrId = $('#SRId').val();
 	strAcptNo = $('#AcptNo').val(); 
 	userId = $('#UserId').val();
 	strReqCd = "XX";
-	
-//  테스트 후 주석
-//	strIsrId = "R201907-0002";
-	
-//	document.getElementById('frmPrjList').onload = function() {
-//		console.log("frmPrjList is loaded");
-//	};
 
 	$('#frmSRRegister').get(0).contentWindow.strReqCd = "XX";
 	$('#frmDevPlan').get(0).contentWindow.strReqCd = "42";
@@ -196,27 +187,39 @@ function iSRID_Click(data) {
 	if(data.isrproc.indexOf("69")>=0) {
 		$('#tab5').attr('disabled', false);
 		$('#tab5').removeClass('tab_disabled');
+		
 		if(strAcptNo != null && strAcptNo != "") {
-			if(strAcptNo.substr(4,2) == "69") {
+			if(strAcptNo.substr(4,2) == "69") { //SR완료
 				tabIdx = 4;
 			}
 		}
 	}
 	
-	if(data.isrproc.indexOf("44")>=0 || data.isrproc.indexOf("54")>=0 || data.isrproc.indexOf("55")>=0) {
-		$('#tab4').attr('disabled', false);
-		$('#tab4').removeClass('tab_disabled');
-		//프로그램목록.initApp();
-	}
-	
-	if(data.isrproc.indexOf("43")>=0) {
+	if (data.isrproc.indexOf("63")>=0 ) {
 		$('#tab3').attr('disabled', false);
 		$('#tab3').removeClass('tab_disabled');
-		//변경요청이력.initApp();
-		if(tabIdx == 0) tabIdx = 4;
+		$('#tab4').attr('disabled', false);
+		$('#tab4').removeClass('tab_disabled');
+		if (tabIdx == 0) tabIdx = 3;
 	}
 	
-	if(data.isrproc.indexOf("42")>=0) {
+	if (data.isrproc.indexOf("44")>=0 || data.isrproc.indexOf("54")>=0 || data.isrproc.indexOf("55")>=0 ) {
+		$('#tab3').attr('disabled', false);
+		$('#tab3').removeClass('tab_disabled');
+		$('#tab4').attr('disabled', false);
+		$('#tab4').removeClass('tab_disabled');
+		if (tabIdx == 0) tabIdx = 3;
+	}
+	
+	if (data.isrproc.indexOf("43")>=0 ) {
+		$('#tab3').attr('disabled', false);
+		$('#tab3').removeClass('tab_disabled');
+		$('#tab4').attr('disabled', false);
+		$('#tab4').removeClass('tab_disabled');
+		if (tabIdx == 0) tabIdx = 3;
+	}
+	
+	if(data.isrproc.indexOf("42")>=0) { //개발계획실적
 		$('#tab2').attr('disabled', false);
 		$('#tab2').removeClass('tab_disabled');
 		//개발계획실적.initApp();
