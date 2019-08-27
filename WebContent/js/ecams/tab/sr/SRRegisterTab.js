@@ -57,6 +57,7 @@ var confirmInfoData = null;
 var acptno = "";
 var fileIndex = 0;
 var fileData = [];
+var devUserDate = [];
 var uploadUrl = "";
 var TotalFileSize = 0;
 // 파일첨부 팝업
@@ -275,6 +276,14 @@ function createViewGrid(){
 			display : false
 		}
 	});
+	
+	if(fileData.length > 0){
+		grid_fileList.setData(fileData);
+	}
+	
+	if(devUserDate.length > 0){
+		devUserGrid.setData(devUserDate);
+	}
 }
 
 function successGetTmpDir(data){
@@ -1324,7 +1333,8 @@ function firstGridClick(srid) {
 				devUser, 'json');
 		console.log(ajaxReturnData);
 		if (ajaxReturnData !== 'ERR') {
-			devUserGrid.setData(ajaxReturnData);
+			devUserDate = ajaxReturnData;
+			devUserGrid.setData(devUserDate);
 		}
 	}
 }

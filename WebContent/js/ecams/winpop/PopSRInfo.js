@@ -279,7 +279,7 @@ function changeTabMenu() {
 	
 	if(document.getElementById("tab1").className == "on") { //SR등록/접수
 		tmpTab = $('#frmSRRegister').get(0).contentWindow;
-		//tmpTab.createViewGrid();
+		tmpTab.createViewGrid();
 		if(tmpTab.strIsrId == strIsrId) return;
 		
 		//initApp();
@@ -293,7 +293,7 @@ function changeTabMenu() {
 	}else if(document.getElementById("tab2").className == "on") { //개발계획/실적등록
 		tmpTab = $('#frmDevPlan').get(0).contentWindow;
 		
-		//tmpTab.createViewGrid();
+		tmpTab.createViewGrid();
 		
 		if(tmpTab.strIsrId == strIsrId) return;
 		
@@ -307,7 +307,7 @@ function changeTabMenu() {
 		}
 	}else if(document.getElementById("tab3").className == "on") { //변경요청이력
 		var tmpTab = $('#frmReqHistory').get(0).contentWindow;
-		//tmpTab.createViewGrid();
+		tmpTab.createViewGrid();
 		if(tmpTab.strIsrId == strIsrId) return;
 		
 		//tmpTab.screenInit();
@@ -317,7 +317,7 @@ function changeTabMenu() {
 		
 	}else if(document.getElementById("tab4").className == "on") { //프로그램목록
 		tmpTab = $('#frmPrgList').get(0).contentWindow;
-		//tmpTab.createViewGrid();
+		tmpTab.createViewGrid();
 		if(tmpTab.strIsrId == strIsrId) return;
 		
 		tmpTab.strIsrId = strIsrId;
@@ -328,7 +328,7 @@ function changeTabMenu() {
 		
 	}else if(document.getElementById("tab5").className == "on") { //SR완료
 		tmpTab = $('#frmSRComplete').get(0).contentWindow;
-		//tmpTab.createViewGrid();
+		tmpTab.createViewGrid();
 		//if(tmpTab.strIsrId == strIsrId) return;
 		
 		tmpTab.strIsrId = strIsrId;

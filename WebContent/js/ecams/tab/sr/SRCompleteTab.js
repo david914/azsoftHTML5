@@ -26,7 +26,7 @@ var resultMSG ="";
 var confirmData = [];
 var confirmInfoData = null;
 
-var devListGridData = null;
+var devListGridData = [];
 var devListGrid 	= new ax5.ui.grid();
 var approvalModal 		= new ax5.ui.modal();
 
@@ -82,6 +82,10 @@ function createViewGrid() {
 	        {key: "cc_worktime", label: "투입시간",  width: '60%'}
 	    ]
 	});
+	
+	if(devListGridData.length > 0){
+		devListGrid.setData(devListGridData);
+	}
 }
 
 // 화면 초기화

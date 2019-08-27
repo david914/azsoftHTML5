@@ -20,7 +20,7 @@ var strReqCd = "";
 
 var cboUserData = null;
 
-var ReqListGridData = null;
+var ReqListGridData = [];
 var ReqListGrid 	= new ax5.ui.grid();
 var ReqListGridColumns = null;
 
@@ -96,6 +96,10 @@ function createViewGrid() {
 	        {key: "prcreq", label: "적용예정일시",  width: '20%'}
 	    ]
 	});
+	
+	if(ReqListGridData.length > 0){
+		ReqListGrid.setData(ReqListGridData);
+	}
 }
 
 //개발자 가져오기
