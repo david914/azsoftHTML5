@@ -49,6 +49,9 @@ public class NoticeModalServlet extends HttpServlet {
 				case "deleteNotice" :
 					response.getWriter().write( deleteNotice(jsonElement) );
 					break;
+				case "getTodayPopNotice" :
+					response.getWriter().write( getTodayPopNotice(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -85,6 +88,11 @@ public class NoticeModalServlet extends HttpServlet {
 												  updateMap.get("chkNotice"),
 												  updateMap.get("stDate"),
 												  updateMap.get("edDate")));
+	}
+	
+	// 금일 공지사항 팝업 있는지 체크
+	private String getTodayPopNotice(JsonElement jsonElement) throws SQLException, Exception {
+		return gson.toJson(cmm2101.getTodayPopNotice());
 	}
 
 }

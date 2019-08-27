@@ -188,6 +188,118 @@ public class Cmm2100{
 
 
 	}//end of sql_Qry() method statement
+    
+    
+    public HashMap<String, String> getPopNoticeInfo(String cm_acptno) throws SQLException, Exception {
+		Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		PreparedStatement pstmt2      = null;
+		ResultSet         rs          = null;
+		ResultSet         rs2         = null;
+		StringBuffer      strQuery    = new StringBuffer();
+		ArrayList<HashMap<String, String>>  rtList	= new ArrayList<HashMap<String, String>>();
+		HashMap<String, String>			  	rst	 	= null;
+        Object[]		 rtObj		  = null;
+        Integer           Cnt         = 0;
+		int				fcnt		=0;
+		ConnectionContext connectionContext = new ConnectionResource();
+		try {
+			
+			conn = connectionContext.getConnection();
+			strQuery.append("select a.cm_acptno,a.cm_gbncd,to_char(a.cm_acptdate,'yyyy/mm/dd')as acptdate,a.cm_title, 	\n");
+			strQuery.append("       a.cm_editor,a.cm_contents,a.cm_deptcd,a.cm_notiyn,b.cm_username, 					\n");
+			strQuery.append("		nvl(a.cm_eddate,'') CM_EDDATE, nvl(a.cm_stdate,'') CM_STDATE  						\n");
+			strQuery.append("  from cmm0200 a,cmm0040 b 																\n");
+			strQuery.append("where a.cm_gbncd='1' 																		\n");
+			strQuery.append("  and a.cm_acptno = ? 																		\n");
+			strQuery.append("  and cm_editor=b.cm_userid 																\n");
+			strQuery.append(" Order by cm_acptno desc  																	\n");
+
+			//pstmt = conn.prepareStatement(strQuery.toString());
+			pstmt = new LoggableStatement(conn,strQuery.toString());
+			pstmt.setString(++Cnt, cm_acptno);
+
+            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+            rs = pstmt.executeQuery();
+            rtList.clear();
+            while (rs.next()){
+            	rst = new HashMap<String, String>();
+				rst.put("CM_ACPTNO", rs.getString("CM_ACPTNO")); 		// 신청번호
+				rst.put("CM_GBNCD", rs.getString("CM_GBNCD")); 			// 공지사항
+				rst.put("CM_ACPTDATE", rs.getString("acptdate"));		// 입력일자
+				rst.put("CM_TITLE", rs.getString("CM_TITLE"));			// 제목
+				rst.put("CM_EDITOR", rs.getString("CM_EDITOR"));		// 작성자
+				rst.put("CM_CONTENTS", rs.getString("CM_CONTENTS"));	// 내용
+				rst.put("CM_NOTIYN", rs.getString("CM_NOTIYN"));		//
+				rst.put("CM_DEPTCD", rs.getString("CM_DEPTCD"));		// 작성자조직
+				rst.put("CM_USERNAME", rs.getString("CM_USERNAME"));	// 사용자이름
+				if(rs.getString("CM_EDDATE") != null && rs.getString("CM_EDDATE") != ""){
+					rst.put("CM_EDDATE", rs.getString("CM_EDDATE").substring(0,4)+"/"+rs.getString("CM_EDDATE").substring(4,6)+"/"+rs.getString("CM_EDDATE").substring(6,8));        // 20110206팝업종료일자 2011 + "-" + 02 + "-" + 06
+				} else{
+					rst.put("CM_EDDATE","");
+				}
+				if (rs.getString("CM_STDATE") != null && rs.getString("CM_STDATE") != ""){
+					rst.put("CM_STDATE", rs.getString("CM_STDATE").substring(0,4)+"/"+rs.getString("CM_STDATE").substring(4,6)+"/"+rs.getString("CM_STDATE").substring(6,8));        // 20110206팝업종료일자 2011 + "-" + 02 + "-" + 06
+				}else {
+					rst.put("CM_STDATE","");
+				}
+				strQuery.setLength(0);
+				strQuery.append("select count(*) as fcnt from cmm0220 where  \n");
+				strQuery.append("cm_acptno= ? \n"); 	//cm_acptno
+				strQuery.append("and cm_gbncd='1' \n");
+				pstmt2 = conn.prepareStatement(strQuery.toString());
+				pstmt2.setString(1, rs.getString("CM_ACPTNO"));
+
+				fcnt = 0;
+				rs2 = pstmt2.executeQuery();
+				if (rs2.next()) {
+					fcnt = rs2.getInt("fcnt");
+				}
+
+				rs2.close();
+				pstmt2.close();
+
+				rst.put("fileCnt", Integer.toString(fcnt));	//첨부파일명
+			}
+            
+            rs.close();
+            pstmt.close();
+            conn.close();
+			conn = null;
+			pstmt = null;
+			rs = null;
+    		
+			return rst;
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## Cmm2100.sql_Qry() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## Cmm2100.sql_Qry() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## Cmm2100.sql_Qry() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## Cmm2100.sql_Qry() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (rtObj != null)	rtObj = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmm2100.sql_Qry() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+
+
+
+	}//end of sql_Qry() method statement
 
     public Object[] getFileList(String AcptNo) throws SQLException, Exception {
 		Connection        conn        = null;

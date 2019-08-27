@@ -77,6 +77,9 @@ public class Notice extends HttpServlet {
 				case "deleteNoticeFile" :
 					response.getWriter().write( deleteNoticeFile(jsonElement) );
 					break;
+				case "getPopNoticeInfo" :
+					response.getWriter().write( getPopNoticeInfo(jsonElement) );
+					break;
 				case "BIG_DATA_LOADING_TEST" :
 					response.getWriter().write( getBigDataTest(jsonElement) );
 					break;
@@ -149,8 +152,11 @@ public class Notice extends HttpServlet {
 		return gson.toJson(cmm2101.removeDocFileHtml(fileData));
 	}
 	
-	
-	
+	// [공지사항] 공지사항 첨부파일 삭제
+	private String getPopNoticeInfo(JsonElement jsonElement) throws SQLException, Exception {
+		String cm_acptno = ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement, "cm_acptno") );
+		return gson.toJson(cmm2100.getPopNoticeInfo(cm_acptno));
+	}
 	
 	
 	// 테스트 메소드 입니다. 

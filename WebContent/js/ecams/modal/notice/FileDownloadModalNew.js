@@ -83,9 +83,15 @@ $(document).ready(function() {
 	downAcptno  = window.parent.downAcptno;
 	downFileCnt = window.parent.downFileCnt; 
 	
-	if(window.parent.noticeGrid.list[window.parent.noticeGrid.selectedDataIndexs].CM_EDITOR !== userId) {
+	
+	if(window.parent.popNoticeSw !== undefined && window.parent.popNoticeSw) {
 		$('.filebox').css('display', 'none');
 		$('#btnDel').css('display', 'none');
+	} else {
+		if(window.parent.noticeGrid.list[window.parent.noticeGrid.selectedDataIndexs].CM_EDITOR !== userId) {
+			$('.filebox').css('display', 'none');
+			$('#btnDel').css('display', 'none');
+		}
 	}
 	
 	if(downFileCnt > 0 ) {
@@ -142,7 +148,6 @@ function getFileList() {
 
 // 첨부파일 리스트 가져오기 완료
 function successGetFileList(data) {
-	console.log(data);
 	downGrid.setData(data);
 }
 

@@ -195,29 +195,3 @@ function checkValidation() {
 	return validationFlag;
 }
 
-function setCookie(name, value) {
-	var cookeValue = escape(value);
-	var nowDate = new Date();
-	var cookieExpires = null;
-	nowDate.setMonth(nowDate.getMonth() + 6);
-	cookieExpires = nowDate.toGMTString();
-	document.cookie = name + '=' + cookeValue + ";expires=" + cookieExpires + ';path=/';
-}
-
-function getCookie(cname) {
-	var name = cname + "=";
-	var decodedCookie = decodeURIComponent(document.cookie);
-	var ca = decodedCookie.split(';');
-	for(var i = 0; i <ca.length; i++) {
-		var c = ca[i];
-		while (c.charAt(0) == ' ') {
-			c = c.substring(1);
-		}
-		if (c.indexOf(name) == 0) {
-			return c.substring(name.length, c.length);
-		}
-	}
-	return "";
-}
-
-

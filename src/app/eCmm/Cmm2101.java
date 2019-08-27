@@ -680,5 +680,87 @@ public class Cmm2101{
 			}
 		}
 	}//end of SelectUserInfo() method statement
+	
+	
+	public ArrayList<HashMap<String, String>> getTodayPopNotice() throws SQLException, Exception {
+		Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		ResultSet		  rs		  = null;
+		StringBuffer      strQuery    = new StringBuffer();
+		ConnectionContext connectionContext = new ConnectionResource();
+		ArrayList<HashMap<String, String>> rtArr = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> rtMap = new HashMap<String, String>();
+
+		try {
+			conn = connectionContext.getConnection();
+
+			strQuery.setLength(0);
+			strQuery.append("SELECT CM_ACPTNO														\n");
+			strQuery.append("  FROM CMM0200															\n");
+			strQuery.append(" WHERE CM_NOTIYN = 'Y'													\n");
+			strQuery.append("   AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN CM_STDATE AND CM_EDDATE	\n");
+
+			pstmt = conn.prepareStatement(strQuery.toString());
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				rtMap = new HashMap<>();
+				rtMap.put("cm_acptno", rs.getString("CM_ACPTNO"));
+				rtArr.add(rtMap);
+			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			rs 		= null;
+            pstmt 	= null;
+			conn 	= null;
+
+    		return rtArr;
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					conn.rollback();
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmm2101.getTodayPopNotice() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+			ecamsLogger.error("## Cmm2101.getTodayPopNotice() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## Cmm2101.getTodayPopNotice() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					conn.rollback();
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmm2101.getTodayPopNotice() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+			ecamsLogger.error("## Cmm2101.getTodayPopNotice() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## Cmm2101.getTodayPopNotice() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmm2101.getTodayPopNotice() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+	}//end of SelectUserInfo() method statement
 
 }//end of Cmm2101 class statement

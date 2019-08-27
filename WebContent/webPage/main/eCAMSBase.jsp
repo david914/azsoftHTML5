@@ -78,6 +78,11 @@
 	    </ul>
 	</footer>
 </div>
+
+<form name="popPam">
+	<input type="hidden" name="cm_acptno"/>
+</form>
+
 <input id="txtSessionID" type="hidden" value="${sessionID}">
 
 <c:import url="/js/ecams/common/commonscript.jsp" />

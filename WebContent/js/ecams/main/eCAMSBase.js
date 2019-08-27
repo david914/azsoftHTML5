@@ -21,6 +21,8 @@ var contentHistory = "";
 var resizeInterval = null;
 var folding = null;
 var resizeDelay = null;
+var noticeWin	= null;
+var today 		= getDate('DATE',0);
 
 $(document).ready(function() {
 	
@@ -81,8 +83,6 @@ $(document).ready(function() {
 		changePage(this.id);
 	});
 	
-	
-	
 });
 
 // eCAMS Main Load [session 에서 유저정보 가져온 후 로딩됨]
@@ -141,9 +141,6 @@ function changePage(division) {
 //세로 스크롤바
 (function($) {
     $.fn.hasVerticalScrollBar = function() {
-    	console.log(this.get(0));
-    	console.log(this.get(0).scrollHeight);
-    	console.log(this.innerHeight());
         return this.get(0) ? this.get(0).scrollHeight > this.innerHeight() : false;
     }
 })(jQuery);
@@ -161,9 +158,6 @@ function resize(){
 	contentFrameHeight = Math.round($('#iFrm').contents().find(".contentFrame").height()+addHeight); // 프레임 내부에 컨텐츠 div 높이 구해오기
 	
 	
-	console.log('resize menu [' + contentHistory + ']');
-	console.log('프레임 height [' + contentFrameHeight + ']');
-	console.log('전체 height [' + contentHeight + ']');
 	
 	if(contentHeight > contentFrameHeight){
 		frameHeight = contentHeight;
@@ -173,7 +167,6 @@ function resize(){
 	
 	if($('#iFrm').height() != frameHeight ){
 		$('#iFrm').css("height", frameHeight + "px");
-		console.log($('#iFrm').hasVerticalScrollBar());
 	}
 	
 //	var winWidth = window.width();
@@ -201,7 +194,6 @@ function frameLoad(){
 
 	resizeInterval = setInterval(function(){
 		resize();	
-		//console.log(check++);
 		contentFrameHeight = Math.round($('#iFrm').contents().find(".contentFrame").height()+addHeight); // 프레임 내부에 컨텐츠 div 높이 구해오기
 		 if(contentHeight > contentFrameHeight){
 			 frameHeight = contentHeight;
@@ -220,6 +212,7 @@ function frameLoad(){
 function lang_open(){
 	  var $gnb = jQuery(".lang_menu > ul > li");
 	  $gnb.find("> a").mouseenter(function(){
+		  
 	      var $this = jQuery(this);
 	      $this.css('color','#2471c8')
 	      $this.parent('li').children('div').addClass("active");
@@ -255,7 +248,6 @@ function getSession() {
 
 //세션 가져오기 완료
 function successGetSession(data) {
-	console.log(data);
 	userName		= data.userName;
 	userId 			= data.userId;
 	adminYN 		= data.adminYN === 'true' ? true : false;
@@ -270,6 +262,16 @@ function successGetSession(data) {
 	}
 	$('#loginUser').html(userName + '님 로그인');
 	meneSet();
+}
+
+//메뉴데이터 가져오기
+function meneSet() {
+	var data = new Object();
+	data = {
+		UserId 		: userId,
+		requestType	: 'MenuList'
+	}
+	ajaxAsync('/webPage/main/eCAMSBaseServlet', data, 'json',successGetMenuData);
 }
 
 // 메뉴데이터 가져오기 완료
@@ -298,18 +300,61 @@ function successGetMenuData(data) {
 	});
 	
 	$('#ulMenu').html(menuHtmlStr);
-	
+	getPopNoticeInfo();
 	lang_open();
 }
 
-// 메뉴데이터 가져오기
-function meneSet() {
+// 공지사항 오늘 팝업 있는지 확인
+function getPopNoticeInfo() {
 	var data = new Object();
 	data = {
-		UserId 		: userId,
-		requestType	: 'MenuList'
+		requestType	: 'getTodayPopNotice'
 	}
-	ajaxAsync('/webPage/main/eCAMSBaseServlet', data, 'json',successGetMenuData);
+	ajaxAsync('/webPage/modal/notice/NoticeModal', data, 'json',successGetPopNoticeInfo);
+}
+
+// 공지사항 오늘 팝업 있는지 확인 완료
+function successGetPopNoticeInfo(data) {
+	
+	if( data.length === 0 ) {
+		return;
+	}
+	
+	data.forEach(function(item, index) {
+		var notcieViewYn = getCookie('notice' + item.cm_acptno + '_' + today);
+		
+		if(notcieViewYn === '') {
+			setCookie('notice' + item.cm_acptno + '_' + today, 	true);
+			notcieViewYn = 'true';
+		}
+		// open PopNotice
+		if(notcieViewYn === 'true') {
+			openPopNotice(item.cm_acptno);
+		}
+	});
+}
+// 공지사항 오픈
+function openPopNotice(cm_acptno) {
+	var nHeight, nWidth, cURL, winName, resizableYn;
+	if ( ('popNotice_' + cm_acptno) == winName ) {
+		if (noticeWin != null) {
+	        if (!noticeWin.closed) {
+	        	noticeWin.close();
+	        }
+		}
+	}
+
+    winName = 'popNotice_' + cm_acptno;
+    
+	var form = document.popPam;   		//폼 name
+	form.cm_acptno.value	= cm_acptno;    	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+    
+	nHeight = 375;
+    nWidth  = 600;
+	cURL	= '/webPage/winpop/PopNotice.jsp';
+	resizableYn = 'no';
+   
+	noticeWin = winOpen(form, winName, cURL, nHeight, nWidth, resizableYn);
 }
 
 function clickSideMenu(event) {

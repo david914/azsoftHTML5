@@ -1227,14 +1227,20 @@ td.fc-more-cell {
 	padding: 0 7px 2px;
 	height: 25px;
 }
-
 .filebox label:hover {border: 1px solid #2477c1; color: #2477c1; font-weight:bold; padding: 0 7px 2px; height: 25px;}
-
+.filebox input[type="file"] { /* 파일 필드 숨기기 */ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; }
 .org{color: #fd7e14;}
 .green{color: #0acf97;}
 .blue{color: #727cf5;}
+.notice-footer {
+	background-color: #D8D8D8;
+    height: 30px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
  
-.filebox input[type="file"] { /* 파일 필드 숨기기 */ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; }
 /* tree right menu css end*/
 
 /****************************************************************************************************************************************
