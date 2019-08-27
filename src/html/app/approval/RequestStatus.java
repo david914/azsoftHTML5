@@ -19,6 +19,8 @@ import app.common.CodeInfo;
 import app.common.SysInfo;
 import app.common.TeamInfo;
 import app.common.UserInfo;
+import app.eCmr.Cmr0150;
+import app.eCmr.Cmr3100;
 import app.eCmr.Cmr3200;
 import html.app.common.ParsingCommon;
 
@@ -31,6 +33,8 @@ public class RequestStatus extends HttpServlet {
 	CodeInfo codeinfo = new CodeInfo();
 	TeamInfo teaminfo = new TeamInfo();
 	Cmr3200 cmr3200 = new Cmr3200();
+	Cmr3100 cmr3100 = new Cmr3100();
+	Cmr0150 cmr0150 = new Cmr0150();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -67,6 +71,12 @@ public class RequestStatus extends HttpServlet {
 					break;
 				case "getCodeInfo" :
 					response.getWriter().write( getCodeInfo() );
+					break;
+				case "nextConf" :
+					response.getWriter().write( nextConf(jsonElement) );
+					break;
+				case "svrProc" :
+					response.getWriter().write( svrProc(jsonElement) );
 					break;
 				default:
 					break;
@@ -114,5 +124,29 @@ public class RequestStatus extends HttpServlet {
 												   prjDataInfoMap.get("strSta"),prjDataInfoMap.get("txtUser"),	prjDataInfoMap.get("strStD"),
 												   prjDataInfoMap.get("strEdD"),prjDataInfoMap.get("strUserId"),prjDataInfoMap.get("cboGbn"),
 												   prjDataInfoMap.get("strJob"),prjDataInfoMap.get("dategbn"),	prjDataInfoMap.get("txtSpms")) );
+	}
+	
+	private String nextConf(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = null;
+		AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String UserId = null;
+		UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String conMsg = null;
+		conMsg = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "conMsg") );
+		String Cd = null;
+		Cd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Cd") );
+		String ReqCd = null;
+		ReqCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "ReqCd") );
+		return gson.toJson( cmr3100.nextConf(AcptNo, UserId, conMsg, Cd, ReqCd));
+	}
+	
+	private String svrProc(JsonElement jsonElement) throws SQLException, Exception {
+		String AcptNo = null;
+		AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
+		String prcCd = null;
+		prcCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "prcCd") );
+		String prcSys = null;
+		prcSys = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "prcSys") );
+		return gson.toJson( cmr0150.svrProc(AcptNo, prcCd, prcSys));
 	}
 }

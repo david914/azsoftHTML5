@@ -1086,13 +1086,17 @@ function successUpdtDeploy_2(data) {
 //결재, 반려 실행
 function nextConf(gyulGbn, conMsg) {
 	ingSw = true;
+	var tmpId = pUserId;
+	if(gyulGbn == '1'){
+		tmpId = reqInfoData[0].signteam;
+	}
 	
 	data =  new Object();
 	data = {
 		AcptNo			: pReqNo,
-		UserId			: pUserId,
+		UserId			: tmpId,
 		conMsg			: conMsg,
-		Cd				: gyulGbn,
+		Cd					: gyulGbn,
 		ReqCd			: pReqCd,
 		requestType		: 'nextConf'
 	}
@@ -1102,7 +1106,7 @@ function nextConf(gyulGbn, conMsg) {
 function successNextConf(data) {
 	ingSw = false;
 	
-	if (event.result.toString() == "0") {
+	if (data == "0") {
 		close();
 	}else{
 		confirmDialog2.alert('처리에 실패했습니다.');
@@ -1128,9 +1132,9 @@ function svrProc(prcSysGbn) {
 function successSvrProc(data) {
 	ingSw = false;
 
-	if (event.result.toString() == '0') {
+	if (data == '0') {
 		confirmDialog2.alert("재처리작업이 신청되었습니다. 잠시 후 다시받기를 하여 확인하여 주시기 바랍니다.");
-	}else if (event.result.toString() == '2') {
+	}else if (data == '2') {
 		confirmDialog2.alert("현재 서버에서 다른처리를 진행 중입니다. 잠시 후 다시 처리하여 주시기 바랍니다.");
 	} else  {
 		confirmDialog2.alert("재처리작업 신청 중 오류가 발생하였습니다.");

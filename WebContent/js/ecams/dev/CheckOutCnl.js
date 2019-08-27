@@ -259,6 +259,7 @@ function getSysCbo(){
 
 function successGetSysCbo(data){
 	sysData = data;
+	console.log(data);
 	options = [];
 	var selectVal;
 	
@@ -292,7 +293,6 @@ function sysDataFilter(){
 	options = [];
 	for(var i=0; i<sysDataLength ; i++){
 		var data = sysData[i];
-		
 		if(data.cm_sysinfo.substr(0,1) == '1'){
 			continue;
 		}else if (data.cm_syscd =='00000'){
@@ -300,7 +300,7 @@ function sysDataFilter(){
 		}else{
 			if(getSelectedIndex('cboSrId') > 0){
 				var syscd = getSelectedVal('cboSrId').syscd;
-				var arySyscd = new Array(syscd.split(","));
+				var arySyscd = syscd.split(",");
 				for(var j=0; j<arySyscd.length; j++){
 					if(arySyscd[j] == data.cm_syscd){
 						options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
@@ -525,6 +525,7 @@ function addDataRow() {
 		checkSelectedFlag();
 		if (secondGridData.length > 0){
 			$('[data-ax5select="cboSys"]').ax5select("disabled");
+			$('[data-ax5select="cboSrId"]').ax5select("disabled");
 			$('#btnReq').attr('disabled',false);
 		}
 	}
@@ -571,6 +572,7 @@ function checkDuplication(downFileList) {
 	if(secondGrid.list.length > 0 ) {
 
 		$('[data-ax5select="cboSys"]').ax5select("disable");
+		$('[data-ax5select="cboSrId"]').ax5select("disable")
 		$('#btnReq').prop('disabled',false);
 	}
 	secondGridData = clone(secondGrid.list);
@@ -616,6 +618,7 @@ function deleteDataRow() {
 	
 	if (secondGrid.list.length == 0){
 		$('[data-ax5select="cboSys"]').ax5select("enable");
+		$('[data-ax5select="cboSrId"]').ax5select("enable")
 		$('#btnReq').prop('disabled',true);
 	}
 	secondGridData = clone(secondGrid.list);
@@ -858,6 +861,7 @@ function findRefresh(){
 	firstGridaData = [];
 
 	$('[data-ax5select="cboSys"]').ax5select("enabled");
+	$('[data-ax5select="cboSrId"]').ax5select("enabled");
 	$('#btnReq').attr('disabled',true);
 	findProc();
 }
