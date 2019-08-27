@@ -214,7 +214,7 @@ public class Cmd0500{
 			strQuery.append("select a.cr_syscd,a.cr_dsncd,a.cr_rsrcname,a.cr_jobcd,   \n");
 			strQuery.append("       a.cr_itemid,a.cr_lstver,b.cm_dirpath,a.cr_status, \n");
 			strQuery.append("       a.cr_viewver,a.cr_rsrccd,g.cm_info,c.cm_sysmsg,   \n");
-			strQuery.append("       c.cm_sysinfo,                                     \n");
+			strQuery.append("       c.cm_sysinfo,a.cr_isrid,                          \n");
 			strQuery.append("       (select cm_jobname from cmm0102                   \n");
 			strQuery.append("          where cm_jobcd=a.cr_jobcd) cm_jobname,         \n");
 			strQuery.append("       (select cm_codename from cmm0020                  \n");
@@ -222,7 +222,11 @@ public class Cmd0500{
 			strQuery.append("            and cm_micode=a.cr_rsrccd) JAWON,            \n");
 			strQuery.append("       (select cm_codename from cmm0020                  \n");
 			strQuery.append("          where cm_macode='CMR0020'                      \n");
-			strQuery.append("            and cm_micode=a.cr_status) CMR0020           \n");
+			strQuery.append("            and cm_micode=a.cr_status) CMR0020,          \n");
+			strQuery.append("       (select cm_username from cmm0040                  \n");
+			strQuery.append("          where cm_userid=a.cr_owner) owner,    	      \n");
+			strQuery.append("       (select cc_reqtitle from cmc0100                  \n");
+			strQuery.append("          where cc_srid=a.cr_isrid) srtitle    	      \n");
 	        strQuery.append("  from cmm0030 c,cmr0020 a,cmm0070 b,cmm0036 g           \n");
 	        if (etcData.get("itemid") != null && !"".equals(etcData.get("itemid"))) {
 	        	strQuery.append(" where a.cr_itemid=?                                 \n");	 
@@ -295,6 +299,12 @@ public class Cmd0500{
 				rst.put("base","0");
 				if (adminSw) rst.put("adminsw", "Y");
 				else rst.put("adminsw", "N");
+				rst.put("owner", rs.getString("owner"));
+				rst.put("srid", rs.getString("cr_isrid"));
+				if(rs.getString("cr_isrid") != null && !"".equals(rs.getString("cr_isrid"))) {
+					rst.put("sr", "["+rs.getString("cr_isrid")+"]"+rs.getString("srtitle"));
+				}else rst.put("sr", "");
+				
 				rtList.add(rst);
 				rst = null;
 			}//end of while-loop statement
@@ -1111,6 +1121,7 @@ public class Cmd0500{
     	
     	int i = 0;
     	int	ret = 0;
+    	int	updtCnt = 0;
     	int paramCnt = 0;
     	boolean updtSw = false;
 
@@ -1118,7 +1129,7 @@ public class Cmd0500{
     	try {
     		conn = connectionContext.getConnection();
     		
-    		ecamsLogger.error("size: " + dataList.size());
+    		ret = 0;
     		for (i=0; i<dataList.size(); i++){
     			updtSw = false;
         		strQuery.setLength(0);
@@ -1175,10 +1186,13 @@ public class Cmd0500{
     			pstmt.setString(++paramCnt, dataList.get(i).get("cr_itemid"));
     			
     			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
-    			ret = pstmt.executeUpdate();
+    			updtCnt = pstmt.executeUpdate();
     			pstmt.close();
+    			
+    			if(updtCnt == 1) ret++;
     		}
 			
+    		pstmt.close();
 			conn.close();
 			
 			pstmt = null;

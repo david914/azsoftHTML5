@@ -36,6 +36,7 @@ var selectedIndex;		//select 선택 index
 var selectedItem;		//select 선택 item
 var gridSelectedIndex;  //그리드 선택 index
 var selectedGridItem;	//그리드 선택 item
+var gridSelectedLen;    //그리드 선택 item length
 
 grdProgList.setConfig({
     target: $('[data-ax5grid="grdProgList"]'),
@@ -56,13 +57,14 @@ grdProgList.setConfig({
     	}
     },
     columns: [
-        {key: 'cm_sysmsg',   	label: '시스템',  		width: '13%',	align: 'left'},
-        {key: 'cm_jobname', 	label: '업무',  			width: '13%',	align: 'left'},
-        {key: 'cm_dirpath', 	label: '프로그램경로',   	width: '23%',	align: 'left'},
-        {key: 'cm_codename', 	label: '프로그램종류',    	width: '13%',	align: 'left'},
-        {key: 'cr_rsrcname', 	label: '프로그램명',	  	width: '17%',	align: 'left'},
-        {key: 'sta', 	        label: '프로그램상태',  	width: '10%',	align: 'left'},
-        {key: 'srid', 			label: 'SR-ID',	  		width: '13%',	align: 'left'},
+        {key: 'cm_sysmsg',   	label: '시스템',  		width: '10%',	align: 'left'},
+        {key: 'cm_jobname', 	label: '업무',  			width: '7%',	align: 'left'},
+        {key: 'cm_dirpath', 	label: '프로그램경로',   	width: '27%',	align: 'left'},
+        {key: 'cm_codename', 	label: '프로그램종류',    	width: '10%',	align: 'left'},
+        {key: 'cr_rsrcname', 	label: '프로그램명',	  	width: '14%',	align: 'left'},
+        {key: 'sta', 	        label: '프로그램상태',  	width: '8%',	align: 'left'},
+        {key: 'sr', 			label: 'SR-ID',	  		width: '13%',	align: 'left'},
+        {key: 'owner', 			label: '담당자',	  		width: '13%',	align: 'left'}
     ]
 });
 
@@ -70,7 +72,7 @@ $(document).ready(function() {
 	getSysInfo(); //시스템조회
 	getSRID(); //SR조회
 	
-	cboAftDirData.push({cm_dsncd: '0', cm_dirpath: '프로그램종류/업무를 선택하세요'});
+	cboAftDirData.push({cm_dsncd: '0', cm_dirpath: '프로그램종류와 업무를 선택하세요'});
 	$('[data-ax5select="cboAftDir"]').ax5select({
         options: injectCboDataToArr(cboAftDirData, 'cm_dsncd', 'cm_dirpath')
    	});
@@ -116,18 +118,7 @@ $(document).ready(function() {
 	});
 });
 
-function screenInit() {
-//	$('[data-ax5select="cboJawon"]').ax5select({
-//        options: []
-//	});
-//	selectedGridItem = [];
-//	grdProgList.setData([]);
-//	$('#lbTotalCnt').text('총0건');
-//	$('#txtRsrcName').val('');
-//	$('#txtDirPath').val('');
-} 
-
-//시스템조회 SysInfo.getSysInfo(strUserId,SecuYn,"","N","04");
+//시스템조회
 function getSysInfo() {
 	tmpInfo = new Object();
 	tmpInfo.UserId = userId;
@@ -167,8 +158,6 @@ function successSystem(data) {
 }
 
 function cboSysCd_Change() {
-	screenInit();
-	
 	selectedIndex = getSelectedIndex('cboSysCd');
 	selectedItem = getSelectedVal('cboSysCd');
 	
@@ -179,7 +168,7 @@ function cboSysCd_Change() {
 	getOwnerList(selectedItem.cm_syscd); //담당자 재조회
 }
 
-//선택한 시스템에 대한 업무 조회 SysInfo.getJobInfo()
+//선택한 시스템에 대한 업무 조회
 function getJobInfo(sysCd) {
 	tmpInfo = new Object();
 	tmpInfo.UserID = userId;
@@ -385,6 +374,8 @@ function successPrjList(data) {
 }
 
 function btnUpdt_Click() {
+	gridSelectedLen = 0;
+	
 	if(getSelectedIndex('cboAftJob') < 0 && 	//업무
 		getSelectedIndex('cboAftJawon') < 0 &&  //프로그램종류 
 		getSelectedIndex('cboAftOwner') < 0 &&  //담당자
@@ -408,6 +399,7 @@ function btnUpdt_Click() {
 	}
 	
 	checkedGridItem = grdProgList.getList("selected");
+	gridSelectedLen = checkedGridItem.length;
 	
 	tmpInfo = new Object();
 	tmpInfo.aftjob = getSelectedVal('cboAftJob').cm_jobcd;
@@ -416,8 +408,6 @@ function btnUpdt_Click() {
 	tmpInfo.aftsrid	= getSelectedVal('cboAftSRID').cc_srid;
 	if(cboAftDirData != null) tmpInfo.aftdir = getSelectedVal('cboAftDir').cm_dsncd;
 	else tmpInfo.aftdir = "0";
-	
-	console.log("checkedGridItem.length: " ,checkedGridItem);
 	
 	tmpInfoData = new Object();
 	tmpInfoData = {
@@ -429,13 +419,12 @@ function btnUpdt_Click() {
 }
 
 function successUpdate(data) {
-	console.log("result", data);
-	if(data == "1") {
-		dialog.alert('수정이 완료되었습니다.',function(){
-			btnQry_Click();
-		});
+	if(data == gridSelectedLen) {
+		dialog.alert('수정이 완료되었습니다.',function(){});
 	}else {
-		dialog.alert('수정실패! 프로그램 상태를 확인하여 주십시오.',function(){});
+		dialog.alert('수정 중 오류가 발생한 프로그램이 있습니다. \n 프로그램 상태를 확인하여 주십시오.',function(){});
 	}
 	
+	checkedGridItem = 0;
+	btnQry_Click();
 }
