@@ -35,6 +35,15 @@
     text-align: right;
     border: 0px;
 }
+input[type="number"] {
+    position: relative;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+      /*-webkit-appearance: none;*/
+      opacity: .5;
+      background-color: #fff;
+}
 </style>
 
 <script type="text/javascript">
@@ -156,7 +165,7 @@
 									<input id="txtReqTime" type="text" class="f-cal" required="required" style="width:55px;">
 									<span class="btn_calendar"><i class="fa fa-clock-o"></i></span>
 									-->
-									<input class="numberTxt" style="margin-left: 5px;" type="number" id="hourTxt" min="0" max="23" maxlength="2" oninput="maxLengthCheck(this)">
+									<input class="numberTxt" type="number" id="hourTxt" min="0" max="23" maxlength="2" oninput="maxLengthCheck(this)">
 									<label style="height: 22px; vertical-align: top; font-size: 12px;">&nbsp;:&nbsp;</label>
 									<input class="numberTxt" type="number" id="minTxt" min="0" max="59" maxlength="2" oninput="maxLengthCheck(this)">
 								</div>

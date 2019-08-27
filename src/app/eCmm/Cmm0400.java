@@ -61,7 +61,9 @@ public class Cmm0400{
 			strQuery.append("select cm_userid,cm_username,to_char(cm_logindt,'yyyy-mm-dd hh24:mi:ss') cm_logindt,cm_ercount,");
 			strQuery.append("cm_admin,cm_manid,cm_status,cm_project,cm_position,cm_duty,cm_ipaddress,cm_active,cm_telno1,");
 			strQuery.append("cm_telno2,cm_project2,cm_handrun,cm_dumypw,cm_juminnum,cm_blankdts,cm_blankdte,cm_daegyul,to_char(sysdate,'yyyymmdd') as sysdt, ");
-			strQuery.append("cm_daegmsg,cm_daesayu,cm_email,to_char(cm_creatdt,'yyyy-mm-dd hh24:mi:ss') cm_creatdt from cmm0040 where ");
+			strQuery.append("(select cm_codename from cmm0020 where cm_macode='POSITION' and cm_micode=a.cm_position) position, ");
+			strQuery.append("(select cm_codename from cmm0020 where cm_macode='DUTY' and cm_micode=a.cm_duty) duty, ");
+			strQuery.append("cm_daegmsg,cm_daesayu,cm_email,to_char(cm_creatdt,'yyyy-mm-dd hh24:mi:ss') cm_creatdt from cmm0040 a where ");
 			String tmpStr = "";
 			if (!"".equals(UserId)){
 				tmpStr = UserId;
@@ -106,6 +108,8 @@ public class Cmm0400{
 
 				rst.put("cm_position",rs.getString("cm_position"));
 				rst.put("cm_duty",rs.getString("cm_duty"));
+				rst.put("position",rs.getString("position"));
+				rst.put("duty",rs.getString("duty"));
 				rst.put("cm_ipaddress", rs.getString("cm_ipaddress"));
 				rst.put("cm_active", rs.getString("cm_active"));
 				rst.put("cm_telno1",rs.getString("cm_telno1"));
@@ -262,7 +266,7 @@ public class Cmm0400{
 			strQuery.setLength(0);
 			strQuery.append("select b.cm_macode,b.cm_micode,b.cm_codename from cmm0043 a,cmm0020 b ");
 			strQuery.append("where a.cm_userid =? and a.cm_rgtcd=b.cm_micode ");
-			strQuery.append("  and b.cm_macode='RGTCD' and b.cm_closedt is null order by cm_rgtcd ");
+			strQuery.append("  and b.cm_macode='RGTCD' and b.cm_closedt is null  order by decode(cm_rgtcd,'90','0',cm_rgtcd)");
             pstmt = conn.prepareStatement(strQuery.toString());
             pstmt.setString(1,UserId);
             rs = pstmt.executeQuery();
