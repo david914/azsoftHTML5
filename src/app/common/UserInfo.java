@@ -959,4 +959,76 @@ public class UserInfo{
 		}
 	}//end of isAdmin2() method statement
 	
+	public Object[] getUserInfo_job(String sysCd) throws SQLException, Exception {
+		Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		ResultSet         rs          = null;
+		StringBuffer      strQuery    = new StringBuffer();
+		HashMap<String, String>		 	   rst		  = null;
+		ArrayList<HashMap<String, String>> rtList	  = new ArrayList<HashMap<String, String>>();
+		
+		ConnectionContext connectionContext = new ConnectionResource();
+		
+		try {
+			conn = connectionContext.getConnection();
+			
+			strQuery.setLength(0);
+			strQuery.append("select a.cm_userid, a.cm_username				\n");
+			strQuery.append("  from cmm0040 a 								\n");
+			strQuery.append(" where a.cm_active = '1' 						\n");
+			strQuery.append("   and exists (select 1 from cmm0044			\n");
+			strQuery.append(" 				 where cm_syscd = ?				\n");
+			strQuery.append("   		   	   and cm_userid = a.cm_userid)	\n");
+			strQuery.append(" order by cm_username							\n");
+			
+			pstmt = conn.prepareStatement(strQuery.toString());
+			pstmt.setString(1, sysCd);
+            rs = pstmt.executeQuery();
+            
+            rtList.clear();
+			while (rs.next()){
+				rst = new HashMap<String,String>();
+				rst.put("cm_userid",rs.getString("cm_userid"));
+				rst.put("cm_username",rs.getString("cm_username"));
+				rtList.add(rst);
+				rst = null;
+			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+			
+			rs = null;
+			pstmt = null;
+			conn = null;
+			
+			return rtList.toArray();
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## UserInfo.getUserInfo_job() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);	
+			ecamsLogger.error("## UserInfo.getUserInfo_job() SQLException END ##");			
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## UserInfo.getUserInfo_job() Exception START ##");				
+			ecamsLogger.error("## Error DESC : ", exception);	
+			ecamsLogger.error("## UserInfo.getUserInfo_job() Exception END ##");				
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (rtList != null)	rtList = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## UserInfo.getUserInfo() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+	}//end of getUserInfo() method statement	
+	
 }//end of UserInfo class statement
