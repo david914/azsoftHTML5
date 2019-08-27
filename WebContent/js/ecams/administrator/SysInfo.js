@@ -165,7 +165,6 @@ $(document).ready(function(){
 	getSysInfoList('');
 	screenInit();
 	
-	
 	// 프로세스제한 숫자만 입력하도록 수정
 	$("#txtPrcCnt").on("keyup", function(event) {
 		$(this).val($(this).val().replace(/[^0-9]/g,""));

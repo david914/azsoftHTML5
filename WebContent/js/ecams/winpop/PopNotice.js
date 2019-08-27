@@ -69,7 +69,14 @@ function successGetNoticeInfo(data) {
 		$('#btnFile').css('display', 'none');
 	} else {
 		// 첨부 파일 존재시 좀더 길게
-		top.window.resizeTo(615,465);
+		var agent = navigator.userAgent.toLowerCase();
+
+		// IE 좀더 길게
+		if (agent.indexOf("msie") != -1) {
+			top.window.resizeTo(615,485);
+		} else {
+			top.window.resizeTo(615,465);
+		}
 	}
 }
 

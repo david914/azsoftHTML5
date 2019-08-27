@@ -88,7 +88,7 @@
 									<label class="tit_80 dib poa">시스템오픈</label>
 									<div class="ml_80">
 										<div id="divPicker" class="az_input_group width-100" data-ax5picker="datSysOpen">
-											<input id="datSysOpen" type="text" placeholder="yyyy/mm/dd" class="f-cal">
+											<input id="datSysOpen" type="text" placeholder="yyyy/mm/dd" class="f-cal" autocomplete="off">
 											<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 										</div>
 									</div>
@@ -97,7 +97,7 @@
 									<label class="tit_100 dib poa margin-10-left">형상관리오픈</label>
 									<div class="ml_100">
 										<div id="divPicker" class="az_input_group width-100" data-ax5picker="datScmOpen">
-											<input id="datScmOpen" type="text" placeholder="yyyy/mm/dd" class="f-cal" >
+											<input id="datScmOpen" type="text" placeholder="yyyy/mm/dd" class="f-cal" autocomplete="off">
 											<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 										</div>
 									</div>
