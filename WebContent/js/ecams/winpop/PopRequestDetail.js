@@ -1488,7 +1488,7 @@ function openWindow(type,acptNo, etcInfo) {
 		nHeight = 735;
 		cURL = "/webPage/winpop/PopSRInfo.jsp";
 	} else if (type === 5) {//소스보기
-		cURL = "/webPage/winpop/PopSourceView.jsp";
+		cURL = "/webPage/winpop/PopRequestSourceView.jsp";
 	} else if (type === 6) {//소스비교
 		cURL = "/webPage/winpop/PopSourceDiff.jsp";
 	} else if (type === 7) {//로그확인
