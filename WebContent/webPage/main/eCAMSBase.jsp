@@ -67,7 +67,7 @@
 	</div>
 
 	<!-- contener -->
-	<div id="eCAMSFrame" class="content">
+	<div id="eCAMSFrame" class="content" style="margin-bottom:6px;">
 	</div>
 
 	<!-- Footer-->

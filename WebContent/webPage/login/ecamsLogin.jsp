@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="<c:url value="/css/ecams/login/loginPage.css" />">
 </head>
 <body>
-	<section>
+	<section class="height-100">
 		<div class="login-form">
 		    <form id="ecamsLoginForm" method="post">
 		        <h2 class="text-center">로그인</h2>       
@@ -27,10 +27,10 @@
 		        </div>
 		        <div class="clearfix">
 		            <input type="checkbox" id="chkbox_remember" name="chkbox_remember"/> <label for="chkbox_remember">아이디/비밀번호 저장</label>
-		            <a href="#" class="pull-right">Forgot Password?</a>
+		            <a href="#" class="pull-right" style="display:none">Forgot Password?</a>
 		        </div>        
 		    </form>
-		    <p class="text-center"><a href="#">Create an Account</a></p>
+		    <p class="text-center"><a href="#" style="display:none">Create an Account</a></p>
 		    
 		</div>
 	</section>
