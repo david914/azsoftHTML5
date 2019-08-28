@@ -17,11 +17,11 @@ var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 var grdRangeList		= new ax5.ui.grid();
 
 var grdRangeListData 		= [];
-var cboPosData				= [];	//직위 콤보박스 데이터
-var cboRgtData				= [];	//직무 콤보박스 데이터
-var lstPosData				= null; //대결가능범위 체크리스트 데이터
-var lstRgtData				= null; //대결가능범위 체크리스트 데이터
-var addId 					= null;
+var cboPosData				= []; //직위 콤보박스 데이터
+var cboRgtData				= []; //직무 콤보박스 데이터
+var lstPosData				= []; //대결가능범위 체크리스트 데이터
+var lstRgtData				= []; //대결가능범위 체크리스트 데이터
+var addId 					= [];
 
 var tmpInfo     			= new Object(); 
 var tmpInfoData 			= new Object();

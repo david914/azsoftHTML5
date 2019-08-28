@@ -20,7 +20,7 @@ var grdApprovalInfoData 	= [];
 var cboFromSysData			= [];
 var cboFromReqCdData		= [];
 var cboToReqCdData			= [];
-var lstSysData				= null; //To시스템 리스트 데이터
+var lstSysData				= []; //To시스템 리스트 데이터
 
 var tmpInfo     			= new Object(); 
 var tmpInfoData 			= new Object();

@@ -30,10 +30,10 @@ var gridSelectedIndex		= -1;   //그리드 선택 index
 var selectedGridItem		= [];	//그리드 선택 item
 
 var workDay					= "";   //월근무일수
-var cboRateData 			= null;	//기능접수등급 데이터
-var grdWorkerData 			= null; //담당자그리드 데이터
-var grdWorkTimeData			= null; //작업시간내역그리드 데이터
-var grdWorkTimeData_filter  = null; //작업시간내역그리드 필터링 데이터
+var cboRateData 			= [];	//기능접수등급 데이터
+var grdWorkerData 			= []; //담당자그리드 데이터
+var grdWorkTimeData			= []; //작업시간내역그리드 데이터
+var grdWorkTimeData_filter  = []; //작업시간내역그리드 필터링 데이터
 
 var createGrid = false;
 

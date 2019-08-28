@@ -28,13 +28,13 @@ var cboSvrData		= [];	//서버 데이터
 var cboJawonData	= [];	//프로그램종류 데이터
 var cboJobData		= [];	//업무 데이터
 var cboSRIData		= [];	//SRID 데이터
-var grdProgListData = null; //프로그램목록그리드 데이터
+var grdProgListData = []; //프로그램목록그리드 데이터
 
-var treeObj			= null;
-var treeObjData		= null; //디렉토리트리 데이터
+var treeObj			= [];
+var treeObjData		= []; //디렉토리트리 데이터
 
 var selectedIndex 	= 0; 	//select 선택 index
-var selectedItem 	= null;	//select 선택 item
+var selectedItem 	= [];	//select 선택 item
 
 var tmpInfo = new Object();
 var tmpInfoData = new Object();

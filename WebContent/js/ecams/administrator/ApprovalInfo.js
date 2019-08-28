@@ -18,24 +18,24 @@ var grdSign			= new ax5.ui.grid(); //결재정보 그리드
 
 var selOptions 		= [];
 
-var grdSignData 	= null; //그리드
-var cboReqCdData 	= null; //결재종류
-var cboSysData 		= null; //시스템
-var cboCommonData	= null; //정상결재
-var cboSignStepData	= null; //결재단계
-var cboBlankData	= null; //부재처리
-var cboComAftData	= null; //정상(업무후)
-var cboEmgAftData	= null; //긴급(업무후)
-var cboSgnGbnData	= null; //결재구분
-var cboSysGbnData	= null; //자동처리
-var cboEmgData		= null; //긴급(업무중)
+var grdSignData 	= []; //그리드
+var cboReqCdData 	= []; //결재종류
+var cboSysData 		= []; //시스템
+var cboCommonData	= []; //정상결재
+var cboSignStepData	= []; //결재단계
+var cboBlankData	= []; //부재처리
+var cboComAftData	= []; //정상(업무후)
+var cboEmgAftData	= []; //긴급(업무후)
+var cboSgnGbnData	= []; //결재구분
+var cboSysGbnData	= []; //자동처리
+var cboEmgData		= []; //긴급(업무중)
 
-var lstRgtData		= null; //직무 리스트 데이터
-var lstGradeData	= null; //프로그램등급 리스트 데이터
-var lstJawonData	= null; //프로그램종류 리스트 데이터
+var lstRgtData		= []; //직무 리스트 데이터
+var lstGradeData	= []; //프로그램등급 리스트 데이터
+var lstJawonData	= []; //프로그램종류 리스트 데이터
 
-var treeObj			= null;
-var treeDeptData	= null; //조직트리 데이터
+var treeObj			= [];
+var treeDeptData	= []; //조직트리 데이터
 var tmpDeptCd		= "";
 
 var allApprovalInfoModal 	= new ax5.ui.modal(); //전체조회 팝업

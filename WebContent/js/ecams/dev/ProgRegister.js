@@ -6,18 +6,17 @@ var userDeptCd 	 	= window.top.userDeptCd;
 
 var grdProgList 		= new ax5.ui.grid();   //프로그램그리드
 
-var selOptions 		= [];
 var selectedIndex;		//select 선택 index
 var selectedItem;		//select 선택 item
 var gridSelectedIndex;  //그리드 선택 index
 var selectedGridItem;	//그리드 선택 item
 
-var cboSystemData 	= null;	//시스템 데이터
-var cboJawonData	= null;	//프로그램종류 데이터
-var cboJobData		= null;	//업무 데이터
-var cboDirData		= null;	//프로그램경로 데이터
-var cboSRIDData		= null;	//SRID 데이터
-var grdProgListData = null; //프로그램그리드 데이터
+var cboSystemData 	= []; //시스템 데이터
+var cboJawonData	= []; //프로그램종류 데이터
+var cboJobData		= []; //업무 데이터
+var cboDirData		= null; //프로그램경로 데이터
+var cboSRIDData		= []; //SRID 데이터
+var grdProgListData = []; //프로그램그리드 데이터
 
 var winDevRep 		= null; //개발영역연결등록 새창
 
@@ -135,20 +134,12 @@ function getSRID() {
 }
 
 function successSRID(data) {
-	selOptions = data;
-	cboSRIDData = [];
+	cboSRIDData = data;
 	
-	if(selOptions.length > 0) {
-		cboSRIDData.push({value: "SR정보 선택 또는 해당없음", text: "SR정보 선택 또는 해당없음"});
-	}
-	
-	$.each(selOptions,function(key,value) {
-		cboSRIDData.push({value: value.cc_srid, text: value.srid});
-	});
-	
+	cboSRIDData.unshift({cc_srid: "SR정보 선택 또는 해당없음", srid: "SR정보 선택 또는 해당없음"});
 	$('[data-ax5select="cboSRID"]').ax5select({
-        options: cboSRIDData
-	});
+        options: injectCboDataToArr(cboSRIDData, 'cc_srid' , 'srid')
+   	});
 }
 
 //시스템조회 SysInfo.getSysInfo(strUserId,SecuYn,"","N","04");
@@ -247,16 +238,11 @@ function cboSystem_Change() {
 }
 
 function successJob(data) {
-	selOptions = data;
-	cboJobData = [];
-	
-	$.each(selOptions,function(key,value) {
-		cboJobData.push({value: value.cm_jobcd, text: value.cm_jobname});
-	});
+	cboJobData = data;
 	
 	$('[data-ax5select="cboJob"]').ax5select({
-        options: cboJobData
-	});
+        options: injectCboDataToArr(cboJobData, 'cm_jobcd' , 'cm_jobname')
+   	});
 	
 	if(cboJobData.length > 0) {
 		selectedIndex = getSelectedIndex('cboSystem');
@@ -337,15 +323,10 @@ function Dircheck(jobcd, rsrccd) {
 }
 
 function successDir(data) {
-	selOptions = data;
-	cboDirData = [];
-	
-	$.each(selOptions,function(key,value) {
-		cboDirData.push({value: value.cm_dsncd, text: value.cm_dirpath});
-	});
+	cboDirData = data;
 	
 	$('[data-ax5select="cboDir"]').ax5select({
-        options: cboDirData
+        options: injectCboDataToArr(cboDirData, 'cm_dsncd' , 'cm_dirpath')
 	});
 	
 	gridSelectedIndex = grdProgList.selectedDataIndexs;
