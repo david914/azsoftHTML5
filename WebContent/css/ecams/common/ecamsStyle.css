@@ -1573,4 +1573,4 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 
 .floatRow:after{content:""; display:block; clear:both;}
 
-
+[data-ax5select]{height:25px;}
