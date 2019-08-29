@@ -603,7 +603,7 @@ function elementInit(initDivision) {
 		$('#datReqComDate').attr('disabled', true);
 		$('.btn_calendar').css('background-color','#ddd');
 		$('#txtReqSubject').attr('disabled', true);
-		$('#texReqContent').attr('disabled', true);
+		$('#texReqContent').attr('readonly', true);
 		$('#txtDocuNum').attr('disabled', true);
 		$('#txtOrg').attr('disabled', true);
 		$('#txtRegUser').attr('disabled', true);
@@ -618,7 +618,7 @@ function elementInit(initDivision) {
 		$('#datReqComDate').attr('disabled', false);
 		$('.btn_calendar').css('background-color','#fff');
 		$('#txtReqSubject').attr('disabled', false);
-		$('#texReqContent').attr('disabled', false);
+		$('#texReqContent').attr('readonly', false);
 		$('#txtDocuNum').attr('disabled', false);
 		$('#txtOrg').attr('disabled', false);
 	}

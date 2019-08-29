@@ -45,7 +45,7 @@
 				<dt><label>*상세내용</label></dt>
 				<dd>
 					<form>
-						<textarea id="texReqContent" name="texReqContent" style="align-content:left;width:100%;height:180px;resize: none;"></textarea>
+						<textarea id="texReqContent" name="texReqContent" style="align-content:flex-start;width:100%;height:180px;resize: none;"></textarea>
 					</form>
 				</dd>
 			</dl>
