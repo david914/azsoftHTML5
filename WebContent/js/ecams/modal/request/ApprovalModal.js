@@ -437,6 +437,7 @@ function register(){
 	}
 	mask.open();
 	confirmDialog.confirm({
+		title: '확인',
 		msg: Msg,
 	}, function(){
 		if(this.key === 'ok') {

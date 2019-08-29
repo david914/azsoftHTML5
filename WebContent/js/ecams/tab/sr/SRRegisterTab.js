@@ -344,6 +344,7 @@ function cmdCnclclick(){
 	}
 	
 	confirmDialog.confirm({
+		title: '확인',
 		msg: '반려처리하시겠습니까?',
 	}, function(){
 		if(this.key === 'ok') {
@@ -847,7 +848,8 @@ function format_confirm(sel){
     }
     
     confirmDialog.confirm({
-		msg: '현재내용으로 "'+strSel+ '"하시겠습니까',
+    	title: '확인',
+		msg: '현재내용으로 "'+strSel+ '"하시겠습니까?',
 	}, function(){
 		if(this.key === 'ok') {
 			set_info();
@@ -1089,6 +1091,7 @@ function cmdCncl_click(){
 	}
 	
 	confirmDialog.confirm({
+		title: '확인',
 		msg: '삭제처리하시겠습니까?',
 	}, function(){
 		if(this.key === 'ok') {
@@ -1101,16 +1104,20 @@ function delSr(){
 	ing_sw = true;
 	
 	var SRInfo = {
-			strUserId : userid,
-			srId 	  : $('#txtSRID').val(),
-			requestType: 	'deleteSRInfo'
-		}
+		strUserId : userid,
+		srId 	  : $('#txtSRID').val(),
+		requestType: 	'deleteSRInfo'
+	}
 		
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', SRInfo, 'json');
-	if(ajaxReturnData !== 'ERR') {
-		dialog.alert("삭제가 완료되었습니다");
-		elementInit("NEW");
-		ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
+	console.log("ajaxReturnData", ajaxReturnData);
+	if(ajaxReturnData == 'OK') {
+		dialog.alert('삭제가 완료되었습니다.',
+		function(){
+			$('#txtSysCd').val(data);
+			elementInit("NEW");
+			ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
+		});
 	}
 	
 	ing_sw = false;
