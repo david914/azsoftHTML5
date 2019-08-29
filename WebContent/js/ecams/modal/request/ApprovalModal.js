@@ -530,6 +530,7 @@ function removeSecondGrid(data, index){
 
 		
 		confirmDialog.confirm({
+			title: '확인',
 			msg: "결재단계 ["+data.cm_name+"]를 취소할까요?",
 		}, function(){
 			if(this.key === 'ok') {
