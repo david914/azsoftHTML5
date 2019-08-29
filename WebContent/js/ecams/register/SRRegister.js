@@ -159,7 +159,7 @@ function setCbo() {
 	cboQryGbnData.push({value: "00", text: "전체", dateyn: "Y"});
 	cboQryGbnData.push({value: "01", text: "SR수정대상", dateyn: "N"});
 	
-	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", cboQryGbnData[1].value, true);
+//	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", cboQryGbnData[1].value, true);
 	$('#cboQryGbn').trigger('change');
 }
 
