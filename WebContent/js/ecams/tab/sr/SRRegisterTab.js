@@ -1091,8 +1091,6 @@ function cmdCncl_click(){
 		return;
 	}
 	
-	console.log("txtsrid:" + $('#txtSRID').val());
-	
 	if($('#txtSRID').val() == "" || $('#txtSRID').val() == null) {
 		dialog.alert("삭제할 SR을 선택하여 주십시오.");
 		return;
