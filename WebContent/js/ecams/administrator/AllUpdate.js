@@ -72,7 +72,7 @@ $(document).ready(function() {
 	getSysInfo(); //시스템조회
 	getSRID(); //SR조회
 	
-	cboAftDirData.push({cm_dsncd: '0', cm_dirpath: '프로그램종류와 업무를 선택하세요'});
+	cboAftDirData.push({cm_dsncd: '0', cm_dirpath: '업무와 프로그램종류를 선택하세요'});
 	$('[data-ax5select="cboAftDir"]').ax5select({
         options: injectCboDataToArr(cboAftDirData, 'cm_dsncd', 'cm_dirpath')
    	});

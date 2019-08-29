@@ -108,7 +108,7 @@
 					<div class="width-66 dib vat">
 			            <label class="tit_80 poa">경로</label>
 			            <div class="ml_80">
-							<div id="cboAftDir" data-ax5select="cboAftDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib" style="width:calc(100% - 57px);"></div>
+							<div id="cboAftDir" data-ax5select="cboAftDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib" style="width:95.1%;"></div>
 							<button id="btnUpdt" name="btnUpdt" class="btn_basic_s margin-10-right">수정</button>
 						</div>
 					</div>
