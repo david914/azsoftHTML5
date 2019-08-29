@@ -14,7 +14,7 @@ var selectedGridItem;	//그리드 선택 item
 var cboSystemData 	= []; //시스템 데이터
 var cboJawonData	= []; //프로그램종류 데이터
 var cboJobData		= []; //업무 데이터
-var cboDirData		= null; //프로그램경로 데이터
+var cboDirData		= []; //프로그램경로 데이터
 var cboSRIDData		= []; //SRID 데이터
 var grdProgListData = []; //프로그램그리드 데이터
 
@@ -114,7 +114,7 @@ function screenInit() {
 	$('#txtStory').val("");
 	$('#btnDevRep').prop("disabled", true);
 	//$('#btnLocalRep').prop("disabled", true);
-	if(cboSRIDData != null) $('[data-ax5select="cboSRID"]').ax5select("disable");
+	if(cboSRIDData.length > 0) $('[data-ax5select="cboSRID"]').ax5select("disable");
 } 
 
 //SR조회 prjCall();
@@ -205,7 +205,7 @@ function cboSystem_Change() {
 			$('[data-ax5select="cboSRID"]').ax5select('setValue',cboSRIDData[0].value,true); //value값으로
 		}
 	}else {
-		if(cboSRIDData != null) $('[data-ax5select="cboSRID"]').ax5select("enable");
+		if(cboSRIDData.length > 0) $('[data-ax5select="cboSRID"]').ax5select("enable");
 	}
 	
 	if(selectedIndex > -1) {
@@ -325,9 +325,11 @@ function Dircheck(jobcd, rsrccd) {
 function successDir(data) {
 	cboDirData = data;
 	
-	$('[data-ax5select="cboDir"]').ax5select({
-        options: injectCboDataToArr(cboDirData, 'cm_dsncd' , 'cm_dirpath')
-	});
+	if(cboDirData.length > 0) {
+		$('[data-ax5select="cboDir"]').ax5select({
+	        options: injectCboDataToArr(cboDirData, 'cm_dsncd' , 'cm_dirpath')
+		});
+	}
 	
 	gridSelectedIndex = grdProgList.selectedDataIndexs;
 	selectedGridItem = grdProgList.list[grdProgList.selectedDataIndexs];
