@@ -302,6 +302,7 @@ function cmdOkclick(){
 	}
 	
 	confirmDialog.confirm({
+		title: '확인',
 		msg: '결재처리하시겠습니까?',
 	}, function(){
 		if(this.key === 'ok') {
@@ -1087,6 +1088,13 @@ function onUploadCompleteData(){
 function cmdCncl_click(){
 	if(ing_sw){
 		dialog.alert("현재 작업이 진행중입니다. 잠시후 다시 시도해주세요");
+		return;
+	}
+	
+	console.log("txtsrid:" + $('#txtSRID').val());
+	
+	if($('#txtSRID').val() == "" || $('#txtSRID').val() == null) {
+		dialog.alert("삭제할 SR을 선택하여 주십시오.");
 		return;
 	}
 	
