@@ -11,7 +11,7 @@ var cboSRData		   = null;	//SRID 데이터
 var progInfoData       = null;
 var myWin 			   = null;
 var pUserId            = null;
-
+var strInfo 		   = '';    // 프로그램 info
 var selSw = false;
 
 var tmpInfo = new Object();
@@ -196,7 +196,7 @@ function successJawon(data) {
 	
 }
 function successProgInfo(data) {
-	var strInfo = '';
+	
 	progInfoData = data;
 	
 	if (progInfoData.length > 0) {
