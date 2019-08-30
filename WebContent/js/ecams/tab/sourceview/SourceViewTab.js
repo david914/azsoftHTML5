@@ -33,7 +33,6 @@ function elementInit() {
 	$('#txtProgId').val(rsrcname);
 	$('#txtBaseId').val(basename);
 	$('#txtVer').val(ver);
-	
 	$("body").bind("mousedown", onBodyMouseDown); 
 	getFileText(pUserId,pItemId,pReqNo,ver);
 }
@@ -48,6 +47,10 @@ function getFileText(userid, itemid, acptno, ver){
 	tmpInfo.cr_itemid  = itemid;
 	tmpInfo.cr_acptno  = acptno;
 	tmpInfo.version  = ver;
+	outName = userid + '_' + ver + '_' + rsrcname;
+	tmpInfo.outname = outName; 
+	tmpInfo.tmpdir = tmpDir;
+	tmpInfo.gbncd = "CMR0027";
 	
 	var tmpInfoData = {
 		tmpInfo		: tmpInfo,
@@ -144,4 +147,8 @@ function btnSearch_click(word,gbn) {
 		return;
 	}
 
+}
+
+function btnSrcDown_click() {
+	location.href = downURL+'?f='+rsrcname+'&folderPath='+tmpDir+'/'+outName;
 }

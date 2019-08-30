@@ -165,15 +165,15 @@ function contextmenu_click(gbn) {
 	hideRMenu();
 	
 	if(clickTab === null) return;
+	
+	var tabid = clickTab;
+    var contentname = clickTab2;
+    console.log(clickTab + "/" + clickTab2);
 	if (gbn === "1"){
 		if ($("#tabs li").length === 1){
 			dialog.alert("최소한 하나의 탭은 유지해야 합니다. ");
 			return;
 		}
-		
-		
-        var tabid = clickTab;
-        var contentname = clickTab2;
         tabSize2 = tabSize2 - $("#" + tabid).outerWidth();
         $("#" + contentname).remove();
         $("#" + tabid).remove();
@@ -190,7 +190,9 @@ function contextmenu_click(gbn) {
         	$('.tab_content:last').show();	
         }
 	} else {
-		btnSrcDown_click()
+		tmpTab = $('#'+contentname.replace("tabSourceView","frmSourceView")).get(0).contentWindow;
+		console.log('#'+contentname.replace("tabSourceView","frmSourceView"));
+		tmpTab.btnSrcDown_click();
 	}
 }
 
@@ -277,12 +279,14 @@ function grdProgView_Click() {
     $("#content").append("<div id='tabSourceView" + tabIndex + "' class='tab_content' style='width:100%; height:100%;'><iframe id='frmSourceView" + tabIndex + "' name='frmSourceView" + tabIndex + "' src='/webPage/tab/sourceview/SourceViewTab.jsp' width='100%' height='100%' frameborder='0'></iframe></div>");
 	document.getElementById('frmSourceView'+tabIndex).onload = function() {
 		tmpTab = $('#frmSourceView'+tabIndex).get(0).contentWindow;
-		tmpTab.pReqNo = selectedGridItem.cr_acptno;
+		tmpTab.pReqNo = pReqNo;
 		tmpTab.pItemId = selectedGridItem.cr_itemid;
 		tmpTab.pUserId = pUserId;
 		tmpTab.rsrcname = selectedGridItem.cr_rsrcname;
 		tmpTab.ver = selectedGridItem.cr_ver;
 		tmpTab.basename = selectedGridItem.basename;
+		tmpTab.downURL = downURL;
+		tmpTab.tmpDir = tmpDir;
 		tmpTab.elementInit();
 		document.getElementById("tab"+tabIndex).innerHTML = selectedGridItem.cr_rsrcname;
 		tabSize2 = tabSize2 + $("#tab" + tabIndex).outerWidth();
@@ -326,7 +330,3 @@ function btnSearch_click() {
 	tmpTab = $('#frmSourceView'+i).get(0).contentWindow;
 	tmpTab.btnSearch_click($('#txtSearch').val().trim(),$('[name="optradio"]:checked').val());
 }
-function btnSrcDown_click() {
-	location.href = downURL+'?f='+grdProgHistoryData[0].cr_rsrcname+'&folderPath='+tmpDir+'/'+outName;
-}
-
