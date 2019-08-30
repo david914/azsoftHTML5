@@ -20,6 +20,8 @@ var diffGbn        = 'A';
 var svIdx          = 0;
 var befVer         = 0;
 var aftVer         = 0;
+var cr_qrycd         = 0;
+var cr_itemid         = 0;
 
 var tmpInfo = new Object();
 var tmpInfoData = new Object();
@@ -29,6 +31,9 @@ var f = document.getSrcData;
 pReqNo = f.acptno.value;
 pItemId = f.itemid.value;
 pUserId = f.user.value;
+
+
+$('#txtAcptno').val(pReqNo.substr(0,4)+'-'+pReqNo.substr(4,2)+'-'+pReqNo.substr(6));
 
 grdProgHistory.setConfig({
     target: $('[data-ax5grid="grdProgHistory"]'),
@@ -51,13 +56,12 @@ grdProgHistory.setConfig({
     	}
     },
     columns: [
-        {key: "isChecked", label: "선택",  width: '10%', editor:{type:'checkbox',config: {trueValue: "Y", falseValue: "N"}}},
-        {key: "cr_aftviewver", label: "버전",  width: '10%'},
-        {key: "qryname", label: "신청구분",  width: '8%'},
-        {key: "acptdate", label: "신청일시",  width: '12%'},
-        {key: "prcdate", label: "종료일시",  width: '12%'},
-        {key: "cm_username", label: "신청인",  width: '8%'},
-        {key: "cr_sayu", label: "신청사유",  width: '50%',  align: 'left'}
+		{key: "cr_rsrcname", label: "프로그램명",  width: '20%', align: 'left'},
+        {key: "cr_befver", label: "변경전",  width: '10%'},
+        {key: "cr_aftver", label: "변경후",  width: '10%'},
+        {key: "cm_codename", label: "구분",  width: '8%'},
+        {key: "basename", label: "기준프로그램",  width: '20%', align: 'left'},
+        {key: "cm_dirpath", label: "프로그램경로",  width: '50%',  align: 'left'}
     ]
 });
 
@@ -104,41 +108,58 @@ grdDiffSrc.setConfig({
      		}
      	},
     },
+    
     columns: [
-        {key: "file1", label: "변경전",  width: '50%',  align: 'left'},
-        {key: "file2", label: "변경후",  width: '50%',  align: 'left'}
+        {key: "file1", label: "변경전",  width: '50%',  align: 'left'
+        	,
+        	formatter: function(){
+                var htmlStr = '<xmp>'+this.value+'</xmp>';
+                return htmlStr;
+             }
+        },
+        {key: "file2", label: "변경후",  width: '50%',  align: 'left'
+        	,
+        	formatter: function(){
+                var htmlStr = '<xmp>'+this.value+'</xmp>';
+                return htmlStr;
+             }
+        }
     ]
 });
 
 $('input:radio[name^="optradio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 $('input:radio[name^="optSysGbn"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
+$('#txtSearch').bind('keypress', function(event){
+	if(event.keyCode==13) {
+		$('#btnSearch').trigger('click');
+	}
+});
+
 $(document).ready(function(){
 	
-	//pUserId = 'MASTER';
-	//pItemId = '000000179672';
 	if (pUserId == null || pUserId.length == 0) {
 		dialog.alert('로그인 후 사용하시기 바랍니다.',function(){});
 		return;		
 	}
-	if (pItemId == null || pItemId.length != 12) {
-		dialog.alert('프로그램ID가 정확하지 않습니다. 확인 후 진행하시기 바랍니다.');
+	if (pReqNo == null || pReqNo.length != 12) {
+		dialog.alert('신청번호가 정확하지 않습니다. 확인 후 진행하시기 바랍니다.');
 		return;
 	}
 	
 	screenInit('M');
 	
-	//버전비교클릭
+	//소스비교클릭
 	$('#btnVerDiff').bind('click', function() {
 		btnVerDiff_click();
 	});
 
-	//소스비교클릭
+	//변경부분클릭
 	$('#btnSrcDiff').bind('click', function() {
 		btnSrcDiff_click();
 	});
 	
-	//변경부분클릭
+	//변경위치클릭
 	$('#btnChgPart').bind('click', function() {
 		btnChgPart_click();
 	});
@@ -188,7 +209,7 @@ function getTmpDir(dirCd){
 		pCode: 	dirCd,
 		requestType: 	'GETECAMSDIR'
 	}
-	ajaxAsync('/webPage/winpop/SourceViewServlet', tmpInfoData, 'json', successeCAMSDir);
+	ajaxAsync('/webPage/winpop/SourceDiffServlet', tmpInfoData, 'json', successeCAMSDir);
 	
 }
 function successeCAMSDir(data) {
@@ -204,7 +225,7 @@ function getProgHistory(itemid){
 	
 	var tmpInfoData = {
 		itemId: 	itemid,
-		acptNo: 	pReqNo,
+		acptNo:     pReqNo,
 		requestType: 	'GETPROGHISTORY'
 	}
 	ajaxAsync('/webPage/winpop/SourceDiffServlet', tmpInfoData, 'json', successProgList);
@@ -223,44 +244,7 @@ function successProgList(data) {
 		return;
 	}
 	
-	$('#txtSysMsg').val(grdProgHistoryData[0].cm_sysmsg);
-	$('#txtProgId').val(grdProgHistoryData[0].cr_rsrcname);
-	$('#txtDir').val(grdProgHistoryData[0].cm_dirpath);
-	
-	for(var i=0; i<grdProgHistoryData.length; i++) {
-		if (pReqNo != null && pReqNo.length > 0) {
-			if (!firstSw) {
-				if (grdProgHistoryData[i].cr_acptno == pReqNo) {
-					grdProgHistoryData[i].isChecked = 'Y';
-					firstVer = grdProgHistoryData[i].cr_version;
-					firstSw = true;
-				}
-			} else {
-				if (firstVer != grdProgHistoryData[i].cr_version) {
-					grdProgHistoryData[i].isChecked = 'Y';
-					secondSw = true;
-				}
-			}
-		} else {
-			if (!firstSw) {
-				grdProgHistoryData[i].isChecked = 'Y';
-				firstVer = grdProgHistoryData[i].cr_version;
-				firstSw = true;
-			} else {
-				if (firstVer != grdProgHistoryData[i].cr_version) {
-					grdProgHistoryData[i].isChecked = 'Y';
-					secondSw = true;
-				}
-			}
-		}
-		if (firstSw && secondSw) break;
-	}	
 	grdProgHistory.setData(grdProgHistoryData);
-	
-	if (!firstSw || !secondSw) {
-		dialog.alert('비교대상이 존재하지 않습니다.');
-		return;
-	}
 	
 	btnVerDiff_click();
 
@@ -269,41 +253,45 @@ function btnVerDiff_click() {
 	var selCnt = 0;
 	var firstLine = 0;
 	var secondLine = 0;
+	var befVer = 0;
+	var aftVer = 0;
 	
-	diffGbn = 'A';
-	svIdx = -1;
-	svWord = '';
-	for(var i=0; i<grdProgHistoryData.length; i++) {
-		if (grdProgHistoryData[i].isChecked == 'Y') ++selCnt;
-		if (selCnt == 1) {
-			firstLine = i;
-		} else if (selCnt == 2) {
-			secondLine = i;
-		}
-		if (selCnt > 2) break;
-	}	
-	
-	if (selCnt != 2) {
-		dialog.alert('2개의 변경이력을 선택한 후 진행하시기 바랍니다.');
+	if (befVer > 0 && aftVer > 0) {
+		grdDiffSrc.setData(grdDiffSrcData);
+		grdDiffSrc.repaint();
 		return;
 	}
-	if (befVer > 0 && aftVer > 0) {
-		if (grdDiffSrcData.length > 0 && befVer == grdProgHistoryData[secondLine].cr_version && aftVer == grdProgHistoryData[firstLine].cr_version) {
-			grdDiffSrc.setData(grdDiffSrcData);
-			grdDiffSrc.repaint();
-			return;
-		}
+	
+	if(grdProgHistory.selectedDataIndexs == null || grdProgHistory.selectedDataIndexs == ""){
+		befVer = grdProgHistoryData[0].cr_befver;
+		aftVer = grdProgHistoryData[0].cr_aftver;
+		cr_itemid = grdProgHistoryData[0].cr_itemid;
+		cr_qrycd = grdProgHistoryData[0].cr_qrycd;
+	}else{
+		befVer = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_befver;
+		aftVer = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_aftver;
+		cr_itemid = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_itemid;
+		cr_qrycd = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_qrycd;
 	}
 	//grdProgHistory.select(1);
-	befVer = grdProgHistoryData[secondLine].cr_version;
-	aftVer = grdProgHistoryData[firstLine].cr_version;
+	
+	
+	console.log("pUserId:" + pUserId);
+	console.log("cr_itemid:" + cr_itemid);
+	console.log("cr_qrycd:" + cr_qrycd);
+	console.log("befVer:" + befVer);
+	console.log("aftVer:" + aftVer);
+	console.log("tmpDir:" + tmpDir);
+	console.log("tmp:" + "local");
+	console.log("tmp:" + "server");
+	
 	tmpInfo = new Object();
 	tmpInfo.userid = pUserId;
-	tmpInfo.itemid  = grdProgHistoryData[0].cr_itemid;
-	tmpInfo.diffgbn1  = grdProgHistoryData[secondLine].gbncd;
-	tmpInfo.befver  = grdProgHistoryData[secondLine].cr_version;
-	tmpInfo.diffgbn2  = grdProgHistoryData[firstLine].gbncd;
-	tmpInfo.aftver  = grdProgHistoryData[firstLine].cr_version;
+	tmpInfo.itemid  = cr_itemid;
+	tmpInfo.diffgbn1  = cr_qrycd;
+	tmpInfo.befver  = befVer;
+	tmpInfo.diffgbn2  = cr_qrycd;
+	tmpInfo.aftver  = aftVer;
 	tmpInfo.tmpdir = tmpDir;
 //	tmpInfo.tmp = "local";
 	tmpInfo.tmp = "server";
@@ -371,7 +359,7 @@ function grdSrcDiff_Click() {
 	if (selectedGridRow == null) return;
 	
 	$('#txtBefSrc').val(selectedGridRow.file1);
-	$('#txtAftSrc').val(selectedGridRow.file1);
+	$('#txtAftSrc').val(selectedGridRow.file2);
 }
 
 function btnSrcDiff_click() {	
@@ -562,6 +550,8 @@ function btnSearch_click() {
 		}
 	}
 	if (!findSw) {
+		svIdx = -1;
+		svWord = '';
 		dialog.alert('더 이상 검색내용이 없습니다.');
 		return;
 	}

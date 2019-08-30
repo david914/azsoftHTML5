@@ -4,9 +4,11 @@ var pUserId = null;
 
 var grdDiffSrc     = new ax5.ui.grid();
 var grdProgHistory = new ax5.ui.grid();
+var grdProgHistory_Acptno = new ax5.ui.grid();
 
 var selOptions 	   = [];
 
+var grdProgHistoryData_Acptno = null; //버전비교 목록 
 var grdProgHistoryData = null; //체크인목록그리드 데이타
 var grdDiffSrcData     = null;
 var diffSrcData        = null;
@@ -20,6 +22,8 @@ var diffGbn        = 'A';
 var svIdx          = 0;
 var befVer         = 0;
 var aftVer         = 0;
+var cr_qrycd       = 0;
+var cr_itemid      = 0;
 
 var tmpInfo = new Object();
 var tmpInfoData = new Object();
@@ -29,6 +33,37 @@ var f = document.getSrcData;
 pReqNo = f.acptno.value;
 pItemId = f.itemid.value;
 pUserId = f.user.value;
+
+grdProgHistory_Acptno.setConfig({
+    target: $('[data-ax5grid="grdProgHistory_Acptno"]'),
+    sortable: true, 
+    multiSort: true,
+    //showRowSelector: true,
+    header: {
+        align: "center",
+        columnHeight: 28
+    },
+    body: {
+        columnHeight: 26,
+        onClick: function () {
+           this.self.clearSelect();
+           this.self.select(this.dindex);
+           //grdProgHistory_Click();
+        },
+    	onDataChanged: function(){
+    	    this.self.repaint();
+    	}
+    },
+    columns: [
+    	{key: "isChecked", label: "선택",  width: '6%', editor:{type:'checkbox',config: {trueValue: "Y", falseValue: "N"}},  align: 'center'},
+		{key: "cr_version", label: "버전",  width: '8%',  align: 'center'},
+        {key: "cm_username", label: "신청자",  width: '10%',  align: 'center'},
+        {key: "cr_acptno", label: "신청번호",  width: '20%',  align: 'center'},
+        {key: "cr_sayu", label: "신청사유",  width: '50%',  align: 'left'},
+        {key: "DATE1", label: "신청일시",  width: '10%',  align: 'center'},
+        {key: "DATE2", label: "적용일시",  width: '10%',  align: 'center'}
+    ]
+});
 
 grdProgHistory.setConfig({
     target: $('[data-ax5grid="grdProgHistory"]'),
@@ -51,13 +86,11 @@ grdProgHistory.setConfig({
     	}
     },
     columns: [
-        {key: "isChecked", label: "선택",  width: '10%', editor:{type:'checkbox',config: {trueValue: "Y", falseValue: "N"}}},
-        {key: "cr_aftviewver", label: "버전",  width: '10%'},
-        {key: "qryname", label: "신청구분",  width: '8%'},
-        {key: "acptdate", label: "신청일시",  width: '12%'},
-        {key: "prcdate", label: "종료일시",  width: '12%'},
-        {key: "cm_username", label: "신청인",  width: '8%'},
-        {key: "cr_sayu", label: "신청사유",  width: '50%',  align: 'left'}
+		{key: "cr_rsrcname", label: "프로그램명",  width: '25%'},
+        {key: "diff", label: "비교",  width: '10%'},
+        {key: "cr_befver", label: "후버전",  width: '12%'},
+        {key: "cr_aftver", label: "전버전",  width: '12%'},
+        {key: "cm_dirpath", label: "경로",  width: '40%'}
     ]
 });
 
@@ -104,41 +137,53 @@ grdDiffSrc.setConfig({
      		}
      	},
     },
+    
     columns: [
-        {key: "file1", label: "변경전",  width: '50%',  align: 'left'},
-        {key: "file2", label: "변경후",  width: '50%',  align: 'left'}
+        {key: "file1", label: "변경전",  width: '50%',  align: 'left'
+        	,
+        	formatter: function(){
+                var htmlStr = '<xmp>'+this.value+'</xmp>';
+                return htmlStr;
+             }
+        },
+        {key: "file2", label: "변경후",  width: '50%',  align: 'left'
+        	,
+        	formatter: function(){
+                var htmlStr = '<xmp>'+this.value+'</xmp>';
+                return htmlStr;
+             }
+        }
     ]
 });
 
 $('input:radio[name^="optradio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 $('input:radio[name^="optSysGbn"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
+$('#txtSearch').bind('keypress', function(event){
+	if(event.keyCode==13) {
+		$('#btnSearch').trigger('click');
+	}
+});
+
 $(document).ready(function(){
-	
-	//pUserId = 'MASTER';
-	//pItemId = '000000179672';
 	if (pUserId == null || pUserId.length == 0) {
 		dialog.alert('로그인 후 사용하시기 바랍니다.',function(){});
 		return;		
 	}
-	if (pItemId == null || pItemId.length != 12) {
-		dialog.alert('프로그램ID가 정확하지 않습니다. 확인 후 진행하시기 바랍니다.');
-		return;
-	}
 	
 	screenInit('M');
 	
-	//버전비교클릭
+	//소스비교클릭
 	$('#btnVerDiff').bind('click', function() {
 		btnVerDiff_click();
 	});
 
-	//소스비교클릭
+	//변경부분클릭
 	$('#btnSrcDiff').bind('click', function() {
 		btnSrcDiff_click();
 	});
 	
-	//변경부분클릭
+	//변경위치클릭
 	$('#btnChgPart').bind('click', function() {
 		btnChgPart_click();
 	});
@@ -165,7 +210,7 @@ $(document).ready(function(){
 	
 	getTmpDir('99,F1');
 	
-	getProgHistory(pItemId);
+	getProgHistory_Acptno(pItemId);
 	
 });
 //환성화 비활성화 초기화로직
@@ -183,12 +228,11 @@ function screenInit(gbn){
 		
 }
 function getTmpDir(dirCd){
-	
 	var tmpInfoData = {
 		pCode: 	dirCd,
 		requestType: 	'GETECAMSDIR'
 	}
-	ajaxAsync('/webPage/winpop/SourceViewServlet', tmpInfoData, 'json', successeCAMSDir);
+	ajaxAsync('/webPage/winpop/SourceDiffServlet', tmpInfoData, 'json', successeCAMSDir);
 	
 }
 function successeCAMSDir(data) {
@@ -200,15 +244,122 @@ function successeCAMSDir(data) {
 	});
 	
 }
-function getProgHistory(itemid){
-	
+function getProgHistory_Acptno(itemid){
 	var tmpInfoData = {
 		itemId: 	itemid,
-		acptNo: 	pReqNo,
-		requestType: 	'GETPROGHISTORY'
+		requestType: 	'GETPROGHISTORY_INF'
+	}
+	ajaxAsync('/webPage/winpop/SourceDiffServlet', tmpInfoData, 'json', successProgList_Acptno);
+	
+}
+
+function successProgList_Acptno(data) {
+	var firstSw = false;
+	var secondSw = false;
+	
+	grdProgHistoryData_Acptno = data;
+	grdProgHistory_Acptno.setData(grdProgHistoryData_Acptno);
+	
+	if (grdProgHistoryData_Acptno.length == 0) {
+		dialog.alert('프로그램변경이력이 존재하지 않습니다.');
+		return;
+	}
+	
+	$('#txtSysMsg').val(grdProgHistoryData_Acptno[0].cm_sysmsg);
+	$('#txtProgId').val(grdProgHistoryData_Acptno[0].cr_rsrcname);
+	$('#txtDir').val(grdProgHistoryData_Acptno[0].cm_dirpath);
+	
+	for(var i=0; i<grdProgHistoryData_Acptno.length; i++) {
+		if (pReqNo != null && pReqNo.length > 0) {
+			if (!firstSw) {
+				if (grdProgHistoryData_Acptno[i].cr_acptno == pReqNo) {
+					grdProgHistoryData_Acptno[i].isChecked = 'Y';
+					firstVer = grdProgHistoryData_Acptno[i].cr_version;
+					firstSw = true;
+				}
+			} else {
+				if (firstVer != grdProgHistoryData_Acptno[i].cr_version) {
+					grdProgHistoryData_Acptno[i].isChecked = 'Y';
+					secondSw = true;
+				}
+			}
+		} else {
+			if (!firstSw) {
+				grdProgHistoryData_Acptno[i].isChecked = 'Y';
+				firstVer = grdProgHistoryData_Acptno[i].cr_version;
+				firstSw = true;
+			} else {
+				if (firstVer != grdProgHistoryData_Acptno[i].cr_version) {
+					grdProgHistoryData_Acptno[i].isChecked = 'Y';
+					secondSw = true;
+				}
+			}
+		}
+		if (firstSw && secondSw) break;
+	}	
+	grdProgHistory_Acptno.setData(grdProgHistoryData_Acptno);
+	
+//	if (!firstSw || !secondSw) {
+//		dialog.alert('비교대상이 존재하지 않습니다.');
+//		return;
+//	}
+	
+	getProgHistory();
+}
+
+function getProgHistory(){
+	var selCnt = 0;
+	var firstLine = 0;
+	var secondLine = 0;
+	var befVer = 0;
+	var aftVer = 0;
+	
+	diffGbn = 'A';
+	svIdx = -1;
+	svWord = '';
+	for(var i=0; i<grdProgHistoryData_Acptno.length; i++) {
+		if (grdProgHistoryData_Acptno[i].isChecked == 'Y') ++selCnt;
+		if (selCnt == 1) {
+			firstLine = i;
+		} else if (selCnt == 2) {
+			secondLine = i;
+		}
+		if (selCnt > 2) break;
+	}	
+	
+//	if (selCnt != 2) {
+//		dialog.alert('2개의 변경이력을 선택한 후 진행하시기 바랍니다.');
+//		return;
+//	}
+	if (befVer > 0 && aftVer > 0) {
+		if (grdDiffSrcData.length > 0 && befVer == grdProgHistoryData_Acptno[secondLine].cr_version && aftVer == grdProgHistoryData_Acptno[firstLine].cr_version) {
+			grdDiffSrc.setData(grdDiffSrcData);
+			grdDiffSrc.repaint();
+			return;
+		}
+	}
+	befVer = grdProgHistoryData_Acptno[secondLine].cr_version;
+	aftVer = grdProgHistoryData_Acptno[firstLine].cr_version;
+	
+	tmpInfo = new Object();
+	tmpInfo.userid = pUserId;
+	tmpInfo.itemId  = grdProgHistoryData_Acptno[0].cr_itemid;
+	tmpInfo.befAcpt  = grdProgHistoryData_Acptno[secondLine].cr_acptno;
+	tmpInfo.aftAcpt  = grdProgHistoryData_Acptno[firstLine].cr_acptno;
+	tmpInfo.befQry = grdProgHistoryData_Acptno[secondLine].cr_qrycd;
+	tmpInfo.aftQry = grdProgHistoryData_Acptno[firstLine].cr_qrycd;
+	tmpInfo.befver  = grdProgHistoryData_Acptno[secondLine].cr_version;
+	tmpInfo.aftver  = grdProgHistoryData_Acptno[firstLine].cr_version;
+	tmpInfo.tmpdir = tmpDir;
+//	tmpInfo.tmp = "local";
+	tmpInfo.tmp = "server";
+	
+	tmpInfoData = new Object();
+	tmpInfoData = {
+		tmpInfo		: tmpInfo,
+		requestType	: 'FILEDIFFINF_INF'
 	}
 	ajaxAsync('/webPage/winpop/SourceDiffServlet', tmpInfoData, 'json', successProgList);
-	
 }
 
 function successProgList(data) {
@@ -218,92 +369,66 @@ function successProgList(data) {
 	grdProgHistoryData = data;
 	grdProgHistory.setData(grdProgHistoryData);
 	
-	if (grdProgHistoryData.length == 0) {
-		dialog.alert('프로그램변경이력이 존재하지 않습니다.');
-		return;
-	}
+//	if (grdProgHistoryData.length == 0) {
+//		dialog.alert('프로그램변경이력이 존재하지 않습니다.');
+//		return;
+//	}
 	
-	$('#txtSysMsg').val(grdProgHistoryData[0].cm_sysmsg);
-	$('#txtProgId').val(grdProgHistoryData[0].cr_rsrcname);
-	$('#txtDir').val(grdProgHistoryData[0].cm_dirpath);
-	
-	for(var i=0; i<grdProgHistoryData.length; i++) {
-		if (pReqNo != null && pReqNo.length > 0) {
-			if (!firstSw) {
-				if (grdProgHistoryData[i].cr_acptno == pReqNo) {
-					grdProgHistoryData[i].isChecked = 'Y';
-					firstVer = grdProgHistoryData[i].cr_version;
-					firstSw = true;
-				}
-			} else {
-				if (firstVer != grdProgHistoryData[i].cr_version) {
-					grdProgHistoryData[i].isChecked = 'Y';
-					secondSw = true;
-				}
-			}
-		} else {
-			if (!firstSw) {
-				grdProgHistoryData[i].isChecked = 'Y';
-				firstVer = grdProgHistoryData[i].cr_version;
-				firstSw = true;
-			} else {
-				if (firstVer != grdProgHistoryData[i].cr_version) {
-					grdProgHistoryData[i].isChecked = 'Y';
-					secondSw = true;
-				}
-			}
-		}
-		if (firstSw && secondSw) break;
-	}	
 	grdProgHistory.setData(grdProgHistoryData);
-	
-	if (!firstSw || !secondSw) {
-		dialog.alert('비교대상이 존재하지 않습니다.');
-		return;
-	}
 	
 	btnVerDiff_click();
 
 }
+
+
+
 function btnVerDiff_click() {
 	var selCnt = 0;
 	var firstLine = 0;
 	var secondLine = 0;
+	var befVer = 0;
+	var aftVer = 0;
 	
-	diffGbn = 'A';
-	svIdx = -1;
-	svWord = '';
-	for(var i=0; i<grdProgHistoryData.length; i++) {
-		if (grdProgHistoryData[i].isChecked == 'Y') ++selCnt;
-		if (selCnt == 1) {
-			firstLine = i;
-		} else if (selCnt == 2) {
-			secondLine = i;
-		}
-		if (selCnt > 2) break;
-	}	
-	
-	if (selCnt != 2) {
-		dialog.alert('2개의 변경이력을 선택한 후 진행하시기 바랍니다.');
+	if (befVer > 0 && aftVer > 0) {
+		grdDiffSrc.setData(grdDiffSrcData);
+		grdDiffSrc.repaint();
 		return;
 	}
-	if (befVer > 0 && aftVer > 0) {
-		if (grdDiffSrcData.length > 0 && befVer == grdProgHistoryData[secondLine].cr_version && aftVer == grdProgHistoryData[firstLine].cr_version) {
-			grdDiffSrc.setData(grdDiffSrcData);
-			grdDiffSrc.repaint();
-			return;
-		}
+	
+	if(grdProgHistory.selectedDataIndexs == null || grdProgHistory.selectedDataIndexs == ""){
+		befVer = "1";
+		aftVer = "1";
+		cr_itemid = "000000085785";
+		cr_qrycd = "16";
+//		befVer = grdProgHistoryData[0].cr_befver;
+//		aftVer = grdProgHistoryData[0].cr_aftver;
+//		cr_itemid = grdProgHistoryData[0].cr_itemid;
+//		cr_qrycd = grdProgHistoryData[0].cr_qrycd;
+	}else{
+		befVer = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_befver;
+		aftVer = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_aftver;
+		cr_itemid = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_itemid;
+		cr_qrycd = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_qrycd;
 	}
 	//grdProgHistory.select(1);
-	befVer = grdProgHistoryData[secondLine].cr_version;
-	aftVer = grdProgHistoryData[firstLine].cr_version;
+	
+	
+//	console.log("pUserId:" + pUserId);
+//	console.log("cr_itemid:" + cr_itemid);
+//	console.log("cr_qrycd:" + cr_qrycd);
+//	console.log("befVer:" + befVer);
+//	console.log("aftVer:" + aftVer);
+//	console.log("tmpDir:" + tmpDir);
+//	console.log("tmp:" + "local");
+//	console.log("tmp:" + "server");
+	
 	tmpInfo = new Object();
 	tmpInfo.userid = pUserId;
-	tmpInfo.itemid  = grdProgHistoryData[0].cr_itemid;
-	tmpInfo.diffgbn1  = grdProgHistoryData[secondLine].gbncd;
-	tmpInfo.befver  = grdProgHistoryData[secondLine].cr_version;
-	tmpInfo.diffgbn2  = grdProgHistoryData[firstLine].gbncd;
-	tmpInfo.aftver  = grdProgHistoryData[firstLine].cr_version;
+	tmpInfo.itemid  = cr_itemid;
+	tmpInfo.diffgbn1  = cr_qrycd;
+	tmpInfo.befver  = befVer;
+	tmpInfo.diffgbn2  = cr_qrycd;
+	tmpInfo.aftver  = aftVer;
 	tmpInfo.tmpdir = tmpDir;
 //	tmpInfo.tmp = "local";
 	tmpInfo.tmp = "server";
@@ -371,7 +496,7 @@ function grdSrcDiff_Click() {
 	if (selectedGridRow == null) return;
 	
 	$('#txtBefSrc').val(selectedGridRow.file1);
-	$('#txtAftSrc').val(selectedGridRow.file1);
+	$('#txtAftSrc').val(selectedGridRow.file2);
 }
 
 function btnSrcDiff_click() {	
@@ -562,6 +687,8 @@ function btnSearch_click() {
 		}
 	}
 	if (!findSw) {
+		svIdx = -1;
+		svWord = '';
 		dialog.alert('더 이상 검색내용이 없습니다.');
 		return;
 	}
