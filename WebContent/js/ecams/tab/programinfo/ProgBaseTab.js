@@ -11,7 +11,7 @@ var cboSRData		   = null;	//SRID 데이터
 var progInfoData       = null;
 var myWin 			   = null;
 var pUserId            = null;
-
+var strInfo 		   = '';    // 프로그램 info
 var selSw = false;
 
 var tmpInfo = new Object();
@@ -196,7 +196,7 @@ function successJawon(data) {
 	
 }
 function successProgInfo(data) {
-	var strInfo = '';
+	
 	progInfoData = data;
 	
 	if (progInfoData.length > 0) {
@@ -523,9 +523,12 @@ function successClose(data) {
 	}
 }
 function btnDiff_Click() {
-	
 	if ($('#txtProgId').val().length == 0) return;
-	
+	if(strInfo.substr(26,1) == '1'){
+		openWindow('R54', '', progInfoData[0].cr_itemid);
+	}else{
+		openWindow('R52', '', progInfoData[0].cr_itemid);
+	}
 	openWindow('R52', '', progInfoData[0].cr_itemid);
 }
 
