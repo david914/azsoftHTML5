@@ -523,9 +523,12 @@ function successClose(data) {
 	}
 }
 function btnDiff_Click() {
-	
 	if ($('#txtProgId').val().length == 0) return;
-	
+	if(strInfo.substr(26,1) == '1'){
+		openWindow('R54', '', progInfoData[0].cr_itemid);
+	}else{
+		openWindow('R52', '', progInfoData[0].cr_itemid);
+	}
 	openWindow('R52', '', progInfoData[0].cr_itemid);
 }
 
