@@ -309,16 +309,16 @@ $(document).ready(function(){
 	}
 	else if (reqCd == '03'){ //테스트배포
 		$('#btnRequest').text('테스트배포신청');
-		$('#cboReqDiv').hide();
 		$('#chkBefJob').parent('div.wCheck').hide();
 		$('#chkBefJob').parent('div.wCheck').siblings('label[for="chkBefJob"]').hide();
 		$('#btnDiff').hide();
+		$("#btnFileUpload").show();
 	}
 	else{ //운영배포
 		$('#btnRequest').text('운영배포신청');
 		$('#chkBefJob').show();
-		$('#cboReqDiv').hide();
 		$('#btnDiff').hide();
+		$("#btnFileUpload").show();
 	}
 	
 	$('#chkBefJob').bind('change',function(){
@@ -403,8 +403,9 @@ function porgRowEdit(){
 		$('#sayuInputBox').addClass('poa');
 		$('#sayuInputBox').css('width', 'calc(100% - 165px)');
 		$('#txtSayu').removeClass().css('width', 'calc((100% + 85px) * 0.84)');
-		$('#btnRequest').width('85px');
-		
+		//$('#btnRequest').width('85px');
+		$("#progRow").show();
+		$("#cboReqDiv").show();
 	}
 	else{
 		$('#progRow').removeClass();
@@ -418,6 +419,7 @@ function porgRowEdit(){
 		
 		$('[data-ax5grid="firstGrid"]').parent('div.az_board_basic').height('36%');
 		$('[data-ax5grid="secondGrid"]').parent('div.az_board_basic').height('38%');
+		$("#progRow").show();
 	}
 }
 

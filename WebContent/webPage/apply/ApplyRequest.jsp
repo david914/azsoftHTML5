@@ -3,6 +3,68 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
 
+<style>
+.timePickerDiv{
+	width: 95px;
+	height: 25px;
+	text-align: center;
+	background-color: #fff;
+	border: 1px solid #ccc;
+}
+.timePickerDiv:hover, .timePickerDiv:focus{
+	width: 95px;
+	height: 25px;
+	text-align: center;
+	background-color: #fff;
+	border: 1px solid #326aab;
+}
+.numberTxt, .numberTxt:hover, .numberTxt:focus {
+	padding: 0px;
+	margin: 0px;
+	width: 35px;
+	height: 22px;
+	vertical-align: middle;
+    text-align: right;
+    border: 0px;
+}
+input[type="number"] {
+    position: relative;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+      /*-webkit-appearance: none;*/
+      opacity: .5;
+      background-color: #fff;
+}
+</style>
+
+<script type="text/javascript">
+	function maxLengthCheck(object) {
+		if (object.value.length > object.maxLength){
+			object.value = object.value.slice(0, object.maxLength);
+		}
+		if (object.value < Number(object.min) || object.value > Number(object.max)) {
+			object.value = '';
+		}
+	}
+	//커서 아웃될때
+	function changeTimeTxt() {
+		if (!$('#hourTxt').is(":focus")) {
+			if ($('#hourTxt').val() != '' && $('#hourTxt').val().length < 2) {
+				$('#hourTxt').val('0'+$('#hourTxt').val());
+			} else if ($('#hourTxt').val() == '') {
+				$('#hourTxt').val('00');
+			}
+		}
+		if (!$('#minTxt').is(":focus")) {
+			if ($('#minTxt').val() != '' && $('#minTxt').val().length < 2) {
+				$('#minTxt').val('0'+$('#minTxt').val());
+			} else if ($('#minTxt').val() == '') {
+				$('#minTxt').val('00');
+			}
+		}
+	}
+</script>
 <div class="contentFrame">
  <!-- history S-->
         <div id="history_wrap"></div>
@@ -38,7 +100,7 @@
 							</div>
 						</div>
 						
-						<div class="width-25 dib" id="cboReqDiv">
+						<div class="width-25 dib" id="cboReqDiv" style="display:none;">
 	                    	<div class="tit_100 poa text-right">
 	                        	<label>신청구분</label>
 	                        </div>
@@ -48,7 +110,7 @@
 						</div>
 					</div>
 				</div>	
-				<div class="row por" id="progRow">
+				<div class="row por" id="progRow" style="display:none;">
 					<!-- 프로그램명/설명 -->		
                     <div class="tit_150 poa">
                     	<label>*프로그램명/설명</label>
@@ -122,24 +184,29 @@
 					<label>*적용일시</label>
 				</div>
 				<div class="ml_80 dib">
-					<div class="input-group width-40 dib vat" data-ax5picker="txtReqDate"style=" font-size:0px;" >
+					<div class="input-group width-43 dib vat" data-ax5picker="txtReqDate"style=" font-size:0px;" >
 			            <input id="txtReqDate" type="text" class="f-cal" placeholder="yyyy/mm/dd">
 			            <button id="btnEdD" class="btn_calendar"><i class="fa fa-calendar-o"></i></button>
 			        </div>
 			        <div style="font-size:0px; " class='width-40 dib vat'>
-						<input id="txtReqTime" name="txtReqTime" type="text" class="f-cal"></input>
-						<button id="btnTime" class="btn_time"><i class="fa fa-clock-o"></i></button>
+						<div class="dib vat timePickerDiv">
+					        <input class="numberTxt" type="number" id="hourTxt" min="0" max="23" maxlength="2" oninput="maxLengthCheck(this)">
+							<label style="height: 22px; vertical-align: top; font-size: 12px;">&nbsp;:&nbsp;</label>
+							<input class="numberTxt" type="number" id="minTxt" min="0" max="59" maxlength="2" oninput="maxLengthCheck(this)">
+						</div>
+						<!-- <input id="txtReqTime" name="txtReqTime" type="text" class="f-cal"></input>
+						<button id="btnTime" class="btn_time"><i class="fa fa-clock-o"></i></button> -->
 					</div>
 				</div>
 			</div>
 	   			<div class='ml150 tal float-right' style="display:inline;">
 					<div style="display:inline-block;">
-		   				<input type="checkbox" class="checkbox-pie" id="chkBefJob" data-label="선행작업"></input>
-		   				<input type="checkbox" class="checkbox-pie" id="chkSvr" data-label="버전UP만적용"></input>
+		   				<input type="checkbox" class="checkbox-pie" id="chkBefJob" data-label="선행작업" style="display:none;"></input>
+		   				<input type="checkbox" class="checkbox-pie" id="chkSvr" data-label="버전UP만적용" style="display:none;"></input>
 					</div>
-					<button id="btnFileUpload" class="btn_basic_s margin-5-left" >테스트결과서</button>
+					<button id="btnFileUpload" class="btn_basic_s margin-5-left"  style='display:none;'>테스트결과서</button>
 					<button id="btnDiff" class="btn_basic_s margin-5-left" style='display:none;'>파일비교</button>
-					<button id="btnRequest" class="btn_basic_s margin-5-left" disabled=true>체크인</button>
+					<button id="btnRequest" class="btn_basic_s margin-5-left" disabled=true>체크인신청</button>
 				</div>
 		</div>
 </div>
