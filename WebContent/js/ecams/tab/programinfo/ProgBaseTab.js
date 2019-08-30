@@ -564,6 +564,8 @@ function openWindow(reqCd,reqNo,itemId) {
 		cURL = "/webPage/winpop/PopSourceView.jsp";	    
 	} else if (reqCd == 'R52') {
 		cURL = "/webPage/winpop/PopSourceDiff.jsp";
+	} else if (reqCd == 'R54') {
+		cURL = "/webPage/winpop/PopSourceDiffInf.jsp";
 	}
     myWin = winOpen(f, winName, cURL, nHeight, nWidth);
     
