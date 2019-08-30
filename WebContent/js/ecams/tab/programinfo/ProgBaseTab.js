@@ -549,7 +549,7 @@ function openWindow(reqCd,reqNo,itemId) {
 		}
 	}
 
-    winName = 'proginfo_'+reqCd;
+    winName = 'proginfo_'+reqCd; 
 
 	var f = document.popPam;   		//폼 name
     
@@ -564,6 +564,8 @@ function openWindow(reqCd,reqNo,itemId) {
 		cURL = "/webPage/winpop/PopSourceView.jsp";	    
 	} else if (reqCd == 'R52') {
 		cURL = "/webPage/winpop/PopSourceDiff.jsp";
+	} else if (reqCd == 'R54') {
+		cURL = "/webPage/winpop/PopSourceDiffInf.jsp";
 	}
     myWin = winOpen(f, winName, cURL, nHeight, nWidth);
     
