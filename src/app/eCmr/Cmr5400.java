@@ -65,7 +65,7 @@ public class Cmr5400 {
 //			pstmt.close();
 
 			strQuery.setLength(0);
-			strQuery.append("select b.cr_rsrcname,a.cr_ver,a.cr_acptno,a.cr_qrycd,       \n");
+			strQuery.append("select b.cr_rsrcname,a.cr_version,a.cr_acptno,a.cr_qrycd,       \n");
 			strQuery.append("       to_char(c.cr_acptdate,'yyyy/mm/dd hh24:mi') as date1,\n");
 			strQuery.append("       to_char(c.cr_prcdate,'yyyy/mm/dd hh24:mi') as date2, \n");
 			strQuery.append("       b.cr_lstver,d.cm_username,b.cr_syscd,b.cr_rsrccd,    \n");
@@ -112,8 +112,8 @@ public class Cmr5400 {
 					rst.put("cr_syscd", rs.getString("cr_syscd"));
 					rst.put("cr_rsrccd", rs.getString("cr_rsrccd"));
 					rst.put("cr_rsrcname", rs.getString("cr_rsrcname"));
-					if (!rs.getString("cr_ver").equals("0"))
-					   rst.put("cr_ver", rs.getString("cr_ver"));
+					if (!rs.getString("cr_version").equals("0"))
+					   rst.put("cr_version", rs.getString("cr_version"));
 					rst.put("cr_acptno",rs.getString("cr_acptno"));
 					rst.put("DATE1",rs.getString("DATE1"));
 					rst.put("DATE2",rs.getString("DATE2"));
