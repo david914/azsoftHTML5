@@ -8,172 +8,286 @@
  * 
  */
 
-var userName 	= window.top.userName;
-var userid 		= window.top.userId;
-var adminYN 	= window.top.adminYN;
-var userDeptName= window.top.userDeptName;
-var userDeptCd 	= window.top.userDeptCd;
-var strReqCD 	= window.top.reqCd;
+var userName 			= window.top.userName;
+var userid 				= window.top.userId;
+var adminYN 			= window.top.adminYN;
+var userDeptName		= window.top.userDeptName;
+var userDeptCd 			= window.top.userDeptCd;
+var strReqCD 			= window.top.reqCd;
+var cmdGridData 		= null;
+var cmdGrid				= new ax5.ui.grid();
+var fileUploadModal		= new ax5.ui.modal();
+var uploadCk = true;
 
-
-//grid 생성
-var comGrid = new ax5.ui.grid();
-
-
-comGrid.setConfig({
-     target: $('[data-ax5grid="comGrid"]'),
-     sortable: true, 
-     multiSort: true,
-     header: {
-         align: "center",
-         columnHeight: 30
-     },
-     body: {
-         columnHeight: 28,
-         onClick: function () {
-         	this.self.clearSelect();
+cmdGrid.setConfig({
+    target: $('[data-ax5grid="cmdGrid"]'),
+    sortable: true, 
+    multiSort: true,
+    showRowSelector : false,
+	multipleSelect : false,
+    header: {
+        align: "center",
+        columnHeight: 30
+    },
+    body: {
+        columnHeight: 25,
+        onClick: function () {
+        	this.self.clearSelect();
             this.self.select(this.dindex);
-         },
-         onDBLClick: function () {
-         	if (this.dindex < 0) return;
-     		
- 			openWindow(1, this.item.qrycd2, this.item.acptno2,'');
-         },
-     	trStyleClass: function () {
-     		if(this.item.colorsw === '5'){
-     			return "fontStyle-error";
-     		} else if (this.item.colorsw === '3'){
-     			return "fontStyle-cncl";
-     		} else if (this.item.colorsw === '0'){
-     			return "fontStyle-ing";
-     		} else {
-     		}
-     	},
-     	onDataChanged: function(){
-     	    this.self.repaint();
-     	}
-     },
-     contextMenu: {
-         iconWidth: 20,
-         acceleratorWidth: 100,
-         itemClickAndClose: false,
-         icons: {
-             'arrow': '<i class="fa fa-caret-right"></i>'
-         },
-         items: [
-             {type: 1, label: "변경신청상세"},
-             {type: 2, label: "결재정보"},
-             {type: 3, label: "전체회수"}
-         ],
-         popupFilter: function (item, param) {
-         	/** 
-         	 * return 값에 따른 context menu filter
-         	 * 
-         	 * return true; -> 모든 context menu 보기
-         	 * return item.type == 1; --> type이 1인 context menu만 보기
-         	 * return item.type == 1 | item.type == 2; --> type 이 1,2인 context menu만 보기
-         	 * 
-         	 * ex)
-	            	if(param.item.qrycd2 === '01'){
-	            		return item.type == 1 | item.type == 2;
-	            	}
-         	 */
-          	firstGrid.clearSelect();
-          	firstGrid.select(Number(param.dindex));
-        	 
-        	var selIn = firstGrid.selectedDataIndexs;
-        	if(selIn.length === 0) return;
-        	 
-         	if (param.item == undefined) return false;
-         	if (param.dindex < 0) return false;
-         	
-         	
-         	if (param.item.colorsw === '9') return item.type == 1 | item.type == 2;
-         	else if ( (param.item.qrycd2 === '07' || param.item.qrycd2 === '03' || param.item.qrycd2 === '04' 
-         			|| param.item.qrycd2 === '06' || param.item.qrycd2 === '16') 
-         			&& (userid === param.item.editor2 || isAdmin) ) return true; 
-         	else return item.type == 1 | item.type == 2;
-         },
-         onClick: function (item, param) {
-     		/*swal({
-                 title: item.label+"팝업",
-                 text: "신청번호 ["+param.item.acptno2+"]["+param.item.qrycd2+"]"
-             });*/
-     		if (item.type === 3) {
-     			if (param.item.befsw === 'Y') {
-     				swal({
-                         title: "선행작업확인",
-                         text: "다른 사용자가 선행작업으로 지정한 신청 건이 있습니다. \n\n"+
-		                          "해당 신청 건 사용자에게 선행작업 해제 요청 후 \n" +
-		                          "선행작업으로 지정한 신청 건이 없는 상태에서\n진행하시기 바랍니다."
-                     });
-     				return;
-     			}
-
-             	mask.open();
-     			confirmDialog.confirm({
-     				title: '전체회수 여부확인',
-     				msg: '신청번호 ['+param.item.acptno+'] 를  \n전체회수 하시겠습니까?',
-     			}, function(){
-     				if(this.key === 'ok') {
-     					console.log('OK click!!');
-     				} else {
-     					console.log(this.key);
-     				}
-         			mask.close();
-     			});
-     			
-     		} else {
-     			openWindow(item.type, param.item.qrycd2, param.item.acptno2,'');
-     		}
-     		
-             firstGrid.contextMenu.close();//또는 return true;
-         }
-     },
-     columns: [
-         {key: "syscd", label: "시스템",  width: '9%', align: 'left'},
-         {key: "spms", label: "SR-ID",  width: '10%', align: 'left'},
-         {key: "acptno", label: "신청번호",  width: '8%'},
-         {key: "editor", label: "신청자",  width: '5%'},
-         {key: "qrycd", label: "신청종류",  width: '8%', align: 'left'},
-         {key: "passok", label: "처리구분",  width: '6%', align: 'left'},
-         {key: "acptdate", label: "신청일시",  width: '8%'},
-         {key: "sta", label: "진행상태",  width: '8%', align: 'left'},
-         {key: "pgmid", label: "프로그램명",  width: '10%', align: 'left'},
-         {key: "prcdate", label: "완료일시",  width: '8%'},
-         {key: "prcreq", label: "적용예정일시",  width: '6%', align: 'left'},
-         {key: "Sunhang", label: "선후행",  width: '4%'},
-         {key: "sayu", label: "신청사유", width: '10%', align: 'left'} 	 
-     ]
+        },
+        onDBLClick: function () {},
+        trStyleClass: function () {
+    	},
+    	onDataChanged: function(){
+    		this.self.repaint();
+    	}
+    },
+    columns: [
+        
+    ]
 });
 
-$('input:radio[name=comRadio]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
+$('input:radio[name=cmdRadioGbn]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
+$('input:radio[name=cmdRadioUsr]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
+$('input:radio[name=cmdRadioFile]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
+$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function(){
-	getUserInfo();
+	gbnSet();
+	// 조회 버튼 클릭
+	$('#btnQry').bind('click', function() {
+		getRequest();
+	});
+	//구분 라디오 클릭
+	$('[name="cmdRadioGbn"]').bind('click', function() {
+		gbnSet();
+	});
+	//파일송수신 라디오 클릭
+	$('[name="cmdRadioFile"]').bind('click', function() {
+		btnSet();
+	});
+	//엑셀저장
+	$("#btnExcel").on('click', function() {
+		cmdGrid.exportExcel("쿼리.xls");
+	})
+
 });
 
-
-/**
- * ajax sample
- * @returns
- */
-//어드민 여부 확인
-function getUserInfo(){ // 호출함수
-	var data =  new Object();
-	data = {
-		UserId			: userid,
-		requestType		: 'getUserInfo'
+function gbnSet(){
+	if($('#rdocmd').is(':checked')){
+		$('#lbtit').text('[ 수행 할 커맨드 입력 ]');
+		$('#btnQry').text('커맨드 실행');
+		$('[data-ax5grid="cmdGrid"]').hide();
+		$('#txtrst').show();
+		$('#rdo2').show();
+		$('#rdo3').hide();
+		$('#btnExcel').hide();
+		$('#chkViewDiv').css('visibility','visible');
+	} else if($('#rdoqry').is(':checked')) {
+		$('#lbtit').text('[ 조회 할 쿼리문 입력 ]');
+		$('#btnQry').text('쿼리 실행');
+		$('[data-ax5grid="cmdGrid"]').show();
+		$('#txtrst').hide();
+		$('#rdo2').hide();
+		$('#rdo3').hide();
+		$('#btnExcel').show();
+		$('#chkViewDiv').css('visibility','hidden');
+	} else {
+		$('#lbtit').text('[ 송/수신 할 파일 입력 ]');
+		$('#txtrst').show();
+		$('[data-ax5grid="cmdGrid"]').hide();
+		$('[name="cmdRadioUsr"]').hide();
+		$('#rdo2').hide();
+		$('#rdo3').show();
+		$('#btnExcel').hide();
+		$('#chkViewDiv').css('visibility','hidden');
+		btnSet();
 	}
-	ajaxAsync('/webPage/approval/RequestStatus', data, 'json',successGetUserInfo);
+}
+function btnSet(){
+	if($('#rdosend').is(':checked')) {
+		$('#btnQry').text('파일선택');
+		$('#chkViewDiv').css('visibility','hidden');
+	} else{
+		$('#btnQry').text('파일수신');
+		$('#chkViewDiv').css('visibility','visible');
+	}
 }
 
-// 어드민 여부 확인 완료
-function successGetUserInfo(data) { // result function
-	if(strReqCD != null && strReqCD != "") {
-		$("#txtUser").text(data.cm_username);
+function getRequest(){
+	var cmdData = new Object();
+	if($('#rdocmd').is(':checked')) {			//커맨드
+		if($('#rdoap').is(':checked')){			//AP계정(agent 띄어져 있는 계정으로)
+			execCmd('A');
+		} else { 								//web계정 (web이 띄어져 있는 계정으로)
+			execCmd('W');
+		}
+	} else if ($('#rdoqry').is(':checked')) {	//쿼리
+		execQry();
+	} else {									//파일 송수신
+		if($('#rdosend').is(':checked')){
+			execFile('S');	//송신
+		} else {
+			execFile('R');	//수신
+		}
 	}
-	if (data.cm_admin === '1') {
-		isAdmin = true;
+}
+
+function execCmd(gbnCd){
+	if(document.getElementById("txtcmd").value.trim()==""){
+		alert('커맨드를 입력하여 주시기 바랍니다.');
+		return;
+	}
+	var cmdData = new Object();
+	cmdData.txtcmd 	= document.getElementById("txtcmd").value.trim();
+	cmdData.userid  = userid;
+	cmdData.gbnCd  	= gbnCd;
+	if($('#chkView').is(':checked')) {
+		cmdData.view	= 'ok';
+	} else {
+		cmdData.view	= 'no';
+	}
+	var data =  new Object();
+	data = {
+			requestType : 'getExecCmd',
+			cmdData: cmdData
+	}
+	ajaxAsync('/webPage/administrator/CommandExcute', data, 'json',successGetCmdRst);
+}
+function successGetCmdRst(data) {
+	if(data === '0'){	//성공
+		var tmpData = {
+			requestType: 	'SystemPath'
+		}
+		tmpPath = ajaxCallWithJson('/webPage/mypage/Notice', tmpData, 'json')+'/';
+		if($('#chkView').is(':checked')) {
+			if($('#rdoap').is(':checked')){
+				tmpPath = tmpPath + userid + 'apcmd.out';
+			} else {
+				tmpPath = tmpPath + userid + 'webcmd.out';
+			}
+			fileView(tmpPath);
+		}
+		alert('커맨드 수행이 정상적으로 처리되었습니다.');
+	} else {	//실패
+		alert(data);
+	}
+}
+
+function execQry(){
+	if(document.getElementById("txtcmd").value.trim()==""){
+		alert('쿼리문을 입력하여 주시기 바랍니다.');
+		return;
+	}
+	
+	var cmdData = new Object();
+	var txtqry = document.getElementById("txtcmd").value.trim();
+	
+	if(txtqry.charAt(txtqry.length-1) == ';'){
+		txtqry = txtqry.substr(0, txtqry.length-1);
+	}
+	
+	txtqry.substr(0,txtqry)
+	cmdData.txtcmd 	= txtqry;
+	var data =  new Object();
+	data = {
+			requestType : 'getExecQry',
+			cmdData: cmdData
+	}
+	ajaxAsync('/webPage/administrator/CommandExcute', data, 'json',successGetQryRst);
+}
+
+function successGetQryRst(data) {
+	cmdGridData = data;
+	var i = 0;
+	var coladdcnt = 0;
+	var colremovecnt = 0;
+	
+	if (cmdGridData.length<2){
+		if (cmdGridData.length === 1){
+			if(cmdGridData[0].ERROR == 'Y'){
+				alert(cmdGridData[0].ERRMSG);
+				return;
+			}
+			if(cmdGridData[0].readsw == 'N'){
+				alert(cmdGridData[0].rowcnt + "건이 정상적으로 처리되었습니다. 조회쿼리로 확인하여 주시기 바랍니다.");
+				return;
+			}
+		}
+		alert("쿼리결과가 없습니다.");
+		return;
+	}
+	if(cmdGridData.length>0){
+		colremovecnt = cmdGrid.columns.length;
+		//컬럼 전체 삭제
+		for(i=0; i<colremovecnt; i++){
+			cmdGrid.removeColumn(0);
+		}
+		
+		//컬럼 추가
+		coladdcnt = cmdGridData[0].colcount;
+		for(i=0;coladdcnt>i;i++) {
+			cmdGrid.addColumn({key: "col"+i,	label: eval("cmdGridData[0].col"+i),	width: '10%'});
+		}
+		cmdGrid.setData(cmdGridData);
+		//첫번째 로우 삭제 - 컬렴명
+		cmdGrid.removeRow(0);
+		cmdGrid.repaint();
+	}
+}
+
+function execFile(gbnCd){
+	if (gbnCd=='S'){	//송신
+		fileUploadModal.open({
+	        width: 685,
+	        height: 420,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/fileupload/CmdFileUpload.jsp",
+	            param: "callBack=modalCallBack"
+		    },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	            }
+	        }
+		});
+	} else {	//수신
+		if($('#chkView').is(':checked')) {	//직접보기
+			fileView(document.getElementById("txtcmd").value.trim());
+		} else {	// 로컬다운	
+			//로컬로 파일 다운
+			if(document.getElementById("txtcmd").value.trim()==""){
+				alert('수신 할 파일에 대한 디렉토리와 파일명(FullPath)을 입력하여 주시기 바랍니다.');
+				return;
+			}
+			var fullpath=document.getElementById("txtcmd").value.trim();
+			location.href = '/webPage/fileupload/upload?&fullPath='+fullpath+'&fileName='+fullpath.substr(fullpath.lastIndexOf('/')+1);
+		}
+	}
+}
+function fileView(txtcmd){
+	var cmdData = new Object();
+	cmdData.txtcmd 	= txtcmd;
+	var data =  new Object();
+	data = {
+			requestType : 'getFileView',
+			cmdData: cmdData
+	}
+	ajaxAsync('/webPage/administrator/CommandExcute', data, 'json',successgetFileView);
+}
+function successgetFileView(data) {
+	if (data.length < 2){
+		alert('파일 수신 중 오류가 발생하였습니다.');
+		return;
+	} 
+	if (data.substr(0,2)==='ER'){
+		alert(data.substr(2));
+		return;
+	} else {
+		$('#txtrst').val(data.substr(2));
 	}
 }

@@ -10,31 +10,34 @@
 package app.eCmm;
 
 import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSetMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-
 import org.apache.log4j.Logger;
-
 import com.ecams.common.dbconn.ConnectionContext;
 import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
-//import app.common.LoggableStatement;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Calendar;
-
 import app.common.AutoSeq;
 import app.common.LoggableStatement;
 //import app.common.CodeInfo;
 //import app.common.SystemPath;
 import app.common.UserInfo;
+import app.eCmr.Cmr0200;
+
+
 
 /**
  * @author bigeyes
@@ -268,35 +271,9 @@ public class Cmm1600{
 				_editor = "";
 				_dirpath = "";
 				_dsncd = "";
-				
-				
-				if(fileList.get(i).get("sysmsg").trim().length() == 0) {
-					errMsg = "시스템명 입력없음/";
-					errSw = true;
-				} else {
-					strQuery.setLength(0);
-					strQuery.append("select cm_sysmsg							\n");
-					strQuery.append("  from cmm0030                 			\n");
-	                strQuery.append(" where cm_syscd=?                        	\n");
-
-	                pstmt = conn.prepareStatement(strQuery.toString());
-	                pstmt.setString(1, _syscd);
-	                rs = pstmt.executeQuery();
-	                
-	                if(rs.next()) {
-	                	if(!rs.getString("cm_sysmsg").equals(rst.get("sysmsg"))) {
-	                		errMsg = errMsg + "선택한 시스템과 시스템명 다름/";
-	    					errSw = true;
-	                	}
-	                }
-	                rs.close();
-					pstmt.close();
-				}
-				
-				
 
 				if (fileList.get(i).get("jawon") == "" && fileList.get(i).get("jawon") == null){
-					errMsg = errMsg + "프로그램종류 입력없음/";
+					errMsg = "프로그램종류 입력없음/";
 					errSw = true;
 				}else{
 					strQuery.setLength(0);
@@ -371,7 +348,7 @@ public class Cmm1600{
                 }else{
                 	errMsg = errMsg + "미등록 사용자/";
                 	_editor = "ADMIN";
-                	errSw = true; 
+                	//errSw = true;
                 }
                 rst.put("_editor",_editor);
 				rs.close();
@@ -579,12 +556,21 @@ public class Cmm1600{
 					////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 					rs  = pstmt.executeQuery();
 					if (rs.next()){
-						++errCnt;
-						errMsg = errMsg + "기등록 프로그램/";
-						errSw = true;
+						/*
+						if (_syscd.equals("00005") || _syscd.equals("00006")) {
+							if (strInfo.substring(26,27).equals("1")) {
+					        	if (rs.getInt("cr_lstver") >0 || !rs.getString("cr_status").equals("3")){
+									rst.put("errmsg","버전:"+rs.getString("cr_lstver")+",상태:"+rs.getString("cr_status"));
+									rst.put("errsw", "1");
+									++errCnt;
+									errSw = true;
+					        	}
+							}
+						}
+						*/
 						if (errSw == false) {
-							// 2019 08 20 기등록된 프로그램 에러처리
-							/*rst.put("_itemid", rs.getString("cr_itemid"));
+			        		//_baseItem = rs.getString("cr_itemid");
+							rst.put("_itemid", rs.getString("cr_itemid"));
 							rst.put("errmsg","정상");
 							rst.put("errsw", "0");
 
@@ -603,19 +589,27 @@ public class Cmm1600{
 			        		pstmt2.setString(4, rst.get("_editor"));
 			        		pstmt2.setString(5, rs.getString("cr_itemid"));
 			        		pstmt2.executeUpdate();
-			        		pstmt2.close();*/
+			        		pstmt2.close();
 						}
 					}else{
-						rst.put("_itemid", "insert");
-						rst.put("errmsg","정상");
-						rst.put("errsw", "0");
+						//if (_syscd.equals("00005") || _syscd.equals("00006")) {
+							/*if (strInfo.substring(26,27).equals("1")) {
+								rst.put("errmsg","미등록된파일");
+								rst.put("errsw", "1");
+								++errCnt;
+								errSw = true;
+							} else {*/
+								rst.put("_itemid", "insert");
+								rst.put("errmsg","정상");
+								rst.put("errsw", "0");
+							//}
+						//} else {
+							//_baseItem = "insert";
+							rst.put("_itemid", "insert");
+							rst.put("errmsg","정상");
+							rst.put("errsw", "0");
+						//}
 					}
-					if (errSw == true){
-						++errCnt;
-						rst.put("errsw", "1");
-						rst.put("errmsg", errMsg);
-					}
-					
 			        rs.close();
 			        pstmt.close();
 				}
@@ -1810,87 +1804,117 @@ public class Cmm1600{
 			Object[] 		  returnObject= null;
 			ArrayList<HashMap<String, String>>  rtList	= new ArrayList<HashMap<String, String>>();
 			HashMap<String, String>			  	rst	 	= null;
-
 			ConnectionContext connectionContext = new ConnectionResource();
 
 			try {
 				conn = connectionContext.getConnection();
 				rtList.clear();
-				String tmpSql = txtSql.toUpperCase();
+				String tmpSql = txtSql.trim();
 				String tmpSql1 = "";
+				String ERRMSG = "";
 				boolean errSw = false;
+				boolean readSw = false;
 				String[] colName = null;
 				int i = 0;
-				if (tmpSql.indexOf("FROM")< 0) {
-					errSw = true;
+				int j = 0;
+				int colcnt = 0;
+				tmpSql = tmpSql.trim();
+				tmpSql1 = tmpSql.substring(0,tmpSql.indexOf(" "));
+				tmpSql1 = tmpSql1.toUpperCase();
+				if (tmpSql1.equals("SELECT") || tmpSql1.equals("DESC")) readSw = true;
+				else if (tmpSql1.equals("EXEC")) {  //procedure실행
+					if (tmpSql.substring(tmpSql.length()-1).equals(";")) tmpSql = "BEGIN " + tmpSql + " end;";
+					else tmpSql = "BEGIN " + tmpSql + "; end;";
 				}
-				if (errSw == false) {
-					if (tmpSql.indexOf("SELECT")< 0) {
-						errSw = true;
-					}
-				}
-				if (errSw == false) {
-					tmpSql1 = tmpSql.substring(0, tmpSql.indexOf("FROM"));
-					tmpSql1 = tmpSql1.replace("SELECT", "");
-					tmpSql1 = tmpSql1.trim();
-					colName = tmpSql1.split(",");
-					for (i=0;colName.length>i;i++) {
-						tmpSql1 = colName[i];
-						if (tmpSql1.indexOf(" ")>0) {
-							tmpSql1 = tmpSql1.substring(tmpSql1.lastIndexOf(" "));
-						}
-						if (tmpSql1.indexOf(".")>0) {
-							tmpSql1 = tmpSql1.substring(tmpSql1.indexOf(".")+1);
-						}
-						colName[i] = tmpSql1.replaceAll(" ", "");//.trim();
-					}
-					if (colName.length == 0) {
-						errSw = true;
-					} else {
-						rst = new HashMap<String, String>();
-						rst.put("ERROR", "N");
-						rst.put("cnt", Integer.toString(colName.length));
-						for (i=0;colName.length>i;i++) {
-							rst.put("col"+Integer.toString(i), colName[i]);
-						}
-						rtList.add(rst);
-					}
-				}
-				if (errSw == false) {
-					//ecamsLogger.error("+++++ Query +++++++++"+tmpSql);
+				
+				if (!readSw) {  //update, insert등
 					strQuery.setLength(0);
 					strQuery.append(tmpSql);
 					pstmt = conn.prepareStatement(strQuery.toString());
-//					pstmt = new LoggableStatement(conn,strQuery.toString());
-//					ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
-		            rs = pstmt.executeQuery();
+					pstmt = new LoggableStatement(conn,strQuery.toString());
+					ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+		            i = pstmt.executeUpdate();
+		            pstmt.close();
 
-					while (rs.next()){
-			            rst = new HashMap<String, String>();
-			            rst.put("ERROR", "N");
-			            for (i=0;colName.length>i;i++) {
-			            	ecamsLogger.error("+++colname++++++"+colName[i]);
-			            	rst.put("col"+Integer.toString(i), rs.getString(colName[i].replaceAll(" ", "")));
-			            }
-		        		rtList.add(rst);
-		        		rst = null;
-					}//end of while-loop statement
-
-					rs.close();
-					pstmt.close();
-					conn.close();
-
-					rs = null;
-					pstmt = null;
+		            rst = new HashMap<String, String>();
+		            if (i == 0) {
+		            	rst.put("ERROR", "Y");
+		            	rst.put("ERRMSG", "변경된 Row가 없습니다. 쿼리를 확인하여 주시기 바랍니다.");
+		            } else {
+		            	rst.put("ERROR", "N");
+		            	rst.put("rowcnt", Integer.toString(i));
+		            }		            
+		            rst.put("readsw", "N");
+		            rtList.add(rst);	
+		            rst = null;
+		            pstmt.close();
+		            
 				} else {
-					rst = new HashMap<String, String>();
-					rst.put("ERROR", "Y");
-					rst.put("ERRMSG", "SQL문 확인 요망");
-					rtList.add(rst);
-					rst = null;
+					tmpSql = tmpSql.replace("from", "FROM");
+					tmpSql = tmpSql.replace("select", "SELECT");
+					if (tmpSql.indexOf("FROM")< 0) {
+						errSw = true;
+					}
+					if (errSw == false) {
+						if (tmpSql.indexOf("SELECT")< 0) {
+							errSw = true;
+						}
+					}
+					if (errSw == false) {
+						strQuery.setLength(0);
+				        strQuery.append(tmpSql);
+				        pstmt = conn.prepareStatement(strQuery.toString());
+				        pstmt = new LoggableStatement(conn, strQuery.toString());
+				        this.ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+				        rs = pstmt.executeQuery();
+				        while (rs.next())
+				        {
+				          if (rtList.size() >= 10000)
+				          {
+				            ERRMSG = ERRMSG + "결과 10000건 이상/";
+				            break;
+				          }
+				          ResultSetMetaData metadata = rs.getMetaData();
+				          colcnt = metadata.getColumnCount();
+				          if (rs.getRow() == 1)
+				          {
+				            rst = new HashMap();
+				            rst.put("ERROR", "N");
+				            rst.put("readsw", "Y");
+				            rst.put("header", "Y");
+				            for (i = 1; colcnt >= i; i++) {
+				              rst.put("col" + Integer.toString(i - 1), metadata.getColumnLabel(i));
+				              //ecamsLogger.error( metadata.getColumnLabel(i));
+				            }
+				            rst.put("colcount", Integer.toString(colcnt));
+				            rtList.add(rst);
+				            rst = null;
+				          }
+				          rst = new HashMap();
+				          rst.put("ERROR", "N");
+				          rst.put("readsw", "Y");
+				          rst.put("header", "N");
+				          for (i = 1; colcnt >= i; i++) {
+				            rst.put("col" + Integer.toString(i - 1), rs.getString(i));
+				            //ecamsLogger.error( rs.getString(i));
+				          }
+				          rst.put("colcount", Integer.toString(colcnt));
+				          rtList.add(rst);
+				          rst = null;
+				        }
+				        rs.close();
+				        pstmt.close();
+				      } else {
+						rst = new HashMap<String, String>();
+						rst.put("ERROR", "Y");
+						rst.put("ERRMSG", "SQL문 확인 요망  "+ERRMSG);
+						rtList.add(rst);
+						rst = null;
+					}
 				}
-
-
+				conn.close();
+				rs = null;
+		        pstmt = null;
 				conn = null;
 				//ecamsLogger.error("++++ Query Result ==>"+rtList.toString());
 				returnObject = rtList.toArray();
@@ -1920,11 +1944,113 @@ public class Cmm1600{
 					try{
 						conn.close();
 					}catch(Exception ex3){
-						ecamsLogger.error("## Cmm1600.SelectList() connection release exception ##");
+						ecamsLogger.error("## Cmm1600.get_SqlList() connection release exception ##");
 						ex3.printStackTrace();
 					}
 				}
 			}
 		}//end of get_SqlList() method statement
+	 	public String execCmd(String cmdText,String UserId,String gbnCd,boolean viewSw) throws SQLException, Exception {
+			try {
+				Cmr0200 cmr0200 = new Cmr0200();
+				int diffRst = 0;
+	        	if (gbnCd.equals("A")) {
+					diffRst = cmr0200.execShell_ap(UserId+"apcmd.sh",cmdText,viewSw);
+					if (diffRst != 0) {
+						return "커맨드 수행 중 오류가 발생하였습니다."+ Integer.toString(diffRst);
+					}
+	        	} else {
+	        		diffRst = cmr0200.execShell(UserId+"webcmd.sh",cmdText,viewSw);
+					if (diffRst != 0) {
+						return "커맨드 수행 중 오류가 발생하였습니다."+ Integer.toString(diffRst);
+					}
+	        	}
+	        	return "0" ;
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				ecamsLogger.error("## Cmm1600.execCmd() Exception START ##");				
+				ecamsLogger.error("## Error DESC : ", exception);	
+				ecamsLogger.error("## Cmm1600.execCmd() Exception END ##");				
+				throw exception;
+			}finally{
+				
+			}
+		}
+	 	public String getFileView(String saveFile) throws Exception {
+			StringBuffer	strQuery    = new StringBuffer();
+			File 			shfile		= null;
+			String			retMsg 		= "";
+			BufferedReader 	in1  		= null;
+			String			readline1 	= "";
+			try {
+				ecamsLogger.error("#### path  ###"+saveFile);
+				shfile = new File(saveFile);
+				if (!shfile.isFile()) {
+					retMsg = "ER파일이 존재하지 않습니다. ["+ saveFile+"]";
+					shfile = null;
+					return retMsg;
+				}
+				shfile = null;
+				int i = 0;
+				String strLine = "";
+				in1 = new BufferedReader(new InputStreamReader(new FileInputStream(saveFile),"MS949"));
+				strQuery.setLength(0);
+				while( (readline1 = in1.readLine()) != null ){
+					strQuery.append(readline1+"\n");
+				}
+				in1.close();
+				in1 = null;
+				ecamsLogger.error("#### path  ###"+strQuery.toString());
+				return "OK"+strQuery.toString();
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				ecamsLogger.error("## Cmm1600.getFileView() Exception START ##");				
+				ecamsLogger.error("## Error DESC : ", exception);	
+				ecamsLogger.error("## Cmm1600.getFileView() Exception END ##");				
+				throw exception;
+			}finally{
+					
+			}
+		}
+	 	public String fileAttUpdt(String cmdText) throws SQLException, Exception {
+			File shfile=null;
+			String  shFileName = "";
+			String[] strAry = null;
+			Runtime  run = null;
+			Process p = null;
+			
+			try {
+				ecamsLogger.error("#### path  ###"+cmdText);
+				shfile = new File(cmdText);
+			
+			if( !(shfile.isFile()) ) {
+				ecamsLogger.error("#### "+cmdText+"### return : 1");
+				return "1";
+			}	
+			strAry = new String[3];
+			strAry[0] = "chmod";
+			strAry[1] = "777";
+			strAry[2] = cmdText;			
+			
+			run = Runtime.getRuntime();
 
+			
+			p = run.exec(strAry);
+			p.waitFor();
+			
+			run = null;
+			p = null;
+			strAry = null;
+			ecamsLogger.error("#### "+cmdText+"### return : 0");
+	        return "0";
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				ecamsLogger.error("## Cmm1600.fileAttUpdt() Exception START ##");				
+				ecamsLogger.error("## Error DESC : ", exception);	
+				ecamsLogger.error("## Cmm1600.fileAttUpdt() Exception END ##");				
+				throw exception;
+			}finally{
+			}		
+		}
+	 	
 }
