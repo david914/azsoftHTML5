@@ -221,6 +221,7 @@ function getSelectedIndex(id) {
 }
 
 function getSelectedVal(id) {
+	if ($('[data-ax5select="'+id+'"]').ax5select("getValue")[0] == undefined) return null;
 	return $('[data-ax5select="'+id+'"]').ax5select("getValue")[0];
 }
 
