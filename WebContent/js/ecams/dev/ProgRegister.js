@@ -11,8 +11,10 @@ var selectedItem;		//select 선택 item
 var gridSelectedIndex;  //그리드 선택 index
 var selectedGridItem;	//그리드 선택 item
 
-var cboSystemData 	= []; //시스템 데이터
-var cboJawonData	= []; //프로그램종류 데이터
+var cboSystemData1 	= []; //시스템 데이터
+var cboSystemData2 	= []; //시스템 데이터
+var cboJawonData1	= []; //프로그램종류 데이터
+var cboJawonData2	= []; //프로그램종류 데이터
 var cboJobData		= []; //업무 데이터
 var cboDirData		= []; //프로그램경로 데이터
 var cboSRIDData		= []; //SRID 데이터
@@ -59,9 +61,13 @@ $(document).ready(function(){
 	getSRID();
 	getSysInfo();
 	
-	//시스템
-	$("#cboSystem").bind('change', function() {
-		cboSystem_Change();
+	//조회시스템
+	$("#cboSystem1").bind('change', function() {
+		cboSystem1_Change();
+	});
+	//등록시스템
+	$("#cboSystem2").bind('change', function() {
+		cboSystem2_Change();
 	});
 	
 	//업무
@@ -70,7 +76,7 @@ $(document).ready(function(){
 	});
 	
 	//프로그램종류
-	$("#cboJawon").bind('change', function() {
+	$("#cboJawon2").bind('change', function() {
 		cboJawon_Change();
 	});
 	
@@ -89,9 +95,13 @@ $(document).ready(function(){
 		btnDel_Click();
 	});
 	
-	//초기화
-	$('#btnInit').bind('click',function() {
-		btnInit_Click();
+	//초기화1
+	$('#btnInit1').bind('click',function() {
+		btnInit1_Click();
+	});
+	//초기화2
+	$('#btnInit2').bind('click',function() {
+		btnInit2_Click();
 	});
 	
 	//개발영역연결등록
@@ -101,7 +111,7 @@ $(document).ready(function(){
 });
 
 function screenInit() {
-	$('[data-ax5select="cboJawon"]').ax5select({
+	$('[data-ax5select="cboJawon2"]').ax5select({
         options: []
 	});
 	
@@ -109,8 +119,7 @@ function screenInit() {
         options: []
 	});
 	
-	grdProgList.setData([]);
-	$('#txtRsrcName').val("");
+	$('#txtRsrcName2').val("");
 	$('#txtStory').val("");
 	$('#btnDevRep').prop("disabled", true);
 	//$('#btnLocalRep').prop("disabled", true);
@@ -164,41 +173,63 @@ function getSysInfo() {
 }
 
 function successSystem(data) {
-	cboSystemData = data;
+	cboSystemData1 = data;
 	
-	cboSystemData = cboSystemData.filter(function(data) {
+	cboSystemData1 = cboSystemData1.filter(function(data) {
 		if(data.cm_sysinfo.substr(0,1) == "1") return false;
 		else return true;
 	});
+	cboSystemData2 = cboSystemData1;
 	
-	$('[data-ax5select="cboSystem"]').ax5select({
-		options: injectCboDataToArr(cboSystemData, 'cm_syscd' , 'cm_sysmsg')
+	$('[data-ax5select="cboSystem1"]').ax5select({
+		options: injectCboDataToArr(cboSystemData1, 'cm_syscd' , 'cm_sysmsg')
+	});
+	$('[data-ax5select="cboSystem2"]').ax5select({
+		options: injectCboDataToArr(cboSystemData2, 'cm_syscd' , 'cm_sysmsg')
 	});
 
-	if(cboSystemData.length > 0) {
-		for(var i=0; i<cboSystemData.length; i++) {
-			if(cboSystemData[i].setyn == "Y") {
-				$('[data-ax5select="cboSystem"]').ax5select('setValue',cboSystemData[i].cm_syscd,true); //value값으로
+	if(cboSystemData1.length > 0) {
+		for(var i=0; i<cboSystemData1.length; i++) {
+			if(cboSystemData1[i].setyn == "Y") {
+				$('[data-ax5select="cboSystem1"]').ax5select('setValue',cboSystemData1[i].cm_syscd,true); //value값으로
 				break;
 			}
 		}
 		
-		if(i>=cboSystemData.length) {
-			$('[data-ax5select="cboSystem"]').ax5select('setValue',cboSystemData[0].cm_syscd,true); //value값으로
+		if(i>=cboSystemData1.length) {
+			$('[data-ax5select="cboSystem1"]').ax5select('setValue',cboSystemData1[0].cm_syscd,true); //value값으로
 		}
 		
-		cboSystem_Change();
+		cboSystem1_Change();
+	}
+	if(cboSystemData2.length > 0) {
+		for(var i=0; i<cboSystemData2.length; i++) {
+			if(cboSystemData2[i].setyn == "Y") {
+				$('[data-ax5select="cboSystem2"]').ax5select('setValue',cboSystemData2[i].cm_syscd,true); //value값으로
+				break;
+			}
+		}
+		
+		if(i>=cboSystemData2.length) {
+			$('[data-ax5select="cboSystem2"]').ax5select('setValue',cboSystemData2[0].cm_syscd,true); //value값으로
+		}
+		
+		cboSystem2_Change();
 	}
 }
 
-function cboSystem_Change() {
+function cboSystem1_Change() {
+	grdProgList.setData([]);
+	getRsrccd(1, getSelectedVal('cboSystem1'));
+}
+function cboSystem2_Change() {
 	screenInit();
 	
-	selectedIndex = getSelectedIndex('cboSystem');
-	selectedItem = getSelectedVal('cboSystem');
+	selectedIndex = getSelectedIndex('cboSystem2');
 	
 	if(selectedIndex < 0) return;
-	
+
+	selectedItem = getSelectedVal('cboSystem2');
 	if(selectedItem.cm_sysinfo.substr(9,1) == "1") {
 		$('[data-ax5select="cboSRID"]').ax5select("disable");
 		if(cboSRIDData.length > 0) {
@@ -245,35 +276,47 @@ function successJob(data) {
    	});
 	
 	if(cboJobData.length > 0) {
-		selectedIndex = getSelectedIndex('cboSystem');
-		selectedItem = getSelectedVal('cboSystem');	
-		
-		tmpInfo = new Object();
-		tmpInfo.sysCd = selectedItem.value;
-		tmpInfo.selMsg = "SEL";
-		
-		tmpInfoData = new Object();
-		tmpInfoData = {
-			tmpInfo		: tmpInfo,
-			requestType	: 'GETJAWON'
-		}
-		ajaxAsync('/webPage/dev/ProgRegisterServlet', tmpInfoData, 'json', successJawon);
+		getRsrccd(2, getSelectedVal('cboSystem2'));
 	}
 }
 
-function successJawon(data) {
-	cboJawonData = data;
+function getRsrccd(type, selitem) {
+	tmpInfo = new Object();
+	tmpInfo.sysCd = selitem.value;
+	tmpInfo.selMsg = "SEL";
 	
-	$('[data-ax5select="cboJawon"]').ax5select({
-        options: injectCboDataToArr(cboJawonData, 'cm_micode' , 'cm_codename')
+	tmpInfoData = new Object();
+	tmpInfoData = {
+		tmpInfo		: tmpInfo,
+		requestType	: 'GETJAWON'
+	}
+	
+	if (type == 1) {
+		ajaxAsync('/webPage/dev/ProgRegisterServlet', tmpInfoData, 'json', successJawon1);
+	} else {
+		ajaxAsync('/webPage/dev/ProgRegisterServlet', tmpInfoData, 'json', successJawon2);
+	}
+}
+function successJawon1(data) {
+	cboJawonData1 = data;
+	
+	$('[data-ax5select="cboJawon1"]').ax5select({
+        options: injectCboDataToArr(cboJawonData1, 'cm_micode' , 'cm_codename')
+	});
+}
+function successJawon2(data) {
+	cboJawonData2 = data;
+	
+	$('[data-ax5select="cboJawon2"]').ax5select({
+        options: injectCboDataToArr(cboJawonData2, 'cm_micode' , 'cm_codename')
 	});
 	
 	cboJawon_Change();
 }
 
 function cboJawon_Change() {
-	selectedIndex = getSelectedIndex('cboJawon');
-	selectedItem = getSelectedVal('cboJawon');
+	selectedIndex = getSelectedIndex('cboJawon2');
+	selectedItem = getSelectedVal('cboJawon2');
 	
 	if(selectedIndex > 0) {
 		$('#txtExeName').val(selectedItem.cm_exename);
@@ -287,7 +330,7 @@ function cboJawon_Change() {
 		$('[data-ax5select="cboDir"]').ax5select("enable");
 		
 		if(getSelectedIndex('cboJob') > 0) {
-			Dircheck(getSelectedVal('cboJob').value, getSelectedVal('cboJawon').value);
+			Dircheck(getSelectedVal('cboJob').value, getSelectedVal('cboJawon2').value);
 		}
 	}else {
 		$('[data-ax5select="cboDir"]').ax5select({
@@ -300,15 +343,15 @@ function cboJawon_Change() {
 function cboJob_Change() {
 	if(getSelectedIndex('cboJob') < 1) return;
 	
-	if(getSelectedIndex('cboJawon') > 0) {
-		Dircheck(getSelectedVal('cboJob').value, getSelectedVal('cboJawon').value);
+	if(getSelectedIndex('cboJawon2') > 0) {
+		Dircheck(getSelectedVal('cboJob').value, getSelectedVal('cboJawon2').value);
 	}
 }
 
 function Dircheck(jobcd, rsrccd) {
 	tmpInfo = new Object();
 	tmpInfo.userId = userId;
-	tmpInfo.sysCd  = getSelectedVal('cboSystem').value;
+	tmpInfo.sysCd  = getSelectedVal('cboSystem2').value;
 	tmpInfo.secuYn = "Y";
 	tmpInfo.rsrccd = rsrccd;
 	tmpInfo.jobcd  = jobcd;
@@ -347,37 +390,30 @@ function successDir(data) {
 }
 
 function btnQry_Click() {
-	if(getSelectedIndex('cboSystem') < 0) {
+	if(getSelectedIndex('cboSystem1') < 0) {
 		dialog.alert('시스템을 선택하여 주십시오.',function(){});
-		$('#cboSystem').focus();
+		$('#cboSystem1').focus();
 		return;
 	}
 	
 	var strJawon = null;
-	var strSRId = null;
 	var strRsrcname = null;
 	
-	$('#txtRsrcName').val($('#txtRsrcName').val().trim());
-	if($('#txtRsrcName').val().length > 0) {
-		strRsrcname = $('#txtRsrcName').val();
+	$('#txtRsrcName1').val($('#txtRsrcName1').val().trim());
+	if($('#txtRsrcName1').val().length > 0) {
+		strRsrcname = $('#txtRsrcName1').val();
 	}else {
 		strRsrcname = null;
 	}
 	
-	if(getSelectedIndex('cboJawon') > 0) {
-		strJawon = getSelectedVal('cboJawon').value;
-	}
-
-	if(!$($('#cboSRID').children()[0]).prop('disabled') && getSelectedIndex('cboSRID') > 0) {
-		strSRId = getSelectedVal('cboSRID').value;
-	}else {
-		strSRId = null;	
+	if(getSelectedIndex('cboJawon1') > 0) {
+		strJawon = getSelectedVal('cboJawon1').value;
 	}
 	
 	tmpInfo = new Object();
-	tmpInfo.SRID = strSRId;
+	tmpInfo.SRID = null;
 	tmpInfo.userId = userId;
-	tmpInfo.sysCd  = getSelectedVal('cboSystem').value;
+	tmpInfo.sysCd  = getSelectedVal('cboSystem1').value;
 	tmpInfo.rsrccd = strJawon;
 	tmpInfo.rsrcname = strRsrcname;
 	tmpInfo.secuSw = "true";
@@ -408,7 +444,7 @@ function grdProgList_Click() {
 	selSw = true;
 	
 	if(selectedGridItem != null && selectedGridItem.cr_rsrcname != "") {
-		$('#txtRsrcName').val(selectedGridItem.cr_rsrcname);
+		$('#txtRsrcName2').val(selectedGridItem.cr_rsrcname);
 		$('#txtStory').val(selectedGridItem.cr_story);
 		$('[data-ax5select="cboDir"]').ax5select({
 	        options: []
@@ -423,10 +459,10 @@ function grdProgList_Click() {
 			}
 		}
 		
-		for(i=1; i<cboJawonData.length; i++) {
-			if(cboJawonData[i].cm_micode == selectedGridItem.cr_rsrccd) {
-				$('[data-ax5select="cboJawon"]').ax5select('setValue',cboJawonData[i].cm_micode,true);
-				selectedItem = cboJawonData[i];
+		for(i=1; i<cboJawonData2.length; i++) {
+			if(cboJawonData2[i].cm_micode == selectedGridItem.cr_rsrccd) {
+				$('[data-ax5select="cboJawon2"]').ax5select('setValue',cboJawonData2[i].cm_micode,true);
+				selectedItem = cboJawonData2[i];
 				strInfo = selectedItem.cm_info;
 				cboJawon_Change();
 				break;
@@ -444,32 +480,35 @@ function grdProgList_Click() {
 			$('[data-ax5select="cboSRID"]').ax5select('setValue',cboSRIDData[0].value,true);
 		}
 	}else {
-		$('#txtRsrcName').val("");
+		$('#txtRsrcName2').val("");
 		$('#txtStory').val("");
 	}
 }
-
-function btnInit_Click() {
-	$('[data-ax5select="cboJawon"]').ax5select('setValue',cboJawonData[0].cm_micode,true);
+function btnInit1_Click() {
+	$('[data-ax5select="cboJawon1"]').ax5select('setValue',cboJawonData1[0].cm_micode,true);
+	$('#txtRsrcName1').val("");
+}
+function btnInit2_Click() {
+	$('[data-ax5select="cboJawon2"]').ax5select('setValue',cboJawonData2[0].cm_micode,true);
 	cboJawon_Change();
 	
 	$('[data-ax5select="cboJob"]').ax5select('setValue',cboJobData[0].value,true);
 	cboJob_Change();
 	
-	$('#txtRsrcName').val("");
+	$('#txtRsrcName2').val("");
 	$('#txtStory').val("");
 	
 	$('[data-ax5select="cboSRID"]').ax5select('setValue',cboSRIDData[0].value,true);
 }
 
 function btnRegist_Click() {
-	if(getSelectedIndex('cboSystem') < 0) {
+	if(getSelectedIndex('cboSystem2') < 0) {
 		dialog.alert('시스템을 선택하여 주십시오.',function(){});
-		$('#cboSystem').focus();
+		$('#cboSystem2').focus();
 		return;
 	}
 	
-	if(getSelectedVal('cboSystem').cm_sysinfo.substr(9,1) == "0") {
+	if(getSelectedVal('cboSystem2').cm_sysinfo.substr(9,1) == "0") {
 		if(getSelectedIndex('cboSRID') < 0) {
 			dialog.alert('SR-ID를 선택하여 주십시오.',function(){});
 			$('#cboSRID').focus();
@@ -483,9 +522,9 @@ function btnRegist_Click() {
 		return;
 	}
 	
-	if(getSelectedIndex('cboJawon') < 0) {
+	if(getSelectedIndex('cboJawon2') < 0) {
 		dialog.alert('프로그램종류를 선택하여 주십시오.',function(){});
-		$('#cboJawon').focus();
+		$('#cboJawon2').focus();
 		return;
 	}
 	
@@ -495,13 +534,13 @@ function btnRegist_Click() {
 		return;
 	}
 	
-	$('#txtRsrcName').val($('#txtRsrcName').val().trim());
-	if($('#txtRsrcName').val().length < 1) {
+	$('#txtRsrcName2').val($('#txtRsrcName2').val().trim());
+	if($('#txtRsrcName2').val().length < 1) {
 		dialog.alert('프로그램명를 입력하여 주십시오.',function(){});
 		return;
 	}
 	
-	if($('#txtRsrcName').val().indexOf(",") >= 0) {
+	if($('#txtRsrcName2').val().indexOf(",") >= 0) {
 		dialog.alert('프로그램명에 컴마(,)가 포함되었습니다. 제외하고 등록하여 주십시오.',function(){});
 		return;
 	}
@@ -512,25 +551,25 @@ function btnRegist_Click() {
 		return;
 	}
 	
-	if(getSelectedVal('cboJawon').cm_info.substr(26,1) == "1") {
-		if($('#txtRsrcName').val().indexOf(".") > 0) {
+	if(getSelectedVal('cboJawon2').cm_info.substr(26,1) == "1") {
+		if($('#txtRsrcName2').val().indexOf(".") > 0) {
 			dialog.alert('확장자없이 신규하여야 합니다.',function(){});
 			return;
 		}
 	}else {
 		if($('#txtExeName').val() != "" && $('#txtExeName').val() != null) {
-			if(getSelectedVal('cboJawon').cm_info.substr(43,1) == "1") { //[44]확장자자동등록
+			if(getSelectedVal('cboJawon2').cm_info.substr(43,1) == "1") { //[44]확장자자동등록
 				var strExe = $('#txtExeName').val();
 				if(strExe.substr(strExe.length-1) == ",") strExe = strExe.substr(0,strExe.length-1);
-				if($('#txtRsrcName').val().substr($('#txtRsrcName').val().length - strExe.length) != strExe) {
-					if($('#txtRsrcName').val().indexOf(".") > 0) {
+				if($('#txtRsrcName2').val().substr($('#txtRsrcName2').val().length - strExe.length) != strExe) {
+					if($('#txtRsrcName2').val().indexOf(".") > 0) {
 						dialog.alert('확장자를 정확하게 입력하여 주십시오.[1][' + strExe + ']',function(){});
 						return;
 					}
-					$('#txtRsrcName').val($('#txtRsrcName').val() + strExe);
+					$('#txtRsrcName2').val($('#txtRsrcName2').val() + strExe);
 				}
-			}else if($('#txtRsrcName').val().indexOf(".") > 0) {
-				var strWork1 = $('#txtRsrcName').val().substr($('#txtRsrcName').val().lastIndexOf(".")) + ",";
+			}else if($('#txtRsrcName2').val().indexOf(".") > 0) {
+				var strWork1 = $('#txtRsrcName2').val().substr($('#txtRsrcName2').val().lastIndexOf(".")) + ",";
 				var strWork2 = $('#txtExeName').val().toUpperCase() + ",";
 				
 				strWork1 = strWork1.toUpperCase();
@@ -548,16 +587,16 @@ function btnRegist_Click() {
 	
 	tmpInfo = new Object();
 	tmpInfo.userid = userId;
-	tmpInfo.syscd = getSelectedVal('cboSystem').value;
+	tmpInfo.syscd = getSelectedVal('cboSystem2').value;
 	tmpInfo.dsncd  = getSelectedVal('cboDir').value;
-	tmpInfo.rsrcname = $('#txtRsrcName').val();
-	tmpInfo.rsrccd = getSelectedVal('cboJawon').value;
+	tmpInfo.rsrcname = $('#txtRsrcName2').val();
+	tmpInfo.rsrccd = getSelectedVal('cboJawon2').value;
 	tmpInfo.jobcd = getSelectedVal('cboJob').value;
 	tmpInfo.story = $('#txtStory').val().trim();
 	tmpInfo.dirpath = getSelectedVal('cboDir').text;
-	tmpInfo.cminfo = getSelectedVal('cboJawon').cm_info;
+	tmpInfo.cminfo = getSelectedVal('cboJawon2').cm_info;
 	
-	if (getSelectedVal('cboSystem').cm_sysinfo.substr(9,1) == "0") {
+	if (getSelectedVal('cboSystem2').cm_sysinfo.substr(9,1) == "0") {
 		if(!$($('#cboSRID').children()[0]).prop('disabled') && getSelectedIndex('cboSRID') > 0) {
 			tmpInfo.srid = getSelectedVal('cboSRID').value;
 		}
@@ -580,8 +619,8 @@ function successCheckProg(data) {
 		return;
 	}else {
 		if(tmpArr.length > 0 && tmpArr[0].ID == "ADD") {
-			dialog.alert('등록처리가 완료되었습니다.',function(){});
-			
+			dialog.alert('등록처리가 완료되었습니다.',function(){ $('#btnQry').trigger('click'); });
+			/*
 			if(grdProgListData != null) {
 				for(var i=0; i<grdProgList.getList().length; i++) {
 					if(grdProgList.getList()[i].cr_itemid == tmpArr[0].cr_itemid) {
@@ -594,6 +633,7 @@ function successCheckProg(data) {
 			tmpObj = tmpArr[0];
 			grdProgList.addRow(tmpObj, 0);
 			grdProgList.setColumnSort({cr_rsrcname:{seq:0, orderBy:"asc"}});
+			*/
 		}else {
 			dialog.alert(tmpArr[0].ID,function(){});
 		}	
@@ -622,7 +662,7 @@ function btnDel_Click() {
 			findSW = false;
 			checkedGridItem = grdProgList.getList("selected");
 			
-			if(getSelectedIndex('cboSystem') < 0) {
+			if(getSelectedIndex('cboSystem1') < 0) {
 				dialog.alert('시스템을 선택하여 주십시오.',function(){});
 				return;
 			}
@@ -648,9 +688,9 @@ function successDELETE(data) {
 }
 
 function btnDevRep_Click() {
-	if(getSelectedIndex('cboSystem') < 0) {
+	if(getSelectedIndex('cboSystem2') < 0) {
 		dialog.alert('시스템을 선택하여 주십시오.',function(){});
-		$('#cboSystem').focus();
+		$('#cboSystem2').focus();
 		return;
 	}
 	
@@ -662,7 +702,7 @@ function btnDevRep_Click() {
 	
 	var form = document.popPam; 							//폼 name
 	form.UserId.value = userId;   							//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
-	form.SysCd.value  = getSelectedVal('cboSystem').value;  //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	form.SysCd.value  = getSelectedVal('cboSystem2').value;  //POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 	
 //	nHeight	= screen.height;
 //  nWidth = screen.width;

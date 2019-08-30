@@ -216,6 +216,7 @@ function replaceAllString(source, find, replacement){
 }
 
 function getSelectedIndex(id) {
+	if ($('[data-ax5select="'+id+'"]').ax5select("getValue")[0] == undefined) return -1;
 	return $('[data-ax5select="'+id+'"]').ax5select("getValue")[0]['@index'];
 }
 
