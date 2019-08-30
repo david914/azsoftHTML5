@@ -21,6 +21,7 @@ import com.google.gson.JsonParser;
 import app.common.SystemPath;
 import app.eCmr.Cmr5200;
 import app.eCmr.Cmr5300;
+import app.eCmr.Cmr5400;
 import html.app.common.ParsingCommon;
 
 @WebServlet("/webPage/winpop/SourceDiffServlet")
@@ -33,6 +34,7 @@ public class SourceDiffServlet extends HttpServlet {
 	SystemPath systempath = new SystemPath();
 	Cmr5200 cmr5200 = new Cmr5200();
 	Cmr5300 cmr5300 = new Cmr5300();
+	Cmr5400 cmr5400 = new Cmr5400();
 	Logger ecamsLogger  = EcamsLogger.getLoggerInstance();
 	
 	@Override
@@ -62,6 +64,12 @@ public class SourceDiffServlet extends HttpServlet {
 				case "GETDIFFLIST" :
 					response.getWriter().write( getDiffSrc(jsonElement) );
 					break;
+				case "GETPROGHISTORY_INF" :
+					response.getWriter().write( getProgHistory_inf(jsonElement) );
+					break;
+				case "FILEDIFFINF_INF" :
+					response.getWriter().write( getFiledIffinf(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -78,7 +86,28 @@ public class SourceDiffServlet extends HttpServlet {
 	}
 	private String getProgHistory(JsonElement jsonElement) throws SQLException, Exception {
 		String itemId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "itemId") );
-		return gson.toJson(cmr5300.getFileVer(itemId));
+		String acptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "acptNo") );
+		if(!itemId.equals("") && !itemId.equals(null)) {
+			return gson.toJson(cmr5300.getFileVer(itemId));
+		}else {
+			return gson.toJson(cmr5300.getReqList(acptNo,"D"));
+		}
+//		return gson.toJson(cmr5300.getFileVer(itemId));
+	}
+	private String getProgHistory_inf(JsonElement jsonElement) throws SQLException, Exception {
+		String itemId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "itemId") );
+		return gson.toJson(cmr5400.getFileVer(itemId,"","0000"));
+	}
+	private String getFiledIffinf(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		
+		String itemId = DataMap.get("itemId");
+		String befAcpt = DataMap.get("befAcpt");
+		String aftAcpt = DataMap.get("aftAcpt");
+		String befQry = DataMap.get("befQry");
+		String aftQry = DataMap.get("aftQry");
+		
+		return gson.toJson(cmr5400.fileDiffInf(itemId,befAcpt,befQry,aftAcpt,aftQry,false));
 	}
 	private String getDiffSrc(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
