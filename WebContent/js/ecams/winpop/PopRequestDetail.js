@@ -1491,7 +1491,7 @@ function openWindow(type,acptNo, etcInfo) {
 		nWidth = 1200;
 		cURL = "/webPage/winpop/PopRequestSourceView.jsp";
 	} else if (type === 6) {//소스비교
-		cURL = "/webPage/winpop/PopSourceDiff.jsp";
+		cURL = "/webPage/winpop/PopSourceDiffView.jsp";
 	} else if (type === 7) {//로그확인
 		cURL = "/webPage/winpop/PopServerLog.jsp";
 	} else if (type === 8) {//결재정보
@@ -1506,7 +1506,7 @@ function openWindow(type,acptNo, etcInfo) {
     
 	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
 	if (acptNo != '' && acptNo != null) {
-		f.acptno.value	= pReqNo+acptNo;
+		f.acptno.value	= acptNo;
 	} else {
 		f.acptno.value	= pReqNo;
 	}
