@@ -549,7 +549,7 @@ function openWindow(reqCd,reqNo,itemId) {
 		}
 	}
 
-    winName = 'proginfo_'+reqCd;
+    winName = 'proginfo_'+reqCd; 
 
 	var f = document.popPam;   		//폼 name
     
