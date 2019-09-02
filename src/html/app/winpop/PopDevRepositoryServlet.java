@@ -228,22 +228,23 @@ public class PopDevRepositoryServlet extends HttpServlet {
 	
 	private String getFileList_thread(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
-		return gson.toJson(svropen.getFileList_thread_HTML5(DataMap.get("UserId"),
-											  	   	  		DataMap.get("SysCd"),
-											  	   	  		DataMap.get("SvrIp"),
-											  	   	  		DataMap.get("SvrPort"),
-											  	   	  		DataMap.get("HomeDir"),
-											  	   	  		DataMap.get("BaseDir"),
-											  	   	  		DataMap.get("SvrCd"),
-											  	   	  		DataMap.get("GbnCd"),
-											  	   	  		DataMap.get("exeName1"),
-											  	   	  		DataMap.get("exeName2"),
-											  	   	  		DataMap.get("SysInfo"),
-											  	   	  		DataMap.get("AgentDir"),
-											  	   	  		DataMap.get("SysOs"), 
-											  	   	  		DataMap.get("buffSize"),
-											  	   	  		DataMap.get("svrInfo"),
-											  	   	  		DataMap.get("svrSeq")));
+//		return gson.toJson(svropen.getFileList_thread_HTML5(DataMap.get("UserId"),
+//											  	   	  		DataMap.get("SysCd"),
+//											  	   	  		DataMap.get("SvrIp"),
+//											  	   	  		DataMap.get("SvrPort"),
+//											  	   	  		DataMap.get("HomeDir"),
+//											  	   	  		DataMap.get("BaseDir"),
+//											  	   	  		DataMap.get("SvrCd"),
+//											  	   	  		DataMap.get("GbnCd"),
+//											  	   	  		DataMap.get("exeName1"),
+//											  	   	  		DataMap.get("exeName2"),
+//											  	   	  		DataMap.get("SysInfo"),
+//											  	   	  		DataMap.get("AgentDir"),
+//											  	   	  		DataMap.get("SysOs"), 
+//											  	   	  		DataMap.get("buffSize"),
+//											  	   	  		DataMap.get("svrInfo"),
+//											  	   	  		DataMap.get("svrSeq")));
+		return gson.toJson(svropen.getFileList_thread_HTML5(DataMap));
 	}
 	
 	private String registProg(JsonElement jsonElement) throws SQLException, Exception {

@@ -667,6 +667,7 @@ function contextmenu_click(gbn) {
 	var tmpStr  = "";
 	var tmpExe1 = "";
 	var tmpExe2 = "";
+	var tmpPrgName = "";
 	
 	tmpStr = gbn;
 	//console.log("tmpStr: " + tmpStr);
@@ -676,6 +677,9 @@ function contextmenu_click(gbn) {
 	
 	if($('#txtNoExe').val($('#txtNoExe').val().trim()).length > 0) tmpExe2 = $('#txtNoExe').val().trim();
 	else tmpExe2 = "";
+	
+	if($('#txtPrgName').val($('#txtPrgName').val().trim()).length > 0) tmpPrgName = $('#txtPrgName').val().trim();
+	else tmpPrgName = "";
 	
 	selectedItem = $('[data-ax5select="cboSvr"]').ax5select("getValue")[0];
 	
@@ -697,6 +701,7 @@ function contextmenu_click(gbn) {
 	tmpInfo.buffSize = selectedItem.cm_buffsize;
 	tmpInfo.svrInfo = selectedItem.cm_svruse;
 	tmpInfo.svrSeq = selectedItem.cm_seqno;
+	tmpInfo.PrgName = tmpPrgName;
 	
 	tmpInfoData = new Object();
 	tmpInfoData = {

@@ -2108,10 +2108,11 @@ public class svrOpen{
 
 	}//end of getDirPath() method statement
 
-	public Object[] getFileList_thread_HTML5(String UserID,String SysCd,String SvrIp,String SvrPort,String HomeDir,String BaseDir,
-											String SvrCd,String GbnCd,String exeName1,String exeName2,String SysInfo,String AgentDir,String SysOs,
-											String buffSize,String svrInfo,String svrSeq) throws SQLException, Exception {
+//	public Object[] getFileList_thread_HTML5(String UserID,String SysCd,String SvrIp,String SvrPort,String HomeDir,String BaseDir,
+//											String SvrCd,String GbnCd,String exeName1,String exeName2,String SysInfo,String AgentDir,String SysOs,
+//											String buffSize,String svrInfo,String svrSeq) throws SQLException, Exception {
 		
+	public Object[] getFileList_thread_HTML5(HashMap<String,String> etcData) throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
@@ -2132,7 +2133,9 @@ public class svrOpen{
 		String       	strParm = "";
 		String       	svrHome = "";
 		String       	sysHome = "";
+		String 			BaseDir = ""; 
 		int             j = 0;
+		
 		
 		ConnectionContext connectionContext = new ConnectionResource();
 
@@ -2147,15 +2150,16 @@ public class svrOpen{
 				throw new Exception("관리자에게 연락하여 주시기 바랍니다. (형상관리환경설정 - 실행디렉토리)");
 			
 			Cmr0200 cmr0200 = new Cmr0200();
-			shFileName = "filelist"+ UserID + "." + SysCd + ".ih.cs.sh";
-			strFile = strTmpPath + "/filelist"+ UserID + "." + SysCd + ".ih.cs";
+			shFileName = "filelist"+ etcData.get("UserID") + "." + etcData.get("SysCd") + ".ih.cs.sh";
+			strFile = strTmpPath + "/filelist"+ etcData.get("UserID") + "." + etcData.get("SysCd") + ".ih.cs";
 			strTmpPath = null;
-			if (SysOs.equals("03")) {
-				BaseDir = BaseDir.replace("/", "\\");
+			if ("03".equals(etcData.get("SysOs"))) {
+				BaseDir = etcData.get("BaseDir").replace("/", "\\");
 				BaseDir = BaseDir.replace("\\\\", "\\");
 				BaseDir = BaseDir.replace("\\", "\\\\");
 			}
-			strParm = "./ecams_ih_cs " + SysCd + " " + SvrIp + " "  + SvrPort + " " + buffSize + " "+ BaseDir +  " filelist" + UserID + " " + GbnCd + " " + AgentDir;
+			strParm = "./ecams_ih_cs " + etcData.get("SysCd") + " " + etcData.get("SvrIp") + " "  + etcData.get("SvrPort") + " " + etcData.get("buffSize") + " " + 
+						etcData.get("BaseDir") +  " filelist" + etcData.get("UserID") + " " + etcData.get("GbnCd") + " " + etcData.get("AgentDir");
 			ret = cmr0200.execShell(shFileName, strParm, false);
 			cmr0200 = null;
 
@@ -2180,16 +2184,16 @@ public class svrOpen{
 			            String wkDir = "";
 			            String wkExe   = "";
 			            ThreadPool pool = new ThreadPool(10);
-			            String[] strExe1 = exeName1.split(",");
-			            String[] strExe2 = exeName2.split(",");
+			            String[] strExe1 = etcData.get("exeName1").split(",");
+			            String[] strExe2 = etcData.get("exeName2").split(",");
 			            int z = 0;
 			            int k = 0;
-			            if (svrInfo.substring(4,5).equals("1")) {
-			            	svrHome = HomeDir.replace("##USER##", UserID);
-			            	sysHome = HomeDir.replace("/##USER##","");
+			            if (etcData.get("svrInfo").substring(4,5).equals("1")) {
+			            	svrHome = etcData.get("HomeDir").replace("##USER##", etcData.get("UserID"));
+			            	sysHome = etcData.get("HomeDir").replace("/##USER##","");
 			            } else {
-			            	svrHome = HomeDir;
-			            	sysHome = HomeDir;
+			            	svrHome = etcData.get("HomeDir");
+			            	sysHome = etcData.get("HomeDir");
 			            }
 			            String baseSvr = "01";
 			            
@@ -2198,7 +2202,7 @@ public class svrOpen{
 			            strQuery.append("  from cmm0030                      \n");
 			            strQuery.append(" where cm_syscd=?                   \n");
 			            pstmt = conn.prepareStatement(strQuery.toString());
-			            pstmt.setString(1, SysCd);
+			            pstmt.setString(1, etcData.get("SysCd"));
 			            rs = pstmt.executeQuery();
 			            if (rs.next()) {
 			            	baseSvr = rs.getString("dirbase");
@@ -2210,7 +2214,7 @@ public class svrOpen{
 			                fileSw = false;
 			                //ecamsLogger.error("+++++++str:"+str);
 			            	if (str.length() > 0) {
-			                	if ( SysOs.equals("03") ) {
+			                	if ("03".equals(etcData.get("SysOs"))) {
 			                		if (str.indexOf("디렉터리")>0) {
 			                			wkDir = str.substring(0,str.indexOf("디렉터리"));
 			                			wkDir = wkDir.trim();
@@ -2232,7 +2236,7 @@ public class svrOpen{
 				                			fileSw = true;
 			                			}
 			                		}
-			                	} else if ( SysOs.equals("04") ) {//04=Linux
+			                	} else if ("04".equals(etcData.get("SysOs"))) {//04=Linux
 //			                		ecamsLogger.error("+++++++str++++++++[1]"+str);
 //			                		if ( !str.substring(0,1).equals("d") ) {
 				                		if ( str.substring(0,1).equals("/") ) {
@@ -2281,8 +2285,8 @@ public class svrOpen{
 			                	
 			                	if ( fileSw ) {
                 					findSw = false;
-                					if (exeName1 == null || "".equals(exeName1)) {
-                						if (exeName2 == null || "".equals(exeName2)) findSw = true;
+                					if (etcData.get("exeName1") == null || "".equals(etcData.get("exeName1"))) {
+                						if (etcData.get("exeName2") == null || "".equals(etcData.get("exeName2"))) findSw = true;
                 						else {
                 							findSw = true;
                 							wkExe = "";
@@ -2325,20 +2329,39 @@ public class svrOpen{
                 					
                 					//ecamsLogger.error("+++++++findSw++++++++"+findSw);
                 					
+                					//PrgName: 추출프로그램명
+                					if( findSw ) {
+                						findSw = false;
+//                						ecamsLogger.error("+++++++PrgName++++++++"+etcData.get("PrgName") );
+//                						ecamsLogger.error("+++++++wkB++++++++"+wkB); 
+                						if(etcData.get("PrgName") == null || "".equals(etcData.get("PrgName"))) {
+                							ecamsLogger.error("2");
+                							findSw = true;
+                							//break;
+                						}else {
+                							if(wkB.trim().equals(etcData.get("PrgName").trim())) {
+                								ecamsLogger.error("1");
+                								findSw = true;
+                								//break;
+                							}
+                						}
+                					}
+                					
+//                					ecamsLogger.error("+++++++findSw++++++++"+findSw);
                 					if ( findSw ) {
 	                					rst = new HashMap<String, String>();
-	                					rst.put("syscd", SysCd);
+	                					rst.put("syscd", etcData.get("SysCd"));
 	                					rst.put("cm_dirpath", wkDir.replace(svrHome, ""));
 	                					rst.put("filename", wkB);
-	                					if (baseSvr.equals(SvrCd)) {
+	                					if (baseSvr.equals(etcData.get("SvrCd"))) {
 	                						rst.put("svrchg", "N");
 	                					} else {
 	                						rst.put("svrchg", "Y");
 	                						rst.put("basesvr", baseSvr);
-	                						rst.put("svrcd", SvrCd);
-	                						rst.put("svrseq", svrSeq);
+	                						rst.put("svrcd", etcData.get("SvrCd"));
+	                						rst.put("svrseq", etcData.get("svrSeq"));
 	                					}
-	                					if (svrInfo.substring(4,5).equals("1")) {	                						
+	                					if (etcData.get("svrInfo").substring(4,5).equals("1")) {	                						
 	                						rst.put("dirpath", wkDir.replace(svrHome, sysHome));
 	                					} else {
 	                						rst.put("dirpath", wkDir);

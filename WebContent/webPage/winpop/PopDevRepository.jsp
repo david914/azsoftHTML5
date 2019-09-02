@@ -94,6 +94,17 @@
 						</div>
 					</div>
 				</div>
+				<div class="row vat cb">
+					<!-- 추출대상프로그램명 -->
+					<div class="width-100 float-left">
+						<div>
+	                    	<label class="tit_100 poa">추출프로그램명</label>
+	                        <div class="ml_100">
+								<input id="txtPrgName" class="width-100" type="text"></input>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<!--검색E-->
@@ -118,6 +129,7 @@
 			<p class="txt_r font_12">1. 디렉토리선택 후 오른쪽마우스 클릭 [파일추출] : 추출대상확장자 입력 후 추출 시 입력한 확장자를 가진 파일만 추출</p>
 			<p class="txt_r font_12">2. 추출된 파일목록에서 등록할 파일선택(프로그램설명은 목록에서 직접입력 가능)</p>
 			<p class="txt_r font_12">3. 업무, 프로그램종류, 프로그램설명 입력 후 등록버트 클릭, 단! 프로그램 설명은 목록에 입력한 경우 목록의 내용으로 등록</p>
+			<p class="font_12" style="color:#245490;">※ 기등록된 프로그램은 조회되지 않습니다.</p>
 		</div>
 		<!-- info E -->
 		<!-- 검색 S -->
