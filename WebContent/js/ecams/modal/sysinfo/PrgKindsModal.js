@@ -381,12 +381,17 @@ $(document).ready(function(){
 			}
 		}
 		
+		
+		if($('#txtVer').val().trim() === ""){
+			tmpObj.cm_vercnt 	= "9999";
+		} else {
+			tmpObj.cm_vercnt 	= $('#txtVer').val().trim();
+		}
 		tmpObj.cm_syscd 	= sysCd;
 		tmpObj.cm_rsrccd 	= getSelectedVal('cboJawon').value;
 		tmpObj.userid 		= userId;
 		tmpObj.info 		= tmpWork;
 		tmpObj.cm_time 		= replaceAllString($('#txtTime').val(), ':', '');
-		tmpObj.cm_vercnt 	= $('#txtVer').val().trim();
 		tmpObj.cm_exename 	= txtExename.length === 0 ? null : txtExename;
 		
 		var data = new Object();

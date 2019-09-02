@@ -7,7 +7,7 @@ var L_SysCd = null;
 var selectedItem = null;
 var columnData = 
 	[ 
-		{key : "job",label : "시스템",align : "center",width: "7%"}, 
+		{key : "job",label : "업무",align : "center",width: "7%"}, 
 		{key : "cr_rsrcname",label : "프로그램명",align : "left",width: "14%"}, 
 		{key : "cm_dirpath",label : "프로그램경로",align : "left",width: "24%"}, 
 		{key : "sta",label : "상태",align : "center",width: "7%"}, 
