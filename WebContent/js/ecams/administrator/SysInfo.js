@@ -32,6 +32,7 @@ var cboSysGbData 	= null;	//	시스템유형콤보
 var sysInfodata		= null;	// 	시스템 속성 UL list
 var sysInfoCboData	= null;	//	시스템종류 콤보
 var cboSvrCdData	= null;	//	기준서버구분콤보
+var cboPrcData		= null;	//  프로세스유형 콤보
 var sysInfoGridData = null; // 	시스템 그리드
 var jobGridData 	= null;	//	업무 그리드
 
@@ -77,9 +78,9 @@ sysInfoGrid.setConfig({
     },
     columns: [
         {key: "cm_syscd", 	label: "시스템코드",	width: '10%'},
-        {key: "cm_sysmsg", 	label: "시스템명",  	width: '37%', align: 'left'},
+        {key: "cm_sysmsg", 	label: "시스템명",  	width: '30%', align: 'left'},
         {key: "sysgb", 		label: "시스템유형",  	width: '14%', align: 'left'},
-        {key: "servername", label: "기준서버구분", 	width: '13%', align: 'left'},
+        {key: "process", 	label: "프로세스유형", 	width: '20%', align: 'left'},
         {key: "scmopen", 	label: "형상관리오픈", 	width: '13%'},
         {key: "sysopen", 	label: "시스템오픈",  	width: '13%'}
     ]
@@ -157,8 +158,6 @@ $('#timeDeployE').timepicker({
 });
 
 $(document).ready(function(){
-	$('#txtPrc').prop('disabled', true);
-	
 	dateInit();
 	getSysCodeInfo();
 	getSysInfoCbo();
@@ -699,6 +698,8 @@ function updateSystem(isNew) {
 	var tmpMon = 0;
 	var tmpSysGb 	= getSelectedVal('cboSysGb').value;
 	var tmpDirBase 	= getSelectedVal('cboSvrCd').value;
+	var process 	= getSelectedVal('cboPrc').value;
+	
 	var selectedJobIndexs = jobGrid.selectedDataIndexs;
 	var systemInfo = new Object();
 	systemInfo.cm_syscd 	= $('#txtSysCd').val();
@@ -706,6 +707,7 @@ function updateSystem(isNew) {
 	systemInfo.cm_sysgb 	= tmpSysGb;
 	systemInfo.cm_dirbase 	= tmpDirBase;
 	systemInfo.cm_prccnt 	= $('#txtPrcCnt').val();
+	systemInfo.cm_systype 	= process;
 	
 	
 	for(var i=0; i<selectedJobIndexs.length; i++) {
@@ -953,6 +955,10 @@ function cboSysClick() {
 	$('#txtSysCd').val(selectedSysCboSysInfo.value);
 	$('#txtSysMsg').val(selectedSysCboSysInfo.text);
 	
+	if(selectedGridItem.cm_systype !== undefined) {
+		$('[data-ax5select="cboPrc"]').ax5select('setValue',selectedGridItem.cm_systype,true);
+	}
+	
 	for(var i=0; i<cboSysGbData.length; i++) {
 		if(cboSysGbData[i].cm_micode == selectedSysCboSysInfo.cm_sysgb) {
 			$('[data-ax5select="cboSysGb"]').ax5select('setValue',selectedSysCboSysInfo.cm_sysgb,true);
@@ -1054,10 +1060,10 @@ function cboSysClick() {
 	}
 	
 	getSysJobInfo(selectedSysCboSysInfo.value);
-	getProcType(selectedSysCboSysInfo.value);
+	//getProcType(selectedSysCboSysInfo.value);
 }
 
-// 프로세스 유형가져오기
+/*// 프로세스 유형가져오기
 function getProcType(syscd) {
 	var data		= new Object();;
 	data = {
@@ -1072,7 +1078,7 @@ function successGetProcType(data) {
 	if(data.length > 0 ) {
 		$('#txtPrc').val(data);
 	}
-}
+}*/
 
 //	선택된 시스템 JOB
 function getSysJobInfo(sysCd) {
@@ -1121,12 +1127,13 @@ function getSysCodeInfo() {
 	var codeInfos = getCodeInfoCommon([
 										new CodeInfo('SYSGB','','N'),
 										new CodeInfo('SYSINFO','','N'), 
-										new CodeInfo('SERVERCD','','N')
+										new CodeInfo('SERVERCD','','N'),
+										new CodeInfo('SYSTYPE','','N'),
 										]);
 	cboSysGbData 	= codeInfos.SYSGB;
 	cboSvrCdData	= codeInfos.SERVERCD;
 	sysInfoData 	= codeInfos.SYSINFO;
-	
+	cboPrcData		= codeInfos.SYSTYPE;
 	cboOptions = [];
 	$.each(cboSysGbData,function(key,value) {
 		cboOptions.push({value: value.cm_micode, text: value.cm_codename});
@@ -1140,6 +1147,14 @@ function getSysCodeInfo() {
 		cboOptions.push({value: value.cm_micode, text: value.cm_codename});
 	});
 	$('[data-ax5select="cboSvrCd"]').ax5select({
+        options: cboOptions
+	});
+	
+	cboOptions = [];
+	$.each(cboPrcData,function(key,value) {
+		cboOptions.push({value: value.cm_micode, text: value.cm_codename});
+	});
+	$('[data-ax5select="cboPrc"]').ax5select({
         options: cboOptions
 	});
 	

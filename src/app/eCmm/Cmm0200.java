@@ -62,7 +62,8 @@ public class Cmm0200{
 			strQuery.append("       a.cm_scmopen,a.cm_sysinfo,a.cm_basesys,        		\n");
 			strQuery.append("       a.cm_stopst,a.cm_stoped,c.cm_sysmsg basesys,   		\n");
 			strQuery.append("       a.cm_closedt,a.cm_prccnt,b.cm_codename,a.cm_systime,\n");
-			strQuery.append("       c.cm_dirbase, d.cm_codename servername,a.cm_prjname \n");
+			strQuery.append("       c.cm_dirbase, d.cm_codename process,a.cm_prjname, 	\n");
+			strQuery.append("       c.cm_systype 										\n");
 			strQuery.append("  from cmm0030 a,cmm0020 b,cmm0030 c,cmm0020 d        		\n");
 			strQuery.append(" where b.cm_macode='SYSGB' and b.cm_micode=a.cm_sysgb 		\n");
 			if (!clsSw) strQuery.append("and a.cm_closedt is null     	           		\n");
@@ -70,7 +71,7 @@ public class Cmm0200{
 				strQuery.append("and ( a.cm_syscd like ? or upper(a.cm_sysmsg) like upper(?) )   \n");
 			}
 			strQuery.append("   and nvl(a.cm_basesys,a.cm_syscd)=c.cm_syscd        \n");
-			strQuery.append("   and d.cm_macode = 'SERVERCD' and c.cm_dirbase = d.cm_micode \n");
+			strQuery.append("   and d.cm_macode = 'SYSTYPE' and c.cm_systype = d.cm_micode \n");
 			strQuery.append("order by a.cm_syscd                                   \n");
 			//pstmt = new LoggableStatement(conn,strQuery.toString());
             pstmt = conn.prepareStatement(strQuery.toString());
@@ -88,7 +89,8 @@ public class Cmm0200{
 				rst.put("cm_sysmsg", rs.getString("cm_sysmsg"));
 				rst.put("cm_sysgb", rs.getString("cm_sysgb"));
 				rst.put("cm_dirbase", rs.getString("cm_dirbase"));
-				rst.put("servername", rs.getString("servername"));
+				rst.put("process", rs.getString("process"));
+				rst.put("cm_systype", rs.getString("cm_systype"));
 				rst.put("sysgb", rs.getString("cm_codename"));
 				rst.put("cm_sysinfo", rs.getString("cm_sysinfo"));
 				rst.put("cm_scmopen", rs.getString("cm_scmopen"));
@@ -364,9 +366,9 @@ public class Cmm0200{
 				strQuery.append("  (CM_SYSCD,CM_SYSMSG,CM_SYSGB,CM_CREATDT,CM_LASTUPDT,   \n");
 				strQuery.append("   CM_ONLINE,CM_SYSFC1,CM_SYSFC2,CM_DIRBASE,CM_SYSINFO,  \n");
 				strQuery.append("   CM_PRCCNT,CM_STOPST,CM_STOPED,CM_SYSTIME,             \n");
-				strQuery.append("   CM_SYSOPEN,CM_SCMOPEN,CM_BASESYS,CM_PRJNAME) values   \n");
-				strQuery.append("(?, ?, ?, SYSDATE, SYSDATE, 'N', 'CD', 'DC', ?,          \n");
-				strQuery.append("   ?, ?, ?, ?, ?, ?, ?, ?, ?)                            \n");
+				strQuery.append("   CM_SYSOPEN,CM_SCMOPEN,CM_BASESYS,CM_PRJNAME,CM_SYSTYPE) values  \n");
+				strQuery.append("(?, ?, ?, SYSDATE, SYSDATE, 'N', 'CD', 'DC', ?,          			\n");
+				strQuery.append("   ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)                            		\n");
 				pstmt = conn.prepareStatement(strQuery.toString());
 				pstmt.setString(++parmCnt, strSysCd);
 				pstmt.setString(++parmCnt, etcData.get("cm_sysmsg"));
@@ -389,6 +391,7 @@ public class Cmm0200{
 				}
 				
 				pstmt.setString(++parmCnt, etcData.get("prjname"));
+				pstmt.setString(++parmCnt, etcData.get("cm_systype"));
 				
 			} else {
 				strQuery.setLength(0);
@@ -407,7 +410,7 @@ public class Cmm0200{
 					strQuery.append("   CM_SYSGB=?,CM_LASTUPDT=SYSDATE,CM_SYSINFO=?,          \n");
 					strQuery.append("   CM_PRCCNT=?,CM_STOPST=?,CM_STOPED=?,CM_SYSTIME=?,     \n");
 					strQuery.append("   CM_SYSOPEN=?,CM_SCMOPEN=?,CM_BASESYS=?,CM_PRJNAME=?   \n");
-					strQuery.append("   ,CM_DIRBASE=? \n");
+					strQuery.append("   ,CM_DIRBASE=? , CM_SYSTYPE = ?						  \n");
 					strQuery.append("where cm_syscd=?                                         \n");
 					pstmt = conn.prepareStatement(strQuery.toString());
 					//pstmt = new LoggableStatement(conn,strQuery.toString());
@@ -426,6 +429,7 @@ public class Cmm0200{
 					pstmt.setString(++parmCnt, etcData.get("basesys"));
 					pstmt.setString(++parmCnt, etcData.get("prjname"));
 					pstmt.setString(++parmCnt, etcData.get("cm_dirbase"));
+					pstmt.setString(++parmCnt, etcData.get("cm_systype"));
 					pstmt.setString(++parmCnt, strSysCd);
 				}else {
 					pstmt.close();
@@ -435,7 +439,7 @@ public class Cmm0200{
 						strQuery.append("   CM_SYSGB=?,CM_LASTUPDT=SYSDATE,CM_SYSINFO=?,          \n");
 						strQuery.append("   CM_PRCCNT=?,CM_STOPST=?,CM_STOPED=?,CM_SYSTIME=?,     \n");
 						strQuery.append("   CM_SYSOPEN=?,CM_SCMOPEN=?,CM_BASESYS=?,CM_PRJNAME=?   \n");
-						strQuery.append("   ,CM_DIRBASE=? \n");
+						strQuery.append("   ,CM_DIRBASE=? , CM_SYSTYPE = ?						  \n");
 						strQuery.append("where cm_syscd=?                                         \n");
 						pstmt = conn.prepareStatement(strQuery.toString());
 						//pstmt = new LoggableStatement(conn,strQuery.toString());
@@ -454,6 +458,7 @@ public class Cmm0200{
 						pstmt.setString(++parmCnt, etcData.get("basesys"));
 						pstmt.setString(++parmCnt, etcData.get("prjname"));
 						pstmt.setString(++parmCnt, etcData.get("cm_dirbase"));
+						pstmt.setString(++parmCnt, etcData.get("cm_systype"));
 						pstmt.setString(++parmCnt, strSysCd);						
 					} else {
 						return "failed";

@@ -7,15 +7,27 @@
  *  수정일 : 2019-07-02
  */
 
-/*var userName 	= window.parent.userName;		// 접속자 Name
+var userName 	= window.parent.userName;		// 접속자 Name
 var userId 		= window.parent.userId;			// 접속자 ID
 var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
-*/
 
-var userName 	= '관리자';
-var userId 		= 'MASTER';
+// 브라우저 검사
+var agent = navigator.userAgent.toLowerCase();
+
+if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {	//익스일떄
+	$("#txtPw").prop("type", "password");
+	$("#txtUpdatePw1").prop("type", "password");
+	$("#txtUpdatePw2").prop("type", "password");
+} else {
+	$("#txtPw").prop("type", "text");
+	$("#txtUpdatePw1").prop("type", "text");
+	$("#txtUpdatePw2").prop("type", "text");
+}
+
+//var userName 	= '관리자';
+//var userId 		= 'MASTER';
 var adminYN 	= 'Y';
 
 var phoneNumber	= '';

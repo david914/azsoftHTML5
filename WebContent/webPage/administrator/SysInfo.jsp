@@ -75,7 +75,7 @@
 						
 						<li class="sm-row half_wrap_cb">
 							<div class="width-100 l_wrap vat">
-								<label class="tit_80 dib poa">기존서버구분</label>
+								<label class="tit_80 dib poa">기준서버</label>
 								<div class="ml_80">
 									<div id="cboSvrCd" data-ax5select="cboSvrCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 								</div>
@@ -114,7 +114,8 @@
 						<li class="sm-row">
 							<label class="tit_80 dib poa">프로세스유형</label>
 							<div class="ml_80">
-								<input id="txtPrc" type="text" class="width-100" />
+								<!-- <input id="txtPrc" type="text" class="width-100" /> -->
+								<div id="cboPrc" data-ax5select="cboPrc" data-ax5select-config="{size:'sm',theme:'primary'}"  style="width:100%;" ></div>
 							</div>
 						</li>
 						
