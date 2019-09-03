@@ -602,6 +602,7 @@ function getUserInfo(id, name) {
 	$('#optOutCheck').wCheck('check', false);
 	$('#optActCheck').wCheck('check', false);
 	$('#optDiCheck').wCheck('check', false);
+	$('[data-ax5select="cboSysCd"]').ax5select("setValue", 	'00000', 	true);
 	
 	var addId = null;
 	ulDutyInfoData.forEach(function(item, index) {

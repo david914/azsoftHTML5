@@ -307,7 +307,7 @@ function checkValItem(kinds) {
 	var seqs		= '';
 	var rsrcCds		= '';
 	if(svrItemIn.length < 1) {
-		dialog('서버를 선택하여 주시기 바랍니다.', function(){});
+		dialog.alert('서버를 선택하여 주시기 바랍니다.', function(){});
 		return;
 	}
 	
@@ -316,12 +316,12 @@ function checkValItem(kinds) {
 	});
 	
 	if(!prgSw) {
-		dialog('프로그램종류를 선택하여 주시기 바랍니다.', function(){});
+		dialog.alert('프로그램종류를 선택하여 주시기 바랍니다.', function(){});
 		return;
 	}
 	
 	if(cm_volpath.length < 1 && kinds === 'insert') {
-		dialog('홈디렉토리를 입력하여 주시기 바랍니다.', function(){});
+		dialog.alert('홈디렉토리를 입력하여 주시기 바랍니다.', function(){});
 		return;
 	}
 	
@@ -333,14 +333,13 @@ function checkValItem(kinds) {
 	
 	ulItemInfoData.forEach(function(ulItem, index) {
 		if($('#chkPrg'+ulItem.cm_micode).is(':checked')) {
-			if(rsrcCds.length > 0 ) rsrcCds += ',';
+			if(rsrcCds.length > 0 ) rsrcCds = rsrcCds+','+ulItem.cm_micode;
 			else rsrcCds += ulItem.cm_micode;
 		}
 	});
 	
 	var tmpObj = new Object();
 	tmpObj.cm_syscd = sysCd;
-	
 	tmpObj.cm_svrcd 	= getSelectedVal('cboSvrItem').value;
 	tmpObj.cm_seqno 	= seqs;
 	tmpObj.cm_rsrccd 	= rsrcCds;
