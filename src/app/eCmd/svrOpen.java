@@ -2186,6 +2186,7 @@ public class svrOpen{
 			            ThreadPool pool = new ThreadPool(10);
 			            String[] strExe1 = etcData.get("exeName1").split(",");
 			            String[] strExe2 = etcData.get("exeName2").split(",");
+			            String[] strPrgName = etcData.get("PrgName").split(",");
 			            int z = 0;
 			            int k = 0;
 			            if (etcData.get("svrInfo").substring(4,5).equals("1")) {
@@ -2332,22 +2333,24 @@ public class svrOpen{
                 					//PrgName: 추출프로그램명
                 					if( findSw ) {
                 						findSw = false;
-//                						ecamsLogger.error("+++++++PrgName++++++++"+etcData.get("PrgName") );
-//                						ecamsLogger.error("+++++++wkB++++++++"+wkB); 
-                						if(etcData.get("PrgName") == null || "".equals(etcData.get("PrgName"))) {
-                							ecamsLogger.error("2");
-                							findSw = true;
-                							//break;
-                						}else {
-                							if(wkB.trim().equals(etcData.get("PrgName").trim())) {
-                								ecamsLogger.error("1");
-                								findSw = true;
-                								//break;
-                							}
+                						ecamsLogger.error("+++++++PrgName++++++++"+etcData.get("PrgName") );
+                						ecamsLogger.error("+++++++wkB++++++++"+wkB);
+                						for(z=0; z<strPrgName.length; z++) {
+                							findSw = false;
+                							if(strPrgName[z].trim() == null || "".equals(strPrgName[z].trim())) {
+	                							findSw = true;
+	                							break;
+	                						}else {
+                								if(wkB.trim().equals(strPrgName[z].trim())) {
+                    								findSw = true;
+                    								break;
+                    							}
+	                						}
                 						}
                 					}
                 					
-//                					ecamsLogger.error("+++++++findSw++++++++"+findSw);
+                					ecamsLogger.error("+++++++findSw++++++++"+findSw + ", filename: " + wkB);
+                					rsval = new ArrayList<HashMap<String, String>>();
                 					if ( findSw ) {
 	                					rst = new HashMap<String, String>();
 	                					rst.put("syscd", etcData.get("SysCd"));
@@ -2401,11 +2404,13 @@ public class svrOpen{
 	                						}
 	                						if ( rsval.size()>1000 ) {
 	                							overSw = true;
-	                							rst = null;
+	                							//rst = null;
+	                							rst = new HashMap<String, String>();
 	                							break;
 	                						}
 	                					}
-                						rst = null;
+                						//rst = null;
+	                					rst = new HashMap<String, String>();
                 					}
 			                	}
 			                }
@@ -2427,11 +2432,15 @@ public class svrOpen{
             String wkB1 = "";
             String wkB2 = "";
             
-            ecamsLogger.error("+++++++rsval:"+rsval.size());
+            ecamsLogger.error("+++++++rsval-1:"+rsval.size());
+            ecamsLogger.error("+++++++rsval-2:"+rsval.toString());
+//          ecamsLogger.error("+++++++rsval-3:"+rsval.get(0));
+            
+            while (rsval.remove(null));
             
             for (i=0;rsval.size()>i;i++) {
             	if (i >= rsval.size()) break;
-            	if ( null != rsval.get(i).get("filename")  && "" != rsval.get(i).get("filename") ) {
+            	if ( null != rsval.get(i).get("filename")  && !"".equals(rsval.get(i).get("filename")) ) {
 	            	wkExe1 = "";
 	            	wkB1 = rsval.get(i).get("filename");
 					if (wkB1.indexOf(".")>0) {

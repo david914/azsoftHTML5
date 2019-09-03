@@ -80,7 +80,7 @@
 						<div class="margin-5-right">
 	                    	<label class="tit_100 poa">추출대상확장자</label>
 	                        <div class="ml_100">
-								<input id="txtExe" class="width-100" type="text"></input>
+								<input id="txtExe" class="width-100" type="text" placeholder="추출대상확장자 입력 후 조회 ex).java,.jsp,.html"></input>
 							</div>
 						</div>
 					</div>
@@ -89,7 +89,7 @@
 						<div class="margin-5-left">
 	                    	<label class="tit_100 poa">추출제외확장자</label>
 	                        <div class="ml_100">
-								<input id="txtNoExe" class="width-100" type="text"></input>
+								<input id="txtNoExe" class="width-100" type="text" placeholder="추출제외확장자 입력 후 조회 ex).xml,.propertie"></input>
 							</div>
 						</div>
 					</div>
@@ -100,7 +100,7 @@
 						<div>
 	                    	<label class="tit_100 poa">추출프로그램명</label>
 	                        <div class="ml_100">
-								<input id="txtPrgName" class="width-100" type="text"></input>
+								<input id="txtPrgName" class="width-100" type="text" placeholder="추출프로그램명 입력 후 조회 ex)Test.java,eCAMS.java"></input>
 							</div>
 						</div>
 					</div>
