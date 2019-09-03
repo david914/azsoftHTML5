@@ -27,13 +27,13 @@
 				<p class="txt_r" id="lb2">비밀번호는 숫자/영문/특수기호를 포함하는 8-12자리 이어야 합니다.<br>(분기별 패스워드 변경)</p>
 				
 				<div class="sm-row">
-			    	<input id="txtPw" type="password" placeholder="현재 비밀번호" style="width:100%;height:35px;font-size:15;margin-top:10px;">
+			    	<input id="txtPw" type="text" placeholder="현재 비밀번호" style="width:100%;height:35px;font-size:15;margin-top:10px;text-security: disc; -webkit-text-security: disc;" autocomplete="off">
 			    </div>
 			    <div class="sm-row">
-			    	<input id="txtUpdatePw1" type="password" placeholder="새 비밀번호" style="width:100%;height:35px;font-size:15;margin-top:10px;">
+			    	<input id="txtUpdatePw1" type="text" placeholder="새 비밀번호" style="width:100%;height:35px;font-size:15;margin-top:10px;text-security: disc; -webkit-text-security: disc;" autocomplete="off">
 			   	</div>
 			    <div class="sm-row">
-			    	<input id="txtUpdatePw2" type="password" placeholder="새 비밀번호 확인" style="width:100%;height:35px;font-size:15;">
+			    	<input id="txtUpdatePw2" type="text" placeholder="새 비밀번호 확인" style="width:100%;height:35px;font-size:15;text-security: disc; -webkit-text-security: disc;" autocomplete="off">
 			   	</div>
 			   	
 				<div class="sm-row" style="text-align:center;margin-top:15px;">
