@@ -148,7 +148,7 @@
 				<dt><label style="margin-left:-10px">결재/반려의견</label></dt>
 				<dd>
 					<form>
-						<textarea id="txtConMsg" name="txtConMsg" style="align-content:left;width:100%;height:50px;resize: none;"></textarea>
+						<textarea id="txtConMsg" name="txtConMsg" style="align-content:flex-start;width:100%;height:50px;resize: none;"></textarea>
 					</form>
 				</dd>
 			</dl>
