@@ -37,7 +37,7 @@
 						<label id="lbPw" >변경전비밀번호</label>
 					</div>
 					<div>
-						<input id="txtPw" name="txtPw" type="password"  style="width:100%;"></input>
+						<input id="txtPw" name="txtPw" type="text"  style="width:100%; text-security: disc; -webkit-text-security: disc;" autocomplete="off"></input>
 					</div>
 				</div>
 				<div class="sm-row">
@@ -45,7 +45,7 @@
 						<label id="lbUpdatePw1">변경후비밀번호</label>
 					</div>
 					<div>
-						<input id="txtUpdatePw1" name="txtUpdatePw1" type="password" style="width:100%;"></input>
+						<input id="txtUpdatePw1" name="txtUpdatePw1" type="text" style="width:100%; text-security: disc; -webkit-text-security: disc;" autocomplete="off"></input>
 					</div>
 				</div>
 				<div class="sm-row">
@@ -53,7 +53,7 @@
 						<label id="lbUpdatePw2">확인비밀번호</label>
 					</div>
 					<div>
-						<input id="txtUpdatePw2" name="txtUpdatePw2" type="password" style="width:100%;"></input>
+						<input id="txtUpdatePw2" name="txtUpdatePw2" type="text" style="width:100%; text-security: disc; -webkit-text-security: disc;" autocomplete="off"></input>
 					</div>
 				</div>
 				<div class="sm-row margin-15-top">
