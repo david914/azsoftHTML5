@@ -10,7 +10,7 @@
 <body style="width: 100% !important; min-width: 0px !important">
 	<div class="pop-header">
 		<div>
-			<label>[비밀번호 변경]</label>
+			<label>비밀번호 변경</label>
 		</div>
 		<div>
 			<button type="button" class="close" aria-label="닫기" onclick="popClose()">

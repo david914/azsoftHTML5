@@ -61,6 +61,8 @@ absGrid.setConfig({
 $('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
 $(document).ready(function() {
+	$("#btnClose").css("display","none");
+	
 	getCodeInfo();
 	getUserInfo();
 	
@@ -137,6 +139,10 @@ $(document).ready(function() {
 		}else {
 			$('#btnReg').text('해제');
 		}
+	});
+	//닫기
+	$('#btnClose').bind('click',function() {
+		window.parent.popClose();
 	});
 	
 	$('#datStD').val(getDate('DATE',0));

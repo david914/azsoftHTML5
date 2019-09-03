@@ -3,8 +3,9 @@ var userName 	= window.parent.userName;		// 접속자 Name
 var userId 		= window.parent.userId;			// 접속자 ID
 var adminYN 	= window.parent.adminYN;		// 관리자여부
 
-var jobGrid		= new ax5.ui.grid();
-var chgPwdModal = new ax5.ui.modal();	//비밀번호 변경 모달
+var jobGrid			= new ax5.ui.grid();
+var chgPwdModal 	= new ax5.ui.modal();		//비밀번호 변경 모달
+var setDaeGyulModal = new ax5.ui.modal();		//부재설정 모달
 
 var jobGridData		= null;
 var myWin 			= null;
@@ -51,6 +52,7 @@ $(document).ready(function() {
 		$('.contentFrame').contents().find('#basicInfo').html('');
 	}
 	
+	//비밀번호 변경하기
 	$('#txtPassWd').bind('click',function(){
 		txtUserIdP = $('#txtUserId').val().trim();
 		chgPwdModal.open({
@@ -73,12 +75,38 @@ $(document).ready(function() {
 	    }, function () {
 	    });
 	});
+	//부재설정하기
+	$('#btnDaeGyul').bind('click', function(){
+		txtUserIdP = $('#txtUserId').val().trim();
+		setDaeGyulModal.open({
+	        width: 600,
+	        height: 650,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/userinfo/SetDaeGyulModal.jsp",
+	            param: "callBack=setDaeGyulModalCallBack"
+	        },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	                txtUserIdP = '';
+	            }
+	        }
+	    }, function () {
+	    });
+	});
 	
 	//사용자조회
 	getUserInfo();
 });
 var changePassWdModalCallBack = function(){
 	chgPwdModal.close();
+};
+var setDaeGyulModalCallBack = function(){
+	setDaeGyulModal.close();
 };
 
 
