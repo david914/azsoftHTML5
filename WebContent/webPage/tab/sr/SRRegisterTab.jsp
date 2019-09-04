@@ -7,15 +7,19 @@
 {
 	min-width : 0px !important;
 }
+
+.wCheck-label{
+	margin-right : 0px !important;
+}
 </style>
 
-<div class="half_wrap">
+<div class="half_wrap" style="height:100%;">
 	<!--하단 좌측-->
 	<div class="l_wrap width-48 vat write_wrap"><!--ver2-->
 		<div class="row">
 			<dl>
 				<dt><label>SR번호</label></dt>
-				<dd><input id="txtSRID" name="txtSRID" type="text" class="width-80" disabled="disabled"><label class="poa_r"><input type="checkbox" class='checkbox-pie' data-label="신규등록" id="chkNew"></label></dd>
+				<dd><div style="width:calc(100% - 69px);"><input id="txtSRID" name="txtSRID" type="text" style="width: 100%%;" disabled="disabled"></div><div class="poa_r"><input type="checkbox" class='checkbox-pie' data-label="신규등록" id="chkNew"></div></dd>
 			</dl>
 		</div>	
 		<div class="row">
@@ -131,14 +135,12 @@
 				<dd>
 					<div class="vat">
 						<input id="txtUser" name="txtUser" type="text" style="width:15%;" class="vat" autocomplete="off">
-						<div id="cboDevUser" data-ax5select="cboDevUser" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib width-60"></div>
-						<div  class="poa_r vat">
+						<div id="cboDevUser" data-ax5select="cboDevUser" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib width-31"></div>
 							<button id="btnAddDevUser" name="btnAddDevUser" class="btn_basic_s">추가</button>
 							<button id="btnDelDevUser" name="btnDelDevUser" class="btn_basic_s">삭제</button>
-						</div>								
 					</div>
-					<div class="az_board_basic scroll_h az_board_basic_in">
-				    	<div data-ax5grid="devUserGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 115px;"></div>
+					<div class="az_board_basic scroll_h az_board_basic_in" style="height:48%;">
+				    	<div data-ax5grid="devUserGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 				    </div>
 				</dd>
 			</dl>

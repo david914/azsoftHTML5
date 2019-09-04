@@ -74,10 +74,10 @@
 	<button id="btnReg" class="btn_basic_s margin-5-left" disabled>등록/수정</button>
 </div>
 <!--게시판 S-->
+<div class="tit" style="margin-bottom: -5px;">
+	<h3>▪ 개발자 및 테스트 담당자 별 실 투입시간</h3>
+</div>
 <div class="row az_board_basic" style="height: 40%">
-	<div class="tit">
-		<h3>▪ 개발자 및 테스트 담당자 별 실 투입시간</h3>
-	</div>
    	<div data-ax5grid="devListGrid"
 		data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}"
 		style="height: 100%;"></div>
