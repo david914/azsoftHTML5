@@ -2350,7 +2350,7 @@ public class svrOpen{
                 					}
                 					
                 					ecamsLogger.error("+++++++findSw++++++++"+findSw + ", filename: " + wkB);
-                					rsval = new ArrayList<HashMap<String, String>>();
+                					//rsval = new ArrayList<HashMap<String, String>>();
                 					if ( findSw ) {
 	                					rst = new HashMap<String, String>();
 	                					rst.put("syscd", etcData.get("SysCd"));
