@@ -25,14 +25,14 @@
 				<div>
 					<label id="lbSub" class="tit_60 poa">제목</label>
 					<div class="ml_60">
-						<input id="txtTitle" name="txtTitle" type="text" class="width-100"></input>
+						<input id="txtTitle" name="txtTitle" type="text" class="width-100" readonly></input>
 					</div>
 				</div>
 			</div>
 			<!--CM_TITLE -->
 			<div class="row">
 				<div class="write_wrap">
-					<textarea id="textareaContents" name="textareaContents" class=" width-100 margin-15-top" style="height: 255px;"></textarea>
+					<textarea id="textareaContents" name="textareaContents" class=" width-100 margin-15-top" style="height: 255px;" readonly></textarea>
 				</div>
 			</div>
 			
