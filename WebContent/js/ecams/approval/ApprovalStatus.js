@@ -92,7 +92,7 @@ approGrid.setConfig({
     },
     columns: [
         {key: "cm_sysmsg", 	label: "시스템",  	width: '6%', align: "left"},
-        {key: "spms",	 	label: "SR-ID",  	width: '15%', align: "left"},
+        {key: "spms",	 	label: "SR-ID",  	width: '16%', align: "left"},
         {key: "acptno", 	label: "신청번호",  	width: '9%'},
         {key: "editor", 	label: "신청자",  	width: '6%'},
         {key: "qrycd",  	label: "신청종류",  	width: '7%', align: "left"},
