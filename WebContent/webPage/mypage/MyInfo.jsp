@@ -119,7 +119,7 @@
 	               	<div class="sm-row">
 						<label class="tit_80 poa">부재사유</label>
 	                	<div class="ml_100">
-							<textarea id="txtBlankSayu" rows="6" readonly></textarea>
+							<textarea id="txtBlankSayu" rows="6" style="overflow-y:auto;" readonly></textarea>
 						</div>
 					</div>
 	               	<div class="sm-row">
