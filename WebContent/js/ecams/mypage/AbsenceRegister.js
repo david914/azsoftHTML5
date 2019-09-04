@@ -14,6 +14,7 @@ var adminYN 	= window.parent.adminYN;		// 관리자여부
 var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
+var popupYN = window.parent.popupYN;	// 팝업 여부에 따라서 닫기 버튼 활성화
 
 var datStD 		= new ax5.ui.picker();
 var datEdD 		= new ax5.ui.picker();
@@ -54,8 +55,12 @@ absGrid.setConfig({
 $('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
 $(document).ready(function() {
-	$("#btnClose").css("display","none");
 	
+	if(popupYN == "Y"){
+		$("#btnClose").show();
+	}
+	//$("#btnClose").css("display","none");
+		
 	getCodeInfo();
 	getUserInfo();
 	

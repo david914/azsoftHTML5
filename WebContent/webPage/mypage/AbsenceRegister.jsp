@@ -65,7 +65,7 @@
 	    
 	<div id="divPw" class="margin-15-top" style="text-align:center">
 		<button id="btnReg" name="btnReg" class="btn_basic_s">등록</button>
-		<button id="btnClose" name="btnClose" class="btn_basic_s">닫기</button>
+		<button id="btnClose" name="btnClose" class="btn_basic_s" style="display:none;">닫기</button>
 	</div>
 
 </div>

@@ -1,7 +1,7 @@
 var userName 	= window.parent.userName;		// 접속자 Name
 var userId 		= window.parent.userId;			// 접속자 ID
 var txtUserId 	= window.parent.txtUserIdP;		// 사용자정보화면 사원번호에 적혀있는 ID
-
+var popupYN = "Y";
 $(document).ready(function() {
 	if (userId == null || userId == '') return;
 	

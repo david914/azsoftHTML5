@@ -92,6 +92,7 @@ $(document).ready(function() {
 	            }
 	            else if (this.state === "close") {
 	                mask.close();
+	                getUserInfo();	// 부재등록, 해제시 사용자정보 다시 조회
 	                txtUserIdP = '';
 	            }
 	        }
@@ -124,7 +125,7 @@ function getUserInfo() {
 //사용자정보가져오기 완료
 function successGetUserInfo(data){
 	var userInfo = data[0];
-	
+
 	if(userInfo.ID === 'ERROR') {
 		dialog.alert('등록되지 않은 사용자입니다.', function() {});
 		return;
@@ -155,9 +156,26 @@ function successGetUserInfo(data){
 	$('.contentFrame').contents().find('#txtTel1').html(userInfo.cm_telno1);
 	$('.contentFrame').contents().find('#txtTel2').html(userInfo.cm_telno2);
 	$('.contentFrame').contents().find('#txtEMail').html(userInfo.cm_email);
-	$('.contentFrame').contents().find('#txtDaeGyul').html(userInfo.Txt_DaeGyul);
-	$('.contentFrame').contents().find('#txtBlankTerm').html(userInfo.Txt_BlankTerm);
-	$('.contentFrame').contents().find('#txtBlankSayu').html(userInfo.Txt_BlankSayu);
+	
+	// 부재등록 내용이 있을 때와 없을때 값 초기화 설정
+	if(typeof userInfo.Txt_DaeGyul !== "undefined"){
+		$('.contentFrame').contents().find('#txtDaeGyul').html(userInfo.Txt_DaeGyul);
+	} else {
+		$('.contentFrame').contents().find('#txtDaeGyul').html("");
+	}
+	
+	if(typeof userInfo.Txt_BlankTerm !== "undefined"){
+		$('.contentFrame').contents().find('#txtBlankTerm').html(userInfo.Txt_BlankTerm);
+	} else {
+		$('.contentFrame').contents().find('#txtBlankTerm').html("");
+	}
+	
+	if(typeof userInfo.Txt_BlankSayu !== "undefined"){
+		$('.contentFrame').contents().find('#txtBlankSayu').html(userInfo.Txt_BlankSayu);
+	} else {
+		$('.contentFrame').contents().find('#txtBlankSayu').html("");
+	}
+	
 	$('.contentFrame').contents().find('#txtPosition').html(userInfo.position);
 	$('.contentFrame').contents().find('#txtDuty').html(userInfo.duty);
 	$('.contentFrame').contents().find('#txtOrg').html(userInfo.deptname1);
