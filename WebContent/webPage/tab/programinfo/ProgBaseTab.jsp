@@ -27,7 +27,7 @@
 				<input id="txtRsrcCd" name="txtRsrcCd" type="text" class="width-80" readonly>
 			</div>
 			<div class="ml_80" id="divPrgCbo">
-				<div id="cboRsrcCd" data-ax5select="cboRsrcCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="" class="width-80 dib"></div>
+				<div id="cboRsrcCd" data-ax5select="cboRsrcCd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:calc(80% - 12px)" class="dib"></div>
 			</div>
 		</div>	
 	    <!-- 업무  -->
@@ -37,7 +37,7 @@
 				<input id="txtJob" name="txtRsrcCd" type="text" class="dib" style="width:100%" readonly>
 			</div>
             <div class="ml_80" id="divJobCbo">
-				<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:100%"></div>
+				<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 12px)"></div>
 			</div>
 		</div>				
 	</div>
@@ -63,7 +63,7 @@
 				<input id="txtSR" name="txtSR" type="text" class="dib" style="width:100%" readonly >
 			</div>
             <div class="ml_80" id="divSRCbo">
-			    <div id="cboSR" data-ax5select="cboSR" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:100%"></div>
+			    <div id="cboSR" data-ax5select="cboSR" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 12px)"></div>
 			</div>
 		</div>		
 	</div>
@@ -80,7 +80,7 @@
 			<input id="txtDir" name="txtDir" type="text" class="width-100" readonly>
 		</div>
         <div class="ml_80" id="divDirCbo">
-		    <div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
+		    <div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 12px)" ></div>
 		</div>
 		<!-- <button class="btn_basic_s margin-5-left margin-10-right poa_r" data-grid-control="excel-export">경로복사</button>-->
 	</div>
@@ -96,8 +96,8 @@
         <div class="width-32 dib vat">
             <label id="lbEditor" class="tit_80 poa">최종변경인</label>
             <div class="ml_80">
-	        	<input id="txtEditor" name="txtEditor" type="text" class="dib" style="width:80px;" readonly>
-	        	<div id="cboEditor" data-ax5select="cboEditor" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 100px);" readonly></div>
+	        	<input id="txtEditor" name="txtEditor" type="text" class="dib" style="width:100px;" readonly>
+	        	<div id="cboEditor" data-ax5select="cboEditor" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 120px);" readonly></div>
         	</div>
 	    </div>
         <div class="dib vat width-24">
