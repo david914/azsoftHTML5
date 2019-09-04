@@ -485,6 +485,7 @@ function elementInit(initDivision) {
 		 * this.parentDocument.tab0.grdPrj.selectedIndex = -1; }
 		 */
 		ins_sw = true;
+		$('[data-ax5select="cboDevUser"]').ax5select("enable");
 		$('#txtReqSecu').attr('disabled', false);
 		$('#datReqComDate').val('');
 		$('#chkNew').wCheck('check', true);
@@ -518,6 +519,8 @@ function elementInit(initDivision) {
 		} else {
 			// 등록완료(0)
 			if (strStatus === '0') {
+				$('[data-ax5select="cboDevUser"]').ax5select("enable");
+				$('#txtUser').attr('disabled', false);
 				$('#btnRegister').attr('disabled', false);
 				$('#btnUpdate').attr('disabled', false);
 				$('#btnDelete').attr('disabled', false);
@@ -539,7 +542,7 @@ function elementInit(initDivision) {
 				$('#btnRegister').attr('disabled', true);
 				$('#btnUpdate').attr('disabled', true);
 				$('#btnDelete').attr('disabled', true);
-
+				
 				// 등록승인중(1), 반려(3), 모니터링중(5), 완료승인중(A) 이면
 				if (strStatus === '1' || strStatus === '3' || strStatus === '5' || strStatus === 'A') {
 					$('#btnFileAdd').attr('disabled', true);
@@ -599,6 +602,7 @@ function elementInit(initDivision) {
 			$('[data-ax5select="cboWorkRank"]').ax5select("disable");
 			$('[data-ax5select="cboDevUser"]').ax5select("disable");
 			$('[data-ax5select="cboReqSecu"]').ax5select("disable");
+			$('#txtUser').attr('disabled', true);
 		}
 		
 		$('#datReqComDate').attr('disabled', true);
@@ -614,8 +618,9 @@ function elementInit(initDivision) {
 			$('[data-ax5select="cboChgType"]').ax5select("enable");
 			$('[data-ax5select="cboWorkRank"]').ax5select("enable");
 			$('[data-ax5select="cboReqSecu"]').ax5select("enable");
+			$('#txtUser').attr('disabled', false);
 		}
-		
+		$('[data-ax5select="cboDevUser"]').ax5select("enable");
 		$('#datReqComDate').attr('disabled', false);
 		$('.btn_calendar').css('background-color','#fff');
 		$('#txtReqSubject').attr('disabled', false);

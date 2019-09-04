@@ -408,7 +408,7 @@ function openWindow(srid) {
         }
 	}
 
-    nWidth  = 1046;
+    nWidth  = 1105;
 	nHeight = 735;
 	cURL = "/webPage/winpop/PopSRInfo.jsp";
 	
