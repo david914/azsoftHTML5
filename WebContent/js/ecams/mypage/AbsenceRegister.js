@@ -298,13 +298,22 @@ function insertAbs() {
 			return;
 		}
 		
+		console.log(txtSayu.length);
+		
+		if(txtSayu.length > 100){
+			dialog.alert('부재사유를 100자 이하로 입력하여 주십시오.', function() {});
+			return;
+		}
+		
 		if(datStD > datEdD) {
 			dialog.alert('부재기간을 정확하게 선택하십시오.', function() {});
 			return;
 		}
 		
 		if( txtName.length === 0 ) {
-			dataObj.DaeSign = '';
+			//dataObj.DaeSign = '';
+			dialog.alert('대결재자를 선택하십시오.', function() {});
+			return;
 		}else{
 			dataObj.DaeSign = getSelectedVal('cboDaeSign').cm_userid;
 		}
