@@ -116,7 +116,7 @@
 	</div>
     <!-- 검색 E-->
     <!-- 게시판 S-->
-    <div class="az_board_basic" style="height: 25%">
+    <div class="az_board_basic" style="height: 30%">
     	<div data-ax5grid="scriptGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>	
 
