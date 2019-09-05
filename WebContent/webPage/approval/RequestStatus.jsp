@@ -2,9 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
-<style>
-[data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel] table tr td.hasBorder { border-bottom: 1px solid #ccc;}
-</style>
 <div class="contentFrame">
     <!-- history S-->
     <div id="history_wrap">결재확인 <strong>&gt; 신청현황</strong></div>

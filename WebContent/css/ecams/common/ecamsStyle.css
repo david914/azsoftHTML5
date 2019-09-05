@@ -1551,7 +1551,7 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 	background : #e3f1ff;
 }
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel] table tr td.hasBorder{
-	border-bottom: 0;
+	border-bottom: 1px solid #ccc;
 }
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel][data-ax5grid-panel="aside-body"] table tr{
 	background: #fff;
