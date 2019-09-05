@@ -196,7 +196,14 @@ function fileUpload(){
 	
 	// 파일 업로드 jsp 를 호출해야함
 	var formData = new FormData();
-	tmpPath = 'C:\\eCAMS\\webTmp\\'; // 테스트 임시경로
+	//tmpPath = 'C:\\eCAMS\\webTmp\\'; // 테스트 임시경로
+
+	var tmpData = {
+		pCode: 	'21',
+		requestType: 	'getTmpDir'
+	}
+	tmpPath = ajaxCallWithJson('/webPage/dev/CheckOutServlet', tmpData, 'json');
+	
 	for(var i=0; i<firstGridData.length; i++){
 		var index = i + 1;
 		formData.append('fullName',tmpPath);

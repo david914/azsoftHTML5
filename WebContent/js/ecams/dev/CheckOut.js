@@ -6,25 +6,13 @@
  * 	버전 : 1.0
  *  수정일 : 2019-01-29
  */
-/*
- 테스트 사용으로 인하여 값 강제적으로 넣어줌
+
 var userName 	      = window.top.userName;
 var userId 			  = window.top.userId;
 var adminYN		  = window.top.adminYN;
 var userDeptName = window.top.userDeptName;
 var userDeptCd 	  = window.top.userDeptCd;
 var reqCd 			  = window.top.reqCd;
-
-var userName 	      = "관리자";
-var userId 			  = "MASTER";
-var adminYN		  = "Y";
-var userDeptName = "AzSoft";
-var userDeptCd 	  = "000000100";
-var reqCd 			  = "01";
-*/
-
-var userId = window.top.userId;
-var reqCd = window.top.reqCd;
 
 //grid 생성
 var firstGrid		  = new ax5.ui.grid();
@@ -1479,7 +1467,7 @@ function startUpload(strURL) {
 	
 	// 파일 업로드 jsp 를 호출해야함
 	var formData = new FormData();
-	tmpPath = 'C:\\eCAMS\\webTmp\\'; // 테스트 임시경로
+	//tmpPath = 'C:\\eCAMS\\webTmp\\'; // 테스트 임시경로
 	formData.append('fullName',tmpPath);
 	formData.append('fullpath',tmpPath+userId+"_excel.tmp");
 	formData.append('file',excelFileSub);

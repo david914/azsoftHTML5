@@ -1015,7 +1015,8 @@ function fileupload(){
 	var ajaxResultData = "";
 	var fileseq = 0;
 	var formData = new FormData();
-	tmpPath = 'C:\\eCAMS\\webTmp\\'; //uploadUrl; //테스트 임시경로
+	//tmpPath = 'C:\\eCAMS\\webTmp\\'; //uploadUrl; //테스트 임시경로
+	tmpPath = uploadUrl;
 	for(var key in fileData){
 		formData.append('fullName',tmpPath);
 		formData.append('fullpath',tmpPath+"/SR/"+ strIsrId.substr(1,6) + "/");

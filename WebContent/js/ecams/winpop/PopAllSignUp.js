@@ -195,7 +195,7 @@ function startUpload() {
 	var formData = new FormData();
 	
 	// 테스트 임시경로
-	tmpPath = 'C:\\fileupload\\tmp\\';
+	//tmpPath = 'C:\\fileupload\\tmp\\';
 	formData.append('fullName', tmpPath + userId + "_signUpExcel.tmp");
 	formData.append('fullpath', tmpPath);
 	formData.append('file',excelFileSub);
