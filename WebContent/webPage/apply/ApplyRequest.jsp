@@ -77,7 +77,7 @@ input[type=number]::-webkit-outer-spin-button {
                     	<label>*SR-ID</label>
                     </div>
                     <div class="ml_150 tal">
-						<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:80%;"></div>						
+						<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:calc( 100% - 100px);"></div>						
 					</div>
 					<div class="vat poa_r">
 						<button id="btnSR" class="btn_basic_s margin-5-left" disabled=true style="width:70px;">SR정보</button>
@@ -91,7 +91,7 @@ input[type=number]::-webkit-outer-spin-button {
 						<div class="width-30 dib">
 		                    <div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 						</div>
-	                    <div class="width-25 dib">
+	                    <div class="dib" style="width:calc(35% - 50px);">
 	                    	<div class="tit_100 poa text-right">
 	                        	<label>프로그램 유형</label>
 	                        </div>
@@ -100,7 +100,7 @@ input[type=number]::-webkit-outer-spin-button {
 							</div>
 						</div>
 						
-						<div class="width-25 dib" id="cboReqDiv" style="display:none;">
+						<div class="dib" id="cboReqDiv" style="display:none; width:calc(35% - 50px);">
 	                    	<div class="tit_100 poa text-right">
 	                        	<label>신청구분</label>
 	                        </div>
@@ -116,7 +116,7 @@ input[type=number]::-webkit-outer-spin-button {
                     	<label>*프로그램명/설명</label>
                     </div>
                     <div class="ml_150 tal">
-						<input id="txtRsrcName" name="txtRsrcName" type="text" class="width-80"></input>
+						<input id="txtRsrcName" name="txtRsrcName" type="text" style="width: calc(100% - 100px);"></input>
 					</div>						
 					<div class="vat poa_r" id="searchBox">
 						 <button id="btnFind" class="btn_basic_s" style="width:70px;">검색</button>
@@ -160,13 +160,13 @@ input[type=number]::-webkit-outer-spin-button {
 	    </div>
 	     -->
 	    
-	    <div class="row" id="sayuBox">
+	    <div class="row" id="sayuBox" >
 			<!-- 요청부서 -->
 			<div class="tit_80 poa">
 				<label>*신청사유</label>
 			</div>
-			<div class="ml_80" id="sayuInputBox">
-                  <input id="txtSayu" name="txtSayu" class="width-100" type="text" style="align-content:left;"></input>
+			<div class="ml_80" id="sayuInputBox" style="width:calc(100% - 80px);">
+                  <input id="txtSayu" name="txtSayu" type="text" style="align-content:left; width:calc(100% - 100px);" ></input>
 			</div>
 	    </div>
 		<div class="row floatRow">
@@ -199,15 +199,15 @@ input[type=number]::-webkit-outer-spin-button {
 					</div>
 				</div>
 			</div>
-	   			<div class='ml150 tal float-right' style="display:inline;">
-					<div style="display:inline-block;">
-		   				<input type="checkbox" class="checkbox-pie" id="chkBefJob" data-label="선행작업" style="display:none;"></input>
-		   				<input type="checkbox" class="checkbox-pie" id="chkSvr" data-label="버전UP만적용" style="display:none;"></input>
-					</div>
-					<button id="btnFileUpload" class="btn_basic_s margin-5-left"  style='display:none;'>테스트결과서</button>
-					<button id="btnDiff" class="btn_basic_s margin-5-left" style='display:none;'>파일비교</button>
-					<button id="btnRequest" class="btn_basic_s margin-5-left" disabled=true>체크인신청</button>
+   			<div class='ml150 tal float-right' style="display:inline;">
+				<div style="display:inline-block;">
+	   				<input type="checkbox" class="checkbox-pie" id="chkBefJob" data-label="선행작업" style="display:none;"></input>
+	   				<input type="checkbox" class="checkbox-pie" id="chkSvr" data-label="버전UP만적용" style="display:none;"></input>
 				</div>
+				<button id="btnFileUpload" class="btn_basic_s margin-5-left"  style='display:none;'>테스트결과서</button>
+				<button id="btnDiff" class="btn_basic_s margin-5-left" style='display:none;'>파일비교</button>
+				<button id="btnRequest" class="btn_basic_s margin-5-left" disabled=true>체크인신청</button>
+			</div>
 		</div>
 </div>
 

@@ -401,18 +401,20 @@ function porgRowEdit(){
 	if(reqCd == '07'){
 		$('#panCal').after($('#sayuBox').children());
 		$('#sayuInputBox').addClass('poa');
-		$('#sayuInputBox').css('width', 'calc(100% - 165px)');
-		$('#txtSayu').removeClass().css('width', 'calc((100% + 85px) * 0.84)');
+		//$('#sayuInputBox').css('width', 'calc(100% - 165px)');
+		//$('#txtSayu').removeClass().css('width', 'calc((100% + 85px) * 0.84)');
 		//$('#btnRequest').width('85px');
 		$("#progRow").show();
 		$("#cboReqDiv").show();
 	}
 	else{
 		$('#progRow').removeClass();
+		$('#txtSayu').css('width', '100%');
 		
 		$('#progRow').addClass('dib vat width-25');
 		$('#progRow').children('.tit_150').addClass('text-right');
-		$('#txtRsrcName').removeClass().addClass('width-100');
+		$("#progRow").css('width','calc(35% - 50px)');
+		$('#txtRsrcName').css('width','100%');
 		
 		$('#cboReqDiv').after($('#progRow'));
 		$('#progRow').after('#searchBox');
@@ -455,11 +457,12 @@ function openBefJobSetModal(){
 function dateInit() {
 	$('#txtReqDate').val(getDate('DATE',0));
 	datReqDate.bind(defaultPickerInfo('txtReqDate'));
-	
+	/*
 	$('#txtReqTime').timepicker({
 	    showMeridian : false,
 	    minuteStep: 1
 	 });
+	 */
 }
 
 //처리구분
@@ -672,8 +675,8 @@ function successGetPrjInfoList(data) {
 
 //처리구분선택
 function cboReqGbnClick() {
-	$('#txtReqTime').val('18:30');
-	
+	$("#hourTxt").val('18');
+	$("#minTxt").val('30');
 	if(getSelectedIndex('cboReqGbn') > -1){
 		swEmg = false;
 		if(getSelectedVal('cboReqGbn').value == '02'){// 긴급적용
@@ -1934,8 +1937,8 @@ function baepoConfirm(){
 	strAplyDate = "";
 
 	if ( getSelectedVal('cboReqGbn').value == "4" ) {//4:특정일시배포  0:일반  2:긴급
-		strTime = $('#txtReqTime').val();
-		if ($('#txtReqDate').val() == '' || strTime == "") {
+		strTime = $("#hourTxt").val() + ":"+ $("#minTxt").val();
+		if ($('#hourTxt').val() == '' || $('#minTxt').val() == '' || strTime == "") {
 			dialog.alert("적용일시를 입력하여 주시기 바랍니다.");
 			return;
 		}
