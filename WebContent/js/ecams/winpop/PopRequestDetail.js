@@ -67,7 +67,6 @@ confirmDialog2.setConfig({
     theme: "info",
     width: 500
 });
-
 ax5.info.weekNames = [
     {label: "일"},
     {label: "월"},
@@ -79,6 +78,8 @@ ax5.info.weekNames = [
 ];
 
 $('#txtAcptNo').val(pReqNo.substr(0,4)+'-'+pReqNo.substr(4,2)+'-'+pReqNo.substr(6));
+createViewGrid1();
+createViewGrid2();
 
 function createViewGrid1() {
 	reqGrid.setConfig({
@@ -348,6 +349,8 @@ function createViewGrid2() {
 			{key: "prcdate", label: "처리일시",  width: '10%', align: 'center'} 
 			]
 	});
+	
+	getRstList();
 };
 
 $('[data-ax5select="cboPrcSys"]').ax5select({
@@ -383,8 +386,6 @@ $(document).keyup(function (e) {
 });
 
 $(document).ready(function(){
-	createViewGrid1();
-	createViewGrid2();
 	$('input.checkbox-detail').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 	
 	if (pReqNo == null) {
@@ -396,14 +397,15 @@ $(document).ready(function(){
 		reqGrid.removeColumn(7);
 		reqGrid.removeColumn(6);
 	}
-	
-	$('#tab1Li').width($('#tab1Li').width()+10);
-	$('#tab2Li').width($('#tab2Li').width()+10);
 
 	dateInit();
 	setTabMenu();
 	getCodeInfo();
 	
+	
+	$('#tab1Li').width($('#tab1Li').width()+10);
+	$('#tab2Li').width($('#tab2Li').width()+10);
+
 	/**
 	 * ------------------------------------------------------------------------------------------------------------------------------
 	 *                                                     select box change event
@@ -764,9 +766,6 @@ $(document).ready(function(){
 		close();
 	});
 	
-	//최초 화면로딩 시 조회(새로고침버튼 로직)
-	$('#btnQry').trigger('click');
-
 	/**
 	 * ------------------------------------------------------------------------------------------------------------------------------
 	 * 										       button click -> modal popup event
@@ -823,6 +822,12 @@ $(document).ready(function(){
 	$('#btnApprovalInfo').bind('click', function() {
 		openWindow(8, '', '');
 	});
+
+	
+	setTimeout(function() {
+		//최초 화면로딩 시 조회(새로고침버튼 로직)
+		$('#btnQry').trigger('click');
+	}, 20);
 });
 //환성화 비활성화 초기화로직
 function resetScreen(){
@@ -1148,7 +1153,7 @@ function getUserInfo(){
 		UserId			: pUserId,
 		requestType		: 'getUserInfo'
 	}
-	ajaxAsync('/webPage/approval/RequestStatus', data, 'json',successGetUserInfo, getReqInfo);
+	ajaxAsync('/webPage/approval/RequestStatus', data, 'json',successGetUserInfo);
 }
 
 //어드민 여부 확인 완료
@@ -1156,6 +1161,7 @@ function successGetUserInfo(data) {
 	if (data.cm_admin == '1') {
 		isAdmin = true;
 	}
+	getReqInfo();
 }
 
 function setTabMenu(){
@@ -1178,16 +1184,13 @@ function setTabMenu(){
 		$("#" + activeTab).fadeIn();
 
 		if(this.id === 'tab2Li') {
-			console.log('aaaaaaa');
 			setTimeout(function() {
 				if (!gridSw2) {
-					console.log('bbbbbbbb');
 					createViewGrid2();
 					gridSw2 = true;
 				}
 			}, 10);
 		}
-		
 	});
 }
 //처리구분코드정보 가져오기
@@ -1228,16 +1231,7 @@ function successGetProgList(data) {
 	
 	//항목상세보기 옵션
 	gridData_Filter();
-	
-	//처리결과가져오기
-	data =  new Object();
-	data = {
-		UserId			: pUserId,
-		AcptNo			: pReqNo,
-		prcSys			: '',
-		requestType		: 'getRstList'
-	}
-	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successGetRstList);
+	getRstList();
 	
 	for (var i=0; reqGridData.length>i ; i++) {
 		tmpObj = {};
@@ -1249,6 +1243,18 @@ function successGetProgList(data) {
 			}
 		}
 	}
+}
+//처리결과 가져오기
+function getRstList() {
+	//처리결과가져오기
+	data =  new Object();
+	data = {
+		UserId			: pUserId,
+		AcptNo			: pReqNo,
+		prcSys			: '',
+		requestType		: 'getRstList'
+	}
+	ajaxAsync('/webPage/winpop/PopRequestDetailServlet', data, 'json',successGetRstList);
 }
 //처리결과확인 목록 가져오기 완료
 function successGetRstList(data) {
