@@ -78,7 +78,7 @@ public class CommandExcute extends HttpServlet {
 	}
 	private String getExecQry(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>	cmdDataInfoMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "cmdData") );
-		return gson.toJson(cmm1600.get_SqlList(cmdDataInfoMap.get("txtcmd") ));
+		return gson.toJson(cmm1600.get_SqlList(cmdDataInfoMap.get("txtcmd"),  cmdDataInfoMap.get("dbGbnCd")));
 	}
 	private String getFileView(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>	cmdDataInfoMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "cmdData") );

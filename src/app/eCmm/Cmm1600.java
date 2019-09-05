@@ -1796,7 +1796,7 @@ public class Cmm1600{
 		}
 	}
 	
-	 public Object[] get_SqlList(String txtSql) throws SQLException, Exception {
+	 public Object[] get_SqlList(String txtSql, String dbGbnCd) throws SQLException, Exception {
 			Connection        conn        = null;
 			PreparedStatement pstmt       = null;
 			ResultSet         rs          = null;
@@ -1804,9 +1804,14 @@ public class Cmm1600{
 			Object[] 		  returnObject= null;
 			ArrayList<HashMap<String, String>>  rtList	= new ArrayList<HashMap<String, String>>();
 			HashMap<String, String>			  	rst	 	= null;
-			ConnectionContext connectionContext = new ConnectionResource();
+			ConnectionContext connectionContext = null;
 
 			try {
+				if (!"O".equals(dbGbnCd)) {
+					connectionContext = new ConnectionResource(false,dbGbnCd);
+				} else {
+					connectionContext = new ConnectionResource();
+				}
 				conn = connectionContext.getConnection();
 				rtList.clear();
 				String tmpSql = txtSql.trim();
