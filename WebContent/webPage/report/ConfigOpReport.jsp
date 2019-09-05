@@ -22,20 +22,8 @@ label {
 	width: 140px;
 }
 
-@media ( min-width: 1420px ) {
-	.search_field {
-		width: 1280px;
-	}
-}
-
-@media ( max-width: 1420px ) {
-	.search_field {
-		width: 93%;
-	}
-}
-
 .block1 {
-	width: calc(30% - 200px);
+	width: calc(26% - 152px);
 	min-width: 90px;
 	margin-right: 20px;
 }
@@ -48,6 +36,9 @@ label {
 	color: red;
 	font-weight: bold;
 }
+.width-95 {
+	width: calc(100% - 80px);
+}
 </style>
 
 <div id="wrapper">
@@ -57,7 +48,7 @@ label {
 			<div class="az_in_wrap sr_status">
 				<div class="l-wrap width-100 vat">
 					<div class="row">
-						<div class="dib search_field">
+						<div class="dib width-95">
 							<div class="dib vat">
 	                        	<label>*조회구분</label>
 	                        </div>
@@ -92,7 +83,7 @@ label {
 					</div>
 					
 					<div class="row margin-10-bottom">
-						<div class="dib search_field">
+						<div class="dib width-95">
 							<div class="dib vat"><label></label></div>
 							<div class="block1 dib por">						    
 							</div>

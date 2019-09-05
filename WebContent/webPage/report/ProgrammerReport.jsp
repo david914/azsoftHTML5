@@ -35,8 +35,18 @@
 	padding-bottom: 3px;
 }
 .calWid {
-	width: calc(90% - 90px);
+	width: calc(100% - 120px);
 }
+.calWid2 {
+	width: calc(100% - 100px);
+}
+.calWid3 {
+	width: calc(100% - 140px);
+}
+.width-25 {
+	width: calc(35% - 150px);
+}
+
 </style>
 
 <div id="wrapper">
@@ -57,21 +67,21 @@
 					
 					<div>
 						<!-- 연구소 실 별 -->
-						<div class="width-20 dib por">
+						<div class="width-25 dib por">
 							<label style="margin-right: 20px;">연구소 실 별</label>
 						    <div id="dept" data-ax5select="dept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib calWid margin-10-left">
 						    </div>
 						</div>
 						<!-- SR등급 -->
-						<div class="width-20 dib por">
+						<div class="width-25 dib por">
 							<label style="margin-right: 20px;">SR등급</label>
-							<div id="rate" data-ax5select="rate" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib calWid  margin-10-left">
+							<div id="rate" data-ax5select="rate" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib calWid2 margin-10-left">
 						    </div>						    
 						</div>
 						<!-- 개발자ID/개발자명 -->
 						<div class="width-30 dib por vat">
 							<label style="margin-right: 20px;">개발자ID/명</label>
-							<input class="calWid margin-10-left" id="developerId" type="text" placeholder="">
+							<input class="calWid3 margin-10-left" id="developerId" type="text" placeholder="">
 						</div>
 
 						<div class="dib vat float-right" style="width: 295px;">

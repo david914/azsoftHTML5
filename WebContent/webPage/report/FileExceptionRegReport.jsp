@@ -67,6 +67,18 @@
 						<div id="cboSayu" data-ax5select="cboSayu" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
 					</div>
 				</div>
+			</div>
+	
+			<div class="sm-row vat">
+				<div class="width-50 dib">
+					<div class="tit_80 poa">
+						<label>등록사유</label>
+					</div>
+					<div class="ml_80">
+						<input id="txtSayu" type="text" class="width-100">
+					</div>
+					<div class="vat dib"></div>
+				</div>
 				<div class="width-50 dib vat">
 					<div>
 						<div class="vat dib margin-5-left" style="float: right;">
@@ -82,18 +94,6 @@
 							<button id="btnExcel" class="btn_basic_s">엑셀저장</button>
 						</div>
 					</div>
-				</div>
-			</div>
-	
-			<div class="sm-row vat">
-				<div class="width-50 dib">
-					<div class="tit_80 poa">
-						<label>등록사유</label>
-					</div>
-					<div class="ml_80">
-						<input id="txtSayu" type="text" class="width-100">
-					</div>
-					<div class="vat dib"></div>
 				</div>
 			</div>
 			

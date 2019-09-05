@@ -46,7 +46,7 @@
 	<div class="az_search_wrap">
 		<div class="az_in_wrap">
 			<div class="sm-row vat">
-				<div class="width-20 dib">
+				<div class="width-25 dib">
 					<div class="tit_100 poa">
 						<label>시스템명</label>
 					</div>
@@ -55,7 +55,7 @@
 					</div>
 					<div class="vat dib"></div>
 				</div>
-				<div class="width-20 dib tar">
+				<div class="width-25 dib tar">
 					<div class="tit_80 poa">
 						<label>프로그램명</label>
 					</div>
@@ -65,7 +65,7 @@
 					<div class="vat dib"></div>
 				</div>
 				
-				<div class="width-20 dib tar">
+				<div class="width-25 dib tar">
 					<div class="tit_80 poa">
 						<label>서버IP</label>
 					</div>
@@ -75,7 +75,7 @@
 					<div class="vat dib"></div>
 				</div>
 				
-				<div class="width-20 dib tar">
+				<div class="width-25 dib tar">
 					<div class="tit_80 poa">
 						<label>불일치일자</label>
 					</div>
@@ -87,7 +87,7 @@
 			</div>
 				
 			<div class="sm-row">
-				<div class="width-80 dib" style="width: 80% !important;">
+				<div class="width-100 dib" style="">
 					<div class="tit_100 poa">
 						<label>프로그램 경로</label>
 					</div>
@@ -114,11 +114,11 @@
 						<div id="cboDiffSayu" data-ax5select="cboDiffSayu" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
 					</div>
 				</div>
-				<div class="width-20 dib vat">
+				<div class="width-30 dib vat">
 					<input id="txtDiffSayu" type="text" class="width-100">
 					<div class="vat dib"></div>
 				</div>
-				<div class="width-20 dib vat">
+				<div class="width-10 dib vat">
 					<div>
 						<div class="vat dib float-right">
 							<button id="btnDel" name="btnDel" class="btn_basic_s">삭제</button>

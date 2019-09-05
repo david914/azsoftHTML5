@@ -17,11 +17,11 @@
 			<div class="az_in_wrap sr_status">
 				<div class="l-wrap width-100 vat">
 					<div>
-						<div class="width-25 dib por">
+						<div class="width-15 dib por">
 							<div class="vat dib margin-10-right">
 	                        	<label>시스템</label>
 	                        </div>
-	                        <div id="sysInfo" data-ax5select="sysInfo" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib width-40">
+	                        <div id="sysInfo" data-ax5select="sysInfo" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib width-65">
 						    </div>
 						</div>
 
@@ -35,7 +35,7 @@
 								</div>
 							</div>													    
 						</div>
-						<div class="width-30 dib vat">
+						<div class="width-40 dib vat">
 							<div class="vat dib margin-5-right float-right" id="btnDiv">
 								<button class="btn_basic_s margin-10-right" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
 							</div>

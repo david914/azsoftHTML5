@@ -5,9 +5,15 @@
 
 <style>
 .width-75 {
-	width: calc(90% - 60px);
+	width: calc(97% - 100px);
+}
+
+.wrap_width {
+	width: calc(98% - 280px);
 }
 </style>
+
+
 
 <!-- contener S -->
 <div id="wrapper">
@@ -18,71 +24,71 @@
 	    <!-- 검색 S-->    
 		<div class="az_search_wrap">
 			<div class="az_in_wrap">
-				<div class="l_wrap width-70 dib">
+				<div class="l_wrap wrap_width dib">
 	                <div class="por">
 	                	<!--시스템S-->
-	                	<div class="width-25 dib">
+	                	<div class="width-33 dib">
 		                	<label class="dib">시스템　</label>
 		                    <div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>
-	                	<div class="width-25 dib vat" style="">
+	                	<div class="width-33 dib vat" style="">
 		                	<label class="dib">신청번호</label>
 		                    <input id="acptNo" data-ax-path="acptNo" type="text" class="width-75"/>
 						</div>
 						<!--SR-ID/SR명 S-->
-						<div class="width-50 dib vat" style="">
+						<div class="width-33 dib vat" style="">
 		                	<label class="tit_100">SR-ID/SR명</label>
-							<input id="srId" data-ax-path="srId" type="text" class="width-40" />
+							<input id="srId" data-ax-path="srId" type="text" class="width-75" />
 						</div>
 					</div>
 					<!--line2-->
 					<div class="row">
 						<!--시스템S-->
-						<div class="width-25 dib">
+						<div class="width-33 dib">
 							<label>신청구분</label>
 							<div id="reqDivSel" data-ax5select="reqDivSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>	
 						<!--신청부서S-->
-						<div class="width-25 dib">
+						<div class="width-33 dib">
 		                	<label>신청부서</label>
 							<div id="reqDeptSel" data-ax5select="reqDeptSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>
 						<!--신청인S-->
-						<div class="width-50 dib vat">
+						<div class="width-33 dib vat">
 		                	<label class="tit_100">신청자</label>
-							<input id="reqUser" data-ax-path="reqUser" type="text"  class="width-40 " />
+							<input id="reqUser" data-ax-path="reqUser" type="text"  class="width-75 " />
 						</div>
 					</div>
 					<!--line3-->
 					<div class="row">
 						<!--진행상태S-->
-						<div class="width-25 dib">
+						<div class="width-33 dib">
 							<label>진행상태</label>
 							<div id="statusSel" data-ax5select="statusSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>	
 						<!--처리구분S-->
-						<div class="width-25 dib">
+						<div class="width-33 dib">
 		                	<label>처리구분</label>
 							<div id="prcdDivSel" data-ax5select="prcdDivSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
 						</div>
 						<!--신청인S-->
-						<div class="width-50 dib vat">
+						<div class="width-33 dib vat">
 		                	<label class="tit_100">프로그램명/설명</label>
-							<input id="descript" name="descript" type="text" class="width-40" />
+							<input id="descript" name="descript" type="text" class="width-75" />
 						</div>
 					</div>		
 				</div>
-				<div class="r_wrap width-30 poa_r vat">
+				<div class="r_wrap poa_r vat" style="width: 300px;">
 					<div class="height-30 tar margin-right-50">
 						<label class="wLabel-left" style="width: 0px;"></label>
 						<input id="radioCkOut" name="radioGroup" tabindex="8" type="radio" value="optCkOut" checked="checked"/>

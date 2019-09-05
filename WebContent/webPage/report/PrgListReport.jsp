@@ -6,6 +6,9 @@
 .sel {
 	min-width: 220px;
 }
+.width-23 {
+	width: calc(26% - 38px);
+}
 </style>
 
 <!-- contener S -->
@@ -19,19 +22,23 @@
 			<div class="az_in_wrap">
 				<div class="por">					
 					<!-- 시스템 -->	
-					<div class="width-20 dib vat" style=" min-width: 215px;">
-	                    <label id="lbUser" style="margin-right: 30px;">시스템</label>
-						<div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-65 dib" style=" min-width: 130px;">
-							
-					    </div>
+					<div class="width-23 dib vat" style=" min-width: 215px;">
+	                    <div class="tit_100 poa">
+	                  	  <label id="lbUser">시스템</label>
+						</div>
+						<div class="ml_80">
+							<div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib" style=" min-width: 130px;">
+								
+						    </div>
+						</div>
 					</div>				
 					<!-- 조건선택1 -->	
-					<div class="width-20 dib sel">
+					<div class="width-23 dib sel">
 						<div class="tit_100 poa">
 	                  	  <label id="lbUser">조건선택1</label>
 						</div>
 						<div class="ml_80">
-							<div id="reqDeptSel" data-ax5select="conditionSel1" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+							<div id="reqDeptSel" data-ax5select="conditionSel1" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib">
 								
 						    </div>
 						</div>
@@ -40,35 +47,35 @@
 		                    	<label id="prgStatusLabel"></label>
 		                    </div>
 		                    <div class="ml_80">
-								<div id="prgStatusSel" data-ax5select="prgStatusSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+								<div id="prgStatusSel" data-ax5select="prgStatusSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib">
 									
 							    </div>
 							</div>
 						</div>
 					</div>
 					<!-- 조건선택2 -->	
-					<div class="width-20 dib vat sel">
+					<div class="width-23 dib vat sel">
 						<div class="tit_180 poa">
 	                  	  <label id="lbUser">조건선택2</label>
 						</div>
 						<div class="ml_80">
-							<div id="reqDeptSel" data-ax5select="conditionSel2" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+							<div id="reqDeptSel" data-ax5select="conditionSel2" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib">
 								
 						    </div>
 						</div>
 						<div class="row">
 		                    <div class="ml_80">
-								<input id="conditionText" name="conditionText" type="text" minlength="8" maxlength="12" class="width-80">
+								<input id="conditionText" name="conditionText" type="text" minlength="8" maxlength="12" class="width-90">
 							</div>
 						</div>
 					</div>		
 					<!-- 범위 -->	
-					<div class="width-20 dib vat sel">					
+					<div class="width-23 dib vat sel">					
 						<div class="tit_180 poa">
 	                  	  <label id="lbUser">범위</label>
 						</div>
 	                    <div class="ml_80">
-							<div id="rangeSel" data-ax5select="rangeSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-80 dib">
+							<div id="rangeSel" data-ax5select="rangeSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib">
 								
 						    </div>
 						    <div class="row">

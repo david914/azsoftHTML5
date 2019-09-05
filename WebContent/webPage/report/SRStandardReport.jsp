@@ -19,6 +19,10 @@
 .pic-wid {
 	width: 140px;
 }
+.width-28 {
+	width: calc(34% - 90px);
+}
+
 </style>
 
 <div id="wrapper">
@@ -28,8 +32,8 @@
 			<div class="az_in_wrap sr_status">
 				<div class="l-wrap width-100 vat">
 					<div class="row">
-						<div class="dib" style="width: 90%; max-width: 1350px;">
-						<div class="width-25 dib por">
+						<div class="dib" style="width: 94%;">
+						<div class="width-28 dib por">
 							<div class="tit_80 poa">
 	                        	<label>*조회구분</label>
 	                        </div>
@@ -37,7 +41,7 @@
 						    </div>
 						    
 						</div>
-						<div class="width-25 dib por">
+						<div class="width-28 dib por">
 							<div class="tit_80 poa">
 	                        	<label>요청부서</label>
 	                        </div>
@@ -45,7 +49,7 @@
 						    </div>
 						    
 						</div>
-						<div class="width-25 dib por">
+						<div class="width-28 dib por">
 							<div class="tit_80 poa">
 	                        	<label>SR상태</label>
 	                        </div>
@@ -53,7 +57,7 @@
 						    </div>
 						    
 						</div>
-						<div class="width-15 dib vat" style="min-width: 223px;">
+						<div class="width-13 dib vat" style="min-width: 223px;">
 							<label>개발시작월</label>
 							<div id="picker1" data-ax5picker="picker1" class="az_input_group dib margin-10-left pic-wid">
 					            <input id="datStD" type="text" placeholder="yyyy/mm/dd" class="width-70a">
@@ -69,11 +73,11 @@
 					
 					
 					<div class="row margin-10-bottom">
-					<div class="dib" style="width: 90%; max-width: 1350px;">
-						<div class="width-25 dib por">
+					<div class="dib" style="width: 94%;">
+						<div class="width-28 dib por">
 						    
 						</div>
-						<div class="width-25 dib por">
+						<div class="width-28 dib por">
 							<div class="tit_80 poa">
 	                        	<label>개발부서</label>
 	                        </div>
@@ -81,7 +85,7 @@
 						    </div>
 						    
 						</div>
-						<div class="width-25 dib por vat">
+						<div class="width-28 dib por vat">
 							<div class="tit_80 poa">
 	                        	<label>SR-ID/제목</label>
 	                        </div>
@@ -89,7 +93,7 @@
 								<input class="width-100" id="srId" type="text" placeholder="" onkeypress="">
 							</div>
 						</div>
-						<div class="width-15 dib vat" style="min-width: 223px;">
+						<div class="width-13 dib vat" style="min-width: 223px;">
 							<label>개발종료월</label>
 							<div id="picker2" data-ax5picker="picker2" class="az_input_group dib margin-10-left pic-wid">
 					            <input id="datEdD" type="text" placeholder="yyyy/mm/dd" class="width-70a">
