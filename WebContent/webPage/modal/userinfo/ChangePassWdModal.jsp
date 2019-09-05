@@ -37,7 +37,7 @@
 			   	</div>
 			   	
 				<div class="sm-row" style="text-align:center;margin-top:15px;">
-					<button id="btnPw" name="btnPw" class="btn_basic_p" style="width:100%;height:35px;">변경</button>
+					<button id="btnPw" name="btnPw" class="btn_basic_s" style="width:100%;height:35px;">변경</button>
 				</div>
 				<div class="sm-row" style="text-align:center;margin-top:5px;">
 					<button id="btnCncl" name="btnCncl" class="btn_basic_s" style="width:100%;height:35px;">취소</button>

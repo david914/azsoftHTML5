@@ -71,7 +71,7 @@
 	           	</div>
            	</div>
 			<div class="dib poa_r">
-				<button class="btn_basic_p" id="btnReq">롤백신청</button>
+				<button class="btn_basic_s" id="btnReq">롤백신청</button>
 			</div>
 	    </div>
 	</div>

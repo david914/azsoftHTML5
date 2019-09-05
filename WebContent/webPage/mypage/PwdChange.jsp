@@ -65,7 +65,7 @@
 		</div>
 	</div>
 	<div id="divPw" class="margin-15-top" style="text-align:center">
-		<button id="btnPw" name="btnPw" class="btn_basic_p">비밀번호변경</button>
+		<button id="btnPw" name="btnPw" class="btn_basic_s">비밀번호변경</button>
 	</div>
 </div>
 

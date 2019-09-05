@@ -278,8 +278,8 @@ input[type=number]::-webkit-outer-spin-button {
 				<div class="width-35 float-right margin-10-top tar">
 					<button class="btn_basic_s" id="btnQry" >새로고침</button>
 					<button class="btn_basic_s margin-2-left" id="btnApprovalInfo">결재정보</button>
-					<button class="btn_basic_p margin-2-left" id="btnApproval">결재</button>
-					<button class="btn_basic_p margin-2-left" id="btnCncl">반려</button>
+					<button class="btn_basic_s margin-2-left" id="btnApproval">결재</button>
+					<button class="btn_basic_s margin-2-left" id="btnCncl">반려</button>
 					<button class="btn_basic_s margin-2-left" id="btnClose">닫기</button>
 				</div>
 			</div>

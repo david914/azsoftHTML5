@@ -50,8 +50,8 @@
 				
 				<div class="row">
 					<div class="tac">
-						<button class="btn_basic_p" id="btnReg">등록</button>
-    					<button class="btn_basic_p" id="btnDel">삭제</button>
+						<button class="btn_basic_s" id="btnReg">등록</button>
+    					<button class="btn_basic_s" id="btnDel">삭제</button>
 					</div>
 				</div>
 				

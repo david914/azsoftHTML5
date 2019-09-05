@@ -122,7 +122,7 @@
 					<p class="txt_r font_12">프로그램명은 소스파일 기준으로 확장자까지 입력하여 주시기 바랍니다.</p>
 				</div>
 				<div class="r_wrap" style="margin-top:3px;">
-					<button id="btnDevRep" name="btnDevRep" class="btn_basic_p">개발영역연결등록</button>
+					<button id="btnDevRep" name="btnDevRep" class="btn_basic_s">개발영역연결등록</button>
 				</div>
 			</div>
 		</div>
