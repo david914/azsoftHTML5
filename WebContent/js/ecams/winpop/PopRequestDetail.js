@@ -1486,6 +1486,7 @@ function openWindow(type,acptNo, etcInfo) {
 		cURL = "/webPage/winpop/PopScript.jsp";
 	} else if (type === 4) {//SR정보확인
 		nHeight = 735;
+		nWidth = 1100;
 		cURL = "/webPage/winpop/PopSRInfo.jsp";
 	} else if (type === 5) {//소스보기
 		nWidth = 1200;

@@ -72,7 +72,7 @@
 					</dl>
 				</div>
 				<div class="row tar">
-					<button id="btnRegPlan" class="btn_basic" data-grid-control="excel-export">등록</button>
+					<button id="btnRegPlan" class="btn_basic_s" data-grid-control="excel-export">등록</button>
 				</div>
 			</div>
 			<!--하단 우측-->
