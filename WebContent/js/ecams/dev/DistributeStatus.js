@@ -187,7 +187,7 @@ firstGrid.setConfig({
          {key: 'grdprcreq', label: '적용예정일시',  width: '8%'},
          {key: 'prcdate', label: '완료일시',  width: '8%'},
          {key: 'rsrcnamememo', label: '신청내용',  width: '10%', align: 'left'},
-         {key: 'cr_sayu', label: '신청사유',  width: '10%', align: 'left'}         
+         {key: 'cr_sayu', label: '신청사유',  width: '16%', align: 'left'}         
      ]
 });
 
@@ -501,8 +501,8 @@ function openWindow(type,reqCd,reqNo,rsrcName) {
 		cURL = "/webPage/winpop/PopRequestDetail.jsp";
 	    
 	} else if (type == 2) {
-		nHeight = 400;
-	    nWidth  = 900;
+		nHeight = 490;
+	    nWidth  = 1024;
 
 		cURL = "/webPage/winpop/PopApprovalInfo.jsp";
 	}
