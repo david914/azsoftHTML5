@@ -1476,7 +1476,7 @@ function openWindow(type,acptNo, etcInfo) {
     nWidth  = 1046;
 	nHeight = 700;
     if (type === 1) {//프로그램정보
-	    nHeight = 350;
+	    nHeight = 370;
 	    nWidth  = 1200;
 		cURL = "/webPage/winpop/PopProgramInfo.jsp";
 	} else if (type === 2) {//처리결과확인
