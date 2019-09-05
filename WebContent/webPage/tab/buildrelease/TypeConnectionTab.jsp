@@ -27,7 +27,7 @@
 			</div>
 		    <!-- 검색 E-->
 		    <!-- 게시판 S-->
-		    <div class="az_board_basic" style="height: 25%">
+		    <div class="az_board_basic" style="height: 45%">
 		    	<div data-ax5grid="conInfoGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%;"></div>	
 			</div>									
 			<div class="tar sm-row" style="margin-top: 3px;">
@@ -42,7 +42,7 @@
 					<div class="poa_r dib">
 						<input type="checkbox" class="checkbox-view" id="chkPrgAll" data-label="전체선택"/>
 					</div>
-					<div class="scrollBind sm-row" style="height:210px;">
+					<div class="scrollBind sm-row" style="height:45%;">
 						<ul class="list-group" id="ulPrgInfo"></ul>
 					</div>
 				</div>
@@ -53,7 +53,7 @@
 					<div class="poa_r dib">
 						<input type="checkbox" class="checkbox-view" id="chkJobAll" data-label="전체선택"/>
 					</div>
-					<div class="scrollBind sm-row" style="height:210px;" id="divJob">
+					<div class="scrollBind sm-row" style="height:45%;" id="divJob">
 						<ul class="list-group" id="ulJobInfo"></ul>
 					</div>
 				</div>
@@ -108,7 +108,7 @@
 	</div>
     <!-- 검색 E-->
     <!-- 게시판 S-->
-    <div class="az_board_basic" style="height: 45%">
+    <div class="az_board_basic" style="height: 25%">
     	<div data-ax5grid="scriptGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>	
 
