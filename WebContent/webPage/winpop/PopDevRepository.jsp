@@ -111,15 +111,15 @@
 		<div class="half_wrap margin-10-top" style="height:57%">
 			<div class="l_wrap width-30" style="height: 100%;"> <!-- scrollBind -->
 				<!-- 디렉토리 트리 -->	
-				<div class="scrollBind" style="height: 100%; border: 1px dotted gray; OVERFLOW-Y:auto">
+				<div class="scrollBind" style="height: 100%; border: 1px dotted gray; overflow-Y:auto;">
 					<ul id="treeDir" class="ztree"></ul>
 				</div>
 			</div>
-			<div class="r_wrap width-70" style="height:100%">
+			<div class="r_wrap width-70" style="height:100%;">
 				<!-- 게시판 S-->
-			    <div class="az_board_basic az_board_basic_in margin-10-left" style="height: 100%">
+			    <div class="az_board_basic az_board_basic_in margin-10-left" style="height:100%; display:inline-block;">
 			    	<!-- 프로그램목록 그리드 -->
-			    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%; width:100%"></div>
+			    	<div data-ax5grid="grdProgList" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%; width:100%;"></div>
 				</div>	
 				<!-- 게시판 E -->
 			</div>
@@ -156,7 +156,7 @@
 		                        	<label>*업무</label>
 		                        </div>
 		                        <div class="ml_60 tal" style="width:calc(100% - 40px) !important;">
-									<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100">
+									<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib">
 								    </div>
 								</div>
 							</div>
