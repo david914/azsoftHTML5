@@ -155,12 +155,10 @@
 				</dd>
 			</dl>
 		</div>
+		<div class="btn_wrap_r" style="position:relative; float:right; margin-top:10px; bottom:0; right:0;">
+			<button id="btnOK" name="btnOK" class="btn_basic" style="display: none;">결재</button><button id="btnCncl" name="btnCncl" class="btn_basic" style="display: none;">반려</button><button id="btnConf" name="btnConf" class="btn_basic" style="display: none;">결재정보</button><button id="btnRegister" name="btnRegister" class="btn_basic">등록</button><button id="btnUpdate" name="btnUpdate" class="btn_basic">수정</button><button id="btnDelete" name="btnDelete" class="btn_basic">삭제</button>
+		</div>
 	</div>
-	<!--하단 컨텐츠 버튼 -->
-	<div class="btn_wrap_r">
-		<button id="btnOK" name="btnOK" class="btn_basic" style="display: none;">결재</button><button id="btnCncl" name="btnCncl" class="btn_basic" style="display: none;">반려</button><button id="btnConf" name="btnConf" class="btn_basic" style="display: none;">결재정보</button><button id="btnRegister" name="btnRegister" class="btn_basic">등록</button><button id="btnUpdate" name="btnUpdate" class="btn_basic">수정</button><button id="btnDelete" name="btnDelete" class="btn_basic">삭제</button>
-	</div>
-	
 </div>
 <form name="popPam">
 	<input type="hidden" name="acptno"/>
