@@ -106,11 +106,17 @@ $('[data-ax5select="cboBldCd"]').ax5select({
 
 $('input.checkbox-view').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 $('input:radio[name=releaseChk]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
-
+$('input:radio[name=grpTotYN]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
 $(document).ready(function() {
 	getBldCd();
 	getSysInfo();
+	
+	//일괄쉘실행 구분 비활성화
+	$('#optAcpt').wRadio("disabled", true);
+	$('#optRsrc').wRadio("disabled", true);
+	$('#optDir').wRadio("disabled", true);
+	$('#optJob').wRadio("disabled", true);
 	
 	// 시스템 cbo 변경이벤트
 	$('#cboSysCd').bind('change', function() {
@@ -229,6 +235,11 @@ $(document).ready(function() {
 	$('#btnDell').bind('click', function() {
 		deleteBldList();
 	});
+	
+	//일괄쉘실행 체크박스 이벤트
+	$('#chkBatch').bind('change', function() {
+		chkBatch_change();
+	});
 });
 
 // 등록
@@ -284,6 +295,13 @@ function insertBldList() {
 		return;
 	}
 	
+	if($('#chkBatch').is(':checked')) {
+		if(!$('#optAcpt').is(':checked') && !$('#optRsrc').is(':checked') && !$('#optDir').is(':checked') && !$('#optJob').is(':checked')) {
+			dialog.alert('일괄쉘 실행일 경우 기준을 선택하여 주십시오.', function(){});
+			return;
+		}
+	}
+	
 	if($('#chkExe').is(':checked')) {
 		etcData.CM_USERYN = 'Y'
 	} else {
@@ -306,6 +324,30 @@ function insertBldList() {
 		etcData.CM_TOTYN = 'Y'
 	} else {
 		etcData.CM_TOTYN = 'N'
+	}
+	
+	if($('#optAcpt').is(':checked')) {
+		etcData.CM_ACPTTOTYN = 'Y'
+	} else {
+		etcData.CM_ACPTTOTYN = 'N'
+	}
+	
+	if($('#optRsrc').is(':checked')) {
+		etcData.CM_RSRCTOTYN = 'Y'
+	} else {
+		etcData.CM_RSRCTOTYN = 'N'
+	}
+	
+	if($('#optDir').is(':checked')) {
+		etcData.CM_DIRTOTYN = 'Y'
+	} else {
+		etcData.CM_DIRTOTYN = 'N'
+	}
+	
+	if($('#optJob').is(':checked')) {
+		etcData.CM_JOBTOTYN = 'Y'
+	} else {
+		etcData.CM_JOBTOTYN = 'N'
 	}
 	
 	if($('#optBefore').is(':checked')) {
@@ -432,6 +474,11 @@ function clickConInfoGrid(index) {
 	} else {
 		$('#optAfter').wCheck('check', true);
 	}
+	
+	if(selItem.CM_ACPTTOTYN == "Y") $('#optAcpt').wRadio('check', true);
+	if(selItem.CM_RSRCTOTYN == "Y") $('#optRsrc').wRadio('check', true);
+	if(selItem.CM_DIRTOTYN == "Y") $('#optDir').wRadio('check', true);
+	if(selItem.CM_JOBTOTYN == "Y") $('#optJob').wRadio('check', true);
 }
 
 // 스크립트 그리드 정보 가져오기 완료
@@ -635,4 +682,24 @@ function getBldCd() {
 // 스크립트 유형 가져오기 완료
 function successGetBldCd(data) {
 	cboBldCdData = data;
+}
+
+// 일괄쉘실행 체크박스 체크이벤트
+function chkBatch_change() {
+	if($("#chkBatch").is(":checked")) {
+		$('#optAcpt').wRadio("disabled", false);
+		$('#optRsrc').wRadio("disabled", false);
+		$('#optDir').wRadio("disabled", false);
+		$('#optJob').wRadio("disabled", false);
+	}else {
+		$('#optAcpt').wRadio("disabled", true);
+		$('#optRsrc').wRadio("disabled", true);
+		$('#optDir').wRadio("disabled", true);
+		$('#optJob').wRadio("disabled", true);
+		
+		$('#optAcpt').wRadio("check", false);
+		$('#optRsrc').wRadio("check", false);
+		$('#optDir').wRadio("check", false);
+		$('#optJob').wRadio("check", false);
+	}
 }

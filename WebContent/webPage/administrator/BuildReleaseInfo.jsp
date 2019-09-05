@@ -8,7 +8,7 @@
 	<div id="history_wrap">프로그램 <strong>&gt; 빌드/릴리즈정보</strong></div>
 
 	<div class="tab_wrap">
-		<ul class="tabUl">
+		<ul class="tabs">
 			<li rel="tab1" id="tab1Li" class="on">1.빌드/릴리즈유형등록</li>
         	<li rel="tab2" id="tab2Li">2.빌드/릴리즈유형연결</li>
 		</ul>

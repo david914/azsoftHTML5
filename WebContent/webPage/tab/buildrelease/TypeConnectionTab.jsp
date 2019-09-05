@@ -70,19 +70,23 @@
 	<div class="az_search_wrap sm-row">
 		<div class="az_in_wrap por cb">
 			<!-- line1 -->	
-			<div class="dib width-100">	
+			<div class="dib width-100 sm-row">	
                 <div class="width-50 float-left">
                     <label class="tit_80 poa">실행구분</label>
                     <div class="ml_80">
 						<div id="cboPrcSys" data-ax5select="cboPrcSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 					</div>
 				</div>
-				<div class="width-50 vat float-right">
-					<div class="dib vat poa_r">
+				<div class="width-50 vat float-left">
+					<div class="dib vat float-left ml_7">
 						<input type="checkbox" class="checkbox-view" id="chkExe" data-label="실행여부선택"/>
 						<input type="checkbox" class="checkbox-view" id="chkLocal" data-label="형상관리서버에서 실행"/>
 						<input type="checkbox" class="checkbox-view" id="chkSeq" data-label="쉘순차 실행"/>
-						<input type="checkbox" class="checkbox-view" id="chkBatch" data-label="일괄쉘 실행"/>
+						
+						<input id="optBefore"  type="radio" name="releaseChk" value="before" checked="checked"/>
+						<label for="optBefore" >파일송수신 전</label>
+						<input id="optAfter" type="radio" name="releaseChk" value="after"/>
+						<label for="optAfter" class="margin-35-right" >파일송수신 후</label>
 					</div>
 				</div>
 			</div>
@@ -96,11 +100,15 @@
 				</div>
 				<div class="width-50 vat float-right por">
 					<button id="btnReg" name="btnReg" class="btn_basic_s float-right">등록</button>
-					<div class="dib vat float-right">
-						<input id="optBefore"  type="radio" name="releaseChk" value="before" checked="checked"/>
-						<label for="optBefore" >파일송수신 전</label>
-						<input id="optAfter" type="radio" name="releaseChk" value="after"/>
-						<label for="optAfter" class="margin-35-right" >파일송수신 후</label>
+					
+					<div class="dib vat float-left ml_7">
+						<input type="checkbox" class="checkbox-view" id="chkBatch" data-label="일괄쉘 실행"/>
+						<div class="dib vat float-right">
+							<input id="optAcpt" type="radio" name="grpTotYN" value="optAcpt"/><label for="optAcpt">신청건별</label>
+							<input id="optRsrc" type="radio" name="grpTotYN" value="optRsrc"/><label for="optRsrc">프로그램유형별</label>
+							<input id="optDir" type="radio" name="grpTotYN" value="optDir"/><label for="optDir">디렉토리별</label>
+							<input id="optJob" type="radio" name="grpTotYN" value="optJob"/><label for="optJob">업무별</label>
+						</div>
 					</div>
 				</div>
 			</div>

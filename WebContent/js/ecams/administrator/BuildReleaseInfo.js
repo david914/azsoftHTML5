@@ -26,11 +26,11 @@ $(document).ready(function(){
 function setTabMenu2(){
 	$(".tab_content:first").css('display', 'block');
 	
-	$("ul.tabUl li").click(function () {
+	$("ul.tabs li").click(function () {
 		$(".tab_content").css('display', 'none');
 		
 		var activeTab = $(this).attr("rel");
-		$("ul.tabUl li").removeClass('on');
+		$("ul.tabs li").removeClass('on');
 		$(this).addClass("on");
 		
 		$("#" + activeTab).css('display', 'block');
@@ -40,10 +40,10 @@ function setTabMenu2(){
 function setTabMenu(){
 	$(".tab_content:first").show();
 	
-	$("ul.tabUl li").click(function () {
+	$("ul.tabs li").click(function () {
 		$(".tab_content").hide();
 		var activeTab = $(this).attr("rel");
-		$("ul.tabUl li").removeClass('on');
+		$("ul.tabs li").removeClass('on');
 		$(this).addClass("on");
 		
 		$("#" + activeTab + " iframe").attr('src', $("#" + activeTab + " iframe").attr('src'));
