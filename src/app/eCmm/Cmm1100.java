@@ -143,11 +143,12 @@ public class Cmm1100{
 	           	strQuery.append(" cm_blankdte = ?				    \n"); //DTPK(1)
 	        } else{
 		        strQuery.append(" cm_daegyul 	= '', 				\n");
+		        strQuery.append(" cm_daesayu 	= '', 				\n");
 		        strQuery.append(" cm_daegmsg	= '', 				\n");
 		        strQuery.append(" cm_blankdts 	= '', 				\n");
 		        strQuery.append(" cm_blankdte 	= '' 				\n");
 	        }
-		    strQuery.append(" where cm_userID = ? \n");//Frm_User
+		    strQuery.append(" where cm_userID = ? \n");//Frm_User 
 			
 		    pstmt = conn.prepareStatement(strQuery.toString());
 		    //pstmt =  new LoggableStatement(conn, strQuery.toString());
