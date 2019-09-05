@@ -1411,7 +1411,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 .half_wrap_w{position: relative; background: #fff;}
 .half_wrap_w:after{content: ""; clear: both; display: block;}
 .half_wrap_cb:after{content: ""; clear: both; display: block;}
-.l_wrap{position: relative; float: left; zoom: 1;}
+.l_wrap{position: relative;float: left;zoom: 1;}
 .r_wrap{position: relative;float: right;zoom: 1;}
 /********************************** 
                 게시판
@@ -1479,7 +1479,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 .thumbnail span:first-child{margin-left: 0;}
 .thumbnail span:last-child{margin-right: 0;}
 /*스크롤 영역*/
-.scrollBind{position: relative; height: 185px; border: 1px solid #ddd; background-color: #fff; overflow-y: scroll;}
+.scrollBind{position: relative;height: 185px;border: 1px solid #ddd;background-color: #fff;overflow-y: scroll;}
 .scroll_x{position: relative; /*border: 1px solid #ddd; background-color: #fff;*/ overflow-x: scroll;}
 .scroll_y{position: relative; /*border: 1px solid #ddd; background-color: #fff;*/ overflow-y: scroll;}
 .list-group{background-color: #fff; padding: 7px;}

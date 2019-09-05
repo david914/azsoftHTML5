@@ -22,7 +22,7 @@
 						<li rel="tabProgBase" id="tab1" class="on" style="vertical-align: middle;">기본정보</li>
 						<li rel="tabProgHistory" id="tab2" style="vertical-align: middle;">변경내역</li>
 						<div class="r_wrap">
-							<button id="btnExit" name="btnExit" class="btn_basic_n" style="float:right">닫기</button>
+							<button id="btnExit" name="btnExit" class=btn_basic_s style="float:right">닫기</button>
 						</div>
 					</ul>
 				</div>

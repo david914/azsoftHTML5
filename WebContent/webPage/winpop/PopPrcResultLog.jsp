@@ -52,7 +52,7 @@
 				    </div>
 				</div>
 	            <div class="width-100 margin-5-top">
-	            	<textarea id="txtRetLog" class="width-100" style="height: 55%;" readonly></textarea>
+	            	<textarea id="txtRetLog" class="width-100" style="height: 55%; resize:none;" readonly></textarea>
 				</div>
 			</div>
 		</div>

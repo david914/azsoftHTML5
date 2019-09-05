@@ -1482,7 +1482,7 @@ function openWindow(type,acptNo, etcInfo) {
     nWidth  = 1046;
 	nHeight = 700;
     if (type === 1) {//프로그램정보
-	    nHeight = 350;
+	    nHeight = 370;
 	    nWidth  = 1200;
 		cURL = "/webPage/winpop/PopProgramInfo.jsp";
 	} else if (type === 2) {//처리결과확인
@@ -1492,6 +1492,7 @@ function openWindow(type,acptNo, etcInfo) {
 		cURL = "/webPage/winpop/PopScript.jsp";
 	} else if (type === 4) {//SR정보확인
 		nHeight = 735;
+		nWidth = 1100;
 		cURL = "/webPage/winpop/PopSRInfo.jsp";
 	} else if (type === 5) {//소스보기
 		nWidth = 1200;

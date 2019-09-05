@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
 <c:import url="/webPage/common/common.jsp" />
 
 	<div class="contentFrame">
@@ -28,8 +26,8 @@
 	                        	<label style="margin-left:49px;">*SR-ID</label>
 	                        </div>
 	                        <div class="ml_150 tal">
-	                        	<div class="width-75">
-									<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+	                        	<div style="width : calc(100% - 100px);">
+									<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%; " ></div>
 	                        	</div>
 							</div>
 							<div class="vat poa_r">
@@ -56,8 +54,7 @@
 	                        	<label>*프로그램명/설명</label>
 	                        </div>
 	                        <div class="ml_150 tal">
-								<input id="txtRsrcName" class="width-60 dib tal" placeholder="프로그램설명 을 입력"/>
-							    <div class="dib vat" style="margin-left:5px;"><input type="checkbox" class='checkbox-pie' name = 'chkbox_subnode' id ='chkbox_subnode' data-label="하위폴더 포함하여 조회" checked> </div>
+								<input id="txtRsrcName" class="width-60 dib tal" placeholder="프로그램설명 을 입력" style="width : calc(100% - 100px);"/>
 							</div>						
 							<div class="vat dib">
 								 <button id="btnSearch" class="btn_basic_s poa_r"  style="width:70px;">검색</button>
@@ -68,9 +65,10 @@
 			</div>
 			<div class="half_wrap">
 				<div class="l_wrap width-20">
-					<div style="overflow-y: auto; height: 331px; background-color: white;">
+					<div style="overflow-y: auto; height: 308px; background-color: white;">
 						<ul id="treeDemo" class="ztree"></ul>				
 					</div>
+					<div class="dib vat" style="margin-left:5px;"><input type="checkbox" class='checkbox-pie' name = 'chkbox_subnode' id ='chkbox_subnode' data-label="하위폴더 포함하여 조회" checked> </div>
 				</div>
 				<div class="r_wrap width-80">
 					<!-- 게시판 S-->
@@ -106,7 +104,7 @@
 				<label>*신청사유</label>
 			</div>
 			<div class="ml_80">
-				<input id="reqText" type="text" placeholder="" class="width-84">
+				<input id="reqText" type="text" placeholder="" style="width:calc(100% - 100px)">
 				<div class='ml150 tal float-right' style="display:inline; ">
 					<button id="btnDiff" class="btn_basic_s margin-5-left" style='display:none;'>파일비교</button>
 					<button id="btnReq" class="btn_basic_s margin-5-left">체크아웃</button>

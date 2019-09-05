@@ -707,8 +707,8 @@ function btnDevRep_Click() {
 //	nHeight	= screen.height;
 //  nWidth = screen.width;
     
-    nHeight = 780;
+    nHeight = 880;
     nWidth  = 1200;
     
-    winDevRep = winOpen(form, 'devRep', '/webPage/winpop/PopDevRepository.jsp', nHeight, nWidth);
+    winDevRep = winOpen(form, 'devRep', '/webPage/winpop/PopDevRepository.jsp', nHeight, nWidth, 'no');
 }

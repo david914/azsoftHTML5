@@ -21,18 +21,16 @@
 						</div>
 					</div>
 					<!-- SR-ID -->		
-                    <div class="width-50 dib tar por">
+                    <div class="dib tar por width-70">
                     	<div class="tit_150 poa">
                         	<label>*SR-ID</label>
                         </div>
                         <div class="ml_150 tal">
-							<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"  >
+							<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:calc(100% - 100px);"  >
 					    		<select data-ax-path="cboSrId"></select>
 					    	</div>
 						</div>
-					</div>
-                    <div class="width-20 dib tar por vat">
-						<div class="vat poa_r">
+						<div class="vat poa_r poa">
 							<button id="btnSR" class="btn_basic_s margin-5-left" disabled=true style="width:70px;">SR정보</button>
 						</div>
 					</div>
@@ -40,18 +38,16 @@
 				<div class="row vat">
 					
 					<!-- 프로그램명/설명 -->		
-                    <div class="width-80 dib">
+                    <div class="dib width-100">
                     	<div class="tit_150 poa" style="text-align: left;">
                         	<label>*프로그램명/설명</label>
                         </div>
                         <div class="ml_150 tal">
-							<input id="txtRsrcName" type="text" placeholder="" class="width-100 dib">
+							<input id="txtRsrcName" type="text" placeholder="" class="dib" style="width:calc(100% - 100px);">
 						</div>
 					</div>
-                    <div class="width-20 dib tar por vat">
-						<div class="vat dib">
-							 <button id="btnSearch" class="btn_basic_s poa_r" style="width:70px;">검색</button>
-						</div>
+					<div class="vat dib poa">
+						 <button id="btnSearch" class="btn_basic_s poa_r" style="width:70px;">검색</button>
 					</div>
 				</div>
 			</div>
@@ -89,9 +85,9 @@
 			<div class="tit_80 poa">
 				<label>*신청사유</label>
 			</div>
-			<div class="ml_80">
-				<input id="txtSayu" type="text" placeholder="" class="width-84">
-				<div class='ml150 tal float-right' style="display:inline; ">
+			<div class="ml_80 dib" style="width:calc(100% - 80px)">
+				<input id="txtSayu" type="text" placeholder="" class="width-100" style="width:calc(100% - 101px)">
+				<div class='ml150 tal float-right dib poa'>
 					<button id="btnReq" class="btn_basic_s margin-5-left">체크아웃취소</button>
 				</div>
 			</div>
