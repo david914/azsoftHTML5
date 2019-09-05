@@ -840,6 +840,7 @@ function addDataRow() {
 		}
 	});
 	
+	firstGrid.clearSelect();	// 상위 그리드에 있는 데이터가 하단 그리드에 추가되면 상단 그리드에서 선택했던 체크박스 초기화
 	
 	if (vercnt>0){				
 		dialog.alert("버전을 선택하여 주십시요.");
