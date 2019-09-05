@@ -286,6 +286,7 @@ function insertAbs() {
 	var datEdD = replaceAllString($('#datEdD').val(),'/','');
 	var dataObj = new Object();
 	var txtName = $('#txtName').val().trim();
+	var today = getDate('DATE',0);
 	
 	if($('#optReg').is(':checked')) {
 		if(absGridData.length > 0) {
@@ -298,10 +299,13 @@ function insertAbs() {
 			return;
 		}
 		
-		console.log(txtSayu.length);
-		
 		if(txtSayu.length > 100){
 			dialog.alert('부재사유를 100자 이하로 입력하여 주십시오.', function() {});
+			return;
+		}
+		
+		if(today > datStD) {
+			dialog.alert('현재일 이전을 시작날짜로 선택할수 없습니다.', function() {});
 			return;
 		}
 		
@@ -353,6 +357,7 @@ function successInsertAbs(data) {
 	} else if ( data === 2 ){
 		dialog.alert('부재 및 대결재자 등록이 해제되었습니다', function() {});
 		$('#cboUser').trigger('change');
+		$('#btnReg').text('등록');
 		$('#txtName').val('');
 		$('#txtSayu').val('');
 	} else {
