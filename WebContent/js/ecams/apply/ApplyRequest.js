@@ -902,6 +902,8 @@ function addDataRow() {
 		}
 	});
 	
+	firstGrid.clearSelect();	// 상위 그리드에 있는 데이터가 하단 그리드에 추가되면 상단 그리드에서 선택했던 체크박스 초기화
+	
 	if(reqCd == '04' && getSelectedIndex('cboSrId') > 0 && firstGridData.length != secondGridList.length){
 		dialog.alert('운영에 배포 할 준비가 완료되지 않은 건이 있습니다. 확인 후 진행하시기 바랍니다.');
 		return;

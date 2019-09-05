@@ -511,6 +511,8 @@ function addDataRow() {
 		}
 	});
 	
+	firstGrid.clearSelect();	// 상위 그리드에 있는 데이터가 하단 그리드에 추가되면 상단 그리드에서 선택했던 체크박스 초기화	
+	
 	if (calcnt > 0){
 		if (secondGridList.length > 0){
 				var tmpData = {
