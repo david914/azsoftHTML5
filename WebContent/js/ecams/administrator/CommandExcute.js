@@ -18,6 +18,7 @@ var cmdGridData 		= null;
 var cmdGrid				= new ax5.ui.grid();
 var fileUploadModal		= new ax5.ui.modal();
 var uploadCk = true;
+var cboDbData				= [];
 
 cmdGrid.setConfig({
     target: $('[data-ax5grid="cmdGrid"]'),
@@ -70,8 +71,19 @@ $(document).ready(function(){
 	$("#btnExcel").on('click', function() {
 		cmdGrid.exportExcel("쿼리.xls");
 	})
-
+	getCodeInfo();
 });
+
+function getCodeInfo() {
+	var codeInfos = getCodeInfoCommon([
+		new CodeInfo('DBINFO','SEL','N'),
+		]);
+	cboDbData 	= codeInfos.DBINFO;
+	
+	$('[data-ax5select="cboDbUsrSel"]').ax5select({
+        options: injectCboDataToArr(cboDbData, 'cm_micode' , 'cm_codename')
+	});
+}
 
 function gbnSet(){
 	if($('#rdocmd').is(':checked')){
@@ -81,6 +93,7 @@ function gbnSet(){
 		$('#txtrst').show();
 		$('#rdo2').show();
 		$('#rdo3').hide();
+		$('#cboDbUsrSel').hide();
 		$('#btnExcel').hide();
 		$('#chkViewDiv').css('visibility','visible');
 	} else if($('#rdoqry').is(':checked')) {
@@ -90,6 +103,7 @@ function gbnSet(){
 		$('#txtrst').hide();
 		$('#rdo2').hide();
 		$('#rdo3').hide();
+		$('#cboDbUsrSel').show();
 		$('#btnExcel').show();
 		$('#chkViewDiv').css('visibility','hidden');
 	} else {
@@ -99,6 +113,7 @@ function gbnSet(){
 		$('[name="cmdRadioUsr"]').hide();
 		$('#rdo2').hide();
 		$('#rdo3').show();
+		$('#cboDbUsrSel').hide();
 		$('#btnExcel').hide();
 		$('#chkViewDiv').css('visibility','hidden');
 		btnSet();
@@ -175,6 +190,11 @@ function successGetCmdRst(data) {
 }
 
 function execQry(){
+	if(getSelectedIndex('cboDbUsrSel') < 1) {
+		alert('DB정보를 선택하여 주십시오.');
+		return;
+	}
+	
 	if(document.getElementById("txtcmd").value.trim()==""){
 		alert('쿼리문을 입력하여 주시기 바랍니다.');
 		return;
@@ -189,6 +209,7 @@ function execQry(){
 	
 	txtqry.substr(0,txtqry)
 	cmdData.txtcmd 	= txtqry;
+	cmdData.dbGbnCd 	= getSelectedVal('cboDbUsrSel').value;
 	var data =  new Object();
 	data = {
 			requestType : 'getExecQry',

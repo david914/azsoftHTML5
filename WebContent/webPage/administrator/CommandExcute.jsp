@@ -34,6 +34,7 @@
 	        	<input id="rdorecive" type="radio" name="cmdRadioFile" value="2"/>
 				<label for="rdorecive">수신</label>
 			</div>
+			<div class="dib"  id="cboDbUsrSel" data-ax5select="cboDbUsrSel" data-ax5select-config="{size:'sm',theme:'primary'}" style="vertical-align: bottom"> </div>
 			<div id="chkViewDiv" class="dis-i-b tar">
 				<input type="checkbox" class="checkbox-pie" id="chkView" data-label="수신파일 직접보기"/>
 			</div>
