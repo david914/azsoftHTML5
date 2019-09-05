@@ -1464,12 +1464,11 @@ function getTmpPath(result){
 function startUpload(strURL) {
 	var excelFileSub = $('#excelFile')[0].files[0];
 	var excelFile = null;
-	
 	// 파일 업로드 jsp 를 호출해야함
 	var formData = new FormData();
 	//tmpPath = 'C:\\eCAMS\\webTmp\\'; // 테스트 임시경로
 	formData.append('fullName',tmpPath);
-	formData.append('fullpath',tmpPath+userId+"_excel.tmp");
+	formData.append('fullpath',tmpPath+"/"+userId+"_excel.tmp");
 	formData.append('file',excelFileSub);
 	
 	// ajax
@@ -1501,7 +1500,7 @@ function onUploadCompleteData(filePath){
 	var headerDef = new  Array();
 	headerDef.push("cr_rsrcname");
 	filePath = replaceAllString(filePath,"\n","");
-	
+	console.log(filePath);
 	var tmpData = {
 			filePath : filePath,
 			headerDef: headerDef,

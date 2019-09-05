@@ -1806,8 +1806,11 @@ function reqQuestConf(){
 	}
 	ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
 	
+	
 	if(ajaxReturnData == 'ERR' || ajaxReturnData.substr(0,5) == 'ERROR'){
+		console.log(ajaxReturnData);
 		dialog.alert('에러가 발생하였습니다. 다시 신청해주세요.');
+		ingSw = false;
 		return;
 	}
 	acptNo = ajaxReturnData;
@@ -1854,6 +1857,7 @@ function requestEnd(){
 	confirmDialog.confirm({
 		msg: $('#btnRequest').val()+' 신청완료! 상세 정보를 확인하시겠습니까?',
 	}, function(){
+		upFiles = [];
 		if(this.key === 'ok') {
 			cmdDetail();
 		}

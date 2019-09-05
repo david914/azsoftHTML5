@@ -33,7 +33,7 @@
 							<div class="vat poa_r">
 								<button id="btnSR" class="btn_basic_s margin-5-left" disabled=true style="width:70px;">SR정보</button>
 								<button id="btnExcelLoad" class="btn_basic_s margin-5-left" style="display:none; width:70px;">엑셀등록</button>
-								<input type="file" name="excelFile" id="excelFile" style="display:none;"/>
+								<input type="file" name="excelFile" id="excelFile" style="display:none;" onchange='fileTypeCheck(this);''/>
 							</div>
 						</div>
 					</div>

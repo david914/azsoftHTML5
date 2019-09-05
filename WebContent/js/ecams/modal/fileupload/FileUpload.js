@@ -207,10 +207,11 @@ function fileUpload(){
 	for(var i=0; i<firstGridData.length; i++){
 		var index = i + 1;
 		formData.append('fullName',tmpPath);
-		formData.append('fullpath',tmpPath+filepath);
+		formData.append('fullpath',tmpPath+"/"+filepath);
 		formData.append('saveName',filename+"."+index);
 		formData.append('file',firstGridData[i].file);
 		
+		console.log(tmpPath, tmpPath);
 		firstGridData[i].index = index;
 	}
 	

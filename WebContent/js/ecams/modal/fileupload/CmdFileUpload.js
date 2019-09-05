@@ -183,7 +183,7 @@ function fileUpload(){
 	for(var i=0; i<firstGridData.length; i++){
 		var index = i + 1;
 		formData.append('fullName',tmpPath);
-		formData.append('fullpath',tmpPath+filepath);
+		formData.append('fullpath',tmpPath+"/"+filepath);
 		formData.append('saveName',firstGridData[i].name);
 		
 		//console.log(tmpPath+filepath+firstGridData[i].name);
