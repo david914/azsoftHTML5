@@ -1574,3 +1574,32 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 .floatRow:after{content:""; display:block; clear:both;}
 
 [data-ax5select]{height:25px;}
+
+
+/*  셀렉트 박스 사이즈 줄이면 줄어드는 부분 수정 */
+.ax5select-display .ax5select-display-table, .input-group [data-ax5select] .ax5select-display .ax5select-display-table{
+	display: block;
+}
+
+.ax5select-display .ax5select-display-table [data-ax5select-display="label"]{
+	display: inline-block;
+	width: calc(100% - 21px);
+	text-overflow: ellipsis;
+	overflow: hidden;
+	padding: 0 0 0 0;
+	vertical-align: top;
+}
+
+.ax5select-display .ax5select-display-table [data-ax5select-display="addon"]{
+	display: inline-block;
+}
+
+.ax5select-option-group.ax5select-option-group-sm .ax-select-body .ax-select-option-group-content .ax-select-option-item .ax-select-option-item-holder{
+	display: block;
+}
+
+.ax5select-option-group.ax5select-option-group-sm .ax-select-body .ax-select-option-group-content .ax-select-option-item .ax-select-option-item-holder .ax-select-option-item-cell.ax-select-option-item-label{
+	display: block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
