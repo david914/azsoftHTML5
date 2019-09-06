@@ -17,7 +17,7 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 //import org.w3c.dom.Document;
-
+import app.common.LoggableStatement;
 import com.ecams.common.dbconn.ConnectionContext;
 import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
@@ -196,7 +196,7 @@ public class Cmp1300{
 //			secuinfo = null;
 			strQuery.setLength(0);
 			strQuery.append("  select /*+ ALL_ROWS */ a.*,b.cm_username,c.cm_codename JAWON,d.cm_sysmsg,e.cm_jobname, \n");
-			strQuery.append("      g.cr_passcd,g.cr_acptdate,r.cr_story,g.cr_itsmid, \n");
+			strQuery.append("      g.cr_passcd,to_char(g.cr_acptdate,'yyyy/mm/dd')cr_acptdate,r.cr_story,g.cr_itsmid, \n");
 			strQuery.append("      substr(a.cr_acptno,1,4) || '-' || substr(a.cr_acptno,5,2) || '-' || substr(a.cr_acptno,7,6) acptno,\n");
 			strQuery.append("      TRUNC(SYSDATE - cr_acptdate) dayTerm, a.cr_itemid, f.cm_dirpath, b.cm_project,h.cm_deptname \n");
 			strQuery.append("      from cmm0102 e,cmm0030 d,cmm0020 c,cmm0040 b,cmr1000 g,cmr1010 a,cmr0020 r,cmm0070 f,cmm0100 h \n");
@@ -204,7 +204,7 @@ public class Cmp1300{
 			strQuery.append("      r.cr_syscd=a.cr_syscd and r.cr_dsncd=a.cr_dsncd and r.cr_rsrcname=a.cr_rsrcname and  						\n");
 			strQuery.append("      a.cr_acptno=g.cr_acptno and  																				\n");
 			strQuery.append("      a.cr_confno is null and a.cr_itemid=a.cr_baseitem and													\n");
-			if (SysCd != "" && SysCd != null) strQuery.append(" g.cr_syscd=?  and                         	 								    \n");
+			if (!SysCd.equals("00000")) strQuery.append(" g.cr_syscd=?  and                         	 								    \n");
 			if (JobCd != "" && JobCd != null) strQuery.append(" a.cr_jobcd=?  and                          								        \n");
 			strQuery.append("      g.cr_qrycd in ('01','02','03') and  		        														    \n");
 			if (txtPath != "" && txtPath != null) strQuery.append(" f.cm_dirpath like ? and                           	 				     	\n");
@@ -223,8 +223,8 @@ public class Cmp1300{
 			strQuery.append("      b.cm_project=h.cm_deptcd \n");
 
 	        pstmt = conn.prepareStatement(strQuery.toString());
-			//pstmt = new LoggableStatement(conn,strQuery.toString());
-	        if (SysCd != "" && SysCd != null) pstmt.setString(++parmCnt, SysCd);
+			pstmt = new LoggableStatement(conn,strQuery.toString());
+	        if (!SysCd.equals("00000")) pstmt.setString(++parmCnt, SysCd);
 			if (JobCd != "" && JobCd != null) pstmt.setString(++parmCnt, JobCd);
 			if (txtPath != "" && txtPath != null) pstmt.setString(++parmCnt, "%"+txtPath+"%");
 			if (txtUser != "" && txtUser != null) pstmt.setString(++parmCnt, txtUser);
@@ -233,7 +233,7 @@ public class Cmp1300{
 				pstmt.setString(++parmCnt, StDate);
 				pstmt.setString(++parmCnt, EdDate);
 			}
-	        //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+	        ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	        rs = pstmt.executeQuery();
 
 	        rsval.clear();
