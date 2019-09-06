@@ -137,8 +137,7 @@ function createViewGrid() {
 		    multiSort: true,
 		    showRowSelector: false,
 		    header: {
-		        align: "center",
-		        columnHeight: 30
+		        align: "center"
 		    },
 		    body: {
 		        columnHeight: 20,
