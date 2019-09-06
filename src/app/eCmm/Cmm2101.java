@@ -313,7 +313,7 @@ public class Cmm2101{
 			
 			SystemPath systemPath = new SystemPath();
 			String noticeFileUplaodDir = systemPath.getTmpDir("01");
-			File deleteFolder = new File(noticeFileUplaodDir + "\\" + AcptNo);
+			File deleteFolder = new File(noticeFileUplaodDir + File.separator + AcptNo);
 			File[] deleteFolderList = deleteFolder.listFiles();
 			if(deleteFolderList != null) {
 				for(int i=0; i<deleteFolderList.length; i++) {
@@ -621,7 +621,7 @@ public class Cmm2101{
 
             realPath = gPath.getTmpDir_conn("01",conn);
             gPath = null;
-            realPath = realPath + "\\" + fileData.get("acptNo") + "\\" + fileData.get("fileName");
+            realPath = realPath + File.separator + fileData.get("acptNo") + File.separator + fileData.get("fileName");
 
             File delFile = new File(realPath);
             delFile.delete();

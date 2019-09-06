@@ -49,7 +49,7 @@ function choiceClick(){
  */
 $('#drag-and-drop-zone').dmUploader({
 	url: '/webPage/fileupload/upload',	// 	서블릿 주소
-	maxFileSize: 1024*1024*1024*10, 	// 	최대 1gb 파일까지
+	maxFileSize: 1024*1024*1024*1024*1, 	// 	최대 1gb 파일까지
 	auto: false,						// 	파일 올렸을시 바로 업로드여부
 	queue: false,						//	위에서부터 순서대로 파일 업로드 여부
 	extraData: function() {				//	서블릿에 보낼 데이터

@@ -2,6 +2,8 @@ package html.app.fileupload;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +14,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.log4j.Logger;
+
+import com.ecams.common.logger.EcamsLogger;
 
 import app.common.SystemPath;
 import html.app.fileupload.vo.FileMeta;
@@ -21,6 +26,7 @@ public class MultipartRequestHandler {
 
 	private static String noticeAcptno = "";
 	private static SystemPath systemPath = new SystemPath();
+	static Logger ecamsLogger  = EcamsLogger.getLoggerInstance();
 	// Servlet API를 사용하여 업로드 된 모든 파일을 가져옵니다. 
 	// 참고로 Servlet 3.0과 함께 작동합니다.
 	public static List<FileMeta> uploadByJavaServletAPI(HttpServletRequest request) throws IOException, ServletException{
@@ -54,7 +60,7 @@ public class MultipartRequestHandler {
 	}
 	
 	// Apache FileUpload lib를 사용하여 업로드 된 모든 파일을 가져옵니다.
-	public static List<FileMeta> uploadByApacheFileUpload(HttpServletRequest request) throws Exception{
+	public static List<FileMeta> uploadByApacheFileUpload(HttpServletRequest request) throws UnsupportedEncodingException{
 		List<FileMeta> files = new LinkedList<FileMeta>();
 		
 		// 1. Check request has multipart content
@@ -68,11 +74,12 @@ public class MultipartRequestHandler {
 			factory.setSizeThreshold(1024*1024*1024*1024*1);
 			
 			// 임시파일 저장위치 설정
-			/*File tmpFolder = new File("C:\\tmpFileupload");
+			File tmpFolder = new File("/home/azhtml5");
 			if(!tmpFolder.exists()) {
 				tmpFolder.mkdirs();
 			}
-			factory.setRepository(tmpFolder);*/
+			factory.setRepository(tmpFolder);
+			
 			
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			upload.setHeaderEncoding("utf-8");
@@ -82,13 +89,11 @@ public class MultipartRequestHandler {
 				// 2.3 Get all uploaded FileItem
 				List<FileItem> items = upload.parseRequest(request);
 				
-				
 				for(FileItem item:items) {
 			        if(item.getFieldName().equals("noticeAcptno")) {
 			        	noticeAcptno = item.getString();
 			        }
 				}
-				
 				
 				// 2.4 Go over each FileItem
 				for(FileItem item:items){
@@ -104,19 +109,16 @@ public class MultipartRequestHandler {
 						
 						// 파일 올라가는 디렉토리 없으면 생성
 						String fileUploadDir = systemPath.getTmpDir("01");
-						
-						File fileUploadFolder = new File(fileUploadDir + "\\" + noticeAcptno);	
+						File fileUploadFolder = new File(fileUploadDir + File.separator + noticeAcptno);	
 						if(!fileUploadFolder.exists()) {
 							fileUploadFolder.mkdirs();
 						}
-						
 						String fileName = item.getName();
-						if(fileName.indexOf("\\") > 0) {
-							fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+						if(fileName.indexOf(File.separator) > 0) {
+							fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
 						}
-						System.out.println("fileName : " + fileName);
 						// 경로 나중에 db에서 받아와서 셋팅
-						String fileFullName = fileUploadDir + "\\" + noticeAcptno + "\\" + fileName;
+						String fileFullName = fileUploadDir + File.separator + noticeAcptno + File.separator + fileName;
 						// 파일 저장
 						item.write(new File(fileFullName));
 						
@@ -131,6 +133,15 @@ public class MultipartRequestHandler {
 					fm.setNoticeAcptno(noticeAcptno);
 				}
 			} catch (FileUploadException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

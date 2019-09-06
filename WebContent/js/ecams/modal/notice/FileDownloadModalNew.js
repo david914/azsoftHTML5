@@ -26,6 +26,13 @@ var uploadSucessCnt = 0;
 var uploadSelectedFileLength = 0;
 
 var downGrid  		= new ax5.ui.grid();
+var os				= '';
+var seperator		= '';
+
+os = getOSInfo();
+seperator = fileSeperator(os);
+
+console.log(os, seperator);
 
 confirmDialog.setConfig({
     title: "파일다운로드창 알림",
@@ -45,7 +52,9 @@ downGrid.setConfig({
         	this.self.clearSelect();
         	this.self.select(this.dindex);
         	if (this.colIndex == 2) {
-        		location.href = '/webPage/fileupload/upload?&fullPath='+noticeFolderPath+'\\'+downAcptno+'\\'+this.item.orgname + '&fileName=' +this.item.orgname;
+        		var fullPath = encodeURI(noticeFolderPath+ '/' +downAcptno+ '/' +this.item.orgname);
+        		var fileName = encodeURI(this.item.orgname);
+        		location.href = '/webPage/fileupload/upload?&fullPath='+fullPath+'&fileName=' + fileName;
         	}
         },
         onDBLClick: function () {
@@ -55,7 +64,9 @@ downGrid.setConfig({
 	       	if(selIn.length === 0) return;
 	       	
 	       	//문서열기
-			location.href = '/webPage/fileupload/upload?&fullPath='+noticeFolderPath+'\\'+downAcptno+'\\'+this.item.orgname + '&fileName=' +this.item.orgname;
+	       	var fullPath = encodeURI(noticeFolderPath+ '/' +downAcptno+ '/' +this.item.orgname);
+    		var fileName = encodeURI(this.item.orgname);
+    		location.href = '/webPage/fileupload/upload?&fullPath='+fullPath+'&fileName=' + fileName;
         },
     	onDataChanged: function(){
     	    this.self.repaint();
@@ -82,7 +93,6 @@ $(document).ready(function() {
 	getNoticeFolderPath();
 	downAcptno  = window.parent.downAcptno;
 	downFileCnt = window.parent.downFileCnt; 
-	
 	
 	if(window.parent.popNoticeSw !== undefined && window.parent.popNoticeSw) {
 		$('.filebox').css('display', 'none');
@@ -114,7 +124,7 @@ $(document).ready(function() {
 	$('#btnAllDw').bind('click', function() {
 		if(downFileCnt > 0) {
 			var zipName = '공지사항일괄다운';
-			location.href = '/webPage/fileupload/upload?&zipPath='+noticeFolderPath+'\\'+downAcptno + '&zipName=' + zipName;
+			location.href = '/webPage/fileupload/upload?&zipPath='+noticeFolderPath+  '/' +downAcptno + '&zipName=' + zipName;
 			return;
 		} else {
 			dialog.alert('다운로드 받을 파일이 없습니다.', function() {});
@@ -122,6 +132,28 @@ $(document).ready(function() {
 		
 	});
 });
+
+function fileSeperator(str) {
+	return str.substring(0,1) === 'W' ? '\\' : '/';
+}
+
+function getOSInfo() {
+   var ua = window.navigator.userAgent;
+
+   if(ua.indexOf("NT 6.0") != -1) return "Windows";
+   else if(ua.indexOf("NT 5.2") != -1) return "Windows Server 2003";
+   else if(ua.indexOf("NT 5.1") != -1) return "Windows XP";
+   else if(ua.indexOf("NT 5.0") != -1) return "Windows 2000";
+   else if(ua.indexOf("NT") != -1) return "Windows NT";
+   else if(ua.indexOf("9x 4.90") != -1) return "Windows Me";
+   else if(ua.indexOf("98") != -1) return "Windows 98";
+   else if(ua.indexOf("95") != -1) return "Windows 95";
+   else if(ua.indexOf("Win16") != -1) return "Windows 3.x";
+   else if(ua.indexOf("Windows") != -1) return "Windows";
+   else if(ua.indexOf("Linux") != -1) return "Linux";
+   else if(ua.indexOf("Macintosh") != -1) return "Macintosh";
+   else return "";
+}
 
 // 공지사항 다운로드 경로 가져오기
 function getNoticeFolderPath() {

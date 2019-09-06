@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -19,7 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 
+import com.ecams.common.logger.EcamsLogger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import html.app.fileupload.vo.FileMeta;
@@ -34,23 +35,29 @@ public class FileUploadServlet extends HttpServlet {
 	 * 파일 업로드 요청을 처리하는 doPost ()와 파일 다운로드 요청을 처리하는 doGet ()의 두 가지 메소드가 있습니다.
 	 * doPost () 응답 내용은 JSON 형식입니다.
 	 */
-	private static final long serialVersionUID = 1L;
 
 	// this will store uploaded files
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	static Logger ecamsLogger  = EcamsLogger.getLoggerInstance();
 	/***************************************************
 	 * URL: /upload
 	 * doPost(): upload the files and other parameters
 	 ****************************************************/
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException{
-	    
 		// 1. Upload File Using Java Servlet API
-		
 		List<FileMeta> files = new LinkedList<FileMeta>();
 		try {
 			// 1. Upload File Using Apache FileUpload
 			files.addAll(MultipartRequestHandler.uploadByApacheFileUpload(request));
+			ecamsLogger.error("********************************************fileUpload SErvlet START4*****************");
 			
 			// 2. Set response type to json
 			response.setContentType("application/json");
@@ -58,7 +65,7 @@ public class FileUploadServlet extends HttpServlet {
 			// 3. Convert List<FileMeta> into JSON format
 	    	ObjectMapper mapper = new ObjectMapper();
 	    	// 4. Send resutl to client
-	    	System.out.println("files : " + files.toString());
+	    	ecamsLogger.error("********************************************fileUpload SErvlet START4*****************" + files.toString());
 	    	mapper.writeValue(response.getOutputStream(), files);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -112,6 +119,7 @@ public class FileUploadServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException{
+		
 		String fullPath 		= request.getParameter("fullPath");
 		String fileName 		= request.getParameter("fileName");
 		String zipPath			= request.getParameter("zipPath");
@@ -126,7 +134,16 @@ public class FileUploadServlet extends HttpServlet {
 		}
 		
 		boolean ie = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
+		boolean winOs = System.getProperty("os.name").toLowerCase().indexOf("win") >=0 ? true : false; 
+		ecamsLogger.error("check doGet winos: " + winOs );
+		/*if(winOs) {
+			fullPath.replaceAll("/", "\\");
+		} else {
+			fullPath.replaceAll("\\", "/");
+		}*/
 		
+		
+		ecamsLogger.error("check doGet winos: " + fullPath );
 		if(ie) {
 			if(zipSw) {
 				zipName = URLEncoder.encode( zipName, "UTF-8" ).replaceAll("\\+", "%20");
@@ -140,6 +157,8 @@ public class FileUploadServlet extends HttpServlet {
 				fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
 			}
 		}
+		
+		ecamsLogger.error("check doGet winos: " + fileName);
 		
 		outputName = zipSw ? zipName + ".zip" : fileName;
 		
