@@ -109,6 +109,11 @@ $(document).ready(function(){
 		btnInit_Click();
 	});
 	
+	//엑셀저장 클릭
+	$("#btnExcel").bind('click', function() {
+		btnExcel_Click();
+	});
+	
 	//시스템
 	$("#cboSystem").bind('change', function() {
 		cboSystem_Change();
@@ -965,4 +970,8 @@ function btnInit_Click() {
 	$('#txtExe').val("");
 	$('#txtNoExe').val("");
 	$('#txtStory').val("");
+}
+
+function btnExcel_Click() {
+	grdProgList.exportExcel("파일추출목록.xls");
 }
