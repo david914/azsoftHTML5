@@ -4,16 +4,11 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <style>
-.width-75 {
-	width: calc(90% - 60px);
-}
 .block1 {
-	width: calc(30% - 200px);
-	min-width: 250px;
-	margin-right: 20px;
+	width: calc(100% - 80%);
 }
-label {
-	min-width: 54px;
+.centerDiv {
+	width: calc( (100% - 20%) - 395px );
 }
 </style>
 
@@ -25,42 +20,25 @@ label {
 	    <!-- 검색 S-->    
 		<div class="az_search_wrap">
 			<div class="az_in_wrap">
-				<div class="l_wrap width-70 dib">
-	                <div class="por">
-	                	<!--시스템S-->
-	                	<div class="width-25 dib">
-		                	<label class="dib">시스템　</label>
-		                    <div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
-						    </div>
-						</div>
-	                	<div class="width-50 dib vat" style="">
-		                	<label class="dib">프로그램경로</label>
-		                    <input id="txtPath" data-ax-path="txtPath" type="text" class="width-75"/>
-						</div>
+                <div class="row">
+                	<!--시스템S-->
+                	<div class="width-20 dib">
+	                	<label class="tit_60 poa">시스템</label>
+	                	<div class="ml_60">
+		                    <div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100"></div>
+	                	</div>
 					</div>
-					<!--line2-->
-					<div class="row">
-						<div class="dib search_field">
-							<div class="dib vat"><label></label></div>
-							<div class="block1 dib por"></div>
-							<!--신청인S-->
-							<div class="dib vat width-11">
-			                	<label>신청자</label>
-			                </div>
-			                <div class="dib vat">
-								<input id="txtUser" data-ax-path="txtUser" type="text" />
-							</div>
-							<div class="dib vat">
-			                	<label>경과일수</label>
-								<input id="dayTerm" data-ax-path="dayTerm" type="text"/>
-							</div>
-						</div>
+                	<div class="centerDiv dib vat">
+	                	<label class="tit_100 poa margin-10-left">프로그램경로</label>
+	                	<div class="ml_100">
+		                    <input id="txtPath" data-ax-path="txtPath" type="text" class="width-98"/>
+	                	</div>
 					</div>
-				</div>
-				<div class="r_wrap width-30 poa_r vat">
-					<div class="row tar">
+					<div class="width-5 dib vat" style="min-width: 94px;">
 						<input type="checkbox" class="checkbox-pie" id="chkDay" data-label="신청일 기준"/>
-						<div id="divPicker" data-ax5picker="basic" class="az_input_group dib">
+					</div>
+					<div class="width-16 dib vat" style="min-width: 301px;">
+						<div id="divPicker" data-ax5picker="basic" class="az_input_group dib" style="float: right;">
 							<input id="dateSt" name="start_date" type="text" placeholder="yyyy/mm/dd" style="width:92px;">
 							<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 							<span class="sim">&sim;</span>
@@ -68,14 +46,28 @@ label {
 							<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 						</div>
 					</div>
-					<div class="row tar">
-						<div class="vat dib margin-5-left">
-							<button class="btn_basic_s" id="btnExcel">엑셀저장</button>
-						</div>
-						<div class="vat dib margin-5-left">
-							<button class="btn_basic_s" id="btnSearch">조회</button>
-						</div>
-					</div>
+				</div>
+				<!--line2-->
+				<div class="row">
+					<div class="block1 dib"></div>
+					<!--신청인S-->
+					<div class="dib vat width-20">
+	                	<label class="tit_100 poa margin-10-left">신청자</label>
+	                	<div class="ml_100 vat">
+		                	<input id="txtUser" type="text" class="width-100"/>
+	                	</div>
+	                </div>
+	                <div class="dib vat width-15">
+	                	<label class="tit_80 poa margin-10-left">경과일수</label>
+	                	<div class="ml_80 vat">
+		                	<input  id="dayTerm" type="number" class="width-100"/>
+	                	</div>
+	                </div>
+	                
+	                <div class="float-right">
+						<button class="btn_basic_s" id="btnExcel">엑셀저장</button>
+						<button class="btn_basic_s margin-5-left" id="btnSearch">조회</button>
+	                </div>
 				</div>
 			</div>
 		</div>

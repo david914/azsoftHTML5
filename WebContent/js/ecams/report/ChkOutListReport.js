@@ -2,6 +2,7 @@ var userid 		= "MASTER";
 var mainGrid	= new ax5.ui.grid();
 var picker		= new ax5.ui.picker();
 var selectedItem = null;
+var systemSelData = [];
 var columnData	= 
 	[ 
 		{key : "cm_sysmsg",label : "시스템",align : "left",width: "10%"}, 
@@ -65,64 +66,68 @@ picker.bind({
         ok: {label: "Close", theme: "default"}
     }
 });
+
+
+mainGrid.setConfig({
+	target : $('[data-ax5grid="mainGrid"]'),
+	showLineNumber : true,
+	showRowSelector : false,
+	multipleSelect : false,
+	lineNumberColumnWidth : 40,
+	rowSelectorColumnWidth : 27,
+	header : {align: "center"},
+	body : {
+		columnHeight: 24,
+        onClick: function () {
+        	this.self.clearSelect();
+            this.self.select(this.dindex);
+            selectedItem = this.item;
+        },
+	},
+	columns : columnData,
+	contextMenu: {
+        iconWidth: 20,
+        acceleratorWidth: 100,
+        itemClickAndClose: false,
+        icons: {
+            'arrow': '<i class="fa fa-caret-right"></i>'
+        },
+        items: [
+        	{type: 1, label: "프로그램정보"}
+        ],
+        popupFilter: function (item, param) {
+                return true;
+        },
+        onClick: function (item, param) {
+        	 console.log(item, param);
+        	mainGrid.contextMenu.close();
+        	openWindow(item.type, 'win', '', selectedItem.cr_itemid);
+        }
+   }
+});
+
 //체크박스
 $('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
-//조회
-$("#btnSearch").bind('click', function() {
-	search();
-});
-//엑셀
-$("#btnExcel").on('click', function() {
-	var st_date = new Date().toLocaleString();
-	var today = st_date.substr(0, st_date.indexOf("오"));
-	mainGrid.exportExcel("장기체크아웃현황 " + today + ".xls");
-});
-
-$('#chkDay').bind('click', function() {
-	setDateEnable();
-});
 
 $(document).ready(function() {
-	mainGrid.setConfig({
-		target : $('[data-ax5grid="mainGrid"]'),
-		showLineNumber : true,
-		showRowSelector : false,
-		multipleSelect : false,
-		lineNumberColumnWidth : 40,
-		rowSelectorColumnWidth : 27,
-		header : {align: "center"},
-		body : {
-			columnHeight: 24,
-	        onClick: function () {
-	        	this.self.clearSelect();
-	            this.self.select(this.dindex);
-	            selectedItem = this.item;
-	        },
-		},
-		columns : columnData,
-		contextMenu: {
-            iconWidth: 20,
-            acceleratorWidth: 100,
-            itemClickAndClose: false,
-            icons: {
-                'arrow': '<i class="fa fa-caret-right"></i>'
-            },
-            items: [
-            	{type: 1, label: "프로그램정보"}
-            ],
-            popupFilter: function (item, param) {
-                    return true;
-            },
-            onClick: function (item, param) {
-            	 console.log(item, param);
-            	mainGrid.contextMenu.close();
-            	openWindow(item.type, 'win', '', selectedItem.cr_itemid);
-            }
-       }
-	});
-	
 	setDateEnable();
 	getSysInfo();
+	
+	//조회
+	$("#btnSearch").bind('click', function() {
+		search();
+	});
+	//엑셀
+	$("#btnExcel").on('click', function() {
+		var st_date = new Date().toLocaleString();
+		var today = st_date.substr(0, st_date.indexOf("오"));
+		mainGrid.exportExcel("장기체크아웃현황 " + today + ".xls");
+	});
+
+	$('#chkDay').bind('click', function() {
+		setDateEnable();
+	});
+	
 });
 
 function search() {
@@ -169,14 +174,11 @@ function getSysInfo() {
 }
 
 function SuccessGetSysInfo(data) {
-	var combo = [];
-	$.each(data, function(i, value) {
-		combo.push({value : value.cm_syscd, text : value.cm_sysmsg});
-	});
-	combo[0].value = '';
+	systemSelData = data;
+	
 	$('[data-ax5select="systemSel"]').ax5select({
-		options: combo
-	});	
+        options: injectCboDataToArr(systemSelData, 'cm_syscd' , 'cm_sysmsg')
+	});
 }
 
 function setDateEnable() {

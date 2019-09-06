@@ -305,7 +305,9 @@ ul.tabs li.active {
 .margin-40-bottom {
 	margin-bottom: 40px;
 }
-
+.margin-3-left {
+	margin-left: 3px;
+}
 .margin-5-left {
 	margin-left: 5px;
 }
