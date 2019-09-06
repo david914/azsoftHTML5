@@ -8,7 +8,6 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-
 <div class="pop-header">
 	<div>
 		<label id="lbSub">[프로그램종류정보]</label>
@@ -30,22 +29,22 @@
 		</div>
 	</div>
 	
-	<div class="sm-row">			
+	<div class="sm-row" style="font-size:0px;">			
 		<div class="dib width-50 vat">
-			<label id="lbSub" class="poa width-80">프로그램종류</label>
+			<label id="lbSub" class="poa tit_80">프로그램종류</label>
 			<div class="ml_80">
 				<div id="cboJawon" data-ax5select="cboJawon" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 			</div>
 		</div>
-		<div class="dib width-20 vat">
-			<label id="lbSub" class="poa tit_80">버전관리수</label>
+		<div class="dib width-25 vat">
+			<label id="lbSub" class="poa tit_80" style="margin-left:5px; width:75px;">버전관리수</label>
 			<div class="ml_80">
 				<input id="txtVer" class="form-control dib" type="text">
 			</div>
 		</div>
-		<div class="dib width-20 vat">
-			<label id="lbSub" class="poa tit_150">정기배포시간(HHMM)</label>
-			<div class="ml_150">
+		<div class="dib width-25 vat">
+			<label id="lbSub" class="poa tit_80" style="margin-left:5px; width:75px;">정기배포시간(HHMM)</label>
+			<div class="ml_80">
 				<input id="txtTime" class="form-control dib" type="text">
 			</div>
 		</div>
@@ -55,11 +54,11 @@
 		<div class="half_wrap_cb">
 			<!--처리속성선택-->
 			<div class="l_wrap width-30">
-				<div class="margin-5-right">
+				<div class="margin-5-right" style="margin-top:5px;">
 					<div class="width-100 dib vat">
 						<label id="lbUser" class="title">[처리속성선택]</label>
 					</div>
-					<div class="scrollBind" style="height: 80%">
+					<div class="scrollBind" style="height: 619px;">
 						<ul id="tvInfo" class="ztree"></ul>
 					</div>
 				</div>
@@ -82,7 +81,7 @@
 									<li>
 										<label class="tit_150 dib poa">동시적용프로그램종류</label>
 										<div class="ml_150">
-											<div id="cboSame" class="dib vat" data-ax5select="cboSame" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:85%;"></div>
+											<div id="cboSame" class="dib vat" data-ax5select="cboSame" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:calc(100% - 91px);"></div>
 											<div class="dib vat">
 												<input type="checkbox" class="checkbox-prg" id="chkCmd" data-label="커맨드사용"  />
 											</div>

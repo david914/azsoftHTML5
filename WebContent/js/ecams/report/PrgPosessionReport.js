@@ -1,6 +1,7 @@
 var mainGrid = new ax5.ui.grid();
 var picker = new ax5.ui.picker();
-var userid = "MASTER";
+//var userid = "MASTER";
+var userid 		= window.top.userId;
 var comboData = [];
 var columnData = [];
 var pieChart	= null;

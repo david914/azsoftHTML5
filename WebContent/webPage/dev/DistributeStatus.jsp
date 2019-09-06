@@ -30,7 +30,7 @@
 							<div id ="cboGbn" data-ax5select="cboGbn" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100"></div>
 	                	</div>
 					</div>
-                	<div class="width-25 dib vat">
+                	<div class="width-25 dib vat" id="nameDiv">
 	                	<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;신청자</label>
 	                	<div class="ml_80">
 							<input id="txtName" type="text" placeholder="신청자명을 입력하세요." class="width-100" />
@@ -50,7 +50,7 @@
 							<input id="txtId" type="text" placeholder="SR-ID/SR명/문서번호를 입력하세요." class="width-100" />
 	                	</div>
 					</div>
-                	<div class="width-25 dib vat">
+                	<div class="dib vat" style="width:calc(50% - 89px);">
 	                	<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;입력조건2</label>
 	                	<div class="ml_80">
 							<input id="txtDisc" type="text" placeholder="프로그램명/설명을 입력하세요." class="width-100" />

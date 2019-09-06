@@ -131,7 +131,7 @@
 				<div>
 					<label class="title">담당직무</label>
 				</div>
-				<div class="scrollBind sm-row" style="height:570px;">
+				<div class="scrollBind sm-row" style="height:563px;">
 					<ul class="list-group" id="ulDutyInfo"></ul>
 				</div>
 			</div>
@@ -154,7 +154,7 @@
 						<input type="checkbox" class="checkbox-user" id="chkAllJob" data-label="전체선택"/>
 					</div>
 				</div>
-				<div class="scrollBind" style="height:520px;">
+				<div class="scrollBind" style="height:515px;">
 					<ul class="list-group" id="ulJobInfo"></ul>
 				</div>
 			</div>
@@ -180,7 +180,7 @@
 						<div class="sm-row">
 	                    	<label class="tit_80 poa">부재사유</label>
 	                        <div class="ml_80">
-	                        	<textarea id="txtBlankSayu" class="width-100" rows="8" style="padding: 12px 20px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px; resize: none;"></textarea>
+	                        	<textarea id="txtBlankSayu" class="width-100" rows="8" style="padding: 12px 20px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px; resize: none; height:133px;"></textarea>
 							</div>
 						</div>
 					</div>

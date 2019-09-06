@@ -41,7 +41,7 @@
 				</div>
 			</div>
 		    <!-- 오류MSG -->
-			<div class="vat dib" style="width:calc(70% - 310px);">
+			<div class="vat dib" style="width:calc(70% - 319px);">
 				<label class="tit_80 poa margin-5-left">오류MSG</label>
 				<div class="ml_80">
 					<input id="txtErrMsg" type="text" class="width-100">
@@ -51,9 +51,9 @@
 			<div class="poa_r">
 				<input type="checkbox" class="checkbox-view" id="chkView" data-label="사용자조회"/>
 				<button id="btnScr" class="btn_basic_s">추가</button>
-				<button id="btnDelScr" class="btn_basic_s">제거</button>
-				<button id="btnReq" class="btn_basic_s">저장</button>
-				<button id="btnCopy" class="btn_basic_s">새이름저장</button>		
+				<button id="btnDelScr" class="btn_basic_s" style="margin-left:3px;">제거</button>
+				<button id="btnReq" class="btn_basic_s" style="margin-left:3px;">저장</button>
+				<button id="btnCopy" class="btn_basic_s" style="margin-left:3px;">새이름저장</button>		
 			</div>		
 		</div>
 	</div>

@@ -5,9 +5,6 @@ var userDeptName= window.top.userDeptName;
 var userDeptCd 	= window.top.userDeptCd;
 var strReqCD 	= window.top.reqCd;
 
-var userName 	= '관리자';
-var userid 		= 'MASTER';
-var adminYN 	= 'Y';
 
 var firstGrid 	= new ax5.ui.grid();
 var picker 		= new ax5.ui.picker();
@@ -360,6 +357,7 @@ function typeDefaultSet() {
 		$("#reqGbnDiv").css("display","none");
 		//$("#gbnLabel").attr("style", "visibility: hidden;");
 		//$("#cboGbn").attr("style", "visibility: hidden;");
+		$("#nameDiv").removeClass("width-25").addClass("width-50");
 		$('[data-ax5select="cboType"]').ax5select("setValue", '01', true);
 	} else if (strReqCD == '07'){
 		$('[data-ax5select="cboType"]').ax5select("setValue", '07', true);

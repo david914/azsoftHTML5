@@ -27,7 +27,7 @@
 					</div>
 				</div>
 				
-				<div class="width-40 dib">
+				<div class="width-40 dib" style="vertical-align: bottom;">
 					<div>
 						<div class="vat dib float-right">
 							<button id="btnLoadExl" class="btn_basic_s mw-85">엑셀파일</button>

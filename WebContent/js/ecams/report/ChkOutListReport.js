@@ -1,4 +1,4 @@
-var userid 		= "MASTER";
+var userid 		= window.top.userId;
 var mainGrid	= new ax5.ui.grid();
 var picker		= new ax5.ui.picker();
 var selectedItem = null;

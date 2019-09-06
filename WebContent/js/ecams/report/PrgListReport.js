@@ -1,6 +1,6 @@
 
-//var userid 		= window.top.userId;
-var userid 		= "MASTER";
+var userid 		= window.top.userId;
+//var userid 		= "MASTER";
 var mainGrid		= new ax5.ui.grid();
 var SecuYn = null;
 var L_SysCd = null;

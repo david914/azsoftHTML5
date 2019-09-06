@@ -18,77 +18,79 @@
 						<label>코드값</label>
 					</div>
 				</div>
-				<div class="width-45 dib">
+				<div class="width-45 dib margin-5-left">
 					<div class="tit_80 poa">
 						<label>코드설명</label>
 					</div>
 				</div>
 				
-				<div class="width-30 dib vat">
-					<div class="vat dib" style="float: right;">
+				<div class="width-100 dib vat">
+					<div class="vat dib float-right">
 						<button id="btnJob" class="btn_basic_s mw-80">업무정보</button>
 					</div>
 				</div>
-			
-				<div class="width-25 dib">
-					<div class="tit_80 poa">
-						<label>대구분</label>
+				<div class="row">
+					<div class="width-25 dib">
+						<div class="tit_80 poa">
+							<label>대구분</label>
+						</div>
+						<div class="ml_80 vat">
+							<input id="txtMaCode" name="txtMaCode" type="text" class="width-100">
+						</div>
 					</div>
-					<div class="ml_80 vat">
-						<input id="txtMaCode" name="txtMaCode" type="text" class="width-100">
+					<div class="width-43 dib margin-5-left">
+						<div class="width-100 dib vat">
+							<input id="txtMaName" name="txtMaName" type="text" class="width-100">
+						</div>
 					</div>
-				</div>
-				<div class="width-45 dib">
-					<div class="width-100 dib vat">
-						<input id="txtMaName" name="txtMaName" type="text" class="width-100">
+					
+					<div class="dib vat tar" style="width:calc(30% - 90px);">
+						<div class="tit_80 poa" style="text-align: left; padding-left:14px;">
+							<label>검색조건</label>
+						</div>
+						<div class="ml_80 vat tal" style="width:calc(100% - 80px)">
+							<div id="cboQry" data-ax5select="cboQry" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
+						</div>
 					</div>
-				</div>
-				
-				<div class="width-25 dib vat tar">
-					<div class="tit_80 poa">
-						<label>검색조건</label>
-					</div>
-					<div class="ml_80 vat width-50 tal">
-						<div id="cboQry" data-ax5select="cboQry" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
-					</div>
-				</div>
-				
-				<div class="width-5 dib vat">
-					<div class="vat dib" style="float: right;">
+					<div class="dib float-right">
 						<button id="btnQry" class="btn_basic_s mw-80">조&nbsp;&nbsp;회</button>
 					</div>
-				</div>
-			
-				<div class="width-25 dib">
-					<div class="tit_80 poa">
-						<label>소구분</label>
-					</div>
-					<div class="ml_80 vat">
-						<input id="txtMiCode" name="txtMaCode" type="text" class="width-100">
+					
+					<div class="dib vat poa" style="width:80px;">
+						<div class="vat dib float-right">
+						</div>
 					</div>
 				</div>
-				<div class="width-45 dib">
-					<div class="width-100 dib vat">
-						<input id="txtMiName" name="txtMaName" type="text" class="width-100">
+				<div class="row">
+					<div class="width-25 dib">
+						<div class="tit_80 poa">
+							<label>소구분</label>
+						</div>
+						<div class="ml_80 vat">
+							<input id="txtMiCode" name="txtMaCode" type="text" class="width-100">
+						</div>
 					</div>
-				</div>
-				
-				<div class="width-10 dib vat tar">
-					<div class="tit_80 poa">
-						<label>소구분순서</label>
+					<div class="width-43 dib margin-5-left">
+						<div class="width-100 dib vat">
+							<input id="txtMiName" name="txtMaName" type="text" class="width-100">
+						</div>
 					</div>
-					<div class="ml_80 vat tal">
-						<input id="txtSeq" name="txtSeq" type="text" class="width-80 vat dib">
+					
+					<div class="width-11 dib vat tar">
+						<div class="tit_80 poa">
+							<label>소구분순서</label>
+						</div>
+						<div class="ml_80 vat tal">
+							<input id="txtSeq" name="txtSeq" type="text" class="vat dib" style="width:calc(100% - 5px); min-width:25px;">
+						</div>
 					</div>
-				</div>
-				<div class="width-15 dib vat margin-3-top">
-					<input id="optUse"  type="radio" name="radio"  value="use"/>
-					<label for="optUse">사용</label>
-					<input id="optNotUse" type="radio"  name="radio"  value="notUse"/>
-					<label for="optNotUse">미사용</label>
-				</div>
-				<div class="width-5 dib vat">
-					<div class="vat dib" style="float: right;">
+					<div class="dib vat margin-3-top" style="width:116px;">
+						<input id="optUse"  type="radio" name="radio"  value="use"/>
+						<label for="optUse">사용</label>
+						<input id="optNotUse" type="radio"  name="radio"  value="notUse"/>
+						<label for="optNotUse">미사용</label>
+					</div>
+					<div class="dib vat float-right" style="width:80px;">
 						<button id="btnReq" class="btn_basic_s mw-80">적&nbsp;&nbsp;용</button>
 					</div>
 				</div>
