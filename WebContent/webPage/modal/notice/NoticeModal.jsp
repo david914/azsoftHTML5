@@ -33,7 +33,7 @@
 			<!--CM_TITLE -->
 			<div class="row">
 				<div class="write_wrap">
-					<textarea id="textareaContents" name="textareaContents" class=" width-100 margin-15-top" style="height: 255px; overflow-y:auto;"></textarea>
+					<textarea id="textareaContents" name="textareaContents" class=" width-100 margin-15-top" style="height: 255px; overflow-y:auto; padding: 5px;"></textarea>
 				</div>
 			</div>
 			<div class="row">
