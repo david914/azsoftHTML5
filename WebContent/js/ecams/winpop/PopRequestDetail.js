@@ -144,20 +144,31 @@ function createViewGrid1() {
 	        	if (isAdmin || param.item.secusw == 'Y' ||
 	    			    cmdOk.enabled == true || reqInfoData[0].confsw == '1') {
 	        		
-	        		var retType = '12';
+	        		var retType = '';
 	        		
-					findSw = false;
-					//컴파일, 릴리즈스크립트, 적용스크립트 스크립트 실행
-	                if (pReqCd == '07') {
-	                	if (param.item.cm_info.substr(38,1) == '1' || param.item.cm_info.substr(50,1) == '1' || param.item.cm_info.substr(58,1) == '1') {
+	        		if (param.item.cr_itemid == param.item.cr_baseitem) {
+	        			retType = '1';
+	        		}
+	        		if (param.item.rst == 'Y') {
+	        			retType = retType+'2';
+	        		}
+	        		
+	        		findSw = false;
+					//컴파일(39,61,1), 릴리즈스크립트(51,64,21), 적용스크립트 스크립트 실행(59,67,35), 형상관리저장 스크립트 실행(22), 체크아웃스크립트 실행(14)
+	        		if (pReqCd == '01' || pReqCd == '02' || pReqCd == '11') {
+	                	if (param.item.cm_info.substr(13,1) == '1') {
+	                		findSw = true;
+	                	}
+	                } else if (pReqCd == '07') {
+	                	if (param.item.cm_info.substr(38,1) == '1' || param.item.cm_info.substr(50,1) == '1' || param.item.cm_info.substr(58,1) == '1' || param.item.cm_info.substr(21,1) == '1') {
 	                		findSw = true;
 	                	}
 	                } else if (pReqCd == '03') {
-	                	if (param.item.cm_info.substr(60,1) == '1' || param.item.cm_info.substr(63,1) == '1' || param.item.cm_info.substr(66,1) == '1') {
+	                	if (param.item.cm_info.substr(60,1) == '1' || param.item.cm_info.substr(63,1) == '1' || param.item.cm_info.substr(66,1) == '1' || param.item.cm_info.substr(21,1) == '1') {
 	                		findSw = true;
 	                	}
 	                } else if (pReqCd == '04') {
-	                	if (param.item.cm_info.substr(0,1) == '1' || param.item.cm_info.substr(20,1) == '1' || param.item.cm_info.substr(34,1) == '1') {
+	                	if (param.item.cm_info.substr(0,1) == '1' || param.item.cm_info.substr(20,1) == '1' || param.item.cm_info.substr(34,1) == '1' || param.item.cm_info.substr(21,1) == '1') {
 	                		findSw = true;
 	                	}
 	                }
@@ -165,6 +176,7 @@ function createViewGrid1() {
 	        			retType = retType+'3';
 					}
 	
+				    console.log(reqInfoData[0].prcsw, isAdmin, param.item.cr_status);
 				    if (reqInfoData[0].prcsw == '0' && isAdmin && param.item.cr_status == '0') {
 	        			retType = retType+'4';
 					}
@@ -229,8 +241,31 @@ function createViewGrid1() {
 	
 				        }
 					}
+				    if (retType == '') return false;
 				    
-				    if (retType == '12') return item.type == 1 | item.type == 2;
+				    var retString;
+				    
+				    if (retType.indexOf('1')>-1){
+				    	retString = (item.type == 1);
+				    }
+				    if (retType.indexOf('2')>-1){
+				    	if (retType == '') retString = (item.type == 2);
+				    	else retString = retString | (item.type == 2);
+				    }
+				    if (retType.indexOf('3')>-1){
+				    	if (retType == '') retString = (item.type == 3);
+				    	else retString = retString | (item.type == 3);
+				    }
+				    if (retType.indexOf('4')>-1){
+				    	if (retType == '') retString = (item.type == 4);
+				    	else retString = retString | (item.type == 4);
+				    }
+				    if (retType.indexOf('5')>-1){
+				    	if (retType == '') retString = (item.type == 5);
+				    	else retString = retString | (item.type == 5);
+				    }
+				    /*
+				    else if (retType == '12') return item.type == 1 | item.type == 2;
 				    else if (retType == '123') return item.type == 1 | item.type == 2 | item.type == 3;
 				    else if (retType == '124') return item.type == 1 | item.type == 2 | item.type == 4;
 				    else if (retType == '125') return item.type == 1 | item.type == 2 | item.type == 5;
@@ -239,8 +274,8 @@ function createViewGrid1() {
 				    else if (retType == '1235') return item.type == 1 | item.type == 2 | item.type == 3 | item.type == 5;
 				    else if (retType == '1245') return item.type == 1 | item.type == 2 | item.type == 4 | item.type == 5;
 				    else if (retType == '12345') return item.type == 1 | item.type == 2 | item.type == 3 | item.type == 4 | item.type == 5;
-				    
-				    else return true;
+				    else */
+				    return retString;
 				    
 				} else {
 					return false;
@@ -1158,7 +1193,7 @@ function getUserInfo(){
 
 //어드민 여부 확인 완료
 function successGetUserInfo(data) {
-	if (data.cm_admin == '1') {
+	if (data[0].cm_admin == '1') {
 		isAdmin = true;
 	}
 	getReqInfo();
@@ -1566,7 +1601,7 @@ function openBefJobSetModal() {
 	            mask.open();
 	        }
 	        else if (this.state === "close") {
-            	if(befJobData.length > 0){
+            	if(befJobData != null){
             		updateBefJob(befJobData);
             	} else {
             		openBefJobListModal();
