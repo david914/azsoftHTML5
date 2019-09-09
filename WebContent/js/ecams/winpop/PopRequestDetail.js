@@ -231,15 +231,15 @@ function createViewGrid1() {
 					}
 				    
 				    if (retType == '12') return item.type == 1 | item.type == 2;
-				    else if (retType == '13') return item.type == 1 | item.type == 3;
-				    else if (retType == '14') return item.type == 1 | item.type == 4;
-				    else if (retType == '15') return item.type == 1 | item.type == 5;
 				    else if (retType == '123') return item.type == 1 | item.type == 2 | item.type == 3;
 				    else if (retType == '124') return item.type == 1 | item.type == 2 | item.type == 4;
 				    else if (retType == '125') return item.type == 1 | item.type == 2 | item.type == 5;
-				    else if (retType == '134') return item.type == 1 | item.type == 3 | item.type == 4;
-				    else if (retType == '135') return item.type == 1 | item.type == 3 | item.type == 5;
-				    else if (retType == '145') return item.type == 1 | item.type == 4 | item.type == 5;
+
+				    else if (retType == '1234') return item.type == 1 | item.type == 2 | item.type == 3 | item.type == 4;
+				    else if (retType == '1235') return item.type == 1 | item.type == 2 | item.type == 3 | item.type == 5;
+				    else if (retType == '1245') return item.type == 1 | item.type == 2 | item.type == 4 | item.type == 5;
+				    else if (retType == '12345') return item.type == 1 | item.type == 2 | item.type == 3 | item.type == 4 | item.type == 5;
+				    
 				    else return true;
 				    
 				} else {
