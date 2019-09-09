@@ -3,9 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="/webPage/common/common.jsp" />
 <!-- 검색 S-->
-<style>
-[data-ax5select] .ax5select-display.input-sm, [data-ax5select] .input-group-sm>.ax5select-display.form-control, [data-ax5select] .input-group-sm>.ax5select-display.input-group-addon, [data-ax5select] .input-group-sm>.input-group-btn>.ax5select-display.btn {min-width:0px !important;} 
-</style>
 <div class="az_search_wrap">
 	<div class="az_in_wrap sr_status">
 		<div class="l_wrap width-48 dib vat">

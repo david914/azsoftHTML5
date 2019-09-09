@@ -53,7 +53,7 @@
 	<label class="tit_100 poa">완료의견</label>
 	<div class="ml_100" >
 		<form>
-			<textarea id="txtReqContent" name="txtReqContent" style="align-content:left;width:100%;height:50px;resize: none; overflow-y:auto;"  readonly></textarea>
+			<textarea id="txtReqContent" name="txtReqContent" style="align-content:left;width:100%;height:50px;resize: none; overflow-y:auto; padding: 5px;"  readonly></textarea>
 		</form>
 	</div>
 </div>
@@ -62,7 +62,7 @@
 	<label id="lbTxt" class="tit_100 poa" style="display: none;">결재/반송의견</label>
 	<div id="divTxt" class="ml_100" style="display: none;">
 		<form>
-			<textarea id="txtConMsg" name="txtConMsg" style="align-content:left;width:100%;height:50px;resize: none; overflow-y:auto;"></textarea>
+			<textarea id="txtConMsg" name="txtConMsg" style="align-content:left;width:100%;height:50px;resize: none; overflow-y:auto; padding: 5px;"></textarea>
 		</form>
 	</div>
 </div>

@@ -120,110 +120,32 @@ $(document).ready(function() {
 	
 	// 시스템 cbo 변경이벤트
 	$('#cboSysCd').bind('change', function() {
-		var selSysInfo = null;
-		
-		if(getSelectedIndex('cboSysCd') < 1 ) {
-			return;
-		}
-		ulJobInfoData	= null;
-		$('#ulJobInfo').empty();
-		selSysInfo = getSelectedVal('cboSysCd').cm_sysinfo;
-		
-		if(selSysInfo.substr(7,1) === '1') {
-			$('#chkJobAll').wCheck('disabled',false);
-			$('#divJob').removeClass('mask_wrap');
-			getJobInfo();
-		} else {
-			$('#chkJobAll').wCheck('disabled',true);
-			$('#divJob').addClass('mask_wrap');
-		}
-		getQryCd();
+		cboSysCd_Change();
 	});
 	
 	// 유형구분 cbo 변경 이벤트
 	$('#cboQry').bind('change', function() {
-		cboPrcSysData = [];
-		qryAnPrcData.forEach(function(item, index) {
-			if(item.cm_reqcd === getSelectedVal('cboQry').cm_reqcd) {
-				cboPrcSysData.push(item);
-			}
-		});
-		$('[data-ax5select="cboPrcSys"]').ax5select({
-	        options: injectCboDataToArr(cboPrcSysData, 'cm_jobcd' , 'prcsys')
-		});
-		$('#cboPrcSys').trigger('change');
-		getBldList();
+		cboQry_Change();
 	});
-	
+
 	// 실행구분 cbo 변경 이벤트
 	$('#cboPrcSys').bind('change', function() {
-		var bldCdData = cboBldCdFilter();
-		
-		$('[data-ax5select="cboBldCd"]').ax5select({
-	        options: injectCboDataToArr(bldCdData, 'cm_micode' , 'cm_codename')
-		});
-		if(selBldCdVal !== null) {
-			$('[data-ax5select="cboBldCd"]').ax5select('setValue', selBldCdVal, true);
-			selBldCdVal = null;
-		}
-		if(bldCdData.length > 0 ) {
-			$('#cboBldCd').trigger('change');
-		}
+		cboPrcSys_Change();
 	});
 	
 	// 스크립트유형 cbo 변경 이벤트
 	$('#cboBldCd').bind('change', function() {
-		var data = new Object();
-		data = {
-			Cbo_BldGbn_code : getSelectedVal('cboBldCd').cm_bldgbn,
-			Cbo_BldCd0_code : getSelectedVal('cboBldCd').cm_micode,
-			requestType		: 'getScript'
-		}
-		ajaxAsync('/webPage/administrator/BuildReleaseInfo', data, 'json',successGetScript);
-	});
-	
-	// 그리드 전체선택
-	$('#chkGridAll').bind('click', function() {
-		if(conInfoGridData === null) return;
-		if($('#chkGridAll').is(':checked')) {
-			var selIndexs = conInfoGrid.selectedDataIndexs;
-			conInfoGridData.forEach(function(item, index) {
-				if(selIndexs.indexOf(index) === -1) conInfoGrid.select(index);
-			});
-		} else {
-			conInfoGrid.clearSelect();
-		}
+		cboBldCd_Change();
 	});
 	
 	// 프로그램종류 전체선택
 	$('#chkPrgAll').bind('click', function() {
-		
-		if(ulPrgInfoData === null) return;
-		
-		var addId = null;
-		ulPrgInfoData.forEach(function(item, index) {
-			addId = item.cm_micode;
-			if($('#chkPrgAll').is(':checked')) {
-				$('#chkPrg'+addId).wCheck('check', true);
-			} else {
-				$('#chkPrg'+addId).wCheck('check', false);
-			}
-			
-		});
+		chkPrgAll_Click();
 	});
 	
 	// 업무종류 전체선택
 	$('#chkJobAll').bind('click', function() {
-		if(ulJobInfoData === null) return;
-		var addId = null;
-		ulJobInfoData.forEach(function(item, index) {
-			addId = item.cm_jobcd
-			if($('#chkJobAll').is(':checked')) {
-				$('#chkJob'+addId).wCheck('check', true);
-			} else {
-				$('#chkJob'+addId).wCheck('check', false);
-			}
-		})
+		chkJobAll_Click();
 	});
 	
 	// 등록 버튼 클릭
@@ -241,6 +163,100 @@ $(document).ready(function() {
 		chkBatch_change();
 	});
 });
+
+//시스템 cbo 변경이벤트
+function cboSysCd_Change() {
+	var selSysInfo = null;
+	
+	if(getSelectedIndex('cboSysCd') < 1 ) {
+		return;
+	}
+	ulJobInfoData	= null;
+	$('#ulJobInfo').empty();
+	selSysInfo = getSelectedVal('cboSysCd').cm_sysinfo;
+	
+	if(selSysInfo.substr(7,1) === '1') {
+		$('#chkJobAll').wCheck('disabled',false);
+		$('#divJob').removeClass('mask_wrap');
+		getJobInfo();
+	} else {
+		$('#chkJobAll').wCheck('disabled',true);
+		$('#divJob').addClass('mask_wrap');
+	}
+	getQryCd();
+}
+
+//유형구분 cbo 변경 이벤트
+function cboQry_Change() {
+	cboPrcSysData = [];
+	qryAnPrcData.forEach(function(item, index) {
+		if(item.cm_reqcd === getSelectedVal('cboQry').cm_reqcd) {
+			cboPrcSysData.push(item);
+		}
+	});
+	$('[data-ax5select="cboPrcSys"]').ax5select({
+        options: injectCboDataToArr(cboPrcSysData, 'cm_jobcd' , 'prcsys')
+	});
+	$('#cboPrcSys').trigger('change');
+	getBldList();
+}
+
+//실행구분 cbo 변경 이벤트
+function cboPrcSys_Change() {
+	var bldCdData = cboBldCdFilter();
+	
+	$('[data-ax5select="cboBldCd"]').ax5select({
+        options: injectCboDataToArr(bldCdData, 'cm_micode' , 'cm_codename')
+	});
+	if(selBldCdVal !== null) {
+		$('[data-ax5select="cboBldCd"]').ax5select('setValue', selBldCdVal, true);
+		selBldCdVal = null;
+	}
+	if(bldCdData.length > 0 ) {
+		$('#cboBldCd').trigger('change');
+	}
+}
+
+//스크립트유형 cbo 변경 이벤트
+function cboBldCd_Change() {
+	var data = new Object();
+	data = {
+		Cbo_BldGbn_code : getSelectedVal('cboBldCd').cm_bldgbn,
+		Cbo_BldCd0_code : getSelectedVal('cboBldCd').cm_micode,
+		requestType		: 'getScript'
+	}
+	ajaxAsync('/webPage/administrator/BuildReleaseInfo', data, 'json',successGetScript);
+}
+
+//프로그램종류 전체선택
+function chkPrgAll_Click() {
+	if(ulPrgInfoData === null) return;
+	
+	var addId = null;
+	ulPrgInfoData.forEach(function(item, index) {
+		addId = item.cm_micode;
+		if($('#chkPrgAll').is(':checked')) {
+			$('#chkPrg'+addId).wCheck('check', true);
+		} else {
+			$('#chkPrg'+addId).wCheck('check', false);
+		}
+		
+	});
+}
+
+//업무종류 전체선택
+function chkJobAll_Click() {
+	if(ulJobInfoData === null) return;
+	var addId = null;
+	ulJobInfoData.forEach(function(item, index) {
+		addId = item.cm_jobcd
+		if($('#chkJobAll').is(':checked')) {
+			$('#chkJob'+addId).wCheck('check', true);
+		} else {
+			$('#chkJob'+addId).wCheck('check', false);
+		}
+	});
+}	
 
 // 등록
 function insertBldList() {
