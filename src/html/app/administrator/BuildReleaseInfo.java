@@ -110,12 +110,9 @@ public class BuildReleaseInfo extends HttpServlet {
 	
 	// [빌드/릴리즈정보] 스크립트 저장
 	private String insertScript(JsonElement jsonElement) throws SQLException, Exception {
-		String Cbo_BldGbn 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"Cbo_BldGbn"));
-		String Cbo_BldCd0 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"Cbo_BldCd0"));
-		String Txt_Comp2 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"Txt_Comp2"));
-		String runType 		= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"runType"));
-		ArrayList<HashMap<String, String>> Lv_File0_dp 	= ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"Lv_File0_dp"));
-		return gson.toJson(cmd1200.getCmm0022_DBProc(Cbo_BldGbn, Cbo_BldCd0, Txt_Comp2, runType, Lv_File0_dp));
+		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
+		ArrayList<HashMap<String, String>> Lv_File0_dp = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"Lv_File0_dp"));
+		return gson.toJson(cmd1200.getCmm0022_DBProc(DataMap, Lv_File0_dp));
 	}
 	
 	// [빌드/릴리즈정보] 스크립트 새이름저장

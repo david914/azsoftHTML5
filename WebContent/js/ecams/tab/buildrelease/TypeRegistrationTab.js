@@ -17,15 +17,15 @@ var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 var editScriptGrid		= new ax5.ui.grid();
 var scriptGrid			= new ax5.ui.grid();
 
-var editScriptGridData 	= null;
-var scriptGridData		= null;
+var editScriptGridData 	= [];
+var scriptGridData		= [];
 
-var cboBldGbnData	= null;
-var cboBldCdData	= null;
-var fCboBldCdData	= null;
-var cboBldGbnBData	= null;
+var cboBldGbnData	= [];
+var cboBldCdData	= [];
+var fCboBldCdData	= [];
+var cboBldGbnBData	= [];
 
-var cboOptions		= null;
+var cboOptions		= [];
 var newBldCdValue	= null;
 
 editScriptGrid.setConfig({
@@ -103,87 +103,14 @@ $(document).ready(function() {
 		$('#btnQry').trigger('click');
 	});
 
-	// 서버종류 변경시
+	// 등록구분 변경
 	$('#cboBldGbn').bind('change', function() {
-		var selGbn = getSelectedVal('cboBldGbn').value;
-		fCboBldCdData = [];
-		cboBldCdData.forEach(function(bldCdItem, index) {
-			if(selGbn === bldCdItem.cm_bldgbn) fCboBldCdData.push(bldCdItem);
-		});
-		
-		if(fCboBldCdData.length === 0 ) {
-			var newBldCd 	= new Object();
-			newBldCd.value 	= 0;
-			newBldCd.text 	= '유형신규등록';
-			newBldCd.cm_micode = '00';
-			newBldCd.cm_bldgbn = selGbn;
-			fCboBldCdData.push(newBldCd);
-		}
-		
-		
-		if(fCboBldCdData[0].cm_micode == '00') {
-			var cnt = 0;
-			var newBldCd = new Object();
-			var i = 0;
-			for(i=1; i<fCboBldCdData.length; i++) {
-				++cnt;
-				if(Number(fCboBldCdData[i].cm_micode) != cnt) break;
-			}
-			
-			if(i >= cnt) ++cnt;
-			
-			newBldCd = fCboBldCdData[0];
-			if(cnt < 10) newBldCd.cm_micode = '00' + String(cnt);
-			else if (cnt < 100) newBldCd.cm_micode = '0' + String(cnt);
-			else newBldCd.cm_micode = String(cnt);
-			
-			fCboBldCdData.splice(0,1,newBldCd);
-		}
-		
-		cboOptions = [];
-		$.each(fCboBldCdData,function(key,value) {
-			cboOptions.push({value: value.value, text: value.cm_codename, cm_micode : value.cm_micode, cm_bldgbn : value.cm_bldgbn});
-		});
-		
-		$('[data-ax5select="cboBldCd"]').ax5select({
-	        options: cboOptions
-		});
-		
-		
-		if(fCboBldCdData.length > 0 ) $('#cboBldCd').trigger('change');
+		cboBldGbn_Change();
 	});
 	
-	// 유형구분 변경시
+	// 유형구분 변경
 	$('#cboBldCd').bind('change', function() {
-		//getSelectedVal('cboBldGbn')
-		var bldCdVal 	= $('[data-ax5select="cboBldCd"]').ax5select("getValue")[0].cm_micode;
-		var bldGbnVal 	= $('[data-ax5select="cboBldGbn"]').ax5select("getValue")[0].value;
-		var bldCdSelIn	= $('#cboBldCd option').index($('#cboBldCd option:selected'));
-		$('#btnDel').prop(  "disabled", true );
-		$('#btnCopy').prop( "disabled", true );
-		
-		if(newBldCdValue !== null) {
-			$('[data-ax5select="cboBldCd"]').ax5select('setValue',newBldCdValue ,true);
-			bldCdSelIn		= $('#cboBldCd option').index($('#cboBldCd option:selected'));
-			bldCdVal 		= $('[data-ax5select="cboBldCd"]').ax5select("getValue")[0].cm_micode;
-			newBldCdValue 	= null;
-		}
-		if(bldCdSelIn === 0) {
-			editScriptGridData = [];
-			editScriptGrid.setData(editScriptGridData);
-			return;
-		} 
-		
-		$('#btnDel').prop(  "disabled", false );
-		$('#btnCopy').prop( "disabled", false );
-		
-		var data = new Object();
-		data = {
-			Cbo_BldGbn_code : bldGbnVal,
-			Cbo_BldCd0_code : bldCdVal,
-			requestType	: 'getScript'
-		}
-		ajaxAsync('/webPage/administrator/BuildReleaseInfo', data, 'json',successGetScript);
+		cboBldCd_Change();
 	});
 	
 	// 유형 삭제 클릭
@@ -223,6 +150,87 @@ $(document).ready(function() {
 		}
 	})
 });
+
+// 등록구분 변경 
+function cboBldGbn_Change() {
+	var selGbn = getSelectedVal('cboBldGbn').value;
+	fCboBldCdData = [];
+	cboBldCdData.forEach(function(bldCdItem, index) {
+		if(selGbn === bldCdItem.cm_bldgbn) fCboBldCdData.push(bldCdItem);
+	});
+	
+	if(fCboBldCdData.length === 0 ) {
+		var newBldCd 	= new Object();
+		newBldCd.value 	= 0;
+		newBldCd.cm_codename = '유형신규등록';
+		newBldCd.cm_micode = '00';
+		newBldCd.cm_bldgbn = selGbn;
+		fCboBldCdData.push(newBldCd);
+	}
+	
+	
+	if(fCboBldCdData[0].cm_micode == '00') {
+		var cnt = 0;
+		var newBldCd = new Object();
+		var i = 0;
+		for(i=1; i<fCboBldCdData.length; i++) {
+			++cnt;
+			if(Number(fCboBldCdData[i].cm_micode) != cnt) break;
+		}
+		
+		//if(i >= cnt) ++cnt;
+		if(i >= fCboBldCdData.length) ++cnt;
+		
+		newBldCd = fCboBldCdData[0];
+		if(cnt < 10) newBldCd.cm_micode = '00' + String(cnt);
+		else if (cnt < 100) newBldCd.cm_micode = '0' + String(cnt);
+		else newBldCd.cm_micode = String(cnt);
+		
+		fCboBldCdData.splice(0,1,newBldCd);
+	}
+	
+	console.log("fCboBldCdData",fCboBldCdData);
+	$('[data-ax5select="cboBldCd"]').ax5select({
+        options: injectCboDataToArr(fCboBldCdData, 'value' , 'cm_codename')
+   	});
+	
+	if(fCboBldCdData.length > 0 ) $('#cboBldCd').trigger('change');
+}
+
+// 유형구분 변경
+function cboBldCd_Change() {
+	//getSelectedVal('cboBldGbn')
+	var bldCdVal 	= $('[data-ax5select="cboBldCd"]').ax5select("getValue")[0].cm_micode;
+	var bldGbnVal 	= $('[data-ax5select="cboBldGbn"]').ax5select("getValue")[0].value;
+	var bldCdSelIn	= $('#cboBldCd option').index($('#cboBldCd option:selected'));
+	
+	$('#btnDel').prop(  "disabled", true );
+	$('#btnCopy').prop( "disabled", true );
+	$('#txtBldMsg').val($('[data-ax5select="cboBldCd"]').ax5select("getValue")[0].cm_bldmsg);
+	
+	if(newBldCdValue !== null) {
+		$('[data-ax5select="cboBldCd"]').ax5select('setValue',newBldCdValue ,true);
+		bldCdSelIn		= $('#cboBldCd option').index($('#cboBldCd option:selected'));
+		bldCdVal 		= $('[data-ax5select="cboBldCd"]').ax5select("getValue")[0].cm_micode;
+		newBldCdValue 	= null;
+	}
+	if(bldCdSelIn === 0) {
+		editScriptGridData = [];
+		editScriptGrid.setData(editScriptGridData);
+		return;
+	} 
+	
+	$('#btnDel').prop(  "disabled", false );
+	$('#btnCopy').prop( "disabled", false );
+	
+	var data = new Object();
+	data = {
+		Cbo_BldGbn_code : bldGbnVal,
+		Cbo_BldCd0_code : bldCdVal,
+		requestType	: 'getScript'
+	}
+	ajaxAsync('/webPage/administrator/BuildReleaseInfo', data, 'json',successGetScript);
+}
 
 // 스크립트 가져오기
 function getExistScript() {
@@ -306,16 +314,21 @@ function insertScript() {
 	var bldCd 		= $('[data-ax5select="cboBldCd"]').ax5select("getValue")[0].cm_micode;
 	var bldGbn 		= $('[data-ax5select="cboBldGbn"]').ax5select("getValue")[0].value;
 	var txtErrMsg	= $('#txtErrMsg').val().trim();
+	var txtBldMsg 	= $('#txtBldMsg').val().trim();
 	var runType		= 'R';
 	
 	if(fCboBldCdData.length === 1 && bldCd === '00' ) bldCd = '01';
 	
+	var tmpInfo = new Object();
+	tmpInfo.Cbo_BldGbn = bldGbn;
+	tmpInfo.Cbo_BldCd0 = bldCd;
+	tmpInfo.Txt_Comp2 = txtErrMsg;
+	tmpInfo.bldmsg = txtBldMsg;
+	tmpInfo.runType = runType;
+	
 	var data = new Object();
 	data = {
-		Cbo_BldGbn 	: bldGbn,
-		Cbo_BldCd0 	: bldCd,
-		Txt_Comp2 	: txtErrMsg,
-		runType 	: runType,
+		tmpInfo : tmpInfo,
 		Lv_File0_dp : editScriptGridData,
 		requestType	: 'insertScript'
 	}

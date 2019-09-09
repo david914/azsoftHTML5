@@ -64,9 +64,10 @@ public class Cmd1200{
 			String svBldGbn = "";
 
 			strQuery.setLength(0);
-			strQuery.append("select b.cm_gbncd,b.cm_bldcd from cmm0022 b \n");
-			strQuery.append("group by b.cm_gbncd,b.cm_bldcd              \n");
-			strQuery.append("order by b.cm_gbncd,b.cm_bldcd              \n");
+			strQuery.append("select b.cm_gbncd,b.cm_bldcd,b.cm_bldmsg		\n");
+			strQuery.append("  from cmm0022 b              					\n");
+			strQuery.append(" group by b.cm_gbncd,b.cm_bldcd,cm_bldmsg     	\n");
+			strQuery.append(" order by b.cm_gbncd,b.cm_bldcd              	\n");
             pstmt = conn.prepareStatement(strQuery.toString());
             rs = pstmt.executeQuery();
 
@@ -83,7 +84,12 @@ public class Cmd1200{
 				rst = new HashMap<String, String>();
 				rst.put("cm_bldgbn", rs.getString("cm_gbncd"));
 				rst.put("cm_micode", rs.getString("cm_bldcd"));
-				rst.put("cm_codename", "贸府蜡屈" + rs.getString("cm_bldcd"));
+				if(rs.getString("cm_bldmsg") == null) {
+					rst.put("cm_codename", "["+rs.getString("cm_bldcd")+"]"+"贸府蜡屈" + rs.getString("cm_bldcd"));
+				}else {
+					rst.put("cm_codename", "["+rs.getString("cm_bldcd")+"]"+rs.getString("cm_bldmsg"));
+				}
+				rst.put("cm_bldmsg", rs.getString("cm_bldmsg"));
 	           	rsval.add(rst);
 	           	rst = null;
 			}
@@ -579,6 +585,7 @@ public class Cmd1200{
 				else rst.put("cm_jobname", "葛电诀公");
 				rst.put("prcsys", rs.getString("prcsys"));
 				rst.put("bldcd", "贸府蜡屈"+rs.getString("cm_bldCD"));
+				
 				rst.put("cm_jobcd", rs.getString("cm_jobcd"));
 				rst.put("cm_rsrccd", rs.getString("cm_rsrccd"));
 				rst.put("cm_bldgbn", rs.getString("cm_bldgbn"));
@@ -1022,12 +1029,12 @@ public class Cmd1200{
 		    strQuery.append("   FROM CMM0022    \n");
 		    strQuery.append("  WHERE CM_GBNCD=? \n");//Cbo_BldGbn
 		    strQuery.append("    AND CM_BLDCD=?) \n");//Cbo_BldCd0
-			pstmt = conn.prepareStatement(strQuery.toString());
-			//pstmt =  new LoggableStatement(conn, strQuery.toString());
+			//pstmt = conn.prepareStatement(strQuery.toString());
+			pstmt =  new LoggableStatement(conn, strQuery.toString());
 			pstmt.setString(1, NewBld);
             pstmt.setString(2, Cbo_BldGbn);
             pstmt.setString(3, Cbo_BldCd0);
-            ////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rtn_cnt = pstmt.executeUpdate();
             pstmt.close();
             conn.commit();
@@ -1065,8 +1072,9 @@ public class Cmd1200{
 		}
     }//end of getCmm0022_Copy() method statement
 
-    public int getCmm0022_DBProc(String Cbo_BldGbn,String Cbo_BldCd0,String Txt_Comp2,String runType,ArrayList<HashMap<String,String>> Lv_File0_dp) throws SQLException, Exception {
-		Connection        conn        = null;
+    //public int getCmm0022_DBProc(String Cbo_BldGbn,String Cbo_BldCd0,String Txt_Comp2,String runType,ArrayList<HashMap<String,String>> Lv_File0_dp) throws SQLException, Exception {
+    public int getCmm0022_DBProc(HashMap<String,String> etcData, ArrayList<HashMap<String,String>> Lv_File0_dp) throws SQLException, Exception {    	
+    	Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
 		StringBuffer      strQuery    = new StringBuffer();
@@ -1080,8 +1088,8 @@ public class Cmd1200{
 		    strQuery.append("delete cmm0022 where cm_gbncd=? \n");//Cbo_BldGbn
 		    strQuery.append("and cm_bldcd=? \n");//Cbo_BldCd0
 			pstmt = conn.prepareStatement(strQuery.toString());
-            pstmt.setString(1, Cbo_BldGbn);
-            pstmt.setString(2, Cbo_BldCd0);
+            pstmt.setString(1, etcData.get("Cbo_BldGbn"));
+            pstmt.setString(2, etcData.get("Cbo_BldCd0"));
             rtn_cnt = pstmt.executeUpdate();
 
             pstmt.close();
@@ -1089,25 +1097,27 @@ public class Cmd1200{
             int x = 0;
 		    for (x = 0 ; x<Lv_File0_dp.size() ; x++){
 		    	strQuery.setLength(0);
-		    	strQuery.append("insert into cmm0022 (CM_BLDCD,CM_SEQ,CM_CMDNAME,CM_GBNCD,CM_ERRWORD,CM_RUNTYPE,CM_VIEWYN) values (\n");
+		    	strQuery.append("insert into cmm0022 (CM_BLDCD,CM_SEQ,CM_CMDNAME,CM_GBNCD,CM_ERRWORD,CM_RUNTYPE,CM_VIEWYN,CM_BLDMSG) values (\n");
 		    	strQuery.append("?, \n");//Cbo_BldCd0
 		    	strQuery.append("?, \n");//Lv_File0.cm_seq
 		        strQuery.append("?, \n");//replace(CM_CMDNAME)
 		        strQuery.append("?, \n");//Cbo_BldGbn
 		        strQuery.append("?, \n");//replace(Txt_Comp2)
 		        strQuery.append("?, \n");//runtype
-		        strQuery.append("?) \n");//VIEWYN
+		        strQuery.append("?, \n");//VIEWYN
+		        strQuery.append("?) \n");//BLDMSG
 
 				pstmt = conn.prepareStatement(strQuery.toString());
 				//pstmt =  new LoggableStatement(conn, strQuery.toString());
 
-				pstmt.setString(1, Cbo_BldCd0);
+				pstmt.setString(1, etcData.get("Cbo_BldCd0"));
 	            pstmt.setString(2, Lv_File0_dp.get(x).get("cm_seq"));
 	            pstmt.setString(3, Lv_File0_dp.get(x).get("cm_cmdname"));
-	            pstmt.setString(4, Cbo_BldGbn);
-	            pstmt.setString(5, Txt_Comp2);
-	            pstmt.setString(6, runType);
+	            pstmt.setString(4, etcData.get("Cbo_BldGbn"));
+	            pstmt.setString(5, etcData.get("Txt_Comp2"));
+	            pstmt.setString(6, etcData.get("runType"));
 	            pstmt.setString(7, Lv_File0_dp.get(x).get("cm_viewyn"));
+	            pstmt.setString(8, etcData.get("bldmsg"));
 
 				////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	            rtn_cnt = pstmt.executeUpdate();
