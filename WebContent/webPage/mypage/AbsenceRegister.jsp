@@ -36,7 +36,7 @@
 			<label class="tit_60 dib poa">부재사유</label>
 			<div class="ml_60">
 				<div id="cboSayu" data-ax5select="cboSayu" data-ax5select-config="{size:'sm',theme:'primary'}" style="width: 100%"></div>
-				<textarea id="txtSayu" name="txtSayu"  class="width-100" rows="4" cols="75" style="padding: 12px 20px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px;">
+				<textarea id="txtSayu" name="txtSayu"  class="width-100" rows="4" cols="75" style="padding: 12px 20px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px; resize:none; overflow-y:auto;'">
 				</textarea>
 			</div>
 		</div>
