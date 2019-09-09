@@ -1011,32 +1011,33 @@ function srComplet(){
 }
 
 function fileupload(){
-	
+	ing_sw = true;
 	var ajaxResultData = "";
 	var fileseq = 0;
+	var fileseqText = "";
 	var formData = new FormData();
 	//tmpPath = 'C:\\eCAMS\\webTmp\\'; //uploadUrl; //테스트 임시경로
 	tmpPath = uploadUrl;
 	for(var key in fileData){
+		var selSaveFile = "";
+		if(fileseq < 10){
+			fileseqText = "0"+fileseq;
+			selSaveFile =  "/SR/"+ strIsrId.substr(1,6) + "/"+strIsrId+"_"+strReqCd+"_"+fileseqText;
+		}else{
+			fileseqText = fileseq;
+			selSaveFile =  "/SR/"+ strIsrId.substr(1,6) + "/"+strIsrId+"_"+strReqCd+"_"+fileseqText;
+		}
+		
 		formData.append('fullName',tmpPath);
 		formData.append('fullpath',tmpPath+"/SR/"+ strIsrId.substr(1,6) + "/");
-		formData.append('saveName',strIsrId+"_"+strReqCd+"_"+fileseq);
+		formData.append('saveName',strIsrId+"_"+strReqCd+"_"+fileseqText);
 		formData.append('file',fileData[key].file);
-
-		var selSaveFile = "";
 	
-		if(fileseq < 10){
-			selSaveFile =  "/SR/"+ strIsrId.substr(1,6) + "/"+strIsrId+"_"+strReqCd+"_0"+fileseq;
-			fileData[key].fileseq = "0"+fileseq;
-		}else{
-			selSaveFile =  "/SR/"+ strIsrId.substr(1,6) + "/"+strIsrId+"_"+strReqCd+"_"+fileseq;
-			fileData[key].fileseq = fileseq;
-		}
 		fileData[key].sendflag = false;
 		fileData[key].savefile = selSaveFile;
 		fileData[key].fullpath = uploadUrl;
 		fileData[key].fullName = uploadUrl+selSaveFile;
-		fileData[key].fileseq = fileseq;
+		fileData[key].fileseq = fileseqText;
 		fileseq++;
 		
 	}
@@ -1078,9 +1079,10 @@ function onUploadCompleteData(){
 		}
 	ajaxResultData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', tmpData, 'json');
 	if(ajaxResultData == "OK"){
-		elementInit('NEW');
-		ing_sw = false;
-		//dialog.alert('업로드 되었습니다.',function(){});
+		dialog.alert(strSel + "이 완료되었습니다.");
+		elementInit("NEW");
+		window.parent.subCmdQry_Click();
+		ing_sw = false; /// 마지막에 초기화해줌 성공적으로 들록, 수정되면
 	}
 	else{
     	dialog.alert('<div>파일등록 오류가 발생했습니다.</div><div> 파일을 다시 등록해주시기 바랍니다.</div>',function(){});
