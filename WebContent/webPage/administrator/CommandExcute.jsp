@@ -18,10 +18,12 @@
 	               	<label for="rdoqry">쿼리수행</label>
 	               	<input id="optfile" type="radio"  name="cmdRadioGbn" value="3"/>
 					<label for="optfile">파일송수신</label>
+					<input id="opturl" type="radio"  name="cmdRadioGbn" value="3"/>
+					<label for="opturl">URL호출</label>
 					<label id="lbtit" class="tit_150 poa margin-20-left margin-5-right">[ 조회 할 쿼리문 입력 ]</label>
             	</div>
-         		
 			</div>
+			
 			<div class="dib" id="rdo2">
 				<input id="rdoap"  type="radio" name="cmdRadioUsr" value="1"/>
 		        <label for="rdoap">AP계정</label>
@@ -34,9 +36,11 @@
 	        	<input id="rdorecive" type="radio" name="cmdRadioFile" value="2"/>
 				<label for="rdorecive">수신</label>
 			</div>
-			<div class="dib"  id="cboDbUsrSel" data-ax5select="cboDbUsrSel" data-ax5select-config="{size:'sm',theme:'primary'}" style="vertical-align: bottom"> </div>
+			<div class="dib"  id="cboDbUsrSel" data-ax5select="cboDbUsrSel" data-ax5select-config="{size:'sm',theme:'primary'}" style="vertical-align: bottom; min-width: 110;"> </div>
 			<div id="chkViewDiv" class="dis-i-b tar">
-				<input type="checkbox" class="checkbox-pie" id="chkView" data-label="수신파일 직접보기"/>
+<!-- 				<input type="checkbox" class="checkbox-pie" id="chkView" data-label="수신파일 직접보기"/> -->
+				<input id="chkView" tabindex="8" class="checkbox-pie" type="checkbox" value="chkView" style="margin-top: 5px;" name="chkView"/>
+				<label for="chkView"  id="txtChkView" style="margin-top: -5px;">수신파일 직접보기</label>
 			</div>
 			
 			<button id="btnQry" class="btn_basic_s margin-20-left" style="cursor: pointer;">커맨드실행</button>

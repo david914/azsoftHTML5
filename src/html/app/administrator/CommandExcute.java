@@ -57,6 +57,9 @@ public class CommandExcute extends HttpServlet {
 				case "fileAttUpdt" :
 					response.getWriter().write( fileAttUpdt(jsonElement) );
 					break;
+				case "getRemoteUrl" :
+					response.getWriter().write( getRemoteUrl(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -87,5 +90,9 @@ public class CommandExcute extends HttpServlet {
 	private String fileAttUpdt(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String>	cmdDataInfoMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "cmdData") );
 		return gson.toJson(cmm1600.fileAttUpdt(cmdDataInfoMap.get("txtcmd") ));
+	}
+	private String getRemoteUrl(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String>	cmdDataInfoMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "cmdData") );
+		return gson.toJson(cmm1600.getRemoteUrl(cmdDataInfoMap.get("txtcmd"), cmdDataInfoMap.get("userid"),cmdDataInfoMap.get("gbnCd"),cmdDataInfoMap.get("savePath") ) );
 	}
 }

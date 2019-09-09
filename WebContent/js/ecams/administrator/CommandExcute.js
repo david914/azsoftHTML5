@@ -91,11 +91,13 @@ function gbnSet(){
 		$('#btnQry').text('커맨드 실행');
 		$('[data-ax5grid="cmdGrid"]').hide();
 		$('#txtrst').show();
+		$('#txtrst').val('');
 		$('#rdo2').show();
 		$('#rdo3').hide();
 		$('#cboDbUsrSel').hide();
 		$('#btnExcel').hide();
 		$('#chkViewDiv').css('visibility','visible');
+		$('#txtChkView').text('수신파일 직접보기');
 	} else if($('#rdoqry').is(':checked')) {
 		$('#lbtit').text('[ 조회 할 쿼리문 입력 ]');
 		$('#btnQry').text('쿼리 실행');
@@ -106,9 +108,10 @@ function gbnSet(){
 		$('#cboDbUsrSel').show();
 		$('#btnExcel').show();
 		$('#chkViewDiv').css('visibility','hidden');
-	} else {
+	} else if($('#optfile').is(':checked'))  {
 		$('#lbtit').text('[ 송/수신 할 파일 입력 ]');
 		$('#txtrst').show();
+		$('#txtrst').val('');
 		$('[data-ax5grid="cmdGrid"]').hide();
 		$('[name="cmdRadioUsr"]').hide();
 		$('#rdo2').hide();
@@ -117,6 +120,19 @@ function gbnSet(){
 		$('#btnExcel').hide();
 		$('#chkViewDiv').css('visibility','hidden');
 		btnSet();
+	} else if($('#opturl').is(':checked'))  {
+		$('#lbtit').text('[ 수행 할 URL 입력 ]');
+		$('#btnQry').text('URL 실행');
+		$('#txtrst').show();
+		$('#txtrst').val('');
+		$('[data-ax5grid="cmdGrid"]').hide();
+		$('[name="cmdRadioUsr"]').hide();
+		$('#rdo2').show();
+		$('#rdo3').hide();
+		$('#cboDbUsrSel').hide();
+		$('#btnExcel').hide();
+		$('#chkViewDiv').css('visibility','visible');
+		$('#txtChkView').text('결과파일보기');
 	}
 }
 function btnSet(){
@@ -139,14 +155,21 @@ function getRequest(){
 		}
 	} else if ($('#rdoqry').is(':checked')) {	//쿼리
 		execQry();
-	} else {									//파일 송수신
+	} else if ($('#optfile').is(':checked')) {	//파일 송수신
 		if($('#rdosend').is(':checked')){
 			execFile('S');	//송신
 		} else {
 			execFile('R');	//수신
 		}
+	} else if ($('#opturl').is(':checked')) {	//URL 호출
+		if($('#rdoap').is(':checked')){			//AP계정(agent 띄어져 있는 계정으로)
+			execUrl('UA');
+		} else { 								//web계정 (web이 띄어져 있는 계정으로)
+			execUrl('UW');
+		}
 	}
 }
+
 
 function execCmd(gbnCd){
 	if(document.getElementById("txtcmd").value.trim()==""){
@@ -310,5 +333,42 @@ function successgetFileView(data) {
 		return;
 	} else {
 		$('#txtrst').val(data.substr(2));
+	}
+}
+
+function execUrl(gbnCd){
+	if(document.getElementById("txtcmd").value.trim()==""){
+		alert('커맨드를 입력하여 주시기 바랍니다.');
+		return;
+	}
+	var tmpData = {
+		requestType: 	'SystemPath'
+	}
+	tmpPath = ajaxCallWithJson('/webPage/mypage/Notice', tmpData, 'json')+'/';
+	
+	var cmdData = new Object();
+	cmdData.txtcmd 	= document.getElementById("txtcmd").value.trim();
+	cmdData.userid  = userid;
+	cmdData.gbnCd  	= gbnCd;
+	cmdData.savePath= tmpPath;
+	
+	if($('#chkView').is(':checked')) {
+		cmdData.view	= 'ok';
+	} else {
+		cmdData.view	= 'no';
+	}
+	var data =  new Object();
+	data = {
+			requestType : 'getRemoteUrl',
+			cmdData: cmdData
+	}
+	ajaxAsync('/webPage/administrator/CommandExcute', data, 'json',successGetUrlRst);
+}
+function successGetUrlRst(data) {
+	if(data.substring(0,2) == 'ER'){
+		alert("실패 하였습니다."+data);
+	} else if($('#chkView').is(':checked')) {	//직접보기
+		alert("완료 하였습니다."+data.trim());
+		fileView(data.trim());
 	}
 }

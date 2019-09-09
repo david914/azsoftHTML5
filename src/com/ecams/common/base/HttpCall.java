@@ -126,7 +126,6 @@ public class HttpCall {
 		htpConn.setDoInput(true);
 		htpConn.setUseCaches(false);
 		htpConn.setDefaultUseCaches(false);
-		
 		return htpConn;
 	}
 	private String httpSend(HttpURLConnection phtpConn, byte[] pbyteData) throws Exception
@@ -157,12 +156,12 @@ public class HttpCall {
 			String disposition = phtpConn.getHeaderField("Content-Disposition");
 			phtpConn.getContentType();
 			int i = 0;
-			String inFile = "";
+			String inFile = "RstUrl.log";
 			String saveFilePath = "";
-			if (disposition != null && !"".equals(disposition)) {
-				i = disposition.indexOf("filename=");
-				if (i>0) {
-					inFile = disposition.substring(i+10,disposition.length() - 1);
+			//if (disposition != null && !"".equals(disposition)) {
+				//i = disposition.indexOf("filename=");
+				//if (i>0) {
+					//inFile = disposition.substring(i+10,disposition.length() - 1);
 					if (savePath != null && !"".equals(savePath)) {
 						if (!"/".equals(savePath.substring(savePath.length()-1))) {
 							savePath = savePath + "/";
@@ -177,8 +176,8 @@ public class HttpCall {
 					}
 					outputStream.close();
 					isResStream.close();
-				}
-			}
+				//}
+			//}
 			if (saveFilePath.length() == 0) {
 				ByteArrayOutputStream baosRetStream = new ByteArrayOutputStream();
 				while ((iLen = isResStream.read(byteTmpBuf)) != -1) {
@@ -196,7 +195,7 @@ public class HttpCall {
 			ecamsLogger.error("## HttpCall.httpReceive() Exception START ##");
 			ecamsLogger.error("## Error DESC : ", exception);
 			ecamsLogger.error("## HttpCall.httpReceive() Exception END ##");
-			return "ER".getBytes();
+			return ("ER"+exception.getMessage()).getBytes();
 		}
 	}
 	public byte[] process(String psSvrURL, String psAct, byte[] pbyteData) throws Exception 

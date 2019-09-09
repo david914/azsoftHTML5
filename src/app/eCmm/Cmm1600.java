@@ -24,6 +24,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import org.apache.log4j.Logger;
+
+import com.ecams.common.base.HttpCall;
 import com.ecams.common.dbconn.ConnectionContext;
 import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
@@ -1808,6 +1810,7 @@ public class Cmm1600{
 
 			try {
 				if (!"O".equals(dbGbnCd)) {
+					
 					connectionContext = new ConnectionResource(false,dbGbnCd);
 				} else {
 					connectionContext = new ConnectionResource();
@@ -2017,6 +2020,42 @@ public class Cmm1600{
 					
 			}
 		}
+	 	public String getRemoteUrl(String cmdText,String UserId,String gbnCd,String savePath) throws SQLException, Exception {
+			try {
+				HttpCall httpcall = new HttpCall();
+				String retMsg = "";
+				HashMap<String,String> etcObj = new HashMap<String,String>();
+				etcObj.put("reqMethod", "POST");
+				etcObj.put("savePath", savePath);
+				if(!"http".equals(cmdText.substring(0,4))) {
+					etcObj.put("reqMethod", cmdText.substring(0,cmdText.indexOf(" ")));
+					
+					if ("GET".equals(etcObj.get("reqMethod")) || "DELETE".equals(etcObj.get("reqMethod")) ) {
+						etcObj.put("remoteURL",  cmdText.substring(cmdText.indexOf("http")));
+					} else {
+						if(cmdText.indexOf("?") > 0) {
+							etcObj.put("remoteURL", cmdText.substring(cmdText.indexOf("http"),cmdText.indexOf("?")));
+							etcObj.put("sendData", cmdText.substring(cmdText.indexOf("?")+1));
+						} else {
+							etcObj.put("remoteURL",  cmdText.substring(cmdText.indexOf("http")));
+						}
+					}
+				} else {
+					etcObj.put("remoteURL",  cmdText);
+				}
+				
+				retMsg = httpcall.httpCall_common(etcObj);
+	        	return retMsg;
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				ecamsLogger.error("## Cmm1600.getRemoteUrl() Exception START ##");				
+				ecamsLogger.error("## Error DESC : ", exception);	
+				ecamsLogger.error("## Cmm1600.getRemoteUrl() Exception END ##");				
+				throw exception;
+			}finally{
+				
+			}
+		}
 	 	public String fileAttUpdt(String cmdText) throws SQLException, Exception {
 			File shfile=null;
 			String  shFileName = "";
@@ -2057,5 +2096,4 @@ public class Cmm1600{
 			}finally{
 			}		
 		}
-	 	
 }
