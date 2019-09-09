@@ -129,7 +129,7 @@ function successProgList(data) {
 	
 	getJobInfo(progBaseData[0].cr_syscd);  //업무 리로딩
 	getRsrcInfo(progBaseData[0].cr_syscd); //프로그램유형 리로딩
-	getProgInfo();
+	
 }
 function getJobInfo(sysCd) {
 	
@@ -182,6 +182,7 @@ function successJawon(data) {
 	
 	tmpTab1 = $('#frmProgBase').get(0).contentWindow;
 	tmpTab1.successJawon(data);
+	getProgInfo();
 	
 }
 function getProgInfo() {

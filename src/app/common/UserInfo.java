@@ -66,7 +66,6 @@ public class UserInfo{
 			if (rs.next()){
 				rst = new HashMap<String,String>();
 				rst.put("cm_username",rs.getString("cm_username"));
-				rst.put("cm_admin",rs.getString("cm_admin"));
 				rst.put("cm_manid",rs.getString("cm_manid"));
 				rst.put("cm_project",rs.getString("cm_project"));
 				rst.put("cm_duty",rs.getString("cm_duty"));
@@ -75,6 +74,14 @@ public class UserInfo{
 				//rst.put("sv_pmo",getPMOInfo(UserID));
 				rst.put("caption",rs.getString("caption"));
 				rst.put("teamname",rs.getString("teamname"));
+				
+				//rst.put("cm_admin",rs.getString("cm_admin"));
+				if (isAdmin_conn(UserID,conn)) {
+					rst.put("cm_admin","1");
+				} else {
+					rst.put("cm_admin","0");
+				}
+				
 				rtList.add(rst);
 				rst = null;
 			}//end of while-loop statement

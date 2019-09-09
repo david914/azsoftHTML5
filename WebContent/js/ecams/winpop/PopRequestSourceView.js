@@ -319,6 +319,13 @@ function optradio_change() {
 	tmpTab.txtSearch_change();
 	
 	$('#txtSearch').val('');
+	
+	if ($('[name="optradio"]:checked').val() == 'W') {
+		$('#txtSearch').prop("placeholder", "검색할 단어를 입력하세요.");
+	} else {
+		$('#txtSearch').prop("placeholder", "검색할 라인번호를 입력하세요.");
+	}
+	
 }
 
 function btnSearch_click() {

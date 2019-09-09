@@ -478,6 +478,9 @@ function setCboDevUser() { // 담당개발자 select 세팅
 
 //screenInit
 function elementInit(initDivision) {
+	$("#gyulDiv").hide();
+	$("#btnOK").hide();
+	$("#btnCncl").hide();
 	if (initDivision === 'NEW') {
 		strIsrId = '';
 		/*
@@ -485,6 +488,7 @@ function elementInit(initDivision) {
 		 * this.parentDocument.tab0.grdPrj.selectedIndex = -1; }
 		 */
 		ins_sw = true;
+		$('#btnFileAdd').attr('disabled', false);
 		$('[data-ax5select="cboDevUser"]').ax5select("enable");
 		$('#txtReqSecu').attr('disabled', false);
 		$('#datReqComDate').val('');
@@ -521,6 +525,7 @@ function elementInit(initDivision) {
 			if (strStatus === '0') {
 				$('[data-ax5select="cboDevUser"]').ax5select("enable");
 				$('#txtUser').attr('disabled', false);
+				$('#btnFileAdd').attr('disabled', false);
 				$('#btnRegister').attr('disabled', false);
 				$('#btnUpdate').attr('disabled', false);
 				$('#btnDelete').attr('disabled', false);
@@ -528,10 +533,12 @@ function elementInit(initDivision) {
 			} else if (strStatus === '2' || strStatus === 'C' || strStatus === '4') {
 				// 접수완료(2), 진행중(4) 이면
 				if (strStatus === '2' || strStatus === 'C') {
+					$('#btnFileAdd').attr('disabled', false);
 					$('#btnDelete').attr('disabled', false);
 					$('#btnUpdate').attr('disabled', false);
 					// 등록승인중반려(C) 면
 				} else {
+					$('#btnFileAdd').attr('disabled', true);
 					$('#btnDelete').attr('disabled', true);
 					$('#btnUpdate').attr('disabled', true);
 				}
@@ -542,7 +549,6 @@ function elementInit(initDivision) {
 				$('#btnRegister').attr('disabled', true);
 				$('#btnUpdate').attr('disabled', true);
 				$('#btnDelete').attr('disabled', true);
-				
 				// 등록승인중(1), 반려(3), 모니터링중(5), 완료승인중(A) 이면
 				if (strStatus === '1' || strStatus === '3' || strStatus === '5' || strStatus === 'A') {
 					$('#btnFileAdd').attr('disabled', true);
@@ -562,6 +568,7 @@ function elementInit(initDivision) {
 		$('#chkNew').wCheck('check', false);
 		$('#btnUpdate').attr('disabled', true);
 		$('#btnRegister').attr('disabled', true);
+		$('#btnFileAdd').attr('disabled', true);
 		$('#btnDelete').attr('disabled', true);
 		$('#txtSRID').val('');
 		$('#txtRegUser').val('');

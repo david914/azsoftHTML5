@@ -20,7 +20,7 @@
 				<div class="row vat cb">
                     <div class="width-25 float-left">
 						<div class="margin-5-right">
-	                    	<label class="tit_80 poa">처리일시</label>
+	                    	<label class="tit_80 poa">처리일자</label>
 	                        <div class="ml_80">
 	                        	<div class="input-group" data-ax5picker="txtPrcDate" style="display:inline-block;" >
 						            <input id="txtPrcDate" type="text" class="f-cal" placeholder="yyyy/mm/dd" style="width:100px;">

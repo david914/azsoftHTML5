@@ -6,19 +6,20 @@
 		
 <div class="az_search_wrap sm-row">
 	<div class="az_in_wrap por">
-		<!-- 시스템 -->		
+		<!-- 등록구분 -->		
 		<div class="width-30 dib">
 			<label class="tit_80 poa">등록구분</label>
 			<div class="ml_80">
 				<div id="cboBldGbn" data-ax5select="cboBldGbn" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:calc(100% - 10px);" ></div>
 			</div>
 		</div>
-	    <!-- 프로그램종류 -->
+	    <!-- 유형구분 -->
 		<div class="width-70 dib vat">
 			<label class="tit_80 poa margin-5-left">유형구분</label>
 			<div class="ml_80">
-				<div class="dib vat" style="width:calc(100% - 80px);">
-					<div id="cboBldCd" data-ax5select="cboBldCd" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
+				<div class="dib vat por" style="width:calc(100% - 75px);">
+					<div id="cboBldCd" data-ax5select="cboBldCd" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib width-50 margin-5-right"></div>
+					<input id="txtBldMsg" type="text" class="width-49">
 				</div>
 				<div class="dib vat float-right">
 					<button class="btn_basic_s dib margin-5-left" id="btnDel">유형삭제</button>

@@ -78,7 +78,7 @@ label {
 							</div>
 						</div>
 						<div class="vat dib margin-5-right float-right"><!--수정-->
-							<button class="btn_basic_s" data-grid-control="excel-export" id="btnSearch">　조회　</button>
+							<button class="btn_basic_s" data-grid-control="excel-export" id="btnSearch">&nbsp;&nbsp;&nbsp;조 회&nbsp;&nbsp;&nbsp;</button>
 						</div>
 					</div>
 					

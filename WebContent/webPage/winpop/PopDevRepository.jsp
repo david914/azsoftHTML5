@@ -41,7 +41,7 @@
 					</div>
 					<!-- 서버선택 -->		
                     <div class="width-50 float-left">
-						<div class="margin-5-right">
+						<div class="margin-5-left">
 							<label class="tit_100 poa">*2. 서버선택</label>
 	                        <div class="ml_100 tal">
 								<div id="cboSvr" data-ax5select="cboSvr" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100">

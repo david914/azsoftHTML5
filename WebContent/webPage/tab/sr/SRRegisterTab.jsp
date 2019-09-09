@@ -3,11 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/webPage/common/common.jsp" />
 <style>
-[data-ax5select] .ax5select-display.input-sm, [data-ax5select] .input-group-sm>.ax5select-display.form-control, [data-ax5select] .input-group-sm>.ax5select-display.input-group-addon, [data-ax5select] .input-group-sm>.input-group-btn>.ax5select-display.btn
-{
-	min-width : 0px !important;
-}
-
 .wCheck-label{
 	margin-right : 0px !important;
 }
@@ -49,7 +44,7 @@
 				<dt><label>*상세내용</label></dt>
 				<dd>
 					<form>
-						<textarea id="texReqContent" name="texReqContent" style="align-content:flex-start;width:100%;height:180px;resize: none;"></textarea>
+						<textarea id="texReqContent" name="texReqContent" style="align-content:flex-start;width:100%;height:180px;resize: none; overflow-y:auto; padding:5px;"></textarea>
 					</form>
 				</dd>
 			</dl>
@@ -150,7 +145,7 @@
 				<dt><label style="margin-left:-10px">결재/반려의견</label></dt>
 				<dd>
 					<form>
-						<textarea id="txtConMsg" name="txtConMsg" style="align-content:flex-start;width:100%;height:50px;resize: none;"></textarea>
+						<textarea id="txtConMsg" name="txtConMsg" style="align-content:flex-start;width:100%;height:50px;resize: none; overflow-y:auto; padding:5px;"></textarea>
 					</form>
 				</dd>
 			</dl>
