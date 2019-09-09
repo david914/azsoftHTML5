@@ -164,6 +164,10 @@ $(document).ready(function(){
 	getSysInfoList('');
 	screenInit();
 	
+	$(window).resize(function(){
+		resize();
+	});
+	
 	// 프로세스제한 숫자만 입력하도록 수정
 	$("#txtPrcCnt").on("keyup", function(event) {
 		$(this).val($(this).val().replace(/[^0-9]/g,""));
@@ -524,7 +528,8 @@ $(document).ready(function(){
 	    }, function () {
 	    });
 	});
-
+	
+	resize();
 });
 
 // datepicker 날짜 오늘날짜로 초기화
@@ -1179,4 +1184,11 @@ function makeSysInfoUlList() {
 	
 	$('input.checkbox-sysInfo').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
+}
+
+function resize(){
+	if($("#divRight").height() != $("#divLeft").height()){
+		$("#divRight").height($("#divLeft").height());
+		$("#divRight").children(".half_wrap").addClass("height-100");
+	}
 }

@@ -17,10 +17,11 @@ var userDeptCd 	= window.top.userDeptCd;
 var strReqCD 	= window.top.reqCd;
 */
 
-var userName 	= '관리자';
-var userId 		= 'MASTER';
-var adminYN 	= 'Y';
-var strReqCD = '32';
+var userName 	= window.top.userName;
+var userid 		= window.top.userId;
+var adminYN 	= window.top.adminYN;
+var strReqCD 	= window.top.reqCd;
+
 //grid 생성
 var firstGrid = new ax5.ui.grid();
 var cboRequestData;

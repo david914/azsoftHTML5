@@ -8,9 +8,9 @@
 	<div id="history_wrap">관리자 <strong>&gt; 시스템정보</strong></div>
 	
 	<div class="sm-row vat por">
-		<div class="width-50 dib vat float-left">
+		<div class="width-50 dib vat float-left" id="divLeft">
 			<div class="margin-5-right">
-				<div class="float-right margin-5-bottom">
+				<div class="float-right margin-5-bottom" id="leftSearchBox">
 					<div class="dib">
 						<label class="dib">시스템코드/시스템명</label>
 						<input id="txtFindSys" class="form-control width-50 dib" type="text" />

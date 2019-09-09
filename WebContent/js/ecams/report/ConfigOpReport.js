@@ -1,6 +1,7 @@
 var SecuYn = null;
-var userid 		= 'MASTER';
-//var userid 		= window.top.userId;
+//var userid 		= 'MASTER';
+var userid 		= window.top.userId;
+
 var picker = [new ax5.ui.picker(), new ax5.ui.picker()];
 var mainGrid = new ax5.ui.grid();
 var dialog = new ax5.ui.dialog({title: "경고"});

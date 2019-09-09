@@ -28,7 +28,7 @@ if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') !
 
 //var userName 	= '관리자';
 //var userId 		= 'MASTER';
-var adminYN 	= 'Y';
+//var adminYN 	= 'Y';
 
 var phoneNumber	= '';
 var befPass		= '';
