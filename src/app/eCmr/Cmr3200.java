@@ -246,7 +246,7 @@ public class Cmr3200{
 			if (spms != null && !"".equals(spms)) {
 				pstmt.setString(++Cnt, spms);
 				pstmt.setString(++Cnt, "%"+spms+"%");
-				pstmt.setString(++Cnt, spms);
+				pstmt.setString(++Cnt, spms.replaceAll("-", ""));
 			}
 			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
