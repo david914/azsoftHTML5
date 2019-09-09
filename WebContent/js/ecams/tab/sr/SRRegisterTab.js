@@ -478,6 +478,9 @@ function setCboDevUser() { // 담당개발자 select 세팅
 
 //screenInit
 function elementInit(initDivision) {
+	$("#gyulDiv").hide();
+	$("#btnOK").hide();
+	$("#btnCncl").hide();
 	if (initDivision === 'NEW') {
 		strIsrId = '';
 		/*

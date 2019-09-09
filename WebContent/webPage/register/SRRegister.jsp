@@ -14,7 +14,7 @@
 	<!-- history E-->         
 
 	<!-- PrjListTab.jsp -->
-  	<div class="az_board_basic" style="height:35%">
+  	<div class="az_board_basic" style="height:32%">
 		<div class="l_wrap width-48 dib vat" style="width:100%; height:100%">
 		<div id="divPicker" data-ax5picker="basic" class="az_input_group dib poa" style=" right:118px; top: 11px;">
 				<input id="datStD" name="datStD" type="text"
@@ -29,7 +29,7 @@
    		</div>
     </div>        
     
-    <div class="half_wrap" style="height:59%">
+    <div class="half_wrap" style="height:65%">
 	 	<!-- SR등록/접수 START -->
 		<iframe id="frmSRRegister" name="frmSRRegister" src='/webPage/tab/sr/SRRegisterTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	    <!-- SR등록/접수  END -->
