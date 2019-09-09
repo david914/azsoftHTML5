@@ -32,7 +32,7 @@
         <div class="width-40 dib vat">
             <label id="lbUser" class="tit_80 poa">의뢰구분</label>
             <div class="ml_80">
-			    <div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 11px);"></div>
+			    <div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib width-100"></div>
 		    </div>
 		</div>
 		<button id="btnQry2" class="btn_basic_s margin-5-left poa " data-grid-control="excel-export" style="top: 0;">조회</button>

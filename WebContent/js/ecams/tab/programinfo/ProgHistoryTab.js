@@ -169,6 +169,19 @@ function successHistory(data) {
 	}
 	
 }
+
+function btnQry2_Click() {
+	
+	if (progInfoData.length > 0) {
+		$('#btnQry2').prop('disabled',false);
+		
+		if (getSelectedIndex('cboReq')<1) {
+			getHistoryList(progInfoData[0].cr_syscd,progInfoData[0].WkJobCd,progInfoData[0].cr_itemid,'ALL');
+		} else {
+			getHistoryList(progInfoData[0].cr_syscd,progInfoData[0].WkJobCd,progInfoData[0].cr_itemid,getSelectedVal('cboReq').value);
+		}
+	}
+}
 function openWindow(reqCd,reqNo,itemId) {
 	var nHeight, nWidth, cURL, winName;
 
