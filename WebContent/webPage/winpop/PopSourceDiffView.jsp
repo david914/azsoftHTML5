@@ -84,7 +84,7 @@
 						<label for="optWord">단어검색</label>
 						<input id="optLine" type="radio"  name="optradio"  value="L" onchange="optradio_change();"/>
 						<label for="optLine">라인검색</label>
-						<input id="txtSearch" name="txtSearch" type="text" style="width:200px;" onchange="txtSearch_change();">
+						<input id="txtSearch" name="txtSearch" type="text" style="width:200px;" onchange="txtSearch_change();" placeholder="검색할 단어를 입력하세요.">
 						<button id="btnSearch" name="btnSearch"  class="btn_basic_s margin-5-left" >찾기</button>
 						<button id="btnExcel" class="btn_basic_s margin-5-left">엑셀저장</button>
 					</div>

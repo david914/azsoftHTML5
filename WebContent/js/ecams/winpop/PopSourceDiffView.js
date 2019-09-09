@@ -464,9 +464,13 @@ function btnRight_click() {
 	
 }
 function optradio_change() {
-	
 	txtSearch_change();
-	
+
+	if ($('[name="optradio"]:checked').val() == 'W') {
+		$('#txtSearch').prop("placeholder", "검색할 단어를 입력하세요.");
+	} else {
+		$('#txtSearch').prop("placeholder", "검색할 라인번호를 입력하세요.");
+	}
 }
 function txtSearch_change() {
 	
