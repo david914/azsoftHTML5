@@ -49,7 +49,7 @@
 				<dt><label>*상세내용</label></dt>
 				<dd>
 					<form>
-						<textarea id="texReqContent" name="texReqContent" style="align-content:flex-start;width:100%;height:180px;resize: none;"></textarea>
+						<textarea id="texReqContent" name="texReqContent" style="align-content:flex-start;width:100%;height:180px;resize: none; overflow-y:auto;"></textarea>
 					</form>
 				</dd>
 			</dl>
@@ -150,7 +150,7 @@
 				<dt><label style="margin-left:-10px">결재/반려의견</label></dt>
 				<dd>
 					<form>
-						<textarea id="txtConMsg" name="txtConMsg" style="align-content:flex-start;width:100%;height:50px;resize: none;"></textarea>
+						<textarea id="txtConMsg" name="txtConMsg" style="align-content:flex-start;width:100%;height:50px;resize: none; overflow-y:auto;"></textarea>
 					</form>
 				</dd>
 			</dl>

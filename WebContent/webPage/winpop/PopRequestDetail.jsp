@@ -217,7 +217,7 @@ input[type=number]::-webkit-outer-spin-button {
 	        <div class="tab_wrap margin-10-top">
 				<ul class="tabs">
 					<li rel="tab1" id="tab1Li" class="on">신청목록</li><li rel="tab2" id="tab2Li">처리결과확인</li>
-					<div class="r_wrap">
+					<div class="r_wrap margin-10-right">
 						<button class="btn_basic_s" id="btnSrcView">소스보기</button>
 						<button class="btn_basic_s margin-2-left" id="btnSrcDiff">소스비교</button>
 						<button class="btn_basic_s margin-2-left" id="btnPriority">우선적용</button>
@@ -280,7 +280,7 @@ input[type=number]::-webkit-outer-spin-button {
 					<button class="btn_basic_s margin-2-left" id="btnApprovalInfo">결재정보</button>
 					<button class="btn_basic_s margin-2-left" id="btnApproval">결재</button>
 					<button class="btn_basic_s margin-2-left" id="btnCncl">반려</button>
-					<button class="btn_basic_s margin-2-left" id="btnClose">닫기</button>
+					<button class="btn_basic_s margin-2-left margin-10-right" id="btnClose">닫기</button>
 				</div>
 			</div>
 		</div>
