@@ -59,7 +59,7 @@
 					<div class="width-50 dib vat">
 	                	<label class="tit-80 dib poa">&nbsp;&nbsp;&nbsp;입력조건</label>
 	                	<div class="ml_80 vat">
-							<input id="txtSpms" type="text" placeholder="SR-ID/SR명을 입력하세요." class="width-100" />
+							<input id="txtSpms" type="text" placeholder="신청번호/SR-ID/SR명 을 입력하세요." class="width-100" />
 	                	</div>
 					</div>
 				</div>

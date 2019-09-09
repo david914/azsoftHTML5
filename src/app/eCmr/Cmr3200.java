@@ -205,7 +205,7 @@ public class Cmr3200{
 			}
 			//strQuery.append("  and a.cr_jobcd = g.cm_jobcd       \n"); // 2013. 11. 12. 주석처리
 			if (spms != null && !spms.equals("")) {
-				strQuery.append("  and (a.cr_itsmid like ? or upper(a.cr_itsmtitle) like upper(?))  \n");
+				strQuery.append("  and ( upper(a.cr_itsmid) = upper(?) or upper(a.cr_itsmtitle) like upper(?) or a.cr_acptno = ?)  \n");
 			}
 			strQuery.append("order by a.cr_acptdate desc \n");
 
@@ -244,8 +244,9 @@ public class Cmr3200{
 				pstmt.setString(++Cnt, pJobCd);
 			}
 			if (spms != null && !"".equals(spms)) {
+				pstmt.setString(++Cnt, spms);
 				pstmt.setString(++Cnt, "%"+spms+"%");
-				pstmt.setString(++Cnt, "%"+spms+"%");
+				pstmt.setString(++Cnt, spms);
 			}
 			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
