@@ -110,7 +110,7 @@ $(document).ready(function() {
 	// 엑셀템플릿
 	// fileUploadServlet 사용.
 	$('#btnExlTmp').bind('click', function() {
-		location.href = '/webPage/fileupload/upload?f=excel_templet_cmm1800.xls&folderPath='+templetPath;
+		location.href = '/webPage/fileupload/upload?fileName=excel_templet_cmm1800.xls&fullPath='+templetPath + '/excel_templet_cmm1800.xls';
 	});
 });
 

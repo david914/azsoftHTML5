@@ -133,7 +133,7 @@ $(document).ready(function() {
 	// 엑셀템플릿
 	// fileUploadServlet 사용.
 	$('#btnExlTmp').bind('click', function() {
-		location.href = '/webPage/fileupload/upload?fileName=excel_templet.xls&fullPath='+templetPath + '\\excel_templet.xls';
+		location.href = '/webPage/fileupload/upload?fileName=excel_templet.xlsx&fullPath='+templetPath + '/excel_templet.xlsx';
 	});
 	// 삭제
 	$('#btnDel').bind('click', function() {

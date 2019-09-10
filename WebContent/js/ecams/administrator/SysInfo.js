@@ -124,6 +124,9 @@ $('[data-ax5select="cboSysGb"]').ax5select({
 $('[data-ax5select="cboSvrCd"]').ax5select({
     options: []
 });
+$('[data-ax5select="cboPrcData"]').ax5select({
+	options: []
+});
 
 /** jquery time picker 시간 포멧
  * 
