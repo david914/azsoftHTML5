@@ -31,7 +31,7 @@
 					<div class="width-33 dib vat ml_7">
 						<label id="lbJawon" class="tit_80 poa">프로그램종류</label>
 						<div class="ml_80 width-80">
-							<div id="cboJawon" data-ax5select="cboJawon" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
+							<div id="cboJawon" data-ax5select="cboJawon" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 60px);"></div>
 						</div>
 					</div>
 				</div>
@@ -48,10 +48,10 @@
 					<div class="width-33 dib vat ml_7">
 						<!-- 프로그램명 -->
 						<label class="tit_80 poa">프로그램명</label>
-		                <div class="ml_80 width-100">
-							<input id="txtRsrcName" name="txtRsrcName" type="text" class="width-80 dib" style="width:calc(100% - 60px);">
-							<button id="btnQry" name="btnQry" class="btn_basic_s margin-10-right">조회</button>
-						</div>
+		                <div class="ml_80 width-80">
+							<input id="txtRsrcName" name="txtRsrcName" type="text" class="dib"  style="width:calc(100% - 60px);">
+							<button id="btnQry" name="btnQry" class="btn_basic_s">조회</button>
+						</div>						
 					</div>
 				</div>
 			</div>
@@ -90,7 +90,7 @@
 					<div class="width-33 dib vat">
 			            <label class="tit_80 poa">담당자</label>
 			            <div class="ml_80">
-							<div id="cboAftOwner" data-ax5select="cboAftOwner" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib"></div>
+							<div id="cboAftOwner" data-ax5select="cboAftOwner" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 60px);"></div>
 						</div>
 					</div>	
 				</div>
@@ -108,8 +108,8 @@
 					<div class="width-66 dib vat">
 			            <label class="tit_80 poa">경로</label>
 			            <div class="ml_80">
-							<div id="cboAftDir" data-ax5select="cboAftDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-90 dib" style="width:95.1%;"></div>
-							<button id="btnUpdt" name="btnUpdt" class="btn_basic_s margin-10-right">수정</button>
+							<div id="cboAftDir" data-ax5select="cboAftDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 60px);"></div>
+							<button id="btnUpdt" name="btnUpdt" class="btn_basic_s">수정</button>
 						</div>
 					</div>
 				</div>
