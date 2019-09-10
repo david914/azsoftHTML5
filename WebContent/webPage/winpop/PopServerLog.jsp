@@ -46,10 +46,10 @@
 			</div>
 			<div class="row vat cb">
 	            <div class="width-100">
-	            	<textarea id="txtSvrLog" class="width-100" style="height: 45%;" readonly></textarea>
+	            	<textarea id="txtSvrLog" class="width-100" style="height: 45%; resize:none; overflow-y:auto;" readonly></textarea>
 				</div>
 	            <div class="width-100 margin-5-top">
-	            	<textarea id="txtRetLog" class="width-100" style="height: 35%;" readonly></textarea>
+	            	<textarea id="txtRetLog" class="width-100" style="height: 35%; resize:none; overflow-y:auto;" readonly></textarea>
 				</div>
 			</div>
 		</div>

@@ -82,7 +82,7 @@
 		    	<dt><label id="lbUser">보안요구사항</label></dt>
 			    <dd>
 					<div id="cboReqSecu" data-ax5select="cboReqSecu" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib" style="min-width: 0;"></div>
-					<input id="txtReqSecu" name="txtReqSecu" class="form-control" type="text" style="display:none; min-width: 0;" autocomplete="off"></input>
+					<input id="txtReqSecu" name="txtReqSecu" class="form-control" type="text" style="display:none; min-width: 0;  padding:5px;" autocomplete="off"></input>
 				</dd>
 			</dl>
 		</div>
