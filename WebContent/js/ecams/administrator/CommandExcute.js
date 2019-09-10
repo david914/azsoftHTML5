@@ -97,7 +97,7 @@ function gbnSet(){
 		$('#cboDbUsrSel').hide();
 		$('#btnExcel').hide();
 		$('#chkViewDiv').css('visibility','visible');
-		$('#txtChkView').text('수신파일 직접보기');
+		$('#txtChkView').text('결과파일보기');
 	} else if($('#rdoqry').is(':checked')) {
 		$('#lbtit').text('[ 조회 할 쿼리문 입력 ]');
 		$('#btnQry').text('쿼리 실행');
@@ -142,6 +142,7 @@ function btnSet(){
 	} else{
 		$('#btnQry').text('파일수신');
 		$('#chkViewDiv').css('visibility','visible');
+		$('#txtChkView').text('수신파일 직접보기');
 	}
 }
 
