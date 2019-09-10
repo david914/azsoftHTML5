@@ -16,7 +16,7 @@
 	 		<div class="sm-row por">
 			 	<label class="tit_80 poa">서버명/OS</label>
                 <div class="ml_80">
-                	<input id="txtSvrName" class="vat width-45 dib vat" type="text"></input>
+                	<input id="txtSvrName" class="vat width-45 dib vat" type="text" placeholder="hostname/서버구분명칭"></input>
 					<div id="cboOs" data-ax5select="cboOs" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-45 dib poa_r"></div>
 				</div>
 			</div>
@@ -25,13 +25,13 @@
 		 		<label class="tit_80 poa">IP/PORT/순서</label>
 			 	<div class="ml_80 por">
 			 		<div class="l_wrap width-45">
-			 			<input id="txtSvrIp" class="width-100" type="text" />
+			 			<input id="txtSvrIp" class="width-100" type="text" placeholder="서버 IP"/>
 			 		</div>
 			 		<div class="l_wrap width-25 tar" style="margin-left: 12px;">
-						<input id="txtPort" class="width-100" type="text"/>
+						<input id="txtPort" class="width-100" type="text" placeholder="agent port"/>
 			 		</div>
 			 		<div class="r_wrap width-25 tar">
-						<input id="txtSeq" class="width-100" type="text"/>
+						<input id="txtSeq" class="width-100" type="text" placeholder="서버순서"/>
 			 		</div>
 			 	</div>
 			</div>
@@ -39,8 +39,8 @@
 		 	<div class="sm-row por">
 		 		<label class="tit_80 poa">계정/비밀번호</label>
 			 	<div class="ml_80">
-			 		<input id="txtUser" class="width-45" type="text" />
-			 		<input id="txtPass" class="width-45 poa_r" type="text" />
+			 		<input id="txtUser" class="width-45" type="text" placeholder="agent 설치계정"/>
+			 		<input id="txtPass" class="width-45 poa_r" type="text" style="text-security: disc; -webkit-text-security: disc;" autocomplete="off" placeholder="계정 비밀번호" />
 			 	</div>
 			</div>
 		 			
@@ -54,7 +54,7 @@
 		 	<div class="sm-row">
 		 		<label class="tit_80 poa">Agent-Dir</label>
 			 	<div class="ml_80">
-		 			<input id="txtDir" class="width-100" type="text"></input>
+		 			<input id="txtDir" class="width-100" type="text" placeholder="agent 설치경로"></input>
 		 		</div>
 		 	</div>
 
@@ -89,7 +89,7 @@
  	<div class="r_wrap width-50">
  		<div class="margin-5-left">
 	 		<div class="por">
-	 			<label class="title_s">[서버속성]</label> 
+	 			<label class="title_s">서버속성</label> 
 	 			<div class="poa_r">
 		 			<input type="checkbox" class="checkbox-IP" id="chkAllSvr" data-label="전체선택"  />
 	 			</div>

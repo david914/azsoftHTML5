@@ -33,7 +33,7 @@
  	<div class="r_wrap width-50">	
 		<div class="margin-5-left">
 			<div class="por">
-				<label class="title_s">[프로그램종류]</label>
+				<label class="title_s">프로그램종류</label>
 				<div class="poa_r">
 					<input type="checkbox" class="checkbox-prg" id="chkAllItem" data-label="전체선택"  />
 				</div>

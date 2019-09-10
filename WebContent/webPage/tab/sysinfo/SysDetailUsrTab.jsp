@@ -42,8 +42,9 @@
  	</div>
  	<!--right wrap-->
  	<div class="r_wrap width-30">
- 		<div class="margin-10-left">				 			
-		 	<div>
+ 		<div class="margin-10-left">
+			<label class="title_s">계정정보</label>
+		 	<div style="margin-top:5px;">
 		 		<label class="tit_80 poa">계정</label>
 			 	<div class="ml_80">
 			 		<input id="txtSvrUsr"class="width-100" type="text" />
@@ -79,7 +80,7 @@
 		 			<input id="txtDbConn" class="width-100" type="text"></input>
 		 		</div>
 		 	</div>
-	 		<div class="row tar">
+	 		<div class="row tar" style="margin-top:10px;">
 				<button id="btnReqUsr" class="btn_basic_s">등록</button>
 				<button id="btnUsrClose" class="btn_basic_s margin-5-left">폐기</button>
 				<button id="btnQryUsr" class="btn_basic_s margin-5-left">조회</button>
