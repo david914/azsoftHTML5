@@ -269,7 +269,7 @@
 							
 							<div id="Cbo_Menu" data-ax5select="Cbo_Menu" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-40 dib margin-5-left"></div>
 							
-							<div class="dib" style="float: right;">
+							<div class="dib" style="float: right; margin-right:2.7%;">
 								<button id="btnAply" class="btn_basic_s">적용</button>
 							</div> 									
 						</div>

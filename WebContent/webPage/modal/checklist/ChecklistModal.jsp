@@ -25,7 +25,7 @@
 			<!--CM_TITLE -->
 			<div class="row">
 				<div>
-					<textarea id="content" name="content" class="form-control" rows="12"></textarea>
+					<textarea id="content" name="content" class="form-control" rows="12" style="resize:none; overflow-y:auto;"></textarea>
 				</div>
 			</div>
 			<div class="">

@@ -122,6 +122,12 @@ function setCboMenu(){
 	$('[data-ax5select="Cbo_selMenu"]').ax5select({
         options: options
 	});
+	
+	$('[data-ax5select="Cbo_Menu"]').ax5select({
+	    options: []
+	});
+	
+	$("#Cbo_Menu").hide();
 }
 
 // getMenuList
@@ -141,6 +147,7 @@ function cbo_selMenu_click(){
 	var resultData;
 	
 	if($('[data-ax5select="Cbo_selMenu"]').ax5select("getValue")[0].text === "선택하세요"){
+		$("#Cbo_Menu").hide();
 		return;
 	}
 	

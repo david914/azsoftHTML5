@@ -18,10 +18,8 @@
 	           <label class="tit_80 poa tac">삭제주기</label>
 	           <div class="ml_80 por">
 				<input id="txtDelCycle" type="text" class="dib" style="width:50px;">
-	            <div class="dib">
-	                <div>
-						<div id="cboDelCycle" data-ax5select="cboDelCycle" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
-					</div>
+	            <div class="dib" style="width:34%;">
+					<div id="cboDelCycle" data-ax5select="cboDelCycle" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
 				</div>	
 				<div class="dib poa">
 					<button id="btnReq" class="btn_basic_s margin-5-left">등록</button>
