@@ -105,9 +105,9 @@ function createViewGrid1() {
 		       	openWindow(2, '', this.item.cr_baseitem);
 	        },
 	    	trStyleClass: function () {
-	    		if (this.item.colorsw == '3'){
+	    		if (this.item.ColorSw == '3'){
 	    			return "fontStyle-cncl";
-	    		} else if(this.item.colorsw == '5'){
+	    		} else if(this.item.ColorSw == '5'){
 	    			return "fontStyle-error";
 	    		} else if (this.item.cr_itemid != this.item.cr_baseitem){
 	    			return "fontStyle-module";
@@ -362,9 +362,9 @@ function createViewGrid2() {
 				}
 			},
 			trStyleClass: function () {
-				if (this.item.colorsw == '3'){
+				if (this.item.ColorSw == '3'){
 					return "fontStyle-cncl";
-				} else if(this.item.colorsw == '5'){
+				} else if(this.item.ColorSw == '5'){
 					return "fontStyle-error";
 				} else if (this.item.cr_itemid != this.item.cr_baseitem){
 					return "fontStyle-module";
