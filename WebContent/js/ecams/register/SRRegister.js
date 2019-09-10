@@ -59,37 +59,21 @@ $(document).ready(function(){
 	$('#datStD').val(getDate('DATE',-1));
 	$('#datEdD').val(getDate('DATE',0));
 
-	picker.bind(defaultPickerInfo('basic', 'top'));
+	//picker.bind(defaultPickerInfo('basic', 'top'));
 	
 	$("#datStD, #datEdD").bind('change', function(){
 		var dataId = $(this).prop("id");
 		var dataStd = $('#frmPrjList').contents().find("#"+dataId).val($(this).val());
 	});
 	
-	$("#datStD, #datEdD").focusout (function(){
-		//console.log("element focus Out");
-		timeOut = setTimeout(function(){$('[data-picker-btn="ok"]').click(); /*console.log("elemet Timeout");*/}, 100); 
+	$(document).on("focusout",function(){
+		setTimeout(function(){
+			if(document.activeElement instanceof HTMLIFrameElement){
+				$('[data-picker-btn="ok"]').click();
+			}
+		},0);
 	});
 	
-	$("#datStD, #datEdD").focusin(function(){
-		//console.log("element focusin");
-		//console.log("element Clear");
-		clearTimeout(timeOut);
-		clearTimeout(timeOut2);
-	});
-	
-	$(document).focusout(function(){
-		//console.log("document Focus Out");
-		timeOut2 = setTimeout(function(){$('[data-picker-btn="ok"]').click();  /*console.log("document Timeout");*/}, 100); 
-	});
-	
-	$(document).on("DOMSubtreeModified",'.ax5-ui-picker',function(){
-		//console.log("picker Modified");
-		//console.log("modified Clear");
-		clearTimeout(timeOut);
-		clearTimeout(timeOut2);
-	});
-
 	$('.btn_calendar').bind('click', function(e) {
 		e.preventDefault();
 	    e.stopPropagation();
@@ -98,9 +82,79 @@ $(document).ready(function(){
 			$(inputs.prevObject[0]).trigger('click');
 		}
 	});
+
+	picker.bind({
+		target: $('[data-ax5picker="basic"]'),
+		direction: "top",
+		content: {
+			width: 220,
+			margin: 10,
+			type: 'date',
+			config: {
+				control: {
+					left: '<i class="fa fa-chevron-left"></i>',
+					yearTmpl: '%s',
+					monthTmpl: '%s',
+					right: '<i class="fa fa-chevron-right"></i>'
+				},
+				dateFormat: 'yyyy/MM/dd',
+				lang: {
+					yearTmpl: "%s년",
+					months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+					dayTmpl: "%s"
+				},dimensions: {
+					height: 140,
+					width : 75,
+					colHeadHeight: 11,
+					controlHeight: 25,
+				}
+			},
+			formatter: {
+				pattern: 'date'
+			}
+		},
+		onStateChanged: function () {
+			console.log(this.state);
+	        if (this.state == "open") {
+	            var selectedValue = this.self.getContentValue(this.item["$target"]);
+	            if (!selectedValue) {
+	                this.item.pickerCalendar[0].ax5uiInstance.setSelection([ax5.util.date(new Date(), {'add': {d: 0}})]);
+	            }
+	        }
+	        if(this.state == "changeValue"){
+	    		$("#btnStD").focus();
+	        }
+	    },
+		btns: {
+			today: {
+				label: "Today", onClick: function () {
+					var today = new Date();
+					this.self
+					.setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+					.setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM/dd"}))
+					.close();
+				}
+			},
+			thisMonth: {
+				label: "This Month", onClick: function () {
+					var today = new Date();
+					this.self
+					.setContentValue(this.item.id, 0, ax5.util.date(today, {"return": "yyyy/MM/01"}))
+					.setContentValue(this.item.id, 1, ax5.util.date(today, {"return": "yyyy/MM"})
+							+ '/'
+							+ ax5.util.daysOfMonth(today.getFullYear(), today.getMonth()))
+							.close();
+				}
+			},
+			ok: {label: "Close", theme: "default"}
+		}
+	});
+	$(document).on("click",".ax5-ui-picker",function(){
+		$("#btnStD").focus();
+	});
+
 });
-
-
+	
 // 페이지 로딩 완료시 다음 진행 
 var inter = null;
 
