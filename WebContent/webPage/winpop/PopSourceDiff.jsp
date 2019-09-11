@@ -51,7 +51,7 @@
             <div class="l_wrap" style="width:calc(100% - 150px);">
             	<div class="cb">
             		<!-- line 1-->
-            		<div class="l_wrap" style="width:calc(100% - 80px);)">
+            		<div class="l_wrap" style="width:calc(100% - 105px);)">
 						<div class="margin-5-right">                	
 							<!-- 게시판 S-->
 						    <div class="az_board_basic" style="height:150px;">
@@ -62,17 +62,17 @@
 					<div class="r_wrap">
 						<div class="margin-10-right">
 		                	<div>
-								<button id="btnVerDiff" class="btn_basic_s">버전비교</button>
+								<button id="btnVerDiff" class="btn_basic_s" style="width:92px;">버전비교</button>
 		                	</div>
 		                	<div class="margin-3-top">
-								<button id="btnSrcDiff" class="btn_basic_s">변경내용</button>
+								<button id="btnSrcDiff" class="btn_basic_s" style="width:92px;">변경내용</button>
 		                	</div>
 		                	<div class="margin-3-top">
-								<button id="btnChgPart" class="btn_basic_s">변경위치</button>
+								<button id="btnChgPart" class="btn_basic_s" style="width:92px;">변경위치</button>
 		                	</div>
 		                	<div class="margin-3-top">
-								<span class="fa_wrap dib"><i class="fas fa-caret-left" id="btnLeft"></i></span>
-								<span class="fa_wrap margin-5-left dib"><i class="fas fa-caret-right" id="btnRight"></i></span>
+		                		<button id="btnLeft" class="btn_basic_s">Prev</button>
+		                		<button id="btnRight" class="btn_basic_s">Next</button>
 		                	</div>
 						</div>
 					</div>
