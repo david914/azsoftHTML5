@@ -22,8 +22,8 @@
 <div class="container-fluid pop_wrap">
 	<!--line1-->
 	<div>
-		<label class="tit_80 poa">시스템[from]</label>
-        <div class="ml_80">
+		<label class="tit_80 poa">시스템 [From]</label>
+        <div class="ml_80" tooltip="복사할 시스템을 선택합니다.">
 			<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
             <span class="dib vat margin-5-top margin-5-left">시스템속성은 선택한 내용 그대로 복사됩니다.</span>
 		</div>
@@ -33,9 +33,9 @@
 		<!--left wrap-->
 		<div class="l_wrap width-70">
 			<div class="l_wrap width-50">
-				<div class="margin-5-right">
+				<div class="margin-5-right" tooltip="복사될 대상시스템을 선택합니다.">
 					<div class="por">
-						<label class="title_s">시스템-TO</label>
+						<label class="title">시스템 [To]</label>
 						<div class="poa_r">
 							<input type="checkbox" class="checkbox-all " id="chkAllToSys" data-label="전체선택"  />
 						</div>
@@ -48,7 +48,7 @@
 			<div class="r_wrap width-50">
 				<div class="margin-5-left">
 					<div class="por">
-						<label class="title_s">시스템속성</label>
+						<label class="title">시스템속성</label>
 						<div class="poa_r">
 							<input type="checkbox" class="checkbox-all" id="chkCopy" data-label="복사" checked="checked" />
 							<input type="checkbox" class="checkbox-all" id="chkAllProp" data-label="전체선택"  />
@@ -64,7 +64,7 @@
 	 	<div class="r_wrap width-30">
 	 		<div class="margin-10-left">
 				<div class="por">
-					<label id="lblSvrUsr" class="title_s">프로그램종류</label>
+					<label id="lblSvrUsr" class="title">프로그램종류</label>
 					<div class="poa_r">
 						<input type="checkbox" class="checkbox-all" id="chkAllPrg" data-label="전체선택"  />
 					</div>
@@ -107,7 +107,8 @@
 	<!--line4-->	
 	<div class="row">
 		<input type="checkbox" class="checkbox-all" id="chkItem" data-label="선택한 서버에 대한 형상항목 연결정보도 복사합니다."  checked="checked"/>
-		<input type="checkbox" class="checkbox-all" id="chkMonitor" data-label="선택한 시스템에 대한 모니터링 체크리스트도 복사합니다." checked="checked"/>
+		<!-- 모니터링체크 미사용으로 화면에서 안보이게
+		<input type="checkbox" class="checkbox-all" id="chkMonitor" data-label="선택한 시스템에 대한 모니터링 체크리스트도 복사합니다." checked="checked"/> -->
 	</div>
 	<!--button-->
 	<div class="row tac">

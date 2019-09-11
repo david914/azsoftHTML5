@@ -227,8 +227,9 @@ function checkVal() {
 	
 	if ($('#chkItem').is(':checked')) 	etcData.item = "Y";
 	else etcData.item = "N";
-	if ($('#chkMonitor').is(':checked'))etcData.monitor = "Y";
-	else etcData.monitor = "N";
+	/*if ($('#chkMonitor').is(':checked'))etcData.monitor = "Y";
+	else etcData.monitor = "N";*/
+	etcData.monitor = "N";
 	if ($('#chkCopy').is(':checked')) 	etcData.copy = "Y";
 	else etcData.copy = "N";
 	
