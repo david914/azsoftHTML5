@@ -339,6 +339,11 @@ function insertScript() {
 function successInsertScript(data) {
 	if(data > 0) {
 		dialog.alert('등록처리를 완료하였습니다.', function() {
+			$('#txtComp').val('');
+			$('#txtSeq').val('');
+			$('#txtErrMsg').val('');
+			$('#txtBldMsg').val('');
+			$('#chkView').wCheck('check', false);
 			getBldCd();
 		});
 	} else {
