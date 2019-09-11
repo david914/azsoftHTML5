@@ -45,12 +45,19 @@ grdProgList.setConfig({
         },
     	onDataChanged: function(){
     		this.self.repaint();
-    	}
+    	},
+     	trStyleClass: function () {
+     		if (this.item.cr_status != null) {
+     			if (this.item.cr_status === '9'){
+         			return "fontStyle-cncl";
+         		} 
+     		}
+     	}
     },
     columns: [
         {key: 'cm_sysmsg',   	label: '시스템',  		width: '13%',	align: 'left'},
         {key: 'cm_jobname', 	label: '업무',  			width: '13%',	align: 'left'},
-        {key: 'cm_dirpath', 	label: '프로그램경로',   	width: '24%',	align: 'left'},
+        {key: 'cm_dirpath', 	label: '프로그램경로',   	width: '20%',	align: 'left'},
         {key: 'cm_codename', 	label: '프로그램종류',    	width: '13%',	align: 'left'},
         {key: 'cr_rsrcname', 	label: '프로그램명',	  	width: '17%',	align: 'left'},
         {key: 'cr_viewver', 	label: '버전',   	        width: '10%',	align: 'center'},
