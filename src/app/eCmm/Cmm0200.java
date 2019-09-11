@@ -63,7 +63,7 @@ public class Cmm0200{
 			strQuery.append("       a.cm_stopst,a.cm_stoped,c.cm_sysmsg basesys,   		\n");
 			strQuery.append("       a.cm_closedt,a.cm_prccnt,b.cm_codename,a.cm_systime,\n");
 			strQuery.append("       c.cm_dirbase, d.cm_codename process,a.cm_prjname, 	\n");
-			strQuery.append("       c.cm_systype 										\n");
+			strQuery.append("       c.cm_systype, to_char(a.cm_closedt,'yyyy/mm/dd hh24:mi:ss') sysclose	\n");
 			strQuery.append("  from cmm0030 a,cmm0020 b,cmm0030 c,cmm0020 d        		\n");
 			strQuery.append(" where b.cm_macode='SYSGB' and b.cm_micode=a.cm_sysgb 		\n");
 			if (!clsSw) strQuery.append("and a.cm_closedt is null     	           		\n");
@@ -106,8 +106,14 @@ public class Cmm0200{
 				           rs.getString("cm_scmopen").substring(4,6)+"/"+
 				           rs.getString("cm_scmopen").substring(6,8));
 				rst.put("cm_prccnt", Integer.toString(rs.getInt("cm_prccnt")));
-				if (rs.getString("cm_closedt") != null) rst.put("closeSw", "Y");
-				else  rst.put("closeSw", "N");
+				if (rs.getString("cm_closedt") != null) {
+					rst.put("closeSw", "Y");
+					rst.put("sysclose", rs.getString("sysclose"));
+				}
+				else  {
+					rst.put("closeSw", "N");
+					rst.put("sysclose", "");
+				}
 				if (rs.getString("cm_sysinfo").substring(3,4).equals("1")) {
 					rst.put("cm_stdate", rs.getString("cm_stopst"));
 					rst.put("cm_eddate", rs.getString("cm_stoped"));

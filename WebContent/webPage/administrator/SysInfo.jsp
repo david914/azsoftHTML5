@@ -10,19 +10,10 @@
 	<div class="sm-row vat por">
 		<div class="width-50 dib vat float-left" id="divLeft">
 			<div class="margin-5-right">
-				<div class="float-right margin-5-bottom" id="leftSearchBox">
-					<div class="dib">
-						<label class="dib">시스템코드/시스템명</label>
-						<input id="txtFindSys" class="form-control width-50 dib" type="text" />
-					</div>
-					
-					<div class="dib vat">
-						<input type="checkbox" class="checkbox-pie" id="chkCls" data-label="폐기포함"/>
-					</div>
-					
-					<div class="dib vat">
-						<button class="btn_basic_s" id="btnQry">조회</button>
-					</div>
+				<div class="margin-5-bottom" id="leftSearchBox">
+					<input id="txtFindSys" style="width:calc(100% - 126px);" type="text" placeholder="시스템코드 또는 시스템명을 입력하여 조회하세요."/>
+					<input type="checkbox" class="checkbox-pie" id="chkCls" data-label="폐기포함"/>
+					<button class="btn_basic_s" id="btnQry">조회</button>
 				</div>
 				<div class="az_board_basic" style="height: 86%"  id="divSysInfoGrid">
 			    	<div data-ax5grid="sysInfoGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
@@ -153,15 +144,17 @@
 				<div class="sm-row">
 					<div class="float-left">
 						<div class="sm-row">
-							<div class="width-50 float-left" style="margin-top: 5px;">
-								<label class="tit_80 dib poa">시스템속성</label>
-							</div>
-							<div class="width-50 float-right">
-								<label class="tit_80 dib poa">적용시간</label>
-								<div class="ml_80">
-									<input id="txtTime" type="text" class="timepicker width-100" autocomplete="off" maxlength="5"/>
+		    				<div class="width-60 float-left margin-5-bottom">
+								<div class="float-left">
+									<label class="tit_80 dib poa">시스템속성</label>
+								</div>
+								<div class="float-right">
+									<label style="margin-right: 5px;">적용시간</label>
 								</div>
 							</div>
+		    				<div class="width-40 float-right por">
+		    					<input id="txtTime" type="text" class="timepicker width-100" autocomplete="off" maxlength="5"/>
+		    				</div>
 						</div>
 						<div class="sm-row">
 							<div class="width-100 float-left">

@@ -78,11 +78,12 @@ sysInfoGrid.setConfig({
     },
     columns: [
         {key: "cm_syscd", 	label: "시스템코드",	width: '10%'},
-        {key: "cm_sysmsg", 	label: "시스템명",  	width: '30%', align: 'left'},
-        {key: "sysgb", 		label: "시스템유형",  	width: '14%', align: 'left'},
+        {key: "cm_sysmsg", 	label: "시스템명",  	width: '25%', align: 'left'},
+        {key: "sysgb", 		label: "시스템유형",  	width: '13%', align: 'left'},
         {key: "process", 	label: "프로세스유형", 	width: '20%', align: 'left'},
-        {key: "scmopen", 	label: "형상관리오픈", 	width: '13%'},
-        {key: "sysopen", 	label: "시스템오픈",  	width: '13%'}
+        {key: "scmopen", 	label: "형상관리오픈일", 	width: '12%'},
+        {key: "sysopen", 	label: "시스템오픈일",  	width: '12%'},
+        {key: "sysclose", 	label: "시스템폐기일시",	width: '16%'}
     ]
 });
 	
@@ -169,6 +170,16 @@ $(document).ready(function(){
 	
 	$(window).resize(function(){
 		resize();
+	});
+	
+	//폐기포함 클릭시
+	$("#chkCls").bind('click', function() {
+		if($('#chkCls').is(':checked')) {
+			sysInfoGrid.addColumn({key: "sysclose", label: "시스템폐기일시",	width: '16%'});
+		} else {
+			sysInfoGrid.removeColumn(6);
+		}
+		$('#btnQry').trigger('click');
 	});
 	
 	// 프로세스제한 숫자만 입력하도록 수정
@@ -807,6 +818,9 @@ function screenInit() {
 	$('#datStDateDiv').css('pointer-events','none');
 	$('#datEdDateDiv').css('pointer-events','none');
 	sysInfoGrid.align();
+	
+	$('#chkCls').wCheck('check',false);
+	sysInfoGrid.removeColumn(6);
 }
 
 //	처리팩터 추가
@@ -814,8 +828,6 @@ function successFactUpdt(data) {
 	if(data === 'OK') dialog.alert('시스템속성/서버속성/프로그램종류속성 자릿수를 일치시켰습니다.',function(){});
 	if(data !== 'OK') dialog.alert('처리팩터추가중 오류가 발생했습니다. 관리자에게 문의하세요.',function(){});
 }
-
-
 
 // 시스템 리스트
 function getSysInfoList(sysCd) {
