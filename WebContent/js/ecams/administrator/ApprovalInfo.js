@@ -1268,12 +1268,13 @@ function successSetApprovalInfo(data) {
 }
 
 function btnDel_Click() {
-	if(getSelectedIndex('cboReqCd') < 0) {
+	
+	if(getSelectedIndex('cboReqCd') < 1) {
 		dialog.alert('결재종류를 선택하여 주시기 바랍니다.',function(){});
 		return;
 	}
 	
-	if(getSelectedIndex('cboSignStep') < 0) {
+	if(getSelectedIndex('cboSignStep') < 1) {
 		dialog.alert('결재단계를 선택하여 주시기 바랍니다.',function(){});
 		return;
 	}
@@ -1307,6 +1308,7 @@ function btnDel_Click() {
 		tmpMem = "2";
 	}
 	
+	
 	//Cmm0300.confInfo_Close(tmpSys,cboReq.selectedItem.cm_micode,tmpMan,cboStep.selectedItem.cm_micode);
 	tmpInfo = new Object();
 	tmpInfo.sysCd = tmpSys;
@@ -1323,9 +1325,16 @@ function btnDel_Click() {
 }
 
 function successDelApprovalInfo(data) {
-	dialog.alert('결재정보가 삭제처리되었습니다.',function(){
-		btnQry_Click();
-	});
+	if(data == "OK"){
+		dialog.alert('결재정보가 삭제처리되었습니다.',function(){
+			btnQry_Click();
+		});
+	}
+	else{
+		dialog.alert(data,function(){
+			btnQry_Click();
+		});
+	}
 }
 
 function btnAllQry_Click() {
