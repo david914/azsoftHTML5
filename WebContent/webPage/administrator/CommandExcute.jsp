@@ -36,14 +36,13 @@
 					<label for="rdorecive">수신</label>
 				</div>
 				<div class="dib"  id="cboDbUsrSel" data-ax5select="cboDbUsrSel" data-ax5select-config="{size:'sm',theme:'primary'}" style="vertical-align: bottom; min-width: 110;"> </div>
-				<div id="chkViewDiv" class="dis-i-b tar">
-	<!-- 				<input type="checkbox" class="checkbox-pie" id="chkView" data-label="수신파일 직접보기"/> -->
-					<input id="chkView" tabindex="8" class="checkbox-pie" type="checkbox" value="chkView" style="margin-top: 5px;" name="chkView"/>
+				<div id="chkViewDiv" class="dib" style="min-width:200px;">
+					<input id="chkView" tabindex="8" class="checkbox-pie" type="checkbox" value="chkView" style="margin-top: 5px;" name="chkView" checked="checked"/>
 					<label for="chkView"  id="txtChkView" style="margin-top: -5px;">수신파일 직접보기</label>
 				</div>
 				
-				<button id="btnQry" class="btn_basic_s margin-20-left" style="cursor: pointer;">커맨드실행</button>
-				<button id="btnExcel" class="btn_basic_s margin-20-left" style="cursor: pointer;">엑셀저장</button>
+				<button id="btnQry" class="btn_basic_s margin-5-left float-right" style="cursor: pointer;">커맨드실행</button>
+				<button id="btnExcel" class="btn_basic_s margin-20-left float-right" style="cursor: pointer;">엑셀저장</button>
 			</div>
 		</div>
 	</div>

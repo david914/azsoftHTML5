@@ -128,7 +128,7 @@
 			<dl>
 				<dt><label>*담당개발자</label></dt>						
 				<dd>
-					<div class="vat">
+					<div class="vat" style="margin-bottom:5px;">
 						<input id="txtUser" name="txtUser" type="text" style="width:15%;" class="vat" autocomplete="off">
 						<div id="cboDevUser" data-ax5select="cboDevUser" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib width-31"></div>
 							<button id="btnAddDevUser" name="btnAddDevUser" class="btn_basic_s">추가</button>
