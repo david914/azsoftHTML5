@@ -2045,7 +2045,7 @@ public class Cmm0700{
             }
 
             SystemPath systemPath = new SystemPath();
-            String path = systemPath.getTmpDir("02")+ File.separator +"ecams.conf";
+            String path = systemPath.getTmpDir("14")+ File.separator +"ecams.conf";
             systemPath = null;
             
             FileInputStream fip = new FileInputStream(path);

@@ -42,6 +42,21 @@ $(document).ready(function(){
 		else strReqCD = "";
 	}
 	
+    // activate Nestable for list 1
+    $('#nestable').nestable({
+        group: 1
+    }).on('change', updateOutput);
+
+    // activate Nestable for list 2
+    $('#nestable2').nestable({
+        group: 1
+    }).on('change', updateOutput);
+
+    // output initial serialised data
+    updateOutput($('#nestable').data('output', $('#nestable-output')));
+    updateOutput($('#nestable2').data('output', $('#nestable2-output')));
+	
+	
 	Cbo_reqcd();
 	setGrid();
 	setCboMenu();
@@ -81,6 +96,17 @@ $(document).ready(function(){
 		Cmd_Ip_Click(2);
 	});
 });
+
+var updateOutput = function (e) {
+    var list = e.length ? e : $(e.target),
+            output = list.data('output');
+    console.log(list);
+    if (window.JSON) {
+        output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
+    } else {
+        output.val('JSON browser support required for this demo.');
+    }
+};
 
 function Cbo_reqcd(){
 	var codeInfos = getCodeInfoCommon( [new CodeInfo('REQUEST','SEL','N')] );
@@ -240,17 +266,27 @@ function Cbo_Menu_Click(){
 		$('#tmpTest').append(option);
 	});
 	resultData = null;
-	var ajaxResultData = null;
+	var ajaxResultData = [];
 	var tmpData = {
 			requestType : 'getLowMenuList',
 			Cbo_Menu	: $('[data-ax5select="Cbo_Menu"]').ax5select("getValue")[0].value
 	}	
 	ajaxResultData = ajaxCallWithJson('/webPage/administrator/MenuManage', tmpData, 'json');
-	$('#tmpTest2 *').remove();
-	$.each(ajaxResultData,function(key,value) {
-		var option = $("<li class='dd-item' data-id="+value.cm_menucd+"><div class='dd-handle'>"+value.cm_maname+"</div></li>");
-		$('#tmpTest2').append(option);
-	});
+	
+	
+	$('#nestable *').remove();
+	if(ajaxResultData.length === 0 ) {
+		$('#nestable .dd-empty').remove();
+		var option = $("<div class='dd-empty'></div>");
+		$('#nestable').append(option);
+	} else {
+		var option = $("<ol class='dd-list'></ol>");
+		$('#nestable').append(option);
+		$.each(ajaxResultData,function(key,value) {
+			var option = $("<li class='dd-item' data-id="+value.cm_menucd+"><div class='dd-handle'>"+value.cm_maname+"</div></li>");
+			$('#nestable').children('.dd-list').append(option);
+		});
+	}
 }
 
 function Cmd_Ip_Click(num){
@@ -310,7 +346,8 @@ function Cmd_Ip_Click(num){
 	    	getMenuTree();
 	    	break;
 	    case 3:
-	    	if($("#tmpTest2").children().length == 0) return;
+	    	
+	    	if($('#nestable').children('.dd-list').children().length === 0) return;
 	    	
 	    	var menucd = "";
 	    	if($('[data-ax5select="Cbo_Menu"]').ax5select("getValue")[0] != undefined){
@@ -318,7 +355,7 @@ function Cmd_Ip_Click(num){
 	    	}
 	    	
 	    	var tmpList = new Array();
-	    	$("#tmpTest2").children().each(function(){
+	    	$('#nestable').children('.dd-list').children().each(function(){
 	    		var data = new Object();
 	    		data.cm_menucd = $(this).attr("data-id");
 	    		tmpList.push(data);

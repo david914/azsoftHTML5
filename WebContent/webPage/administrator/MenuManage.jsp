@@ -110,19 +110,19 @@
     margin: 5px 0;
     padding: 0;
     min-height: 30px;
-    background: #f2fbff;
-    border: 1px dashed #e4e5e7;
+    /* background: #f2fbff;
+    border: 1px dashed #e4e5e7; */
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
 
 .dd-empty {
     border: 1px dashed #bbb;
-    min-height: 100px;
-    background-color: #e5e5e5;
-    background-image: -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+    min-height: 130px;
+    /* background-color: #e5e5e5; */
+    /* background-image: -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
     background-image: -moz-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), -moz-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
-    background-image: linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+    background-image: linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff); */
     background-size: 60px 60px;
     background-position: 0 0, 30px 30px;
 }
@@ -179,28 +179,7 @@
 <script>
 
     $(function () {
-        var updateOutput = function (e) {
-            var list = e.length ? e : $(e.target),
-                    output = list.data('output');
-            if (window.JSON) {
-                output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
-            } else {
-                output.val('JSON browser support required for this demo.');
-            }
-        };
-        // activate Nestable for list 1
-        $('#nestable').nestable({
-            group: 1
-        }).on('change', updateOutput);
-
-        // activate Nestable for list 2
-        $('#nestable2').nestable({
-            group: 1
-        }).on('change', updateOutput);
-
-        // output initial serialised data
-        updateOutput($('#nestable').data('output', $('#nestable-output')));
-        updateOutput($('#nestable2').data('output', $('#nestable2-output')));
+        
     });
 </script>
 
@@ -287,8 +266,8 @@
 						<div class="r_wrap width-50">
 							<div class="l_wrap width-95">
 								<div class="dd scrollBind row" id="nestable" style="overflow-y:auto; height:150px;">
-									<ol id="tmpTest2" class="dd-list">
-									</ol>
+									<!-- <ol id="tmpTest2" class="dd-list">
+									</ol> -->
 								</div>										
 							</div>
 						</div>
