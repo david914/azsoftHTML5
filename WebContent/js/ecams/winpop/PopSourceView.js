@@ -63,7 +63,7 @@ $('input:radio[name^="optradio"]').wRadio({theme: 'circle-radial blue', selector
 $(document).ready(function(){
 	
 	//pUserId = 'MASTER';
-	//pItemId = '000000179672';
+	//pItemId = '000000179673';
 	if (pUserId == null || pUserId.length == 0) {
 		dialog.alert('로그인 후 사용하시기 바랍니다.',function(){});
 		return;		
@@ -97,9 +97,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	getTmpDir('99,F1');
-	
-	getProgHistory(pItemId);
+	getTmpDir('99,F1');	
 	
 });
 //환성화 비활성화 초기화로직
@@ -140,6 +138,7 @@ function successeCAMSDir(data) {
 		if(data.cm_pathcd == '99') tmpDir = data.cm_path;
 		else downURL = data.cm_path;
 	});
+	getProgHistory(pItemId);
 	
 }
 function getProgHistory(itemid){
@@ -166,14 +165,14 @@ function successProgList(data) {
 	if (pReqNo != null && pReqNo.length > 0) {
 		for(var i=0; i<grdProgHistoryData.length; i++) {
 			if(grdProgHistoryData[i].cr_acptno == pReqNo) {
-				grdProgHistory.clearSelect();
+				//grdProgHistory.clearSelect();
 				grdProgHistory.select(i);
 				//selectedGridItem = grdProgHistory.list[i];
 				break;
 			}
 		}
 	} else {
-		grdProgHistory.clearSelect();
+		//grdProgHistory.clearSelect();
 		grdProgHistory.select(0);
 		//selectedGridItem = grdProgHistory.list[0];
 	}
@@ -194,12 +193,14 @@ function grdProgHistory_Click() {
 		$('#btnSrcDown').prop('disabled', true); 
 		$('#btnSearch').prop('disabled', true); 
 		$('#txtSrc').val('바이너리파일입니다.');
+		dialog.alert("바이너리파일입니다.");
 	} else { 
 		tmpInfo = new Object();
 		tmpInfo.userId = pUserId;
-		tmpInfo.itemId  = selectedGridItem.cr_itemid;
-		tmpInfo.vergbn  = selectedGridItem.gbncd;
-		tmpInfo.version  = selectedGridItem.cr_version;
+		tmpInfo.cr_itemid  = selectedGridItem.cr_itemid;
+		tmpInfo.gbncd  = selectedGridItem.gbncd;
+		tmpInfo.cr_acptno  = selectedGridItem.cr_version;
+		tmpInfo.tmpdir = tmpDir;
 		tmpInfo.encoding = "X";
 		outName = pUserId + '_' + selectedGridItem.cr_version + '_' + selectedGridItem.cr_rsrcname;
 		tmpInfo.outname = outName; 
@@ -219,10 +220,6 @@ function successVersion(data) {
 	
 	if (data == null || data.length < 5) {
 		dialog.alert("소스보기 중 오류가 발생하였습니다.");
-		return;
-	}
-	if (data.substr(0,5) == 'ERROR') {
-		dialog.alert(data.substr(5));
 		return;
 	}
 	srcArray = data;
@@ -264,7 +261,7 @@ function txtSearch_change() {
 	//console.log('txtSearch_change'+$('#txtSearch').val());
 	
 	findLine = 0;
-	svWord = "";
+	svWord = '';
 	if (prettify != null) {
 		var htmlObj = document.getElementById("htmlSrc");
 		htmlObj.innerHTML = prettify;
@@ -302,6 +299,10 @@ function btnSearch_click() {
 			}
 		}
 	} else {
+		if (isNaN(strWord)) {
+			dialog.alert('검색 할 라인을 숫자로 입력하여 주시기 바랍니다.', function(){});
+			return;
+		}
 		findLine = Number(strWord);
 		//console.log('line search='+findLine);
 		if (srcArray.length < findLine) {
@@ -314,7 +315,7 @@ function btnSearch_click() {
 	//console.log(findLine);
 	
 	if (findSw) {
-		yPOS = findLine * 13.75;
+		yPOS = findLine * 13.35;
 		//console.log(yPOS);
 		$('#htmlView').scrollTop(yPOS);
 		if (searchGbn == 'L') {
@@ -333,7 +334,7 @@ function btnSearch_click() {
 function btnSrcDown_click() {
 	
 	//location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+this.item.savename;
-	location.href = downURL+'?f='+grdProgHistoryData[0].cr_rsrcname+'&folderPath='+tmpDir+'/'+outName;
+	location.href = downURL+'?fileName='+grdProgHistoryData[0].cr_rsrcname+'&fullPath='+tmpDir+'/'+outName;
 	//location.href = "F:\\Azsoft\\HTML5\\save\\AutoSeq.java";
 }
 

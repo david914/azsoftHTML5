@@ -266,12 +266,11 @@ function successProgInfo(data) {
 			} else if (progInfoData[0].WkSta == '9') { 
 				$('#btnDel').prop('disabled', false);      //삭제버튼 활성화
 			}
-			if ((strInfo.substr(9,1) == '0' && strInfo.substr(11,1) == '1') ||
-				strInfo.substr(26,1) == '1'	|| strInfo.substr(3,1) == '1') {
-				
+			if (strInfo.substr(9,1) == '0' && strInfo.substr(11,1) == '1' &&    //바이너리아님,버전관리대상
+				strInfo.substr(26,1) == '0') {                                  //개발툴연계아님
+				if (Number(progInfoData[0].WkVer) > 1) $('#btnDiff').prop('disabled', false);        //소스비교버튼 활성화
+				if (Number(progInfoData[0].WkVer) > 0) $('#btnView').prop('disabled', false);       //소스보기버튼 활성화
 			}
-			if (Number(progInfoData[0].WkVer) > 1) $('#btnDiff').prop('disabled', false);        //소스비교버튼 활성화
-			if (Number(progInfoData[0].WkVer) > 0) $('#btnView').prop('disabled', false);       //소스보기버튼 활성화
 		} 
 	}
 }

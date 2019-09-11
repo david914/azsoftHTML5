@@ -2032,132 +2032,121 @@ public class Cmm0700{
 		}
 	}//end of sql_Qry() method statement
     public Object[] getSvrProperties() throws Exception{
-		ArrayList<HashMap<String, String>>  rtList = new ArrayList<HashMap<String, String>>();
-		HashMap<String, String>			    rst	   = null;
-        
-		Properties props = new Properties(); 
-        ClassLoader cl;
-        
-        try{
-        	cl = Thread.currentThread().getContextClassLoader();
-            if( cl == null ){
-                cl = ClassLoader.getSystemClassLoader();
-            }
-
-            SystemPath systemPath = new SystemPath();
-            String path = systemPath.getTmpDir("14")+ File.separator +"ecams.conf";
-            systemPath = null;
-            
-            FileInputStream fip = new FileInputStream(path);
-            props.load(new BufferedInputStream(fip));
-        	
-            int arrCnt = 0;
-            
-        	rst = new HashMap<String, String>();
-        	rst.put("gbn", "DBCONN");
-        	if(props.getProperty("DBCONN") == null || props.getProperty("DBCONN") == ""){
-        		rst.put("value", "");
-        	}else{
-        		rst.put("value", props.getProperty("DBCONN"));
-        	}
-        	rtList.add(arrCnt++, rst);
-        	rst = null;
-        	
-        	rst = new HashMap<String, String>();
-        	rst.put("gbn", "DBUSER");
-        	if(props.getProperty("DBUSER") == null || props.getProperty("DBUSER") == ""){
-        		rst.put("value", "");
-        	}else{
-        		rst.put("value", props.getProperty("DBUSER"));
-        	}
-        	rtList.add(arrCnt++, rst);
-        	rst = null;
-        	
-        	rst = new HashMap<String, String>();
-        	rst.put("gbn", "DBPASS");
-        	if(props.getProperty("DBPASS") == null || props.getProperty("DBPASS") == ""){
-        		rst.put("value", "");
-        	}else{
-        		rst.put("value", props.getProperty("DBPASS"));
-        	}
-        	rtList.add(arrCnt++, rst);
-        	rst = null;
-        	
-        	props = null;
-        	fip.close();
-        	fip = null;
-        	
-        	return  rtList.toArray();
-			
+		  Properties props = new Properties(); 
+	      ClassLoader cl;
+	      ArrayList<HashMap<String, String>> rtList = new ArrayList<HashMap<String, String>>();
+	      HashMap<String, String> rst = new HashMap<String, String>();
+	      try {
+	      	cl = Thread.currentThread().getContextClassLoader();
+	        if( cl == null ){
+	            cl = ClassLoader.getSystemClassLoader();
+	        }
+	        
+	      	rst.put("DBCONN", "");
+	      	rst.put("DBUSER", "");
+	      	rst.put("DBPASS", "");
+	        
+	        SystemPath systemPath = new SystemPath();
+	        String path = systemPath.getTmpDir("14")+"/ecams.conf";
+	        systemPath = null;
+	        
+	        File confFile = new File(path);
+	        if (confFile.exists()) {
+	        	FileInputStream fip = new FileInputStream(path);
+	        	props.load(new BufferedInputStream(fip));
+	        	
+	        	Encryptor encryptor = Encryptor.instance();
+	        	if (null != props.getProperty("SECU") && "true".equals(props.getProperty("SECU"))){
+	        	    rst.put("DBCONN", encryptor.strGetDecrypt_AES256(props.getProperty("DBCONN")));
+	        	    rst.put("DBUSER", encryptor.strGetDecrypt_AES256(props.getProperty("DBUSER")));
+	        	    rst.put("DBPASS", encryptor.strGetDecrypt_AES256(props.getProperty("DBPASS")));	              
+	            } else { 
+	      		    rst.put("DBCONN", props.getProperty("DBCONN"));
+	      		    rst.put("DBUSER", props.getProperty("DBUSER"));
+	      		    rst.put("DBPASS", props.getProperty("DBPASS"));
+	      		}
+	        	ecamsLogger.error("rst="+rst.toString());
+	        
+	        	encryptor = null;
+	        	fip.close();
+		      	fip = null;
+	      	}
+	      		      	
+	      	confFile = null;
+	      	props = null;
+	      	cl = null;	      	
+	      	
+	      	rtList.add(rst);
+    	
+	      	return  rtList.toArray();
+		    
 		} catch(Exception e){
-        	e.printStackTrace();
+      	e.printStackTrace();
 			ecamsLogger.error("## Cmm0700.getSvrProperties() Exception START ##");				
 			ecamsLogger.error("## Error DESC : ", e);	
 			ecamsLogger.error("## Cmm0700.getSvrProperties() Exception END ##");	
-        	return null;
-        } finally{
-        	if(rst != null) rst = null;
+      	return null;
+      } finally{
+      	if(rst != null) rst = null;
 		}
-    }
+  }
 
-    public String setSvrProperties(String dbconn, String dbuser, String dbpass) throws  Exception,IOException {
-        Properties props = new Properties(); 
-        File shfile=null;
+  public String setSvrProperties(String dbconn, String dbuser, String dbpass) throws  Exception,IOException {
+      File shfile=null;
+      
+      try{
+
+          SystemPath systemPath = new SystemPath();
+          String path = systemPath.getTmpDir("14")+"/ecams.conf";
+          systemPath = null;
         
-        try{
-
-            SystemPath systemPath = new SystemPath();
-            String path = systemPath.getTmpDir("14")+"/ecams.conf";
-            systemPath = null;
-            
-            shfile = new File(path);			
+          shfile = new File(path);			
 			if( !(shfile.isFile()) )              //File존재여부
 			{
 				shfile.createNewFile();          //File생성
+			}
+			
+			if( !(shfile.isFile()) )              //File존재여부
+			{
+				return "ecams.conf 파일생성실패";
 			} 
-			
-            FileInputStream fip = new FileInputStream(path);
-            props.load(new BufferedInputStream(fip));
-            
-            Encryptor oEncryptor = Encryptor.instance();
-            props.setProperty("DBCONN", oEncryptor.strGetEncrypt(dbconn));
-            props.setProperty("DBUSER", oEncryptor.strGetEncrypt(dbuser));
-            props.setProperty("DBPASS", oEncryptor.strGetEncrypt(dbpass));
-            
-            props.store(new FileOutputStream(path), "");
-			props = null;
-            oEncryptor = null;
-			
-            fip.close();       	
-        	fip = null;
-        	
-			return  "OK";
-
+			Encryptor encryptor = Encryptor.instance();
+	      	OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path));
+	      	writer.write("SECU=true\n");
+	      	writer.write("DBCONN="+encryptor.strGetEncrypt_AES256(dbconn)+"\n");
+	      	writer.write("DBUSER="+encryptor.strGetEncrypt_AES256(dbuser)+"\n");
+	      	writer.write("DBPASS="+encryptor.strGetEncrypt_AES256(dbpass)+"\n");
+	      	writer.close();
+	      	writer = null;
+	      	encryptor = null;  
+	      	shfile = null;
+    	  
+		    return  "OK";
 		} catch(IOException e){
-        	e.printStackTrace();
+      	e.printStackTrace();
 			ecamsLogger.error("## Cmm0700.setSvrProperties() Exception START ##");				
 			ecamsLogger.error("## Error DESC : ", e);	
 			ecamsLogger.error("## Cmm0700.setSvrProperties() Exception END ##");	
-        	return null;
-        } catch(Exception e){
-        	e.printStackTrace();
+      	return null;
+      } catch(Exception e){
+      	e.printStackTrace();
 			ecamsLogger.error("## Cmm0700.setSvrProperties() Exception START ##");				
 			ecamsLogger.error("## Error DESC : ", e);	
 			ecamsLogger.error("## Cmm0700.setSvrProperties() Exception END ##");	
-        	return null;
-        } finally{
-        	
+      	return null;
+      } finally{
+      	
 		}
 	}
-    
-    public Object[] getProperties(String strGbn) throws Exception{
+  
+  public Object[] getProperties(String strGbn) throws Exception{
 		ArrayList<HashMap<String, String>>  rtList = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String>			    rst	   = null;
-        
-        try{
-        	int arrCnt = 0;
-        	
-        	if("O".equals(strGbn)){
+      
+      try{
+      	int arrCnt = 0;
+      	
+      	if("O".equals(strGbn)){
 	        	rst = new HashMap<String, String>();
 	        	rst.put("gbn", strGbn+"_jdbcUse");
 	        	if(ConfigFactory.getProperties(strGbn+"_jdbcUse") == null || ConfigFactory.getProperties(strGbn+"_jdbcUse") == ""){
@@ -2197,7 +2186,7 @@ public class Cmm0700{
 	            	String urlName = ConfigFactory.getProperties(strGbn+"_url").toString();
 	        		if(urlName.substring(0, urlName.lastIndexOf(":")+1).length()==0){
 	        			Encryptor oEncryptor = Encryptor.instance();
-	        			urlName = oEncryptor.strGetDecrypt(ConfigFactory.getProperties(strGbn+"_url")).toString();
+	        			urlName = oEncryptor.strGetDecrypt_AES256(ConfigFactory.getProperties(strGbn+"_url")).toString();
 	        			oEncryptor = null;
 	        		}
 	            	rst.put("value", urlName.substring(0, urlName.lastIndexOf(":")+1)+"****");
@@ -2288,8 +2277,8 @@ public class Cmm0700{
 	        	rtList.add(arrCnt++, rst);
 	        	rst = null;
 	        	
-        	}else if("P".equals(strGbn)){
-        		rst = new HashMap<String, String>();
+      	}else if("P".equals(strGbn)){
+      		rst = new HashMap<String, String>();
 	        	rst.put("gbn", strGbn+"_url");
 	        	if(ConfigFactory.getPluginProperties(strGbn+"_url") == null || ConfigFactory.getPluginProperties(strGbn+"_url") == ""){
 	        		rst.put("value", "****");
@@ -2297,7 +2286,7 @@ public class Cmm0700{
 	            	String urlName = ConfigFactory.getPluginProperties(strGbn+"_url").toString();
 	        		if(urlName.substring(0, urlName.lastIndexOf(":")+1).length()==0){
 	        			Encryptor oEncryptor = Encryptor.instance();
-	        			urlName = oEncryptor.strGetDecrypt(ConfigFactory.getPluginProperties(strGbn+"_url")).toString();
+	        			urlName = oEncryptor.strGetDecrypt_AES256(ConfigFactory.getPluginProperties(strGbn+"_url")).toString();
 	        			oEncryptor = null;
 	        		}
 	            	rst.put("value", urlName.substring(0, urlName.lastIndexOf(":")+1)+"****");
@@ -2324,106 +2313,81 @@ public class Cmm0700{
 	        	}
 	        	rtList.add(arrCnt++, rst);
 	        	rst = null;
-        	}
+      	}
 			//ecamsLogger.error(rtList.toString());
 			
 			return  rtList.toArray();
 			
 		} catch(Exception e){
-        	e.printStackTrace();
+      	e.printStackTrace();
 			ecamsLogger.error("## Cmm0700.getProperties() Exception START ##");				
 			ecamsLogger.error("## Error DESC : ", e);	
 			ecamsLogger.error("## Cmm0700.getProperties() Exception END ##");	
-        	return null;
-        } finally{
-        	if(rst != null) rst = null;
+      	return null;
+      } finally{
+      	if(rst != null) rst = null;
 		}
-    }
-    
-    public String setProperties(ArrayList<HashMap<String, String>> infoList) throws  Exception,IOException {
-        Properties props = new Properties();
-        
-        try{
-        	String path = "";
-        	String os	= System.getProperty("os.name");
-        	if("O".equals(infoList.get(0).get("gbn").substring(0,1))){
-        		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+  }
+  
+  public String setProperties(ArrayList<HashMap<String, String>> infoList) throws  Exception,IOException {
+      Properties props = new Properties();
+      
+      try{
+      	String path = "";
+      	
+      	if("O".equals(infoList.get(0).get("gbn").substring(0,1))){
+      		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 	            if( cl == null ){
 	                cl = ClassLoader.getSystemClassLoader();
 	            }
-	            if(os.indexOf("Window") >= 0) {
-	            	path = cl.getResource("DBInfo.properties").toString().substring(6, cl.getResource("DBInfo.properties").toString().length());
-	            } else {
-	            	path = cl.getResource("DBInfo.properties").toString().split(":")[1];
-	            }
+	            
+	            path = cl.getResource("DBInfo.properties").toString().split(":")[1];
+	            
 	            cl = null;
-        	}else if("P".equals(infoList.get(0).get("gbn").substring(0,1))){
-            	SystemPath systemPath = new SystemPath();
-            	String basepath = systemPath.getTmpDir("P1");
-            	path = basepath+"/conf/jdbc.properties";
-//            	path = "C:\\jdbc.properties";
-            	systemPath = null;
-            }
-        	
-        	
-        	System.out.println(path);
-            FileInputStream fip = new FileInputStream(path);
-            props.load(new BufferedInputStream(fip));
-            
-            Encryptor oEncryptor = Encryptor.instance();
-            boolean secuSw = false;
-            
-            for(int i=0; i<infoList.size(); i++){
-            	if(infoList.get(i).get("gbn").indexOf("_secu") > 0 ) {
-            		if(infoList.get(i).get("value").equals("true")) {
-            			secuSw = true;
-            		}
-            	}
-            }
-            
-            for(int i=0; i<infoList.size(); i++){
-            	if(infoList.get(i).get("gbn").indexOf("_url")>0 || infoList.get(i).get("gbn").indexOf("_username")>0 || infoList.get(i).get("gbn").indexOf("_password")>0){
-            		if(secuSw) {
-            			props.setProperty(infoList.get(i).get("gbn"), oEncryptor.strGetEncrypt(infoList.get(i).get("value")));
-            		} else {
-            			props.setProperty(infoList.get(i).get("gbn"), infoList.get(i).get("value"));
-            		}
-            	}else{
-            		props.setProperty(infoList.get(i).get("gbn"), infoList.get(i).get("value"));
-            	}
+      	}else if("P".equals(infoList.get(0).get("gbn").substring(0,1))){
+          	SystemPath systemPath = new SystemPath();
+          	String basepath = systemPath.getTmpDir("P1");
+          	path = basepath+"/conf/jdbc.properties";
+//          	path = "C:\\jdbc.properties";
+          	systemPath = null;
+          }
+      	
+
+          FileInputStream fip = new FileInputStream(path);
+          props.load(new BufferedInputStream(fip));
+          
+          Encryptor oEncryptor = Encryptor.instance();
+          for(int i=0; i<infoList.size(); i++){
+          	if(infoList.get(i).get("gbn").indexOf("_url")>0 || infoList.get(i).get("gbn").indexOf("_username")>0 || infoList.get(i).get("gbn").indexOf("_password")>0){
+          		props.setProperty(infoList.get(i).get("gbn"), oEncryptor.strGetEncrypt_AES256(infoList.get(i).get("value")));
+          	}else{
+          		props.setProperty(infoList.get(i).get("gbn"), infoList.get(i).get("value"));
+          	}
 			}
-            /*
-             * Set<Object> set = props.keySet(); //프로퍼티 keySet
-             * Iterator it = set.iterator();
-             * while(it.hasNext()){
-             * 	String temp = (String) it.next();
-             * 	String temp2 = props.getProperty(temp); //프로퍼티 속성
-             * }
-             */
-            
-            props.store(new FileOutputStream(path), "");
+          
+          props.store(new FileOutputStream(path), "");
 			props = null;
-            oEncryptor = null;
+          oEncryptor = null;
 			
-            fip.close();       	
-        	fip = null;
-        	
+          fip.close();       	
+      	fip = null;
+      	
 			return  "OK";
 
 		} catch(IOException e){
-        	e.printStackTrace();
+      	e.printStackTrace();
 			ecamsLogger.error("## Cmm0700.setProperties() Exception START ##");				
 			ecamsLogger.error("## Error DESC : ", e);	
 			ecamsLogger.error("## Cmm0700.setProperties() Exception END ##");	
-        	return null;
-        } catch(Exception e){
-        	e.printStackTrace();
+      	return null;
+      } catch(Exception e){
+      	e.printStackTrace();
 			ecamsLogger.error("## Cmm0700.setProperties() Exception START ##");				
 			ecamsLogger.error("## Error DESC : ", e);	
 			ecamsLogger.error("## Cmm0700.setProperties() Exception END ##");	
-        	return null;
-        } finally{
-        	
+      	return null;
+      } finally{
+      	
 		}
 	}
 

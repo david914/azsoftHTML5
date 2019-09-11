@@ -64,7 +64,7 @@ public class Cmr5300 {
 			outFile.delete();			
 			
 			Cmr0200 cmr0200 = new Cmr0200();
-			strParm = "./ecams_gensrc " + etcData.get("gbncd") + " " + etcData.get("cr_itemid") + " " + etcData.get("cr_acptno") + " " + fileName;
+			strParm = "./ecams_gensrc " + etcData.get("gbncd") + " " + etcData.get("cr_itemid") + " " + fileName + " " + etcData.get("cr_acptno");
 			shFileName = etcData.get("userid")+"apcmd.sh";
 			ret = cmr0200.execShell(shFileName, strParm, false);
 			if (ret != 0) {
@@ -101,6 +101,7 @@ public class Cmr5300 {
 				rst = null;
 			}
 			outFile.delete();
+			//ecamsLogger.error(rtList.toString());
 			//return strQuery.toString();
 			return rtList.toArray();
 
@@ -930,7 +931,7 @@ public class Cmr5300 {
             pstmt.setString(1, ItemID);
             //pstmt.setString(2, ItemID);
 
-            ////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
 

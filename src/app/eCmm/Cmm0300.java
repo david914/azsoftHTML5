@@ -490,11 +490,35 @@ public class Cmm0300{
     	Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		StringBuffer      strQuery    = new StringBuffer();
-
+		ResultSet         rs          = null;
+		String  			 msg = "";
 		ConnectionContext connectionContext = new ConnectionResource();
 
 		try {
 			conn = connectionContext.getConnection();
+			strQuery.setLength(0);
+			strQuery.append("select count(*) cnt from cmm0060                                          \n");
+			strQuery.append(" where cm_reqcd=? and cm_syscd=? and cm_seqno=?         \n");
+			if (!ManId.equals("9"))
+			   strQuery.append(" and cm_manid=?                                      \n");
+			pstmt = conn.prepareStatement(strQuery.toString());
+			//pstmt = new LoggableStatement(conn,strQuery.toString());
+			pstmt.setString(1, ReqCd);
+			pstmt.setString(2, SysCd);
+			pstmt.setInt(3, Integer.parseInt(SeqNo));
+			if (!ManId.equals("9")) pstmt.setString(4, ManId);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				if (rs.getInt("cnt") == 0) {
+					msg = "선택하신 결재종류에 결재단계가 없습니다.";
+				}
+			}
+			rs.close();
+			pstmt.close();
+			if(!"".equals(msg)) {
+				return msg;
+			}
+			
 			strQuery.setLength(0);
 			strQuery.append("delete cmm0060                                          \n");
 			strQuery.append(" where cm_reqcd=? and cm_syscd=? and cm_seqno=?         \n");

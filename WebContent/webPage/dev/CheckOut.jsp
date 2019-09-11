@@ -106,8 +106,8 @@
 			<div class="ml_80">
 				<input id="reqText" type="text" placeholder="" style="width:calc(100% - 100px)">
 				<div class='ml150 tal float-right' style="display:inline; ">
-					<button id="btnDiff" class="btn_basic_s margin-5-left" style='display:none;'>파일비교</button>
-					<button id="btnReq" class="btn_basic_s margin-5-left">체크아웃</button>
+					<button id="btnDiff" class="btn_basic_s margin-5-left margin-10-right" style='display:none;'>파일비교</button>
+					<button id="btnReq" class="btn_basic_s margin-5-left margin-10-right">체크아웃</button>
 				</div>
 			</div>
 		</div>

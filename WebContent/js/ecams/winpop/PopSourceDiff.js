@@ -160,12 +160,9 @@ $(document).ready(function(){
 
 	// 엑셀저장버튼 클릭
 	$('#btnExcel').bind('click', function() {
-		grdDiffSrc.exportExcel("grid-to-excel.xls");
+		grdDiffSrc.exportExcel($('#txtProgId').val()+"_SourceDiff.xls");
 	});
-	
-	getTmpDir('99,F1');
-	
-	getProgHistory(pItemId);
+	getTmpDir('99,F1');	
 	
 });
 //환성화 비활성화 초기화로직
@@ -198,6 +195,7 @@ function successeCAMSDir(data) {
 		if(data.cm_pathcd == '99') tmpDir = data.cm_path;
 		else downURL = data.cm_path;
 	});
+	getProgHistory(pItemId);
 	
 }
 function getProgHistory(itemid){
@@ -216,13 +214,12 @@ function successProgList(data) {
 	var secondSw = false;
 	
 	grdProgHistoryData = data;
-	grdProgHistory.setData(grdProgHistoryData);
+	//grdProgHistory.setData(grdProgHistoryData);
 	
 	if (grdProgHistoryData.length == 0) {
 		dialog.alert('프로그램변경이력이 존재하지 않습니다.');
 		return;
 	}
-	
 	$('#txtSysMsg').val(grdProgHistoryData[0].cm_sysmsg);
 	$('#txtProgId').val(grdProgHistoryData[0].cr_rsrcname);
 	$('#txtDir').val(grdProgHistoryData[0].cm_dirpath);
@@ -325,6 +322,10 @@ function successDiffList(data) {
 	grdDiffSrcData = data;
 	diffSrcData = data;
 	
+	if (grdDiffSrcData[0].errmsg != null && grdDiffSrcData[0].errmsg != '') {
+		dialog.alert(grdDiffSrcData[0].errmsg);
+		return;
+	}
 	for(var i=0; i<grdDiffSrcData.length; i++) {
 		if (grdDiffSrcData[i].file1diff != null) {
 			if (grdDiffSrcData[i].file1diff == 'D ') {
@@ -498,12 +499,20 @@ function btnSearch_click() {
 	}
 	if (svWord == '' || svWord != strWord) svIdx = -1;
 	++svIdx;
-
+	
 	grdDiffSrc.clearSelect();
 	
 	//console.log('svidx='+svIdx);
 	svWord = strWord;
 	var searchGbn = $('[name="optradio"]:checked').val();
+
+	if (searchGbn == 'L') {
+		if (isNaN(strWord)) {
+			dialog.alert('검색 할 라인을 숫자로 입력하여 주시기 바랍니다.', function(){});
+			return;
+		}
+	}
+	
 	if (diffGbn == 'A') {
 		if (searchGbn == 'W') {
 			for(i=svIdx; i<grdDiffSrcData.length; i++) {

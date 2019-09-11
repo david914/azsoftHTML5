@@ -55,7 +55,9 @@ public class SystemPath {
 				if (rs.getString("cm_path").indexOf(".")>0) {
 					rst.put("cm_path", rs.getString("cm_path"));
 				} else {
-					if (rs.getString("cm_path").substring(rs.getString("cm_path").length()-1).equals("/"))
+					if ("F1".equals(rs.getString("cm_pathcd")))
+						rst.put("cm_path", rs.getString("cm_path"));
+					else if (rs.getString("cm_path").substring(rs.getString("cm_path").length()-1).equals("/"))
 						rst.put("cm_path", rs.getString("cm_path"));
 					else
 						rst.put("cm_path", rs.getString("cm_path")+"/");
