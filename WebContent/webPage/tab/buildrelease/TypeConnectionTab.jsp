@@ -83,9 +83,9 @@
 						<input type="checkbox" class="checkbox-view" id="chkLocal" data-label="형상관리서버에서 실행"/>
 						<input type="checkbox" class="checkbox-view" id="chkSeq" data-label="쉘순차 실행"/>
 						
-						<input id="optBefore"  type="radio" name="releaseChk" value="before" checked="checked"/>
+						<input id="optBefore"  type="radio" name="releaseChk" value="before"/>
 						<label for="optBefore" >파일송수신 전</label>
-						<input id="optAfter" type="radio" name="releaseChk" value="after"/>
+						<input id="optAfter" type="radio" name="releaseChk" value="after" checked="checked"/>
 						<label for="optAfter" class="margin-35-right" >파일송수신 후</label>
 					</div>
 				</div>
