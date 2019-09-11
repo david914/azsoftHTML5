@@ -185,6 +185,9 @@ function frameLoad(){
 	
 	if($('#iFrm').contents().find(".contentFrame").length == 0){
 		return;
+	} else {
+		// iframe 내에서 드래그 막음 ( 셀렉트박스 의미없는 값 드래그 되어서 막음)
+		$('#iFrm').contents().find(".contentFrame").attr('ondragstart','return false');
 	}
 	$('#iFrm').contents().find("html").css('overflow', 'hidden');
 	var frameHeight = 0;
