@@ -100,7 +100,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="l_wrap" style="width:calc(100% - 110px);margin-top:3px;">
+				<div class="l_wrap" style="width:calc(100% - 130px);margin-top:3px;">
 	               	<label class="tit-150 dib poa">SR정보</label>
 	               	<div class="ml_100">
 	                    <div id="cboSRID" data-ax5select="cboSRID" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
@@ -109,10 +109,10 @@
 				<div class="r_wrap" style="margin-top:3px;">
 					<div class="vat dib">
 						<div class="vat dib">
-							<button id="btnInit2" name="btnInit2" class="btn_basic_s">초기화</button>
+							<button id="btnInit2" name="btnInit2" class="btn_basic_s" style="width:65px;">초기화</button>
 						</div>
 						<div class="vat dib">
-							<button id="btnRegist" name="btnRegist" class="btn_basic_s">등록</button>
+							<button id="btnRegist" name="btnRegist" class="btn_basic_s" style="width:54px;">등록</button>
 						</div>
 					</div>
 				</div>
