@@ -65,6 +65,7 @@ $(document).ready(function(){
 	$("#cboSystem1").bind('change', function() {
 		cboSystem1_Change();
 	});
+	
 	//등록시스템
 	$("#cboSystem2").bind('change', function() {
 		cboSystem2_Change();
@@ -222,6 +223,7 @@ function cboSystem1_Change() {
 	grdProgList.setData([]);
 	getRsrccd(1, getSelectedVal('cboSystem1'));
 }
+
 function cboSystem2_Change() {
 	screenInit();
 	
@@ -619,7 +621,17 @@ function successCheckProg(data) {
 		return;
 	}else {
 		if(tmpArr.length > 0 && tmpArr[0].ID == "ADD") {
-			dialog.alert('등록처리가 완료되었습니다.',function(){ $('#btnQry').trigger('click'); });
+			dialog.alert('등록처리가 완료되었습니다.',function(){
+				//조회시스템 change
+				for(var i=0; i<cboSystemData1.length; i++) {
+					if(cboSystemData1[i].cm_syscd == getSelectedVal('cboSystem2').cm_syscd) {
+						$('[data-ax5select="cboSystem1"]').ax5select('setValue',cboSystemData1[i].cm_syscd,true); //value값으로
+						break;
+					}
+				}
+				btnInit2_Click();
+				$('#btnQry').trigger('click'); 
+			});
 			/*
 			if(grdProgListData != null) {
 				for(var i=0; i<grdProgList.getList().length; i++) {
