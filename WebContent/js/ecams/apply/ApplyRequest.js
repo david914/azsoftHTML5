@@ -17,6 +17,7 @@ var befJobModal 		= new ax5.ui.modal();
 var approvalModal 		= new ax5.ui.modal();
 var fileUploadModal 		= new ax5.ui.modal();
 var scriptModal 		= new ax5.ui.modal();
+var realFileModal 		= new ax5.ui.modal();
 
 var request         =  new Request();
 
@@ -32,6 +33,7 @@ var secondGridData = [];
 var gridSimpleData = [];
 var cboReqData = [];
 var ScriptProgData = [];
+var realFileData = [];
 
 var firstGridColumns = null;
 var secondGridColumns = null;
@@ -54,6 +56,7 @@ var uploadCk = false; // 파일 업로드 체크
 var acptNo = "";
 var winDevRep        = null; //SR정보 새창
 var SelSysCd = null;
+var realFileCk = false;
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -408,9 +411,8 @@ function porgRowEdit(){
 	if(reqCd == '07'){
 		$('#panCal').after($('#sayuBox').children());
 		$('#sayuInputBox').addClass('poa');
-		//$('#sayuInputBox').css('width', 'calc(100% - 165px)');
-		//$('#txtSayu').removeClass().css('width', 'calc((100% + 85px) * 0.84)');
-		//$('#btnRequest').width('85px');
+		$('#sayuInputBox').css('width','calc(100% - 180px)');
+		$('#txtSayu').css('width','100%');
 		$("#progRow").show();
 		$("#cboReqDiv").show();
 	}
@@ -1541,35 +1543,6 @@ function editRowBlank() {
 		}
 	}			
 }
-// 컴파일 순서 미개발
-function editRowStart(event) { /*그리드 클릭시*/
-	if ( grdLst2.selectedItem == null ) return;
-	if(grdLst2.selectedItem.enabled == "0") { //비활성화 (항목상세보기) 상태이면
-		prcseq.editable = false; //컴파일순서 에디터 불가
-	} else {
-		if(event.columnIndex == 4){ //선택한 컬럼이 5번째(0부터 시작) (컴파일순서)라면
-			prcseq.editable = true;
-			grdLst2.editedItemPosition = {columnIndex:4, rowIndex:event.rowIndex}; //에디트포지션 지정
-		}
-	}
-}
-//빌드스크립트 팝업 미개발
-function scriptRequest()
-{
-	var closeFlag = scriptPopUp.closeFlag;
-	if (closeFlag) {
-		script_dp = new ArrayCollection(scriptPopUp.grdLst_dp.source);
-	}
-	PopUpManager.removePopUp(scriptPopUp);
-
-	if (closeFlag){
-		cmdReqSub();
-	}
-	else{
-		ingSw = false;
-	}
-	
-}
 
 function cmdReqSub(){
 	var strRsrcCd = "";
@@ -2000,6 +1973,9 @@ function baepoConfirm(){
 				//기준프로그램이 아니고 배포서버에 파일을 전송해야 하는 경우
 			    subTmp = {};
 				subTmp = secondGridData[x];
+				if(subTmp.cr_realver == null || subTmp.cr_realver == undefined){
+					subTmp.cr_realver = 0;
+				}
 				lstModuleData.push(subTmp);
 				subTmp = null;
 			}
@@ -2032,12 +2008,49 @@ function baepoConfirm(){
 	}
 	
 	if ( lstModuleData.length>0 ) {
-		// 모듈사용 미개발
-		//Cmr0200.getRelatFileList(strUserId,cboSRID.selectedItem.cc_srid,lstModuleData);	
+		var tmpData;
+		tmpData = new Object();
+		tmpData = {
+			UserId	: 	userId,
+			srID	: 	getSelectedVal('cboSrId').value,
+			fileList : lstModuleData,
+			requestType	: 	'getRelatFileList'
+		}
+		ajaxAsync('/webPage/apply/ApplyRequest', tmpData, 'json', successGetRelatFileList);
 		return;
 	}
 	RequestScript();
 	
+}
+
+function successGetRelatFileList(data){
+	realFileData = data;
+	if(realFileData > 0){
+		realFileModal.open({
+	        width: 1050,
+	        height: 630,
+	        iframe: {
+	            method: "get",
+	            url: "../modal/request/RealFileModal.jsp",
+	            param: "callBack=modalCallBack"
+		    },
+	        onStateChanged: function () {
+	            if (this.state === "open") {
+	                mask.open();
+	            }
+	            else if (this.state === "close") {
+	                mask.close();
+	                if(realFileCk){
+	                	RequestScript();
+	                }else{
+	                	ingSw = false;
+	                }
+	            }
+	        }
+		});	
+	}else{
+		RequestScript();
+	}
 }
 
 function RequestScript(){

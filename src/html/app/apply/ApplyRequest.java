@@ -97,6 +97,10 @@ public class ApplyRequest extends HttpServlet {
 					break;
 				case "getProgScript" :
 					response.getWriter().write(getProgScript(jsonElement) );
+					break;
+				case "getRelatFileList" :
+					response.getWriter().write( getRelatFileList(jsonElement) );
+					break;
 				default:
 					break;
 			}
@@ -240,5 +244,17 @@ public class ApplyRequest extends HttpServlet {
 		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
 		return gson.toJson(cmd1200.getProgScript(sysCD, reqCD, fileList));
 			
+	}
+	
+	private String getRelatFileList(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId = null;
+		UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String srID = null;
+		srID = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "srID") );
+
+		ArrayList<HashMap<String, String>> fileList = new ArrayList<HashMap<String, String>>();
+		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
+		
+		return gson.toJson(cmr0200.getRelatFileList(UserId,srID,fileList));
 	}
 }

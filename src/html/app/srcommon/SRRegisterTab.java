@@ -84,6 +84,7 @@ public class SRRegisterTab extends HttpServlet {
 					break;
 				case "insertDocList" :
 					response.getWriter().write(insertDocList(jsonElement));
+					break;
 				case "deleteDoc" :
 					response.getWriter().write(deleteDoc(jsonElement));
 				default:
