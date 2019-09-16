@@ -404,6 +404,7 @@ public class Cmm0400{
 			strQuery.append("and a.cm_syscd=e.cm_syscd         \n");;
 			strQuery.append("and a.cm_jobcd=d.cm_jobcd         \n");
 			strQuery.append("and c.cm_active='1'               \n");
+			strQuery.append("and e.cm_closedt is null          \n");
 			strQuery.append("order by e.cm_sysmsg,d.cm_jobcd   \n");
 
             pstmt = conn.prepareStatement(strQuery.toString());
