@@ -44,12 +44,12 @@ var txtUserName = "";
 var deptName = "";
 var deptCd = "";
 var txtOrg = "";
-var selDeptCd = "";
 var srSw = true;
 var strSel = "";
 var ins_sw = false;
 var ing_sw = false;
 var selDeptCd ="";
+var tmpDeptName = "";
 var selSubDeptCd=""; 
 var fileGrid = true;
 var confirmData = [];
@@ -961,7 +961,8 @@ function confirmEnd(){
 	SRData.cc_createuser = userid;
 	SRData.cc_lastupuser = userid;
 	SRData.cc_docid = $("#txtDocuNum").val().trim();
-	if(strDept != ""){
+	
+	if(strDept != "" && tmpDeptName == $('#txtOrg').val().trim()){
 		SRData.cc_reqdept = strDept;
 	} else {
 		SRData.cc_reqdept = selDeptCd;
@@ -996,8 +997,9 @@ function confirmEnd(){
 		SRData.cc_status = selectedSr.cc_status;
 	}
 	
+	console.log(SRData);
+	
 	if(ins_sw){
-		console.log("신규");
 		ing_sw = true;
 		
 		var SRInfo = {
@@ -1014,7 +1016,6 @@ function confirmEnd(){
 			srComplet();
 		}
 	} else if ( !ins_sw && strSel == "수정"){
-		console.log("수정");
 		ing_sw = true;
 		var SRInfo = {
 				SRInfoData: 	SRData,
@@ -1237,6 +1238,7 @@ function setCboElement() {
 function clickChkNew() {
 	if ($('#chkNew').is(':checked')) {
 		strDept = "";
+		tmpDeptName = "";
 		elementInit('NEW');
 	} else {
 		elementInit('');
@@ -1323,6 +1325,7 @@ function firstGridClick(srid) {
 		$('#txtRegUser').val(ajaxReturnData[0].createuser);
 		$('#txtRegDate').val(ajaxReturnData[0].createdate);
 		strDept = ajaxReturnData[0].cc_reqdept;
+		tmpDeptName = ajaxReturnData[0].reqdept;
 		$('#txtDocuNum').val(ajaxReturnData[0].cc_docid);
 		$('#txtOrg').val(ajaxReturnData[0].reqdept);
 		
