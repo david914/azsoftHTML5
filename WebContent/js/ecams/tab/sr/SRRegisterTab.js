@@ -234,6 +234,33 @@ function createViewGrid(){
 				fileDbClick(this.dindex, this.item);
 			}
 		},
+	    contextMenu: {
+	        iconWidth: 20,
+	        acceleratorWidth: 100,
+	        itemClickAndClose: false,
+	        icons: {
+	            'arrow': '<i class="fa fa-caret-right"></i>'
+	        },
+	        items: [
+	            {type: 1, label: "파일삭제"}
+	        ],
+	        popupFilter: function (item, param) {
+	        	grid_fileList.clearSelect();
+	         	grid_fileList.select(Number(param.dindex));
+	        	if(grid_fileList.getList('selected').length < 1 || 
+	        			strReqCd == "XX" ||
+				    	strStatus == "1" || strStatus == "3" || 
+						strStatus == "5" || strStatus == "A"){
+	        		return false;
+	        	}
+	         	return true;
+	       	 
+	        },
+	        onClick: function (item, param) {
+		        deleteFile(param);
+		        grid_fileList.contextMenu.close();//또는 return true;
+	        }
+	    },
 		columns : [ {
 			key : "name",
 			label : "파일명",
@@ -1369,5 +1396,59 @@ function firstGridClick(srid) {
 			devUserDate = ajaxReturnData;
 			devUserGrid.setData(devUserDate);
 		}
+	}
+}
+
+function deleteFile(data){
+    confirmDialog.setConfig({
+        title: "확인",
+        theme: "info"
+    });
+	confirmDialog.confirm({
+		msg: '선택한 [ '+ data.item.name+' ] 파일을 삭제할까요?',
+	}, function(){
+		if(this.key === 'ok') {
+			deleteFileSub(data.item)
+		}
+	});
+}
+
+function deleteFileSub(item){
+	var tmp_obj = new Object();
+	if(item.cc_srid == null || item.cc_division == null ||
+	   item.cc_seq == null ){
+		tmp_obj.cc_srid = "";
+		tmp_obj.cc_division = "";
+		tmp_obj.cc_seq = "";
+	}else{
+		tmp_obj.cc_srid = item.cc_srid;
+		tmp_obj.cc_division = item.cc_division;
+		tmp_obj.cc_seq = item.cc_seq;
+	}
+		
+	var ajaxReturnData = null;
+	
+	var tmpData = {
+		tmp_obj : tmp_obj,
+		requestType: 	'deleteDoc'
+	}
+	
+	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', tmpData, 'json');
+	if(ajaxReturnData !== 'ERR' && ajaxReturnData == 'OK') {
+	
+		ajaxReturnData = null;
+		var docSr = {
+			srInfoData : $("#txtSRID").val(),
+			strReqCd : strReqCd,
+			requestType : 'getDocList'
+		}
+
+		ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab',
+				docSr, 'json');
+		if (ajaxReturnData !== 'ERR') {
+			fileData = ajaxReturnData;
+			grid_fileList.setData(fileData);
+		}
+		
 	}
 }

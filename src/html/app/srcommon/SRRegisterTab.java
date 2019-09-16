@@ -84,6 +84,8 @@ public class SRRegisterTab extends HttpServlet {
 					break;
 				case "insertDocList" :
 					response.getWriter().write(insertDocList(jsonElement));
+				case "deleteDoc" :
+					response.getWriter().write(deleteDoc(jsonElement));
 				default:
 					break;
 			}
@@ -177,4 +179,11 @@ public class SRRegisterTab extends HttpServlet {
 		
 		return gson.toJson(cmc0100.insertDocList(strIsrId, strReqCd, strUserId, fileList));
 	}
+	
+	private String deleteDoc(JsonElement jsonElement) throws SQLException, Exception {
+		HashMap<String, String> tmp_obj = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"tmp_obj"));
+		
+		return gson.toJson(cmc0100.deleteDoc(tmp_obj));
+	}
+	
 }
