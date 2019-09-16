@@ -19,6 +19,7 @@ var rMenu			= null;
 var selDeptSw		= window.parent.selDeptSw;
 var modiDeptSw		= window.parent.modiDeptSw;
 var subSw			= window.parent.subSw;
+var upDeptSw		= window.parent.upDeptSw ? true : false;
 var dbClickSw		= false;
 
 var setting = {
@@ -101,7 +102,7 @@ $(document).ready(function(){
 				window.parent.deptCd 		= nodes[0].pId;
 			}
 		} else {
-			if(nodes[0].children !== undefined) {
+			if(nodes[0].children !== undefined && !upDeptSw) {
 				dialog.alert('하위 조직을 선택해 주시기 바랍니다.', function() {});
 				return;
 			}
@@ -361,7 +362,7 @@ function dbClickTree(event, treeId, treeNode) {
 			return;
 		}
 		
-		if(treeNode.children !== undefined ) {
+		if(treeNode.children !== undefined && !upDeptSw) {
 			dialog.alert('하위 조직을 선택해 주시기 바랍니다.', function() {});
 			return;
 		}

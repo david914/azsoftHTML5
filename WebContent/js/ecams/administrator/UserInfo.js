@@ -36,6 +36,7 @@ var ulDutyInfoData	= null;
 var ulJobInfoData	= null;
 
 var selDeptSw		= null;
+var upDeptSw		= true;
 var modiDeptSw		= false;
 var subSw			= false;
 var selDeptCd		= null;
