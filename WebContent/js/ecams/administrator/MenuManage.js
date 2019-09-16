@@ -347,7 +347,8 @@ function Cmd_Ip_Click(num){
 	    	break;
 	    case 3:
 	    	
-	    	if($('#nestable').children('.dd-list').children().length === 0) return;
+	    	// 오른쪽 메뉴 없어도 등록 되도록 수정
+	    	// if($('#nestable').children('.dd-list').children().length === 0) return;
 	    	
 	    	var menucd = "";
 	    	if($('[data-ax5select="Cbo_Menu"]').ax5select("getValue")[0] != undefined){
