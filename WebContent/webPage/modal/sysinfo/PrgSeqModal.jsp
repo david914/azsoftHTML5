@@ -51,5 +51,14 @@
 	</div>
 </body>
 
+<div id="rMenu">
+	<ul>
+		<li id="addMenu" onclick="addMenu()">구분추가(선택한 구분과 동일한 레벨)</li>
+		<li id="addSubMenu" onclick="addSubMenu()">구분추가(선택한 구분의 하위레벨)</li>
+		<li id="delMenu" onclick="delMenu()">구분삭제</li>
+		<li id="reMenu" onclick="reMenu()">구분명바꾸기</li>
+	</ul>
+</div>
+
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/modal/sysinfo/PrgSeqModal.js"/>"></script>
