@@ -790,6 +790,13 @@ function successGetProgramList(data) {
 	}
 	
 	$(firstGridData).each(function(i){
+		$(secondGridData).each(function(j){
+			if(firstGridData[i].cr_itemid == secondGridData[j].cr_itemid){
+				firstGridData[i].selected_flag = "1";
+				return true;
+			}
+		})
+		
 		if(firstGridData[i].selected_flag == "1"){
 			firstGridData[i].__disable_selection__ = true;
 		}
