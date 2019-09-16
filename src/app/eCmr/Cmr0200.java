@@ -1443,57 +1443,23 @@ public class Cmr0200{
 
 		ConnectionContext connectionContext = new ConnectionResource();
 
-		String			  szDsnCD = "";
 		String			  strRsrcCd = "";
-//		String            strChgPath = "";
 		String            strRsrc[] = null;
 		int               i = 0;
 		boolean           srSw = false;
-		ArrayList<HashMap<String, String>> svrList = new ArrayList<HashMap<String, String>>();
-
 		try {
 
 			conn = connectionContext.getConnection();
 
-			String strVolPath = "";
-			String strDirPath = "";
-			String strDevHome = "";
-			if (etcData.get("srid") != null && !"".equals(etcData.get("srid"))) srSw = true;
-			
-			SysInfo sysinfo = new SysInfo();
-			if (sysinfo.getLocalYn(etcData.get("SysCd"))) {
-				strQuery.setLength(0);
-				strQuery.append("select cd_devhome from cmd0300               \n");
-				strQuery.append(" where cd_syscd=? and cd_userid=?            \n");
-				pstmt = conn.prepareStatement(strQuery.toString());
-				pstmt.setString(1, etcData.get("SysCd"));
-				pstmt.setString(2, etcData.get("UserId"));
-				rs = pstmt.executeQuery();
-				if (rs.next()) {
-					strDevHome = rs.getString("cd_devhome");
-				}
-				rs.close();
-				pstmt.close();
-
-				svrList = sysinfo.getHomePath_conn(etcData.get("SysCd"), conn);
-			}
-			sysinfo = null;
-
+			if (etcData.get("srid") != null && !"".equals(etcData.get("srid"))) srSw = true;			
             if (etcData.get("RsrcCd") == null || etcData.get("RsrcCd").equals("") || etcData.get("RsrcCd").equals("0000")) etcData.put("RsrcCd", "00");
             //ecamsLogger.error("++++++++++RsrcCd+++++++++"+RsrcCd);
 			
             strQuery.setLength(0);
 			strQuery.append("select cm_rsrccd from cmm0036                     \n");
 			strQuery.append(" where cm_syscd=? and cm_closedt is null          \n");
-			if (etcData.get("SinCd").equals("05") && etcData.get("ReqCd").equals("05")) {
-				strQuery.append("   and substr(cm_info,18, 1)='1'              \n");
-			} else if (etcData.get("ReqCd").equals("09")) {
-				strQuery.append("  and  (substr(cm_info, 1, 1)='1'             \n");
-				strQuery.append("   or  substr(cm_info, 15, 1)='1')            \n");
-			} else {
-				strQuery.append("   and substr(cm_info, 2, 1)='1'              \n");
-				strQuery.append("   and substr(cm_info, 26, 1)='0'             \n");
-			}
+			strQuery.append("   and substr(cm_info, 2, 1)='1'                  \n");
+			strQuery.append("   and substr(cm_info, 26, 1)='0'                 \n");
 			strQuery.append("   and cm_rsrccd not in (select cm_samersrc       \n");
 			strQuery.append("                           from cmm0037           \n");
 			strQuery.append("                          where cm_syscd=?        \n");
@@ -1503,8 +1469,6 @@ public class Cmr0200{
 			//pstmt =  new LoggableStatement(conn, strQuery.toString());
             pstmt.setString(1, etcData.get("SysCd"));
             pstmt.setString(2, etcData.get("SysCd"));
-            if (etcData.get("SinCd").equals("05") && etcData.get("ReqCd").equals("05"))
-            	pstmt.setString(3, etcData.get("SysCd"));
             //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -1534,68 +1498,52 @@ public class Cmr0200{
 			strRsrc = strRsrcCd.split(",");
 			//ecamsLogger.error("strRsrcCd 2:"+strRsrcCd);
 
-			if (!etcData.get("DsnCd").equals("")){
-				if (etcData.get("DsnCd").length() == 7 && etcData.get("DsnCd").indexOf("/") < 0){
-					szDsnCD = etcData.get("DsnCd");
-				}
-			}
-			cnt = 0;
-            
+			cnt = 0;            
 			strQuery.setLength(0);
 			strQuery.append("select /*+ ALL ROWS */                                              \n");
         	strQuery.append("       a.cr_rsrcname,a.cr_lstver,a.cr_syscd,a.cr_dsncd,             \n");
-		    strQuery.append("       a.cr_itemid,a.cr_rsrccd,'' cr_acptno,a.cr_story,a.cr_jobcd,  \n");
-		    strQuery.append("       to_char(nvl(a.cr_lstdat,a.cr_lastdate),'yyyy/mm/dd hh24:mi') enddate, \n");
-		    strQuery.append("       a.cr_status,c.cm_dirpath,i.cm_info,a.cr_ckoutacpt,           \n");
+		    strQuery.append("       a.cr_itemid,a.cr_rsrccd,a.cr_story,a.cr_jobcd,               \n");
+		    strQuery.append("       decode(a.cr_lstver,0,'',a.cr_ckoutacpt) cr_acptno,           \n");
+		    strQuery.append("       to_char(nvl(a.cr_lstdat,a.cr_lastdate),'yyyy/mm/dd hh24:mi') lastdate, \n");
+		    strQuery.append("       a.cr_status,i.cm_info,a.cr_editor,f.cm_username,             \n");
 		    strQuery.append("       lpad(i.cm_stepsta,4,'0') prcreq,nvl(i.cm_vercnt,50) vercnt,  \n");
-		    strQuery.append("       d.cm_codename,e.cm_codename jawon,a.cr_editor,f.cm_username, \n");
-		    strQuery.append("       b.cm_jobname,to_char(a.cr_lastdate,'yyyy/mm/dd') lastdate,   \n");
-		    strQuery.append("       g.cm_codename checkin                                        \n");
-			strQuery.append("  from cmm0040 f,cmm0102 b,cmm0020 e,cmr0020 a,cmm0070 c,cmm0020 d, \n");
-			strQuery.append("       cmm0036 i,cmm0020 g,cmm0044 h \n");
-			strQuery.append(" where a.cr_syscd=?                          \n");
+		    strQuery.append("       (select cm_dirpath from cmm0070                              \n");
+		    strQuery.append("         where cm_syscd=a.cr_syscd                                  \n");
+		    strQuery.append("           and cm_dsncd=a.cr_dsncd) cm_dirpath,                     \n");
+		    strQuery.append("       (select cm_codename from cmm0020                             \n");
+		    strQuery.append("         where cm_macode='CMR0020'                                  \n");
+		    strQuery.append("           and cm_micode=a.cr_status) cm_codename,                  \n");
+		    strQuery.append("       (select cm_codename from cmm0020                             \n");
+		    strQuery.append("         where cm_macode='CMR0020'                                  \n");
+		    strQuery.append("           and cm_micode=a.cr_status) cm_codename,                  \n");
+		    strQuery.append("       (select cm_codename from cmm0020                             \n");
+		    strQuery.append("         where cm_macode='JAWON'                                    \n");
+		    strQuery.append("           and cm_micode=a.cr_rsrccd) jawon,                        \n");
+		    strQuery.append("       (select cm_codename from cmm0020                             \n");
+		    strQuery.append("         where cm_macode='CHECKIN'                                  \n");
+		    strQuery.append("           and cm_micode=decode(a.cr_lstver,0,'03','04')) checkin,  \n");
+		    strQuery.append("       (select cm_username from cmm0040                             \n");
+		    strQuery.append("         where cm_userid=a.cr_lstusr) cm_username,                  \n");
+		    strQuery.append("       (select cm_jobname from cmm0102                              \n");
+		    strQuery.append("         where cm_jobcd=a.cr_jobcd) cm_jobname                      \n");
+			strQuery.append("  from cmr0020 a,cmm0036 i,cmm0030 b                                \n");
+			strQuery.append(" where a.cr_syscd=?                                                 \n");
+			strQuery.append("   and a.cr_syscd=b.cm_syscd                                        \n");
 			if (srSw) {
-				strQuery.append("and a.cr_isrid=?                         \n");
+				strQuery.append("and a.cr_isrid=?                                                \n");
 			}
+			strQuery.append("   and exists (select 1 from cmm0044                                \n");
+			strQuery.append("                where cm_userid=?                                   \n");
+			strQuery.append("                  and cm_syscd=a.cr_syscd                           \n");
+			strQuery.append("                  and cm_jobcd=a.cr_jobcd)                          \n");
 			if (etcData.get("RsrcName") != null && !"".equals(etcData.get("RsrcName"))) {
 				if ( (etcData.get("RsrcCd") != null) && !etcData.get("RsrcCd").equals("00") && !etcData.get("RsrcCd").equals("0000") ) strQuery.append("and a.cr_rsrccd=?      \n");
 				strQuery.append("and ( upper(a.cr_rsrcname) like upper(?) or upper(a.cr_story) like upper(?) ) \n");
 			} else if ( (etcData.get("RsrcCd") != null) && !etcData.get("RsrcCd").equals("00") && !etcData.get("RsrcCd").equals("0000") && !etcData.get("RsrcCd").equals("ID"))
 				    strQuery.append("and a.cr_rsrccd=?                                          \n");
-
-			//05:폐기 또는 09:무수정
-			if (etcData.get("ReqCd").equals("05") || etcData.get("ReqCd").equals("09")) {
-				strQuery.append(" and a.cr_lstver>0 and a.cr_status='0'                         \n");
-				if (etcData.get("ReqCd").equals("09"))
-					strQuery.append("and nvl(a.cr_nomodify,'0')='0'                             \n");
-			} else {
-				//20140718 neo.
-				//변경전:strQuery.append(" and decode(a.cr_lstver,0,a.cr_editor,nvl(a.cr_ckoutuser,a.cr_devusr))=? \n");
-				strQuery.append(" and a.cr_editor = ? \n");
-				 if(etcData.get("ReqCd").equals("03")){//신규
-					 strQuery.append("  and a.cr_status = '3'				                    \n"); 
-				 }else if(etcData.get("ReqCd").equals("04")){//수정
-					 strQuery.append("  and a.cr_status in ('B','D','5','G')                    \n"); 
-				 }else{//신규+수정 99
-					 strQuery.append("  and a.cr_status in ('3','B','D','5','G')                \n"); 
-				 }
-			}
-			
-			strQuery.append("and h.cm_syscd=? and h.cm_userid=? and h.cm_closedt is null    \n");
-			strQuery.append("and h.cm_syscd=a.cr_syscd and h.cm_jobcd=a.cr_jobcd            \n");
-
-			if (!"".equals(etcData.get("DsnCd"))) {
-				if (etcData.get("DsnCd").substring(0,1).equals("F")) {
-					strQuery.append(" and c.cm_dirpath like ?                                   \n");
-				} else strQuery.append(" and a.cr_dsncd=?                                       \n");
-			}
-			strQuery.append("and g.cm_macode='CHECKIN' and g.cm_micode=decode(?,'05','05',decode(a.cr_lstver,0,'03','04')) \n");
-			strQuery.append("and a.cr_syscd=c.cm_syscd and a.cr_dsncd=c.cm_dsncd                \n");
-			strQuery.append("and d.cm_macode='CMR0020' and a.cr_status=d.cm_micode              \n");
-			strQuery.append("and e.cm_macode='JAWON' and a.cr_rsrccd=e.cm_micode                \n");
-			strQuery.append("and nvl(a.cr_lstusr,a.cr_editor)=f.cm_userid                       \n");
-			strQuery.append("and a.cr_jobcd=b.cm_jobcd                                          \n");
-			strQuery.append("and a.cr_syscd=i.cm_syscd and a.cr_rsrccd=i.cm_rsrccd              \n");
+			strQuery.append("   and a.cr_lstusr = ?                                             \n");
+			strQuery.append("   and PGMSTACHK(?,'BEF',b.cm_systype,a.cr_status,a.cr_lstver,a.cr_viewver)='OK'  \n");
+			strQuery.append("   and a.cr_syscd=i.cm_syscd and a.cr_rsrccd=i.cm_rsrccd           \n");
 			if (etcData.get("RsrcCd").equals("00") || etcData.get("RsrcCd").equals("0000")) {
 				strQuery.append("and a.cr_rsrccd in (");
 				for (i=0;strRsrc.length>i;i++) {
@@ -1608,22 +1556,14 @@ public class Cmr0200{
 			//pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmt.setString(++cnt, etcData.get("SysCd"));
 			if (srSw) pstmt.setString(++cnt, etcData.get("srid")); 
+			pstmt.setString(++cnt, etcData.get("UserId"));
 			if (etcData.get("RsrcName") != null && !"".equals(etcData.get("RsrcName"))) {
 	    	   if ( (etcData.get("RsrcCd") != null) && !etcData.get("RsrcCd").equals("00") && !etcData.get("RsrcCd").equals("0000") ) pstmt.setString(++cnt, etcData.get("RsrcCd"));
 	    	   pstmt.setString(++cnt, "%" + etcData.get("RsrcName") + "%");
 	    	   pstmt.setString(++cnt, "%" + etcData.get("RsrcName") + "%");
 			} else if ( (etcData.get("RsrcCd") != null) && !etcData.get("RsrcCd").equals("00") && !etcData.get("RsrcCd").equals("0000") ) pstmt.setString(++cnt, etcData.get("RsrcCd"));
-			if (!etcData.get("ReqCd").equals("05") && !etcData.get("ReqCd").equals("09")) pstmt.setString(++cnt, etcData.get("UserId"));
-			
-			pstmt.setString(++cnt, etcData.get("SysCd"));
-			pstmt.setString(++cnt, etcData.get("UserId"));
-			
-			if (!"".equals(etcData.get("DsnCd"))) {
-				if (etcData.get("DsnCd").substring(0,1).equals("F")) {
-					pstmt.setString(++cnt, etcData.get("DsnCd").substring(1) + "%");
-				} else pstmt.setString(++cnt, szDsnCD);
-			}
-			pstmt.setString(++cnt,etcData.get("ReqCd"));
+            pstmt.setString(++cnt, etcData.get("UserId"));
+			pstmt.setString(++cnt,etcData.get("ReqCD"));
 			if ( etcData.get("RsrcCd").equals("00") || etcData.get("RsrcCd").equals("0000") ) {
 				for (i=0 ; i<strRsrc.length ; i++) {
             		pstmt.setString(++cnt, strRsrc[i]);
@@ -1678,37 +1618,7 @@ public class Cmr0200{
 				rst.put("checkin", rs.getString("checkin"));
 				rst.put("cm_dirpath", rs.getString("cm_dirpath"));
 				rst.put("selected_flag","0");
-				if (rs.getString("cm_info").substring(44,45).equals("1")) {
-					if (strDevHome != null && !"".equals(strDevHome)) {
-						for (i=0 ; svrList.size()>i ; i++) {
-							if (svrList.get(i).get("cm_rsrccd").equals(rs.getString("cr_rsrccd"))) {
-								strVolPath = svrList.get(i).get("cm_volpath");
-								strDirPath = rs.getString("cm_dirpath");
-								if (strVolPath != null && !"".equals(strVolPath)) {
-									if (strDirPath.length()>=strVolPath.length() && 
-										strDirPath.substring(0,strVolPath.length()).equals(strVolPath)) {
-										rst.put("pcdir", strDevHome + "\\" + strDirPath.substring(strVolPath.length()).replace("/", "\\"));
-									}
-								} 
-								break;
-							}
-						}
-						if (rst.get("pcdir") != null && !"".equals(rst.get("pcdir"))) {
-							strVolPath = rst.get("pcdir").replaceAll("\\\\\\\\", "\\\\");
-							rst.put("pcdir", strVolPath );
-							rst.put("localdir", strVolPath.replaceAll("\\\\", "\\\\\\\\"));
-						} else {
-							rst.put("pcdir",  "[관리자연락]홈디렉토리설정오류");
-							rst.put("selected_flag","1");
-						}					
-					} else {
-						rst.put("pcdir", "사용자환경설정에서 홈디렉토리설정요망");
-						rst.put("selected_flag","1");
-					}
-				} else {
-					rst.put("pcdir", rs.getString("cm_dirpath"));
-				}
-				
+				rst.put("pcdir", rs.getString("cm_dirpath"));
 				rsval.add(rst);
 				rst = null;
 			}//end of while-loop statement

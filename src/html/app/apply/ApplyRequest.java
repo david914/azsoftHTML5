@@ -133,7 +133,7 @@ public class ApplyRequest extends HttpServlet {
 		if ("07".equals(prjMap.get("ReqCD"))) {//체크인
 			return gson.toJson(cmr0200.getReqList(prjMap));
 			
-		} else { //ReqCD=03(테스트적용) or 04(운영적용) 
+		} else { //ReqCD=08(개발적용) or ReqCD=03(테스트적용) or 04(운영적용) 
 			return gson.toJson(cmr0200.getDeployList(prjMap));
 		}
 	}

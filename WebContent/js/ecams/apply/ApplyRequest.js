@@ -307,6 +307,13 @@ $(document).ready(function(){
 		$('#chkBefJob').parent('div.wCheck').siblings('label[for="chkBefJob"]').hide();
 		$("#btnFileUpload").hide();
 	}
+	else if (reqCd == '08'){ //개발배포
+		$('#btnRequest').text('개발배포신청');
+		$('#chkBefJob').parent('div.wCheck').hide();
+		$('#chkBefJob').parent('div.wCheck').siblings('label[for="chkBefJob"]').hide();
+		$('#btnDiff').hide();
+		$("#btnFileUpload").show();
+	}
 	else if (reqCd == '03'){ //테스트배포
 		$('#btnRequest').text('테스트배포신청');
 		$('#chkBefJob').parent('div.wCheck').hide();
@@ -401,11 +408,11 @@ function porgRowEdit(){
 	if(reqCd == '07'){
 		$('#panCal').after($('#sayuBox').children());
 		$('#sayuInputBox').addClass('poa');
-		$('#sayuInputBox').css('width','calc(100% - 180px)');
-		$('#txtSayu').css('width','100%');
+		//$('#sayuInputBox').css('width', 'calc(100% - 165px)');
+		//$('#txtSayu').removeClass().css('width', 'calc((100% + 85px) * 0.84)');
+		//$('#btnRequest').width('85px');
 		$("#progRow").show();
 		$("#cboReqDiv").show();
-		
 	}
 	else{
 		$('#progRow').removeClass();
@@ -708,22 +715,8 @@ function findProc() {
 		return;
 	}
 	var strQry = "";
-	
-	if(reqCd == '07'){
-		if (getSelectedIndex('cboReq') == 0) strQry = "99";//"00";
-		else strQry = getSelectedVal('cboReq').value;
-	}
-	else {
-		if( closeSw ) {
-			strQry = '05';
-		}	
-		else if ( reqCd === '03' ) {
-			strQry = "03";
-		}
-		else {
-			strQry = "00";
-		}
-	}
+	if (getSelectedIndex('cboReq') == 0) strQry = "99";//"00";
+	else strQry = getSelectedVal('cboReq').value;
 	
 	exlSw = false;
 	qrySw = true;
@@ -848,17 +841,7 @@ function addDataRow() {
 	var firstGridSeleted = firstGrid.getList("selected");
 	ajaxReturnData = null;
 	var strRsrcName = '';
-	
-	if(!exlSw && reqCd == '07'){
-		if(getSelectedVal('cboReq').value == '05'){
-			if(secondGridData.length > 0 && secondGridData[0].reqcd != '05'){
-				dialog.alert('폐기는 다른 신청과 함께 신청할 수 없습니다.');
-				return;
-			}
-		}
 		
-	}
-	
 	$(firstGridSeleted).each(function(i){
 		if(this.selected_flag == '1' && reqCd != '4'){
 			return true;
@@ -1608,7 +1591,6 @@ function cmdReqSub(){
 			}
 		} else strRsrcCd = secondGridData[x].cr_rsrccd;
 	}
-	if(reqCd != '07' && closeSw) strQry = '05';
 	
 	var confirmInfoData = new Object();
 	confirmInfoData.SysCd = SelSysCd;
