@@ -114,15 +114,15 @@ firstGrid.setConfig({
         }
     },
     columns: [
+        {key: "pcdir", label: "프로그램경로",  width: '15%', align: 'left'},
         {key: "cr_rsrcname", label: "프로그램명",  width: '15%', align: 'left'},
-        {key: "jawon", label: "프로그램종류",  width: '7%'},
-        {key: "cr_story", label: "프로그램설명",  width: '7%', align: 'left'},
-        {key: "pcdir", label: "프로그램경로",  width: '30%', align: 'left'},
-        {key: "cm_codename", label: "상태",  width: '5%'},
-        {key: "enddate", label: "수정일자",  width: '18%'},
-        {key: "cr_lstver", label: "버전",  width: '5%'},
-        {key: "cm_username", label: "신청자",  width: '7%'},
-        {key: "pcdir", label: "로컬디렉토리",  width: '14%', id:'localHome'}
+        {key: "cm_jobname", label: "업무명",  width: '10%', align: 'left'},
+        {key: "jawon", label: "프로그램종류",  width: '10%',align: 'left'},
+        {key: "cr_story", label: "프로그램설명",  width: '15%', align: 'left'},
+        {key: "cm_codename", label: "상태",  width: '10%'},
+        {key: "cr_viewver", label: "현재버전",  width: '8%'},
+        {key: "cm_username", label: "수정자",  width: '7%'},
+        {key: "lastdate", label: "수정일",  width: '10%'}
     ]
 });
 
@@ -184,43 +184,41 @@ secondGrid.setConfig({
         }
     },
     columns: [
+        {key: "pcdir", label: "프로그램경로",  width: '18%', align: 'left'},
         {key: "cr_rsrcname", label: "프로그램명",  width: '15%', align: 'left'},
-        {key: "jawon", label: "프로그램종류",  width: '7%'},
-        {key: "cr_story", label: "프로그램설명",  width: '7%', align: 'left'},
-        {key: "pcdir", label: "프로그램경로",  width: '30%', align: 'left'},
-        {key: "checkin", label: "신청구분",  width: '7%'},
-        {key: "diffrst", label: "비교결과",  width: '10%'},
-        {key: "pcdir", label: "로컬디렉토리",  width: '14%', id:'localHome'}
+        {key: "checkin", label: "신청구분",  width: '10%'},
+        {key: "cm_jobname", label: "업무",  width: '10%', align: 'left'},
+        {key: "jawon", label: "프로그램종류",  width: '10%', align: 'left'},
+        {key: "cr_story", label: "프로그램설명",  width: '15%', align: 'left'},
+        {key: "cr_aftviewver", label: "적용후버전",  width: '10%'},
+        {key: "diffrst", label: "비교결과",  width: '10%'}
     ]
 });
 
 if(reqCd != '07'){ // 테스트배포, 운영배포 그리드 컬럼수정
     var columns = [
-    	{key: "view_dirpath", label: "프로그램경로",  width: '30%', align: 'left'},
+    	{key: "view_dirpath", label: "프로그램경로",  width: '15%', align: 'left'},
     	{key: "basename", label: "프로그램명",  width: '15%', align: 'left'},
-        {key: "jobname", label: "업무명",  width: '7%'},
-        {key: "jawon", label: "프로그램종류",  width: '7%'},
-        {key: "cr_story", label: "프로그램설명",  width: '7%', align: 'left'},
-        {key: "codename", label: "상태",  width: '5%'},
-        {key: "cr_lstver", label: "형상관리버전",  width: '5%'},
-        {key: "cr_realver", label: "배포버전",  width: '5%'},
-        {key: "cm_username", label: "수정자",  width: '5%'},
-        {key: "lastdt", label: "수정일",  width: '15%'}
+        {key: "jobname", label: "업무명",  width: '10%', align: 'left'},
+        {key: "jawon", label: "프로그램종류",  width: '10%', align: 'left'},
+        {key: "cr_story", label: "프로그램설명",  width: '15%', align: 'left'},
+        {key: "codename", label: "상태",  width: '10%'},
+        {key: "cr_viewver", label: "버전",  width: '8%'},
+        {key: "cm_username", label: "수정자",  width: '7%'},
+        {key: "lastdt", label: "수정일",  width: '10%'}
     ];
     
     firstGrid.config.columns = columns;
     firstGrid.setConfig();
-    
+
     var columns2 = [
-    	{key: "view_dirpath", label: "프로그램경로",  width: '30%', align: 'left'},
+    	{key: "view_dirpath", label: "프로그램경로",  width: '15%', align: 'left'},
         {key: "cr_rsrcname", label: "프로그램명",  width: '15%', align: 'left'},
-        {key: "editRow", label: "컴파일순서",  width: '7%', editor: {type: "text"}},
-        {key: "jobname", label: "업무명",  width: '7%'},
+        {key: "editRow", label: "컴파일순서",  width: '10%', editor: {type: "text"}},
+        {key: "jobname", label: "업무명",  width: '10%'},
         {key: "jawon", label: "프로그램종류",  width: '10%'},
-        {key: "cr_story", label: "프로그램설명",  width: '8%', align: 'left'},
-        {key: "cr_lstver", label: "형상관리버전",  width: '9%'},
-        {key: "cr_version", label: "배포대상버전",  width: '8%'},
-        {key: "cr_realver", label: "현운영버전",  width: '7%'}
+        {key: "cr_story", label: "프로그램설명",  width: '20%', align: 'left'},
+        {key: "cr_aftviewver", label: "적용후버전",  width: '10%'}
     ];
     
     secondGrid.config.columns = columns2;
@@ -857,26 +855,7 @@ function addDataRow() {
 		}
 		
 		if(reqCd == '07'){
-			if ((this.cm_info.substr(44,1) == "1")){
-				if( outpos == 'R'){
-					outpos = 'A';
-				}
-				else if ( outpos != 'A'){
-					outpos = 'L';
-				}
-				if(this.pcdir == null){
-					dialog.alert('로컬 홈디렉토리를 지정하지 않았습니다. 기본관리>사용자환경설정에서 홈디렉토리지정 후 처리하시기 바랍니다.');
-					return;
-				}
-			}
-			else{
-				if( outpos == 'L'){
-					outpos = 'A';
-				}
-				else if(outpos !='A'){
-					outpos = 'R';
-				}
-			}
+			outpos = 'R';
 			if(this.acptno != null && this.acptno != ''){
 				if(this.acptno.substring(4,2) == '02'){
 					++j;
@@ -1021,21 +1000,7 @@ function deleteDataRow() {
 		$('#btnRequest').prop('disabled',true);
 	}
 	else if(reqCd == '07'){
-		for (i=0 ; i<secondGridData.length ; i++){
-			if (secondGridData[i].cm_info.substr(44,1) == "1") {//45	로컬에서개발
-				if ( outpos == "R" ) {
-					outpos = "A";
-				} else if ( outpos != "A" ) {
-					outpos = "L";
-				}
-			} else {
-				if ( outpos == "L" ){
-					outpos = "A";
-				} else if ( outpos != "A" ) {
-					outpos = "R";
-				}
-			}
-		}
+		outpos = "R";
 	}
 	//$('#totalCnt').text(secondGrid.list.length);
 	
@@ -1110,8 +1075,6 @@ function checkDuplication(downFileList){
 				cmdReq.enabled = true;
 			}
 			*/
-			
-			if(getSelectedVal('cboReq').value == '05') $('data-ax5select="cboReq"').ax5select('disabled');
 		}
 
 		$('#btnRequest').prop('disabled', false);
@@ -1640,7 +1603,6 @@ function confCall(GbnCd){
 			}
 		} else strQry = secondGridData[x].reqcd;
 	}
-	if(reqCd != '07' && closeSw) strQry = '05';
 	
 	if (swEmg) {
 		emgSw = "2"
@@ -1729,8 +1691,7 @@ function reqQuestConf(){
 		deploy = getSelectedVal('cboReqGbn').value;
 		if(swEmg) emgCd = '2';
 		if(getSelectedVal('cboReqGbn').value =='04') aplyData = strAplyDate;
-		if(closeSw)requestData.closeyn = 'Y';
-		else requestData.closeyn = 'N';
+		requestData.closeyn = 'N';
 	}
 		
 	requestData.UserID = userId;
@@ -1780,14 +1741,7 @@ function reqQuestConf(){
 	}
 	acptNo = ajaxReturnData;
 	
-	if ( (outpos == "A" || outpos == "L") && reqCd == '07'){
-		//Alert.show("Filelist");
-		//파일 업다운 미개발
-		Cmr0100.getProgFileList(strAcptNo,"F");
-    	requestEnd();
-		return;
-	}
-	else if( reqCd != '07' && upFiles.length > 0){
+	if(upFiles.length > 0){
 		uploadCk = true; // 파일 업로드 체크 변수
 		fileUploadModal.open({
 	        width: 685,
@@ -2113,10 +2067,9 @@ function RequestScript(){
 		    tmpObj = null;
 		}
 		//체크인 요청 이면서 스크립트 있는지 확인
-		else if (reqCd == '07' && 
-				(!$('#chkSvr').is(':checked') && 
-						(secondGridData[x].cm_info.substr(38,1) == "1" || 
-						secondGridData[x].cm_info.substr(50,1) == "1") ) ){
+		else if (reqCd == '08' && 
+				(secondGridData[x].cm_info.substr(38,1) == "1" || 
+				 secondGridData[x].cm_info.substr(50,1) == "1") ){
 		    findSw = true;
 		    tmpObj = new Object();
 		    tmpObj.cr_itemid = secondGridData[x].cr_itemid;

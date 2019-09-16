@@ -159,7 +159,7 @@ public class ApplyRequest extends HttpServlet {
 		if ("07".equals(requestData.get("ReqCD"))) {//체크인
 			return gson.toJson(cmr0200.request_Check_In(secondGridData, requestData, requestConfirmData, "Y", scriptData ));
 			
-		} else { //ReqCD=03(테스트적용) or 04(운영적용) 
+		} else { //ReqCD=08(개발적용) or ReqCD=03(테스트적용) or 04(운영적용) 
 			ArrayList<HashMap<String, String>> befJobData = new ArrayList<HashMap<String, String>>();
 			befJobData = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"befJobData"));
 			return gson.toJson(cmr0200.request_Deploy(secondGridData, requestData, befJobData, requestConfirmData, "Y", scriptData));
@@ -176,7 +176,7 @@ public class ApplyRequest extends HttpServlet {
 		if ("07".equals(etcData.get("ReqCD"))) {//체크인
 			return gson.toJson(cmr0200.getDownFileList(fileList,etcData));
 			
-		} else { //ReqCD=03(테스트적용) or 04(운영적용) 
+		} else { //ReqCD=08(개발적용) or ReqCD=03(테스트적용) or 04(운영적용) 
 			return gson.toJson(cmr0200.getDownFileList_Deploy(fileList,etcData));
 		}
 			
