@@ -88,8 +88,7 @@ public class eCAMSBaseServlet extends HttpServlet {
 	}
 	
 	private String getMenu(JsonElement jsonElement) throws SQLException, Exception {
-		String userId = null;
-		userId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String userId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userId") );
 		
 		return gson.toJson(menuList.secuMenuList(userId));
 	}
