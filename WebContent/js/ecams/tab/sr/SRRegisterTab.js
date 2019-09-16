@@ -1266,7 +1266,7 @@ function gyulChk1(acptno){
 		
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo, 'json');
 	if(ajaxReturnData !== 'ERR') {
-		if(ajaxReturnData == "0"){
+		if(ajaxReturnData == "0" && strReqCd == "XX"){
 			$("#gyulDiv").show();
 			$("#btnOK").show();
 			$("#btnCncl").show();
