@@ -114,7 +114,6 @@ $(document).ready(function(){
 			}
 		},
 		onStateChanged: function () {
-			console.log(this.state);
 	        if (this.state == "open") {
 	            var selectedValue = this.self.getContentValue(this.item["$target"]);
 	            if (!selectedValue) {
@@ -153,6 +152,14 @@ $(document).ready(function(){
 		$("#btnStD").focus();
 	});
 
+	var oldVal = "";
+	$('#datEdD').bind('propertychange change keyup paste input', function() {
+		var currentVal =  $("#datEdD").val();
+		if(currentVal != oldVal){
+			picker.close();
+		}
+		oldVal = currentVal;
+	});
 });
 	
 // 페이지 로딩 완료시 다음 진행 

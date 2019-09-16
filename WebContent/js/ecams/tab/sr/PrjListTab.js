@@ -90,7 +90,7 @@ $(document).ready(function() {
 		changeQryGbn();
 	});
 	//getPrjList();
-
+	
 	$('#datStD').prop("disabled", true); 
 	window.parent.$("#datStD").prop("disabled", true);
 	$('#datEdD').prop("disabled", true); 
