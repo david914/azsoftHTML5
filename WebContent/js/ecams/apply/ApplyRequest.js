@@ -114,7 +114,7 @@ firstGrid.setConfig({
         }
     },
     columns: [
-        {key: "cr_rsrcname", label: "프로그램명",  width: '7%', align: 'left'},
+        {key: "cr_rsrcname", label: "프로그램명",  width: '15%', align: 'left'},
         {key: "jawon", label: "프로그램종류",  width: '7%'},
         {key: "cr_story", label: "프로그램설명",  width: '7%', align: 'left'},
         {key: "pcdir", label: "프로그램경로",  width: '30%', align: 'left'},
@@ -184,7 +184,7 @@ secondGrid.setConfig({
         }
     },
     columns: [
-        {key: "cr_rsrcname", label: "프로그램명",  width: '7%', align: 'left'},
+        {key: "cr_rsrcname", label: "프로그램명",  width: '15%', align: 'left'},
         {key: "jawon", label: "프로그램종류",  width: '7%'},
         {key: "cr_story", label: "프로그램설명",  width: '7%', align: 'left'},
         {key: "pcdir", label: "프로그램경로",  width: '30%', align: 'left'},
@@ -205,7 +205,7 @@ if(reqCd != '07'){ // 테스트배포, 운영배포 그리드 컬럼수정
         {key: "cr_lstver", label: "형상관리버전",  width: '5%'},
         {key: "cr_realver", label: "배포버전",  width: '5%'},
         {key: "cm_username", label: "수정자",  width: '5%'},
-        {key: "lastdt", label: "수정일",  width: '18%'}
+        {key: "lastdt", label: "수정일",  width: '15%'}
     ];
     
     firstGrid.config.columns = columns;
@@ -996,7 +996,8 @@ function deleteDataRow() {
 		$(firstGridData).each(function(j){
 			if((firstGridData[j].cr_itemid == secondGridSeleted[i].baseitem) || 
 				firstGridData[j].cr_itemid == originalData && originalData != null){
-				
+
+				firstGridData[j].__disable_selection__ = false;
 				firstGridData[j].selected_flag = "0";
 				return false;
 			}
@@ -1078,6 +1079,8 @@ function checkDuplication(downFileList){
 					var copyData = clone(firstGrid.list[j]); //리스트의 주소지를 가져오므로 clone 을 해서 add 해줘야함
 					secondGridList.push($.extend({}, copyData, {__index: undefined}));
 					secondGridData.push(copyData);
+					
+					firstGridData[j].__disable_selection__ = true;
 					return false;
 				}
 				

@@ -62,24 +62,14 @@ $('input.checkbox-dir').wCheck({theme: 'square-classic blue', selector: 'checkma
 
 $(document).ready(function() {
 	getSysInfo();
-	/*
-	$('#txtPath').css('display','none');
-	$('#txtPath2').css('display','block');
 	
-	$('#txtPath2').bind('keypress', function(evnet) {
+	
+	// 디렉토리 엔터시 조회
+	$('#txtPath').bind('keypress', function(event) {
 		if(event.keyCode === 13) {
-			$('#txtPath').css('display','block');
-			$('#txtPath2').css('display','none');
+			getPathList();
 		}
-	})
-	
-	
-	$('#txtPath').bind('keypress', function(evnet) {
-		if(event.keyCode === 13) {
-			$('#txtPath').css('display','none');
-			$('#txtPath2').css('display','block');
-		}
-	})*/
+	});
 	
 	// 시스템 콤보 변경
 	$('#cboSysCd').bind('change', function() {
