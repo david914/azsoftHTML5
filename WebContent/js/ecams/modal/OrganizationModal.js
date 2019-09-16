@@ -19,6 +19,7 @@ var rMenu			= null;
 var selDeptSw		= window.parent.selDeptSw;
 var modiDeptSw		= window.parent.modiDeptSw;
 var subSw			= window.parent.subSw;
+var dbClickSw		= false;
 
 var setting = {
 	data: {
@@ -28,6 +29,9 @@ var setting = {
 	},callback: {
 		onRightClick: modiDeptSw ? OnRightClickTree : '',
 		onDblClick	: modiDeptSw ? '' : dbClickTree
+	},
+	view: {
+		dblClickExpand: false
 	}
 	
 };
@@ -97,6 +101,10 @@ $(document).ready(function(){
 				window.parent.deptCd 		= nodes[0].pId;
 			}
 		} else {
+			if(nodes[0].children !== undefined) {
+				dialog.alert('하위 조직을 선택해 주시기 바랍니다.', function() {});
+				return;
+			}
 			// 조직 선택시
 			if(selDeptSw) {
 				window.parent.selDeptCd = nodes[0].id;
@@ -333,9 +341,10 @@ function successReNameDir(data) {
 	treeObj.updateNode(selectedNode);
 }
 
-
 // 트리 더블 클릭
 function dbClickTree(event, treeId, treeNode) {
+	dbClickSw = true;
+	
 	// 사용자 선택시
 	if(subSw) {
 		if(treeNode.userId === undefined) {
@@ -348,6 +357,15 @@ function dbClickTree(event, treeId, treeNode) {
 			window.parent.deptCd 		= treeNode.pId;
 		}
 	} else {
+		if(treeNode === null) {
+			return;
+		}
+		
+		if(treeNode.children !== undefined ) {
+			dialog.alert('하위 조직을 선택해 주시기 바랍니다.', function() {});
+			return;
+		}
+		
 		// 조직 선택시
 		if(selDeptSw) {
 			window.parent.selDeptCd = treeNode.id;
