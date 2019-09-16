@@ -447,6 +447,8 @@ function checkSelectedFlag(){
 				}
 			}
 			if (fndItem > 0){
+
+				firstGridData[i].__disable_selection__ = true;
 				firstGridData[i].selected_flag = '1';
 			}
 			else{
@@ -609,7 +611,8 @@ function deleteDataRow() {
 		$(firstGridData).each(function(j){
 			if(firstGridData[j].cr_itemid == secondGridSeleted[i].cr_itemid || 
 				firstGridData[j].cr_itemid == originalData && originalData != null){
-				
+
+				firstGridData[j].__disable_selection__ = false;
 				firstGridData[j].selected_flag = "0";
 				return false;
 			}

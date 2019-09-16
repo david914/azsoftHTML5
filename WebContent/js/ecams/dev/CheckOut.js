@@ -892,7 +892,8 @@ function deleteDataRow() {
 		$(firstGridData).each(function(j){
 			if(firstGridData[j].cr_itemid == secondGridSeleted[i].cr_itemid && firstGridData[j].cr_rsrcname == secondGridSeleted[i].cr_rsrcname || 
 				firstGridData[j].cr_itemid == originalData && originalData != null){
-				
+
+				firstGridData[j].__disable_selection__ = false;
 				firstGridData[j].filterData = "";
 				return false;
 			}
@@ -973,8 +974,10 @@ function checkDuplication(downFileList) {
 			if(currentItem.baseitemid == currentItem.cr_itemid){
 				$(firstGridData).each(function(j){
 					if(firstGridData[j].cr_itemid == currentItem.cr_itemid) {
-						firstGridData[j].filterData = true;
+
 						secondGridList.push($.extend({}, firstGrid.list[j], {__index: undefined}));
+						firstGridData[j].__disable_selection__ = true;
+						firstGridData[j].filterData = true;
 						return false;
 					}
 					
