@@ -401,11 +401,11 @@ function porgRowEdit(){
 	if(reqCd == '07'){
 		$('#panCal').after($('#sayuBox').children());
 		$('#sayuInputBox').addClass('poa');
-		//$('#sayuInputBox').css('width', 'calc(100% - 165px)');
-		//$('#txtSayu').removeClass().css('width', 'calc((100% + 85px) * 0.84)');
-		//$('#btnRequest').width('85px');
+		$('#sayuInputBox').css('width','calc(100% - 180px)');
+		$('#txtSayu').css('width','100%');
 		$("#progRow").show();
 		$("#cboReqDiv").show();
+		
 	}
 	else{
 		$('#progRow').removeClass();
