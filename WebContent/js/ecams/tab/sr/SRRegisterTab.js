@@ -1270,7 +1270,7 @@ function gyulChk1(acptno){
 			$("#gyulDiv").show();
 			$("#btnOK").show();
 			$("#btnCncl").show();
-		} else if(ajaxReturnData != "1"){
+		} else if(ajaxReturnData != "1" && strReqCd == "XX"){
 			dialog.alert("결재정보 체크 중 오류가 발생하였습니다.");
 		}
 	}
@@ -1329,6 +1329,11 @@ function firstGridClick(srid) {
 
 		if (ajaxReturnData[0].cc_reqsecu === "6") {
 			$('#txtReqSecu').css('display', 'block');
+			if($("#btnUpdate").is(':disabled') == true){
+				$('#txtReqSecu').attr('disabled', true);
+			} else {
+				$('#txtReqSecu').attr('disabled', false);
+			}
 			$('#txtReqSecu').val(ajaxReturnData[0].cc_txtreqsecu);
 		}
 
