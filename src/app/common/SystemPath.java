@@ -286,6 +286,52 @@ public class SystemPath {
 			}
 		}
 	}//end of geteCAMSInfo() method statement
+	public String geteCAMSInfo_conn(Connection conn) throws SQLException, Exception {
+		PreparedStatement pstmt       = null;
+		ResultSet         rs          = null;
+		StringBuffer      strQuery    = new StringBuffer();
+
+
+		try {
+			String rtString = "";
+
+			strQuery.append("SELECT cm_ipaddr,cm_port \n");
+			strQuery.append("FROM cmm0010 \n");
+			strQuery.append("WHERE cm_stno = 'ECAMS' \n");
+
+			pstmt = conn.prepareStatement(strQuery.toString());
+
+            rs = pstmt.executeQuery();
+
+			if (rs.next()){
+				rtString = rs.getString("cm_ipaddr") + " " + rs.getString("cm_port")+ " 0";
+			}//end of while-loop statement
+			rs.close();
+			pstmt.close();
+
+			rs = null;
+			pstmt = null;
+
+			return rtString;
+
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## SystemPath.geteCAMSInfo_conn() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## SystemPath.geteCAMSInfo_conn() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## SystemPath.geteCAMSInfo_conn() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## SystemPath.geteCAMSInfo_conn() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+		}
+	}//end of geteCAMSInfo() method statement
 	public String getTmpDir_conn(String pCode, Connection conn) throws SQLException, Exception {
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
