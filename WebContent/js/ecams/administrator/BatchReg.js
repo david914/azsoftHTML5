@@ -56,7 +56,7 @@ batchGrid.setConfig({
     columns: [
         {key: "sysmsg", 	label: "시스템명",  		width: '10%', align: "left"},
         {key: "jobcd",		label: "업무명",  		width: '10%', align: "left"},
-        {key: "userid", 	label: "신규등록인",  		width: '10%', align: "left"},
+        {key: "userid", 	label: "신규등록인",  		width: '10%'},
         {key: "rsrcname", 	label: "프로그램명",  		width: '10%', align: "left"},
         {key: "story", 		label: "프로그램설명",  	width: '10%', align: "left"},
         {key: "dirpath", 	label: "프로그램경로",  	width: '25%', align: "left"},
@@ -224,7 +224,8 @@ function requestCheckIn() {
 	}
 	
 	
-	etcData.cm_syscd = getSelectedVal('cboSysCd').value;
+	etcData.cm_syscd = getSelectedVal('cboSysCd').cm_syscd;
+	etcData.cm_systype = getSelectedVal('cboSysCd').cm_systype;
 	etcData.ReqCD 	= strReqCD;
 	etcData.UserID 	= userId;
 	etcData.sysgb 	= getSelectedVal('cboSvrCd').cm_sysgb;

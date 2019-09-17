@@ -558,18 +558,6 @@ public class Cmm1600{
 					////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 					rs  = pstmt.executeQuery();
 					if (rs.next()){
-						/*
-						if (_syscd.equals("00005") || _syscd.equals("00006")) {
-							if (strInfo.substring(26,27).equals("1")) {
-					        	if (rs.getInt("cr_lstver") >0 || !rs.getString("cr_status").equals("3")){
-									rst.put("errmsg","버전:"+rs.getString("cr_lstver")+",상태:"+rs.getString("cr_status"));
-									rst.put("errsw", "1");
-									++errCnt;
-									errSw = true;
-					        	}
-							}
-						}
-						*/
 						if (errSw == false) {
 			        		//_baseItem = rs.getString("cr_itemid");
 							rst.put("_itemid", rs.getString("cr_itemid"));
@@ -577,40 +565,30 @@ public class Cmm1600{
 							rst.put("errsw", "0");
 
 				        	strQuery.setLength(0);
-			        		strQuery.append("update cmr0020 set CR_RSRCCD=?,CR_JOBCD=?,		");
-			        		strQuery.append("                   CR_STORY=?,		");
-			        		//strQuery.append("                   CR_LANGCD=?,CR_STORY=?,		");
-			        		strQuery.append("                   CR_LASTDATE=SYSDATE, 		");
-			        		strQuery.append("                   CR_EDITOR=?,CR_NOMODIFY=0	");
-			        		strQuery.append("where cr_itemid=? \n");
+			        		strQuery.append("update cmr0020   		    \n");
+			        		strQuery.append("   set CR_RSRCCD=?         \n");
+			        		strQuery.append("      ,CR_JOBCD=?		    \n");
+			        		strQuery.append("      ,CR_STORY=?          \n");
+			        		strQuery.append("      ,CR_LASTDATE=SYSDATE	\n");
+			        		strQuery.append("      ,CR_EDITOR=?         \n");
+			        		strQuery.append("      ,CR_LSTUSR=?         \n");
+			        		strQuery.append("      ,CR_NOMODIFY=0	    \n");
+			        		strQuery.append("      ,CR_LSTDAT=SYSDATE	\n");
+			        		strQuery.append(" where cr_itemid=?         \n");
 			        		pstmt2 = conn.prepareStatement(strQuery.toString());
 			        		pstmt2.setString(1, rst.get("_rsrccd"));
 			        		pstmt2.setString(2, rst.get("_jobcd"));
-			        		//pstmt2.setString(3, rst.get("_langcd"));
 			        		pstmt2.setString(3, rst.get("story"));
 			        		pstmt2.setString(4, rst.get("_editor"));
-			        		pstmt2.setString(5, rs.getString("cr_itemid"));
+			        		pstmt2.setString(5, rst.get("_editor"));
+			        		pstmt2.setString(6, rs.getString("cr_itemid"));
 			        		pstmt2.executeUpdate();
 			        		pstmt2.close();
 						}
 					}else{
-						//if (_syscd.equals("00005") || _syscd.equals("00006")) {
-							/*if (strInfo.substring(26,27).equals("1")) {
-								rst.put("errmsg","미등록된파일");
-								rst.put("errsw", "1");
-								++errCnt;
-								errSw = true;
-							} else {*/
-								rst.put("_itemid", "insert");
-								rst.put("errmsg","정상");
-								rst.put("errsw", "0");
-							//}
-						//} else {
-							//_baseItem = "insert";
-							rst.put("_itemid", "insert");
-							rst.put("errmsg","정상");
-							rst.put("errsw", "0");
-						//}
+						rst.put("_itemid", "insert");
+						rst.put("errmsg","정상");
+						rst.put("errsw", "0");
 					}
 			        rs.close();
 			        pstmt.close();
@@ -756,10 +734,11 @@ public class Cmm1600{
 				if (!errSw) {
 					if (fileList.get(i).get("srcfile") != null && !fileList.get(i).get("srcfile").equals("")) {
 						strQuery.setLength(0);
-						strQuery.append("select cr_itemid,cr_rsrccd from cmr0020 \n");
-		                strQuery.append(" where cr_syscd=?             \n");
-		                strQuery.append("   and cr_dsncd=?             \n");
-		                strQuery.append("   and cr_rsrcname=?          \n");
+						strQuery.append("select cr_itemid,cr_rsrccd  \n");
+						strQuery.append("  from cmr0020              \n");
+		                strQuery.append(" where cr_syscd=?           \n");
+		                strQuery.append("   and cr_dsncd=?           \n");
+		                strQuery.append("   and cr_rsrcname=?        \n");
 
 		                pstmt = conn.prepareStatement(strQuery.toString());
 		                pstmt.setString(1, _syscd);
@@ -811,10 +790,11 @@ public class Cmm1600{
 				if (!errSw) {
 					if (fileList.get(i).get("modfile") != null && !fileList.get(i).get("modfile").equals("")) {
 						strQuery.setLength(0);
-						strQuery.append("select cr_itemid,cr_rsrccd from cmr0020 \n");
-		                strQuery.append(" where cr_syscd=?             \n");
-		                strQuery.append("   and cr_dsncd=?             \n");
-		                strQuery.append("   and cr_rsrcname=?          \n");
+						strQuery.append("select cr_itemid,cr_rsrccd  \n");
+						strQuery.append("  from cmr0020              \n");
+		                strQuery.append(" where cr_syscd=?           \n");
+		                strQuery.append("   and cr_dsncd=?           \n");
+		                strQuery.append("   and cr_rsrcname=?        \n");
 
 		                pstmt = conn.prepareStatement(strQuery.toString());
 		                pstmt.setString(1, _syscd);
@@ -1200,12 +1180,17 @@ public class Cmm1600{
         		}
             	strQuery.setLength(0);
             	strQuery.append("insert into cmr1010 ");
-            	strQuery.append("(CR_ACPTNO,CR_SERNO,CR_SYSCD,CR_SYSGB,CR_JOBCD,CR_STATUS,CR_QRYCD,        \n");
-            	//strQuery.append("CR_RSRCCD,CR_LANGCD,CR_DSNCD,CR_RSRCNAME,CR_RSRCNAM2,CR_SRCCHG,CR_SRCCMP, \n");
-            	strQuery.append("CR_RSRCCD,CR_DSNCD,CR_RSRCNAME,CR_RSRCNAM2,CR_SRCCHG,CR_SRCCMP, \n");
-            	strQuery.append("CR_PRIORITY,CR_VERSION,CR_BEFVER,CR_CONFNO,CR_EDITOR,  \n");
-            	strQuery.append("CR_BASENO,CR_BASEITEM,CR_ITEMID,CR_EDITCON) values (   \n");
-            	strQuery.append("?,?,?,?,?,'0',?,  ?,?,?,?,?,'Y', ?,?,?,?,?,  ?,?,?,?) \n");
+            	strQuery.append("(CR_ACPTNO,CR_SERNO,CR_SYSCD,CR_SYSGB,CR_JOBCD,CR_STATUS,CR_QRYCD, \n");
+            	strQuery.append(" CR_RSRCCD,CR_DSNCD,CR_RSRCNAME,CR_RSRCNAM2,CR_SRCCHG,CR_SRCCMP,   \n");
+            	strQuery.append(" CR_PRIORITY,CR_VERSION,CR_BEFVER,CR_CONFNO,CR_EDITOR,CR_BASENO,   \n");
+            	strQuery.append(" CR_BASEITEM,CR_ITEMID,CR_EDITCON,CR_SYSTYPE,CR_BEFVIEWVER,        \n");
+            	strQuery.append(" CR_AFTVIEWVER)    \n");
+            	strQuery.append(" values            \n");
+            	strQuery.append("(?,?,?,?,?,'0',?,  \n");
+            	strQuery.append(" ?,?,?,?,?,'Y',    \n");
+            	strQuery.append(" ?,?,?,?,?,?,      \n");
+            	strQuery.append(" ?,?,?,?,'0.0.0.0',\n");
+            	strQuery.append(" ?)                \n");
 
             	pstmtcount = 1;
             	pstmt = conn.prepareStatement(strQuery.toString());
@@ -1247,6 +1232,9 @@ public class Cmm1600{
                 	pstmt.setString(pstmtcount++, "");
             	}
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("story"));
+            	pstmt.setString(pstmtcount++, etcData.get("cm_systype"));
+            	if ("1".equals(etcData.get("base"))) pstmt.setString(pstmtcount++,"0.0.0.1");
+            	else pstmt.setString(pstmtcount++,"0.0.0.0");
             	//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             	pstmt.executeUpdate();
             	pstmt.close();
@@ -1255,13 +1243,16 @@ public class Cmm1600{
             		!chkInList.get(i).get("_itemid").equals("insert")) {
 	            	pstmtcount = 1;
 	            	strQuery.setLength(0);
-	            	strQuery.append("update cmr0020 set cr_status='7',            \n");
+	            	strQuery.append("update cmr0020 set cr_status='K',            \n");
 	            	// 최초이행이나 목록이행일 경우 기록 삭제 버전=0
-	            	if (etcData.get("base").equals("1") || etcData.get("base").equals("2"))
-	            		strQuery.append("cr_lstver= 0,                            \n");
-	            	strQuery.append("cr_editor= ?                                 \n");
+	            	if (etcData.get("base").equals("1") || etcData.get("base").equals("2")) {
+	            		strQuery.append("cr_lstver=0,                            \n");
+	            		strQuery.append("cr_viewver='0.0.0.0'                    \n");
+	            	}
+	            	strQuery.append("cr_editor=?,                                \n");
+	            	strQuery.append("cr_lastdate=sysdate                         \n");
 
-	            	strQuery.append("where cr_itemid= ?                           \n");
+	            	strQuery.append("where cr_itemid= ?                          \n");
 
 	            	pstmt = conn.prepareStatement(strQuery.toString());
 //	            	pstmt =  new LoggableStatement(conn, strQuery.toString());

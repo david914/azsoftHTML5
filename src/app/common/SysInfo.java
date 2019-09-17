@@ -115,7 +115,7 @@ public class SysInfo{
 			strQuery.setLength(0);
 			strQuery.append("select	a.cm_syscd,a.cm_sysmsg,a.cm_sysgb,a.cm_sysfc1, \n");
 			strQuery.append("       nvl(a.cm_dirbase,'01') cm_dirbase,             \n");
-			strQuery.append("       a.cm_sysinfo,a.cm_systime,                     \n");
+			strQuery.append("       a.cm_sysinfo,a.cm_systime,a.cm_systype,        \n");
 			strQuery.append("       LOCALCHK(a.cm_syscd) localyn,                  \n");
 			strQuery.append("       sign(nvl(cm_stopst,to_char(sysdate,'yyyymmddhh24mi')) - to_char(sysdate,'yyyymmddhh24mi')) diff1,\n");
 			strQuery.append("       sign(nvl(cm_stoped,to_char(sysdate,'yyyymmddhh24mi')) - to_char(sysdate,'yyyymmddhh24mi')) diff2 \n");
@@ -171,6 +171,7 @@ public class SysInfo{
 					rst.put("cm_sysfc1","00");
 					rst.put("cm_dirbase","00");
 					rst.put("cm_sysinfo", "0");
+					rst.put("cm_systype", "0");
 					rst.put("TstSw", "0");
 					rst.put("setyn", "N");
 					rtList.add(rst);
@@ -186,6 +187,7 @@ public class SysInfo{
 				rst.put("cm_sysgb",rs.getString("cm_sysgb"));
 				rst.put("cm_sysfc1",rs.getString("cm_sysfc1"));
 				rst.put("cm_dirbase",rs.getString("cm_dirbase"));
+				rst.put("cm_systype", rs.getString("cm_systype"));
 				rst.put("localyn",rs.getString("localyn"));
 				rst.put("websw", "N");
 				rst.put("delsw", "Y");
@@ -743,8 +745,9 @@ public class SysInfo{
 				}
 			}
 
-			strQuery.append("select a.cm_syscd,a.cm_sysmsg,a.cm_sysgb,a.cm_systype,a.cm_dirbase,a.cm_sysinfo,cm_prjname \n");
-			strQuery.append("from cmm0030 a             \n");
+			strQuery.append("select a.cm_syscd,a.cm_sysmsg,a.cm_sysgb,a.cm_systype, \n");
+			strQuery.append("       a.cm_dirbase,a.cm_sysinfo,cm_prjname            \n");
+			strQuery.append("from cmm0030 a                                         \n");
 			if (etcData.get("SysCd") != null && !"".equals(etcData.get("SysCd"))) {
 				strQuery.append("where cm_syscd=?       \n");
 			} else {

@@ -1721,10 +1721,13 @@ public class Cmd0100{
 
         		strQuery.append("insert into cmr0020 (CR_ITEMID,CR_SYSCD,CR_DSNCD,CR_RSRCNAME,  \n");
         		strQuery.append("   CR_RSRCCD,CR_JOBCD,CR_LANGCD,CR_STATUS,CR_CREATOR,CR_STORY, \n");
-        		//14.07.17 siruen. CR_LSTUSR 값 세팅
-        		strQuery.append("   CR_OPENDATE,CR_LASTDATE,CR_LSTVER,CR_EDITOR,CR_LSTUSR,CR_NOMODIFY,CR_ISRID) \n");
+        		strQuery.append("   CR_OPENDATE,CR_LASTDATE,CR_LSTVER,CR_EDITOR,CR_LSTUSR,      \n");
+        		strQuery.append("   CR_NOMODIFY,CR_ISRID,CR_LSTDAT,CR_VIEWVER)                  \n");
         		strQuery.append("values                                                         \n");
-        		strQuery.append("  (lpad(ITEMID_SEQ.nextval,12,'0'),?,?,?,  ?,?,'','3',?,?,  SYSDATE,SYSDATE,0,?,?,'0',?)  \n");
+        		strQuery.append("  (lpad(ITEMID_SEQ.nextval,12,'0'),?,?,?,  \n");
+        		strQuery.append("   ?,?,'','3',?,?,                         \n");
+        		strQuery.append("   SYSDATE,SYSDATE,0,?,?,                  \n");
+        		strQuery.append("   '0',?,SYSDATE,'0.0.0.0')                \n");
 
         		//pstmt = conn.prepareStatement(strQuery.toString());
         		pstmt = new LoggableStatement(conn,strQuery.toString());
@@ -1755,8 +1758,11 @@ public class Cmd0100{
         		strQuery.append("                   CR_OPENDATE=SYSDATE,             \n");
         		strQuery.append("                   CR_LASTDATE=SYSDATE,CR_LSTVER=0, \n");
         		//20140723 neo. CR_LSTUSR 값 셋팅 추가.
-        		strQuery.append("                   CR_EDITOR=?,CR_LSTUSR=?,CR_NOMODIFY=0\n");
-        		strQuery.append("                   ,CR_ISRID=?        			     \n");
+        		strQuery.append("                   CR_EDITOR=?,CR_LSTUSR=?,         \n");
+        		strQuery.append("                   CR_NOMODIFY=0,                   \n");
+        		strQuery.append("                   CR_ISRID=?,        			     \n");
+        		strQuery.append("                   CR_LSTDAT=SYSDATE, 			     \n");
+        		strQuery.append("                   CR_VIEWVER='0.0.0.0'	         \n");
         		strQuery.append("where cr_itemid=?                                   \n");
 
         		//pstmt = conn.prepareStatement(strQuery.toString());
