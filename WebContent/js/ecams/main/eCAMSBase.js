@@ -395,7 +395,8 @@ function clickSideMenu(event) {
 }
 
 function goHome() {
-	location.reload();
+	//location.reload(); 현재 창이 login 에서 post 방식으로 불러져 새로고침 하면 ie에서 알림창 생성
+	loadEcamsMain();
 }
 
 function logOut() {
