@@ -57,7 +57,7 @@
 <!-- time picker -->
 <script src="<c:url value="/scripts/jquery.timepicker.js"/>"></script>
 
-<!-- ResizeSensor -->
+<!-- ResizeSensor  -->
 <script src="<c:url value="/scripts/ResizeSensor/ResizeSensor.js"/>"></script>
 
 <script src="<c:url value="/js/ecams/common/common.js" />" type="text/javascript"></script>
