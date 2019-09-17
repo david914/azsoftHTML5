@@ -149,7 +149,7 @@ firstGrid.setConfig({
     },
     columns: [
         {key: "isrid", label: "SR-ID",  width: '6%'},
-        {key: "genieid", label: "문서번호",  width: '6%', align: 'left'},
+        {key: "genieid", label: "문서번호",  width: '6%'},
         {key: "recvdate", label: "등록일",  width: '5%'},
         {key: "reqdept", label: "요청부서",  width: '5%', align: 'left'},
         {key: "reqsta1", label: "SR상태",  width: '5%', align: 'left'},
@@ -164,7 +164,7 @@ firstGrid.setConfig({
         {key: "chgdevtime", label: "개발계획공수", width: '6%'},
         {key: "realworktime", label: "개발투입공수", width: '6%'},
         {key: "chgpercent", label: "개발진행율", width: '6%'},
-        {key: "chgedgbn", label: "변경종료구분", width: '6%', align: 'left'},
+        {key: "chgedgbn", label: "변경종료구분", width: '6%'},
         {key: "chgeddate", label: "변경종료일", width: '6%'},
         {key: "isredgbn", label: "SR완료구분", width: '6%', align: 'left'},
         {key: "isreddate", label: "SR완료일", width: '6%'}
