@@ -409,26 +409,16 @@ function porgRowEdit(){
 	if(reqCd == '07'){
 		$('#panCal').after($('#sayuBox').children());
 		$('#sayuInputBox').addClass('poa');
-		$('#sayuInputBox').css('width','calc(100% - 180px)');
-		$('#txtSayu').css('width','100%');
-		$("#progRow").show();
-		$("#cboReqDiv").show();
+		$('#sayuInputBox').css('width','calc(100% - 150px)');
+		$('[data-ax5grid="firstGrid"]').parent('div.az_board_basic').height('36%');
+		$('[data-ax5grid="secondGrid"]').parent('div.az_board_basic').height('calc(38% + 30px)');
+		$('[data-ax5grid="secondGrid"]').height('100%');
 	}
 	else{
-		$('#progRow').removeClass();
-		$('#txtSayu').css('width', '100%');
-		
-		$('#progRow').addClass('dib vat width-25');
-		$('#progRow').children('.tit_150').addClass('text-right');
-		$("#progRow").css('width','calc(35% - 50px)');
-		$('#txtRsrcName').css('width','100%');
-		
-		$('#cboReqDiv').after($('#progRow'));
-		$('#progRow').after('#searchBox');
+		$('#sayuInputBox').css('width','calc(100% - 60px)');
 		
 		$('[data-ax5grid="firstGrid"]').parent('div.az_board_basic').height('36%');
 		$('[data-ax5grid="secondGrid"]').parent('div.az_board_basic').height('38%');
-		$("#progRow").show();
 	}
 }
 
