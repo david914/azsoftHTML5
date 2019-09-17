@@ -158,6 +158,12 @@ $(document).ready(function(){
 		btnSearch_click();
 	});
 
+	//닫기클릭
+	$('#btnExit').bind('click', function() {
+		close();
+	});
+
+	
 	// 엑셀저장버튼 클릭
 	$('#btnExcel').bind('click', function() {
 		grdDiffSrc.exportExcel($('#txtProgId').val()+"_SourceDiff.xls");
