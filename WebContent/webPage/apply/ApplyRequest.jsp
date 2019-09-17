@@ -73,72 +73,64 @@ input[type=number]::-webkit-outer-spin-button {
 		<div class="az_search_wrap">
 			<div class="az_in_wrap">
                 <div class="row por">
-                	<div class="tit_150 poa">
+                	<div class="tit_60 poa">
                     	<label>*SR-ID</label>
                     </div>
-                    <div class="ml_150 tal">
-						<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:calc( 100% - 100px);"></div>						
+                    <div class="ml_60 tal">
+						<div id="cboSrId" data-ax5select="cboSrId" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:calc( 100% - 80px);"></div>						
 					</div>
 					<div class="vat poa_r">
 						<button id="btnSR" class="btn_basic_s margin-5-left" disabled=true style="width:70px;">SR정보</button>
 					</div>
 				</div>
-				<div class="row por">			
-                    <div class="tit_150 poa">
-                        <label>*시스템</label>
-                    </div>		
-                    <div class="ml_150">
-						<div class="width-30 dib">
-		                    <div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+				<div class="row por">	
+					<!-- 시스템 -->		
+	                <div class="width-30 dib vat">
+	                    <label id="lbSystem" class="tit_60 poa">*시스템</label>
+	                    <div class="ml_60 vat">
+							<div id="cboSys" data-ax5select="cboSys" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:calc(100% - 10px);" class="dib width-100"></div>
 						</div>
-	                    <div class="dib" style="width:calc(35% - 50px);">
-	                    	<div class="tit_100 poa text-right">
-	                        	<label>프로그램 유형</label>
-	                        </div>
-	                        <div class="ml_100">
-	                        	<div id="cboRsrccd" data-ax5select="cboRsrccd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
-							</div>
+					</div>
+				    <!-- 프로그램종류 -->
+	                <div class="width-25 dib vat">
+	                    <label id="lbJawon" class="tit_100 poa" style="text-align:center;">프로그램유형</label>
+	                    <div class="ml_100">
+							<div id="cboRsrccd" data-ax5select="cboRsrccd" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:calc(100% - 10px);" class="dib"></div>
 						</div>
-						
-						<div class="dib" id="cboReqDiv" style="display:none; width:calc(35% - 50px);">
-	                    	<div class="tit_100 poa text-right">
-	                        	<label>신청구분</label>
-	                        </div>
-		                    <div class="ml_100">
-		                    	<div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
-							</div>
+					</div>							
+					<div class="width-15 dib vat" id="cboReqDiv" >
+	                    <label id="lblReq" class="tit_60 poa" style="text-align:center;">신청구분</label>
+	                    <div class="ml_60">
+	                    	<div id="cboReq" data-ax5select="cboReq" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" ></div>
+						</div>
+					</div>						
+					<div class="width-30 dib vat" id="cboReqDiv" >
+	                    <label id="lblProg" class="tit_120 poa" style="text-align:center;">*프로그램명/설명</label>
+	                    <div class="ml_120 tal">
+							<input id="txtRsrcName" name="txtRsrcName" type="text" style="width: calc(100% - 80px);"></input>
+						</div>						
+						<div class="vat poa_r" id="searchBox">
+							 <button id="btnFind" class="btn_basic_s" style="width:70px;">검색</button>
 						</div>
 					</div>
 				</div>	
-				<div class="row por" id="progRow" style="display:none;">
-					<!-- 프로그램명/설명 -->		
-                    <div class="tit_150 poa">
-                    	<label>*프로그램명/설명</label>
-                    </div>
-                    <div class="ml_150 tal">
-						<input id="txtRsrcName" name="txtRsrcName" type="text" style="width: calc(100% - 100px);"></input>
-					</div>						
-					<div class="vat poa_r" id="searchBox">
-						 <button id="btnFind" class="btn_basic_s" style="width:70px;">검색</button>
-					</div>
-				</div>
 			</div>
 		</div>
 		<!--검색E-->
 	    <!-- 게시판 S-->
 		<div>
-		    <div class="az_board_basic az_board_basic_in" style="height:36%">
+		    <div class="az_board_basic az_board_basic_in" style="height:36%" id="grdLst1">
 		    	<div data-ax5grid="firstGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%;"></div>
 			</div>	
 			<!-- 게시판 E -->
-			<div class="por margin-5-top margin-10-bottom">
+			<div class="por margin-5-top margin-5-bottom">
 				<div class=""><input type="checkbox" class="checkbox-pie" id="chkDetail" data-label="항목상세보기" checked></input></div>
 				<div class="poa_r">
 					<div class="vat dib">
-						<button id="btnAdd" class="btn_basic_s margin-5-left">추가</button>
+						<button id="btnAdd" class="btn_basic_s">추가</button>
 					</div>
 					<div class="vat dib">
-						<button id="btnDel" class="btn_basic_s margin-5-left">제거</button>
+						<button id="btnDel" class="btn_basic_s">제거</button>
 					</div>
 				</div>
 			</div>
@@ -146,7 +138,7 @@ input[type=number]::-webkit-outer-spin-button {
 	
 		    <!-- 게시판 S-->
 		<div>
-		    <div class="az_board_basic az_board_basic_in" style="height:38%">
+		    <div class="az_board_basic az_board_basic_in" style="height:38%" id="grdLst2">
 		    	<div data-ax5grid="secondGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height:100%"></div>
 			</div>
 		</div>		
@@ -162,19 +154,19 @@ input[type=number]::-webkit-outer-spin-button {
 	    
 	    <div class="row" id="sayuBox" >
 			<!-- 요청부서 -->
-			<div class="tit_80 poa">
+			<div class="tit_60 poa">
 				<label>*신청사유</label>
 			</div>
-			<div class="ml_80" id="sayuInputBox" style="width:calc(100% - 80px);">
-                  <input id="txtSayu" name="txtSayu" type="text" style="align-content:left; width:calc(100% - 100px);" ></input>
+			<div class="ml_60" id="sayuInputBox" style="width:calc(100% - 80px);">
+                  <input id="txtSayu" name="txtSayu" type="text" class="width-100" style="align-content:left;" ></input>
 			</div>
 	    </div>
 		<div class="row floatRow">
 			<div class="width-30 dib float-left">
-				<div class="tit_80 poa">
+				<div class="tit_60 poa">
 					<label id="lblReqGbn">*처리구분</label>
 				</div>
-				<div class="ml_80">
+				<div class="ml_60">
 					<div id="cboReqGbn" class="width-100" data-ax5select="cboReqGbn" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
 				</div>
 	
@@ -205,8 +197,8 @@ input[type=number]::-webkit-outer-spin-button {
 	   				<input type="checkbox" class="checkbox-pie" id="chkSvr" data-label="버전UP만적용" style="display:none;"></input>
 				</div>
 				<button id="btnFileUpload" class="btn_basic_s margin-5-left"  style='display:none;'>테스트결과서</button>
-				<button id="btnDiff" class="btn_basic_s margin-5-left" style='display:none;'>파일비교</button>
-				<button id="btnRequest" class="btn_basic_s margin-5-left" disabled=true>체크인신청</button>
+				<button id="btnDiff" class="btn_basic_s" style='display:none;'>파일비교</button>
+				<button id="btnRequest" class="btn_basic_s" disabled=true>체크인신청</button>
 			</div>
 		</div>
 </div>
