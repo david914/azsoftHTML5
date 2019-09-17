@@ -690,7 +690,7 @@ function contextmenu_click(gbn) {
 	
 	//svrOpen_svr.getFileList_thread(strUserId,cboSys.selectedItem.cm_syscd,cboSvr.selectedItem.cm_svrip,cboSvr.selectedItem.cm_portno,cboSvr.selectedItem.cm_volpath,strDirFull,cboSvr.selectedItem.cm_svrcd,tmpStr,tmpExe1,tmpExe2,cboSvr.selectedItem.cm_sysinfo,cboSvr.selectedItem.cm_dir,cboSvr.selectedItem.cm_sysos,cboSvr.selectedItem.cm_buffsize,cboSvr.selectedItem.cm_svruse,cboSvr.selectedItem.cm_seqno);
 	tmpInfo = new Object();
-	tmpInfo.UserId = strUserId;
+	tmpInfo.UserID = strUserId;
 	tmpInfo.SysCd = $('[data-ax5select="cboSystem"]').ax5select("getValue")[0].value;
 	tmpInfo.SvrIp = selectedItem.cm_svrip;
 	tmpInfo.SvrPort = selectedItem.cm_portno;
