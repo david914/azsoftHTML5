@@ -268,12 +268,14 @@ public class PrjInfo{
 					etcData.get("reqcd").equals("03") ||//20140718 neo. 테스트적용요청구분 추가
 					etcData.get("reqcd").equals("04") ||
 					etcData.get("reqcd").equals("07") ||
+					etcData.get("reqcd").equals("08") ||
 					etcData.get("reqcd").equals("11")) {
 					
 					rst.put("syscd", "");
 					if (etcData.get("reqcd").equals("03") ||//20140718 neo. 테스트적용요청구분 추가
 						etcData.get("reqcd").equals("04") ||
 						etcData.get("reqcd").equals("07") ||
+						etcData.get("reqcd").equals("08") ||
 						etcData.get("reqcd").equals("11")) {
 						svSysCd = "";
 						strQuery.setLength(0);
@@ -284,14 +286,17 @@ public class PrjInfo{
 							//20140721 neo. 운영배포 일때 프로그램의 상태값 변경. 체크인완료[B] 또는 테스트적용완료[G] 상태만 조회 되도록 수정. CMM0020 테이블 cm_macode='CMR0020' 확인
 							//테스트가 있는 시스템 [G] , 테스트가 없는 시스템은 [B] 상태가 조회 됨.
 							//변경전:strQuery.append("   and cr_status='D' \n");
-							strQuery.append("   and cr_status in ('B','G') \n");
+							strQuery.append("   and cr_status in ('B','E','G') \n");
 						} else if (etcData.get("reqcd").equals("03")) {
 							strQuery.append("   and cr_lstusr=? \n");
-							strQuery.append("   and cr_status in ('B','G') \n");
+							strQuery.append("   and cr_status in ('B','E','G') \n");
+						} else if (etcData.get("reqcd").equals("08")) {
+							strQuery.append("   and cr_lstusr=? \n");
+							strQuery.append("   and cr_status = 'B' \n");
 						} else {
 							//strQuery.append("   and decode(cr_status,'3',cr_editor,cr_lstusr)=?   \n");
 							strQuery.append("   and decode(cr_status,'3',cr_creator,'5',cr_ckoutuser,cr_editor)=?  \n");
-							strQuery.append("   and cr_status in ('3','5','B','D','G') \n");
+							strQuery.append("   and cr_status in ('3','5','B','D','E','G') \n");
 						}
 						pstmt2 = conn.prepareStatement(strQuery.toString());
 						//pstmt2 = new LoggableStatement(conn, strQuery.toString());

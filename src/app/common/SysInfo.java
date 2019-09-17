@@ -83,16 +83,16 @@ public class SysInfo{
 				userinfo = null;
 
 				if (ReqCd != "" && ReqCd != null) {
-					if (ReqCd.equals("01") || ReqCd.equals("02") || ReqCd.equals("03") || ReqCd.equals("04")  || ReqCd.equals("07") || ReqCd.equals("11") || ReqCd.equals("12")) {
+					if (ReqCd.equals("01") || ReqCd.equals("02") || ReqCd.equals("03") || ReqCd.equals("04")  || ReqCd.equals("07") || ReqCd.equals("08") || ReqCd.equals("11") || ReqCd.equals("12")) {
 						SecuYn = "Y";
 						strQuery.setLength(0);
 						strQuery.append("select cr_syscd from cmr1000 a,                     \n");
 						strQuery.append("  (select max(cr_acptdate) acptdate from cmr1000    \n");
 						strQuery.append("    where cr_editor=?                               \n");
-						strQuery.append("      and cr_qrycd in ('01','02','03','04','11')) b \n");
+						strQuery.append("      and cr_qrycd in ('01','02','03','04','08','11')) b \n");
 						strQuery.append(" where b.acptdate=a.cr_acptdate                     \n");
 						strQuery.append("   and a.cr_editor=?                                \n");
-						strQuery.append("   and a.cr_qrycd in ('01','02','03','04','11')     \n");
+						strQuery.append("   and a.cr_qrycd in ('01','02','03','04','08','11')     \n");
 						pstmt = conn.prepareStatement(strQuery.toString());
 			            //pstmt = new LoggableStatement(conn,strQuery.toString());
 			            pstmt.setString(1, UserId);
@@ -147,7 +147,18 @@ public class SysInfo{
 					strQuery.append("                 from cmm0031                \n");
 					strQuery.append("                where cm_svrcd IN('13','15') \n");
 					strQuery.append("                  and cm_closedt is null)    \n");
-				} 
+				}  else if (ReqCd.equals("08")) {
+					if (strSw == true) strQuery.append("and ");
+					else {
+						strSw = true;
+						strQuery.append("where ");
+					}
+
+					strQuery.append("a.cm_syscd in (select distinct cm_syscd      \n");
+					strQuery.append("                 from cmm0031                \n");
+					strQuery.append("                where cm_svrcd IN('23','25') \n");
+					strQuery.append("                  and cm_closedt is null)    \n");
+				}
 			}
 			strQuery.append("order by a.cm_sysmsg \n");
 
