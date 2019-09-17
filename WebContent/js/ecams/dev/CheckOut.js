@@ -9,9 +9,9 @@
 
 var userName 	      = window.top.userName;
 var userId 			  = window.top.userId;
-var adminYN		  = window.top.adminYN;
-var userDeptName = window.top.userDeptName;
-var userDeptCd 	  = window.top.userDeptCd;
+var adminYN		      = window.top.adminYN;
+var userDeptName      = window.top.userDeptName;
+var userDeptCd 	      = window.top.userDeptCd;
 var reqCd 			  = window.top.reqCd;
 
 //grid 생성
@@ -41,20 +41,19 @@ var upFiles 	   = null;
 var firstGridColumns = null;
 var winDevRep        = null; //SR정보 새창
 
-var localHome = '';
+var outpos    = 'R';
 var searchMOD = '';
-var outpos 	  = '';
 var dirCd     = '';
 var tmpPath   = '';
 
-var localFileDownYN = false;
 var reqSw 			= false;
 
 var alertFlag = 0;
 
 var pItemId 	 = null;  //버전선택창 파라미터: 프로그램 ITEMID
-var selectVer    = 'sel';    //선택버전
+var selectVer    = '';    //선택버전
 var selectAcptno = '';    //선택한신청버전
+var selectViewVer = 'sel';
 var updateFlag   = false; //그리드 컬럽 value 업데이트 여부
 var myWin 			= null;
 var acptNo = "";
@@ -71,7 +70,7 @@ firstGrid.setConfig({
     },
     body: {
         onClick: function () {
-	        if (this.colIndex == 5) {//버전선택
+	        if (this.colIndex == 5 && reqCd == '02' && this.item.cr_status == '0') {//버전선택
 	        	this.self.clearSelect();
 	        	this.self.select(this.dindex);
 	        	
@@ -80,8 +79,8 @@ firstGrid.setConfig({
 	        	pItemId = this.item.cr_itemid;
 	        	
 	        	ChkOutVerSelModal.open({
-	        	    width: 700,
-	        	    height: 360,
+	        	    width: 1000,
+	        	    height: 500,
 	        	    iframe: {
 	        	        method: "get",
 	        	        url: "../modal/request/ChkOutVerSelModal.jsp",
@@ -93,14 +92,16 @@ firstGrid.setConfig({
 	        	        }
 	        	        else if (this.state === "close") {
 	        	        	console.log(gridSelIdx);
-	        	        	console.log(updateFlag, selectVer, selectAcptno);
+	        	        	console.log(updateFlag, selectVer, selectAcptno, selectViewVer);
 	        	        	if (updateFlag) {
-		        	        	if (selectVer == 'sel') {
-			        	        	firstGrid.setValue(gridSelIdx, 'cr_lstver', '선택하세요');
+		        	        	if (selectViewVer == 'sel') {
+			        	        	firstGrid.setValue(gridSelIdx, 'cr_viewver', '버전선택');
 			        	        	firstGrid.setValue(gridSelIdx, 'selAcptno', '');
+			        	        	firstGrid.setValue(gridSelIdx, 'cr_lstver', '');
 		        	        	} else {
-		        	        		firstGrid.setValue(gridSelIdx, 'cr_lstver', selectVer);
+		        	        		firstGrid.setValue(gridSelIdx, 'cr_viewver', selectViewVer);
 			        	        	firstGrid.setValue(gridSelIdx, 'selAcptno', selectAcptno);
+			        	        	firstGrid.setValue(gridSelIdx, 'cr_lstver', selectVer);
 		        	        	}
 	        	        	}
 	        	            mask.close();
@@ -156,25 +157,25 @@ firstGrid.setConfig({
         }
     },
     columns: [
-        {key: 'view_dirpath', label: '프로그램경로',  width: '30%', align: 'left'},
-        {key: 'cr_rsrcname', label: '프로그램명',  width: '13%', align: 'left'},
-        {key: 'jawon', label: '프로그램종류',  width: '8%', align: 'left'},
+        {key: 'view_dirpath', label: '프로그램경로',  width: '20%', align: 'left'},
+        {key: 'cr_rsrcname', label: '프로그램명',  width: '15%', align: 'left'},
+        {key: 'jawon', label: '프로그램종류',  width: '10%', align: 'left'},
         {key: 'cr_story', label: '프로그램설명',  width: '15%', align: 'left'},
         {key: 'codename', label: '상태',  width: '10%', align: 'left'},
-        {key: 'cr_lstver', label: '버전',  width: '5%',
+        {key: 'cr_viewver', label: '버전',  width: '10%',
         	formatter: function() {
-        		if (reqCd == '01') {
+        		if (reqCd == '01' || this.item.cr_status != '0') {
         			return '<label>'+ this.value +'</label>';
         		} else {//이전버전체크아웃
-        			if (selectVer == 'sel') {
+        			if (selectViewVer == 'sel') {
         				return '<button style="width: 98%; height: 98%;">버전선택</button>';
         			} else {
-        				return '<button style="width: 98%; height: 98%;">버전: '+selectVer+'</button>';
+        				return '<button style="width: 98%; height: 98%;">버전: '+selectViewVer+'</button>';
         			}
         		}
         	}
         },
-        {key: 'cm_username', label: '수정자',  width: '5%'},
+        {key: 'cm_username', label: '수정자',  width: '10%'},
         {key: 'lastdt', label: '수정일',  width: '10%'} 	
     ]
 });
@@ -232,14 +233,13 @@ secondGrid.setConfig({
         }
     },
     columns: [
-        {key: 'view_dirpath', label: '프로그램경로',  width: '30%', align: 'left'},
-        {key: 'cr_rsrcname', label: '프로그램명',  width: '10%', align: 'left'},
-        {key: 'jobname', label: '업무명',  width: '5%', align: 'left'},
-        {key: 'jawon', label: '프로그램종류',  width: '5%', align: 'left'},
-        {key: 'cr_story', label: '프로그램설명',  width: '20%', align: 'left'},
-        {key: 'cr_lstver', label: '신청버전',  width: '5%'},
-        {key: 'pcdir1', label: '로컬위치',  width: '10%', align: 'left'},
-        {key: 'cm_username', label: '수정자',  width: '5%'},
+        {key: 'view_dirpath', label: '프로그램경로',  width: '20%', align: 'left'},
+        {key: 'cr_rsrcname', label: '프로그램명',  width: '15%', align: 'left'},
+        {key: 'jobname', label: '업무명',  width: '10%', align: 'left'},
+        {key: 'jawon', label: '프로그램종류',  width: '10%', align: 'left'},
+        {key: 'cr_story', label: '프로그램설명',  width: '15%', align: 'left'},
+        {key: 'cr_lstver', label: '신청버전',  width: '10%'},
+        {key: 'cm_username', label: '수정자',  width: '10%'},
         {key: 'lastdt', label: '수정일',  width: '10%'} 	
     ]
 });
@@ -298,11 +298,11 @@ $(document).ready(function() {
 	$('#chkDetail').bind('click',function(){
 		simpleData();
 	});
-	
+	/*
 	$('#btnExcelLoad').bind('click',function(){
 		$('#excelFile').click();
 	});
-	
+	*/
 	//파일의 change 가 안먹히므로 html file onchange로 빠짐
 	$('#excelFile').on('change',function(){
 		//fileTypeCheck(this);
@@ -461,7 +461,6 @@ function changeSys(){
 		$('#btnSearch').prop('disabled',true);
 		return;
 	}
-	localHome = "";
 	if(getSelectedVal('cboSys').cm_sysinfo.substr(9,1) == "1"){
 
 		$('[data-ax5select="cboSrId"]').ax5select("disable");
@@ -470,35 +469,10 @@ function changeSys(){
 		$('[data-ax5select="cboSrId"]').ax5select("enable");
 		$('#btnSearch').prop('disabled',false);
 	}
-	if (getSelectedVal('cboSys').localyn == "S") {//S: server only
-	} else {
-		if (getSelectedVal('cboSys').localyn == "A" || getSelectedVal('cboSys').localyn == "L") { //A: ALL
-			var devHomeData = new Object();
-			devHomeData.UserId = userId;
-			devHomeData.SysCd = getSelectedVal('cboSys').value;
-			
-			var tmpData = {
-				treeInfoData: 	devHomeData,
-				requestType: 	'getDevHome'
-			}
-			
-			
-			ajaxAsync('/webPage/dev/CheckOutServlet', tmpData, 'json',successGetDevHome);
-		}
-	}
 
 	$('#btnSearch').prop('disabled',false);
 	getFileTree();
 	getPrgCbo();
-}
-
-function successGetDevHome(data){
-	localHome = data;
-	
-	if(localHome.length == 0 || localHome == ''){
-		dialog.alert('로컬로 체크아웃을 받고자 하는 경우 \n [기본관리-사용자환경설정]에서 \n 로컬 홈디렉토리를 지정한 후 진행하시기 바랍니다.');
-	}
-	
 }
 
 function getFileTree(){
@@ -786,18 +760,13 @@ function addDataRow() {
 	var ajaxReturnData;
 	
 	alertFlag = 0;
-	localFileDownYN = false;//로컬로 파일 다운 YN 초기화
 	$(firstGridSeleted).each(function(i){
 		
 		if(this.filterData == true){
 			return true;
 		}
-//		if (exlSw == true && this.errmsg != "정상") {
-//		tmpArc.removeItemAt(i--);
-//		continue;
-//		}
 		
-		if(this.cr_lstver == '선택하세요'){
+		if(this.cr_viewver == '선택하세요'){
 			return true;
 		}
 		
@@ -805,18 +774,9 @@ function addDataRow() {
 		if ((this.cm_info.substr(26,1) == "1" || this.cm_info.substr(3,1) == "1" || 
 				this.cm_info.substr(46,1) == "1" || this.cm_info.substr(8,1) == "1") && this.filterData == false){
 			calcnt++;
-		}
-		//RSCHKITEM	[45]-로컬에서개발, [38]-서버/로컬동시체크아웃
-		if ( this.cm_info.substr(44,1) == "1" && this.filterData == false) {//45:로컬에서개발
-			localFileDownYN = true;//로컬로 파일 다운 여부
-			if (this.pcdir1 == null || this.pcdir1 == "") {
-				dialog.alert("로컬 홈디렉토리를 지정하지 않았습니다. 기본관리>사용자환경설정에서 홈디렉토리지정 후 처리하시기 바랍니다.");
-				return false;
-			}
-		}
-		
+		}		
 		if (reqCd == "02"){
-			if (this.cr_lstver == "sel"){
+			if (this.cr_viewver == "sel"){
 				vercnt++;
 				calcnt++;
 			}
@@ -847,7 +807,6 @@ function addDataRow() {
 					downFileData.strReqCD = reqCd;
 					downFileData.syscd = getSelectedVal('cboSys').value;
 					downFileData.sayu = '';
-					downFileData.localFileDownYN = localFileDownYN;
 					
 					var tmpData = {
 						downFileData : downFileData,
@@ -907,37 +866,8 @@ function deleteDataRow() {
 
 		$('[data-ax5select="cboSys"]').ax5select("enable");
 		$('#btnReq').prop('disabled',true);
-		$('#btnDiff').hide();
-		outpos = "";
-	} else if ($('#btnDiff').css('display') != 'none') {
-		findSw = false;
-		for (i=0;secondGrid.list.length>i;i++) {
-			var secondGridItem = secondGrid.list[i];
-			if (secondGridItem.cr_lstusr != userId 
-			  && secondGridItem.cm_info.substr(1,1) == "1" 
-			  && secondGridItem.cm_info.substr(2,1) == "0" 
-			  && secondGridItem.cm_info.substr(9,1)=="0" 
-			  && secondGridItem.cm_info.substr(44,1)=="1") {
-				findSw = true;
-			}
-			if ( secondGridItem.cm_info.substr(44,1) == "1" ) {//45:로컬에서개발
-				if ( outpos == "R" ) {
-					outpos = "A";
-				} else if ( outpos != "A" ) {
-					outpos = "L";
-				}
-			} else {
-				if ( outpos == "L" ){
-					outpos = "A";
-				} else if ( outpos != "A" ) {
-					outpos = "R";
-				}
-			}
-		}
-		if ( !findSw ) {
-			$('#btnDiff').hide();
-			$('#btnReq').prop('disabled',false);
-		}
+	} else {
+		$('#btnReq').prop('disabled',false);
 	}
 	$('#totalCnt').text(secondGrid.list.length);
 }
@@ -985,18 +915,7 @@ function checkDuplication(downFileList) {
 			}
 		});
 	}
-	
-	
-	if(secondGrid.list.length > 0 ) {
-		if((secondGrid.list.length + downFileList.length > 300) && localFileDownYN){
-			dialog.alert('300건 이하로 선택 가능합니다.[추가가능건수:'+(300-secondGrid.list.length)+']');
-			return;
-		}
-	}else if (secondGrid.list.length > 300 && localFileDownYN ) {
-		dialog.alert('300건 이하로 선택 가능합니다.[추가가능건수:'+(secondGrid.list.length)+']');
-		return;
-	}
-	
+		
 	firstGrid.repaint();
 	secondGrid.addRow(secondGridList);	
 	
@@ -1005,25 +924,10 @@ function checkDuplication(downFileList) {
 		$('[data-ax5select="cboSys"]').ax5select("disable");
 		$('#btnReq').show();
 		$('#btnReq').prop('disabled',false);
-		//$('#btnDiff').show();
 		
 		secondGrid.list.forEach(function(requestFileGridData, requestFileGridDataIndex) {
 			// grid row header 달기
 			requestFileGridData.seq = requestFileGridDataIndex + 1;
-			var currentItem = requestFileGridData;
-			if( currentItem.cm_info.substr(44,1) == '1') {
-				if( outpos == 'R'){
-					outpos = 'A';
-				} else if ( outpos != 'A'){
-					outpos = 'L';
-				}
-			} else {
-				if( outpos == 'L' ) {
-					outpos = 'A';
-				} else if ( outpos != 'A' ) {
-					outpos = 'R';
-				}
-			}
 		})
 	}
 	
@@ -1134,8 +1038,6 @@ function confCall(GbnCd){
 	confirmInfoData.QryCd = strQry;
 	confirmInfoData.EmgSw = "N";
 	confirmInfoData.PrjNo = "";
-//	if (optPos1.selected) etcObj.OutPos = "R";
-//	else etcObj.OutPos = "L";
 	confirmInfoData.OutPos = outpos;
 	if (getSelectedIndex('cboSrId') > 0) confirmInfoData.PrjNo = getSelectedVal('cboSrId').value;
 	
@@ -1193,8 +1095,9 @@ function requestCheckOut(){
 	requestData.UserID = userId;
 	requestData.ReqCD  = reqCd;
 	requestData.Sayu	 = $('#reqText').val().trim();
-	requestData.cm_syscd = getSelectedVal('cboSys').value;
+	requestData.cm_syscd = getSelectedVal('cboSys').cm_syscd;
 	requestData.cm_sysgb = getSelectedVal('cboSys').cm_sysgb;
+	requestData.cm_systype = getSelectedVal('cboSys').cm_systype;
 	requestData.ckoutpos = outpos;
 	
 	if(!$('#cboSrId').prop('disabled') && getSelectedIndex('cboSrId') > 0 ) {
@@ -1221,75 +1124,9 @@ function requestCheckOut(){
 	
 	acptNo = ajaxReturnData;
 	reqSw = false;
-	//파일업로드 팝업 미개발
-	/*
-	if (upFiles.length > 0){
-		fileUpPop2 = fileUpSender(PopUpManager.createPopUp(this, fileUpSender, true));
-        PopUpManager.centerPopUp(fileUpPop2);//팝업을 중앙에 위치하도록 함
-        fileUpPop2._arrUploadFiles = new ArrayCollection(upFiles.source);
-        fileUpPop2.acptNo = event.result
-        fileUpPop2.fileGb = "1";
-	    fileUpPop2.parentfuc = fileSenderClose;
-	    fileUpPop2.initCom();
-	}else{
-		fileSenderClose_sub();
-	}
-	*/
-	fileSenderClose();
+	
+	ckout_end();
 }
-
-function fileSenderClose(){
-
-	var ajaxResultData = null;
-	if ( outpos == "A" || outpos == "L" ) {
-		var tmpData = {
-				ACPTNO		: 	strAcptNo,
-				requestType	: 	'svrFileMake'
-			}
-			
-			ajaxResultData = ajaxCallWithJson('/webPage/dev/CheckOut', tmpData, 'json');
-			if(ajaxResultData !== 'ERR' && ajaxResultData === '0'){
-				
-				var fileInfo = {
-					ACPTNO		: 	strAcptNo,
-					requestType	: 	'getProgFileList'
-				}
-				
-				ajaxResultDataWithGetFileList = ajaxCallWithJson('/webPage/dev/CheckOut', fileInfo, 'json');
-				if(ajaxResultDataWithGetFileList !== 'ERR' && ajaxResultDataWithGetFileList === '0'){
-					
-					var progFiles = ajaxResultDataWithGetFileList;
-					if (progFiles.length == 0) {
-						ckout_end();
-					} else {
-						if (progFiles[0].cr_rsrcname == "ERROR") {
-							dialog.alert("결재처리 중 오류가 발생하였습니다.");
-							ckout_end();
-							return;
-						} else { // 파일업로드 팝업만들기 미개발
-							fileUpDownPop = progFileUpDown_Agent(PopUpManager.createPopUp(this, progFileUpDown_Agent, true));
-				            PopUpManager.centerPopUp(fileUpDownPop);//팝업을 중앙에 위치하도록 함
-			    	        fileUpDownPop.acptNo = strAcptNo;
-			    	        fileUpDownPop.UserId = userId;
-			    	        fileUpDownPop.progFile_dp = progFiles;
-			    	        fileUpDownPop.popType = "G";
-			    	        fileUpDownPop.parentFunc = fileDownChk_Close;
-			        	    fileUpDownPop.initApp();
-						}
-					}
-				}
-				return;
-				
-			}
-			
-			dialog.alert(ajaxResultData + '[조치 후 체크아웃 상세화면에서 재처리하시기 바랍니다.]');
-			ckout_end();
-			return;
-	} else {
-		ckout_end();
-	}
-}
-
 function ckout_end(){
 	secondGrid.setData([]);
 	secondGridData = [];
@@ -1299,7 +1136,6 @@ function ckout_end(){
 	
 	$('[data-ax5select="cboSys"]').ax5select("enable");
 	
-	$('#btnDiff').hide();
 	$('#btnReq').prop('disabled',true);
 	outpos = "";
 	
@@ -1310,23 +1146,9 @@ function ckout_end(){
 			cmdDetail();
 		}
 		else{
-
-		//neo. 화면클리어 제거됨.
-//			if (chkCLEAR.selected){//화면클리어
-//				subnode_checkbox.selected = false;
-//				rsrc_txt.text = "";
-//				if (cboIsrId.selectedIndex<1) sayu_txt.text="";
-//				list1_grid_dp1 = null;
-//				list1_grid_dp1 = new ArrayCollection();
-//					list1_grid.dataProvider = list1_grid_dp1;
-//				//jobcd_combo.selectedIndex = 0;
-//				//jobcd_combo.selectedItem = cboJob_dp.getItemAt(0);
-//			} else{//입력상태 그대로
-				findRefresh();
-			}
+			findRefresh();
+		}
 	});
-	
-//	}
 }
 
 function findRefresh(){
@@ -1598,98 +1420,4 @@ function successGetFileList_excel(data){
 		//selectall_checkbox.selected = true;
 		//select_grid1();
 	}
-}
-
-//파일비교 미개발
-function cmdDiff_click(){
-	var tmpArray = new Array;
-	var tmpObj = {};
-	
-	for (var i=0;secondGridData.length>i;i++) {
-		var Data = secondGridData[i];
-		if (Data.cr_lstusr != userId 
-		   && Data.cm_info.substr(1,1) == "1"//체크아웃대상
-		   && Data.cm_info.substr(2,1) == "0"//체크아웃무 아닌거
-		   && Data.cm_info.substr(9,1)=="0" //바이너리 아닌거
-		   && Data.cm_info.substr(44,1)=="1") {//로컬개발인거
-			tmpObj = {};
-			tmpObj = Data;
-			tmpObj.errflag = "0";
-			tmpObj.sendflag = "0";
-			tmpObj.cm_dirpath = Data.pcdir1;
-			tmpObj.pcdir = Data.localdir;
-			tmpArray.push(tmpObj);
-			tmpObj = null;
-		}
-	}
-	tmpObj = null;
-	if (tmpArray.length>0) {
-		fileUpDownPop = progFileUpDown_Agent(PopUpManager.createPopUp(this, progFileUpDown_Agent, true));
-        PopUpManager.centerPopUp(fileUpDownPop);//팝업을 중앙에 위치하도록 함
-        fileUpDownPop.acptNo = syscd_combo.selectedItem.cm_syscd;
-        fileUpDownPop.UserId = userId;
-        fileUpDownPop.acptNo = "999999999999";
-        fileUpDownPop.progFile_dp = tmpArray;
-        fileUpDownPop.popType = "F";
-        fileUpDownPop.parentFunc = FileUpLoad_Handler;
-	    fileUpDownPop.initApp();
-		} 
-}
-function FileUpLoad_Handler(ret){
-	var tmpArray = new ArrayCollection();
-	var tmpObj = {};
-	if (ret){
-		for (var i=0;fileUpDownPop.listgrid_dp.length>i;i++) {
-			if (fileUpDownPop.listgrid_dp.getItemAt(i).errflag != "ERROR") {
-				tmpObj = {};
-				tmpObj = fileUpDownPop.listgrid_dp.getItemAt(i);
-				tmpArray.addItem(tmpObj);
-				tmpObj = null;
-			}	
-		}
-		Cmr0100.diffList(userId,tmpArray.toArray());
-	}
-	PopUpManager.removePopUp(fileUpDownPop);
-	
-	tmpObj = null;
-	tmpArray = null;
-}
-function difflist_resultHandler(event){
-	var tmpArray = new ArrayCollection(event.result);
-	if (tmpArray.length>0) {
-		modPopUp = eCmr0100_relat(PopUpManager.createPopUp(this, eCmr0100_relat, true));
-		PopUpManager.centerPopUp(modPopUp);//팝업을 중앙에 위치하도록 함
-//		modPopUp.width = screen.width - 80;
-//		modPopUp.height = screen.height - 200;
-        modPopUp.grdLst_dp = tmpArray;
-        modPopUp.parentFunc = merge_Handler;
-	    modPopUp.minitApp();	
-	} else {
-		dialog.alert("수정된 부분이 없습니다. 체크아웃요청을 진행해 주시기 바랍니다.");
-		regist_button.enabled = true;
-	}
-}
-function merge_Handler(ret){
-	var tmpArray = new ArrayCollection();
-	var tmpObj = {};
-	var j = 0;
-	if (ret) tmpArray = modPopUp.grdLst_dp;
-	PopUpManager.removePopUp(modPopUp);
-	if (ret) {			
-		for (var i=0;tmpArray.length>i;i++) {
-			for (j=0;list2_grid_dp1.length>j;j++) {
-				if (tmpArray.getItemAt(i).cr_itemid == list2_grid_dp1.getItemAt(j).cr_itemid) {
-					tmpObj = {};
-					tmpObj = list2_grid_dp1.getItemAt(j);
-					tmpObj.chkrstcd = tmpArray.getItemAt(i).chkrstcd;
-					list2_grid_dp1.setItemAt(tmpObj,j);
-					tmpObj = null;
-					break;
-				}
-			}	
-		}
-		regist_button.enabled = true;
-	}
-	tmpArray = null;
-	tmpObj = null;
 }

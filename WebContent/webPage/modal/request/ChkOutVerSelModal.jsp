@@ -22,17 +22,17 @@
 </div>
 
 <div class="container-fluid pop_wrap">
-	<div class="row">
+	<div class="row" >
 		<div>
-			<div class="az_board_basic" style="height:70%">
+			<div class="az_board_basic" style="height: calc(100% - 80px);">
 		    	<div data-ax5grid="grdReqVersion" style="height: 100%;"></div>
 			</div>
 		</div>
 	</div>
-	<div class="row tac">
-		<button class="btn_basic" id="btnReset">선택버전초기화</button>
-		<button class="btn_basic margin-5-left" id="btnSel">선택</button>
-		<button class="btn_basic margin-5-left" id="btnClose">닫기</button>
+	<div class="row tar por">
+		<button class="btn_basic_s" id="btnReset">선택버전초기화</button>
+		<button class="btn_basic_s" id="btnSel">선택</button>
+		<button class="btn_basic_s" id="btnClose">닫기</button>
 	</div>
 </div>
 

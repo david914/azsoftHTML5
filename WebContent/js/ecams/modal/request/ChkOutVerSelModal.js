@@ -9,8 +9,9 @@ var confirmDialog  = new ax5.ui.dialog();   		//확인 창
 var grdReqVersionData = null; 						//버전목록 데이타
 var data              = null;						//json parameter
 
-var selectVer    = 'sel'; //선택버전
-var selectAcptno = '';    //선택한신청버전
+var selectVer     = ''; //선택버전
+var selectViewVer = 'sel'; //선택버전
+var selectAcptno  = '';    //선택한신청버전
 
 confirmDialog.setConfig({
 	Title: "확인",
@@ -42,7 +43,8 @@ grdReqVersion.setConfig({
 	       		confirmDialog.alert('선택 할 버전의 데이터를 선택하여 주십시요.');
 				return;
 			}
-			
+
+			selectViewVer = this.item.cr_viewver;
 			selectVer = this.item.cr_ver;
 			selectAcptno = this.item.cr_acptno;
 			popClose(true);
@@ -56,7 +58,7 @@ grdReqVersion.setConfig({
         {key: "srid", label: "SR-ID",  width: '20%', align: "left"},
         {key: "acptdate", label: "요청일시",  width: '15%'},
         {key: "cm_username", label: "신청자",  width: '10%'},
-        {key: "cr_ver", label: "버전",  width: '10%'},
+        {key: "cr_viewver", label: "버전",  width: '10%'},
         {key: "passcd", label: "신청사유",  width: '29%', align: "left"},
         {key: "acptno", label: "신청번호",  width: '15%'}
     ]
@@ -91,13 +93,15 @@ $(document).ready(function() {
 		
 		var selectedGridItem = grdReqVersion.list[grdReqVersion.selectedDataIndexs];
 		selectVer = selectedGridItem.cr_ver;
+		selectViewVer = selectedGridItem.cr_viewver;
 		selectAcptno = selectedGridItem.cr_acptno;
 		popClose(true);
 	});
 	
 	//선택버전초기화 버튼
 	$('#btnReset').bind('click', function() {
-		selectVer = 'sel';
+		selectViewVer = 'sel';
+		selectVer = '';
 		selectAcptno = '';
 		popClose(true);
 	});
@@ -111,6 +115,7 @@ function successGetVerList(data){
 function popClose(updateflag) {
 	window.parent.updateFlag = updateflag;
 	window.parent.selectVer = selectVer;
+	window.parent.selectViewVer = selectViewVer;
 	window.parent.selectAcptno = selectAcptno;
 	window.parent.ChkOutVerSelModal.close();
 }

@@ -32,27 +32,18 @@ public class Cmr0100_selectVer {
 			conn = connectionContext.getConnection();
 
 			strQuery.append("select to_char(a.cr_acptdate,'yyyy/mm/dd hh24:mi')  as acptdate,\n");
-			strQuery.append("       a.cr_passcd as passcd,a.cr_itsmid,              \n");
-			strQuery.append("       c.cm_username,d.cr_ver,                         \n");
-			strQuery.append("       a.cr_acptno,b.cr_prcdate,d.cr_acptno baseacpt   \n");
-			strQuery.append("  from cmm0040 c, cmr1010 b, cmr1000 a,cmr0025 d       \n");
-			if (ReqCD.equals("06")) {
-				strQuery.append(" where b.cr_itemid=?                               \n");
-				strQuery.append("   and b.cr_status<>'3'                            \n");
-				strQuery.append("   and b.cr_prcdate is not null                    \n");
-				strQuery.append("   and b.cr_acptno=a.cr_acptno                     \n");
-				strQuery.append("   and a.cr_qrycd='04'                             \n");
-				strQuery.append("   and a.cr_status<>'3'                            \n");
-				strQuery.append("   and b.cr_itemid=d.cr_itemid                     \n");
-				strQuery.append("   and b.cr_befver=d.cr_ver                        \n");
-				strQuery.append("   and a.cr_acptdate>d.cr_prcdate                  \n");
-			} else {
-				strQuery.append(" where d.cr_itemid = ?                             \n");
-				strQuery.append("   and d.cr_acptno = b.cr_acptno                   \n");
-				strQuery.append("   and d.cr_itemid=b.cr_itemid                     \n");
-				strQuery.append("   and b.cr_acptno=a.cr_acptno                     \n");
-			}
-			strQuery.append("   and a.cr_editor = c.cm_userid                       \n");
+			strQuery.append("       a.cr_passcd as passcd,a.cr_itsmid,d.cr_version, \n");
+			strQuery.append("       nvl(d.cr_aftviewver,d.cr_version) viewver,      \n");
+			strQuery.append("       a.cr_acptno,b.cr_prcdate,d.cr_acptno baseacpt,  \n");
+			strQuery.append("       (select cm_username from cmm0040                \n");
+			strQuery.append("         where cm_userid=a.cr_editor) cm_username      \n");
+			strQuery.append("  from cmr1010 b, cmr1000 a,cmr0021 d                  \n");
+			strQuery.append(" where d.cr_itemid = ?                                 \n");
+			strQuery.append("   and d.cr_qrycd='07'                                 \n");
+			strQuery.append("   and d.cr_verfileyn='Y'                              \n");
+			strQuery.append("   and d.cr_acptno = b.cr_acptno                       \n");
+			strQuery.append("   and d.cr_itemid=b.cr_itemid                         \n");
+			strQuery.append("   and b.cr_acptno=a.cr_acptno                         \n");
 			strQuery.append(" order by acptdate desc                                \n");
 
 
@@ -72,7 +63,8 @@ public class Cmr0100_selectVer {
 					rst.put("prcdate", rs.getString("cr_prcdate"));
 					rst.put("passcd", rs.getString("passcd"));
 					rst.put("cm_username",rs.getString("cm_username"));
-					rst.put("cr_ver",rs.getString("cr_ver"));
+					rst.put("cr_ver",rs.getString("cr_version"));
+					rst.put("cr_viewver",rs.getString("viewver"));
 					rst.put("cr_acptno",rs.getString("cr_acptno"));
 					rst.put("baseacpt",rs.getString("baseacpt"));
 					rst.put("srid",rs.getString("cr_itsmid"));

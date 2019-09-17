@@ -1877,48 +1877,44 @@ public class SystemPath {
 		try {
 			conn = connectionContext.getConnection();
 
-			strQuery.append("select a.cm_rsrccd,a.cm_info,d.cm_codename,b.cm_volpath,d.cm_seqno,\n");
-			strQuery.append("		a.cm_prcstep as id,	 										\n");
-			strQuery.append("		'-1' as pid, 												\n");
-			strQuery.append("		d.cm_codename as text,										\n");
-			strQuery.append("		'' as value 												\n");
-			strQuery.append("  from cmm0036 a,cmm0031 b,                      					\n");
-			strQuery.append("       cmm0020 d,cmm0030 e                                 		\n");
-			strQuery.append(" where a.cm_syscd=? and a.cm_closedt is null               		\n");
-			strQuery.append("   and a.cm_syscd=e.cm_syscd                               		\n");
+			strQuery.append("select a.cm_rsrccd,a.cm_info,b.cm_volpath,d.cm_seqno,\n");
+			strQuery.append("		a.cm_prcstep as id,	 						  \n");
+			strQuery.append("		'-1' as pid, 								  \n");
+			strQuery.append("		'' as value, 								  \n");
+			strQuery.append("       (select cm_codename from cmm0020              \n");
+			strQuery.append("         where cm_macode='JAWON'                     \n");
+			strQuery.append("           and cm_micode=a.cm_rsrccd) text           \n");
+			strQuery.append("  from cmm0036 a,cmm0031 b,       					  \n");
+			strQuery.append("       cmm0038 d,cmm0030 e         		          \n");
+			strQuery.append(" where a.cm_syscd=? and a.cm_closedt is null    	  \n");
+			strQuery.append("   and a.cm_syscd=e.cm_syscd          		          \n");
 			if (SinCd.equals("06")) {
-				strQuery.append("and substr(a.cm_info,11,1)='1'                         \n");
+				strQuery.append("and substr(a.cm_info,11,1)='1'                   \n");
 			} else {
-				strQuery.append("   and a.cm_rsrccd not in (select cm_samersrc from cmm0037 \n");
-				strQuery.append("                            where cm_syscd=?               \n");
-				strQuery.append("                              and cm_rsrccd<>cm_samersrc)  \n");
+				strQuery.append("   and not exists (select 1 from cmm0037         \n");
+				strQuery.append("                    where cm_syscd=a.cm_syscd    \n");
+				strQuery.append("                      and cm_rsrccd<>cm_samersrc \n");
+				strQuery.append("                      and cm_rsrccd=cm_samersrc) \n");
 				if (ReqCd.equals("09"))
-					strQuery.append("and substr(a.cm_info,15,1)='1'                         \n");
+					strQuery.append("and substr(a.cm_info,15,1)='1'               \n");
 				else {
-					if (!SinCd.equals("03") && !SinCd.equals("04")) {
-						strQuery.append("and substr(a.cm_info,2,1)='1'                      \n");
+					if (!SinCd.equals("08") && !SinCd.equals("03") && !SinCd.equals("04")) {
+						strQuery.append("and substr(a.cm_info,2,1)='1'            \n");
 					}
-					strQuery.append("and substr(a.cm_info,26,1)='0'                         \n");
+					strQuery.append("and substr(a.cm_info,26,1)='0'               \n");
 				}
 			}
-			//strQuery.append("   and a.cm_rsrccd=b.cr_rsrccd                             \n");
-
-			strQuery.append("   and d.cm_macode='JAWON' and d.cm_micode=a.cm_rsrccd     \n");
-			strQuery.append("   and e.cm_syscd=b.cm_syscd and b.cm_closedt is null      \n");
-			strQuery.append("   and e.cm_dirbase=b.cm_svrcd \n");
-			//strQuery.append(" group by a.cm_rsrccd,a.cm_info,d.cm_codename,b.cm_volpath,d.cm_seqno \n");
+			strQuery.append("   and e.cm_syscd=b.cm_syscd and b.cm_closedt is null \n");
+			strQuery.append("   and e.cm_dirbase=b.cm_svrcd                        \n");
+			strQuery.append("   and b.cm_syscd=d.cm_syscd and b.cm_svrcd=d.cm_svrcd\n");
+			strQuery.append("   and b.cm_seqno=d.cm_seqno                          \n");
+			strQuery.append("   and a.cm_rsrccd=d.cm_rsrccd                        \n");
+			strQuery.append(" group by a.cm_rsrccd,a.cm_info,b.cm_volpath,d.cm_seqno,a.cm_prcstep \n");
 			strQuery.append(" order by a.cm_prcstep                                       \n");//a.cm_rsrccd
 
 			//pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt = new LoggableStatement(conn,strQuery.toString());
-
-            pstmt.setString(++parmCnt, SysCd);
-            if (!SinCd.equals("06")) {
-            	pstmt.setString(++parmCnt, SysCd);
-            	if (SinCd.equals("03"))
-                	if (ReqCd.equals("05")) pstmt.setString(++parmCnt, SysCd);
-            }
-            
+            pstmt.setString(++parmCnt, SysCd);            
             ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
             //ecamsLogger.error("+++++++==query end+++++++++++");
@@ -1943,7 +1939,7 @@ public class SystemPath {
             	rsrcPathMap = new HashMap<String, String>();
             	rsrcPathMap.put("cm_rsrccd"		, rs.getString("cm_rsrccd"));
             	rsrcPathMap.put("cm_info"		, rs.getString("cm_info"));
-            	rsrcPathMap.put("cm_codename"	, rs.getString("cm_codename"));
+            	rsrcPathMap.put("cm_codename"	, rs.getString("text"));
             	rsrcPathMap.put("cm_volpath"	, rs.getString("cm_volpath"));
             	rsrcPathMap.put("cm_seqno"		, rs.getString("cm_seqno"));
             	rsrcPathMap.put("id"			, rs.getString("id"));
