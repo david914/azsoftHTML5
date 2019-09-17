@@ -337,7 +337,7 @@ public class Cmr0200{
 				}
 
 				if (strErrMsg == null &&
-			        QryCd.equals("07") &&			
+			        QryCd.equals("08") &&			
 					(strInfo[i].substring(38,39).equals("1") || //컴파일(개발)
 					strInfo[i].substring(6,7).equals("1") ||   //파일삭제(컴파일)
 					strInfo[i].substring(41,42).equals("1") || //빌드서버FileCopy
@@ -409,10 +409,10 @@ public class Cmr0200{
 					}
 				}
 				if (strErrMsg == null &&
-					QryCd.equals("07") &&
+					QryCd.equals("08") &&
 					(strInfo[i].substring(48,49).equals("1") ||   //운영서버FileCopy
 					strInfo[i].substring(50,51).equals("1") ||   //릴리즈스크립트실행
-					strInfo[i].substring(34,35).equals("1"))) {   //적용스크립트실행
+					strInfo[i].substring(58,59).equals("1"))) {   //적용스크립트실행
 
 					findSw  = false;
 					if (!ReqCd.equals("05")) {
@@ -428,7 +428,7 @@ public class Cmr0200{
 	    						rData2 = myMap;
 	        					confTeam = (String) rData2.get(0).get("SvUser");
 	        					rData2 = null;
-	        					if (confTeam.equals("SYSRC") && strInfo[i].substring(34,35).equals("1")) {
+	        					if (confTeam.equals("SYSRC") && strInfo[i].substring(58,59).equals("1")) {
 	        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
 	        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
 	        						} else findSw = true;
@@ -1507,8 +1507,8 @@ public class Cmr0200{
 		    strQuery.append("       a.cr_itemid,a.cr_rsrccd,a.cr_story,a.cr_jobcd,               \n");
 		    strQuery.append("       decode(a.cr_lstver,0,'',a.cr_ckoutacpt) cr_acptno,           \n");
 		    strQuery.append("       to_char(nvl(a.cr_lstdat,a.cr_lastdate),'yyyy/mm/dd hh24:mi') lastdate, \n");
-		    strQuery.append("       a.cr_status,i.cm_info,a.cr_lstusr,                           \n");
-		    strQuery.append("       nvl(a.cr_viewver,'0.0.0.0') cr_viewver,                      \n");
+		    strQuery.append("       a.cr_status,i.cm_info,a.cr_lstusr,b.cm_systype,              \n");
+		    strQuery.append("       nvl(a.cr_viewver,'0.0.0.0') cr_viewver, b.cm_sysgb,          \n");
 		    strQuery.append("       lpad(i.cm_stepsta,4,'0') prcreq,nvl(i.cm_vercnt,9999) vercnt,\n");
 		    strQuery.append("       (select cm_dirpath from cmm0070                              \n");
 		    strQuery.append("         where cm_syscd=a.cr_syscd                                  \n");
@@ -1556,7 +1556,7 @@ public class Cmr0200{
 				strQuery.append(") \n");
 			}
 			pstmt = conn.prepareStatement(strQuery.toString());
-			//pstmt = new LoggableStatement(conn,strQuery.toString());
+			pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmt.setString(++cnt, etcData.get("SysCd"));
 			if (srSw) pstmt.setString(++cnt, etcData.get("srid")); 
 			pstmt.setString(++cnt, etcData.get("UserId"));
@@ -1572,7 +1572,7 @@ public class Cmr0200{
             		pstmt.setString(++cnt, strRsrc[i]);
             	}
 			}
-			//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	        rs = pstmt.executeQuery();
 
 			while (rs.next()){
@@ -1601,6 +1601,7 @@ public class Cmr0200{
 				rst.put("cr_status", rs.getString("cr_status"));
 				rst.put("prcseq", rs.getString("prcreq"));
 				rst.put("sortgbn", "0");
+				rst.put("sysgb", rs.getString("cm_sysgb"));
 
 				if (rs.getInt("cr_lstver") >= rs.getInt("vercnt")) {
 					rst.put("cr_aftver", "1");
@@ -1609,13 +1610,15 @@ public class Cmr0200{
 				if (rs.getInt("cr_lstver")>0) rst.put("reqcd", "04");
 				else rst.put("reqcd", "03");
 				rst.put("cr_befviewver", rs.getString("cr_viewver"));
-				strViewVer = rs.getString("cr_viewver").split(".");
+				rst.put("cr_viewver", rs.getString("cr_viewver"));
+				strViewVer = rs.getString("cr_viewver").split("\\.");
 				strAftViewVer = strViewVer[0] + "." + strViewVer[1] + "." + strViewVer[2] + "." + Integer.toString(Integer.parseInt(strViewVer[3])+1);
 				rst.put("cr_aftviewver", strAftViewVer);
 				rst.put("checkin", rs.getString("checkin"));
 				rst.put("cm_dirpath", rs.getString("cm_dirpath"));
 				rst.put("selected_flag","0");
 				rst.put("pcdir", rs.getString("cm_dirpath"));
+				rst.put("cm_systype", rs.getString("cm_systype"));
 				rsval.add(rst);
 				rst = null;
 			}//end of while-loop statement
@@ -1674,6 +1677,8 @@ public class Cmr0200{
 		boolean           errSw     = false;
 		String            strRsrcCd = "";
 		String            strRsrc[] = null;
+		String            strViewVer[] = null;
+		String            strAftViewVer = "";
 		int               i = 0;
 		boolean           srSw = false;
 		try {
@@ -1735,36 +1740,43 @@ public class Cmr0200{
 			strQuery.setLength(0);
 			strQuery.append("select /*+ ALL ROWS */                                             \n");
 	    	strQuery.append("       a.cr_rsrcname,a.cr_lstver,a.cr_syscd,a.cr_dsncd,            \n");
-		    strQuery.append("       a.cr_itemid,a.cr_rsrccd,a.cr_story,a.cr_jobcd,              \n");
-	    	strQuery.append("       nvl(a.cr_realdep,0) cr_realdep,nvl(a.cr_testdep,0) cr_testdep,\n");
-	    	strQuery.append("       nvl(a.cr_realver,0) cr_realver,nvl(a.cr_testver,0) cr_testver,\n");
-	    	strQuery.append("       a.cr_devdep,a.cr_devver,a.cr_eclrsrc,a.cr_realsta,a.cr_teststa,\n");
-		    strQuery.append("       to_char(a.cr_lstdat,'yyyy/mm/dd hh24:mi') enddate,          \n");
-		    strQuery.append("       a.cr_status,c.cm_dirpath,i.cm_info,                         \n");
+		    strQuery.append("       a.cr_itemid,a.cr_rsrccd,a.cr_story,a.cr_jobcd,g.cm_systype, \n");
+	    	strQuery.append("       a.cr_eclrsrc,a.cr_realsta,a.cr_teststa,\n");
+	    	strQuery.append("       to_char(nvl(a.cr_lstdat,a.cr_lastdate),'yyyy/mm/dd hh24:mi') enddate, \n");
+		    strQuery.append("       a.cr_status,i.cm_info, a.cr_editor,                         \n");
+		    strQuery.append("       nvl(a.cr_viewver,'0.0.0.0') cr_viewver,                     \n");
 		    strQuery.append("       lpad(i.cm_stepsta,4,'0') prcreq,nvl(i.cm_vercnt,50) vercnt, \n");
-		    strQuery.append("       d.cm_codename,e.cm_codename jawon,a.cr_editor,f.cm_username,\n");
-		    strQuery.append("       b.cm_jobname,g.cm_sysgb,a.cr_devacpt cr_acptno              \n");
-			strQuery.append("  from cmm0040 f,cmm0102 b,cmm0020 e,cmr0020 a,cmm0070 c,cmm0020 d,\n");
-			strQuery.append("       cmm0036 i,cmm0030 g,cmm0044 h                               \n");
+		    strQuery.append("       g.cm_sysgb,a.cr_acptno,             \n");
+		    strQuery.append("       (select cm_dirpath from cmm0070                              \n");
+		    strQuery.append("         where cm_syscd=a.cr_syscd                                  \n");
+		    strQuery.append("           and cm_dsncd=a.cr_dsncd) cm_dirpath,                     \n");
+		    strQuery.append("       (select cm_codename from cmm0020                            \n");
+		    strQuery.append("         where cm_macode='CMR0020'                                 \n");
+		    strQuery.append("           and cm_micode=a.cr_status) cm_codename,                 \n");
+		    strQuery.append("       (select cm_codename from cmm0020                             \n");
+		    strQuery.append("         where cm_macode='JAWON'                                    \n");
+		    strQuery.append("           and cm_micode=a.cr_rsrccd) jawon,                        \n");
+		    strQuery.append("       (select cm_username from cmm0040                             \n");
+		    strQuery.append("         where cm_userid=nvl(a.cr_lstusr,a.cr_editor)) cm_username, \n");
+		    strQuery.append("       (select cm_jobname from cmm0102                              \n");
+		    strQuery.append("         where cm_jobcd=a.cr_jobcd) cm_jobname,                     \n");
+		    strQuery.append("       (select nvl(max(cr_version),0) from cmr0021                         \n");
+		    strQuery.append("         where cr_itemid=a.cr_itemid                      			 \n");
+		    strQuery.append("           and cr_qrycd = ?) version,                      \n");
+		    strQuery.append("       PGMSTACHK(?, 'BEF', g.cm_systype, a.cr_status, a.cr_lstver, a.cr_viewver) pgmsta \n");
+			strQuery.append("  from cmr0020 a,cmm0036 i,cmm0030 g								\n");
 			strQuery.append(" where a.cr_syscd=?                                                \n");
 			if ( srSw ) {//sr있을경우
 				strQuery.append("   and a.cr_isrid=?                                            \n");
 				strQuery.append("   and a.cr_lstusr=?                                           \n");
-				//20140725 neo. 테스트배포와 운영배포에 대한 상태값 조건 추가
-				//변경후 시작
-//				if ( etcData.get("SinCd").equals("04") && etcData.get("TstSw").equals("1") ){//운영배포이면서 테스트 있음
-//					strQuery.append("  and a.cr_status in ('G')                                 \n");
-//				} else if ( etcData.get("SinCd").equals("04") && etcData.get("TstSw").equals("1") ){//운영배포이면서 테스트 없음
-//					strQuery.append("  and a.cr_status in ('B')                                 \n");
-//				} else {//테스트배포이면  상태값은 체크인완료  또는  테스트배포완료  상태이여야 함. 
-//					strQuery.append("  and a.cr_status in ('B','G')                             \n");
-//				}
-				//변경후 끝
 			} else {//sr 없을 경우 
-				//20140725 neo.
-				//strQuery.append("  and a.cr_status='D'                                          \n");
+
 				strQuery.append("  and a.cr_lstver>0                                            \n");
 			}
+			strQuery.append("   and exists (select 1 from cmm0044                                \n");
+			strQuery.append("                where cm_userid=?                                   \n");
+			strQuery.append("                  and cm_syscd=a.cr_syscd                           \n");
+			strQuery.append("                  and cm_jobcd=a.cr_jobcd)                          \n");
 //			if ( etcData.get("SinCd").equals("04") && etcData.get("TstSw").equals("1") ){//운영배포이면서 테스트 있음
 //				strQuery.append("  and a.cr_status in ('G')                                 \n");
 //			} else if ( etcData.get("SinCd").equals("04") && etcData.get("TstSw").equals("1") ){//운영배포이면서 테스트 없음
@@ -1772,21 +1784,14 @@ public class Cmr0200{
 //			} else {//테스트배포이면  상태값은 체크인완료  또는  테스트배포완료  상태이여야 함. 
 //				strQuery.append("  and a.cr_status in ('B','G')                             \n");
 //			}
-			strQuery.append("  and a.cr_status in ('3','4','5','A','B','F','G') \n");
+			strQuery.append("  and a.cr_status in ('3','4','5','A','B','F','G','E') \n");
 			
 			strQuery.append("   and a.cr_syscd=g.cm_syscd                                       \n");
-			strQuery.append("   and h.cm_userid=?                                               \n");
-			strQuery.append("   and a.cr_syscd=h.cm_syscd and a.cr_jobcd=h.cm_jobcd             \n");
 			if ( !etcData.get("RsrcCd").equals("00") ) strQuery.append("and a.cr_rsrccd=?         \n");
 			if ( etcData.get("RsrcName") != null && !"".equals(etcData.get("RsrcName")) ) {
 				strQuery.append("and ( upper(a.cr_rsrcname) like upper(?) or upper(a.cr_story) like upper(?) )\n");
 			}
 			strQuery.append("   and a.cr_syscd=i.cm_syscd and a.cr_rsrccd=i.cm_rsrccd           \n");	
-			strQuery.append("   and a.cr_syscd=c.cm_syscd and a.cr_dsncd=c.cm_dsncd             \n");
-			strQuery.append("   and d.cm_macode='CMR0020' and a.cr_status=d.cm_micode           \n");
-			strQuery.append("   and e.cm_macode='JAWON' and a.cr_rsrccd=e.cm_micode             \n");
-			strQuery.append("   and nvl(a.cr_lstusr,a.cr_editor)=f.cm_userid                    \n");
-			strQuery.append("   and a.cr_jobcd=b.cm_jobcd                                       \n");
 	
 			if ( etcData.get("RsrcCd").equals("00") || etcData.get("RsrcCd").equals("0000") ) {
 				strQuery.append("and a.cr_rsrccd in (");
@@ -1800,6 +1805,8 @@ public class Cmr0200{
 	
 			//pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt = new LoggableStatement(conn,strQuery.toString());
+			pstmt.setString(++cnt, etcData.get("SinCd"));
+			pstmt.setString(++cnt, etcData.get("SinCd"));
 			pstmt.setString(++cnt, etcData.get("SysCd"));
 			if ( srSw ) {
 				pstmt.setString(++cnt, etcData.get("srid"));
@@ -1826,7 +1833,7 @@ public class Cmr0200{
 				if (rs.getString("cr_story") != null) rst.put("cr_story", rs.getString("cr_story"));
 				else  rst.put("cr_story", "");
 				rst.put("cr_lstver", Integer.toString(rs.getInt("cr_lstver")));
-				rst.put("cr_version", rs.getString("cr_lstver"));
+				rst.put("cr_version", rs.getString("version"));
 				rst.put("cr_editor", rs.getString("cr_editor"));
 				rst.put("codename", rs.getString("cm_codename"));
 				rst.put("cr_syscd", rs.getString("cr_syscd"));
@@ -1838,56 +1845,29 @@ public class Cmr0200{
 				rst.put("cr_eclrsrc", rs.getString("cr_eclrsrc"));
 				rst.put("basename", rs.getString("cr_rsrcname"));
 				
+				rst.put("cr_aftver", Integer.toString(rs.getInt("cr_lstver")));
+				rst.put("cr_befviewver", rs.getString("cr_viewver"));
+				rst.put("cr_viewver", rs.getString("cr_viewver"));
+				strViewVer = rs.getString("cr_viewver").split("\\.");
+				if (etcData.get("SinCd").equals("03")) {
+					strAftViewVer = strViewVer[0] + "." + Integer.toString(Integer.parseInt(strViewVer[1])+1) + "." + strViewVer[2] + "." + strViewVer[3];
+				} else if (etcData.get("SinCd").equals("04")) {
+					strAftViewVer = Integer.toString(Integer.parseInt(strViewVer[0])+1) + "." + strViewVer[1] + "." + strViewVer[2] + "." + strViewVer[3];
+				} else {
+					strAftViewVer = strViewVer[0] + "." + strViewVer[1] + "." + Integer.toString(Integer.parseInt(strViewVer[2])+1) + "." + strViewVer[3];
+				}
+				rst.put("cr_aftviewver", strAftViewVer);
+				rst.put("sysgb", rs.getString("cm_sysgb"));
+				
 				if (etcData.get("ReqCd").equals("05") || etcData.get("ReqCd").equals("09")) {
 					rst.put("reqcd", etcData.get("ReqCd"));
 				} else {
-					if (etcData.get("SinCd").equals("03")) {
-						if (rs.getInt("cr_testver") == 0) rst.put("reqcd", "03");
-						else rst.put("reqcd", "04");
-					} else if (etcData.get("SinCd").equals("04")) {
-						if (rs.getInt("cr_realver") == 0) rst.put("reqcd", "03");
-						else rst.put("reqcd", "04");
+					if (!rs.getString("version").equals("0")) {
+						rst.put("reqcd", "04");
 					} else {
-						if (rs.getInt("cr_lstver") == 0) rst.put("reqcd", "03");
-						else rst.put("reqcd", "04");
+						rst.put("reqcd", "03");
 					}
 				}
-				if (rs.getInt("vercnt") == 0) {
-					if (etcData.get("SinCd").equals("03")) {
-						rst.put("cr_befver", rs.getString("cr_testdep"));
-						if (rs.getInt("cr_testver") >= 9999) rst.put("cr_aftver", "1");
-						else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_testver")+1));
-					} else if (etcData.get("SinCd").equals("04")) {
-						rst.put("cr_befver", rs.getString("cr_realdep"));
-						if (rs.getInt("cr_realver") >= 9999) rst.put("cr_aftver", "1");
-						else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_realver")+1));
-					} else {
-						rst.put("cr_befver", rs.getString("cr_lstver"));
-						if (rs.getInt("cr_lstver") >= 9999) rst.put("cr_aftver", "1");
-						else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_lstver")+1));
-					}
-				} else {
-					if (etcData.get("SinCd").equals("03")) {
-						rst.put("cr_befver", rs.getString("cr_testdep"));
-						if (rs.getInt("cr_testver") >= rs.getInt("vercnt")) rst.put("cr_aftver", "1");
-						else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_testver")+1));
-					} else if (etcData.get("SinCd").equals("04")) {
-						rst.put("cr_befver", rs.getString("cr_realdep"));
-						if (rs.getInt("cr_realver") >= rs.getInt("vercnt")) rst.put("cr_aftver", "1");
-						else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_realver")+1));
-					} else {
-						rst.put("cr_befver", rs.getString("cr_lstver"));
-						if (rs.getInt("cr_lstver") >= rs.getInt("vercnt")) rst.put("cr_aftver", "1");
-						else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_devver")+1));
-					}
-				}
-	
-				if (rs.getInt("cr_testdep") >0) rst.put("cr_testver", rs.getString("cr_testdep"));
-				else rst.put("cr_testver", "0");
-				if(rs.getInt("cr_realdep") >0) rst.put("cr_realver", rs.getString("cr_realdep"));
-				else rst.put("cr_realver", "0");
-				if(rs.getInt("cr_lstver") >0) rst.put("cr_devver", rs.getString("cr_lstver"));
-				else rst.put("cr_devver", "0");
 				
 				rst.put("cm_username", rs.getString("cm_username"));
 				rst.put("jobname", rs.getString("cm_jobname"));
@@ -1900,22 +1880,15 @@ public class Cmr0200{
 				rst.put("cm_dirpath", rs.getString("cm_dirpath"));
 				rst.put("view_dirpath", rs.getString("cm_dirpath"));
 				rst.put("cr_acptno", rs.getString("cr_acptno"));
-				
+				rst.put("cm_systype", rs.getString("cm_systype"));
 				rst.put("selected_flag","0");
 				rst.put("selected","0");
 				rst.put("enabled","1");			
 				
 				
 				errSw = false;
-				ecamsLogger.error("cr_lstver:"+rs.getInt("cr_lstver")+",SinCd:"+etcData.get("SinCd")+",cr_status:"+rs.getString("cr_status"));
-				if ( rs.getInt("cr_lstver") == 0 ) errSw = true;
-				else if ( etcData.get("SinCd").equals("03") && !rs.getString("cr_status").equals("B") && !rs.getString("cr_status").equals("G") ) {
-					errSw = true;//20140718 neo. 테스트적용일때 상태값이 체크인완료[B] 이여야 함.
-				} else if ( etcData.get("SinCd").equals("04")) {
-					ecamsLogger.error("############ TstSw:"+etcData.get("TstSw")+",cr_status:"+rs.getString("cr_status") );
-					if ( etcData.get("TstSw").equals("1") && !rs.getString("cr_status").equals("G") ) errSw = true;
-					else if ( etcData.get("TstSw").equals("0") && !rs.getString("cr_status").equals("B") ) errSw = true;
-					//else errSw = true;//20140718 neo. 테스트적용 제외 하고 나머지 경우에 적용
+				if (!rs.getString("pgmsta").equals("OK")) {
+					errSw = true;
 				}
 				
 				//20140718 neo. 테스트적용 요청 일대는 자동 선택 안되도록 하기 위해.
@@ -2777,7 +2750,6 @@ public class Cmr0200{
 			String strDsnCd = "";
 			String strInfo = "";
 			rtList.clear();
-			
 			for (i=0;fileList.size()>i;i++) {
 				rst = new HashMap<String,String>();
 				rst.put("cm_dirpath", fileList.get(i).get("cm_dirpath"));
@@ -2846,10 +2818,10 @@ public class Cmr0200{
 					strQuery.append("   and b.cm_samersrc=a.cm_rsrccd                         \n");
 					strQuery.append("   and substr(a.cm_info,24,1)='1'                        \n");
 					pstmt = conn.prepareStatement(strQuery.toString());
-					//pstmt =  new LoggableStatement(conn, strQuery.toString());
+					pstmt =  new LoggableStatement(conn, strQuery.toString());
 					pstmt.setString(1, fileList.get(i).get("cr_syscd"));
 			        pstmt.setString(2, fileList.get(i).get("cr_rsrccd"));
-		            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+		            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 			        rs = pstmt.executeQuery();
 
 			        while (rs.next()) {
@@ -2892,8 +2864,8 @@ public class Cmr0200{
 			        	strSameDirPath = rs.getString("cm_samedir");
 			        	
 						strDirPath = fileList.get(i).get("cm_dirpath");
-						strDirPath = strDirPath.replaceAll("//", "/");						
-						rst.put("pcdir", strDirPath);
+						strDirPath = strDirPath.replaceAll("//", "/");		
+//						rst.put("pcdir", strDirPath);
 						
 			        	if (strHomeDirPath != null) {
 			        		if (!strHomeDirPath.equals("cm_samedir")){
@@ -3100,7 +3072,7 @@ public class Cmr0200{
 					    				rst.put("cr_aftver", Integer.toString(rs2.getInt("cr_lstver")+1));
 					    			}
 					    			rst.put("cr_befviewver", rs2.getString("cr_viewver"));
-									strViewVer = rs2.getString("cr_viewver").split(".");
+									strViewVer = rs2.getString("cr_viewver").split("\\.");
 									strAftViewVer = strViewVer[0] + "." + strViewVer[1] + "." + strViewVer[2] + "." + Integer.toString(Integer.parseInt(strViewVer[3])+1);
 									rst.put("cr_aftviewver", strAftViewVer);
 					    			rst.put("cr_baseno",fileList.get(i).get("cr_baseno"));
@@ -3220,7 +3192,7 @@ public class Cmr0200{
 		    				rst.put("cr_aftver", Integer.toString(rs.getInt("cr_lstver")+1));
 		    			}
 		    			rst.put("cr_befviewver", rs2.getString("cr_viewver"));
-						strViewVer = rs2.getString("cr_viewver").split(".");
+						strViewVer = rs2.getString("cr_viewver").split("\\.");
 						strAftViewVer = strViewVer[0] + "." + strViewVer[1] + "." + strViewVer[2] + "." + Integer.toString(Integer.parseInt(strViewVer[3])+1);
 						rst.put("cr_aftviewver", strAftViewVer);
 		    			rst.put("cr_baseno",fileList.get(i).get("cr_baseno"));
@@ -3674,6 +3646,8 @@ public class Cmr0200{
 		HashMap<String, String>			  rst		  = null;
 		int               reqCnt      = 0;
 		int               addCnt      = 0;
+		String            strViewVer[] = null;
+		String            strAftViewVer = "";
 		int               i = 0;
 		int               j = 0;
 //		int               svCnt = 0;
@@ -3682,7 +3656,6 @@ public class Cmr0200{
 
 		try {
 			conn = connectionContext.getConnection();
-
 			rtList.clear();
 			for (i=0;fileList.size()>i;i++) {
 				rst = new HashMap<String,String>();
@@ -3698,12 +3671,13 @@ public class Cmr0200{
 		        	strQuery.setLength(0);
 					strQuery.append("select a.cr_rsrccd,a.cr_rsrcname,a.cr_jobcd,a.cr_lstver,a.cr_itemid, \n");
 					strQuery.append("       a.cr_langcd,a.cr_dsncd,b.cm_dirpath,e.CM_CODENAME as jawon, \n");
-					strQuery.append("       d.CM_INFO,lpad(d.cm_prcstep,4,'0') prcseq,         \n");
-					strQuery.append("       nvl(d.cm_vercnt,50) vercnt,f.cm_jobname,           \n");
-					strQuery.append("       a.cr_devver,a.cr_devdep,a.cr_syscd,                \n");
-					strQuery.append("       nvl(a.cr_testver,0) cr_testver,nvl(a.cr_testdep,0) cr_testdep,\n");
-					strQuery.append("       nvl(a.cr_realver,0) cr_realver,nvl(a.cr_realdep,0) cr_realdep,\n");
-					strQuery.append("       a.cr_status,a.cr_editor,c.cr_qrycd,c.cr_version,c.cr_story \n");
+					strQuery.append("       d.CM_INFO,lpad(d.cm_prcstep,4,'0') prcseq,     				\n");
+					strQuery.append("       nvl(a.cr_viewver,'0.0.0.0') cr_viewver,     							\n");
+					strQuery.append("       nvl(d.cm_vercnt,50) vercnt,f.cm_jobname,a.cr_syscd,          \n");
+					strQuery.append("       a.cr_status,a.cr_editor,c.cr_qrycd,c.cr_version,c.cr_story, \n");
+					strQuery.append("       (select nvl(max(cr_version),0) from cmr0021                         \n");
+				    strQuery.append("         where cr_itemid=a.cr_itemid                      			 \n");
+				    strQuery.append("           and cr_qrycd = ?) version                      \n");
 				   	strQuery.append("  from cmm0070 b,cmr0020 a,cmm0036 d,cmm0020 e,cmm0102 f,cmr1010 c  \n");
 				   	strQuery.append(" where c.cr_acptno=? and c.cr_baseitem=?                  \n");
 				   	strQuery.append("   and c.cr_itemid<>c.cr_baseitem                         \n");
@@ -3715,6 +3689,7 @@ public class Cmr0200{
 					strQuery.append("   and a.cr_jobcd=f.cm_jobcd                              \n");
 					//pstmt = conn.prepareStatement(strQuery.toString());
 					pstmt = new LoggableStatement(conn, strQuery.toString());
+					pstmt.setString(++parmCnt, etcData.get("SinCd"));
 		            pstmt.setString(++parmCnt, fileList.get(i).get("cr_acptno"));
 		            pstmt.setString(++parmCnt, fileList.get(i).get("cr_itemid"));
 				    ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
@@ -3738,7 +3713,7 @@ public class Cmr0200{
 			    			if (rs.getString("cr_story") != null) rst.put("cr_story", rs.getString("cr_story"));
 			    			else  rst.put("cr_story", "");
 			    			rst.put("cr_lstver", Integer.toString(rs.getInt("cr_lstver")));
-			    			rst.put("cr_version", rs.getString("cr_version"));
+			    			rst.put("cr_version", rs.getString("version"));
 			    			rst.put("cr_editor", rs.getString("cr_editor"));
 			    			rst.put("cr_syscd", rs.getString("cr_syscd"));
 			    			rst.put("cr_dsncd", rs.getString("cr_dsncd"));
@@ -3747,74 +3722,26 @@ public class Cmr0200{
 			    			rst.put("cr_jobcd", rs.getString("cr_jobcd"));
 			    			rst.put("cr_rsrccd", rs.getString("cr_rsrccd"));
 			    			rst.put("basename", rs.getString("cr_rsrcname"));
+			    			rst.put("sysgb", fileList.get(i).get("sysgb"));
 			    			
-			    			if (etcData.get("ReqCD").equals("05")) {
-			    				rst.put("reqcd", etcData.get("ReqCd"));
-			    			} else {
-			    				if (rs.getString("cr_qrycd").equals("03") || rs.getString("cr_qrycd").equals("04")) {
-				    				if (etcData.get("SinCd").equals("03")) {
-				    					if (rs.getInt("cr_testver") == 0) rst.put("reqcd", "03");
-				    					else rst.put("reqcd", "04");
-				    				} else if (etcData.get("SinCd").equals("04")) {
-				    					if (rs.getInt("cr_realver") == 0) rst.put("reqcd", "03");
-				    					else rst.put("reqcd", "04");
-				    				} else {
-				    					if (rs.getInt("cr_lstver") == 0) rst.put("reqcd", "03");
-				    					else rst.put("reqcd", "04");
-				    				}
-			    				} else {
-			    					rst.put("reqcd", rs.getString("cr_qrycd"));
-			    				}
-			    			}
-			    			if (rs.getString("cr_qrycd").equals("03") || rs.getString("cr_qrycd").equals("04")) {
-				    			if (rs.getInt("vercnt") == 0) {
-				    				if (etcData.get("SinCd").equals("03")) {
-				    					rst.put("cr_befver", rs.getString("cr_testdep"));
-				    					if (rs.getInt("cr_testver") >= 9999) rst.put("cr_aftver", "1");
-				    					else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_testver")+1));
-				    				} else if (etcData.get("SinCd").equals("04")) {
-				    					rst.put("cr_befver", rs.getString("cr_realdep"));
-				    					if (rs.getInt("cr_realver") >= 9999) rst.put("cr_aftver", "1");
-				    					else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_realver")+1));
-				    				} else {
-				    					rst.put("cr_befver", rs.getString("cr_lstver"));
-				    					if (rs.getInt("cr_lstver") >= 9999) rst.put("cr_aftver", "1");
-				    					else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_lstver")+1));
-				    				}
-				    			} else {
-				    				if (etcData.get("SinCd").equals("03")) {
-				    					rst.put("cr_befver", rs.getString("cr_testdep"));
-				    					if (rs.getInt("cr_testver") >= rs.getInt("vercnt")) rst.put("cr_aftver", "1");
-				    					else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_testver")+1));
-				    				} else if (etcData.get("SinCd").equals("04")) {
-				    					rst.put("cr_befver", rs.getString("cr_realdep"));
-				    					if (rs.getInt("cr_realver") >= rs.getInt("vercnt")) rst.put("cr_aftver", "1");
-				    					else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_realver")+1));
-				    				} else {
-				    					rst.put("cr_befver", rs.getString("cr_lstver"));
-				    					if (rs.getInt("cr_lstver") >= rs.getInt("vercnt")) rst.put("cr_aftver", "1");
-				    					else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_devver")+1));
-				    				}
-				    			}
-			    			} else {
-			    				if (etcData.get("SinCd").equals("03")) {
-			    					rst.put("cr_befver", rs.getString("cr_testdep"));
-			    					rst.put("cr_aftver", rs.getString("cr_testver"));
-			    				} else if (etcData.get("SinCd").equals("04")) {
-			    					rst.put("cr_befver", rs.getString("cr_realdep"));
-			    					rst.put("cr_aftver",rs.getString("cr_realver"));
-			    				} else {
-			    					rst.put("cr_befver", rs.getString("cr_lstver"));
-			    					rst.put("cr_aftver", rs.getString("cr_lstver"));
-			    				}				    				
-			    			}
-			    			if (rs.getInt("cr_testdep") >0) rst.put("cr_testver", rs.getString("cr_testdep"));
-			    			else rst.put("cr_testver", "0");
-			    			if(rs.getInt("cr_realdep") >0) rst.put("cr_realver", rs.getString("cr_realdep"));
-			    			else rst.put("cr_realver", "0");
-			    			if(rs.getInt("cr_lstver") >0) rst.put("cr_devver", rs.getString("cr_lstver"));
-			    			else rst.put("cr_devver", "0");
-			    			
+			    			rst.put("cr_aftver", Integer.toString(rs.getInt("cr_lstver")));
+							rst.put("cr_befviewver", rs.getString("cr_viewver"));
+							rst.put("cr_viewver", rs.getString("cr_viewver"));
+							strViewVer = rs.getString("cr_viewver").split("\\.");
+							if (etcData.get("SinCd").equals("03")) {
+								strAftViewVer = strViewVer[0] + "." + Integer.toString(Integer.parseInt(strViewVer[1])+1) + "." + strViewVer[2] + "." + strViewVer[3];
+							} else if (etcData.get("SinCd").equals("04")) {
+								strAftViewVer = Integer.toString(Integer.parseInt(strViewVer[0])+1) + "." + strViewVer[1] + "." + strViewVer[2] + "." + strViewVer[3];
+							} else {
+								strAftViewVer = strViewVer[0] + "." + strViewVer[1] + "." + Integer.toString(Integer.parseInt(strViewVer[2])+1) + "." + strViewVer[3];
+							}
+							rst.put("cr_aftviewver", strAftViewVer);
+							if (!rs.getString("version").equals("0")) {
+								rst.put("reqcd", "04");
+							} else {
+								rst.put("reqcd", "03");
+							}
+							
 			    			rst.put("jobname", rs.getString("cm_jobname"));
 			    			rst.put("cm_info", rs.getString("cm_info"));
 			    			rst.put("cr_status", rs.getString("cr_status"));
@@ -3823,7 +3750,7 @@ public class Cmr0200{
 			    			rst.put("cm_dirpath", rs.getString("cm_dirpath"));
 			    			rst.put("view_dirpath", rs.getString("cm_dirpath"));
 			    			rst.put("cr_acptno", fileList.get(i).get("cr_acptno"));
-			    						
+			    			rst.put("cm_systype", fileList.get(i).get("cm_systype"));
 			    			
 							rst.put("enable1","0");
 							rst.put("selected","0");
@@ -3835,18 +3762,6 @@ public class Cmr0200{
 		            }
 		            pstmt.close();
 		            rs.close();
-		            /*
-		            if (!findSw) {
-		            	for (j=rtList.size()-1;j>=svCnt;j--) {
-							rtList.remove(j);
-						}
-						rst = new HashMap<String,String>();
-						rst.put("cr_itemid","ERROR");
-						rst.put("cm_dirpath","["+fileList.get(i).get("cr_rsrcname")+"]에 대한 동시적용모듈정보가 정확하지 않습니다.");
-						rst.put("cr_rsrcname",fileList.get(i).get("cr_rsrcname"));
-						rtList.add(svCnt, rst);
-						rst = null;
-		            }*/
 				}
 			}
 			rs = null;
@@ -4179,7 +4094,7 @@ public class Cmr0200{
             	strQuery.append(" 'Y','Y',?,?,?,?)  \n");
             	pstmtcount = 1;
             	pstmt = conn.prepareStatement(strQuery.toString());
-            	//pstmt = new LoggableStatement(conn,strQuery.toString());
+            	pstmt = new LoggableStatement(conn,strQuery.toString());
 
             	//ecamsLogger.error("++++++reqcd,rsrccd++++++"+chkInList.get(i).get("reqcd")+","
             	//		+chkInList.get(i).get("cr_rsrccd"));
@@ -4212,20 +4127,24 @@ public class Cmr0200{
         			chkInList.get(i).get("cr_acptno").substring(4,6).equals("01") &&
             		chkInList.get(i).get("cr_acptno").substring(4,6).equals("02")) {
         			pstmt.setString(pstmtcount++,chkInList.get(i).get("cr_acptno"));
-        		} 
+        		}  else {
+        			pstmt.setString(pstmtcount++,"");
+        		}
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("baseitem"));
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_itemid"));
             	if (chkInList.get(i).get("cr_acptno") != null && !"".equals(chkInList.get(i).get("cr_acptno")) &&
         			chkInList.get(i).get("cr_acptno").substring(4,6).equals("01") &&
             		chkInList.get(i).get("cr_acptno").substring(4,6).equals("02")) {
         			pstmt.setString(pstmtcount++,chkInList.get(i).get("cr_acptno"));
-        		} 
+        		} else {
+        			pstmt.setString(pstmtcount++,"");
+        		}
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("baseitem"));
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_story"));
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("cm_systype"));
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_befviewver"));
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_aftviewver"));
-            	//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+            	ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             	pstmt.executeUpdate();
             	pstmt.close();
         	}
@@ -4371,6 +4290,7 @@ public class Cmr0200{
 		AutoSeq			  autoseq	  = new AutoSeq();
 		UserInfo		  userInfo	  = new UserInfo();
 		String			  AcptNo	  = null;
+		String			  SysType	  = "";
 		int				  i=0;
 
 		try {
@@ -4387,7 +4307,7 @@ public class Cmr0200{
 	        	return "ERROR[이관통제을 위하여 일시적으로 형상관리 사용을 중지합니다.(체크인신청)]";
 			}
 			sysinfo = null;
-
+			
 	        for (i=0;i<chkInList.size();i++){
 	        	AcptNo = bldcdChk(chkInList.get(i).get("cr_syscd"),chkInList.get(i).get("cr_jobcd"),chkInList.get(i).get("cr_rsrccd"),chkInList.get(i).get("cm_info"),etcData.get("ReqCD"),chkInList.get(i).get("reqcd"),chkInList.get(i).get("cr_itemid"),ConfList,conn);
 				if (!"".equals(AcptNo) && AcptNo != null) AcptNo = "ERROR[" + chkInList.get(i).get("cr_rsrcname")+"]에 대하여 " + AcptNo;
@@ -4395,39 +4315,21 @@ public class Cmr0200{
 
 	        	if ( AcptNo == null && chkInList.get(i).get("cr_itemid").equals( chkInList.get(i).get("baseitem") ) ) {
 		        	strQuery.setLength(0);
-		        	if ( etcData.get("ReqCD").equals("03") ) {//테스트배포요청
-		        		strQuery.append("select a.cr_teststa status,b.cm_codename                   \n");
-			        	strQuery.append("  from cmr0020 a,cmm0020 b                                 \n");
-			        	strQuery.append(" where a.cr_itemid = ?                                     \n");
-			        	strQuery.append("   and b.cm_macode='CMR0020' and b.cm_micode=a.cr_teststa  \n");
-		        	} else if ( etcData.get("ReqCD").equals("07") ) {//체크인
-		        		strQuery.append("select a.cr_devsta status,b.cm_codename                    \n");
-			        	strQuery.append("  from cmr0020 a,cmm0020 b                                 \n");
-			        	strQuery.append(" where a.cr_itemid = ?                                     \n");
-			        	strQuery.append("   and b.cm_macode='CMR0020' and b.cm_micode=a.cr_devsta   \n");
-		        	} else {
-		        		strQuery.append("select a.cr_status status,b.cm_codename                   \n");
-			        	strQuery.append("  from cmr0020 a,cmm0020 b                                 \n");
-			        	strQuery.append(" where a.cr_itemid = ?                                     \n");
-			        	strQuery.append("   and b.cm_macode='CMR0020' and b.cm_micode=a.cr_status   \n");
-		        	}
+		        	strQuery.append("select b.cm_codename,c.cm_systype,  \n");
+	        		strQuery.append("       PGMSTACHK(?, 'BEF', c.cm_systype, a.cr_status, a.cr_lstver, a.cr_viewver) pgmsta \n");
+		        	strQuery.append("  from cmr0020 a,cmm0020 b, cmm0030 c                      \n");
+		        	strQuery.append(" where a.cr_itemid = ?                                     \n");
+		        	strQuery.append("   and b.cm_macode='CMR0020' and b.cm_micode=a.cr_status   \n");
+		        	strQuery.append("   and a.cr_syscd = c.cm_syscd   \n");
 		        	pstmt = conn.prepareStatement(strQuery.toString());
-		        	pstmt.setString(1, chkInList.get(i).get("cr_itemid"));
+		        	pstmt.setString(1, etcData.get("ReqCD"));
+		        	pstmt.setString(2, chkInList.get(i).get("cr_itemid"));
 		        	rs = pstmt.executeQuery();
 		        	if ( rs.next() ){
-		        		//20140721 neo. 
-		        		/* 변경전
-		        		 * if ( !rs.getString("status").equals("D") ) {
-		        	  	     AcptNo = "ERROR["+ chkInList.get(i).get("cr_rsrcname") + "]는 요청가능한 상태가 아닙니다.[11] [" + rs.getString("cm_codename") +"]";
-		        			}
-		        		 */
-		        		//변경후 시작
-		        		if ( !etcData.get("ReqCD").equals("03") && !rs.getString("status").equals("G") && !rs.getString("status").equals("B") ) {
-		        	  	     AcptNo = "ERROR["+ chkInList.get(i).get("cr_rsrcname") + "]는 요청가능한 상태가 아닙니다.[11] [" + rs.getString("cm_codename") +"]";
-		        		} else if ( etcData.get("ReqCD").equals("03") && rs.getString("status").equals("F") ) {
-		        			AcptNo = "ERROR["+ chkInList.get(i).get("cr_rsrcname") + "]는 요청가능한 상태가 아닙니다.[12] [" + rs.getString("cm_codename") +"]";
+		        		SysType = rs.getString("cm_systype");
+		        		if (rs.getString("pgmsta").equals("NO")) {
+		        			AcptNo = "ERROR["+ chkInList.get(i).get("cr_rsrcname") + "]는 요청가능한 상태가 아닙니다.[11] [" + rs.getString("cm_codename") +"]";
 		        		}
-		        		//변경후 끝
 		        	}
 		        	rs.close();
 		        	pstmt.close();
@@ -4543,14 +4445,14 @@ public class Cmr0200{
                 	seq = 0;
         		}
 
-
         		strQuery.setLength(0);
             	strQuery.append("insert into cmr1010 ");
             	strQuery.append("(CR_ACPTNO,CR_SERNO,CR_SYSCD,CR_SYSGB,CR_JOBCD,CR_STATUS,CR_QRYCD,  \n");
             	strQuery.append("CR_RSRCCD,CR_LANGCD,CR_DSNCD,CR_RSRCNAME,CR_RSRCNAM2,CR_SRCCHG,CR_SRCCMP, \n");
             	strQuery.append("CR_PRIORITY,CR_APLYDATE,CR_VERSION,CR_BEFVER,CR_CONFNO,CR_EDITOR,  \n");
-            	strQuery.append("CR_BASENO,CR_BASEITEM,CR_ITEMID,CR_COACPT,CR_BASEPGM,CR_REALBEFVER,CR_STORY) values \n");
-            	strQuery.append("(?,?,?,?,?,'0',?,  ?,?,?,?,?,'0','Y',  ?,?,?,?,?,?,  ?,?,?,?,?,?,?)  \n");
+            	strQuery.append("CR_BASENO,CR_BASEITEM,CR_ITEMID,CR_COACPT,CR_BASEPGM,CR_STORY,  \n");
+            	strQuery.append("CR_SYSTYPE,CR_BEFVIEWVER,CR_AFTVIEWVER) values \n");
+            	strQuery.append("(?,?,?,?,?,'0',?,  ?,?,?,?,?,'0','Y',  ?,?,?,?,?,?,  ?,?,?,?,?,?,?, ?,?)  \n");
 
             	pstmtcount = 1;
             	//pstmt = conn.prepareStatement(strQuery.toString());
@@ -4614,9 +4516,11 @@ public class Cmr0200{
             		pstmt.setString(pstmtcount++, AcptNo);
             	}
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("baseitem"));
-            	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_befver"));
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_story"));
-
+            	pstmt.setString(pstmtcount++, chkInList.get(i).get("cm_systype"));
+            	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_befviewver"));
+            	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_aftviewver"));
+            	
             	ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             	pstmt.executeUpdate();
             	pstmt.close();
@@ -4655,8 +4559,11 @@ public class Cmr0200{
                 pstmt.close();
         		
         		strQuery.setLength(0);
-            	strQuery.append("select cr_acptno,cr_serno,cr_qrycd,cr_itemid             \n");
+        		strQuery.append("select cr_acptno,cr_confno,cr_serno,cr_qrycd, \n");
+            	strQuery.append("       cr_itemid,cr_baseitem,cr_baseno,       \n");
+            	strQuery.append("       cr_systype                             \n");
             	strQuery.append("  from cmr1010 where cr_acptno=?                         \n");
+            	
             	pstmt = conn.prepareStatement(strQuery.toString());
             	//pstmt = new LoggableStatement(conn, strQuery.toString());
                 pstmt.setString(1, svAcpt[j]);
@@ -4702,24 +4609,20 @@ public class Cmr0200{
             		}
             		//ecamsLogger.error("$$$$$$$$$$$$$$$$$$  cr_qrycd:"+rs.getString("cr_qrycd"));
             		if ( !rs.getString("cr_qrycd").equals("09") ) {
-	                	pstmtcount = 1;
-	                	strQuery.setLength(0);
-	                	strQuery.append("update cmr0020 set cr_savesta=cr_status, \n");
-	                	if ( etcData.get("ReqCD").equals("03") ) {
-	                		//20140721 neo. 테스트적용요청 상태 값으로 수정
-	                		//변경전:strQuery.append("cr_teststa='A' \n");
-	                		strQuery.append("cr_teststa='F', \n");
-	                		strQuery.append("cr_status='F' \n");
-	                	} else {
-	                		strQuery.append("cr_status='7' \n");
-	                	}
-	                	strQuery.append("where cr_itemid= ? \n");
-	                	//pstmt2 = conn.prepareStatement(strQuery.toString());
-	                	pstmt2 = new LoggableStatement(conn,strQuery.toString());
-	                	pstmt2.setString(pstmtcount++, rs.getString("cr_itemid"));
-	                	ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
-	                	pstmt2.executeUpdate();
-	                	pstmt2.close();
+            			pstmtcount = 1;
+            			strQuery.setLength(0);
+            			strQuery.append("update cmr0020 a                 \n");
+                    	strQuery.append("   set a.cr_savesta=a.cr_status, \n");
+                    	strQuery.append("       a.cr_status=PGMSTACHK(?,'ING',?,a.cr_status,a.cr_lstver,a.cr_viewver)  \n");
+                    	strQuery.append(" where a.cr_itemid= ?            \n");
+                    	pstmt2 = conn.prepareStatement(strQuery.toString());
+                    	pstmt2 = new LoggableStatement(conn, strQuery.toString());
+                    	pstmt2.setString(pstmtcount++, etcData.get("ReqCD"));
+                    	pstmt2.setString(pstmtcount++, rs.getString("cr_systype"));
+                    	pstmt2.setString(pstmtcount++, rs.getString("cr_itemid"));
+                    	ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
+                    	pstmt2.executeUpdate();
+                    	pstmt2.close();
             		}
             	}
             	rs.close();
