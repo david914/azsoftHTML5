@@ -59,12 +59,12 @@ firstGrid.setConfig({
     },
     columns: [
         {key: "cc_srid", label: "SR-ID",  width: '10%'},
-        {key: "cc_reqtitle", label: "요청제목",  width: '20%'},
+        {key: "cc_reqtitle", label: "요청제목",  width: '20%', align: 'left'},
         {key: "createdate", label: "등록일",  width: '10%'},
         {key: "reqcompdat", label: "완료요청일",  width: '10%'},
-        {key: "reqdept", label: "요청부서",  width: '10%'},
+        {key: "reqdept", label: "요청부서",  width: '10%', align: 'left'},
         {key: "cattype", label: "분류유형",  width: '10%'},
-        {key: "chgtype", label: "변경종류",  width: '10%'},
+        {key: "chgtype", label: "변경종류",  width: '10%', align: 'left'},
         {key: "status", label: "진행현황",  width: '10%'},
         {key: "workrank", label: "작업순위",  width: '10%'}	 
     ]

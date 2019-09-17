@@ -8,7 +8,7 @@
 <script type="text/javascript" src="<c:url value="/js/ecams/register/SRRegister.js"/>"></script>
 
 <!-- contener S -->
-<div class="content">
+<div class="contentFrame">
 	<!-- history S-->
 	<div id="history_wrap"></div>
 	<!-- history E-->         

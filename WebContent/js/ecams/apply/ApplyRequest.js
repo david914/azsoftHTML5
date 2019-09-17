@@ -411,11 +411,14 @@ function porgRowEdit(){
 		$('#sayuInputBox').addClass('poa');
 		$('#sayuInputBox').css('width','calc(100% - 150px)');
 		$('[data-ax5grid="firstGrid"]').parent('div.az_board_basic').height('36%');
+		
 		$('[data-ax5grid="secondGrid"]').parent('div.az_board_basic').height('calc(38% + 40px)');
 		$('[data-ax5grid="secondGrid"]').height('100%');
-		var girdHeight = $('[data-ax5grid="secondGrid"]').parent('div.az_board_basic').height();
-		console.log(girdHeight);
-		secondGrid.setHeight(girdHeight);
+		
+		new ResizeSensor($('#grdLst2'), function() { // div 리사이징 감지 이벤트
+			var girdHeight = $('[data-ax5grid="secondGrid"]').parent('div.az_board_basic').height();
+			secondGrid.setHeight(girdHeight);
+		});
 	}
 	else{
 		$('#sayuInputBox').css('width','calc(100% - 60px)');
