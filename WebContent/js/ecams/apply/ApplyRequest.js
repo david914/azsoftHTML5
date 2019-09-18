@@ -114,15 +114,15 @@ firstGrid.setConfig({
         }
     },
     columns: [
-        {key: "pcdir", label: "프로그램경로",  width: '15%', align: 'left'},
+        {key: "view_dirpath", label: "프로그램경로",  width: '15%', align: 'left'},
         {key: "cr_rsrcname", label: "프로그램명",  width: '15%', align: 'left'},
-        {key: "cm_jobname", label: "업무명",  width: '10%', align: 'left'},
+        {key: "jobname", label: "업무명",  width: '10%', align: 'left'},
         {key: "jawon", label: "프로그램종류",  width: '10%',align: 'left'},
         {key: "cr_story", label: "프로그램설명",  width: '15%', align: 'left'},
         {key: "cm_codename", label: "상태",  width: '10%'},
         {key: "cr_viewver", label: "현재버전",  width: '8%'},
         {key: "cm_username", label: "수정자",  width: '7%'},
-        {key: "lastdate", label: "수정일",  width: '10%'}
+        {key: "cr_lastdate", label: "수정일",  width: '10%'}
     ]
 });
 
@@ -184,10 +184,10 @@ secondGrid.setConfig({
         }
     },
     columns: [
-        {key: "pcdir", label: "프로그램경로",  width: '18%', align: 'left'},
+        {key: "view_dirpath", label: "프로그램경로",  width: '18%', align: 'left'},
         {key: "cr_rsrcname", label: "프로그램명",  width: '15%', align: 'left'},
         {key: "checkin", label: "신청구분",  width: '10%'},
-        {key: "cm_jobname", label: "업무",  width: '10%', align: 'left'},
+        {key: "jobname", label: "업무명",  width: '10%', align: 'left'},
         {key: "jawon", label: "프로그램종류",  width: '10%', align: 'left'},
         {key: "cr_story", label: "프로그램설명",  width: '15%', align: 'left'},
         {key: "cr_aftviewver", label: "적용후버전",  width: '10%'},
@@ -198,7 +198,7 @@ secondGrid.setConfig({
 if(reqCd != '07'){ // 테스트배포, 운영배포 그리드 컬럼수정
     var columns = [
     	{key: "view_dirpath", label: "프로그램경로",  width: '15%', align: 'left'},
-    	{key: "basename", label: "프로그램명",  width: '15%', align: 'left'},
+    	{key: "cr_rsrcname", label: "프로그램명",  width: '15%', align: 'left'},
         {key: "jobname", label: "업무명",  width: '10%', align: 'left'},
         {key: "jawon", label: "프로그램종류",  width: '10%', align: 'left'},
         {key: "cr_story", label: "프로그램설명",  width: '15%', align: 'left'},
@@ -537,7 +537,7 @@ function successGetSysCbo(data) {
 		var selectVal = $('select[name=cboSys] option:eq(0)').val();
 		$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
 	}
-	getRsrcInfo(SelSysCd);
+	
 	changeSrId();
 	
 	if(reqCd == '04'){
@@ -1283,22 +1283,26 @@ function sysDataFilter(){
 			options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
 		}
 		else if(data.cm_sysinfo.substr(9,1) == '1'){
+			if(getSelectedIndex('cboSrId') > 0){
 				continue;
+			} else {
+				options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
+			}
 		}
 		else{
-			if(getSelectedIndex('cboSrId') > 0){
-				
+			if(getSelectedIndex('cboSrId') > 0){				
 				var syscd = getSelectedVal('cboSrId').syscd;
 				var arySyscd = syscd.split(",");
 				for(var j=0; j<arySyscd.length; j++){
 					if(arySyscd[j] == data.cm_syscd){
 						options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
+						break;
 					}
 				}
 				continue;
 			}
 			else{
-				options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
+				continue;
 			}
 		}
 		
@@ -1549,6 +1553,7 @@ function cmdReqSub(){
 	
 	if (ajaxReturnData == "X") {
 		dialog.alert("로컬PC에서 파일을 전송하는 결재단계가 지정되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
+		ingSw = false;
 	} else	if (ajaxReturnData == "C") {
 	    confirmDialog.setConfig({
 	        title: "확인",
@@ -1568,6 +1573,7 @@ function cmdReqSub(){
 		confCall("Y");
     } else if (ajaxReturnData != "N") {
     	dialog.alert("결재정보가 등록되지 않았습니다. 형상관리시스템담당자에게 연락하여 주시기 바랍니다.");
+		ingSw = false;
     } else {
 		confCall("N");
     }
@@ -1773,6 +1779,8 @@ function requestEnd(){
 		msg: $('#btnRequest').val()+' 신청완료! 상세 정보를 확인하시겠습니까?',
 	}, function(){
 		upFiles = [];
+
+		ingSw = false;
 		if(this.key === 'ok') {
 			cmdDetail();
 		}
@@ -2087,6 +2095,7 @@ function RequestScript(){
 	if(reqCd == '07'){
 		editRowBlank();
 	}
+	findSw = false;
 	//컴파일 팝업
 	if ( findSw ) {//컴파일 또는 릴리즈스크립트 실행이 존재하는 프로그램이 있으면 스크립트를 작성 할수 있도록 연결
 		scriptModal.open({

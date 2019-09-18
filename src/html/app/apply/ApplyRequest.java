@@ -172,14 +172,7 @@ public class ApplyRequest extends HttpServlet {
 		
 		HashMap<String, String> etcData = new HashMap<String, String>();
 		etcData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"downFileData"));
-
-		if ("07".equals(etcData.get("ReqCD"))) {//체크인
-			return gson.toJson(cmr0200.getDownFileList(fileList,etcData));
-			
-		} else { //ReqCD=08(개발적용) or ReqCD=03(테스트적용) or 04(운영적용) 
-			return gson.toJson(cmr0200.getDownFileList_Deploy(fileList,etcData));
-		}
-			
+		return gson.toJson(cmr0200.getDownFileList(fileList,etcData));
 	}
 	private String confSelect(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> confirmInfoData = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"confirmInfoData"));
