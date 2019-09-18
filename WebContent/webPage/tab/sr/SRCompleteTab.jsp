@@ -33,14 +33,14 @@
 				</div>
 			</div>
 			<div class="row por" style="display: none;" id="applyUserDate">
-				<div class="width-45 dib">
+				<div class="width-50 dib">
 					<label class="tit_100 poa">확인자</label>
 					<div class="ml_100">
 						<input id="txtApplyUser" class="width-100" type="text" readonly/>
 					</div>	
 				</div>
-				<div class="width-45 dib poa_r">
-					<label class="tit_100 poa">확인일시</label>
+				<div class="width-50 dib poa_r">
+					<label class="tit_100 poa" style="padding-left:25px;">확인일시</label>
 					<div class="ml_100">
 						<input id="txtApplyDate" class="width-100" type="text" readonly/>
 					</div>				

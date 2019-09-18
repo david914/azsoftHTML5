@@ -12,7 +12,7 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <!-- contener S -->
-<div id="wrapper">
+<div id="wrapper" style="overflow:auto">
     <div class="content">
         <!-- line1 S-->   
         <div id="history_wrap">	요청상세 <strong>&gt; 소스비교</strong></div> 
@@ -79,35 +79,37 @@
 					</div>
 				</div>
 				<div class="margin-5-top cb width-100">
-					<div class="l_wrap">
+					<div>
 						<input id="optWord"  type="radio" name="optradio"  value="W" onchange="optradio_change();" checked/>
 						<label for="optWord">단어검색</label>
 						<input id="optLine" type="radio"  name="optradio"  value="L" onchange="optradio_change();"/>
 						<label for="optLine">라인검색</label>
-						<input id="txtSearch" name="txtSearch" type="text" style="width:200px;" onchange="txtSearch_change();" placeholder="검색할 단어를 입력하세요.">
+						<input id="txtSearch" name="txtSearch" type="text" style="width:calc(100% - 302px);" onchange="txtSearch_change();" placeholder="검색할 단어를 입력하세요.">
 						<button id="btnSearch" name="btnSearch"  class="btn_basic_s margin-5-left" >찾기</button>
 						<button id="btnExcel" class="btn_basic_s margin-5-left">엑셀저장</button>
 					</div>
 				</div>	
 			</div>	
 		</div>	
-		<div class="l_wrap width-100 margin-10-top" style="height: 55%;">
+		<div class="width-100 margin-10-top" style="height: 55%;" id="girdDiv">
 		    <div class="az_board_basic" style="height:100%";>
 		    	<div data-ax5grid="grdDiffSrc" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 			</div>
-			<div class="row">
+		</div>	
+		<div class="row" style="font-size:0px;">
+			<div class="dib width-50">
 	        	<label class="tit_60 poa">변경(전)</label>
 	            <div class="ml_60">
 					<input id="txtBefSrc" class="width-100" type="text" readonly />
 				</div>
 			</div>
-			<div class="margin-5-top">
-	        	<label class="tit_60 poa">변경(후)</label>
+			<div class="dib width-50">
+	        	<label class="tit_60 poa" style="padding-left:7px;">변경(후)</label>
 	            <div class="ml_60">
 					<input id="txtAftSrc" class="width-100" type="text" readonly />
 				</div>
 			</div>	
-		</div>	
+		</div>
 		<!-- line4 e-->
 		
 	</div>

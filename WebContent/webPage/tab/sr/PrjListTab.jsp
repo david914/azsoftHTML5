@@ -5,27 +5,27 @@
 <!-- 검색 S-->
 <div class="az_search_wrap">
 	<div class="az_in_wrap sr_status">
-		<div class="l_wrap width-48 dib vat">
+		<div class="l_wrap dib vat" style="width:52%">
 			<!-- 요청부서 -->
-			<div class="width-30 dib">
+			<div class="dib" style="width:33%">
 				<label id="lbReqDepart">요청부서</label>
 				<div id="cboReqDepart" data-ax5select="cboReqDepart"
 					data-ax5select-config="{size:'sm',theme:'primary'}"
-					class="width-15 dib" style="width: 50%;"></div>
+					class="width-15 dib" style="width: calc(100% - 75px);"></div>
 			</div>
 			<!-- 분류유형 -->
-			<div class="width-30 dib">
+			<div class="dib" style="width:33%">
 				<label id="lbCatType">분류유형</label>
 				<div id="cboCatType" data-ax5select="cboCatType"
 					data-ax5select-config="{size:'sm',theme:'primary'}"
-					class="width-15 dib" style="width: 50%;"></div>
+					class="width-15 dib" style="width: calc(100% - 75px);"></div>
 			</div>
 			<!-- 대상구분 -->
-			<div class="width-30 dib">
+			<div class="dib"  style="width:33%">
 				<label id="lbQryGbn">대상구분</label>
 				<div id="cboQryGbn" data-ax5select="cboQryGbn"
 					data-ax5select-config="{size:'sm',theme:'primary'}"
-					class="width-15 dib" style="width: 50%;"></div>
+					class="width-15 dib" style="width: calc(100% - 54px);"></div>
 			</div>
 		</div>
 		<div class="r_wrap width-48 dib vat">

@@ -187,7 +187,11 @@ $(document).ready(function(){
 	getTmpDir('99,F1');
 	
 	getProgHistory(pItemId);
-	
+
+	new ResizeSensor($('#girdDiv'), function() { // div 리사이징 감지 이벤트
+		var girdHeight = $('#girdDiv').height();
+		grdDiffSrc.setHeight(girdHeight);
+	});
 });
 //환성화 비활성화 초기화로직
 function screenInit(gbn){
@@ -310,6 +314,11 @@ function successDiffList(data) {
 	var addCnt = 0;
 	var aftCnt = 0;
 	
+	if(data.indexOf("ERROR") != -1){
+		dialog.alert(data);
+		return;
+	}
+	
 	grdDiffSrcData = data;
 	diffSrcData = data;
 	
@@ -329,7 +338,6 @@ function successDiffList(data) {
 			}
 		}
 	}	
-	
 	diffSrcData = diffSrcData.filter(function(data) {
 		if(data.file1diff != null && data.file1diff != '') return true;
 		if(data.file2diff != null && data.file2diff != '') return true;

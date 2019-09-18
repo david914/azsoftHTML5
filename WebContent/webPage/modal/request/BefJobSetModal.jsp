@@ -51,7 +51,7 @@
 		</div>
 		<!--프로그램 신청목록-->
 		<div class="r_wrap width-50">
-			<div class="margin-5-right">
+			<div>
 				<div class="width-100 dib vat">
                     <label id="lbUser" class="title">[선택한 선행작업]</label>
 				</div>				
@@ -63,7 +63,7 @@
 			</div>
 		</div>	
 	</div>
-	<div class="row tac">
+	<div class="row tac float-right">
 		<button id="btnReq" class="btn_basic">선택</button>
 		<!-- <button id="btnClose" class="btn_basic margin-5-left">닫기</button> -->
 	</div>

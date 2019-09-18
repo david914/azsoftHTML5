@@ -36,10 +36,12 @@
 				</dd>
 			</dl>
 		</div>
-		<label class="poa" style="left: 10px; bottom: 15px;" id="limitByte">용량제한 : 500MB</label>
-		<button class="btn_basic" id="btnFileUpload">추가</button>
-		<button class="btn_basic margin-5-left"  id="btnFileDelete">삭제</button>
-		<button class="btn_basic margin-5-left"  id="btnReq">선택완료</button>
+		<label class="poa" style="left: 10px; bottom: -25px;" id="limitByte">용량제한 : 500MB</label>
+		<div class="float-right">
+			<button class="btn_basic" id="btnFileUpload">추가</button>
+			<button class="btn_basic margin-5-left"  id="btnFileDelete">삭제</button>
+			<button class="btn_basic margin-5-left"  id="btnReq">선택완료</button>
+		</div>
 		<!-- <button class="btn_basic margin-5-left"  id="btnClose">닫기</button> -->
 	</div>
 </div>
