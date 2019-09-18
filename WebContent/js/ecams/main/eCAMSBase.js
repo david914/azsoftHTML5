@@ -49,7 +49,7 @@ $(document).ready(function() {
 	})
 	
 	setTimeout(function() {
-		folding = $(window).width() < 1200 ? false : true;
+		folding = $(window).width() < 1270 ? false : true;
 		$(window).trigger('resize');
 	}, 300);
 	
@@ -403,20 +403,21 @@ function logOut() {
 	window.location.replace('/webPage/login/ecamsLogin.jsp');
 }
 
+//겹치는 메뉴 접기 코드
 function menuFolding() {
 	var winWidth = $(window).width();
 	
-	if(winWidth < 1200 && !folding) {
+	if(winWidth < 1270 && !folding) {
 		$("#msrDiv").animate({"margin-left": 300}, 500, function() {
 			$("#subbox").append($("#msrDiv").children());
 		});
 		$("#msrIcon").fadeIn(700);
 		$("#msrBd").animate({"width":"0px"}, 500);
 		folding = true;
-	} else if(winWidth >= 1200 && folding){
+	} else if(winWidth >= 1270 && folding){
 		$("#msrDiv").append($("#subbox").children());
 		$("#msrIcon").fadeOut();
-		$("#msrBd").animate({"width":"191px"}, 500);
+		$("#msrBd").css({"min-width":"200px"});
 		$("#msrDiv").animate({"margin-left": 0}, 500);	
 		folding = false;
 	}

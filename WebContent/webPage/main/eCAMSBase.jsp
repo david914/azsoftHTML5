@@ -18,7 +18,7 @@
         height: 50px;
 	    top: 0px;
 	    padding-top: 18px;
-	    background: white;
+	    background: inherit;
 	    z-index: 999999;
 	    border-bottom: 1px solid #ddd;
     }
@@ -47,8 +47,8 @@
 			<ul id="ulMenu"></ul>
 		</div>
 		<div class="log" id="status">
-			<div class="dib" id="msrBd"style="width: 210px; height: 30px;position: relative; overflow: hidden;">
-				<div class="dib por" id="msrDiv" style="min-width: 210px;">
+			<div class="dib" id="msrBd"style="width: 199px; height: 30px;position: relative; overflow: hidden;">
+				<div class="dib por" id="msrDiv" style="min-width: 200px;">
 					<a class="cntInfo" id="approvalCnt" style="font-weight: bold; color: blue;">미결[0]</a><span>l</span>
 					<a class="cntInfo" id="srCnt" style="font-weight: bold; color: green;">SR[0]</a><span>l</span>
 					<a class="cntInfo" id="errCnt" style="font-weight: bold; color: red;">오류[0]</a>
