@@ -153,7 +153,7 @@ function successSRID(data) {
 					if (progInfoData[0].cr_isrid != null && progInfoData[0].cr_isrid != '') {
 						$('[data-ax5select="cboSR"]').ax5select('setValue',progInfoData[0].cr_isrid,true);
 					} else {
-						var selectVal = $('select[name=cboSR] option:eq(1)').val();
+						var selectVal = $('select[name=cboSR] option:eq(0)').val();
 						$('[data-ax5select="cboSR"]').ax5select('setValue',selectVal,true);
 					}
 				}
@@ -244,7 +244,7 @@ function successProgInfo(data) {
 					if (progInfoData[0].cr_isrid != null && progInfoData[0].cr_isrid != '') {
 						$('[data-ax5select="cboSR"]').ax5select('setValue',progInfoData[0].cr_isrid,true);
 					} else {
-						var selectVal = $('select[name=cboSR] option:eq(1)').val();
+						var selectVal = $('select[name=cboSR] option:eq(0)').val();
 						$('[data-ax5select="cboSR"]').ax5select('setValue',selectVal,true);
 					}
 				}

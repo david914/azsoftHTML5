@@ -196,7 +196,7 @@ function grdProgHistory_Click() {
 		dialog.alert("바이너리파일입니다.");
 	} else { 
 		tmpInfo = new Object();
-		tmpInfo.userId = pUserId;
+		tmpInfo.userid = pUserId;
 		tmpInfo.cr_itemid  = selectedGridItem.cr_itemid;
 		tmpInfo.gbncd  = selectedGridItem.gbncd;
 		tmpInfo.cr_acptno  = selectedGridItem.cr_version;

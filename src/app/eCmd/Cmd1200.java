@@ -315,10 +315,6 @@ public class Cmd1200{
 	        strQuery.append("  from cmm0020 c,cmm0020 b,cmm0060 a        \n");
 	        strQuery.append(" where a.cm_syscd=? and a.cm_manid='1'      \n");
 	        strQuery.append("   and a.cm_gubun='1'                       \n");
-	        if (TstSw.equals("1"))
-	        	strQuery.append("and a.cm_reqcd in ('01','02','03','04','06','07','11','12') \n");
-	        else
-	        	strQuery.append("and a.cm_reqcd in ('01','02','04','06','07','11') \n");
 	        strQuery.append("   and b.cm_macode='REQUEST'                \n");
 	        strQuery.append("   and b.cm_micode=a.cm_reqcd               \n");
 	        strQuery.append("   and c.cm_macode='SYSGBN'                 \n");
@@ -335,30 +331,6 @@ public class Cmd1200{
 	        	if (svReq.length() == 0) findSw = true;
 	        	else if (!svReq.equals(rs.getString("cm_reqcd"))) {
 	        		findSw = true;
-
-	        		if (svReq.equals("04") || svReq.equals("03")) {
-	        			if (svReq.equals("04")) {
-		        			rst = new HashMap<String, String>();
-		    		        rst.put("ID", "PRCSYS");
-		    		        rst.put("cm_reqcd", svReq);
-		    		        rst.put("cm_jobcd", "SYSCN");
-		    				rst.put("prcsys", "秒家贸府");
-		    				rsval.add(rst);
-	        			}
-	    				rst = new HashMap<String, String>();
-	    		        rst.put("ID", "PRCSYS");
-	    		        rst.put("cm_reqcd", svReq);
-	    		        rst.put("cm_jobcd", "SYSCED");
-	    				rst.put("prcsys", "盔汗贸府");
-	    				rsval.add(rst);
-	        		} else if (svReq.equals("06")) {
-	        			rst = new HashMap<String, String>();
-	    		        rst.put("ID", "PRCSYS");
-	    		        rst.put("cm_reqcd", svReq);
-	    		        rst.put("cm_jobcd", "SYSCN");
-	    				rst.put("prcsys", "秒家贸府");
-	    				rsval.add(rst);
-	        		}
 	        	}
 
 	        	rst = new HashMap<String, String>();
@@ -378,25 +350,6 @@ public class Cmd1200{
 	        rs.close();
 	        pstmt.close();
 
-	        if (rsval.size()>0) {
-	        	if (svReq.equals("04") || svReq.equals("03")) {
-	        		if (svReq.equals("04")) {
-				        rst = new HashMap<String, String>();
-				        rst.put("ID", "PRCSYS");
-				        rst.put("cm_reqcd", svReq);
-				        rst.put("cm_jobcd", "SYSCN");
-						rst.put("prcsys", "秒家贸府");
-						rsval.add(rst);
-	        		}
-	        	} else if (svReq.equals("06")) {
-					rst = new HashMap<String, String>();
-			        rst.put("ID", "PRCSYS");
-			        rst.put("cm_reqcd", svReq);
-			        rst.put("cm_jobcd", "SYSCN");
-					rst.put("prcsys", "秒家贸府");
-					rsval.add(rst);
-	        	}
-	        }
 			rtObj = rsval.toArray();
 			rsval = null;
 
@@ -473,7 +426,7 @@ public class Cmd1200{
 	        if (QryCd.equals("01") || QryCd.equals("02")) {
 	        	strQuery.append("and (substr(a.cm_info,6,1)='1'   \n");
 	        	strQuery.append("  or substr(a.cm_info,14,1)='1') \n");
-	        } else if (QryCd.equals("07"))  {
+	        } else if (QryCd.equals("08"))  {
 	        	strQuery.append("and (substr(a.cm_info,18,1)='1' \n"); //企扁矫颇老昏力
 	        	if (sysConf.indexOf("SYSUP")>=0 && !QryCd.equals("06")) {
 	        		strQuery.append("or substr(a.cm_info,22,1)='1' \n"); //屈惑包府历厘胶农赋飘

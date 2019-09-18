@@ -673,10 +673,33 @@ function getQryCd() {
 
 // 유형구분/실행구분 가져오기 완료
 function successGetQryCd(data) {
+	var findSw = false;
+	
 	qryAnPrcData = data;
 	cboQryData = [];
 	qryAnPrcData.forEach(function(item, index) {
 		if(item.ID === 'QRYCD') {
+			findSw = false;
+			if (item.cm_reqcd == '07' || item.cm_reqcd == '05') findSw = true; //체크인,개발폐기
+			else if (item.cm_reqcd == '08' || item.cm_reqcd == '05' || item.cm_reqcd == '13') {
+				//개발적용,개발폐기,개발복원
+				if (getSelectedVal('cboSysCd').cm_systype == 'B' || getSelectedVal('cboSysCd').cm_systype == 'C' ||
+					getSelectedVal('cboSysCd').cm_systype == 'D' || getSelectedVal('cboSysCd').cm_systype == 'E') {
+					findSw = true;
+				}
+			} else if (item.cm_reqcd == '03' || item.cm_reqcd == '09' || item.cm_reqcd == '12') {
+				//테스트적용,테스트폐기,테스트복원
+				if (getSelectedVal('cboSysCd').cm_systype == 'C' || getSelectedVal('cboSysCd').cm_systype == 'D' ||
+					getSelectedVal('cboSysCd').cm_systype == 'F' || getSelectedVal('cboSysCd').cm_systype == 'G') {
+					findSw = true;
+				}
+			} else if (item.cm_reqcd == '04' || item.cm_reqcd == '10' || item.cm_reqcd == '06') {
+				//운영적용,운영폐기,운영복원
+				if (getSelectedVal('cboSysCd').cm_systype == 'D' || getSelectedVal('cboSysCd').cm_systype == 'E' ||
+					getSelectedVal('cboSysCd').cm_systype == 'G' || getSelectedVal('cboSysCd').cm_systype == 'H') {
+					findSw = true;
+				}
+			}
 			cboQryData.push(item);
 		}
 	});
@@ -685,7 +708,6 @@ function successGetQryCd(data) {
 	});
 	$('#cboQry').trigger('change');
 }
-
 // 스크립트 유형 가져오기
 function getBldCd() {
 	var data = new Object();
