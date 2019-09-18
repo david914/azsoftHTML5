@@ -213,7 +213,8 @@ public class Cmd0500{
 			strQuery.setLength(0);
 			strQuery.append("select a.cr_syscd,a.cr_dsncd,a.cr_rsrcname,a.cr_jobcd,   \n");
 			strQuery.append("       a.cr_itemid,a.cr_lstver,b.cm_dirpath,a.cr_status, \n");
-			strQuery.append("       a.cr_viewver,a.cr_rsrccd,g.cm_info,c.cm_sysmsg,   \n");
+			strQuery.append("       a.cr_rsrccd,g.cm_info,c.cm_sysmsg,                \n");
+			strQuery.append("       nvl(a.cr_viewver,'0.0.0.0') cr_viewver,           \n");
 			strQuery.append("       c.cm_sysinfo,a.cr_isrid,                          \n");
 			strQuery.append("       (select cm_jobname from cmm0102                   \n");
 			strQuery.append("          where cm_jobcd=a.cr_jobcd) cm_jobname,         \n");
@@ -797,7 +798,7 @@ public class Cmd0500{
 			strQuery.append("   set cr_editor=?             \n");
 			strQuery.append("      ,cr_lastdate=SYSDATE     \n");
 		    if (etcData.get("editor").length() > 0) {
-		    	strQuery.append("  ,cr_editor=?             \n");//Cbo_Editor
+		    	strQuery.append("  ,cr_lstusr=?             \n");//Cbo_Editor
 		    }
 		    if (etcData.get("srid").length() > 0) {
 		    	strQuery.append("  ,cr_isrid=?              \n");//cboSr

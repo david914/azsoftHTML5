@@ -28,6 +28,7 @@ var tmpInfoData = new Object();
 var tmpTab1            = null;
 var tmpTab2            = null;
 var gridSw             = false;
+var svSysCD            = '';
 
 grdProgList.setConfig({
     target: $('[data-ax5grid="grdProgList"]'),
@@ -238,14 +239,12 @@ function successSystem(data) {
 function cboSysCd_Change() {
 	
 	screenInit();
-	
 	selectedIndex = getSelectedIndex('cboSysCd');
 	selectedItem = getSelectedVal('cboSysCd');
 	
-	if(selectedIndex < 0) return;	
-	
+	if(selectedIndex < 0) return;
 	getJobInfo(selectedItem.cm_syscd);  //업무 리로딩
-	getRsrcInfo(selectedItem.cm_syscd); //프로그램유형 리로딩
+	getRsrcInfo(selectedItem.cm_syscd); //프로그램유형 리로딩	
 	
 }
 
@@ -376,7 +375,13 @@ function grdProgList_Click() {
 	selectedGridItem = grdProgList.list[grdProgList.selectedDataIndexs];
 	
 	screenInit_prog('S');
-		
+	
+	if (svSysCD != selectedGridItem.cr_syscd && selectedGridItem.cm_sysinfo.substr(10,1) == '0') {
+		svSysCD = selectedGridItem.cr_syscd;
+		tmpTab1 = $('#frmProgBase').get(0).contentWindow;
+		tmpTab1.strSysInfo = selectedGridItem.cm_sysinfo;
+		tmpTab1.getSRID();
+	}
 	tmpInfo = new Object();
 	tmpInfo.UserId = userId;
 	tmpInfo.L_ItemId  = selectedGridItem.cr_itemid;

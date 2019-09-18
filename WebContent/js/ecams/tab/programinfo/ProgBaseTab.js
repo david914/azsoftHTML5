@@ -12,6 +12,7 @@ var progInfoData       = null;
 var myWin 			   = null;
 var pUserId            = null;
 var strInfo 		   = '';    // 프로그램 info
+var strSysInfo         = '';
 var selSw = false;
 
 var tmpInfo = new Object();
@@ -120,7 +121,7 @@ function screenInit(gbn,userId) {
 function getSRID() {
 	tmpInfo = new Object();
 	tmpInfo.userid = pUserId;
-	tmpInfo.reqcd = '07';
+	tmpInfo.reqcd = '01';
 	tmpInfo.secuyn = 'Y';
 	tmpInfo.qrygbn = '01';		
 	
@@ -136,17 +137,29 @@ function successSRID(data) {
 	cboSRData = data;
 
 	options = [];
-	if(cboSRData.length > 0) {
-		cboSRData.push({value: '0', text: 'SR정보 선택 또는 해당없음'});
-
-		$.each(cboSRData,function(key,value) {
-			options.push({value: value.cm_micode, text: value.cm_codename});
-		});
-	}
+	options.push({value: 'SR정보 선택 또는 해당없음', text: 'SR정보 선택 또는 해당없음', srid: 'SR정보 선택 또는 해당없음', syscd: '00000', cc_chgtype: ''});
+	$.each(cboSRData,function(key,value) {
+		options.push({value: value.cc_srid, text: value.srid, cc_reqtitle:value.cc_reqtitle, syscd:value.syscd, cc_chgtype: value.cc_chgtype});
+	});
 	
 	$('[data-ax5select="cboSR"]').ax5select({
         options: options
 	});
+	if (progInfoData != null && progInfoData.length > 0) {
+		if (strSysInfo.substr(10,1) == '0') {	
+			if (progInfoData[0].WkSta == '3' && progInfoData[0].WkSecu == 'true') {	
+				if (cboSRData != null && cboSRData.length > 0) {	
+					console.log(progInfoData[0].cr_isrid);
+					if (progInfoData[0].cr_isrid != null && progInfoData[0].cr_isrid != '') {
+						$('[data-ax5select="cboSR"]').ax5select('setValue',progInfoData[0].cr_isrid,true);
+					} else {
+						var selectVal = $('select[name=cboSR] option:eq(1)').val();
+						$('[data-ax5select="cboSR"]').ax5select('setValue',selectVal,true);
+					}
+				}
+			} 
+		}
+	}
 }
 
 //선택한 시스템에 대한 업무조회 SysInfo.getJobInfo()
@@ -222,12 +235,19 @@ function successProgInfo(data) {
 		$('[data-ax5select="cboJob"]').ax5select('setValue',progInfoData[0].WkJobCd,true);
 		$('[data-ax5select="cboRsrcCd"]').ax5select('setValue',progInfoData[0].WkRsrcCd,true);
 		
-		if (progInfoData[0].cr_isrid != null && progInfoData[0].cr_isrid != '') {
-			$('#txtSR').val(progInfoData[0].cr_isrid); 
-			
+		if (strSysInfo.substr(10,1) == '0') {
+			if (progInfoData[0].cr_isrid != null && progInfoData[0].cr_isrid != '') {
+				$('#txtSR').val(progInfoData[0].cr_isrid); 
+			}	
 			if (progInfoData[0].WkSta == '3' && progInfoData[0].WkSecu == 'true') {
-				$('[data-ax5select="cboSR"]').ax5select('setValue',progInfoData[0].cr_isrid,true);
-				
+				if (cboSRData != null && cboSRData.length > 0) {				
+					if (progInfoData[0].cr_isrid != null && progInfoData[0].cr_isrid != '') {
+						$('[data-ax5select="cboSR"]').ax5select('setValue',progInfoData[0].cr_isrid,true);
+					} else {
+						var selectVal = $('select[name=cboSR] option:eq(1)').val();
+						$('[data-ax5select="cboSR"]').ax5select('setValue',selectVal,true);
+					}
+				}
 				$('#divSRCbo').css('display', 'block');
 				$('#divSRTxt').css('display', 'none');
 				$('#cboSR').prop('disabled', false);
