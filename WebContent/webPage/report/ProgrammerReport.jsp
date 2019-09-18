@@ -7,13 +7,13 @@
 .year-btn {
 	height: 12px; 
 	width: 15px; 
-	font-size: 1pt;
-	background: inherit;
+	font-size: 7pt;
+	background: white;
 }
 .month-btn {
 	height: 25px;
 	width: 25px; 
-	background: inherit;
+	background: white;
 	border: 1px;
 	border-radius: 50%;
 }
