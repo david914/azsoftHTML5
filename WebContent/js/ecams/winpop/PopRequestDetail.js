@@ -42,6 +42,8 @@ pReqCd = pReqNo.substr(4,2);
 pUserId = f.user.value;
 
 reqCd = pReqCd;
+
+/* 코드정보 받아서 하도록 수정
 //상위 TITLE TEXT SET
 var subTitle = "";
 if (reqCd == '01') subTitle = '체크아웃';
@@ -55,6 +57,7 @@ else if (reqCd == '11') subTitle = '체크아웃취소';
 else if (reqCd == '12') subTitle = '테스트적용취소';
 var contentHistory = "변경신청 <strong> &gt; "+ subTitle+"요청상세</strong>";
 $('#reqBody').contents().find('#history_wrap').html(contentHistory);
+*/
 
 confirmDialog.setConfig({
     lang:{
@@ -80,6 +83,8 @@ ax5.info.weekNames = [
 $('#txtAcptNo').val(pReqNo.substr(0,4)+'-'+pReqNo.substr(4,2)+'-'+pReqNo.substr(6));
 createViewGrid1();
 createViewGrid2();
+
+
 
 function createViewGrid1() {
 	reqGrid.setConfig({
@@ -160,6 +165,10 @@ function createViewGrid1() {
 	                		findSw = true;
 	                	}
 	                } else if (pReqCd == '07') {
+	                	if (param.item.cm_info.substr(21,1) == '1') {
+	                		findSw = true;
+	                	}
+	                } else if (pReqCd == '08') {
 	                	if (param.item.cm_info.substr(38,1) == '1' || param.item.cm_info.substr(50,1) == '1' || param.item.cm_info.substr(58,1) == '1' || param.item.cm_info.substr(21,1) == '1') {
 	                		findSw = true;
 	                	}
@@ -327,7 +336,7 @@ function createViewGrid1() {
 	        {key: "cr_story", label: "프로그램설명",  width: '10%'},
 	        {key: "cm_codename", label: "프로그램종류",  width: '10%'},
 	        {key: "cm_jobname", label: "업무명",  width: '10%'},
-	        {key: "cr_version", label: "신청버전",  width: '10%', align: 'center'},
+	        {key: "cr_aftviewver", label: "버전",  width: '10%', align: 'center'},
 	        {key: "cm_dirpath", label: "프로그램경로",  width: '20%'},
 	        {key: "checkin", label: "수정구분",  width: '10%', align: 'center'},
 	        {key: "priority", label: "우선순위",  width: '10%', editor: {type: "number"}, align: 'center'} 
@@ -421,6 +430,26 @@ $(document).keyup(function (e) {
 });
 
 $(document).ready(function(){
+	//상위 TITLE TEXT SET
+	var reqCodes = getCodeInfoCommon([
+				new CodeInfo('REQUEST','','N')
+		]);
+	var reqCodeDatas = reqCodes.REQUEST;
+	var i=0;
+	var contentHistory = '';
+	for (i=0; i<reqCodeDatas.length; i++) {
+		if (reqCodeDatas[i].cm_micode == reqCd) {
+			contentHistory = "변경신청 <strong> &gt; "+ reqCodeDatas[i].cm_codename+"상세</strong>";
+			break;
+		}
+	}
+	$('#reqBody').contents().find('#history_wrap').html(contentHistory);
+
+	startFunction();
+});
+	
+function startFunction() {
+	
 	$('input.checkbox-detail').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 	
 	if (pReqNo == null) {
@@ -428,7 +457,7 @@ $(document).ready(function(){
 		return;
 	}
 	
-	if (pReqCd == '01' || pReqCd == '02' || pReqCd == '11' || pReqCd == '12') {
+	if (pReqCd == '01' || pReqCd == '02' || pReqCd == '11') {
 		reqGrid.removeColumn(7);
 		reqGrid.removeColumn(6);
 	}
@@ -863,7 +892,8 @@ $(document).ready(function(){
 		//최초 화면로딩 시 조회(새로고침버튼 로직)
 		$('#btnQry').trigger('click');
 	}, 20);
-});
+};
+
 //환성화 비활성화 초기화로직
 function resetScreen(){
 	$("#reqgbnDiv").css("display","none");											//처리구분 (영역 X)
@@ -874,7 +904,8 @@ function resetScreen(){
 	document.getElementById('lblApprovalMsg').style.visibility = "hidden";			//결재,반려의견
 	document.getElementById('txtApprovalMsg').style.visibility = "hidden";			//결재,반려의견 입력 란
 	
-	if (pReqCd != '07' && pReqCd != '03' && pReqCd != '04' && pReqCd != '06') {
+	//if (pReqCd != '07' && pReqCd != '03' && pReqCd != '04' && pReqCd != '06') {
+	if (pReqCd == '01' || pReqCd == '02' || pReqCd == '11') {
 		document.getElementById('btnPriorityOrder').style.visibility = "hidden";	//우선순위적용
 		document.getElementById('btnSelCncl').style.visibility = "hidden";			//선택건회수
 		document.getElementById('btnSrcView').style.visibility = "hidden";			//소스보기
@@ -1136,7 +1167,7 @@ function nextConf(gyulGbn, conMsg) {
 		AcptNo			: pReqNo,
 		UserId			: tmpId,
 		conMsg			: conMsg,
-		Cd					: gyulGbn,
+		Cd				: gyulGbn,
 		ReqCd			: pReqCd,
 		requestType		: 'nextConf'
 	}
@@ -1272,7 +1303,8 @@ function successGetProgList(data) {
 		tmpObj = {};
 		tmpObj = reqGridData[i];
 		if (tmpObj.check == 'true') {
-			if (pReqCd == '07' || pReqCd == '03' || pReqCd == '04' || pReqCd == '06') {
+			//if (pReqCd == '07' || pReqCd == '03' || pReqCd == '04' || pReqCd == '06') {
+			if (pReqCd != '01' && pReqCd != '02' && pReqCd != '11') {
 				$('#btnSelCncl').prop("disabled", false);	//선택건회수 활성화
 				break;
 			}

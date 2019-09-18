@@ -448,7 +448,7 @@ public class Cmr0250{
 			strQuery.setLength(0);
 			strQuery.append("select a.cr_rsrcname,a.cr_serno,a.cr_putcode,a.cr_rsrccd,           \n");
 			strQuery.append("       a.cr_status,a.cr_confno,a.cr_itemid,a.cr_editcon, 	         \n");
-			strQuery.append("       a.cr_baseno,a.cr_baseitem,a.cr_dsncd,                        \n");
+			strQuery.append("       a.cr_baseno,a.cr_baseitem,a.cr_dsncd,a.cr_aftviewver,        \n");
 			strQuery.append("       (select cr_story from cmr0020 where cr_itemid =a.cr_itemid) cr_story, \n");
 // 2015.10.07 하나카드
 //			strQuery.append("       (select cr_lstver from cmr0020 where cr_itemid =a.cr_itemid) reqver , \n");
@@ -517,6 +517,8 @@ public class Cmr0250{
 				rst.put("cr_story",rs.getString("cr_story"));
 				rst.put("cr_befver",rs.getString("cr_befver"));
 				rst.put("cr_version", rs.getString("cr_version"));
+				//rst.put("cr_version",Integer.toString(rs.getInt("cr_version")));
+				rst.put("cr_aftviewver", rs.getString("cr_aftviewver"));
 				if (rs.getString("cr_status").equals("3")){
 					rst.put("checkin",rs.getString("checkin")+"[반송]");
 				}
@@ -567,7 +569,6 @@ public class Cmr0250{
 				rst.put("cr_confno", rs.getString("cr_confno"));
 				rst.put("cm_jobname",rs.getString("cm_jobname"));
 				rst.put("priority", rs.getString("cr_priority"));
-				rst.put("cr_version",Integer.toString(rs.getInt("cr_version")));
 				if (rs.getString("cr_aplydate") != null){
 					rst.put("cr_aplydate", rs.getString("cr_aplydate"));
 				}
