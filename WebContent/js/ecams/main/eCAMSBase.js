@@ -188,6 +188,15 @@ function frameLoad(){
 	} else {
 		// iframe 내에서 드래그 막음 ( 셀렉트박스 의미없는 값 드래그 되어서 막음)
 		$('#iFrm').contents().find(".contentFrame").attr('ondragstart','return false');
+		
+		// tab, iframe 으로 들어가는 body 에도 추가
+		if($('#iFrm').contents().find("iframe").length > 0){
+			var iframe = $('#iFrm').contents().find("iframe");
+			$(iframe).each(function(){
+				console.log($(this));
+				$(this).contents().find("body").attr('ondragstart','return false');
+			});
+		}
 	}
 	
 	$('#iFrm').contents().find("html").css('overflow', 'hidden');
