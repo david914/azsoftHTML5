@@ -2221,7 +2221,7 @@ public class svrOpen{
 				                			int X = 0;
 
 				                			//20151112 neo. 마지막 탭을 파일명으로 사용하도록 로직 수정
-				                			wkB = str.substring(str.lastIndexOf(" "));
+				                			wkB = str.substring(str.lastIndexOf(" ")+1);
 //				                			ecamsLogger.error("+++++++wkB++++++++[2]"+wkB);
 				                			fileSw = true;
 				                		}
