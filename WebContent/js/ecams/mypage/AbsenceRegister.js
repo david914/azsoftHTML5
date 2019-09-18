@@ -16,15 +16,29 @@ var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 
 var popupYN = window.parent.popupYN;	// 팝업 여부에 따라서 닫기 버튼 활성화
 
+var picker 		= new ax5.ui.picker();
+/*
 var datStD 		= new ax5.ui.picker();
 var datEdD 		= new ax5.ui.picker();
-
+*/
 var absGrid 	= new ax5.ui.grid();
 
 var absGridData = [];
 var cboSayuData = [];
 var cboUserData	= [];
 var cboDaeSignData = [];
+
+//이 부분 지우면 영어명칭으로 바뀜
+//ex) 월 -> MON
+ax5.info.weekNames = [
+{label: "일"},
+{label: "월"},
+{label: "화"},
+{label: "수"},
+{label: "목"},
+{label: "금"},
+{label: "토"}
+];
 
 absGrid.setConfig({
     target: $('[data-ax5grid="absGrid"]'),
@@ -146,8 +160,19 @@ $(document).ready(function() {
 	$('#datStD').val(getDate('DATE',0));
 	$('#datEdD').val(getDate('DATE',0));
 
-	datStD.bind(defaultPickerInfo('datStD','top'));
-	datEdD.bind(defaultPickerInfo('datEdD','top'));
+	picker.bind(defaultPickerInfo('basic', 'top'));
+	
+	var oldVal = "";
+	$('#datEdD').bind('propertychange change keyup paste input', function() {
+		var currentVal =  $("#datEdD").val();
+		if(currentVal != oldVal){
+			picker.close();
+		}
+		oldVal = currentVal;
+	});
+	
+	/*datStD.bind(defaultPickerInfo('datStD','top'));
+	datEdD.bind(defaultPickerInfo('datEdD','top'));*/
 })
 
 // 부재사유 가져오기

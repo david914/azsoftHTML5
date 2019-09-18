@@ -99,6 +99,10 @@ $(document).ready(function(){
 	$("#chkAll").change(function(){
 		worktimeFiltering();
     });
+	
+
+	//작업시간내역 그리드 height 조정
+	grdWorkTime.setHeight($('#btnRegPlan').offset().top - $('[data-ax5grid="grdWorkTime"]').offset().top + $('#btnRegPlan').outerHeight());
 });
 
 function createViewGrid() {

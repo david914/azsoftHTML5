@@ -253,8 +253,8 @@ function successGetNoticeInfo(data) {
 // 공지사항 등록 /수정 오픈
 function openPopNotice(){
 	popNoticeModal.open({
-        width: 600,
-        height: 400,
+        width: 620,
+        height: 373,
         iframe: {
             method: "get",
             url: "../modal/notice/NoticeModal.jsp",

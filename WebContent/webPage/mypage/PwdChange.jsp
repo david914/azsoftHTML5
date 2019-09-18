@@ -64,8 +64,8 @@
 			</div>
 		</div>
 	</div>
-	<div id="divPw" class="margin-15-top" style="text-align:center">
-		<button id="btnPw" name="btnPw" class="btn_basic_s">비밀번호변경</button>
+	<div id="divPw" style="text-align:right; width:580px; margin: 0 auto; margin-top:15px;">
+		<button id="btnPw" name="btnPw" class="btn_basic_s">등록</button>
 	</div>
 </div>
 

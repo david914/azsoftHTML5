@@ -1326,8 +1326,9 @@ textarea{/* border: 1px solid #ddd; */border-radius: 0px;box-shadow: none;font-s
 .btn_wrap_r{position: absolute; bottom: 7px; right: 10px;}
 .btn_wrap_r button{margin: 0 3px;}
 /*페이지버튼*/
-.btn_basic {background: #3579d4; border: 1px solid #3473c8; color:#fff; font-weight:bold; padding: 7px 15px;}
-.btn_basic:disabled{background: #c7cbd1; border: 1px solid #ccc; color:#d5e0ef; font-weight:normal; padding: 7px 15px;}
+.btn_basic {background: #fff;border: 1px solid #ccc;color:#616161;font-weight:bold; padding: 7px 15px;}
+.btn_basic:hover {border: 1px solid #2477c1; color: #2477c1; font-weight:bold; padding: 7px 15px;}
+.btn_basic:disabled{background: #ddd; border: 1px solid #ccc; color:#ccc; font-weight:normal; padding: 7px 15px;}
 /*컨텐츠안버튼*/
 /*
 old

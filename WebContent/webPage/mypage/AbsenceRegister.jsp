@@ -43,6 +43,7 @@
 		<div class="row">
 			<label class="tit_60 dib poa">부재기간</label>
 			<div class="ml_60">
+			<!-- 
 				<label id="lbFrom">FROM</label>
 				<div data-ax5picker="datStD" class="dib width-100">
 					<input id="datStD" type="text" class="f-cal" autocomplete="off">
@@ -54,6 +55,17 @@
 					<input id="datEdD" type="text" class="f-cal" autocomplete="off">
 					<span class="btn_calendar" style="margin-left: -5px;"><i class="fa fa-calendar-o"></i></span>
 				</div>
+				 -->
+				 
+				 
+				<div id="divPicker" data-ax5picker="basic" class="az_input_group dib">
+					<input id="datStD" name="datStD" type="text" placeholder="yyyy/mm/dd" style="width: 189px;"> 
+					<button id="btnStD" class="btn_calendar"><i class="fa fa-calendar-o"></i></button> 
+					<span class="sim">∼</span> 
+					<input id="datEdD" name="datEdD" type="text" placeholder="yyyy/mm/dd" style="width: 189px;">
+					<button id="btnEdD" class="btn_calendar"><i class="fa fa-calendar-o"></i></button>
+				</div>
+				 
 			</div>
 		</div>
 		<div class="ab_register sm-row">
@@ -63,7 +75,7 @@
 		</div>
 	</div>
 	    
-	<div id="divPw" class="margin-15-top" style="text-align:center">
+	<div id="divPw" style="text-align:right; width:580px; margin: 0 auto; margin-top:15px;">
 		<button id="btnReg" name="btnReg" class="btn_basic_s">등록</button>
 		<button id="btnClose" name="btnClose" class="btn_basic_s" style="display:none;">닫기</button>
 	</div>

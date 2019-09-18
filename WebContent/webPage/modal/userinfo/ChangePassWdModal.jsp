@@ -36,11 +36,11 @@
 			    	<input id="txtUpdatePw2" type="text" placeholder="새 비밀번호 확인" style="width:100%;height:35px;font-size:15;text-security: disc; -webkit-text-security: disc;" autocomplete="off">
 			   	</div>
 			   	
-				<div class="sm-row" style="text-align:center;margin-top:15px;">
-					<button id="btnPw" name="btnPw" class="btn_basic_s" style="width:100%;height:35px;">변경</button>
+				<div class="sm-row" style="text-align:right;margin-top:15px;">
+					<button id="btnPw" name="btnPw" class="btn_basic_s" >변경</button>
+					<button id="btnCncl" name="btnCncl" class="btn_basic_s">취소</button>
 				</div>
-				<div class="sm-row" style="text-align:center;margin-top:5px;">
-					<button id="btnCncl" name="btnCncl" class="btn_basic_s" style="width:100%;height:35px;">취소</button>
+				<div class="sm-row" style="text-align:right;margin-top:5px;">
 				</div>
 			</div>
 		</div>

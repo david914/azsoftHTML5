@@ -4,7 +4,7 @@
 <c:import url="/webPage/common/common.jsp"/>
 
 <!-- contener S -->
-    <div class="content">
+    <div class="contentFrame">
         <!-- history S-->
         <div id="history_wrap"></div>
         <!-- history E-->         
