@@ -62,7 +62,7 @@ grdProgHistory.setConfig({
     },
     columns: [
         {key: "cr_rsrcname", label: "프로그램명",  width: '70%', align: 'left'},
-        {key: "cr_ver", label: "버전",  width: '25%'},
+        {key: "cr_aftviewver", label: "버전",  width: '25%'},
         {key: "basename", label: "기준프로그램",  width: '70%', align: 'left'},
         {key: "cm_dirpath", label: "프로그램경로",  width: '120%', align: 'left'},
     ]
@@ -88,6 +88,9 @@ $(document).ready(function(){
 	//닫기클릭
 	$('#btnClose').bind('click', function() {
 		close();
+	});
+	$('#btnSearch').bind('click', function() { 
+		btnSearch_click();
 	});
 	
 	//검색단어 Enter키
@@ -284,9 +287,11 @@ function grdProgView_Click() {
 		tmpTab.pUserId = pUserId;
 		tmpTab.rsrcname = selectedGridItem.cr_rsrcname;
 		tmpTab.ver = selectedGridItem.cr_ver;
+		tmpTab.cr_aftviewver = selectedGridItem.cr_aftviewver;
 		tmpTab.basename = selectedGridItem.basename;
 		tmpTab.downURL = downURL;
 		tmpTab.tmpDir = tmpDir;
+		tmpTab.status = selectedGridItem.cr_status;
 		tmpTab.elementInit();
 		document.getElementById("tab"+tabIndex).innerHTML = selectedGridItem.cr_rsrcname;
 		tabSize2 = tabSize2 + $("#tab" + tabIndex).outerWidth();

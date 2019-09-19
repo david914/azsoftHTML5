@@ -65,6 +65,7 @@ public class Cmr5300 {
 			
 			Cmr0200 cmr0200 = new Cmr0200();
 			strParm = "./ecams_gensrc " + etcData.get("gbncd") + " " + etcData.get("cr_itemid") + " " + fileName + " " + etcData.get("cr_acptno");
+			ecamsLogger.error("strParm : " + strParm);
 			shFileName = etcData.get("userid")+"apcmd.sh";
 			ret = cmr0200.execShell(shFileName, strParm, false);
 			if (ret != 0) {
@@ -926,12 +927,12 @@ public class Cmr5300 {
 			strQuery.append(" order by acptdate desc                                      \n");
 
             pstmt = conn.prepareStatement(strQuery.toString());
-			//pstmt =  new LoggableStatement(conn, strQuery.toString());
+			pstmt =  new LoggableStatement(conn, strQuery.toString());
 
             pstmt.setString(1, ItemID);
             //pstmt.setString(2, ItemID);
 
-            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
 
@@ -1023,10 +1024,11 @@ public class Cmr5300 {
 			conn = connectionContext.getConnection();
 			strQuery.setLength(0);
 
-			strQuery.append("select a.cr_rsrcname,a.cr_version,a.cr_itemid,a.cr_befver,\n");
+			strQuery.append("select a.cr_rsrcname,a.cr_version,a.cr_itemid,nvl(a.cr_befver,'0') cr_befver,\n");
 			strQuery.append("       a.cr_qrycd,a.cr_status,b.cm_dirpath,c.cm_info,    \n");
 			strQuery.append("       d.cr_rsrcname basename,f.cm_codename,a.cr_confno, \n");
-			strQuery.append("       a.cr_prcdate,e.cr_acptno,a.cr_realbefver          \n");
+			strQuery.append("       a.cr_prcdate,e.cr_acptno,a.cr_realbefver,          \n");
+			strQuery.append("       a.cr_befviewver,a.cr_aftviewver          			\n");
 			strQuery.append("  from cmm0020 f,cmm0036 c,cmm0070 b,cmr1010 a,cmr1010 d,cmr1000 e \n");
 			strQuery.append(" where e.cr_acptno=?                                     \n");
 			strQuery.append("   and d.cr_acptno=?                                     \n");
@@ -1058,20 +1060,19 @@ public class Cmr5300 {
 					rst.put("cr_itemid", rs.getString("cr_itemid"));
 					rst.put("cr_rsrcname", rs.getString("cr_rsrcname"));
 					rst.put("cm_dirpath", rs.getString("cm_dirpath"));
-					if (AcptNo.substring(4,6).equals("03") || AcptNo.substring(4,6).equals("04") || AcptNo.substring(4,6).equals("06")) {
-						rst.put("cr_befver", rs.getString("cr_realbefver"));
-						rst.put("cr_ver", rs.getString("cr_befver"));
-						rst.put("cr_aftver", rs.getString("cr_befver"));
+					rst.put("cr_befver", rs.getString("cr_befver"));
+					rst.put("cr_ver", rs.getString("cr_version"));
+					rst.put("cr_aftver", rs.getString("cr_version"));
+					rst.put("cr_befviewver", rs.getString("cr_befviewver"));
+					rst.put("cr_aftviewver", rs.getString("cr_aftviewver"));
+					//개발배포, 테스트배포, 운영배포, rollback
+					if (AcptNo.substring(4,6).equals("03") || AcptNo.substring(4,6).equals("04") || AcptNo.substring(4,6).equals("08") || AcptNo.substring(4,6).equals("06")) {
 						rst.put("cr_status", "9");
 					} else {
-						rst.put("cr_befver", rs.getString("cr_befver"));
-						rst.put("cr_ver", rs.getString("cr_version"));
-						rst.put("cr_aftver", rs.getString("cr_version"));
 						rst.put("cr_status", rs.getString("cr_status"));
 					}
 					rst.put("cm_info", rs.getString("cm_info"));
 					rst.put("basename", rs.getString("basename"));
-					
 					rst.put("cr_qrycd", rs.getString("cr_qrycd"));
 					rst.put("cm_codename", rs.getString("cm_codename"));
 					findSw = false;

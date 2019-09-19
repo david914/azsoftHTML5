@@ -105,8 +105,17 @@ grdDiffSrc.setConfig({
      	},
     },
     columns: [
-        {key: "file1", label: "변경전",  width: '50%',  align: 'left'},
-        {key: "file2", label: "변경후",  width: '50%',  align: 'left'}
+        {key: "file1", label: "변경전",  width: '50%',  align: 'left',
+        	formatter: function(){
+                var htmlStr = '<xmp>'+this.value+'</xmp>';
+                return htmlStr;
+             }
+        },
+        {key: "file2", label: "변경후",  width: '50%',  align: 'left',
+        	formatter: function(){
+                var htmlStr = '<xmp>'+this.value+'</xmp>';
+                return htmlStr;
+             }}
     ]
 });
 
@@ -162,7 +171,13 @@ $(document).ready(function(){
 	$('#btnExit').bind('click', function() {
 		close();
 	});
-
+	
+	//단어검색,라인검색 enter
+	$('#txtSearch').bind('keypress', function(event){
+		if(event.keyCode==13) {
+			$('#btnSearch').trigger('click');
+		}
+	});
 	
 	// 엑셀저장버튼 클릭
 	$('#btnExcel').bind('click', function() {
@@ -277,16 +292,23 @@ function btnVerDiff_click() {
 	svIdx = -1;
 	svWord = '';
 	for(var i=0; i<grdProgHistoryData.length; i++) {
-		if (grdProgHistoryData[i].isChecked == 'Y') ++selCnt;
-		if (selCnt == 1) {
-			firstLine = i;
-		} else if (selCnt == 2) {
-			secondLine = i;
+		if(grdProgHistoryData[i].isChecked == 'Y' || grdProgHistoryData[i].isChecked == 'N'){
+			if(selCnt == 0){
+				if (grdProgHistoryData[i].isChecked == 'Y'){
+					firstLine = i;
+					++selCnt;
+				}
+			}
+			if(selCnt > 0){
+				if (grdProgHistoryData[i].isChecked == 'Y'){
+					secondLine = i;
+					++selCnt;
+				}
+			}
 		}
-		if (selCnt > 2) break;
-	}	
+	}
 	
-	if (selCnt != 2) {
+	if (selCnt != 3) {
 		dialog.alert('2개의 변경이력을 선택한 후 진행하시기 바랍니다.');
 		return;
 	}
@@ -298,6 +320,7 @@ function btnVerDiff_click() {
 		}
 	}
 	//grdProgHistory.select(1);
+	
 	befVer = grdProgHistoryData[secondLine].cr_version;
 	aftVer = grdProgHistoryData[firstLine].cr_version;
 	tmpInfo = new Object();
@@ -316,7 +339,6 @@ function btnVerDiff_click() {
 		requestType	: 'GETDIFFLIST'
 	}
 	ajaxAsync('/webPage/winpop/SourceDiffServlet', tmpInfoData, 'json', successDiffList);
-	
 }
 
 function successDiffList(data) {
@@ -524,7 +546,7 @@ function btnSearch_click() {
 			for(i=svIdx; i<grdDiffSrcData.length; i++) {
 				rowMsg = grdDiffSrcData[i].file1;
 				if (rowMsg.length > 0) {
-					if (rowMsg.indexOf(svWord)>=0) {
+					if (rowMsg.toUpperCase().indexOf(svWord.toUpperCase())>=0) {
 						svIdx = i;
 						findSw = true;
 						break;
@@ -532,7 +554,7 @@ function btnSearch_click() {
 				}
 				rowMsg = grdDiffSrcData[i].file2;
 				if (rowMsg.length > 0) {
-					if (rowMsg.indexOf(svWord)>=0) {
+					if (rowMsg.toUpperCase().indexOf(svWord.toUpperCase())>=0) {
 						svIdx = i;
 						findSw = true;
 						break;
@@ -553,7 +575,7 @@ function btnSearch_click() {
 			for(i=svIdx; i<diffSrcData.length; i++) {
 				rowMsg = diffSrcData[i].file1;
 				if (rowMsg.length > 0) {
-					if (rowMsg.indexOf(svWord)>=0) {
+					if (rowMsg.toUpperCase().indexOf(svWord.toUpperCase())>=0) {
 						svIdx = i;
 						findSw = true;
 						break;
@@ -561,7 +583,7 @@ function btnSearch_click() {
 				}
 				rowMsg = diffSrcData[i].file2;
 				if (rowMsg.length > 0) {
-					if (rowMsg.indexOf(svWord)>=0) {
+					if (rowMsg.toUpperCase().indexOf(svWord.toUpperCase())>=0) {
 						svIdx = i;
 						findSw = true;
 						break;

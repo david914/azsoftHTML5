@@ -73,7 +73,7 @@
 				</div>
 				<div class="half_wrap" style="margin-top: 0px;">
 					<div class="l_wrap width-100">
-					    <div class="az_board_basic" style="height:75%;">
+					    <div class="az_board_basic" style="height:85%;">
 					    	<div data-ax5grid="grdProgHistory" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 						</div>	
 					</div>
@@ -88,6 +88,7 @@
 					<input id="optLine" type="radio"  name="optradio"  value="L" onchange="optradio_change();"/>
 					<label for="optLine">라인검색</label>
 					<input id="txtSearch" name="txtSearch" type="text" style="width:200px;" placeholder="검색할 단어를 입력하세요.">
+					<button id="btnSearch" name="btnSearch" class="btn_basic margin-5-left por" style="height:25px;padding: 0 7px 2px;" >검색</button>
 				</div>
 				<div class="margin-5-top poa_r dib">
 					<button id="btnClose" name="btnClose" class="btn_basic margin-5-left por" style="height:25px;padding: 0 7px 2px;" >닫기</button>
@@ -103,7 +104,7 @@
 						</ul>
 					</div>
 					<!-- tab E-->
-					<div style="height:75%" id="content"> <!--  tab_container -->
+					<div style="height:88%" id="content"> <!--  tab_container -->
 
 				   	</div>
 				</div>

@@ -12,28 +12,28 @@ body{min-width: 0;}
 
 <div id="L_wrap width-70" style="overflow-y: hidden;">
 	<div class="row por">					
-		<div class="dib vat">
+		<div class="dib vat" style="width:34%">
 			<label class="tit_80 poa">&nbsp;&nbsp;프로그램명</label>
-			<div class="ml_20">
+			<div class="ml_30">
 				<div class="ml_80">
 					<input id="txtProgId" name="txtProgId" type="text" class="width-100" readonly="readonly">
 				</div>
 			</div>
 		</div>
 		
-		<div class="dib vat margin-40-left">
+		<div class="dib vat margin-40-left" style="width:34%">
 			<label class="tit_80 poa">기준프로그램</label>
-			<div class="ml_20">
+			<div class="ml_30">
 				<div class="ml_80">
 					<input id="txtBaseId" name="txtBaseId" type="text" class="width-100" readonly="readonly">
 				</div>
 			</div>
 		</div>
-		<div class="dib vat margin-40-left">
+		<div class="dib vat margin-40-left" style="width:21%">
 			<label class="tit_40 poa">버전</label>
 			<div class="ml_20">
 				<div class="margin-30-left">
-					<input id="txtVer" name="txtVer" type="text" class="width-70" readonly="readonly" style="text-align:center;">
+					<input id="txtVer" name="txtVer" type="text" class="width-100" readonly="readonly" style="text-align:center;">
 				</div>
 			</div>
 		</div>

@@ -16,7 +16,10 @@ var tmpDir         = null;
 var downURL        = null;
 var outName        = null;
 var prettify       = null;
+var status         = null;
 var ver			   = null;
+var pUserId		   = null;
+var cr_aftviewver  = null;
 var rsrcname	   = null;
 var basename	   = null;
 
@@ -32,25 +35,29 @@ $(document).ready(function(){
 function elementInit() {
 	$('#txtProgId').val(rsrcname);
 	$('#txtBaseId').val(basename);
-	$('#txtVer').val(ver);
+	$('#txtVer').val(cr_aftviewver);
 	$("body").bind("mousedown", onBodyMouseDown); 
-	getFileText(pUserId,pItemId,pReqNo,ver);
+	getFileText(pUserId,pItemId,pReqNo,ver,cr_aftviewver,status);
 }
 
 function onBodyMouseDown(event){
 	window.parent.$("#context-menu").css({"visibility" : "hidden"});
 } 
 
-function getFileText(userid, itemid, acptno, ver){
+function getFileText(userid, itemid, acptno, ver,cr_aftviewver, status){
 	tmpInfo = new Object();
 	tmpInfo.userId = userid;
 	tmpInfo.cr_itemid  = itemid;
-	tmpInfo.cr_acptno  = acptno;
-	tmpInfo.version  = ver;
 	outName = userid + '_' + ver + '_' + rsrcname;
 	tmpInfo.outname = outName; 
 	tmpInfo.tmpdir = tmpDir;
-	tmpInfo.gbncd = "CMR0027";
+	if(status == "9"){
+		tmpInfo.cr_acptno  = ver;
+		tmpInfo.gbncd = "CMR0025";
+	}else{
+		tmpInfo.cr_acptno  = acptno;
+		tmpInfo.gbncd = "CMR0027";
+	}
 	
 	var tmpInfoData = {
 		tmpInfo		: tmpInfo,
