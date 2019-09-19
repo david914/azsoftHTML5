@@ -88,7 +88,7 @@
 					<input id="optLine" type="radio"  name="optradio"  value="L" onchange="optradio_change();"/>
 					<label for="optLine">라인검색</label>
 					<input id="txtSearch" name="txtSearch" type="text" style="width:200px;" placeholder="검색할 단어를 입력하세요.">
-					<button id="btnSearch" name="btnSearch" class="btn_basic margin-5-left por" style="height:25px;padding: 0 7px 2px;" >검색</button>
+					<button id="btnSearch" name="btnSearch" class="btn_basic margin-5-left por" style="height:25px;padding: 0 7px 2px;" >찾기</button>
 				</div>
 				<div class="margin-5-top poa_r dib">
 					<button id="btnClose" name="btnClose" class="btn_basic margin-5-left por" style="height:25px;padding: 0 7px 2px;" >닫기</button>
