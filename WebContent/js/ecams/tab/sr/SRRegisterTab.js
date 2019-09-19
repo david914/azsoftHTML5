@@ -474,9 +474,9 @@ function successGetUserId(data) {
 
 function changeCboReqSecu() {
 	if (getSelectedVal('cboReqSecu').value === '6') {
-		$('#txtReqSecu').css('display', 'block');
+		$('#txtReqSecu').attr('disabled', false);
 	} else {
-		$('#txtReqSecu').css('display', 'none');
+		$('#txtReqSecu').attr('disabled', true);
 		$('#cboReqSecu').removeClass('width-20');
 		$('#cboReqSecu').addClass('width-100');
 	}
@@ -536,7 +536,7 @@ function elementInit(initDivision) {
 		$('#txtRegUser').attr('disabled', true);
 		$('#txtRegDate').attr('disabled', true);
 		$('#txtReqSecu').val('');
-		$('#txtReqSecu').css('display', 'none');
+		$('#txtReqSecu').attr('disabled', true);
 		$('[data-ax5select="cboCatTypeSR"]').ax5select("setValue", '00', true);
 		$('[data-ax5select="cboChgType"]').ax5select("setValue", '00', true);
 		$('[data-ax5select="cboWorkRank"]').ax5select("setValue", '00', true);
@@ -1312,7 +1312,7 @@ function gyulChk1(acptno){
 
 // sr 리스트 클릭 이벤트
 function firstGridClick(srid) {
-	$('#txtReqSecu').css('display', 'none');
+	$('#txtReqSecu').attr('disabled', true);
 	// sr 정보 가져오기
 	var ajaxReturnData = null;
 	var srInfo = {
@@ -1363,7 +1363,7 @@ function firstGridClick(srid) {
 		}
 
 		if (ajaxReturnData[0].cc_reqsecu === "6") {
-			$('#txtReqSecu').css('display', 'block');
+			$('#txtReqSecu').attr('disabled', false);
 			if($("#btnUpdate").is(':disabled') == true){
 				$('#txtReqSecu').attr('disabled', true);
 			} else {

@@ -21,7 +21,7 @@
 	<div id="history_wrap">기본관리<strong>&gt; 내 기본정보 보기</strong></div>
 	
 	
-	<div style="width:80%;margin:auto;">
+	<div style="width:54%;margin:auto; background-color: #f8f8f8; padding: 5px; min-width:1009px;">
 		<div class="cb">
 			<div class="float-left width-30 margin-10-top">
 				<fieldset style="border:3px #2477c1;">
@@ -118,8 +118,8 @@
 					</div>
 	               	<div class="sm-row">
 						<label class="tit_80 poa">부재사유</label>
-	                	<div class="ml_100">
-							<textarea id="txtBlankSayu" rows="6" style="overflow-y:auto;" readonly></textarea>
+	                	<div class="ml_100 margin-5-right">
+							<textarea id="txtBlankSayu" rows="6" style="overflow-y:auto; width:100%; border: 1px solid #ddd; padding: 5px;" readonly></textarea>
 						</div>
 					</div>
 	               	<div class="sm-row">
@@ -130,20 +130,20 @@
 		</div>
 		
 		<div class="cb" style="margin-top:20px;">
-			<div class="float-left width-63 margin-10-top">
+			<div class="float-left width-100 margin-10-top">
 				<fieldset style="border:3px #2477c1;">
 					<legend>권한정보</legend>
 					<label id="basicInfo" style="color:#2477c1;font-size:15;"></label>
 		            <div class="sm-row" style="margin-top:20px;">
 						<label class="tit_80 poa">담당직무</label>
-		              	<div class="ml_100">
-							<textarea id="txtRgtCd" rows="2" readonly></textarea>
+		              	<div class="ml_100 margin-5-right">
+							<textarea id="txtRgtCd" rows="2" style="width:100%; border: 1px solid #ddd; padding: 5px;" readonly></textarea>
 						</div>
 					</div>
 		            <div class="sm-row" style="margin-top:10px;">
 						<label class="tit_80 poa">당당업무</label>
-		              	<div class="ml_100">
-							<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="width:98%;height: 300px;"></div>	
+		              	<div class="ml_100 margin-5-right">
+							<div data-ax5grid="jobGrid" class="width-100" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 300px;"></div>	
 						</div>
 					</div>
 		    	</fieldset>
