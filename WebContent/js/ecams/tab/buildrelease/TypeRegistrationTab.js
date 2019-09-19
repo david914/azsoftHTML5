@@ -74,7 +74,7 @@ scriptGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_codename", 	label: "빌드패턴",  	width: '10%'},
+        {key: "cm_bldmsg", 	label: "빌드패턴",  	width: '10%'},
         {key: "cm_seq", 		label: "순서",  		width: '5%' },
         {key: "cm_cmdname", 	label: "수행명령",  	width: '85%', align: 'left'},
     ]

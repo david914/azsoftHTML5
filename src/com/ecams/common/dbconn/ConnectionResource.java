@@ -63,9 +63,9 @@ public class ConnectionResource implements ConnectionContext {
 				String strUserps = "";
 				if (ConfigFactory.getProperties("O_secu").equals("true")) {
 					Encryptor oEncryptor = Encryptor.instance();
-					strUrl = oEncryptor.strGetDecrypt(ConfigFactory.getProperties("O_url"));
-					strUsernm = oEncryptor.strGetDecrypt(ConfigFactory.getProperties("O_username"));
-					strUserps = oEncryptor.strGetDecrypt(ConfigFactory.getProperties("O_password"));
+					strUrl = oEncryptor.strGetDecrypt_AES256(ConfigFactory.getProperties("O_url"));
+					strUsernm = oEncryptor.strGetDecrypt_AES256(ConfigFactory.getProperties("O_username"));
+					strUserps = oEncryptor.strGetDecrypt_AES256(ConfigFactory.getProperties("O_password"));
 					/*System.out.println("check DB SECU CONNECTION INFO====");
 					System.out.println(strUrl);
 					System.out.println(strUsernm);
@@ -111,9 +111,9 @@ public class ConnectionResource implements ConnectionContext {
 				String strUserps = "";
 				if (ConfigFactory.getProperties(connstr+"_secu").equals("true")) {
 					Encryptor oEncryptor = Encryptor.instance();
-					strUrl = oEncryptor.strGetDecrypt(ConfigFactory.getProperties(connstr+"_url"));
-					strUsernm = oEncryptor.strGetDecrypt(ConfigFactory.getProperties(connstr+"_username"));
-					strUserps = oEncryptor.strGetDecrypt(ConfigFactory.getProperties(connstr+"_password"));
+					strUrl = oEncryptor.strGetEncrypt_AES256(ConfigFactory.getProperties(connstr+"_url"));
+					strUsernm = oEncryptor.strGetEncrypt_AES256(ConfigFactory.getProperties(connstr+"_username"));
+					strUserps = oEncryptor.strGetEncrypt_AES256(ConfigFactory.getProperties(connstr+"_password"));
 				} else {
 					strUrl = ConfigFactory.getProperties(connstr+"_url");
 					strUsernm = ConfigFactory.getProperties(connstr+"_username");

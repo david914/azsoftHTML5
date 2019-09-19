@@ -1684,7 +1684,7 @@ public class svrOpen{
 					BaseDir = BaseDir.replace("\\", "\\\\");
 				}
 				
-				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " " + BaseDir + " dir" + UserID;
+				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " Y " + BaseDir + " dir" + UserID;
 
 				Cmr0200 cmr0200 = new Cmr0200();
 				ret = cmr0200.execShell(shFileName, strParm, false);
@@ -1720,7 +1720,8 @@ public class svrOpen{
 				            String str = null;
 
 							maxSeq = maxSeq + 1;
-
+							
+							HomeDir = HomeDir.replace("\\", "/");
 							rst = new HashMap<String,String>();
 							rst.put("cm_dirpath","["+svrName+"]"+HomeDir);
 							rst.put("cm_fullpath",HomeDir);
@@ -1735,7 +1736,8 @@ public class svrOpen{
 				                	if (SysOs.equals("03")) {
 				                		str = str.trim();
 				                		str = str.replace("\\", "/");
-				                		if (str.indexOf("디렉터리")>0) {
+				                		if (str.indexOf("디렉터리")>0 && str.length() > BaseDir.length()) {
+				                		//if (str.indexOf("디렉터리")>0) {
 				                			if (str.substring(0,BaseDir.length()).equals(BaseDir)) {
 				                				strBaseDir = str.substring(0,str.indexOf("디렉터리"));
 					                			strBaseDir = strBaseDir.trim();
@@ -1779,9 +1781,13 @@ public class svrOpen{
 														}
 														strDir = strDir + pathDepth[i];
 														//ecamsLogger.error("## pathDepth: " + pathDepth[i]);
+														
 														findSw = false;
 														if (rsval.size() > 0) {
 															for (j = 0;rsval.size() > j;j++) {
+//																ecamsLogger.error("## strDir: " + strDir);
+//																ecamsLogger.error("## cm_fullpath: " +rsval.get(j).get("cm_fullpath"));
+																
 																if (rsval.get(j).get("cm_fullpath").equals(strDir)) {
 																	upSeq = Integer.parseInt(rsval.get(j).get("cm_seqno"));
 																	findSw = true;
@@ -1789,11 +1795,12 @@ public class svrOpen{
 															}
 														} else {
 															findSw = false;
-														}														
+														}			
 														
 														if (findSw == false) {
 															maxSeq = maxSeq + 1;
-
+															
+															strDir = strDir.replace("\\", "/");
 															rst = new HashMap<String,String>();
 															rst.put("cm_dirpath",pathDepth[i]);
 															rst.put("cm_fullpath",strDir);
@@ -1820,7 +1827,8 @@ public class svrOpen{
 	            
 	            if (rsval.size() > 0) {
 					for (int i = 0;rsval.size() > i;i++) {
-						if("0".equals(rsval.get(i).get("cm_upseq")) || "1".equals(rsval.get(i).get("cm_upseq"))) {
+						//if("0".equals(rsval.get(i).get("cm_upseq")) || "1".equals(rsval.get(i).get("cm_upseq"))) {
+						if(BaseDir.indexOf(rsval.get(i).get("cm_fullpath")) > -1) {
 							rtMap = new HashMap<>();
 			            	rtMap.put("id", rsval.get(i).get("cm_seqno"));
 			            	rtMap.put("name", rsval.get(i).get("cm_dirpath"));
@@ -1901,7 +1909,7 @@ public class svrOpen{
 					BaseDir = BaseDir.replace("\\", "\\\\");
 				}
 				
-				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " " + BaseDir + " dir" + UserID;
+				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " Y " + BaseDir + " dir" + UserID;
 				Cmr0200 cmr0200 = new Cmr0200();
 				ret = cmr0200.execShell(shFileName, strParm, false);
 				cmr0200 = null;
@@ -1944,7 +1952,7 @@ public class svrOpen{
 				                	if (SysOs.equals("03")) {
 				                		str = str.trim();
 				                		str = str.replace("\\", "/");
-				                		if (str.indexOf("디렉터리")>0) {
+				                		if (str.indexOf("디렉터리")>0 && str.length() > BaseDir.length()) {
 				                			if (str.substring(0,BaseDir.length()).equals(BaseDir)) {
 				                				strBaseDir = str.substring(0,str.indexOf("디렉터리"));
 					                			strBaseDir = strBaseDir.trim();
@@ -1984,7 +1992,7 @@ public class svrOpen{
 					                		}
 //					                		ecamsLogger.error("## findSw: " + findSw + ", str: " + str);
 					                		if (findSw) {
-					                			ecamsLogger.error("### str: " + str);
+//					                			ecamsLogger.error("### str: " + str);
 						                		pathDepth = str.substring(1).split("/");
 						                		strDir = BaseDir;
 												upSeq = 1;
@@ -2128,7 +2136,7 @@ public class svrOpen{
 				BaseDir = BaseDir.replace("\\\\", "\\");
 				BaseDir = BaseDir.replace("\\", "\\\\");
 			}
-			strParm = "./ecams_ih_cs " + etcData.get("SysCd") + " " + etcData.get("SvrIp") + " "  + etcData.get("SvrPort") + " " + etcData.get("buffSize") + " " + 
+			strParm = "./ecams_ih_cs " + etcData.get("SysCd") + " " + etcData.get("SvrIp") + " "  + etcData.get("SvrPort") + " " + etcData.get("buffSize") + " Y " + 
 						etcData.get("BaseDir") +  " filelist" + etcData.get("UserID") + " " + etcData.get("GbnCd") + " " + etcData.get("AgentDir");
 			ecamsinfo   = new eCAMSInfo();
 			ret = ecamsinfo.execShell_conn(shFileName, strParm, false,conn);

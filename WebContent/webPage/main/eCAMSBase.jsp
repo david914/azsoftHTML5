@@ -29,7 +29,7 @@
     	background: white;
     	margin-top: 29px;
     	display: none;
-    	margin-left: -34px;
+    	margin-left: -39px;
     	padding-top: 9px;
     	border-top: 3px solid #2471c8;
     	box-shadow: 0 6px 16px rgba(0,0,0,.175);
@@ -47,14 +47,14 @@
 			<ul id="ulMenu"></ul>
 		</div>
 		<div class="log" id="status">
-			<div class="dib" id="msrBd"style="width: 199px; height: 30px;position: relative; overflow: hidden;">
-				<div class="dib por" id="msrDiv" style="min-width: 200px;">
+			<div class="dib" id="msrBd"style="height: 30px;position: relative; overflow: hidden;">
+				<div class="dib por tar" id="msrDiv" style="min-width: 220px;">
 					<a class="cntInfo" id="approvalCnt" style="font-weight: bold; color: blue;">미결[0]</a><span>l</span>
 					<a class="cntInfo" id="srCnt" style="font-weight: bold; color: green;">SR[0]</a><span>l</span>
 					<a class="cntInfo" id="errCnt" style="font-weight: bold; color: red;">오류[0]</a>
 				</div>
 			</div>
-			<div class="dib vat" id="msrIcon" style="margin-right: 5px; display: none; height: 32px;">
+			<div class="dib vat poa" id="msrIcon" style="margin-left: -30px; display: none; height: 32px; width: 30px;">
 				<img src="../../img/menu2.png" id="menuIcon" style="width: 20px; height: 15px; margin-top: 1px;">
 			</div>
 			<span id="spn1" class="vat" style="margin-left: -4px; margin-right: -4px;">l</span>

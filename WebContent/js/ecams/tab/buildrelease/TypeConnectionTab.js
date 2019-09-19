@@ -57,7 +57,7 @@ conInfoGrid.setConfig({
         {key: "cm_jobname", 	label: "업무명",		width: '10%'},
         {key: "cm_codename", 	label: "프로그램종류", 	width: '10%'},
         {key: "prcsys", 		label: "처리단계",  	width: '10%'},
-        {key: "bldcd", 			label: "스크립트유형", 	width: '15%'},
+        {key: "bldmsg", 		label: "스크립트유형", 	width: '15%'},
         {key: "RUNGBN", 		label: "실행시점",  	width: '15%', align: "center"},
         {key: "RUNPOS", 		label: "쉘실행위치",  	width: '10%', align: "center"},
         {key: "SEQYN", 			label: "쉘순차실행",  	width: '10%', align: "center"},
