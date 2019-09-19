@@ -1608,6 +1608,7 @@ public class Cmr0200{
 				rst.put("cm_info", rs.getString("cm_info"));
 				rst.put("cr_status", rs.getString("cr_status"));
 				rst.put("prcseq", rs.getString("prcreq"));
+				rst.put("editRow", rs.getString("prcreq"));
 				rst.put("sortgbn", "0");
 				rst.put("sysgb", rs.getString("cm_sysgb"));
 
@@ -1846,6 +1847,7 @@ public class Cmr0200{
 				rst.put("cm_info", rs.getString("cm_info"));
 				rst.put("cr_status", rs.getString("cr_status"));
 				rst.put("prcseq", rs.getString("prcreq"));
+				rst.put("editRow", rs.getString("prcreq"));
 				rst.put("sysgb", rs.getString("cm_sysgb"));
 				rst.put("sortgbn", "0");
 				
@@ -2717,6 +2719,7 @@ public class Cmr0200{
 				rst.put("cr_status",fileList.get(i).get("cr_status"));
 				rst.put("cr_acptno",fileList.get(i).get("cr_acptno"));
 				rst.put("prcseq",fileList.get(i).get("prcseq"));
+				rst.put("editRow",fileList.get(i).get("editRow"));
 				rst.put("sortgbn",fileList.get(i).get("sortgbn"));
 				if (fileList.get(i).get("checkin") != null) rst.put("checkin",fileList.get(i).get("checkin"));
 				if (fileList.get(i).get("analsw") != null) rst.put("analsw",fileList.get(i).get("analsw"));
@@ -2972,9 +2975,10 @@ public class Cmr0200{
 							   	strQuery.append(" where a.cr_itemid=?                                      \n");
 							   	strQuery.append("   and a.cr_syscd=d.cm_syscd and a.cr_rsrccd=d.cm_rsrccd  \n");
 								pstmt2 = conn.prepareStatement(strQuery.toString());
-								//pstmt2 = new LoggableStatement(conn, strQuery.toString());
+								pstmt2 = new LoggableStatement(conn, strQuery.toString());
+								if (!"07".equals(etcData.get("SinCd"))) pstmt2.setString(++parmCnt, etcData.get("SinCd"));
 					            pstmt2.setString(++parmCnt, strItemId);
-					            //ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
+					            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
 					            rs2 = pstmt2.executeQuery();
 
 					            if (rs2.next()) {
@@ -2983,9 +2987,10 @@ public class Cmr0200{
 					    			rst.put("view_dirpath",rs2.getString("cm_dirpath"));
 					    			rst.put("cr_rsrcname",rs2.getString("cr_rsrcname"));
 					    			rst.put("cr_story",rs2.getString("cr_story"));
-					    			rst.put("jobname", fileList.get(i).get("cm_jobname"));
+					    			rst.put("jobname", fileList.get(i).get("jobname"));
 					    			rst.put("jawon", rs2.getString("jawon"));
 					    			rst.put("prcseq", rs2.getString("prcseq"));
+					    			rst.put("editRow", rs2.getString("prcseq"));
 					    			rst.put("cr_lstver",rs2.getString("cr_lstver"));
 					    			if (rs2.getString("version") != null) {
 					    				rst.put("cr_befver",rs2.getString("version"));
@@ -3078,6 +3083,7 @@ public class Cmr0200{
 				}
 				if (ErrSw == false && fileList.get(i).get("cm_info").substring(8,9).equals("1")) {
 			        int readCnt = 0;
+			        parmCnt = 0;
 				   	strQuery.setLength(0);
 				   	strQuery.append("select a.cr_rsrccd,a.cr_rsrcname,a.cr_jobcd,a.cr_lstver,a.cr_itemid,\n");
 					strQuery.append("       a.cr_dsncd,a.cr_story,nvl(a.cr_viewver,'0.0.0.0') cr_viewver,\n");
@@ -3111,6 +3117,7 @@ public class Cmr0200{
 				   	}
 					pstmt2 = conn.prepareStatement(strQuery.toString());
 					//pstmt2 = new LoggableStatement(conn, strQuery.toString());
+					if (!"07".equals(etcData.get("SinCd"))) pstmt2.setString(++parmCnt, etcData.get("SinCd"));
 		            pstmt2.setString(++parmCnt, strItemId);
 		            //ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
 		            rs2 = pstmt2.executeQuery();
@@ -3121,9 +3128,10 @@ public class Cmr0200{
 		    			rst.put("view_dirpath",rs2.getString("cm_dirpath"));
 		    			rst.put("cr_rsrcname",rs2.getString("cr_rsrcname"));
 		    			rst.put("cr_story",rs2.getString("cr_story"));
-		    			rst.put("jobname", fileList.get(i).get("cm_jobname"));
+		    			rst.put("jobname", fileList.get(i).get("jobname"));
 		    			rst.put("jawon", rs2.getString("jawon"));
 		    			rst.put("prcseq", rs2.getString("prcseq"));
+		    			rst.put("editRow", rs2.getString("prcseq"));
 		    			rst.put("cr_lstver",rs2.getString("cr_lstver"));
 		    			if (rs2.getString("version") != null) {
 		    				rst.put("cr_befver",rs2.getString("version"));
