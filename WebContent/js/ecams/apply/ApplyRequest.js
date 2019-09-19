@@ -800,25 +800,31 @@ function successGetProgramList(data) {
 //항목상세보기
 function simpleData() {
 	if (secondGrid.list.length < 1) return;
-	
 	gridSimpleData = clone(secondGrid.list);
 	if(secondGrid.list.length == 0){
 		secondGridData = clone(secondGrid.list);
 		return;
 	}
-	for(var i =0; i < gridSimpleData.length; i++){
-		if(gridSimpleData[i].baseitem != gridSimpleData[i].cr_itemid || 
-			gridSimpleData[i].cr_itemid == null || gridSimpleData[i].cr_itemid == ''){
-			
-			gridSimpleData.splice(i,1);
-			i--;
-		}
-	};
+	
 	if (!$('#chkDetail').is(':checked')){
+		for(var i =0; i < gridSimpleData.length; i++){
+			if(gridSimpleData[i].baseitem != gridSimpleData[i].cr_itemid || 
+				gridSimpleData[i].cr_itemid == null || gridSimpleData[i].cr_itemid == ''){
+				gridSimpleData.splice(i,1);
+				i--;
+			}
+			if(gridSimpleData[i] != null && gridSimpleData[i] != undefined){
+				gridSimpleData[i].__index = i;
+			}
+		};
 		secondGrid.list = clone(gridSimpleData);
 		secondGrid.repaint();
 	}
 	else{
+		for(var i =0; i < secondGridData.length; i++){
+			secondGridData[i].__index = i;
+		};
+		
 		secondGrid.list = clone(secondGridData);
 		secondGrid.repaint();
 	}
@@ -951,10 +957,18 @@ function deleteDataRow() {
 		});
 		
 	});
-	
+	// 동시적용항목 secondGridData에서 빼주는 작업
+	$(secondGrid.getList("selected")).each(function(i){
+		for(var j =0; j < secondGridData.length; j++){
+			if(this.baseitem == secondGridData[j].baseitem){
+				secondGridData.splice(j,1);
+				j--
+			}
+		}
+	});
+
 	secondGrid.removeRow("selected");
 	firstGrid.repaint();
-	secondGridData = clone(secondGrid.list);
 	
 	if (secondGrid.list.length == 0){
 
@@ -1000,6 +1014,7 @@ function checkDuplication(downFileList){
 		if (!findSw) {
 			var copyData = clone(downFileList[i]); //리스트의 주소지를 가져오므로 clone 을 해서 add 해줘야함
 			secondGridList.push($.extend({}, copyData, {__index: undefined}));
+			copyData.__index = secondGridData.length;
 			secondGridData.push(copyData);
 		}
 	}

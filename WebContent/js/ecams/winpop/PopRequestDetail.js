@@ -373,10 +373,10 @@ function createViewGrid2() {
 			trStyleClass: function () {
 				if (this.item.ColorSw == '3'){
 					return "fontStyle-cncl";
+				} else if(this.item.ColorSw == '0'){
+					return "fontStyle-ing";
 				} else if(this.item.ColorSw == '5'){
 					return "fontStyle-error";
-				} else if (this.item.cr_itemid != this.item.cr_baseitem){
-					return "fontStyle-module";
 				} 
 			},
 			onDataChanged: function(){

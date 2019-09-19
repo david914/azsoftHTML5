@@ -19,7 +19,7 @@
         <!-- history S-->
         <div id="history_wrap">	모니터링 <strong>&gt; 처리결과확인</strong></div>
         
-        <div class="az_search_wrap" style="padding-top: 0px;">
+        <div class="az_search_wrap" style="padding-top: 5px;margin:0px;">
 			<div class="az_in_wrap" style="margin-top: 5px;">			
 				<div class="row vat cb">
                     <div class="width-25 float-left">
@@ -45,18 +45,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="row vat cb">
-	            <div class="width-100">
-				    <div class="panel-body text-center" style="height: 25%;">
-				    	<div data-ax5grid="retGrid" style="height: 100%;"></div>
-				    </div>
-				</div>
-	            <div class="width-100 margin-5-top">
-	            	<textarea id="txtRetLog" class="width-100" style="height: 55%; resize:none;" readonly></textarea>
-				</div>
+		</div>
+		<div class="row vat cb">
+            <div class="width-100">
+			    <div class="panel-body text-center" style="height: 25%;">
+			    	<div data-ax5grid="retGrid" style="height: 100%;"></div>
+			    </div>
+			</div>
+            <div class="width-100 margin-5-top">
+            	<textarea id="txtRetLog" class="width-100" style="height: 60%; resize:none;" readonly></textarea>
 			</div>
 		</div>
-        <!-- history E-->
     </div>
 </body>
 <form name="getReqData">

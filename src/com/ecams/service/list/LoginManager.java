@@ -129,13 +129,13 @@ public class LoginManager implements HttpSessionBindingListener
             rs = pstmt.executeQuery();
             
 			if (rs.next()){
-				
+				/*
 				ecamsLogger.error("###############################################CEHCK PASSWD###########################################################################################");
 				ecamsLogger.error(rs.getString("CM_CPASSWD"));
 				ecamsLogger.error(oEncryptor.SHA256(usr_passwd));
 				ecamsLogger.error(usr_passwd);
 				ecamsLogger.error("###############################################CEHCK PASSWD###########################################################################################");
-				
+				*/
 				
 				//ecamsLogger.error(rs.getString("CM_CPASSWD"));
 				++CNT2;
