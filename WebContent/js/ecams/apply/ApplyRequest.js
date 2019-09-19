@@ -518,7 +518,7 @@ function successGetSysCbo(data) {
 	
 	cboOptions = [];
 	$.each(sysData,function(key,value) {
-		cboOptions.push({value: value.cm_syscd, text: value.cm_sysmsg, cm_sysgb: value.cm_sysgb, cm_sysinfo: value.cm_sysinfo, cm_prjname: value.cm_prjname, tstsw: value.TstSw});
+		cboOptions.push({value: value.cm_syscd, text: value.cm_sysmsg, cm_sysgb: value.cm_sysgb, cm_sysinfo: value.cm_sysinfo, cm_prjname: value.cm_prjname, tstsw: value.TstSw, cm_systype: value.cm_systype});
 	});
 	$('[data-ax5select="cboSys"]').ax5select({
         options: cboOptions
@@ -1202,13 +1202,13 @@ function sysDataFilter(){
 			continue;
 		}
 		else if (data.cm_syscd =='00000'){
-			options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
+			options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype: value.cm_systype});
 		}
 		else if(data.cm_sysinfo.substr(9,1) == '1'){
 			if(getSelectedIndex('cboSrId') > 0){
 				continue;
 			} else {
-				options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
+				options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype: value.cm_systype});
 			}
 		}
 		else{
@@ -1217,7 +1217,7 @@ function sysDataFilter(){
 				var arySyscd = syscd.split(",");
 				for(var j=0; j<arySyscd.length; j++){
 					if(arySyscd[j] == data.cm_syscd){
-						options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo});
+						options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype: value.cm_systype});
 						break;
 					}
 				}

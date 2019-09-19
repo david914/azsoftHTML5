@@ -94,11 +94,11 @@ firstGrid.setConfig({
     },
     columns: [
         {key: 'acptdate', label: '신청일시',  width: '10%'},
-        {key: 'cm_dirpath', label: '프로그램경로',  width: '25%'},
-        {key: 'cr_rsrcname', label: '프로그램명',  width: '25%'},
-        {key: 'cm_jobname', label: '업무명',  width: '12%'},
-        {key: 'jawon', label: '프로그램종류',  width: '9%'},
-        {key: 'cr_story', label: '프로그램설명',  width: '9%'},
+        {key: 'cm_dirpath', label: '프로그램경로',  width: '25%', align: 'left'},
+        {key: 'cr_rsrcname', label: '프로그램명',  width: '20%', align: 'left'},
+        {key: 'cm_jobname', label: '업무명',  width: '10%', align: 'left'},
+        {key: 'jawon', label: '프로그램종류',  width: '10%', align: 'left'},
+        {key: 'cr_story', label: '프로그램설명',  width: '15%', align: 'left'},
         {key: 'acptno', label: '신청번호',  width: '10%'},
     ]
 });
@@ -161,11 +161,11 @@ secondGrid.setConfig({
         }
     },
     columns: [
-        {key: 'cm_dirpath', label: '프로그램경로',  width: '32%'},
-        {key: 'cr_rsrcname', label: '프로그램명',  width: '32%'},
-        {key: 'cm_jobname', label: '업무명',  width: '12%'},
-        {key: 'jawon', label: '프로그램종류',  width: '12%'},
-        {key: 'cr_story', label: '프로그램설명',  width: '12%'},
+        {key: 'cm_dirpath', label: '프로그램경로',  width: '25%', align: 'left'},
+        {key: 'cr_rsrcname', label: '프로그램명',  width: '20%', align: 'left'},
+        {key: 'cm_jobname', label: '업무명',  width: '15%', align: 'left'},
+        {key: 'jawon', label: '프로그램종류',  width: '15%', align: 'left'},
+        {key: 'cr_story', label: '프로그램설명',  width: '25%', align: 'left'},
     ]
 });
 
@@ -175,7 +175,7 @@ $('[data-ax5select="cboSrId"]').ax5select({
 
 
 $(document).ready(function() {
-	console.log('CheckOutCnl.js load');
+	//console.log('CheckOutCnl.js load');
 	screenInit();
 
 	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
@@ -238,8 +238,10 @@ $(document).ready(function() {
 
 
 function screenInit() {
-	getSysCbo();
+
+	getSrIdCbo();
 	$('#btnReq').attr('disabled',true);
+	
 }
 
 function getSysCbo(){
@@ -271,20 +273,7 @@ function successGetSysCbo(data){
         options: options
 	});
 	
-	if(sysData.length > 0){
-		for (var i=0;sysData.length>i;i++) {
-				if (sysData[i].setyn == "Y") {
-					selectVal = $('select[name=cboSys] option:eq('+i+')').val();
-					$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
-					break;
-				}
-				if(i>sysData.length){
-					selectVal = $('select[name=cboSys] option:eq(0)').val();
-					$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
-				}
-			}
-	}
-	getSrIdCbo();
+	changeSrId();
 	
 }
 
@@ -354,6 +343,8 @@ function successGetSrIdCbo(data){
 	if(srData.length > 0){
 		$('[data-ax-path="cboSrId"]').val(srData[0].cc_srid).trigger('change');
 	}
+
+	getSysCbo();
 }
 
 function changeSrId(){
@@ -361,29 +352,33 @@ function changeSrId(){
 	firstGridaData = [];
 	$('#txtSayu').val('');
 	$('#btnSR').attr('disabled',false);
+	
+	if (getSelectedIndex('cboSrId') > 0) {	
+		$('#txtSayu').val(getSelectedVal('cboSrId').text);
+		$('#btnSR').prop('disabled',false);
+	}
 
 	if(sysData.length > 0){
 		var sysLength = sysDataFilter();
-	
+
 		var sysSelectIndex = 0;
 		if(sysLength == 1 || getSelectedIndex('cboSrId') == 0) sysSelectIndex = 0;
 		else sysSelectIndex = 1;
-	
+
 		var selectVal = $('select[name=cboSys] option:eq('+sysSelectIndex+')').val();
 		$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
 		
-		
-		$('#txtSayu').val(getSelectedVal('cboSrId').text);
-		$('#btnSR').attr('disabled',false);
-		if (getSelectedIndex('cboSys') > 0) {
-			changeSys();
-		}
 	}
+	
+	changeSys();
 }
 
 function changeSys(){
 	firstGrid.setData([]);
 	firstGridaData = [];
+	srSw = false;
+	if(getSelectedIndex('cboSys') < 1) return;
+	
 	if (getSelectedVal('cboSys').cm_stopsw == "1") {
 		dialog.alert("이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.");
 		$('#btnSearch').prop('disabled',true);
@@ -392,19 +387,53 @@ function changeSys(){
 	
 	if (getSelectedVal('cboSys').cm_sysinfo.substr(9,1) == "1") srSw = false;
 	else srSw = true;
-	var srIdSelectIndex = 0;
-	if (srSw) {
-		$('[data-ax5select="cboSrId"]').ax5select("enabled");
-		if (srData.length==2) srIdSelectIndex = 1;	
-	} else {
-		$('[data-ax5select="cboSrId"]').ax5select("disabled");
-		if (srData.length>0) srIdSelectIndex = 0;
-	}
-	var selectVal = $('select[name=cboSrId] option:eq('+srIdSelectIndex+')').val();
-	$('[data-ax5select="cboSrId"]').ax5select('setValue',selectVal,true);
-	if(getSelectedIndex('cboSys')>0) findProc();
+	
+	findProc();
 }
 
+function sysDataFilter(){
+	var sysDataLength = sysData.length;
+	options = [];
+	for(var i=0; i<sysDataLength ; i++){
+		var data = sysData[i];
+		
+		if(data.cm_sysinfo.substr(0,1) == '1'){
+			continue;
+		}
+		else if (data.cm_syscd =='00000'){
+			options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype : data.cm_systype});
+		}
+		else if(data.cm_sysinfo.substr(9,1) == '1'){
+			if(getSelectedIndex('cboSrId') > 0){
+				continue;
+			} else {
+				options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype : data.cm_systype});
+			}
+		}
+		else{
+			if(getSelectedIndex('cboSrId') > 0){				
+				var syscd = getSelectedVal('cboSrId').syscd;
+				var arySyscd = syscd.split(",");
+				for(var j=0; j<arySyscd.length; j++){
+					if(arySyscd[j] == data.cm_syscd){
+						options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype : data.cm_systype});
+						break;
+					}
+				}
+				continue;
+			}
+			else{
+				continue;
+			}
+		}
+		
+	}
+
+	$('[data-ax5select="cboSys"]').ax5select({
+        options: options
+	});
+	return options.length;
+}
 function findProc()
 {
 	firstGrid.setData([]);
@@ -502,7 +531,7 @@ function addDataRow() {
 		
 		//RSCHKITEM	[27]-개발툴연계, [04]-동시적용항목CHECK, [47]-디렉토리기준관리, [09] 실행모듈Check
 		if ((this.cm_info.substr(26,1) == "1" || this.cm_info.substr(3,1) == "1" || 
-				this.cm_info.substr(46,1) == "1" || this.cm_info.substr(8,1) == "1")){
+			 this.cm_info.substr(46,1) == "1" || this.cm_info.substr(8,1) == "1")){
 			calcnt++;
 		}
 				
