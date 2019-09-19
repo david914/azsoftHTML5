@@ -1262,7 +1262,7 @@ table, table tr, table td {border: 0; border-collapse: collapse; border-spacing:
 label {display: inline-block; max-width: 100%; line-height: 25px; letter-spacing: -0.8px; margin-right: 5px; font-weight: bold; vertical-align: top; margin-bottom: 0; font-size: 13px;}
 button, input, select{vertical-align: top; margin: 0; padding: 0;}
 button{border: 0; margin: 0; padding: 0; cursor: pointer;}
-input{border: 1px solid #ddd; border-radius: 0px; box-shadow: none;}
+input{border: 1px solid #ddd; border-radius: 0px; box-shadow: none; transition: border 0.3s ease;}
 input::-webkit-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input:-ms-input-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
 input::-moz-placeholder {color: #8e8e8e; font-size: 12px; font-weight: 300;}
