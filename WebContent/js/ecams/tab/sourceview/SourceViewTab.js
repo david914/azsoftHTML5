@@ -120,7 +120,7 @@ function btnSearch_click(word,gbn) {
 		}
 		for (var i=findLine;srcArray.length>i;i++) {
 			lineData = srcArray[i].src;
-			if (lineData.indexOf(strWord)>=0) {
+			if (lineData.toUpperCase().indexOf(strWord.toUpperCase())>=0) {
 				findLine = ++i;
 				findSw = true;
 				break;
