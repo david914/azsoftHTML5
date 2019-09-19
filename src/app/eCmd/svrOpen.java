@@ -1684,7 +1684,7 @@ public class svrOpen{
 					BaseDir = BaseDir.replace("\\", "\\\\");
 				}
 				
-				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " " + BaseDir + " dir" + UserID;
+				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " Y " + BaseDir + " dir" + UserID;
 
 				Cmr0200 cmr0200 = new Cmr0200();
 				ret = cmr0200.execShell(shFileName, strParm, false);
@@ -1736,7 +1736,8 @@ public class svrOpen{
 				                	if (SysOs.equals("03")) {
 				                		str = str.trim();
 				                		str = str.replace("\\", "/");
-				                		if (str.indexOf("디렉터리")>0) {
+				                		if (str.indexOf("디렉터리")>0 && str.length() > BaseDir.length()) {
+				                		//if (str.indexOf("디렉터리")>0) {
 				                			if (str.substring(0,BaseDir.length()).equals(BaseDir)) {
 				                				strBaseDir = str.substring(0,str.indexOf("디렉터리"));
 					                			strBaseDir = strBaseDir.trim();
@@ -1908,7 +1909,7 @@ public class svrOpen{
 					BaseDir = BaseDir.replace("\\", "\\\\");
 				}
 				
-				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " " + BaseDir + " dir" + UserID;
+				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " Y " + BaseDir + " dir" + UserID;
 				Cmr0200 cmr0200 = new Cmr0200();
 				ret = cmr0200.execShell(shFileName, strParm, false);
 				cmr0200 = null;
@@ -1951,7 +1952,7 @@ public class svrOpen{
 				                	if (SysOs.equals("03")) {
 				                		str = str.trim();
 				                		str = str.replace("\\", "/");
-				                		if (str.indexOf("디렉터리")>0) {
+				                		if (str.indexOf("디렉터리")>0 && str.length() > BaseDir.length()) {
 				                			if (str.substring(0,BaseDir.length()).equals(BaseDir)) {
 				                				strBaseDir = str.substring(0,str.indexOf("디렉터리"));
 					                			strBaseDir = strBaseDir.trim();
@@ -2135,7 +2136,7 @@ public class svrOpen{
 				BaseDir = BaseDir.replace("\\\\", "\\");
 				BaseDir = BaseDir.replace("\\", "\\\\");
 			}
-			strParm = "./ecams_ih_cs " + etcData.get("SysCd") + " " + etcData.get("SvrIp") + " "  + etcData.get("SvrPort") + " " + etcData.get("buffSize") + " " + 
+			strParm = "./ecams_ih_cs " + etcData.get("SysCd") + " " + etcData.get("SvrIp") + " "  + etcData.get("SvrPort") + " " + etcData.get("buffSize") + " Y " + 
 						etcData.get("BaseDir") +  " filelist" + etcData.get("UserID") + " " + etcData.get("GbnCd") + " " + etcData.get("AgentDir");
 			ecamsinfo   = new eCAMSInfo();
 			ret = ecamsinfo.execShell_conn(shFileName, strParm, false,conn);
