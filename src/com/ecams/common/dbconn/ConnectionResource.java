@@ -63,9 +63,9 @@ public class ConnectionResource implements ConnectionContext {
 				String strUserps = "";
 				if (ConfigFactory.getProperties("O_secu").equals("true")) {
 					Encryptor oEncryptor = Encryptor.instance();
-					strUrl = oEncryptor.strGetEncrypt_AES256(ConfigFactory.getProperties("O_url"));
-					strUsernm = oEncryptor.strGetEncrypt_AES256(ConfigFactory.getProperties("O_username"));
-					strUserps = oEncryptor.strGetEncrypt_AES256(ConfigFactory.getProperties("O_password"));
+					strUrl = oEncryptor.strGetDecrypt_AES256(ConfigFactory.getProperties("O_url"));
+					strUsernm = oEncryptor.strGetDecrypt_AES256(ConfigFactory.getProperties("O_username"));
+					strUserps = oEncryptor.strGetDecrypt_AES256(ConfigFactory.getProperties("O_password"));
 					/*System.out.println("check DB SECU CONNECTION INFO====");
 					System.out.println(strUrl);
 					System.out.println(strUsernm);
