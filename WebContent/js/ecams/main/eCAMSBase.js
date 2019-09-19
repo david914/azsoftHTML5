@@ -420,13 +420,13 @@ function menuFolding() {
 		$("#msrDiv").animate({"margin-left": 300}, 500, function() {
 			$("#subbox").append($("#msrDiv").children());
 		});
-		$("#msrIcon").fadeIn(700);
+		$("#msrIcon").fadeIn();
 		$("#msrBd").animate({"width":"0px"}, 500);
 		folding = true;
 	} else if(winWidth >= 1270 && folding){
 		$("#msrDiv").append($("#subbox").children());
 		$("#msrIcon").fadeOut();
-		$("#msrBd").css({"min-width":"200px"});
+		$("#msrBd").css({"min-width":"220px"});
 		$("#msrDiv").animate({"margin-left": 0}, 500);	
 		folding = false;
 	}
