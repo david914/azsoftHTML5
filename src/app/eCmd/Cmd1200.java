@@ -511,7 +511,11 @@ public class Cmd1200{
 		    strQuery.append("       nvl(a.CM_ACPTTOTYN,'N') CM_ACPTTOTYN, 			   \n");
 		    strQuery.append("       nvl(a.CM_RSRCTOTYN,'N') CM_RSRCTOTYN,              \n");
 		    strQuery.append("       nvl(a.CM_DIRTOTYN,'N') CM_DIRTOTYN,                \n");
-		    strQuery.append("       nvl(a.CM_JOBTOTYN, 'N') CM_JOBTOTYN               \n");
+		    strQuery.append("       nvl(a.CM_JOBTOTYN, 'N') CM_JOBTOTYN,               \n");
+		    strQuery.append(" 		(select cm_bldmsg from cmm0022 					   \n");
+		    strQuery.append(" 		  where cm_gbncd = a.cm_bldgbn 					   \n");
+		    strQuery.append(" 			and cm_bldcd = a.cm_bldcd 					   \n");
+		    strQuery.append(" 			and rownum = 1) bldmsg						   \n");
     	    strQuery.append("  from cmm0020 d,cmm0020 c,cmm0033 a                      \n");
     	    if (SysInfo.substring(7,8).equals("1")) strQuery.append(",cmm0102 b        \n");
     	    strQuery.append(" where a.cm_syscd=? and a.cm_qrycd=?                      \n");//Cbo_SysCd_code
@@ -544,7 +548,7 @@ public class Cmd1200{
 				rst.put("cm_bldgbn", rs.getString("cm_bldgbn"));
 				rst.put("cm_bldcd", rs.getString("cm_bldcd"));
 				rst.put("cm_prcsys", rs.getString("cm_prcsys"));
-
+				
 				rst.put("CM_RUNGBN", rs.getString("CM_RUNGBN"));
 				rst.put("CM_RUNPOS", rs.getString("CM_RUNPOS"));
 				rst.put("CM_SEQYN", rs.getString("CM_SEQYN"));
@@ -555,6 +559,8 @@ public class Cmd1200{
 				rst.put("CM_RSRCTOTYN", rs.getString("CM_RSRCTOTYN"));
 				rst.put("CM_DIRTOTYN", rs.getString("CM_DIRTOTYN"));
 				rst.put("CM_JOBTOTYN", rs.getString("CM_JOBTOTYN"));
+				
+				rst.put("bldmsg", rs.getString("bldmsg"));
 
 				if (rs.getString("CM_RUNGBN").equals("B")) rst.put("RUNGBN", "파일송수신전");
 				else rst.put("RUNGBN", "파일송수신후");
@@ -845,12 +851,13 @@ public class Cmd1200{
             rs = pstmt.executeQuery();
 		    while(rs.next()){
 				strQuery.setLength(0);
-				strQuery.append("select a.cm_bldcd,a.cm_seq,a.cm_cmdname,a.cm_errword, \n");
-				strQuery.append("       nvl(a.cm_runtype,'R') cm_runtype,              \n");
-				strQuery.append("       nvl(a.cm_viewyn,'N') cm_viewyn                 \n");
-				strQuery.append("  from cmm0022 a                                      \n");
-				strQuery.append(" where a.cm_gbncd=?  and a.cm_bldcd=?                 \n");
-				strQuery.append(" order by a.cm_bldcd,a.cm_seq                         \n");
+				strQuery.append("select a.cm_bldcd,a.cm_seq,a.cm_cmdname,a.cm_errword,  \n");
+				strQuery.append("       nvl(a.cm_runtype,'R') cm_runtype,               \n");
+				strQuery.append("       nvl(a.cm_viewyn,'N') cm_viewyn, 				\n");
+				strQuery.append("       nvl(a.cm_bldmsg,a.cm_bldcd) cm_bldmsg    		\n");
+				strQuery.append("  from cmm0022 a                                       \n");
+				strQuery.append(" where a.cm_gbncd=?  and a.cm_bldcd=?                  \n");
+				strQuery.append(" order by a.cm_bldcd,a.cm_seq                          \n");
 				pstmt2 = conn.prepareStatement(strQuery.toString());
 				pstmt2.setString(1, rs.getString("cm_gbncd"));
 	            pstmt2.setString(2, rs.getString("cm_bldcd"));
@@ -864,6 +871,11 @@ public class Cmd1200{
 					rst.put("cm_bldcd", rs2.getString("cm_bldcd"));
 					rst.put("cm_runtype", rs2.getString("cm_runtype"));
 					rst.put("cm_viewyn", rs2.getString("cm_viewyn"));
+					if(rs2.getString("cm_bldcd").equals(rs2.getString("cm_bldmsg"))) {
+						rst.put("cm_bldmsg", "처리유형"+rs2.getString("cm_bldcd"));
+					}else {
+						rst.put("cm_bldmsg", rs2.getString("cm_bldmsg"));
+					}
 		           	rsval.add(rst);
 		           	rst = null;
 	            }
