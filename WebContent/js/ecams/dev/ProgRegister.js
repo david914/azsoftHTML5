@@ -91,6 +91,13 @@ $(document).ready(function(){
 		btnQry_Click();
 	});
 	
+	//프로그램명 엔터이벤트
+	$('#txtRsrcName1').bind('keypress', function(event) {
+		if(event.keyCode === 13) {
+			$('#btnQry').trigger('click');
+		}
+	});
+	
 	//삭제
 	$('#btnDel').bind('click',function() {
 		btnDel_Click();
@@ -383,7 +390,7 @@ function successDir(data) {
 		if(gridSelectedIndex > 0) {
 			for(var i=0; i<cboDirData.length; i++) {
 				if(selectedGridItem.cr_dsncd == cboDirData[i].cm_dsncd) {
-					$('[data-ax5select="cboDir"]').ax5select('setValue',selectedGridItem[i].value,true);
+					$('[data-ax5select="cboDir"]').ax5select('setValue',selectedGridItem.cr_dsncd,true);
 					break;
 				}
 			}

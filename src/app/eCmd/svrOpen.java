@@ -1720,7 +1720,8 @@ public class svrOpen{
 				            String str = null;
 
 							maxSeq = maxSeq + 1;
-
+							
+							HomeDir = HomeDir.replace("\\", "/");
 							rst = new HashMap<String,String>();
 							rst.put("cm_dirpath","["+svrName+"]"+HomeDir);
 							rst.put("cm_fullpath",HomeDir);
@@ -1779,9 +1780,13 @@ public class svrOpen{
 														}
 														strDir = strDir + pathDepth[i];
 														//ecamsLogger.error("## pathDepth: " + pathDepth[i]);
+														
 														findSw = false;
 														if (rsval.size() > 0) {
 															for (j = 0;rsval.size() > j;j++) {
+//																ecamsLogger.error("## strDir: " + strDir);
+//																ecamsLogger.error("## cm_fullpath: " +rsval.get(j).get("cm_fullpath"));
+																
 																if (rsval.get(j).get("cm_fullpath").equals(strDir)) {
 																	upSeq = Integer.parseInt(rsval.get(j).get("cm_seqno"));
 																	findSw = true;
@@ -1789,11 +1794,12 @@ public class svrOpen{
 															}
 														} else {
 															findSw = false;
-														}														
+														}			
 														
 														if (findSw == false) {
 															maxSeq = maxSeq + 1;
-
+															
+															strDir = strDir.replace("\\", "/");
 															rst = new HashMap<String,String>();
 															rst.put("cm_dirpath",pathDepth[i]);
 															rst.put("cm_fullpath",strDir);
@@ -1820,7 +1826,8 @@ public class svrOpen{
 	            
 	            if (rsval.size() > 0) {
 					for (int i = 0;rsval.size() > i;i++) {
-						if("0".equals(rsval.get(i).get("cm_upseq")) || "1".equals(rsval.get(i).get("cm_upseq"))) {
+						//if("0".equals(rsval.get(i).get("cm_upseq")) || "1".equals(rsval.get(i).get("cm_upseq"))) {
+						if(BaseDir.indexOf(rsval.get(i).get("cm_fullpath")) > -1) {
 							rtMap = new HashMap<>();
 			            	rtMap.put("id", rsval.get(i).get("cm_seqno"));
 			            	rtMap.put("name", rsval.get(i).get("cm_dirpath"));
@@ -1984,7 +1991,7 @@ public class svrOpen{
 					                		}
 //					                		ecamsLogger.error("## findSw: " + findSw + ", str: " + str);
 					                		if (findSw) {
-					                			ecamsLogger.error("### str: " + str);
+//					                			ecamsLogger.error("### str: " + str);
 						                		pathDepth = str.substring(1).split("/");
 						                		strDir = BaseDir;
 												upSeq = 1;
