@@ -212,11 +212,10 @@ $(document).ready(function() {
 		requestType : 'getTmpDir'
 	}
 	ajaxAsync('/webPage/modal/request/RequestDocModalServlet', data, 'json', successGetTmpDir);
-	
+
 	//담당 개발자 그리드 height 조정
 	devUserGrid.setHeight($('#cboReqSecu').offset().top - $('[data-ax5grid="devUserGrid"]').offset().top + $('#cboReqSecu').outerHeight() + 28);
 });
-
 
 function createViewGrid(){
 	grid_fileList.setConfig({
@@ -314,6 +313,9 @@ function createViewGrid(){
 	if(devUserDate.length > 0){
 		devUserGrid.setData(devUserDate);
 	}
+	
+	//담당 개발자 그리드 height 조정
+	devUserGrid.setHeight($('#cboReqSecu').offset().top - $('[data-ax5grid="devUserGrid"]').offset().top + $('#cboReqSecu').outerHeight() + 28);
 }
 
 function successGetTmpDir(data){
