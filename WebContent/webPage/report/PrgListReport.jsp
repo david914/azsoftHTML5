@@ -96,8 +96,8 @@
 			</div>
 		</div>
 		
-		<div class="az_board_basic">
-	    	<div id="mainGrid" data-ax5grid="mainGrid" data-ax5grid-config="{}" style="width:100%; height: 600px;">
+		<div class="az_board_basic" style="height:85%">
+	    	<div id="mainGrid" data-ax5grid="mainGrid" data-ax5grid-config="{}" style="width:100%; height: 100%;">
 		
 			</div>
 		</div>

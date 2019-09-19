@@ -8,6 +8,7 @@
 	color: red;
 	font-weight: bold;
 }
+
 </style>
 
 <div id="wrapper">
@@ -17,11 +18,11 @@
 			<div class="az_in_wrap sr_status">
 				<div class="l-wrap width-100 vat">
 					<div>
-						<div class="width-15 dib por">
+						<div class="width-22 dib por">
 							<div class="vat dib margin-10-right">
 	                        	<label>시스템</label>
 	                        </div>
-	                        <div id="sysInfo" data-ax5select="sysInfo" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib width-65">
+	                        <div id="sysInfo" data-ax5select="sysInfo" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib" style="width:calc(100% - 80px);">
 						    </div>
 						</div>
 
@@ -35,29 +36,30 @@
 								</div>
 							</div>													    
 						</div>
-						<div class="width-40 dib vat">
-							<div class="vat dib margin-5-right float-right" id="btnDiv">
-								<button class="btn_basic_s margin-10-right" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
+						<div class="width-10 dib vat">
+							<div class="vat dib margin-5-right float-right poa" id="btnDiv" style="right:0;">
+								<button class="btn_basic_s margin-10-right" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조 회</button>
 							</div>
 						</div>
 					</div>					
 				</div>						
 			</div>
 		</div>	
-	</div>
-	
-	<div class="az_board_basic margin-15-left" style="width: 98%;">
-		<div id="mainGrid" data-ax5grid="mainGrid" data-ax5grid-config="{}" style="width:100%; height: 320px;">
-		
+		<div class="az_board_basic margin-15-left" style="width: 98%;">
+			<div id="mainGrid" data-ax5grid="mainGrid" data-ax5grid-config="{}" style="width:100%; height: 320px;">
+			
+			</div>
+			<div class="hpanel margin-5-top" style="font-size:0px;">
+			    <div class="panel-body text-center dib" id="pieDiv" style="width: 30%; border: 1px solid #ddd; height:397px; margin-right:5px;">
+			    	<label>시스템별 파일 보유현황</label>
+			    	<div id="pieAppliKinds" flow="down"></div>
+			    </div>
+			    <div class="panel-body text-center dib" id="barDiv" style="width: calc(70% - 5px); border: 1px solid #ddd; height:397px;">
+			    	<label>파일 종류별 보유현황</label>
+			    	<div id="barAppliKinds" flow="down"></div>
+			    </div>
+			</div>	
 		</div>
-		<div class="hpanel">			
-		    <div class="panel-body text-center dib" id="pieDiv" style="width: 30%;">
-		    	<div id="pieAppliKinds" tooltip="시스템별 파일 보유현황을 보여줍니다." flow="down"></div>
-		    </div>
-		    <div class="panel-body text-center dib" id="barDiv" style="width: 66%;">
-		    	<div id="barAppliKinds" tooltip="파일 종류별 보유현황 보여줍니다." flow="down"></div>
-		    </div>
-		</div>	
 	</div>
 </div>
 

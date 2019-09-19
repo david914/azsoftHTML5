@@ -18,10 +18,10 @@
 						<label class="title">[프로그램목록]</label>
 					</div>
 					
-					<div class="width-50 dib vat">
+					<div class="dib vat" style="width:calc(60% - 80px);">
 						<label class="tit_80 dib poa">프로그램종류</label>
 						<div class="ml_80">
-							<div id="cboRsrc" data-ax5select="cboRsrc" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-70 dib"></div> 
+							<div id="cboRsrc" data-ax5select="cboRsrc" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div> 
 							<div class="vat dib poa_r">
 								<input type="checkbox" class="checkbox-module" id="chkNoPrg" data-label="미연결건"/>
 							</div>
@@ -37,13 +37,13 @@
 						<div id="cboSysCd" data-ax5select="cboSysCd" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-70 dib"></div> 
 					</div>
 					
-					<div class="width-50 dib vat">
+					<div class=" dib vat" style="width:calc(60% - 80px);">
 						<label class="tit_80 dib poa">프로그램명</label>
 						<div class="ml_80">
-							<input id="txtPrg" type="text" class="width-70 dib">
+							<input id="txtPrg" type="text" class="width-100 dib">
 						</div>										
 						<div class="vat poa_r">
-							<button id="btnQryPrg" class="btn_basic_s">검색</button>
+							<button id="btnQryPrg" class="btn_basic_s" style="width:75px;">검색</button>
 						</div>
 					</div>
 				</div>	
@@ -67,7 +67,7 @@
 					<div class="sm-row por vat">
 						<div class="vat">
 							<label>프로그램명</label>
-							<input id="txtMod" type="text" class="width-60">									
+							<input id="txtMod" type="text" class="width-60" style="width:calc(100% - 200px);">									
 							<div class="vat dib margin-5-left">
 								<button id="btnQryMod" class="btn_basic_s">검색</button>
 							</div>
