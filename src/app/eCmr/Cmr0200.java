@@ -4515,43 +4515,25 @@ public class Cmr0200{
 	            		pstmt.setString(pstmtcount++,"");
 	            	}
 	            	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_aftver"));
-	            	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_version"));
-	            	if (etcData.get("ReqCD").equals("04")) {
-	            		if (!"".equals(chkInList.get(i).get("cr_acptno")) && chkInList.get(i).get("cr_acptno") != null) {
-	
-	            			pstmt.setString(pstmtcount++,chkInList.get(i).get("cr_acptno"));
-	
-	            		} else {
-	
-	            			pstmt.setString(pstmtcount++,AcptNo);
-	
-	            		}
-	            	} else {
-	            		pstmt.setString(pstmtcount++,chkInList.get(i).get(""));
-	            	}
+	            	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_befver"));
+            		if (!"".equals(chkInList.get(i).get("cr_acptno")) && chkInList.get(i).get("cr_acptno") != null) {	
+            			pstmt.setString(pstmtcount++,chkInList.get(i).get("cr_acptno"));
+            		} else {
+            			pstmt.setString(pstmtcount++,"");
+            		}
 	            	pstmt.setString(pstmtcount++, etcData.get("UserID"));
-	
-	            	if (chkInList.get(i).get("reqcd").equals("05") || chkInList.get(i).get("reqcd").equals("09")) {
-	            		pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_baseno"));
-	            	} else {
-		        		if (chkInList.get(i).get("cr_acptno") != null && !"".equals(chkInList.get(i).get("cr_acptno")) &&
-		        			chkInList.get(i).get("cr_acptno").substring(4,6).equals("01") &&
-		            		chkInList.get(i).get("cr_acptno").substring(4,6).equals("02")) {
-		        			pstmt.setString(pstmtcount++,chkInList.get(i).get("cr_acptno"));
-		        		} else if (chkInList.get(i).get("cr_acptno") != null && !"".equals(chkInList.get(i).get("cr_acptno")) &&
-		        				!chkInList.get(i).get("cr_aftver").equals("0")) {
-			        			pstmt.setString(pstmtcount++,chkInList.get(i).get("cr_baseno"));
-			        	}else {
-		        			pstmt.setString(pstmtcount++,chkInList.get(i).get(""));
-		        		}
-	            	}
+	            	if (!"".equals(chkInList.get(i).get("cr_baseno")) && chkInList.get(i).get("cr_baseno") != null) {	
+            			pstmt.setString(pstmtcount++,chkInList.get(i).get("cr_baseno"));
+            		} else {
+            			pstmt.setString(pstmtcount++,"");
+            		}
 	            	pstmt.setString(pstmtcount++, chkInList.get(i).get("baseitem"));
 	            	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_itemid"));
-	            	if (chkInList.get(i).get("reqcd").equals("09")) {
-	            		pstmt.setString(pstmtcount++, selBaseno(chkInList.get(i).get("cr_itemid"),conn));
-	            	} else {
-	            		pstmt.setString(pstmtcount++, AcptNo);
-	            	}
+	            	if (!"".equals(chkInList.get(i).get("cr_baseno")) && chkInList.get(i).get("cr_baseno") != null) {	
+            			pstmt.setString(pstmtcount++,chkInList.get(i).get("cr_baseno"));
+            		} else {
+            			pstmt.setString(pstmtcount++,AcptNo);
+            		}
 	            	pstmt.setString(pstmtcount++, chkInList.get(i).get("baseitem"));
 	            	pstmt.setString(pstmtcount++, chkInList.get(i).get("cr_story"));
 	            	pstmt.setString(pstmtcount++, chkInList.get(i).get("cm_systype"));

@@ -5,7 +5,7 @@
 <!-- 검색 S-->
 <div class="az_search_wrap">
 	<div class="az_in_wrap sr_status">
-		<div class="l_wrap dib vat" style="width:52%">
+		<div class="l_wrap dib vat" style="width:calc(100% - 452px);">
 			<!-- 요청부서 -->
 			<div class="dib" style="width:33%">
 				<label id="lbReqDepart">요청부서</label>
@@ -28,7 +28,7 @@
 					class="width-15 dib" style="width: calc(100% - 54px);"></div>
 			</div>
 		</div>
-		<div class="r_wrap width-48 dib vat">
+		<div class="r_wrap dib vat" style="width:452px;">
 			<label id="lbAcptDate">등록일</label>
 			<div id="divPicker" data-ax5picker="basic" class="az_input_group dib">
 				<input id="datStD" name="datStD" type="text"

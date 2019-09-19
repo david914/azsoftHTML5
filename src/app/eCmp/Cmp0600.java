@@ -110,7 +110,7 @@ public class Cmp0600{
 				strQuery.append("                    connect by prior cm_deptcd=cm_updeptcd)\n");
 			}
 			if (Txt_UserId != null && !Txt_UserId.equals("")) {
-				strQuery.append("and f.cm_username=?                                        \n");
+				strQuery.append("and f.cm_username like ?                                        \n");
 			}
 			if (Txt_AcptNo != null && !Txt_AcptNo.equals("")) {
 				strQuery.append("and a.cr_acptno like ?                                     \n");
@@ -158,7 +158,7 @@ public class Cmp0600{
 				pstmt.setString(++Cnt, Cbo_Steam);
 			}
 			if (Txt_UserId != null && !Txt_UserId.equals("")) {
-				pstmt.setString(++Cnt, Txt_UserId);
+				pstmt.setString(++Cnt, "%"+Txt_UserId+"%");
 			}
 			if (Txt_AcptNo != null && !Txt_AcptNo.equals("")) {
 				pstmt.setString(++Cnt, "%"+Txt_AcptNo+"%");

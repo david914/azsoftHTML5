@@ -250,7 +250,7 @@ var chkOutVerSelModalCallBack = function() {
 }
 
 $(document).ready(function() {
-	console.log('CheckOut.js load');
+//	console.log('CheckOut.js load');
 	screenInit();
 	
 	$('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
@@ -311,7 +311,6 @@ $(document).ready(function() {
 });
 
 function screenInit() {
-	getSysCbo();
 	getSrIdCbo();
 	$('#btnReq').attr('disabled',true);
 }
@@ -337,41 +336,15 @@ function successGetSysCbo(data){
 	options = [];
 	
 	for(var i=0; i<sysData.length;i++){
-		if(sysData[i].cm_syscd == '00000' || sysData[i].cm_sysinfo.substr(0,1) == '1'){
-			sysData.splice(i,1);
-			i--;
-			continue;
-		}
-		options.push({value: sysData[i].cm_syscd, text: sysData[i].cm_sysmsg, cm_sysgb: sysData[i].cm_sysgb, cm_sysinfo : sysData[i].cm_sysinfo});
+		options.push({value: sysData[i].cm_syscd, text: sysData[i].cm_sysmsg, cm_sysgb: sysData[i].cm_sysgb, cm_sysinfo : sysData[i].cm_sysinfo, cm_systype: sysData[i].cm_systype});
 	};
 	
 	$('[data-ax5select="cboSys"]').ax5select({
         options: options
 	});
 	
-	if(sysData.length > 0){
-		if(strAcptNo != null && strAcptNo !=""){
-			var selectVal = $('select[name=cboSys] option:eq(0)').val();
-			$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
-		}else{
-			for (var i=0;sysData.length>i;i++) {
-					if (sysData[i].setyn == "Y") {
-						var selectVal = $('select[name=cboSys] option:eq('+i+')').val();
-						$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
-						break;
-					}
-				}
-			var selectVal = $('select[name=cboSys] option:eq(0)').val();
-			if (i>=sysData.length) $('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);;
-		}
-	} else {
-		if (strAcptNo != null && strAcptNo != "") {
-			dialog.alert('사용권한이 없는 시스템에 대하여 체크아웃요청을 의뢰하였습니다.');
-		}
-	}
+	changeSrId();
 	
-	getPrgCbo();
-	getFileTree();
 }
 
 function getSrIdCbo(){
@@ -388,9 +361,6 @@ function getSrIdCbo(){
 	}
 	
 	ajaxAsync('/webPage/dev/CheckOutServlet', tmpData, 'json', successGetSrIdCbo);
-	
-	
-	
 }
 
 function successGetSrIdCbo(data){
@@ -406,6 +376,8 @@ function successGetSrIdCbo(data){
 	$('[data-ax5select="cboSrId"]').ax5select({
         options: options
 	});
+
+	getSysCbo();
 }
 
 function getPrgCbo(){
@@ -427,16 +399,19 @@ function getPrgCbo(){
 function successGetPrgCbo(data){
 	prgData = data;
 	options = [];
-
-	$.each(prgData,function(key,value) {
-		options.push({value: value.cm_micode, text: value.cm_codename});
-	});
 	
+	if (data.length == 0) {
+		dialog.alert("체크아웃대상 프로그램유형이 없습니다.");
+	} else {
+		$.each(prgData,function(key,value) {
+			options.push({value: value.cm_micode, text: value.cm_codename});
+		});
+    }
 	$('[data-ax5select="cboRsrccd"]').ax5select({
         options: options
 	});
 	
-	getFileTree();
+	//getFileTree();
 }
 
 function changeSrId(){
@@ -444,30 +419,38 @@ function changeSrId(){
 	$('#reqText').val('');
 	$('#btnSR').prop('disabled',true);
 
-	if (getSelectedIndex('cboSrId') < 1) return;
+	if (getSelectedIndex('cboSrId') > 0) {	
+		$('#reqText').val(getSelectedVal('cboSrId').text);
+		$('#btnSR').prop('disabled',false);
+	}
+	if(sysData.length > 0){
+		var sysLength = sysDataFilter();
+
+		var sysSelectIndex = 0;
+		if(sysLength == 1) sysSelectIndex = 0;
+		else sysSelectIndex = 1;
+
+		var selectVal = $('select[name=cboSys] option:eq('+sysSelectIndex+')').val();
+		$('[data-ax5select="cboSys"]').ax5select('setValue',selectVal,true);
+		
+	}
 	
-	$('#reqText').val(getSelectedVal('cboSrId').text);
-	$('#btnSR').prop('disabled',false);
-	
+	changeSys();
 }
 
 function changeSys(){
 	
 	firstGrid.setData([]);
 	fristGridData = [];
+	treeData = [];
+	
+	if(getSelectedIndex('cboSys') < 1) return;
+	
 	if (getSelectedVal('cboSys').cm_sysinfo.substr(4,1) == "1" && getSelectedVal('cboSys').cm_stopsw == "1") {
 		dialog.alert('이관통제를 위하여 일시적으로 형상관리 사용을 중지합니다.');
 
 		$('#btnSearch').prop('disabled',true);
 		return;
-	}
-	if(getSelectedVal('cboSys').cm_sysinfo.substr(9,1) == "1"){
-
-		$('[data-ax5select="cboSrId"]').ax5select("disable");
-		$('#btnSearch').prop('disabled',false);
-	}else {
-		$('[data-ax5select="cboSrId"]').ax5select("enable");
-		$('#btnSearch').prop('disabled',false);
 	}
 
 	$('#btnSearch').prop('disabled',false);
@@ -475,6 +458,41 @@ function changeSys(){
 	getPrgCbo();
 }
 
+function sysDataFilter(){
+	var sysDataLength = sysData.length;
+	options = [];
+	for(var i=0; i<sysDataLength ; i++){
+		var data = sysData[i];
+		
+		if(data.cm_sysinfo.substr(0,1) == '1'){
+			continue;
+		}
+		else if (data.cm_syscd =='00000'){
+			options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype : data.cm_systype});
+		}
+		else if(data.cm_sysinfo.substr(9,1) == '1'){
+			if(getSelectedIndex('cboSrId') > 0){
+				continue;
+			} else {
+				options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype : data.cm_systype});
+			}
+		} else {
+			if(getSelectedIndex('cboSrId') > 0){
+				if(getSelectedIndex('cboSrId') > 0){
+					options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype : data.cm_systype});
+				} else {
+					continue;
+				}
+			}
+		}
+		
+	}
+
+	$('[data-ax5select="cboSys"]').ax5select({
+        options: options
+	});
+	return options.length;
+}
 function getFileTree(){
 	var fileTreeInfoData = new Object();
 	fileTreeInfoData.UserId = userId;
@@ -495,7 +513,13 @@ function getFileTree(){
 }
 
 function successGetFileTree(data){
-
+	
+	if (data.length < 2) {
+		dialog.alert("체크아웃 대상경로가 없습니다.");
+		ztree = $.fn.zTree.init($('#treeDemo'), setting, treeData);
+		return;
+	}
+	
 	treeData = data;
 	var setting = {
 			data: {
@@ -526,9 +550,6 @@ function successGetFileTree(data){
 		treeData = obj;
 		
 		ztree = $.fn.zTree.init($('#treeDemo'), setting, treeData);
-	}
-	else{
-		console.log(treeData);
 	}
 }
 
@@ -695,7 +716,7 @@ function successGetFileGridData(data){
 		}
 		alertFlag = 0;
 		
-		console.log(firstGridData);
+//		console.log(firstGridData);
 		$(firstGridData).each(function(i){
 
 			if(firstGridData[i].cm_info.substr(57,1) == '1' &&  firstGridData[i].cm_info.substr(44,1) == '0'){
@@ -722,7 +743,7 @@ function successGetFileGridData(data){
 		firstGrid.setData(firstGridData);
 		//fileGrid.refresh(); //체크아웃후 새로운 데이터 안가져옴
 		//changeFileGridStyle(firstGridData);
-		console.log(firstGrid);
+		//console.log(firstGrid);
 	}
 }
 

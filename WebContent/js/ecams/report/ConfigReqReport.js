@@ -205,7 +205,7 @@ $("#btnSearch").bind('click', function() {
 })
 
 //텍스트박스에서 엔터키 입력 시
-$("#srId, #requser, #descript").bind('keypress', function(event) {
+$("#srId, #requser, #descript, #acptNo").bind('keypress', function(event) {
 	if(window.event.keyCode == 13) search();
 })
 

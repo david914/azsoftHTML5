@@ -48,18 +48,24 @@ public class Cmr5200 {
 			tmpPath = etcData.get("tmpdir");
 			shFileName = etcData.get("userid") + "_" + etcData.get("itemid") +"_cmpsrc.sh";
 			fileName = etcData.get("userid") + "_" + etcData.get("itemid");
-			fileName1 = tmpPath + "/" + fileName + ".1";
-			fileName2 = tmpPath + "/" + fileName + ".2";
+			fileName1 = tmpPath + fileName + ".1";
+			fileName2 = tmpPath + fileName + ".2";
 			outFile1 = new File(fileName1);
-			outFile2 = new File(fileName1);
-			outFile1.delete();
-			outFile2.delete();
+			outFile2 = new File(fileName2);
+//			outFile1.delete();
+//			outFile2.delete();
 			
 			//fileName1 = "F:\\Azsoft\\HTML5\\save\\MASTER000000326526.1";
 			//fileName2 = "F:\\Azsoft\\HTML5\\save\\MASTER000000326526.2";
 			
 			Cmr0200 cmr0200 = new Cmr0200();
 			strParm = "./ecams_cmpsrc CMPSRC " + etcData.get("itemid") + " " + etcData.get("diffgbn1") + " " + etcData.get("befver") + " " + etcData.get("itemid") + " " + etcData.get("diffgbn2") + " " + etcData.get("aftver") + " " + fileName;
+			
+			ecamsLogger.error("1 "+strParm);
+			ecamsLogger.error("2 "+fileName1);
+			ecamsLogger.error("3 "+fileName2);
+			
+			
 			ret = cmr0200.execShell(shFileName, strParm, false);
 			cmr0200 = null;
 			if (ret != 0) {
@@ -140,13 +146,12 @@ public class Cmr5200 {
 				in1 = null;
 				in2 = null;
 				
-				outFile1.delete();
-				outFile2.delete();				
+//				outFile1.delete();
+//				outFile2.delete();				
 			}
 			
 			outFile1 = null;
 			outFile2 = null;
-			ecamsLogger.error(rtList.toString());
 			
 			return rtList.toArray();
 

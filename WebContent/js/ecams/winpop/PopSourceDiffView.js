@@ -57,8 +57,8 @@ grdProgHistory.setConfig({
     },
     columns: [
 		{key: "cr_rsrcname", label: "프로그램명",  width: '20%', align: 'left'},
-        {key: "cr_befver", label: "변경전",  width: '10%'},
-        {key: "cr_aftver", label: "변경후",  width: '10%'},
+        {key: "cr_befviewver", label: "변경전",  width: '10%'},
+        {key: "cr_aftviewver", label: "변경후",  width: '10%'},
         {key: "cm_codename", label: "구분",  width: '8%'},
         {key: "basename", label: "기준프로그램",  width: '20%', align: 'left'},
         {key: "cm_dirpath", label: "프로그램경로",  width: '50%',  align: 'left'}
@@ -259,6 +259,7 @@ function btnVerDiff_click() {
 	var secondLine = 0;
 	var befVer = 0;
 	var aftVer = 0;
+	diffGbn = 'A';
 	
 	if (befVer > 0 && aftVer > 0) {
 		grdDiffSrc.setData(grdDiffSrcData);
@@ -271,32 +272,49 @@ function btnVerDiff_click() {
 		aftVer = grdProgHistoryData[0].cr_aftver;
 		cr_itemid = grdProgHistoryData[0].cr_itemid;
 		cr_qrycd = grdProgHistoryData[0].cr_qrycd;
+		cr_befviewver = grdProgHistoryData[0].cr_befviewver;
+		cr_aftviewver = grdProgHistoryData[0].cr_aftviewver;
 	}else{
 		befVer = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_befver;
 		aftVer = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_aftver;
 		cr_itemid = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_itemid;
 		cr_qrycd = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_qrycd;
+		cr_befviewver = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_befviewver;
+		cr_aftviewver = grdProgHistoryData[grdProgHistory.selectedDataIndexs].cr_aftviewver;
 	}
 	//grdProgHistory.select(1);
 	
-	
-	console.log("pUserId:" + pUserId);
-	console.log("cr_itemid:" + cr_itemid);
-	console.log("cr_qrycd:" + cr_qrycd);
-	console.log("befVer:" + befVer);
-	console.log("aftVer:" + aftVer);
-	console.log("tmpDir:" + tmpDir);
-	console.log("tmp:" + "local");
-	console.log("tmp:" + "server");
+	if(befVer < 1){
+		if(pReqNo.substr(4,2) == "08"){
+			dialog.alert('개발서버에 배포된 비교대상 버전이 없습니다.');
+			return;
+		}if(pReqNo.substr(4,2) == "03"){
+			dialog.alert('테스트 서버에 배포된 비교대상 버전이 없습니다.');
+			return;
+		}if(pReqNo.substr(4,2) == "04"){
+			dialog.alert('운영 서버에 배포된 비교대상 버전이 없습니다.');
+			return;
+		}else{
+			dialog.alert('비교대상이 없습니다.');
+			return;
+		}
+	}
 	
 	tmpInfo = new Object();
 	tmpInfo.userid = pUserId;
 	tmpInfo.itemid  = cr_itemid;
-	tmpInfo.diffgbn1  = cr_qrycd;
+	tmpInfo.diffgbn1  = "CMR0025";
 	tmpInfo.befver  = befVer;
-	tmpInfo.diffgbn2  = cr_qrycd;
-	tmpInfo.aftver  = aftVer;
+	if(grdProgHistoryData[0].cr_status == "9"){
+		tmpInfo.aftver  = aftVer;
+		tmpInfo.diffgbn2  = "CMR0025";
+	}else{	// 진행중인 상태 + 체크인 이면 신청번호, CMR0027 로 
+		tmpInfo.aftver  = pReqNo;
+		tmpInfo.diffgbn2  = "CMR0027";
+	}
 	tmpInfo.tmpdir = tmpDir;
+	tmpInfo.cr_befviewver = cr_befviewver;
+	tmpInfo.cr_aftviewver = cr_aftviewver;
 //	tmpInfo.tmp = "local";
 	tmpInfo.tmp = "server";
 	tmpInfoData = new Object();
@@ -509,7 +527,7 @@ function btnSearch_click() {
 			for(i=svIdx; i<grdDiffSrcData.length; i++) {
 				rowMsg = grdDiffSrcData[i].file1;
 				if (rowMsg.length > 0) {
-					if (rowMsg.indexOf(svWord)>=0) {
+					if (rowMsg.toUpperCase().indexOf(svWord.toUpperCase())>=0) {
 						svIdx = i;
 						findSw = true;
 						break;
@@ -517,7 +535,7 @@ function btnSearch_click() {
 				}
 				rowMsg = grdDiffSrcData[i].file2;
 				if (rowMsg.length > 0) {
-					if (rowMsg.indexOf(svWord)>=0) {
+					if (rowMsg.toUpperCase().indexOf(svWord.toUpperCase())>=0) {
 						svIdx = i;
 						findSw = true;
 						break;
@@ -538,15 +556,15 @@ function btnSearch_click() {
 			for(i=svIdx; i<diffSrcData.length; i++) {
 				rowMsg = diffSrcData[i].file1;
 				if (rowMsg.length > 0) {
-					if (rowMsg.indexOf(svWord)>=0) {
+					if (rowMsg.toUpperCase().indexOf(svWord.toUpperCase())>=0) {
 						svIdx = i;
 						findSw = true;
 						break;
 					}
 				}
 				rowMsg = diffSrcData[i].file2;
-				if (rowMsg.length > 0) {
-					if (rowMsg.indexOf(svWord)>=0) {
+				if (rowMsg.toUpperCase().length > 0) {
+					if (rowMsg.indexOf(svWord.toUpperCase())>=0) {
 						svIdx = i;
 						findSw = true;
 						break;

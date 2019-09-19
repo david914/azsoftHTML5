@@ -97,14 +97,14 @@
 			</div>
 		</div>	
 		<div class="row" style="font-size:0px;">
-			<div class="dib width-50">
+			<div class="dib width-100">
 	        	<label class="tit_60 poa">변경(전)</label>
 	            <div class="ml_60">
 					<input id="txtBefSrc" class="width-100" type="text" readonly />
 				</div>
 			</div>
-			<div class="dib width-50">
-	        	<label class="tit_60 poa" style="padding-left:7px;">변경(후)</label>
+			<div class="dib width-100">
+	        	<label class="tit_60 poa">변경(후)</label>
 	            <div class="ml_60">
 					<input id="txtAftSrc" class="width-100" type="text" readonly />
 				</div>
