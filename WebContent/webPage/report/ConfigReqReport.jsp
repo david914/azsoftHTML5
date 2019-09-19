@@ -28,7 +28,7 @@
 	                <div class="por">
 	                	<!--시스템S-->
 	                	<div class="width-33 dib">
-		                	<label class="dib">시스템　</label>
+		                	<label class="dib" style="width:49px;">시스템</label>
 		                    <div id="systemSel" data-ax5select="systemSel" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-75 dib tal">
 								
 						    </div>
@@ -119,8 +119,8 @@
 		<!--검색E-->		
 
 	    <!-- 게시판 S-->
-	    <div class="az_board_basic">
-	    	<div id="mainGrid" data-ax5grid="mainGrid" data-ax5grid-config="{}" style="width:100%; height: 600px;">
+	    <div class="az_board_basic" style="height:82%">
+	    	<div id="mainGrid" data-ax5grid="mainGrid" data-ax5grid-config="{}" style="width:100%; height: 100%;">
 		
 			</div>
 		</div>	
