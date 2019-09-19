@@ -819,7 +819,7 @@ public class Cmr3100{
 		ConnectionContext connectionContext = new ConnectionResource();
 		String            retMsg      = "";
 
-		try {
+		//try {
 			conn = connectionContext.getConnection();
 			ecamsLogger.error("++gyulChk++"+AcptNo+", "+UserId);
 			CallableStatement cs = null;
@@ -838,7 +838,7 @@ public class Cmr3100{
 
     		return retMsg;
 
-		} catch (SQLException sqlexception) {
+		/*} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();
 			ecamsLogger.error("## Cmr3200.gyulChk() SQLException START ##");
 			ecamsLogger.error("## Error DESC : ", sqlexception);
@@ -859,7 +859,9 @@ public class Cmr3100{
 					ex3.printStackTrace();
 				}
 			}
-		}
+		}*/
+    		
+    	
 	}//end of gyulChk() method statement
 
     public String nextConf(String AcptNo,String UserId,String conMsg,String Cd,String ReqCd) throws SQLException, Exception {

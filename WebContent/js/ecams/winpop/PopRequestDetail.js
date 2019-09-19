@@ -1395,7 +1395,7 @@ function successGetReqList(data) {
 		if (reqInfoData[0].log == '1') {
 			$('#btnLog').prop("disabled", false);				//로그확인
 		}
-		
+
 		//신청미완료건 결재자 여부확인
 		if (reqInfoData[0].endsw == '0') {
 			//Cmr3100.gyulChk(strAcptNo,pUserId);
@@ -1414,6 +1414,7 @@ function successGetReqList(data) {
 }
 //결재자 여부확인완료
 function successGyulChk(data) {
+	console.log('++++++++++++data:'+data);
 	//지금 로그인 사용자가 결재자 일때
 	if (data == '0') {
 		$('#btnApproval').prop("disabled", false); //활성화
@@ -1425,7 +1426,7 @@ function successGyulChk(data) {
 		document.getElementById('lblApprovalMsg').style.visibility = "visible";
 		document.getElementById('txtApprovalMsg').style.visibility = "visible";
 	} else if (data != '1') {
-		mx.controls.Alert.show("결재정보 체크 중 오류가 발생하였습니다.");
+		mx.controls.Alert.show("결재정보 체크 중 오류가 발생하였습니다.\n["+data+"]");
 	}
 	
 	//선후행작업확인이 비활성일때
