@@ -123,6 +123,8 @@ public class Cmr5100 {
 				} else {
 					if (rs.getString("cr_rungbn").equals("B")) {
 						rst.put("SYSGBN",rs.getString("SYSGBN")+"[파일송수신전]");
+					} else if (rs.getString("cr_rungbn").equals("F")) {
+						rst.put("SYSGBN",rs.getString("SYSGBN")+"[파일송수신]");
 					} else {
 						rst.put("SYSGBN",rs.getString("SYSGBN")+"[파일송수신후]");
 					}

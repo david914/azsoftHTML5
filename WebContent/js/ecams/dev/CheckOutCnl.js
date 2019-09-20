@@ -261,7 +261,7 @@ function getSysCbo(){
 
 function successGetSysCbo(data){
 	sysData = data;
-	console.log(data);
+	//console.log(data);
 	options = [];
 	var selectVal;
 	
@@ -567,40 +567,53 @@ function addDataRow() {
 
 
 function checkDuplication(downFileList) {
+	var secondGridList = new Array;
+	var i = 0;
+	var j = 0;
+	var findSw = false;
+	var totCnt = secondGridData.length;
+	
 	if(downFileList == 'ERR'){
 		dialog.alert("에러가 발생했습니다.");
 		return;
 	}
-	if(secondGridData.length > 0 ){
-		$(secondGridData).each(function(i){
-			$(downFileList).each(function(j){
-				if( secondGridData[i].cr_itemid == downFileList[j].cr_itemid ){
-					downFileList.splice(j,1);
-					return false;
-				}
-			});
-		});
+	
+	//console.log(data);
+	for(i=0; downFileList.length>i ; i++){
+		findSw = false;
+		totCnt = secondGridData.length;
+		for (j=0;totCnt>j;j++) {
+			if (downFileList[i].cr_itemid == secondGridData[j].cr_itemid) {
+				findSw = true;
+				break;
+			}
+		}
+		if (!findSw) {
+			var copyData = clone(downFileList[i]); //리스트의 주소지를 가져오므로 clone 을 해서 add 해줘야함
+			secondGridList.push($.extend({}, copyData, {__index: undefined}));
+			copyData.__index = secondGridData.length;
+			secondGridData.push(copyData);
+		}
 	}
 	
 	if(downFileList.length > 0) {
-		var secondGridList = new Array;
 		$(downFileList).each(function(i){
 			var currentItem = downFileList[i];
-			if(currentItem.baseitemid == currentItem.cr_itemid){
-				$(firstGridData).each(function(j){
-					if(firstGridData[j].cr_itemid == currentItem.cr_itemid) {
-						firstGridData[j].selected_flag = '1';
-						var copyData = clone(firstGrid.list[j]); //리스트의 주소지를 가져오므로 clone 을 해서 add 해줘야함
-						secondGridList.push($.extend({}, copyData, {__index: undefined}));
-						return false;
-					}
-					
-				});
-			}
+			$(firstGridData).each(function(j){
+				if(firstGridData[j].cr_itemid == currentItem.cr_itemid) {
+					firstGridData[j].selected_flag = '1';
+					firstGridData[j].__disable_selection__ = true;
+					return false;
+				}
+				
+			});
 		});
 	}
+
 	firstGrid.repaint();
 	secondGrid.addRow(secondGridList);
+	secondGrid.repaint();
+	
 	
 	if(secondGrid.list.length > 0 ) {
 
@@ -608,7 +621,6 @@ function checkDuplication(downFileList) {
 		$('[data-ax5select="cboSrId"]').ax5select("disable")
 		$('#btnReq').prop('disabled',false);
 	}
-	secondGridData = clone(secondGrid.list);
 	simpleData();
 }
 

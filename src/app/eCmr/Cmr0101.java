@@ -46,6 +46,7 @@ public class Cmr0101 {
 			strQuery.append("       b.cr_dsncd,b.cr_syscd,b.cr_itemid,b.cr_ckoutacpt,       \n");
 			strQuery.append("       to_char(f.cr_acptdate,'yyyy/mm/dd hh24:mi') as acptdate,\n");
 			strQuery.append("       b.cr_story,f.cr_acptno,f.cr_editor,                     \n");
+			strQuery.append("       nvl(f.cr_eclipse,'R') eclipse,                          \n");
 			strQuery.append("       d.cm_info,b.cr_status,b.cr_lstver,                      \n");
 			strQuery.append("       nvl(b.cr_viewver,'0.0.0.0') cr_viewver,                 \n");
 			strQuery.append("       (select cm_codename from cmm0020                        \n");
@@ -67,7 +68,7 @@ public class Cmr0101 {
 			if (srSw) strQuery.append("and b.cr_isrid=?                                     \n");
 			strQuery.append("   and b.cr_status in ('5','B','E','G')					    \n");
 			if (!adminYn){
-				strQuery.append("   and a.cr_lstusr=?                                       \n");
+				strQuery.append("   and b.cr_lstusr=?                                       \n");
 			}
 			if (!"".equals(etcData.get("txtProg"))  && etcData.get("txtProg") != null){
 				strQuery.append(" and (b.cr_rsrcname like ?	or b.cr_story like ?)	  		\n");
@@ -77,6 +78,7 @@ public class Cmr0101 {
 			strQuery.append("   and b.cr_itemid=a.cr_itemid   							    \n");
 			strQuery.append("   and a.cr_itemid=a.cr_baseitem                               \n");
 			strQuery.append("   and a.cr_status<>'3' and a.cr_prcdate is not null           \n");
+			strQuery.append("   and b.cr_syscd=d.cm_syscd and b.cr_rsrccd=d.cm_rsrccd       \n");
 			strQuery.append(" order by acptdate desc,a.cr_rsrcname,a.cr_acptno desc         \n");
 
             //pstmt = conn.prepareStatement(strQuery.toString());
@@ -209,8 +211,8 @@ public class Cmr0101 {
 				rst.put("cr_status",fileList.get(i).get("cr_status"));
 				rst.put("cr_baseno",fileList.get(i).get("cr_baseno"));
 				rst.put("ckoutver",fileList.get(i).get("ckoutver"));
-				rst.put("ckoutver",fileList.get(i).get("ckoutver"));
-				rst.put("ckoutviewver",rs.getString("ckoutviewver"));
+				rst.put("eclipse",fileList.get(i).get("eclipse"));
+				rst.put("ckoutviewver",fileList.get(i).get("ckoutviewver"));
 				rtList.add(rst);
 				rst = null;
 
@@ -225,15 +227,15 @@ public class Cmr0101 {
 				strQuery.append("           and cm_micode=b.cr_rsrccd) JAWON,           \n");
 				strQuery.append("       (select cm_dirpath from cmm0070                 \n");
 				strQuery.append("         where cm_syscd=b.cr_syscd                     \n");
-				strQuery.append("           and cm_dsncd=b.cm_dsncd) cm_dirpath,        \n");
+				strQuery.append("           and cm_dsncd=b.cr_dsncd) cm_dirpath,        \n");
 				strQuery.append("       (select cm_jobname from cmm0102                 \n");
 				strQuery.append("         where cm_jobcd=b.cr_jobcd) cm_jobname,        \n");
 				strQuery.append("       (select cr_version from cmr1010                 \n");
-				strQuery.append("         where cr_acptno=b.cr_ckoutacpt                \n");
-				strQuery.append("           and cr_itemid=b.cr_itemid) ckoutver,        \n");
+				strQuery.append("         where cr_acptno=a.cr_ckoutacpt                \n");
+				strQuery.append("           and cr_itemid=a.cr_itemid) ckoutver,        \n");
 				strQuery.append("       (select cr_aftviewver from cmr1010              \n");
-				strQuery.append("         where cr_acptno=b.cr_ckoutacpt                \n");
-				strQuery.append("           and cr_itemid=b.cr_itemid) ckoutviewver     \n");
+				strQuery.append("         where cr_acptno=a.cr_ckoutacpt                \n");
+				strQuery.append("           and cr_itemid=a.cr_itemid) ckoutviewver     \n");
 				strQuery.append("  from cmr0020 a,cmr1010 b,cmm0036 e                   \n");
 				strQuery.append(" where b.cr_acptno= ?                                  \n");
 				strQuery.append("   and b.cr_status<>'3'                                \n");
@@ -267,6 +269,7 @@ public class Cmr0101 {
 					rst.put("cr_editor",rs.getString("cr_editor"));
 					rst.put("cr_lstver",rs.getString("cr_lstver"));
 					rst.put("cr_story",rs.getString("cr_story"));
+					rst.put("eclipse",fileList.get(i).get("eclipse"));
 					if (rs.getString("cr_ckoutacpt") != null) {
 						rst.put("cr_baseno",rs.getString("cr_ckoutacpt"));
 						rst.put("ckoutver", rs.getString("ckoutver"));
@@ -426,21 +429,20 @@ public class Cmr0101 {
             	strQuery.append("(?,?,?,?,?,'0','11',   ?,?,?,?,?,   ?,?,?,?,?,?,   ?,?)            \n");
 
             	pstmt = conn.prepareStatement(strQuery.toString());
-
+            	pstmt = new LoggableStatement(conn, strQuery.toString());
             	pstmtcount = 1;
             	pstmt.setString(pstmtcount++, AcptNo);
             	pstmt.setInt(pstmtcount++, i+1);
             	pstmt.setString(pstmtcount++, chkOutList.get(i).get("cr_syscd"));
             	pstmt.setString(pstmtcount++, chkOutList.get(i).get("sysgb"));
             	pstmt.setString(pstmtcount++, chkOutList.get(i).get("cr_jobcd"));
-            	pstmt.setString(pstmtcount++, chkOutList.get(i).get("cr_qrycd"));
 
 
             	pstmt.setString(pstmtcount++, chkOutList.get(i).get("cr_rsrccd"));
             	pstmt.setString(pstmtcount++, chkOutList.get(i).get("cr_dsncd"));
             	pstmt.setString(pstmtcount++, chkOutList.get(i).get("cr_rsrcname"));
             	pstmt.setString(pstmtcount++, chkOutList.get(i).get("cr_rsrcname"));
-            	if (rs.getString("chkoutver") != null && !"".equals(rs.getString("chkoutver"))) {
+            	if (chkOutList.get(i).get("chkoutver") != null && !"".equals(chkOutList.get(i).get("chkoutver"))) {
             		pstmt.setString(pstmtcount++, chkOutList.get(i).get("chkoutver"));
             	} else {
             		pstmt.setString(pstmtcount++, "0");
@@ -455,6 +457,7 @@ public class Cmr0101 {
             	
             	pstmt.setString(pstmtcount++, chkOutList.get(i).get("cr_story"));
             	pstmt.setString(pstmtcount++, chkOutList.get(i).get("ckoutviewver"));
+            	ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             	pstmt.executeUpdate();
             	pstmt.close();
 
