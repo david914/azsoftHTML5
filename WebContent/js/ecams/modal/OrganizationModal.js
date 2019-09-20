@@ -109,10 +109,12 @@ $(document).ready(function(){
 			// 조직 선택시
 			if(selDeptSw) {
 				window.parent.selDeptCd = nodes[0].id;
+				window.parent.txtOrg = nodes[0].name;
 				$('#txtOrg', window.parent.document).val(nodes[0].name);
 			} else {
 				// 조직(겸직)선택시
 				window.parent.selSubDeptCd = nodes[0].id;
+				window.parent.txtOrg = nodes[0].name;
 				$('#txtOrgAdd', window.parent.document).val(nodes[0].name);
 			}
 		}
