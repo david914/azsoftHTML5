@@ -1442,7 +1442,9 @@ function aftChk() {
 	if (reqInfoData[0].cr_gyuljae == '1') $('#btnPriority').text('우선적용해제');
 	else $('#btnPriority').text('우선적용');
 	
-	if (reqInfoData[0].prcsw == '0' && reqInfoData[0].signteam.substr(0,3) == 'SYS') {
+	var signteam = reqInfoData[0].signteam;
+	
+	if (reqInfoData[0].prcsw == '0' && signteam.substr(0,3) == 'SYS') {
 		if (isAdmin || reqInfoData[0].cr_editor == pUserId) {
 			$('#btnRetry').prop("disabled", false);				//전체재처리
 	      	if (reqInfoData[0].cr_editor == pUserId && reqInfoData[0].updtsw3 == '1') {
@@ -1452,7 +1454,7 @@ function aftChk() {
 	            		$('#btnAllCncl').prop("disabled", false);	//전체회수
 	            	}
 	         	} else {
-	         		if (reqInfoData[0].signteam == 'SYSRC') {
+	         		if (signteam == 'SYSRC') {
 		    			$('#btnStepEnd').prop("disabled", false);	//단계온료
 	         		} else {
 	            		$('#btnAllCncl').prop("disabled", false);	//전체회수
@@ -1460,7 +1462,7 @@ function aftChk() {
 	         	}
 	      	} else if (isAdmin) {
         		$('#btnAllCncl').prop("disabled", false);			//전체회수
-	          	if (reqInfoData[0].cr_prcsw == 'Y' || reqInfoData[0].signteam == 'SYSRC') {
+	          	if (reqInfoData[0].cr_prcsw == 'Y' || signteam == 'SYSRC') {
 	    			$('#btnStepEnd').prop("disabled", false);		//단계온료
 	         	}
 	      	}
