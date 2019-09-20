@@ -781,9 +781,11 @@ public class Cmr0250{
 					rst.put("prcsys", "cr_rungbn=null[err]");
 				} else{
 					if (rs.getString("cr_rungbn").equals("B")) {
-						rst.put("prcsys",rs.getString("SYSGBN")+"[전]");
+						rst.put("prcsys",rs.getString("SYSGBN")+"[파일송수신전]");
+					} else if (rs.getString("cr_rungbn").equals("F")) {
+						rst.put("prcsys",rs.getString("SYSGBN")+"[파일송수신]");
 					} else {
-						rst.put("prcsys",rs.getString("SYSGBN")+"[후]");
+						rst.put("prcsys",rs.getString("SYSGBN")+"[파일송수신후]");
 					}
 				}
 				rst.put("cr_rsrcname",rs.getString("cr_rsrcname"));
