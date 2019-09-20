@@ -5085,7 +5085,7 @@ public class Cmr0200{
 
         	}
         	strQuery.setLength(0);
-        	strQuery.append("Begin NICE.CMR9900_STR ( ");
+        	strQuery.append("Begin CMR9900_STR ( ");
         	strQuery.append("?, '000000', '', '9', ?, '1' ); End;");
 //        	pstmt = conn.prepareStatement(strQuery.toString());
         	pstmt = new LoggableStatement(conn, strQuery.toString());
