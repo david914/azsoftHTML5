@@ -13,19 +13,19 @@
 			<div class="az_in_wrap sr_status">
 				<div class="l_wrap dib" style="width:calc(100% - 160px);">
 	                <div class="por">
-	                	<div class="width-30 dib vat">
+	                	<div class="width-33 dib vat">
 		                	<label class="tit-60 dib poa">*시스템</label>
 		                	<div class="ml_60">
 			                    <div id="cboSystem1" data-ax5select="cboSystem1" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 		                	</div>
 						</div>
-						<div class="width-30 dib vat">
+						<div class="width-33 dib vat">
 							<label class="tit-150 dib poa">&nbsp;&nbsp;&nbsp;프로그램종류</label>
 							<div class="ml_100">
 								<div id="cboJawon1" data-ax5select="cboJawon1" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 							</div>
 						</div>	
-						<div class="width-30 dib vat">
+						<div class="width-33 dib vat">
 		                	<label class="tit-150 dib poa">&nbsp;&nbsp;&nbsp;프로그램명</label>
 		                	<div class="ml_80">
 								<input id="txtRsrcName1" type="text" placeholder="프로그램명을 입력하세요." class="width-100" />

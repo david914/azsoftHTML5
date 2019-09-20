@@ -58,9 +58,9 @@
 	                        </div>
 							<button type="button" class="month-btn dateBtn" id="month-next">▶</button>
 						</div>
-						<div class="width-20 dib vat">
-							<div class="vat dib margin-10-right float-right"><!--수정-->
-								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
+						<div class="width-27 dib vat">
+							<div class="vat dib margin-10-right float-right" id="btnBox"><!--수정-->
+								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조 회</button>
 							</div>
 						</div>
 					</div>					

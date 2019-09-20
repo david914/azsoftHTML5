@@ -19,16 +19,14 @@
 					<input id="dateEd" name="end_date" type="text" placeholder="yyyy/mm/dd" style="width:100px;">
 				    <span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 				</div>
-				<div class="vat dib">
-					<button id="btnChkSearch" name="btnChkSearch" class="btn_basic_s" style="cursor: pointer;" >대사기록조회</button>
+				<div class="dib vat margin-20-left" id="cboDiv" style="width: 40%; display:none;">
+					<div id="cboDiff" data-ax5select="cboDiff" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
 				</div>
 			</div>
 			<div class="r_wrap width-30">
 				<div class="float-right vat dib">
-					<button id="btnExcel" name="btnExcel" class="btn_basic_s" style="cursor: pointer;" >엑셀저장</button>
-				</div>
-				<div class="float-right dib" id="cboDiv" style="width: 50% !important;">
-					<div id="cboDiff" data-ax5select="cboDiff" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
+					<button id="btnChkSearch" name="btnChkSearch" class="btn_basic_s" style="cursor: pointer;" >대사기록조회</button>
+					<button id="btnExcel" name="btnExcel" class="btn_basic_s margin-5-left" style="cursor: pointer; display:none;" >엑셀저장</button>
 				</div>
 			</div>
 		</div>

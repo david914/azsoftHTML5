@@ -58,9 +58,9 @@
 		</div>
 	</div>
 	<!--button-->
-	<div class="row tac">
-		<!-- <button id="btnQry" class="btn_basic">조회</button>  -->
-		<button id="btnClose" class="btn_basic margin-5-left">닫기</button>
+	<div class="row tac float-right">
+		<!-- <button id="btnQry" class="btn_basic_s">조회</button>  -->
+		<button id="btnClose" class="btn_basic_s margin-5-left">닫기</button>
 	</div>
 </div>
 </body>

@@ -8,7 +8,7 @@
 	width: calc(100% - 80%);
 }
 .centerDiv {
-	width: calc( (100% - 20%) - 395px );
+	width: calc( (100% - 20%) - 70px );
 }
 </style>
 
@@ -34,7 +34,26 @@
 		                    <input id="txtPath" data-ax-path="txtPath" type="text" class="width-98"/>
 	                	</div>
 					</div>
-					<div class="width-5 dib vat" style="min-width: 94px;">
+	                <div class="float-right">
+						<button class="btn_basic_s" id="btnSearch" style="width: 70px;">조회</button>
+					</div>
+				</div>
+				<!--line2-->
+				<div class="row">
+					<!--신청인S-->
+					<div class="dib vat width-20">
+	                	<label class="tit_60 poa">신청자</label>
+	                	<div class="ml_60 vat">
+		                	<input id="txtUser" type="text" class="width-100"/>
+	                	</div>
+	                </div>
+	                <div class="dib vat width-15">
+	                	<label class="tit_100 poa margin-10-left">경과일수</label>
+	                	<div class="ml_100 vat">
+		                	<input  id="dayTerm" type="number" class="width-100"/>
+	                	</div>
+	                </div>
+					<div class="width-5 dib vat margin-10-left" style="min-width: 94px;">
 						<input type="checkbox" class="checkbox-pie" id="chkDay" data-label="신청일 기준"/>
 					</div>
 					<div class="width-16 dib vat" style="min-width: 301px;">
@@ -46,27 +65,8 @@
 							<span class="btn_calendar"><i class="fa fa-calendar-o"></i></span>
 						</div>
 					</div>
-				</div>
-				<!--line2-->
-				<div class="row">
-					<div class="block1 dib"></div>
-					<!--신청인S-->
-					<div class="dib vat width-20">
-	                	<label class="tit_100 poa margin-10-left">신청자</label>
-	                	<div class="ml_100 vat">
-		                	<input id="txtUser" type="text" class="width-100"/>
-	                	</div>
-	                </div>
-	                <div class="dib vat width-15">
-	                	<label class="tit_80 poa margin-10-left">경과일수</label>
-	                	<div class="ml_80 vat">
-		                	<input  id="dayTerm" type="number" class="width-100"/>
-	                	</div>
-	                </div>
-	                
 	                <div class="float-right">
-						<button class="btn_basic_s" id="btnExcel">엑셀저장</button>
-						<button class="btn_basic_s margin-5-left" id="btnSearch">조회</button>
+						<button class="btn_basic_s" id="btnExcel" style="width: 70px;">엑셀저장</button>
 	                </div>
 				</div>
 			</div>

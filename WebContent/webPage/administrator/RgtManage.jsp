@@ -28,7 +28,7 @@
 					</div>
 				</div>
 				<!--검색E-->
-				<div class="scrollBind row" style="height:750px;">
+				<div class="scrollBind row" style="height:80%;">
     				<ul id="dutyUlInfo" class="list-group"></ul>
     			</div>
     		</div>
@@ -55,7 +55,7 @@
 					</div>
 				</div>
 				<!--검색E-->
-				<div class="scrollBind row" style="height:750px;">
+				<div class="scrollBind row" style="height:80%;">
     				<ul id="tvMenu" class="ztree"></ul>
     			</div>
 			</div>

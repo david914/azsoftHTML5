@@ -173,7 +173,11 @@
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
-		
+
+.dd-item, .dd-empty, .dd-placeholder{
+	line-height: 15px;
+}
+
 </style>
 
 <script>
@@ -184,101 +188,102 @@
 </script>
 
 
+<div class="contentFrame">
       <!-- history S-->
-      <div id="history_wrap">관리자 <strong>&gt; 메뉴관리</strong></div>
+	<div id="history_wrap">관리자 <strong>&gt; 메뉴관리</strong></div>
       <!-- history E-->   
-<div class="half_wrap_cb">
-	<div class="l_wrap width-30">
-		<div class="margin-5-right">				   
-	        <!-- 검색 S-->    
-			<div class="az_search_wrap">
-				<div class="az_in_wrap">
-					<div class="vat">
-	                    <label id="lbUser" class="tit_80 poa"></label>
-	                    <div class="ml_80">
-	                    	<div id="Cbo_MaCode" data-ax5select="Cbo_MaCode" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
-						</div>
-					</div>
-					<div class="row">
-						<label id="lbUser" class="tit_80 poa">메뉴명</label>
-						<div class="ml_80">
-							<input id="Txt_MaCode" name="Txt_MaCode" type="text" class="width-100">
-						</div>
-					</div>
-					<div class="row">
-						<label id="lbUser" class="tit_80 poa">링크파일명</label>
-						<div class="ml_80">
-							<input id="Txt_MaFile" name="Txt_MaFile" type="text" class="width-100">
-						</div>
-					</div>
-					<div class="row">
-	                    <label id="lbUser" class="tit_80 poa">신청코드</label>
-	                    <div class="ml_80">
-							<div id="Cbo_reqcd" data-ax5select="Cbo_reqcd" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
-						</div>
-						<div class="row tar">
-							<button class="btn_basic_s margin-5-left" id="btnInsert" data-grid-control="excel-export">등록</button>
-							<button class="btn_basic_s margin-5-left" id="btnDelete" data-grid-control="excel-export" disabled>폐기</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--검색E-->
-			<!--메뉴체계 S-->					
-			<div class="half_wrap">
-				<div class="vat por">
-				    <label id="lbUser" class="title">[메뉴체계]</label><button class="btn_basic_s poa_r" id="btnFact">조회</button>
-				</div>
-				<div class="scrollBind row" style="height:557px; border: 1px dotted gray;">
-					<ul id="treeMenu" class="ztree"></ul>
-    			</div>
-			</div>
-   		</div>
-	</div>
-	<div class="r_wrap width-70">
-		<div class="margin-5-left">		   
-	        <!-- 검색 S-->    
-			<div class="az_search_wrap">
-				<div class="az_in_wrap">
-					<!--메뉴트리편집-->
-					<div>
-	                    <label id="lbUser" class="tit_80 poa">메뉴트리편집</label>
-	                    <div class="ml_80">
-							<div id="Cbo_selMenu" class="width-20 dib" data-ax5select="Cbo_selMenu" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
-							
-							<div id="Cbo_Menu" data-ax5select="Cbo_Menu" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-40 dib margin-5-left"></div>
-							
-							<div class="dib" style="float: right; margin-right:2.7%;">
-								<button id="btnAply" class="btn_basic_s">적용</button>
-							</div> 									
-						</div>
-					</div>							
-					<!--메뉴구조-->
-					<div class="row">
-						<div class="l_wrap width-50">																
-							<div class="l_wrap width-95">
-								<div class="dd scrollBind row" id="nestable2" style="overflow-y:auto; height:150px;">
-									<ol id="tmpTest" class="dd-list">
-									</ol>
-								</div>										
+	<div class="half_wrap_cb">
+		<div class="l_wrap width-30">
+			<div class="margin-5-right">				   
+		        <!-- 검색 S-->    
+				<div class="az_search_wrap" style="padding-top:14px">
+					<div class="az_in_wrap">
+						<div class="vat">
+		                    <label id="lbUser" class="tit_80 poa"></label>
+		                    <div class="ml_80">
+		                    	<div id="Cbo_MaCode" data-ax5select="Cbo_MaCode" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
 							</div>
 						</div>
-						<div class="r_wrap width-50">
-							<div class="l_wrap width-95">
-								<div class="dd scrollBind row" id="nestable" style="overflow-y:auto; height:150px;">
-									<!-- <ol id="tmpTest2" class="dd-list">
-									</ol> -->
-								</div>										
+						<div class="row">
+							<label id="lbUser" class="tit_80 poa">메뉴명</label>
+							<div class="ml_80">
+								<input id="Txt_MaCode" name="Txt_MaCode" type="text" class="width-100">
+							</div>
+						</div>
+						<div class="row">
+							<label id="lbUser" class="tit_80 poa">링크파일명</label>
+							<div class="ml_80">
+								<input id="Txt_MaFile" name="Txt_MaFile" type="text" class="width-100">
+							</div>
+						</div>
+						<div class="row">
+		                    <label id="lbUser" class="tit_80 poa">신청코드</label>
+		                    <div class="ml_80">
+								<div id="Cbo_reqcd" data-ax5select="Cbo_reqcd" data-ax5select-config="{size:'sm',theme:'primary'}"></div>
+							</div>
+							<div class="row tar">
+								<button class="btn_basic_s margin-5-left" id="btnInsert" data-grid-control="excel-export">등록</button>
+								<button class="btn_basic_s margin-5-left" id="btnDelete" data-grid-control="excel-export" disabled>폐기</button>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!--검색E-->
-			<div class="row">		
-				<div data-ax5grid="first-grid" data-ax5grid-config="{}" style="height: 560px;"></div>
+				<!--검색E-->
+				<!--메뉴체계 S-->					
+				<div class="half_wrap">
+					<div class="vat por">
+					    <label id="lbUser" class="title">[메뉴체계]</label><button class="btn_basic_s poa_r" id="btnFact">조회</button>
+					</div>
+					<div class="scrollBind row" style="height:527px; border: 1px dotted gray;">
+						<ul id="treeMenu" class="ztree"></ul>
+	    			</div>
+				</div>
+	   		</div>
+		</div>
+		<div class="r_wrap width-70">
+			<div class="margin-5-left">		   
+		        <!-- 검색 S-->    
+				<div class="az_search_wrap">
+					<div class="az_in_wrap">
+						<!--메뉴트리편집-->
+						<div>
+		                    <label id="lbUser" class="tit_80 poa">메뉴트리편집</label>
+		                    <div class="ml_80">
+								<div id="Cbo_selMenu" class="width-20 dib" data-ax5select="Cbo_selMenu" data-ax5select-config="{size:'sm',theme:'primary'}"></div> 
+								
+								<div id="Cbo_Menu" data-ax5select="Cbo_Menu" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-40 dib margin-5-left"></div>
+								
+								<div class="dib" style="float: right; margin-right:2.7%;">
+									<button id="btnAply" class="btn_basic_s">적용</button>
+								</div> 									
+							</div>
+						</div>							
+						<!--메뉴구조-->
+						<div class="row">
+							<div class="l_wrap width-50">																
+								<div class="l_wrap width-95">
+									<div class="dd scrollBind row" id="nestable2" style="overflow-y:auto; height:119px;">
+										<ol id="tmpTest" class="dd-list">
+										</ol>
+									</div>										
+								</div>
+							</div>
+							<div class="r_wrap width-50">
+								<div class="l_wrap width-95">
+									<div class="dd scrollBind row" id="nestable" style="overflow-y:auto; height:119px;">
+										<!-- <ol id="tmpTest2" class="dd-list">
+										</ol> -->
+									</div>										
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--검색E-->
+				<div class="row" style="margin-top: 0px;">		
+					<div data-ax5grid="first-grid" data-ax5grid-config="{}" style="height: 577px;"></div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-

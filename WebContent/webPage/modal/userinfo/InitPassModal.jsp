@@ -30,13 +30,13 @@
 		<div class="row">
 			<label>비밀번호 4자리</label>
 	        <div>
-	        	<input id="txtPasswd" type="text" class="width-100" />
+	        	<input id="txtPasswd" type="text" class="width-100" style="text-security: disc; -webkit-text-security: disc;"/>
 			</div>
 		</div>
 		<!--line3-->					
 		<div class="row txt_r">초기화시 비밀번호 4자리로 세팅됩니다.</div>
 		<!--button-->
-		<div class="row tac">
+		<div class="row tac float-right">
 			<button id="btnReq" class="btn_basic_s">등록</button>
 			<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
 		</div>

@@ -26,7 +26,7 @@ $(document).ready(function() {
 		getColHeader();
 		console.log("조회클릭")
 		if($("#btnExcel").length < 1) {
-			$("#searchBar").append('<button class="btn_basic_s dib" data-grid-control="excel-export" style="width: 70px;" id="btnExcel">엑셀저장</button>');
+			$("#btnBox").append('<button class="btn_basic_s dib" data-grid-control="excel-export" style="width: 70px; margin-left:5px;" id="btnExcel">엑셀저장</button>');
 			console.log("조건문 발동");
 		}
 	});

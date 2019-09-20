@@ -57,7 +57,7 @@ $(document).ready(function() {
 		txtUserIdP = $('#txtUserId').val().trim();
 		chgPwdModal.open({
 	        width: 600,
-	        height: 370,
+	        height: 278,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/userinfo/ChangePassWdModal.jsp",

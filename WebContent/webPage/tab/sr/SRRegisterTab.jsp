@@ -44,7 +44,7 @@
 				<dt><label>*상세내용</label></dt>
 				<dd>
 					<form>
-						<textarea id="texReqContent" name="texReqContent" style="align-content:flex-start;width:100%;height:180px;resize: none; overflow-y:auto; padding:5px;"></textarea>
+						<textarea id="texReqContent" name="texReqContent" style="align-content:flex-start;width:100%;height:160px;resize: none; overflow-y:auto; padding:5px;"></textarea>
 					</form>
 				</dd>
 			</dl>
@@ -134,7 +134,7 @@
 							<button id="btnAddDevUser" name="btnAddDevUser" class="btn_basic_s">추가</button>
 							<button id="btnDelDevUser" name="btnDelDevUser" class="btn_basic_s">삭제</button>
 					</div>
-					<div class="az_board_basic scroll_h az_board_basic_in" style="height:210px;">
+					<div class="az_board_basic scroll_h az_board_basic_in"">
 				    	<div data-ax5grid="devUserGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 				    </div>
 				</dd>

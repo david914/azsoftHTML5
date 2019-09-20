@@ -86,7 +86,7 @@
 		</div>
 	</div>
 	<!--button-->
-	<div class="row tac">
+	<div class="row tac float-right">
 		<button class="btn_basic" id="btnCopy">복사</button>
 		<button class="btn_basic margin-5-left" id="btnClose">닫기</button>
 	</div>

@@ -5,13 +5,13 @@
 <c:import url="/webPage/common/common.jsp" />
 <style>
 .year-btn {
-	height: 12px; 
+	height: 11.5px; 
 	width: 15px; 
 	font-size: 7pt;
 	background: white;
 }
 .month-btn {
-	height: 25px;
+	height: 23px;
 	width: 25px; 
 	background: white;
 	border: 1px;
@@ -43,9 +43,6 @@
 .calWid3 {
 	width: calc(100% - 140px);
 }
-.width-25 {
-	width: calc(35% - 150px);
-}
 
 </style>
 
@@ -56,57 +53,45 @@
 			<div class="az_in_wrap sr_status">
 				<div class="l-wrap width-100 vat">
 					<div>
-						<div class="width-100 dib vat">
-
-							<div class="vat dib margin-10-right float-right">
-								<label style="margin-right: 180px;">월 별</label>
-								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
+						<div class="rowItem dib" style="width:calc(100% - 465px)">
+							<!-- 연구소 실 별 -->
+							<div class="width-27 dib por">
+								<label class="tit_80 poa">연구소 실 별</label>
+							    <div id="dept" data-ax5select="dept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib ml_80" style="width:calc(100% - 80px);">
+							    </div>
 							</div>
+							<!-- SR등급 -->
+							<div class="width-33 dib por">
+								<label class="margin-10-right margin-10-left tit_60 poa">SR등급</label>
+								<div id="rate" data-ax5select="rate" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib ml_60" style="width:calc(100% - 60px);">
+							    </div>						    
+							</div>
+							<!-- 개발자ID/개발자명 -->
+							<div class="width-40 dib por vat">
+								<label class="margin-10-right margin-10-left tit_80 poa">개발자ID/명</label>
+								<input class="ml_80" id="developerId" type="text" placeholder="" style="width:calc(100% - 80px);">
+							</div>
+							
 						</div>
-					</div>					
-					
-					<div>
-						<!-- 연구소 실 별 -->
-						<div class="width-25 dib por">
-							<label style="margin-right: 20px;">연구소 실 별</label>
-						    <div id="dept" data-ax5select="dept" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib calWid margin-10-left">
-						    </div>
-						</div>
-						<!-- SR등급 -->
-						<div class="width-25 dib por">
-							<label style="margin-right: 20px;">SR등급</label>
-							<div id="rate" data-ax5select="rate" data-ax5select-config="{size:'sm',theme:'primary'}" onchange="" class="dib calWid2 margin-10-left">
-						    </div>						    
-						</div>
-						<!-- 개발자ID/개발자명 -->
-						<div class="width-30 dib por vat">
-							<label style="margin-right: 20px;">개발자ID/명</label>
-							<input class="calWid3 margin-10-left" id="developerId" type="text" placeholder="">
-						</div>
-
-						<div class="dib vat float-right" style="width: 295px;">
-							<div class="dib float-right">
-								<div class="dib margin-40-right date-div">
+						<div class="dib vat margin-10-right">
+							<label class="margin-10-right margin-10-left tit_60 poa">월 별</label>
+							<div class="dib">
+								<div class="dib date-div ml_60" style="width:calc(100% - 60px);">
 									<button type="button" class="month-btn dateBtn" id="month-prev"><div class="mb-div">◀</div></button>
-									<label style="margin-right: 10px; margin-left: 10px; width: 26px;" id="month"></label>
-									<label id="year"></label>
+									<label style="margin-right: 10px; margin-left: 10px; width: 26px; line-height: 23px;" id="month"></label>
+									<label id="year" style="line-height: 23px;"></label>
 									<div class="por width-10 dib">
 			                        	<button type="button" class="dib year-btn dateBtn" id="year-next">▲</button>
 			                        	<button type="button" class="dib year-btn dateBtn" id="year-prev">▼</button>
 			                        </div>
 									<button type="button" class="month-btn dateBtn" id="month-next"><div class="mb-div">▶</div></button>
 								</div>
-								<div class="vat dib margin-10-right float-right">
-									<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px; margin-top: 1px;" id="btnExcel">엑셀저장</button>
-								</div>
 							</div>
 						</div>
-					</div>
-					<div>
-						<div class="dib por width-100">
-							<div class="vat dib margin-10-right float-right">
-								<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="reset">초기화</button>
-							</div>
+						<div class="vat dib">
+							<button class="btn_basic_s" data-grid-control="excel-export" style="width: 70px;" id="btnSearch">조회</button>
+								<button class="btn_basic_s margin-5-left" data-grid-control="excel-export" style="width: 70px; " id="btnExcel">엑셀저장</button>
+							<button class="btn_basic_s margin-5-left" data-grid-control="excel-export" style="width: 70px;" id="reset">초기화</button>
 						</div>
 					</div>
 				</div>						

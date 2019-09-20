@@ -57,11 +57,11 @@
 		</div>
 	</div>
 	<!--button-->
-	<div class="row tac">
-		<button class="btn_basic" id="btnReg">등록</button>
-		<button class="btn_basic margin-5-left" id="btnDel">폐기</button>
-		<button class="btn_basic margin-5-left" id="btnQry">조회</button>
-		<button class="btn_basic margin-5-left" id="btnClose">닫기</button>
+	<div class="row tac float-right">
+		<button class="btn_basic_s" id="btnReg">등록</button>
+		<button class="btn_basic_s margin-5-left" id="btnDel">폐기</button>
+		<button class="btn_basic_s margin-5-left" id="btnQry">조회</button>
+		<button class="btn_basic_s margin-5-left" id="btnClose">닫기</button>
 	</div>
 </div>
 </body>
