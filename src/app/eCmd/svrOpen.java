@@ -1731,29 +1731,15 @@ public class svrOpen{
 							upSeq = maxSeq;
 							
 							while ((str = in.readLine()) != null) {
+								dirSw = false;
+								
 				                if (str.length() > 0) {
-				                	dirSw = false;
 				                	if (SysOs.equals("03")) {
 				                		str = str.trim();
 				                		str = str.replace("\\", "/");
-				                		if (str.indexOf("디렉터리")>0 && str.length() > BaseDir.length()) {
-				                		//if (str.indexOf("디렉터리")>0) {
-				                			if (str.substring(0,BaseDir.length()).equals(BaseDir)) {
-				                				strBaseDir = str.substring(0,str.indexOf("디렉터리"));
-					                			strBaseDir = strBaseDir.trim();
-					                			str = strBaseDir;
-					                			dirSw = true;
-				                			}
-				                		} else {
-				                		}
-
-				                	} else {
-					                	if (str.substring(str.length() - 1).equals(":")) {
-					                		strBaseDir = str.substring(0,str.length() - 1);
-					                		str = strBaseDir;
-					                		dirSw = true;
-					                	}
-				                	}
+									}
+				                	
+				                	dirSw = true;
 				                	if (dirSw == true) {
 				                		if (HomeDir.length() < str.length()){
 					                		str = str.substring(HomeDir.length());
@@ -1770,8 +1756,9 @@ public class svrOpen{
 					                			}
 					                		}
 					                		if (findSw) {
-						                		pathDepth = str.substring(1).split("/");
-						                		strDir = HomeDir;
+						                		pathDepth = str.substring(1).split("/"); //경로를 "/"단위로 자름
+						                		//strDir = HomeDir;
+						                		strDir = BaseDir;
 												upSeq = 1;
 												findSw = false;											
 												for (int i = 0;pathDepth.length > i;i++) {
@@ -1779,15 +1766,11 @@ public class svrOpen{
 														if (strDir.length() > 1 ) {
 															strDir = strDir + "/";
 														}
-														strDir = strDir + pathDepth[i];
-														//ecamsLogger.error("## pathDepth: " + pathDepth[i]);
+														strDir = strDir + pathDepth[i]; //홈디렉토리+"/"단위 경로들
 														
 														findSw = false;
 														if (rsval.size() > 0) {
 															for (j = 0;rsval.size() > j;j++) {
-//																ecamsLogger.error("## strDir: " + strDir);
-//																ecamsLogger.error("## cm_fullpath: " +rsval.get(j).get("cm_fullpath"));
-																
 																if (rsval.get(j).get("cm_fullpath").equals(strDir)) {
 																	upSeq = Integer.parseInt(rsval.get(j).get("cm_seqno"));
 																	findSw = true;
@@ -1795,7 +1778,7 @@ public class svrOpen{
 															}
 														} else {
 															findSw = false;
-														}			
+														}
 														
 														if (findSw == false) {
 															maxSeq = maxSeq + 1;
@@ -1828,7 +1811,9 @@ public class svrOpen{
 	            if (rsval.size() > 0) {
 					for (int i = 0;rsval.size() > i;i++) {
 						//if("0".equals(rsval.get(i).get("cm_upseq")) || "1".equals(rsval.get(i).get("cm_upseq"))) {
-						if(BaseDir.indexOf(rsval.get(i).get("cm_fullpath")) > -1) {
+						//if(BaseDir.indexOf(rsval.get(i).get("cm_fullpath")) > -1) {
+						//ecamsLogger.error("cm_upseq: " + rsval.get(i).get("cm_upseq") + ", fullpath: " + rsval.get(i).get("cm_fullpath") + ", baseDir: " + BaseDir);  
+						if("0".equals(rsval.get(i).get("cm_upseq")) || rsval.get(i).get("cm_fullpath").indexOf(BaseDir) > -1) {
 							rtMap = new HashMap<>();
 			            	rtMap.put("id", rsval.get(i).get("cm_seqno"));
 			            	rtMap.put("name", rsval.get(i).get("cm_dirpath"));
@@ -1948,7 +1933,9 @@ public class svrOpen{
 							
 							while ((str = in.readLine()) != null) {
 				                if (str.length() > 0) {
-				                	dirSw = false;
+				                	//dirSw = false;
+				                	
+				                	/* 20190919 Windows 체크 X
 				                	if (SysOs.equals("03")) {
 				                		str = str.trim();
 				                		str = str.replace("\\", "/");
@@ -1968,7 +1955,7 @@ public class svrOpen{
 					                		str = strBaseDir;
 					                		dirSw = true;
 					                	}
-				                	}
+				                	}*/
 				                	
 				                	//20190725
 //									ecamsLogger.error("## BaseDir: " + BaseDir);

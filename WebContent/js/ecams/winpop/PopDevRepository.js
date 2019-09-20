@@ -308,10 +308,9 @@ function screenInit() {
 	});
 	
 	selHomeDirData = [];
-	
 	grdProgList.setData([]);
-	
 	$('[data-ax5select="cboSRID"]').ax5select("disable");
+	$('#txtDir').val("");
 }
 
 function successJobInfo(data) {
