@@ -134,7 +134,13 @@ public class PopRequestDetailServlet extends HttpServlet {
 		String AcptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "AcptNo") );
 		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
 		
-		return gson.toJson(cmr3100.gyulChk(AcptNo, UserId));
+		try {
+			return gson.toJson(cmr3100.gyulChk(AcptNo, UserId));
+		} catch (SQLException e) {
+			return gson.toJson(e.getMessage());
+		} catch (Exception e) {
+			return gson.toJson(e.getMessage());
+		} 
 	}
 	
 	private String updtDeploy(JsonElement jsonElement) throws SQLException, Exception {
