@@ -408,7 +408,6 @@ public class Cmr0100 {
 			    strQuery.append("       (select cm_dirpath from cmm0070                              \n");
 			    strQuery.append("         where cm_syscd=a.cr_syscd                                  \n");
 			    strQuery.append("           and cm_dsncd=a.cr_dsncd) cm_dirpath,                     \n");
-			    strQuery.append("           and cm_micode=a.cr_rsrccd) jawon,                        \n");
 			    strQuery.append("       (select cm_codename from cmm0020                             \n");
 			    strQuery.append("         where cm_macode='JAWON'                                    \n");
 			    strQuery.append("           and cm_micode=a.cr_rsrccd) jawon,                        \n");

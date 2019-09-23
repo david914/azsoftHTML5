@@ -238,7 +238,7 @@ secondGrid.setConfig({
         {key: 'jobname', label: '업무명',  width: '10%', align: 'left'},
         {key: 'jawon', label: '프로그램종류',  width: '10%', align: 'left'},
         {key: 'cr_story', label: '프로그램설명',  width: '15%', align: 'left'},
-        {key: 'cr_lstver', label: '신청버전',  width: '10%'},
+        {key: 'cr_viewver', label: '신청버전',  width: '10%'},
         {key: 'cm_username', label: '수정자',  width: '10%'},
         {key: 'lastdt', label: '수정일',  width: '10%'} 	
     ]
@@ -834,8 +834,7 @@ function addDataRow() {
 						removedFileList : secondGridList,
 						requestType : 'getDownFileList'
 					}
-					ajaxReturnData = ajaxCallWithJson('/webPage/dev/CheckOutServlet', tmpData, 'json');
-					checkDuplication(ajaxReturnData);
+					ajaxAsync('/webPage/dev/CheckOutServlet', tmpData, 'json',successDownFileData);
 				}
 		} else {
 			checkDuplication(secondGridList);
@@ -844,6 +843,27 @@ function addDataRow() {
 	
 }
 
+function successDownFileData(data){
+	
+	if(data.length != 0 && data == 'ERR'){
+		dialog.alert($('#btnRequest').val+'목록 작성에 실패하였습니다.');
+		return;
+	}
+	else{		
+		$(data).each(function(){
+			if(this.cr_itemid == 'ERROR'){
+				dialog.alert('파일목록 에러 \n파일경로 : '+thiscm_dirpath);
+				ingsw = false;
+				return;
+			}
+			else if(this.modsel == 'Y'){
+				modSw = true;
+			}
+		});
+		
+	}
+	checkDuplication(data);
+}
 function deleteDataRow() {
 
 	var secondGridSeleted = secondGrid.getList("selected");
