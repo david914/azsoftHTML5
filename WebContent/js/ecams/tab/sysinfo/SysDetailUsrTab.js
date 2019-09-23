@@ -90,7 +90,6 @@ accGrid.setConfig({
         {key: "cm_svrip", 		label: "IP Address",width: 120, align: "center"},
         {key: "cm_portno", 		label: "Port",  	width: 80, 	align: "center"},
         {key: "cm_svrusr", 		label: "계정",  		width: 80, 	align: "center"},
-        {key: "cm_svrusr", 		label: "계정",  		width: 150, align: "center"},
         {key: "cm_jobname", 	label: "업무명",  	width: 130, align: "center"},
         {key: "cm_grpid", 		label: "그룹",  		width: 80, 	align: "center"},
         {key: "cm_permission", 	label: "권한",  		width: 150, align: "center"},
@@ -251,12 +250,12 @@ $(document).ready(function(){
 		var checkSw = false;
 		if($('#chkAllSvrJob').is(':checked')) checkSw = true;
 		
-		for(var i=0; i<ulSvrInfoData.length; i++) {
-			var svrinfoItem = ulSvrInfoData[i];
-			id = svrinfoItem.cm_jobcd;
-			if(checkSw) $('#chkJob'+id).wCheck('check',true);
-			if(!checkSw) $('#chkJob'+id).wCheck('check',false);
-		}
+//		for(var i=0; i<ulSvrInfoData.length; i++) {
+//			var svrinfoItem = ulSvrInfoData[i];
+//			id = svrinfoItem.cm_jobcd;
+//			if(checkSw) $('#chkJob'+id).wCheck('check',true);
+//			if(!checkSw) $('#chkJob'+id).wCheck('check',false);
+//		}
 	})
 	/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
 });
@@ -279,7 +278,6 @@ function checkValUsr() {
 		dialog.alert('등록할 서버를 선택한 후 처리하시기 바랍니다.', function(){});
 		return;
 	}
-	
 	if (sysInfo.substr(8,1) == "1") {
 		ulSvrInfoData.forEach(function(jobItem, index) {
 			var id = jobItem.cm_jobcd;
@@ -294,11 +292,15 @@ function checkValUsr() {
 		}
 	}
 	
-	svrUsrGridData.forEach(function(svrItem, index) {
-		if(svrItem.cm_svruse.substr(0,1) === '1') filesw = true;
-		if(svrItem.cm_svruse.substr(2,1) === '1') dbSw = true;
+	svrUsrGrid.getList("selected").forEach(function(svrItem, index) {
+		if(svrUsrGrid.getList("selected")[index].cm_svruse.substr(0,1) == '1')fileSw = true;
+		else if (svrUsrGrid.getList("selected")[index].cm_svruse.substr(2,1) == '1')dbSw = true;
 	});
 	
+	if( fileSw &&  txtGroup.length === 0) {
+		dialog.alert('파일의 그룹을 입력하여 주시기 바랍니다.', function(){});
+		return;
+	}
 	if( fileSw &&  txtMode.length === 0) {
 		dialog.alert('파일의 권한을 입력하여 주시기 바랍니다.', function(){});
 		return;
@@ -356,6 +358,7 @@ function checkValUsr() {
 
 function successUsrReq(data) {
 	if(data === 'OK') {
+		dialog.alert('계정권한에 대한 등록처리를 완료하였습니다.',function(){});
 		getSecuList();
 	} else {
 		dialog.alert('계정정보 등록중 오류가 발생했습니다. 관리자에게 문의하시기 바랍니다.\n' + data , function(){});

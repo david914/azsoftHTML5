@@ -24,7 +24,7 @@
 		<div>
 			<label id="lbSub" class="poa tit_80">시스템</label>
 			<div class="ml_80">
-				<input id="txtSysMsg" class="form-control dib" type="text">
+				<input id="txtSysMsg" class="form-control dib" type="text" readonly="readonly">
 			</div>
 		</div>
 	</div>

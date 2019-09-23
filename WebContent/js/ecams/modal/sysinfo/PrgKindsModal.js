@@ -380,8 +380,6 @@ $(document).ready(function(){
 				return;
 			}
 		}
-		
-		
 		if($('#txtVer').val().trim() === ""){
 			tmpObj.cm_vercnt 	= "9999";
 		} else {
@@ -394,14 +392,23 @@ $(document).ready(function(){
 		tmpObj.cm_time 		= replaceAllString($('#txtTime').val(), ':', '');
 		tmpObj.cm_exename 	= txtExename.length === 0 ? null : txtExename;
 		
-		var data = new Object();
-		data = {
-			etcData : tmpObj, 
-			sameList : sameGridArr,
-			requestType	: 'insertPrgInfo'
-		}
-		ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successInsertPrgInfo);
-		return;
+		confirmDialog.confirm({
+			msg: '프로그램정보를 등록하시겠습니까?',
+		}, function(){
+			if(this.key === 'ok') {
+				var data = new Object();
+				data = {
+						etcData : tmpObj, 
+						sameList : sameGridArr,
+						requestType	: 'insertPrgInfo'
+				}
+				ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successInsertPrgInfo);
+				return;
+			} else{
+				tmpObj = null;
+				sameGridArr = null;
+			}
+		});
 		
 	});
 	

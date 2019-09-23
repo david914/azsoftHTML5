@@ -27,7 +27,7 @@
 						<li>
 							<label class="tit_80 dib poa">시스템코드</label>
 							<div class="ml_80">
-								<input id="txtSysCd" name="txtSysCd" type="text" class="width-30" />
+								<input id="txtSysCd" name="txtSysCd" type="text" class="width-30" maxlength="5" />
 								<div class="dib vat">
 									<input type="checkbox" class="checkbox-pie" id="chkOpen" data-label="신규"  />
 						    		<div id="chkSelfDiv" class="dis-i-b">

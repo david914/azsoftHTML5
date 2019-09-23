@@ -219,16 +219,15 @@ $(document).ready(function(){
 		var strDay = getDate('DATE',0);
 		strDay = strDay.substr(0,4) + '/' + strDay.substr(4,2) + '/' + strDay.substr(6,2);
 		
-		$('#txtTime').val('');
-		$('#txtSysCd').val('');
-		$('#txtSysMsg').val('');
-		$('#txtPrcCnt').val('');
-		$('#datStDate').val(strDay);
-		$('#datEdDate').val(strDay);
-		$('#datSysOpen').val(strDay);
-		$('#datScmOpen').val(strDay);
-		$('#txtPrjName').val('');
-		$('#txtTime').val('');
+		$('#txtTime').val('');			//적용시간
+		$('#txtSysCd').val('');			//시스템코드
+		$('#txtSysMsg').val('');		//시스템명
+		$('#txtPrcCnt').val('');		//프로세스갯수
+		$('#datStDate').val(strDay);	//중단시작
+		$('#datEdDate').val(strDay);	//중단종료
+		$('#datSysOpen').val(strDay);	//시스템오픈
+		$('#datScmOpen').val(strDay);	//형상오픈
+		$('#txtPrjName').val('');		//프로젝트명
 		
 		$('[data-ax5select="cboSys"]').ax5select('setValue',sysInfoCboData[0].cm_syscd,true);
 		$('[data-ax5select="cboSysGb"]').ax5select('setValue',cboSysGbData[0].cm_micode,true);
@@ -271,6 +270,23 @@ $(document).ready(function(){
 			screenInit();
 			$('#chkSelfDiv').css('visibility','hidden');
 			$('[data-ax5select="cboSys"]').ax5select("enable");
+			$('#txtSysCd').prop( "disabled", false );
+		}
+		
+		if($('#chkSelf').is(':checked')) {
+			$('#txtSysCd').prop( "disabled", false );
+		} else {
+			$('#txtSysCd').prop( "disabled", true );
+		}
+		clear();
+	});
+	
+	$('#chkSelf').bind('click', function() {
+		if(!$(this).is(':checked')) {
+			$('#txtSysCd').val('');
+			$('#txtSysCd').prop( "disabled", true );
+		} else {
+			$('#txtSysCd').prop( "disabled", false );
 		}
 	});
 	
@@ -338,6 +354,7 @@ $(document).ready(function(){
 		
 		if(selectedSysInfo === 13 && !($(this).is(':checked')) ) {
 			$('#txtPrjName').prop( "disabled", true );
+			$('#txtPrjName').val('');
 		}
 	});
 	
@@ -357,14 +374,14 @@ $(document).ready(function(){
 		var selectedGridItem 	= null;
 		
 		if(gridSelectedIndex.length === 0 ) {
-			dialog.alert('폐기 할 시스템을 그리드에서 선택 후 눌러주세요.',function(){});
+			dialog.alert('폐기할 시스템을 목록에서 선택하시기 바랍니다.',function(){});
 			return;
 		}
 		
 		selectedGridItem = sysInfoGrid.list[gridSelectedIndex];
 		
 		confirmDialog.confirm({
-			msg: '시스템정보를 폐기처리하시겠습니까',
+			msg: '시스템정보를 폐기처리하시겠습니까?',
 		}, function(){
 			if(this.key === 'ok') {
 				var sysInfo = new Object();
@@ -590,20 +607,20 @@ function sysValidationCheck() {
 	var nowFullDate = null;
 	var isNew		= true;
 	
-	
-	if( !$.isNumeric($('#txtSysCd').val()) ) {
-		dialog.alert('시스템코드는 숫자만 가능합니다.',function(){});
-		return;
-	}
-	
-	if( $('#txtSysCd').val().length !== 5 ) {
-		dialog.alert('시스템코드는 5자리의 숫자로 만들어주시기 바랍니다.',function(){});
-		return;
-	}
-	
-	if( $('#chkOpen').is(':checked') && $('#chkSelf').is(':checked') && $('#txtSysCd').val().length === 0) {
-		dialog.alert('시스템코드를 입력하여 주시기 바랍니다.',function(){});
-		return;
+	if( $('#chkOpen').is(':checked') && $('#chkSelf').is(':checked') ) {
+		if($('#txtSysCd').val().length === 0){
+			dialog.alert('시스템코드를 입력하여 주시기 바랍니다.',function(){});
+			return;
+		}
+		if( $('#txtSysCd').val().length !== 5 ) {
+			dialog.alert('시스템코드는 5자리의 숫자로 만들어주시기 바랍니다.',function(){});
+			return;
+		}
+		if( !$.isNumeric($('#txtSysCd').val()) ) {
+			dialog.alert('시스템코드는 숫자만 가능합니다.',function(){});
+			return;
+		}
+		
 	}
 	
 	if($('#chkOpen').is(':checked') && !($('#chkSelf').is(':checked'))) {
@@ -635,6 +652,7 @@ function sysValidationCheck() {
 		dialog.alert('형상관리오픈일를 선택하여 주시기 바랍니다.',function(){});
 		return;
 	}
+	
 	for(var i=0; i<sysInfoData.length; i++) {
 		if(i === 3 && $('#chkJobName'+ (i+1) ).is(':checked') ) {
 			stDate = replaceAllString($('#datStDate').val(), '/', '');  
@@ -685,6 +703,11 @@ function sysValidationCheck() {
 		}
 	}
 	
+	if(jobGrid.selectedDataIndexs.length === 0){
+		dialog.alert('업무를 선택하시기 바랍니다.');
+		return;
+	}
+	
 	sysInfoGridData.forEach(function(item,index) {
 		if(item.cm_syscd === $('#txtSysCd').val()) isNew = false; 
 	});
@@ -727,7 +750,7 @@ function updateSystem(isNew) {
 	systemInfo.cm_dirbase 	= tmpDirBase;
 	systemInfo.cm_prccnt 	= $('#txtPrcCnt').val();
 	systemInfo.cm_systype 	= process;
-	
+	$('#txtFindSys').val('');
 	
 	for(var i=0; i<selectedJobIndexs.length; i++) {
 		var jobItem = jobGrid.list[selectedJobIndexs[i]];
@@ -759,16 +782,14 @@ function updateSystem(isNew) {
 	systemInfo.scmopen = replaceAllString($('#datScmOpen').val(), '/', '');
 	systemInfo.prjname = $('#txtPrjName').val().trim();
 	
-	if($('#chkCls').is(':checked')) systemInfo.closesw = "true";
-	if(!$('#chkCls').is(':checked')) systemInfo.closesw = "false";
+	if(sysInfoGrid.getList("selected")[0].closeSw === 'Y') systemInfo.closesw = "true";
+	else systemInfo.closesw = "false";
 	
 	var systemInfoDta = new Object(); 
 	systemInfoDta = {
 		systemInfo	: 	systemInfo,
 		requestType	: 	'updateSystem'
 	}
-	
-	
 	ajaxAsync('/webPage/administrator/SysInfoServlet', systemInfoDta, 'json',successUpdateSysetm);
 }
 
@@ -910,7 +931,7 @@ function getSysInfoCbo() {
 	sysInfoCbo 			= new Object();
 	sysInfoCbo.UserId 	= userId;
 	sysInfoCbo.SelMsg 	= 'SEL';
-	sysInfoCbo.CloseYn 	= 'N';
+	sysInfoCbo.CloseYn 	= 'Y';
 	sysInfoCbo.SysCd 	= null;
 	
 	sysInfoCboData = new Object();
@@ -974,6 +995,8 @@ function cboSysClick() {
 	$('#txtTime').val('');
 	$('#txtSysCd').val(selectedSysCboSysInfo.value);
 	$('#txtSysMsg').val(selectedSysCboSysInfo.text);
+	$('#chkOpen').wCheck('check',false);
+	$('#chkSelfDiv').css('visibility','hidden');
 	
 	if(selectedGridItem.cm_systype !== undefined) {
 		$('[data-ax5select="cboPrc"]').ax5select('setValue',selectedGridItem.cm_systype,true);
@@ -1206,4 +1229,39 @@ function resize(){
 		$("#divRight").height($("#divLeft").height());
 		$("#divRight").children(".half_wrap").addClass("height-100");
 	}
+}
+
+function clear() {
+	$('#txtTime').val('');		//적용시간
+	$('#txtSysCd').val('');		//시스템코드
+	$('#txtSysMsg').val('');	//시스템명
+	$('#txtPrcCnt').val('');	//프로세스갯수
+	$('#datSysOpen').val('');	//시스템오픈
+	$('#datScmOpen').val('');	//형상오픈
+	$('#txtPrjName').val('');	//프로젝트명
+	
+	$('[data-ax5select="cboSys"]').ax5select('setValue',sysInfoCboData[0].cm_syscd,true);
+	$('[data-ax5select="cboSysGb"]').ax5select('setValue',cboSysGbData[0].cm_micode,true);
+	$('[data-ax5select="cboSvrCd"]').ax5select('setValue',cboSvrCdData[0].cm_micode,true);
+	
+	for(var i=0; i<sysInfoData.length; i++) {
+		$('#chkJobName'+ (i+1) ).wCheck('check',false);
+	}
+	
+	jobGrid.clearSelect();
+	
+	disableCal(true, 'datStDate');
+	disableCal(true, 'datEdDate');
+	
+	$('#datStDate').prop( "disabled", 	true );
+	$('#timeDeploy').prop( "disabled", 	true );
+	$('#datEdDate').prop( "disabled", 	true );
+	$('#timeDeployE').prop( "disabled", true );
+	$('#txtPrjName').prop( "disabled", true );
+	$('#txtTime').prop( "disabled", true );
+	
+	$('#datStDateDiv').css('pointer-events','none');
+	$('#datEdDateDiv').css('pointer-events','none');
+	
+	getSysInfoList($('#txtFindSys').val().trim());
 }
