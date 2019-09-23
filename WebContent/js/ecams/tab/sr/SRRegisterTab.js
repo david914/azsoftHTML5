@@ -15,7 +15,7 @@ var adminYN = window.top.adminYN;
 var userDeptName = window.top.userDeptName;
 var userDeptCd = window.top.userDeptCd;
 var strReqCd = window.parent.strReqCd;
-
+var SRId = '';
 //var organizationModal = new ax5.ui.modal(); // 조직도 팝업
 var approvalModal 		= new ax5.ui.modal();
 var grid_fileList = new ax5.ui.grid();
@@ -359,7 +359,8 @@ function confChk1(){
 	
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo1, 'json');
 	if(ajaxReturnData !== 'ERR') {
-		parent.document.location.reload();
+		elementInit("M");
+		firstGridClick(SRId);
 		ing_sw = false; 
 	}
 }
@@ -402,8 +403,9 @@ function cnclChk(){
 	
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo2, 'json');
 	if(ajaxReturnData !== 'ERR') {
-		ing_sw = false;
-		parent.document.location.reload();
+		elementInit("M");
+		firstGridClick(SRId);
+		ing_sw = false;		
 	}
 }
 

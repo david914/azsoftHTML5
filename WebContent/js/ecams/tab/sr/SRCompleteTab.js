@@ -16,7 +16,7 @@ var strReqCd	 	= window.parent.strReqCd;
 var strStatus		= window.parent.strStatus; //SR상태 "2"; 
 var strIsrId		= window.parent.strIsrId; //"R201906-0003";  
 var strIsrTitle 	= window.parent.strIsrTitle;
-
+var SRId = '';
 var strAcptNo = "";
 var cboUserData = null;
 var retMsg = "";
@@ -94,6 +94,12 @@ function screenInit(){
 	$("#txtSRTitle").val("");
 	
 	$("#applyUserDate").hide();
+	$("#lbTxt").hide();
+	$("#divTxt").hide();
+	$("#btnOk").hide();
+	$("#btnCncl").hide();
+	$("#btnConf2").hide();
+	
 	$("#txtApplyUser").val("");
 	$("#txtApplyDate").val("");
 	$("#txtReqContent").val("");
@@ -181,7 +187,8 @@ function endSr(){
 			dialog.alert("수정이 완료되었습니다.");
 		}
 		
-		parent.document.location.reload();
+		//parent.document.location.reload();
+		srendInfoCall();
 	}
 }
 
@@ -401,7 +408,8 @@ function gyulProc_result(result){
 		dialog.alert("[" + resultMSG + "] 처리에 실패하였습니다.");
 	}
 	
-	parent.document.location.reload();
+	//parent.document.location.reload();
+	srendInfoCall();
 }
 
 // 반려 버튼 클릭

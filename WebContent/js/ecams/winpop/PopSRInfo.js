@@ -288,6 +288,7 @@ function changeTabMenu() {
 		tmpTab.strStatus = prjListData[0].cc_status;
 		tmpTab.strReqCd = "XX";
 		tmpTab.strIsrId = strIsrId;
+		tmpTab.SRId = prjListData[0].cc_srid;
 		tmpTab.elementInit("M"); //tab1.screenInit("M");
 		tmpTab.firstGridClick(prjListData[0].cc_srid);
 	}else if(document.getElementById("tab2").className == "on") { //개발계획/실적등록
