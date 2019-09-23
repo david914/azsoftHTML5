@@ -21,7 +21,7 @@ var selVal 		= null;
 
 jobGrid.setConfig({
     target: $('[data-ax5grid="jobGrid"]'),
-    sortable: false, 
+    sortable: true, 
     multiSort: true,
     showRowSelector: true,
     multipleSelect: true,

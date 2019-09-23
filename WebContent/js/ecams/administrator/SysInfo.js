@@ -270,7 +270,7 @@ $(document).ready(function(){
 			screenInit();
 			$('#chkSelfDiv').css('visibility','hidden');
 			$('[data-ax5select="cboSys"]').ax5select("enable");
-			$('#txtSysCd').prop( "disabled", false );
+			$('#chkSelf').wCheck('check',true);
 		}
 		
 		if($('#chkSelf').is(':checked')) {

@@ -312,6 +312,32 @@ public class Cmm1600{
 	                }
 					rs.close();
 					pstmt.close();
+					
+					//기 등록프로그램 여부 판단
+					if (errSw == false) {
+						strQuery.setLength(0);
+						strQuery.append("select count(*) cnt from cmr0020 a					\n"); 
+						strQuery.append(" where cr_syscd = ?                                \n");
+						strQuery.append("   and cr_rsrcname = ?                             \n");
+						strQuery.append("   and cr_dsncd in (select cm_dsncd                \n");
+						strQuery.append("                      from cmm0070                 \n");
+						strQuery.append("                     where cm_syscd = a.cr_syscd   \n");
+						strQuery.append("                       and cm_dirpath = ?)         \n");
+						
+						pstmt = conn.prepareStatement(strQuery.toString());
+						pstmt.setString(1, _syscd);
+						pstmt.setString(2, rsrcname);
+						pstmt.setString(3, fileList.get(i).get("dirpath").trim());
+						rs = pstmt.executeQuery();
+						if (rs.next()) {
+							if (rs.getInt("cnt")>0) {
+								errMsg = errMsg + "기 등록프로그램/";
+			                	errSw = true;
+							}
+						}
+						rs.close();
+						pstmt.close();
+					}
 
 					if (errSw == false) {
 						strQuery.setLength(0);
