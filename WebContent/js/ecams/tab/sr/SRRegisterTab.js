@@ -361,6 +361,8 @@ function confChk1(){
 	if(ajaxReturnData !== 'ERR') {
 		elementInit("M");
 		firstGridClick(SRId);
+		window.parent.reloadVal = "Y";
+		window.parent.getPrjList();
 		ing_sw = false; 
 	}
 }
@@ -404,6 +406,8 @@ function cnclChk(){
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo2, 'json');
 	if(ajaxReturnData !== 'ERR') {
 		elementInit("M");
+		window.parent.reloadVal = "Y";
+		window.parent.getPrjList();
 		firstGridClick(SRId);
 		ing_sw = false;		
 	}

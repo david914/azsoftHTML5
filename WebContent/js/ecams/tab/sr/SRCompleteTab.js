@@ -189,6 +189,8 @@ function endSr(){
 		
 		//parent.document.location.reload();
 		srendInfoCall();
+		window.parent.reloadVal = "Y";
+		window.parent.getPrjList();
 	}
 }
 
