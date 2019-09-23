@@ -503,7 +503,8 @@ function btnQry_Click() {
 	tmpInfo.BaseDir = baseDir + $('#txtDir').val();
 	tmpInfo.AgentDir = selectedItem.cm_dir;
 	tmpInfo.SysOs = selectedItem.cm_sysos;
-	tmpInfo.HomeDir = selectedItem.cm_volpath;
+//	tmpInfo.HomeDir = $('[data-ax5select="cboDir"]').ax5select("getValue")[0].value;
+	tmpInfo.HomeDir = baseDir + $('#txtDir').val();
 	tmpInfo.svrName = selectedItem.cm_svrname;
 	tmpInfo.buffSize = selectedItem.cm_buffsize;
 	
@@ -530,8 +531,8 @@ function successSvrDir(data) {
 /* 트리구조에서 folder 오픈 */
 function myOnExpand(event, treeId, treeNode) {
 	//root node 만 비동기 방식으로 뽑아오는 조건
-	//console.log("treeNode: ", treeNode);
-	if(treeNode.children != undefined){
+	console.log("treeNode: ", treeNode);
+	if(treeNode.children != undefined || treeNode.check_Child_State == -1){
 		return false;
 	}
 	
@@ -549,7 +550,20 @@ function myOnExpand(event, treeId, treeNode) {
 			baseDir = treeNode.cm_fullpath;
 		}
 		
-		console.log("baseDir: " + baseDir);
+		if($('#txtDir').val() != "") {
+			if($('#txtDir').val().substr(0,1) == "/" || $('#txtDir').val().substr(0,1) == "\\") {
+				if(baseDir.substr(baseDir.length-1,1) == "/" || baseDir.substr(baseDir.length-1,1) == "\\") {
+					$('#txtDir').val($('#txtDir').val().substr(1,$('#txtDir').val().length-1))
+				}
+			}
+			
+			//입력디렉토리 앞에 슬래쉬 x
+			if($('#txtDir').val().substr(0,1) != "/" && $('#txtDir').val().substr(0,1) != "\\") {
+				if(baseDir.substr(baseDir.length-1,1) != "/" || baseDir.substr(baseDir.length-1,1) != "\\") {
+					$('#txtDir').val("/" + $('#txtDir').val())
+				}
+			}
+		}
 		
 		tmpInfo = new Object();
 		tmpInfo.UserId = strUserId;
@@ -559,7 +573,8 @@ function myOnExpand(event, treeId, treeNode) {
 		tmpInfo.BaseDir = baseDir;
 		tmpInfo.AgentDir = selectedItem.cm_dir;
 		tmpInfo.SysOs = selectedItem.cm_sysos;
-		tmpInfo.HomeDir = selectedItem.cm_volpath;
+		//tmpInfo.HomeDir = selectedItem.cm_volpath;
+		tmpInfo.HomeDir = baseDir;
 		tmpInfo.svrName = selectedItem.cm_svrname;
 		tmpInfo.buffSize = selectedItem.cm_buffsize;
 		tmpInfo.parent = treeNode.id;
@@ -576,8 +591,6 @@ function myOnExpand(event, treeId, treeNode) {
 		var obj = null;
 		obj = ajaxReturnData;
 		
-		console.log("ajaxReturnData", ajaxReturnData);
-		
 		for(var i in ajaxReturnData){
 			if(obj[i].cm_dirpath =='' ){
 				delete obj[i]
@@ -589,14 +602,10 @@ function myOnExpand(event, treeId, treeNode) {
 		}
 		
 		
-		console.log("obj", obj);
-		
 		if(obj != null) {
 			obj = JSON.stringify(obj).replace(/null,/gi,'');
 			obj = JSON.parse(obj);
 			ajaxReturnData = obj;
-			
-			console.log("ajaxReturnData", ajaxReturnData);
 			
 			ztree.addNodes(treeNode,ajaxReturnData)
 			$('#'+treeNode.tId+'_ico').removeClass().addClass('button ico_open');
@@ -693,7 +702,8 @@ function contextmenu_click(gbn) {
 	tmpInfo.SysCd = $('[data-ax5select="cboSystem"]').ax5select("getValue")[0].value;
 	tmpInfo.SvrIp = selectedItem.cm_svrip;
 	tmpInfo.SvrPort = selectedItem.cm_portno;
-	tmpInfo.HomeDir = selectedItem.cm_volpath;
+	//tmpInfo.HomeDir =$('[data-ax5select="cboDir"]').ax5select("getValue")[0].value;
+	tmpInfo.HomeDir = fullpath;
 	tmpInfo.BaseDir = fullpath;
 	tmpInfo.SvrCd = selectedItem.cm_svrcd;
 	tmpInfo.GbnCd = tmpStr;

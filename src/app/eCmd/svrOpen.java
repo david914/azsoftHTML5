@@ -1722,6 +1722,7 @@ public class svrOpen{
 							maxSeq = maxSeq + 1;
 							
 							HomeDir = HomeDir.replace("\\", "/");
+							BaseDir = BaseDir.replace("\\", "/");
 							rst = new HashMap<String,String>();
 							rst.put("cm_dirpath","["+svrName+"]"+HomeDir);
 							rst.put("cm_fullpath",HomeDir);
@@ -1743,7 +1744,7 @@ public class svrOpen{
 				                	if (dirSw == true) {
 				                		if (HomeDir.length() < str.length()){
 					                		str = str.substring(HomeDir.length());
-					                		findSw = false;
+				                			findSw = false;
 					                		if (str.length() != 0 ) {
 					                			findSw = true;
 					                			if (noNameAry != null) {
@@ -1757,8 +1758,8 @@ public class svrOpen{
 					                		}
 					                		if (findSw) {
 						                		pathDepth = str.substring(1).split("/"); //경로를 "/"단위로 자름
-						                		//strDir = HomeDir;
-						                		strDir = BaseDir;
+						                		strDir = HomeDir;
+						                		
 												upSeq = 1;
 												findSw = false;											
 												for (int i = 0;pathDepth.length > i;i++) {
@@ -1812,7 +1813,6 @@ public class svrOpen{
 					for (int i = 0;rsval.size() > i;i++) {
 						//if("0".equals(rsval.get(i).get("cm_upseq")) || "1".equals(rsval.get(i).get("cm_upseq"))) {
 						//if(BaseDir.indexOf(rsval.get(i).get("cm_fullpath")) > -1) {
-						//ecamsLogger.error("cm_upseq: " + rsval.get(i).get("cm_upseq") + ", fullpath: " + rsval.get(i).get("cm_fullpath") + ", baseDir: " + BaseDir);  
 						if("0".equals(rsval.get(i).get("cm_upseq")) || rsval.get(i).get("cm_fullpath").indexOf(BaseDir) > -1) {
 							rtMap = new HashMap<>();
 			            	rtMap.put("id", rsval.get(i).get("cm_seqno"));
@@ -1932,34 +1932,11 @@ public class svrOpen{
 							upSeq = maxSeq;
 							
 							while ((str = in.readLine()) != null) {
+								dirSw = false;
 				                if (str.length() > 0) {
-				                	//dirSw = false;
-				                	
-				                	/* 20190919 Windows 체크 X
-				                	if (SysOs.equals("03")) {
-				                		str = str.trim();
-				                		str = str.replace("\\", "/");
-				                		if (str.indexOf("디렉터리")>0 && str.length() > BaseDir.length()) {
-				                			if (str.substring(0,BaseDir.length()).equals(BaseDir)) {
-				                				strBaseDir = str.substring(0,str.indexOf("디렉터리"));
-					                			strBaseDir = strBaseDir.trim();
-					                			str = strBaseDir;
-					                			dirSw = true;
-				                			}
-				                		} else {
-				                		}
-
-				                	} else {
-					                	if (str.substring(str.length() - 1).equals(":")) {
-					                		strBaseDir = str.substring(0,str.length() - 1);
-					                		str = strBaseDir;
-					                		dirSw = true;
-					                	}
-				                	}*/
+				                	dirSw = true;
 				                	
 				                	//20190725
-//									ecamsLogger.error("## BaseDir: " + BaseDir);
-//									ecamsLogger.error("## str: " + str);
 				                	if(BaseDir.equals(str)) dirSw = false;
 				                	
 				                	if (dirSw == true) {
@@ -1977,19 +1954,13 @@ public class svrOpen{
 													}
 					                			}
 					                		}
-//					                		ecamsLogger.error("## findSw: " + findSw + ", str: " + str);
 					                		if (findSw) {
-//					                			ecamsLogger.error("### str: " + str);
 						                		pathDepth = str.substring(1).split("/");
 						                		strDir = BaseDir;
 												upSeq = 1;
 												findSw = false;
-
-//												ecamsLogger.error("## str: " + str);
-//												ecamsLogger.error("## pathDepth.length: " + pathDepth.length);
 												
 												for (int i=0; i<pathDepth.length; i++) {
-//													ecamsLogger.error("## pathDepth: " + pathDepth[i]);
 													
 													if (pathDepth[i].length() > 0) {
 														if (strDir.length() > 1 ) {
@@ -2001,14 +1972,8 @@ public class svrOpen{
 //														ecamsLogger.error("## rsval.size: " + rsval.size() );
 														if (rsval.size() > 0) {
 															for (j=0; rsval.size()>j; j++) {
-//																ecamsLogger.error("## cm_fullpath: " + rsval.get(j).get("cm_fullpath"));
-//																ecamsLogger.error("## strDir: " + strDir);
-//																ecamsLogger.error("## pathDepth: " + pathDepth[i]);
 																
 																if (rsval.get(j).get("cm_fullpath").equals(strDir)) {
-//																	ecamsLogger.error("## cm_fullpath: " + rsval.get(j).get("cm_fullpath"));
-//																	ecamsLogger.error("## strDir: " + strDir);
-																	
 																	upSeq = Integer.parseInt(rsval.get(j).get("cm_seqno"));
 																	findSw = true;
 																}
@@ -2181,74 +2146,81 @@ public class svrOpen{
 			                fileSw = false;
 			                //ecamsLogger.error("+++++++str:"+str);
 			            	if (str.length() > 0) {
-			                	if ("03".equals(etcData.get("SysOs"))) {
-			                		if (str.indexOf("디렉터리")>0) {
-			                			wkDir = str.substring(0,str.indexOf("디렉터리"));
-			                			wkDir = wkDir.trim();
-			                			do {
-			                				wkDir = wkDir.replace("\\", "/");
-			                			} while (wkDir.indexOf("\\")>=0);
-			                		} else if (str.indexOf("<DIR>")<0 && !str.substring(0,1).equals(" ")) {
-			                			//ecamsLogger.error("++++++++wkDir,str1++++"+wkDir + " " + str);
-			                			for (k=0;4>k;k++) {
-			                				if (str.indexOf(" ")>=0) {
-			                					str = str.substring(str.indexOf(" ")).trim();
-			                				} else str = "";
-			                			}
-
-			                			//ecamsLogger.error("++++++++wkDir,str2++++"+wkDir + " " + str);
-			                			if (str.length()>0) {
-				                			wkF = str;
-				                			wkB = str;
-				                			fileSw = true;
-			                			}
-			                		}
-			                	} else if ("04".equals(etcData.get("SysOs"))) {//04=Linux
-//			                		ecamsLogger.error("+++++++str++++++++[1]"+str);
-//			                		if ( !str.substring(0,1).equals("d") ) {
-				                		if ( str.substring(0,1).equals("/") ) {
-				                			//ecamsLogger.error("[00]wkDir:"+wkDir); 
-				                			wkDir = str.substring(0, str.length() - 1);
-				                			//ecamsLogger.error("[01]wkDir:"+wkDir);
-				                		} else if ( str.substring(0,1).equals("-") ) {
-				                			wkF = str;
-				                			int Y = 0;
-				                			int X = 0;
-
-				                			//20151112 neo. 마지막 탭을 파일명으로 사용하도록 로직 수정
-				                			wkB = str.substring(str.lastIndexOf(" ")+1);
-//				                			ecamsLogger.error("+++++++wkB++++++++[2]"+wkB);
-				                			fileSw = true;
-				                		}
+//			                	if ("03".equals(etcData.get("SysOs"))) {
+//			                		if (str.indexOf("디렉터리")>0) {
+//			                			wkDir = str.substring(0,str.indexOf("디렉터리"));
+//			                			wkDir = wkDir.trim();
+//			                			do {
+//			                				wkDir = wkDir.replace("\\", "/");
+//			                			} while (wkDir.indexOf("\\")>=0);
+//			                		} else if (str.indexOf("<DIR>")<0 && !str.substring(0,1).equals(" ")) {
+//			                			//ecamsLogger.error("++++++++wkDir,str1++++"+wkDir + " " + str);
+//			                			for (k=0;4>k;k++) {
+//			                				if (str.indexOf(" ")>=0) {
+//			                					str = str.substring(str.indexOf(" ")).trim();
+//			                				} else str = "";
+//			                			}
+//
+//			                			//ecamsLogger.error("++++++++wkDir,str2++++"+wkDir + " " + str);
+//			                			if (str.length()>0) {
+//				                			wkF = str;
+//				                			wkB = str;
+//				                			fileSw = true;
+//			                			}
 //			                		}
-			                	} else {
-			                		if (!str.substring(0,1).equals("d")) {
-				                		if (str.substring(0,1).equals("/")) {
-				                			wkDir = str.substring(0, str.length() - 1);
-				                		} else if (str.substring(0,1).equals("-")) {
-				                			wkF = str;
-				                			int Y = 0;
-				                			int X = 0;
-				                			while (wkF.length() > 0) {
-				                				Y = Y + 1;
-				                				X = wkF.indexOf(" ");
-				                				if (X >= 0) {
-				                					wkB = wkF.substring(0,X).trim();
-				                					wkF = wkF.substring(X).trim();
-				                				} else {
-				                					wkB = wkF.trim();
-				                					wkF = "";
-				                				}
-				                				//ecamsLogger.error("+++++++str,wkDir,wkB++++++++[3]"+wkDir+" "+wkB);
-				                				if (Y == 9 && wkDir.length()>0 && wkB.length()>0) {
-				                					//ecamsLogger.error("+++++++str,wkDir,wkB++++++++[4]"+wkDir+" "+wkB);
-				                					fileSw = true;
-				                					break;
-				                				}
-				                			}
-				                		}
-			                		}
-			                	}
+//			                	} else if ("04".equals(etcData.get("SysOs"))) {//04=Linux
+////			                		ecamsLogger.error("+++++++str++++++++[1]"+str);
+////			                		if ( !str.substring(0,1).equals("d") ) {
+//				                		if ( str.substring(0,1).equals("/") ) {
+//				                			//ecamsLogger.error("[00]wkDir:"+wkDir); 
+//				                			wkDir = str.substring(0, str.length() - 1);
+//				                			//ecamsLogger.error("[01]wkDir:"+wkDir);
+//				                		} else if ( str.substring(0,1).equals("-") ) {
+//				                			wkF = str;
+//				                			int Y = 0;
+//				                			int X = 0;
+//
+//				                			//20151112 neo. 마지막 탭을 파일명으로 사용하도록 로직 수정
+//				                			wkB = str.substring(str.lastIndexOf(" ")+1);
+////				                			ecamsLogger.error("+++++++wkB++++++++[2]"+wkB);
+//				                			fileSw = true;
+//				                		}
+////			                		}
+//			                	} else {
+//			                		if (!str.substring(0,1).equals("d")) {
+//				                		if (str.substring(0,1).equals("/")) {
+//				                			wkDir = str.substring(0, str.length() - 1);
+//				                		} else if (str.substring(0,1).equals("-")) {
+//				                			wkF = str;
+//				                			int Y = 0;
+//				                			int X = 0;
+//				                			while (wkF.length() > 0) {
+//				                				Y = Y + 1;
+//				                				X = wkF.indexOf(" ");
+//				                				if (X >= 0) {
+//				                					wkB = wkF.substring(0,X).trim();
+//				                					wkF = wkF.substring(X).trim();
+//				                				} else {
+//				                					wkB = wkF.trim();
+//				                					wkF = "";
+//				                				}
+//				                				//ecamsLogger.error("+++++++str,wkDir,wkB++++++++[3]"+wkDir+" "+wkB);
+//				                				if (Y == 9 && wkDir.length()>0 && wkB.length()>0) {
+//				                					//ecamsLogger.error("+++++++str,wkDir,wkB++++++++[4]"+wkDir+" "+wkB);
+//				                					fileSw = true;
+//				                					break;
+//				                				}
+//				                			}
+//				                		}
+//			                		}
+//			                	}
+			            		
+			            		//20190923 파일추출결과 파일포맷 변경으로 인해 수정
+		            			wkB = "";
+		                		fileSw = true;
+		                		str = str.replace("\\", "/");
+		                		wkDir = str.substring(0, str.lastIndexOf("/"));
+		                		wkB = str.substring(str.lastIndexOf("/")+1);
 			                	
 			                	if ( fileSw ) {
                 					findSw = false;
@@ -2299,8 +2271,6 @@ public class svrOpen{
                 					//PrgName: 추출프로그램명
                 					if( findSw ) {
                 						findSw = false;
-                						ecamsLogger.error("+++++++PrgName++++++++"+etcData.get("PrgName") );
-                						ecamsLogger.error("+++++++wkB++++++++"+wkB);
                 						for(z=0; z<strPrgName.length; z++) {
                 							findSw = false;
                 							if(strPrgName[z].trim() == null || "".equals(strPrgName[z].trim())) {
@@ -2315,12 +2285,12 @@ public class svrOpen{
                 						}
                 					}
                 					
-                					ecamsLogger.error("+++++++findSw++++++++"+findSw + ", filename: " + wkB);
                 					//rsval = new ArrayList<HashMap<String, String>>();
                 					if ( findSw ) {
 	                					rst = new HashMap<String, String>();
 	                					rst.put("syscd", etcData.get("SysCd"));
-	                					rst.put("cm_dirpath", wkDir.replace(svrHome, ""));
+	                					//rst.put("cm_dirpath", wkDir.replace(svrHome, ""));
+	                					rst.put("cm_dirpath", wkDir);
 	                					rst.put("filename", wkB);
 	                					if (baseSvr.equals(etcData.get("SvrCd"))) {
 	                						rst.put("svrchg", "N");
@@ -2402,8 +2372,8 @@ public class svrOpen{
             String wkB1 = "";
             String wkB2 = "";
             
-            ecamsLogger.error("+++++++rsval-1:"+rsval.size());
-            ecamsLogger.error("+++++++rsval-2:"+rsval.toString());
+//            ecamsLogger.error("+++++++rsval-1:"+rsval.size());
+//            ecamsLogger.error("+++++++rsval-2:"+rsval.toString());
 //          ecamsLogger.error("+++++++rsval-3:"+rsval.get(0));
             
             while (rsval.remove(null));
