@@ -58,7 +58,7 @@ $(document).ready(function(){
 	        width: 400,
 	        height: 140,
 	        iframe: {
-	            method: "get",
+	            method: "get", 
 	            url: "./JobUpModal.jsp",
 	            param: "callBack=jobUpModalCallBack"
 	        },

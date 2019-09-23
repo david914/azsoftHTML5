@@ -325,7 +325,7 @@ public class Cmm1600{
 						strQuery.append("                       and cm_dirpath = ?)         \n");
 						
 						pstmt = conn.prepareStatement(strQuery.toString());
-						pstmt.setString(1, _syscd);
+						pstmt.setString(1, _syscd); 
 						pstmt.setString(2, rsrcname);
 						pstmt.setString(3, fileList.get(i).get("dirpath").trim());
 						rs = pstmt.executeQuery();

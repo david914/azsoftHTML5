@@ -22,7 +22,7 @@
 	<div class="container-fluid pop_wrap">
 		<!--line1 S-->
 		<div class="row">					
-			<div class="width-30 dib vat">
+			<div class="width-30 dib vat"> 
 	            <label class="title">업무코드</label>
 			</div>
 			<div class="width-68 dib vat">

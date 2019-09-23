@@ -267,7 +267,7 @@ $(document).ready(function(){
 		}
 		
 		if( !($(this).is(':checked')) ) {
-			screenInit();
+			screenInit(); 
 			$('#chkSelfDiv').css('visibility','hidden');
 			$('[data-ax5select="cboSys"]').ax5select("enable");
 			$('#chkSelf').wCheck('check',true);
