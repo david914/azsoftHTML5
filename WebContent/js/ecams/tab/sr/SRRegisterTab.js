@@ -215,6 +215,7 @@ $(document).ready(function() {
 
 	//담당 개발자 그리드 height 조정
 	devUserGrid.setHeight($('#cboReqSecu').offset().top - $('[data-ax5grid="devUserGrid"]').offset().top + $('#cboReqSecu').outerHeight() + 28);
+	devUserGrid.repaint();
 });
 
 function createViewGrid(){
@@ -316,6 +317,7 @@ function createViewGrid(){
 	
 	//담당 개발자 그리드 height 조정
 	devUserGrid.setHeight($('#cboReqSecu').offset().top - $('[data-ax5grid="devUserGrid"]').offset().top + $('#cboReqSecu').outerHeight() + 28);
+	devUserGrid.repaint();
 }
 
 function successGetTmpDir(data){
