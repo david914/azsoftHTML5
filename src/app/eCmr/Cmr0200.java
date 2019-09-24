@@ -1676,6 +1676,8 @@ public class Cmr0200{
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
+		PreparedStatement pstmt2      = null;
+		ResultSet         rs2         = null;
 		StringBuffer      strQuery    = new StringBuffer();
 		int               cnt         = 0;
 	
@@ -1766,6 +1768,9 @@ public class Cmr0200{
 		    strQuery.append("         where cm_userid=nvl(a.cr_lstusr,a.cr_editor)) cm_username,\n");
 		    strQuery.append("       (select cm_jobname from cmm0102                             \n");
 		    strQuery.append("         where cm_jobcd=a.cr_jobcd) cm_jobname,                    \n");
+		    strQuery.append("       (select cr_aftviewver from cmr0021                          \n");
+		    strQuery.append("         where cr_itemid=a.cr_itemid                      			\n");
+		    strQuery.append("           and cr_acptno=decode(?,'08',a.cr_devacpt,'03',a.cr_testacpt,a.cr_realacpt)) befver,\n");
 		    strQuery.append("       (select cr_version from cmr0021                             \n");
 		    strQuery.append("         where cr_itemid=a.cr_itemid                      			\n");
 		    strQuery.append("           and cr_acptno=decode(?,'08',a.cr_devacpt,'03',a.cr_testacpt,a.cr_realacpt)) version,\n");
@@ -1805,6 +1810,7 @@ public class Cmr0200{
 			pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmt.setString(++cnt, etcData.get("SinCd"));
 			pstmt.setString(++cnt, etcData.get("SinCd"));
+			pstmt.setString(++cnt, etcData.get("SinCd"));
 			pstmt.setString(++cnt, etcData.get("SysCd"));
 			if ( srSw ) {
 				pstmt.setString(++cnt, etcData.get("srid"));
@@ -1831,8 +1837,28 @@ public class Cmr0200{
 				if (rs.getString("cr_story") != null) rst.put("cr_story", rs.getString("cr_story"));
 				else  rst.put("cr_story", "");
 				rst.put("cr_lstver", rs.getString("cr_lstver"));
-				if (rs.getString("version") != null) rst.put("cr_befver", rs.getString("version"));
-				else rst.put("cr_befver", "0");
+				rst.put("cr_aftver", Integer.toString(rs.getInt("cr_lstver")));
+				
+				if ("1".equals(rs.getString("cm_info").substring(24,25))) { //빌드서버체크인의 경우 버전업여부판단
+					strQuery.setLength(0);
+					strQuery.append("select VERSIONUP_YN(?,?,?) veryn from dual \n");
+					pstmt2 = conn.prepareStatement(strQuery.toString());
+					pstmt2.setString(1, rs.getString("cr_syscd"));
+					pstmt2.setString(1, etcData.get("SinCd"));
+					pstmt2.setString(3, rs.getString("cr_rsrccd"));
+					rs2 = pstmt2.executeQuery();
+					if (rs2.next()) {
+						if ("OK".equals(rs2.getString("veryn"))) {
+							if (rs.getInt("cr_lstver") >= rs.getInt("vercnt")) {
+								rst.put("cr_aftver", "1");
+							} else rst.put("cr_aftver", Integer.toString(rs.getInt("cr_lstver")+1));
+						}
+					}
+					rs2.close();
+					pstmt2.close();					
+				}
+				
+				
 				rst.put("cr_editor", rs.getString("cr_lstusr"));
 				rst.put("codename", rs.getString("cm_codename"));
 				rst.put("cr_syscd", rs.getString("cr_syscd"));
@@ -1851,8 +1877,6 @@ public class Cmr0200{
 				rst.put("sysgb", rs.getString("cm_sysgb"));
 				rst.put("sortgbn", "0");
 				
-				rst.put("cr_aftver", Integer.toString(rs.getInt("cr_lstver")));
-				rst.put("cr_befviewver", rs.getString("cr_viewver"));
 				rst.put("cr_viewver", rs.getString("cr_viewver"));
 				
 				strViewVer = rs.getString("cr_viewver").split("\\.");
@@ -1864,6 +1888,14 @@ public class Cmr0200{
 					strAftViewVer = strViewVer[0] + "." + strViewVer[1] + "." + Integer.toString(Integer.parseInt(strViewVer[2])+1) + "." + strViewVer[3];
 				}
 				rst.put("cr_aftviewver", strAftViewVer);
+
+				if (rs.getString("version") != null) {
+					rst.put("cr_befver", rs.getString("version"));
+					rst.put("cr_befviewver", rs.getString("befver"));
+				} else {
+					rst.put("cr_befver", "0");
+					rst.put("cr_befviewver", rs.getString("cr_viewver"));
+				}
 				
 				if ("09".equals(etcData.get("ReqCd"))) {
 					rst.put("reqcd", etcData.get("ReqCd"));
@@ -1914,6 +1946,8 @@ public class Cmr0200{
 	        conn.close();
 	        rs = null;
 	        pstmt = null;
+	        rs2 = null;
+	        pstmt2 = null;
 	        conn = null;
 			
 //	        ecamsLogger.error("############ getDeployList  E N D ########: "+rsval.toString());
@@ -1937,6 +1971,8 @@ public class Cmr0200{
 			if (rsval != null)  rsval = null;
 			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
 			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (rs2 != null)    try{rs2.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt2 != null) try{pstmt2.close();}catch (Exception ex2){ex2.printStackTrace();}
 			if (conn != null){
 				try{
 					ConnectionResource.release(conn);
@@ -2897,7 +2933,7 @@ public class Cmr0200{
 				            	pstmt2.close();
 
 				            	if (strDsnCd.length() == 0) {
-				            		strDsnCd = cmd0100.cmm0070_Insert(etcData.get("userid"), etcData.get("syscd"),"",strRsrcCd,fileList.get(i).get("cr_jobcd"),strDirPath,"",true,conn);
+				            		strDsnCd = cmd0100.cmm0070_Insert(etcData.get("userid"), etcData.get("syscd"),"",strRsrcCd,fileList.get(i).get("cr_jobcd"),strDirPath,true,conn);
 				            		if (strDsnCd == null || strDsnCd == "") {
 					        			for (j=rtList.size()-1;j>=svCnt;j--) {
 											rtList.remove(j);
@@ -2964,9 +3000,13 @@ public class Cmr0200{
 							    strQuery.append("       (select cm_codename from cmm0020                             \n");
 							    strQuery.append("         where cm_macode='CHECKIN'                                  \n");
 							    strQuery.append("           and cm_micode=decode(a.cr_lstver,0,'03','04')) checkin,  \n");
+							    strQuery.append("        VERSIONUP_YN(a.cr_syscd,?,a.cr_rsrccd) veryn,               \n");
 							    if ("07".equals(etcData.get("SinCd"))) {
-							    	strQuery.append("    a.cr_lstver version                                         \n");
+							    	strQuery.append("    a.cr_viewver befver,a.cr_lstver version                     \n");
 							    } else {
+								    strQuery.append("       (select cr_aftviewver from cmr0021                       \n");
+								    strQuery.append("         where cr_itemid=a.cr_itemid                   		 \n");
+								    strQuery.append("           and cr_acptno=decode(?,'08',a.cr_devacpt,'03',a.cr_testacpt,a.cr_realacpt)) befver,\n");
 								    strQuery.append("       (select cr_version from cmr0021                          \n");
 								    strQuery.append("         where cr_itemid=a.cr_itemid                  			 \n");
 								    strQuery.append("           and cr_acptno=decode(?,'08',a.cr_devacpt,'03',a.cr_testacpt,a.cr_realacpt)) version \n");
@@ -2976,7 +3016,11 @@ public class Cmr0200{
 							   	strQuery.append("   and a.cr_syscd=d.cm_syscd and a.cr_rsrccd=d.cm_rsrccd  \n");
 								pstmt2 = conn.prepareStatement(strQuery.toString());
 								pstmt2 = new LoggableStatement(conn, strQuery.toString());
-								if (!"07".equals(etcData.get("SinCd"))) pstmt2.setString(++parmCnt, etcData.get("SinCd"));
+								pstmt2.setString(++parmCnt, etcData.get("SinCd"));
+								if (!"07".equals(etcData.get("SinCd"))) {
+									pstmt2.setString(++parmCnt, etcData.get("SinCd"));
+									pstmt2.setString(++parmCnt, etcData.get("SinCd"));
+								}
 					            pstmt2.setString(++parmCnt, strItemId);
 					            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
 					            rs2 = pstmt2.executeQuery();
@@ -2992,11 +3036,24 @@ public class Cmr0200{
 					    			rst.put("prcseq", rs2.getString("prcseq"));
 					    			rst.put("editRow", rs2.getString("prcseq"));
 					    			rst.put("cr_lstver",rs2.getString("cr_lstver"));
-					    			if (rs2.getString("version") != null) {
-					    				rst.put("cr_befver",rs2.getString("version"));
-					    			} else {
-					    				rst.put("cr_befver","0");
-					    			}
+
+									if (rs2.getString("version") != null) {
+										rst.put("cr_befver", rs2.getString("version"));
+										rst.put("cr_befviewver", rs2.getString("befver"));
+									} else {
+										rst.put("cr_befver", "0");
+										rst.put("cr_befviewver", rs2.getString("cr_viewver"));
+									}
+									
+					    			rst.put("cr_aftver",rs2.getString("cr_lstver"));
+					    			if ("OK".equals(rs2.getString("veryn"))) {
+						    			if (rs2.getInt("cr_lstver") >= rs2.getInt("vercnt")) {
+										   rst.put("cr_aftver", "1");
+										}
+						    			else{
+						    				rst.put("cr_aftver", Integer.toString(rs2.getInt("cr_lstver")+1));
+						    			}
+									}
 					    			rst.put("cr_itemid",rs2.getString("cr_itemid"));
 					    			rst.put("sysgb", fileList.get(i).get("sysgb"));
 					    			rst.put("cm_systype", fileList.get(i).get("cm_systype"));
@@ -3026,17 +3083,7 @@ public class Cmr0200{
 									}
 					    			rst.put("cr_acptno",fileList.get(i).get("cr_acptno"));
 					    			rst.put("cr_baseno",fileList.get(i).get("cr_baseno"));
-					    			if ("07".equals(etcData.get("SinCd"))) {
-						    			if (rs2.getInt("cr_lstver") >= rs2.getInt("vercnt")) {
-										   rst.put("cr_aftver", "1");
-										}
-						    			else{
-						    				rst.put("cr_aftver", Integer.toString(rs2.getInt("cr_lstver")+1));
-						    			}
-					    			} else {
-					    				rst.put("cr_aftver",rs2.getString("cr_lstver"));
-					    			}
-					    			rst.put("cr_befviewver", rs2.getString("cr_viewver"));
+					    			
 					    			if ("09".equals(fileList.get(i).get("reqcd"))) {
 					    				strAftViewVer = rs2.getString("cr_viewver");
 					    			} else {
@@ -3101,9 +3148,13 @@ public class Cmr0200{
 				    strQuery.append("       (select cm_codename from cmm0020                             \n");
 				    strQuery.append("         where cm_macode='CHECKIN'                                  \n");
 				    strQuery.append("           and cm_micode=decode(a.cr_lstver,0,'03','04')) checkin,  \n");
+				    strQuery.append("        VERSIONUP_YN(a.cr_syscd,?,a.cr_rsrccd) veryn,               \n");
 				    if ("07".equals(etcData.get("SinCd"))) {
-				    	strQuery.append("    a.cr_lstver version                                         \n");
+				    	strQuery.append("    a.cr_viewver befver,a.cr_lstver version                     \n");
 				    } else {
+					    strQuery.append("       (select cr_aftviewver from cmr0021                       \n");
+					    strQuery.append("         where cr_itemid=a.cr_itemid                   		 \n");
+					    strQuery.append("           and cr_acptno=decode(?,'08',a.cr_devacpt,'03',a.cr_testacpt,a.cr_realacpt)) befver,\n");
 					    strQuery.append("       (select cr_version from cmr0021                          \n");
 					    strQuery.append("         where cr_itemid=a.cr_itemid                  			 \n");
 					    strQuery.append("           and cr_acptno=decode(?,'08',a.cr_devacpt,'03',a.cr_testacpt,a.cr_realacpt)) version \n");
@@ -3117,7 +3168,11 @@ public class Cmr0200{
 				   	}
 					pstmt2 = conn.prepareStatement(strQuery.toString());
 					//pstmt2 = new LoggableStatement(conn, strQuery.toString());
-					if (!"07".equals(etcData.get("SinCd"))) pstmt2.setString(++parmCnt, etcData.get("SinCd"));
+					pstmt2.setString(++parmCnt, etcData.get("SinCd"));
+					if (!"07".equals(etcData.get("SinCd"))) {
+						pstmt2.setString(++parmCnt, etcData.get("SinCd"));
+						pstmt2.setString(++parmCnt, etcData.get("SinCd"));
+					}
 		            pstmt2.setString(++parmCnt, strItemId);
 		            //ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
 		            rs2 = pstmt2.executeQuery();
@@ -3133,11 +3188,24 @@ public class Cmr0200{
 		    			rst.put("prcseq", rs2.getString("prcseq"));
 		    			rst.put("editRow", rs2.getString("prcseq"));
 		    			rst.put("cr_lstver",rs2.getString("cr_lstver"));
-		    			if (rs2.getString("version") != null) {
-		    				rst.put("cr_befver",rs2.getString("version"));
-		    			} else {
-		    				rst.put("cr_befver","0");
-		    			}
+
+						if (rs2.getString("version") != null) {
+							rst.put("cr_befver", rs2.getString("version"));
+							rst.put("cr_befviewver", rs2.getString("befver"));
+						} else {
+							rst.put("cr_befver", "0");
+							rst.put("cr_befviewver", rs2.getString("cr_viewver"));
+						}
+						
+		    			rst.put("cr_aftver",rs2.getString("cr_lstver"));
+		    			if ("OK".equals(rs2.getString("veryn"))) {
+			    			if (rs2.getInt("cr_lstver") >= rs2.getInt("vercnt")) {
+							   rst.put("cr_aftver", "1");
+							}
+			    			else{
+			    				rst.put("cr_aftver", Integer.toString(rs2.getInt("cr_lstver")+1));
+			    			}
+						}
 		    			rst.put("cr_itemid",rs2.getString("cr_itemid"));
 		    			rst.put("sysgb", fileList.get(i).get("sysgb"));
 		    			rst.put("cm_systype", fileList.get(i).get("cm_systype"));
@@ -3166,16 +3234,6 @@ public class Cmr0200{
 						}
 		    			rst.put("cr_acptno",fileList.get(i).get("cr_acptno"));
 		    			rst.put("cr_baseno",fileList.get(i).get("cr_baseno"));
-		    			if ("07".equals(etcData.get("SinCd"))) {
-			    			if (rs2.getInt("cr_lstver") >= rs2.getInt("vercnt")) {
-							   rst.put("cr_aftver", "1");
-							}
-			    			else{
-			    				rst.put("cr_aftver", Integer.toString(rs2.getInt("cr_lstver")+1));
-			    			}
-		    			} else {
-		    				rst.put("cr_aftver",rs2.getString("cr_lstver"));
-		    			}
 		    			rst.put("cr_befviewver", rs2.getString("cr_viewver"));
 		    			if ("09".equals(fileList.get(i).get("reqcd"))) {
 		    				strAftViewVer = rs2.getString("cr_viewver");
