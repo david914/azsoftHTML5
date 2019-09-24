@@ -990,6 +990,7 @@ public class svrOpen{
 	        String strRsrcInfo = "";
 	        String baseHome  = "";
 	        String svrHome   = "";
+	        String sysOs   = "";
 	        String chgPath   = "";
 	        int j = 0;
 	        rtList.clear();
@@ -1029,7 +1030,7 @@ public class svrOpen{
 				            pstmt.close();
 				            
 			            	strQuery.setLength(0);
-			            	strQuery.append("select b.cm_volpath from cmm0031 a,cmm0038 b  \n");
+			            	strQuery.append("select b.cm_volpath,a.cm_sysos from cmm0031 a,cmm0038 b  \n");
 			            	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd=?          \n");
 			            	strQuery.append("   and a.cm_seqno=?                           \n");
 			            	strQuery.append("   and a.cm_closedt is null                   \n");
@@ -1047,6 +1048,7 @@ public class svrOpen{
 				            rs = pstmt.executeQuery();
 				            if (rs.next()) {
 				            	svrHome = rs.getString("cm_volpath");
+				            	sysOs = rs.getString("cm_sysos");
 				            }
 				            rs.close();
 				            pstmt.close();
@@ -1054,7 +1056,7 @@ public class svrOpen{
 				            //ecamsLogger.error("+++++ svrHome,baseHome+++"+svrHome+", "+baseHome+", "+fileList.get(i).get("cm_dirpath")+", "+chgPath);
 						}
 					}
-					strDsnCd = cmd0100.cmm0070_Insert(etcData.get("userid"),etcData.get("syscd"),fileList.get(i).get("filename"),strRsrcCd,strJobCd,chgPath,false,conn);
+					strDsnCd = cmd0100.cmm0070_Insert(etcData.get("userid"),etcData.get("syscd"),fileList.get(i).get("filename"),strRsrcCd,strJobCd,chgPath,sysOs,false,conn);
 					rst.put("cm_dsncd", strDsnCd);
 					
 					if ((i + 2) < fileList.size()) {
@@ -1099,6 +1101,7 @@ public class svrOpen{
 		        	rst2.put("baseitem","");
 		        	rst2.put("info",strRsrcInfo);
 		        	rst2.put("srid", etcData.get("srid"));
+		        	rst2.put("sysOs", sysOs);
 		        	//rst2.put("todsn",etcData.get("todsn"));
 		        	//rst2.put("scrno",etcData.get("scrno"));
 		        	retMsg = cmd0100.cmr0020_Insert(rst2,conn);

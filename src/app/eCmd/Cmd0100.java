@@ -337,7 +337,7 @@ public class Cmd0100{
 		}
 	}//end of getDir_Tmax() method statement
 
-	public String cmm0070_Insert(String UserID,String SysCd,String RsrcName,String RsrcCd,String JobCd,String DirPath,boolean tmaxFg,Connection conn) throws SQLException, Exception {
+	public String cmm0070_Insert(String UserID,String SysCd,String RsrcName,String RsrcCd,String JobCd,String DirPath,String sysOs,boolean tmaxFg,Connection conn) throws SQLException, Exception {
 		PreparedStatement pstmt       = null;
 		PreparedStatement pstmt2       = null;
 		PreparedStatement pstmt3       = null;
@@ -372,14 +372,24 @@ public class Cmd0100{
             rs.close();
             pstmt.close();
             */
+			
+			strBaseDir = strBaseDir.replace("\"","/");
 			strQuery.setLength(0);
 			strQuery.append("select cm_dsncd from cmm0070                           \n");
 			strQuery.append(" where cm_syscd=?                                      \n");
-			strQuery.append(" and cm_dirpath=?                                      \n");
+			if("03".equals(sysOs)) {
+				strQuery.append(" and upper(cm_dirpath)=?                           \n");
+			}else {
+				strQuery.append(" and cm_dirpath=?                                  \n");
+			}
             pstmt = conn.prepareStatement(strQuery.toString());
             //pstmt = new LoggableStatement(conn,strQuery.toString());
             pstmt.setString(1, SysCd);
-            pstmt.setString(2, strBaseDir);
+            if("03".equals(sysOs)) {
+            	pstmt.setString(2, strBaseDir.toUpperCase());
+            }else {
+            	pstmt.setString(2, strBaseDir);
+            }
             //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
@@ -1273,7 +1283,7 @@ public class Cmd0100{
 					if (!strPath.equals(RsrcName)) {
 						DirPath = DirPath + "/" + RsrcName;
 	
-						String strDsn = cmm0070_Insert(UserId,SysCd,RsrcName,RsrcCd,JobCd,DirPath,true,conn);
+						String strDsn = cmm0070_Insert(UserId,SysCd,RsrcName,RsrcCd,JobCd,DirPath,"",true,conn);
 						if (strDsn == null || strDsn == "") {
 							retMsg = "디렉토리 등록 처리 중 오류가 발생하였습니다. ["+DirPath+"/"+RsrcName+"]";
 						} else DsnCd = strDsn;
@@ -1579,7 +1589,7 @@ public class Cmd0100{
     	        if (rs2.next()) {
     	        	strAftDsn = rs2.getString("cm_dsncd");
     	        } else {
-    	        	strAftDsn = cmm0070_Insert(UserId,SysCd,strRsrcName,strRsrcCd,JobCd,strDevPath,false,conn);
+    	        	strAftDsn = cmm0070_Insert(UserId,SysCd,strRsrcName,strRsrcCd,JobCd,strDevPath,"",false,conn);
     	        }
     	        rs2.close();
     	        pstmt2.close();
@@ -1700,12 +1710,19 @@ public class Cmd0100{
 			strQuery.append("  from cmr0020       \n");
 			strQuery.append(" where cr_syscd=?    \n");
 		    strQuery.append("   and cr_dsncd=?    \n");
-			strQuery.append("   and cr_rsrcname=? \n");
-
+		    if("03".equals(openInfo.get("syscd"))) {
+		    	strQuery.append("   and upper(cr_rsrcname)=? \n");
+		    } else {
+		    	strQuery.append("   and cr_rsrcname=? \n");
+		    }
 	        pstmt = conn.prepareStatement(strQuery.toString());
 	        pstmt.setString(++parmCnt, openInfo.get("syscd"));
 	        pstmt.setString(++parmCnt, openInfo.get("dsncd"));
-	        pstmt.setString(++parmCnt, openInfo.get("rsrcname"));
+	        if("03".equals(openInfo.get("syscd"))) {
+	        	pstmt.setString(++parmCnt, openInfo.get("rsrcname").toUpperCase());
+	        }else {
+	        	pstmt.setString(++parmCnt, openInfo.get("rsrcname"));
+	        }
 	        rs = pstmt.executeQuery();
 
 	        if (rs.next()) {
