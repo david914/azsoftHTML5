@@ -30,13 +30,14 @@ var grdProgListData = null; //프로그램그리드 데이터
 
 var tmpInfo     = new Object();
 var tmpInfoData = new Object();
-
+var reqSw 		= false;
 var selOptions = [];
 var selectedIndex;		//select 선택 index
 var selectedItem;		//select 선택 item
 var gridSelectedIndex;  //그리드 선택 index
 var selectedGridItem;	//그리드 선택 item
 var gridSelectedLen;    //그리드 선택 item length
+
 
 grdProgList.setConfig({
     target: $('[data-ax5grid="grdProgList"]'),
@@ -352,6 +353,12 @@ function successDirList(data) {
 }
 
 function btnQry_Click() {
+	if (reqSw == true) {
+		dialog.alert("현재 처리중입니다. 잠시 기다려 주시기 바랍니다.");
+		return;
+	}
+	reqSw = true;
+	
 	grdProgList.setData([]);
 	
 	tmpInfo = new Object();
@@ -377,6 +384,7 @@ function btnQry_Click() {
 function successPrjList(data) {
 	grdProgListData = data;
 	grdProgList.setData(grdProgListData);
+	reqSw = false;
 }
 
 function btnUpdt_Click() {

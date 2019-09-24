@@ -19,6 +19,8 @@ var agentGrid	= new ax5.ui.grid();
 var agentGridData	= [];
 var cboSysCdData	= [];
 
+var reqSw 			= false;
+
 agentGrid.setConfig({
     target: $('[data-ax5grid="agentGrid"]'),
     sortable: true, 
@@ -75,6 +77,11 @@ $(document).ready(function() {
 
 // 조회
 function getAgentState() {
+	if (reqSw == true) {
+		dialog.alert("현재 처리중입니다. 잠시 기다려 주시기 바랍니다.");
+		return;
+	}
+	reqSw = true;
 	var data = new Object();
 	data = {
 		sysCD 		: getSelectedVal('cboSysCd').value,
@@ -88,6 +95,7 @@ function getAgentState() {
 function successGetAgentState(data) {
 	agentGridData = data;
 	agentGrid.setData(agentGridData);
+	reqSw = false;
 }
 
 // 시스템 콤보 가져오기
