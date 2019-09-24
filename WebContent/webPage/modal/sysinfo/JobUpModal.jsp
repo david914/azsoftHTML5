@@ -31,7 +31,7 @@
 		</div>
 		
 		<div class="row">					
-			<div class="width-30 dib vat">
+			<div class="width-30 dib vat"> 
 	           <input id="txtCode" name="txtCode" class="width-100" type="text" maxlength="6"></input>
 			</div>
 			<div class="width-68 dib vat">

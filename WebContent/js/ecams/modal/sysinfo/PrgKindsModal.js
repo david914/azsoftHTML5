@@ -394,7 +394,7 @@ $(document).ready(function(){
 		
 		confirmDialog.confirm({
 			msg: '프로그램정보를 등록하시겠습니까?',
-		}, function(){
+		}, function(){ 
 			if(this.key === 'ok') {
 				var data = new Object();
 				data = {

@@ -323,7 +323,6 @@ public class Cmm1600{
 						strQuery.append("                      from cmm0070                 \n");
 						strQuery.append("                     where cm_syscd = a.cr_syscd   \n");
 						strQuery.append("                       and cm_dirpath = ?)         \n");
-						
 						pstmt = conn.prepareStatement(strQuery.toString());
 						pstmt.setString(1, _syscd); 
 						pstmt.setString(2, rsrcname);

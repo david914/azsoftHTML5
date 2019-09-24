@@ -120,7 +120,7 @@
 									<div data-ax5grid="sameGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 								</div>
 							</div>
-						</div>
+						</div> 
 					</div>
 					<!--버튼영억 S-->
 					<div class="sm-row">

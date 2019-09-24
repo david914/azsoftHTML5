@@ -23,7 +23,6 @@ var svrUsrGrid		= new ax5.ui.grid();
 var accGrid			= new ax5.ui.grid();
 var svrUsrGridData 	= null;
 var accGridData 	= null;
-
 var cboSvrData 		= null;
 var cboOptions		= null;
 var ulSvrInfoData	= null;
