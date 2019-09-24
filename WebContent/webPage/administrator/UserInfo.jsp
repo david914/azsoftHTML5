@@ -112,7 +112,7 @@
                     	<div class="sm-row">
 	                    	<label id="lbUser" class="tit_80 poa">활성여부</label>
 	                        <div class="ml_80">
-								<input id="optActCheck"  type="radio" name="userRadio" value="active"/>
+								<input id="optActCheck"  type="radio" name="userRadio" value="active" checked/>
 								<label for="optActCheck" >사용자 활성화</label>
 								<input id="optDiCheck" type="radio" name="userRadio" value="disable"/>
 								<label for="optDiCheck" >사용자 비활성화</label>

@@ -36,7 +36,7 @@
 		</div>
 	</div>
 	<!--line2-->
-	<div class="sm-row az_board_basic" style="height: 72%">
+	<div class="sm-row az_board_basic" style="height: 78%">
 		<div data-ax5grid="releaseGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>
 	<div class="sm-row cb">
@@ -55,26 +55,24 @@
 			<input type="checkbox" class="checkbox-rel" id="chkFri" name="date" data-label="금"/>
 			<input type="checkbox" class="checkbox-rel" id="chkSat" name="date" data-label="토"/>
 		</div>
-		<div class="r_wrap width-60 tar">
-			<div class="width-40 dib">
-				<label class="tit_80 poa">빌드시간</label>
-				<div class="ml_80 dib">
-					<input id="txtBuildTime" type="text" class="timepicker width-100" autocomplete="off" />
-				</div>
+		<div class="width-25 dib vat">
+			<label class="tit_80 poa margin-20-left">빌드시간</label>
+			<div class="ml_80 dib" style="width:calc(100% - 80px);">
+				<input id="txtBuildTime" type="text" class="timepicker width-100" autocomplete="off" />
 			</div>
-			<div class="width-40 dib">
-				<label class="tit_80 poa">배포시간</label>
-				<div class="ml_80 dib">
-					<input id="txtDeployTime" type="text" class="timepicker width-100" autocomplete="off" />
-				</div>
+		</div>
+		<div class="width-25 dib vat">
+			<label class="tit_80 poa margin-20-left">배포시간</label>
+			<div class="ml_80 dib" style="width:calc(100% - 80px);">
+				<input id="txtDeployTime" type="text" class="timepicker width-100" autocomplete="off" />
 			</div>
+		</div>
+		<div class="tac float-right">
+			<button id="btnReleaseTimeSet" class="btn_basic_s">등록</button>
+			<button id="btnClose" class="btn_basic_s margin-5-left">닫기</button>
 		</div>
 	</div>
 	<!--button-->
-	<div class="sm-row tac">
-		<button id="btnReleaseTimeSet" class="btn_basic_s">등록</button>
-		<button id="btnClose" class="btn_basic_s margin-5-left">닫기</button>
-	</div>
 </div>
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/modal/sysinfo/ReleaseTimeSetModal.js"/>"></script>

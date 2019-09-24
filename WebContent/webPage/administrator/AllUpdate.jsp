@@ -28,9 +28,9 @@
 						</div>
 					</div>
 				    <!-- 프로그램종류 -->
-					<div class="width-33 dib vat ml_7">
+					<div class="width-33 dib vat">
 						<label id="lbJawon" class="tit_80 poa">프로그램종류</label>
-						<div class="ml_80 width-80">
+						<div class="ml_80">
 							<div id="cboJawon" data-ax5select="cboJawon" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 60px);"></div>
 						</div>
 					</div>
@@ -45,10 +45,10 @@
 						</div>
 					</div>
 					
-					<div class="width-33 dib vat ml_7">
+					<div class="width-33 dib vat">
 						<!-- 프로그램명 -->
 						<label class="tit_80 poa">프로그램명</label>
-		                <div class="ml_80 width-80">
+		                <div class="ml_80">
 							<input id="txtRsrcName" name="txtRsrcName" type="text" class="dib"  style="width:calc(100% - 60px);">
 						</div>						
 					</div>
