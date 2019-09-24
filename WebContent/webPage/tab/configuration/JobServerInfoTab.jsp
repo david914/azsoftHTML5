@@ -58,7 +58,7 @@
 			<button id="btnDel" class="btn_basic_s">폐기</button>
 		</div>
 	</div>
-    <div class="sm-row az_board_basic" style="height:calc(100% - 103px);">
+    <div class="sm-row az_board_basic" style="height:calc(100% - 110px);">
     	<div data-ax5grid="workGrid" style="height: 100%;"></div>
 	</div>	
 </body>		

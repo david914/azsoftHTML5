@@ -25,11 +25,11 @@
 	           		<input id="txtTimeEd" type="text" class="timepicker width-100 tac" autocomplete="off" />
 	           	</div>
 
-				<div class="dib poa">
-					<button id="btnReq" class="btn_basic_s margin-5-left">등록</button>
-					<button id="btnDel" class="btn_basic_s">폐기</button>
-				</div>
 			</div>
+		</div>
+		<div class="dib float-right">
+			<button id="btnReq" class="btn_basic_s margin-5-left">등록</button>
+			<button id="btnDel" class="btn_basic_s">폐기</button>
 		</div>
 	</div>
 	<div class="row az_board_basic" style="height:calc(100% - 50px);">

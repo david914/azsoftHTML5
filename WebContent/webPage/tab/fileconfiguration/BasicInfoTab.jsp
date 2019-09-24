@@ -81,7 +81,7 @@
 				<div class="tit_100 poa">
 					<label>예외시스템</label>
 				</div>
-				<div class="ml_100 vat" style="height: 58%; border: 1px dotted gray;; background-color: white; overflow-y: auto;">
+				<div class="ml_100 vat" style="height: calc(58% + 47px); border: 1px dotted gray;; background-color: white; overflow-y: auto;">
 					<ul class="list-group" id="ulSysInfo">
 	    			</ul>
 				</div>
