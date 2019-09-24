@@ -1157,10 +1157,6 @@ function successUpdtDeploy_2(data) {
 //결재, 반려 실행
 function nextConf(gyulGbn, conMsg) {
 	ingSw = true;
-	var tmpId = pUserId;
-	if(gyulGbn == '1'){
-		tmpId = reqInfoData[0].signteam;
-	}
 	
 	if (null == conMsg || undefined  == conMsg || 'undefined ' == conMsg) {
 		conMsg = '';
@@ -1169,7 +1165,7 @@ function nextConf(gyulGbn, conMsg) {
 	data =  new Object();
 	data = {
 		AcptNo			: pReqNo,
-		UserId			: tmpId,
+		UserId			: pUserId,
 		conMsg			: conMsg,
 		Cd				: gyulGbn,
 		ReqCd			: pReqCd,
