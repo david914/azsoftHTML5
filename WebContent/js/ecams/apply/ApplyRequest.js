@@ -615,7 +615,9 @@ function successGetRsrcInfoList(data) {
 	rsrccdData = data;
 	cboOptions = [];
 	$.each(data,function(key,value) {
-		cboOptions.push({value: value.cm_micode, text: value.cm_codename});
+		if (value.moduleyn == 'N' || value.cm_micode == '0000') {
+			cboOptions.push({value: value.cm_micode, text: value.cm_codename});
+		}
 	});
 	$('[data-ax5select="cboRsrccd"]').ax5select({
       options: cboOptions
@@ -1530,7 +1532,9 @@ function reqQuestConf(){
 	else{ // 테스트배포, 운영배포
 		deploy = getSelectedVal('cboReqGbn').value;
 		if(swEmg) emgCd = '2';
-		if(getSelectedVal('cboReqGbn').value =='04') aplyData = strAplyDate;
+		if(getSelectedVal('cboReqGbn').value =='4') {
+			aplyData = strAplyDate;
+		}
 		requestData.closeyn = 'N';
 	}
 		

@@ -21,6 +21,7 @@ var strWorkD  = "";
 var strAcptNo = "";
 var strStatus = "";
 var strIsrTitle = "";
+var reloadVal = "N";
 var cboQryGbnData = [];
 
 var prjListData = [];
@@ -174,9 +175,14 @@ function successPrjList(data) {
 		//console.log("101line. strStatus: " + strStatus);
 		console.log("103line. prjListData: " , prjListData);
 		
-		iSRID_Click(prjListData[0]);
+		console.log(reloadVal);
+		
+		if(reloadVal == "N"){
+			iSRID_Click(prjListData[0]);
+		}
 	}
 }
+
 
 function iSRID_Click(data) {
 	console.log("110line data", data);
@@ -288,6 +294,7 @@ function changeTabMenu() {
 		tmpTab.strStatus = prjListData[0].cc_status;
 		tmpTab.strReqCd = "XX";
 		tmpTab.strIsrId = strIsrId;
+		tmpTab.SRId = prjListData[0].cc_srid;
 		tmpTab.elementInit("M"); //tab1.screenInit("M");
 		tmpTab.firstGridClick(prjListData[0].cc_srid);
 	}else if(document.getElementById("tab2").className == "on") { //개발계획/실적등록

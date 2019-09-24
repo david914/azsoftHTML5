@@ -15,7 +15,7 @@ var adminYN = window.top.adminYN;
 var userDeptName = window.top.userDeptName;
 var userDeptCd = window.top.userDeptCd;
 var strReqCd = window.parent.strReqCd;
-
+var SRId = '';
 //var organizationModal = new ax5.ui.modal(); // 조직도 팝업
 var approvalModal 		= new ax5.ui.modal();
 var grid_fileList = new ax5.ui.grid();
@@ -215,6 +215,7 @@ $(document).ready(function() {
 
 	//담당 개발자 그리드 height 조정
 	devUserGrid.setHeight($('#cboReqSecu').offset().top - $('[data-ax5grid="devUserGrid"]').offset().top + $('#cboReqSecu').outerHeight() + 28);
+	devUserGrid.repaint();
 });
 
 function createViewGrid(){
@@ -316,6 +317,7 @@ function createViewGrid(){
 	
 	//담당 개발자 그리드 height 조정
 	devUserGrid.setHeight($('#cboReqSecu').offset().top - $('[data-ax5grid="devUserGrid"]').offset().top + $('#cboReqSecu').outerHeight() + 28);
+	devUserGrid.repaint();
 }
 
 function successGetTmpDir(data){
@@ -359,7 +361,10 @@ function confChk1(){
 	
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo1, 'json');
 	if(ajaxReturnData !== 'ERR') {
-		parent.document.location.reload();
+		elementInit("M");
+		firstGridClick(SRId);
+		window.parent.reloadVal = "Y";
+		window.parent.getPrjList();
 		ing_sw = false; 
 	}
 }
@@ -402,8 +407,11 @@ function cnclChk(){
 	
 	ajaxReturnData = ajaxCallWithJson('/webPage/srcommon/SRRegisterTab', gyulInfo2, 'json');
 	if(ajaxReturnData !== 'ERR') {
-		ing_sw = false;
-		parent.document.location.reload();
+		elementInit("M");
+		window.parent.reloadVal = "Y";
+		window.parent.getPrjList();
+		firstGridClick(SRId);
+		ing_sw = false;		
 	}
 }
 

@@ -168,7 +168,7 @@ function getSysInfo() {
 	}else {
 		tmpInfo.secuYn = "Y";
 	}
-	tmpInfo.selMsg = "";
+	tmpInfo.selMsg = "SEL";
 	tmpInfo.closeYn = "N";		
 	tmpInfo.reqCd = "04";
 	
@@ -227,8 +227,24 @@ function successSystem(data) {
 }
 
 function cboSystem1_Change() {
+	
+	selectedIndex = getSelectedIndex('cboSystem1');
+	if(selectedIndex < 0) return;
+	
 	grdProgList.setData([]);
 	getRsrccd(1, getSelectedVal('cboSystem1'));
+	
+	if(getSelectedIndex('cboSystem1') < 1){
+		return;
+	}
+	for(var i=0; i<cboSystemData1.length; i++) {
+		if (i = getSelectedIndex('cboSystem1')){
+			$('[data-ax5select="cboSystem2"]').ax5select('setValue',cboSystemData1[i].cm_syscd,true);
+			break;
+		}
+	}
+	
+	cboSystem2_Change();
 }
 
 function cboSystem2_Change() {
@@ -292,7 +308,11 @@ function successJob(data) {
 function getRsrccd(type, selitem) {
 	tmpInfo = new Object();
 	tmpInfo.sysCd = selitem.value;
-	tmpInfo.selMsg = "SEL";
+	if (type == 1) {
+		tmpInfo.selMsg = "ALL";
+	}else{
+		tmpInfo.selMsg = "SEL";
+	}
 	
 	tmpInfoData = new Object();
 	tmpInfoData = {
@@ -334,6 +354,9 @@ function cboJawon_Change() {
 			if($('#txtExeName').val().substr($('#txtExeName').val().length-1, 1) == ",") {
 				$('#txtExeName').val($('#txtExeName').val().substring(0, $('#txtExeName').val().length-1));
 			}
+		}
+		if(getSelectedVal('cboJawon2').cm_info.substr(40,1) == "1") {
+			$('#txtExeName').val("확장자체크안함");
 		}
 		
 		$('[data-ax5select="cboDir"]').ax5select("enable");
@@ -518,7 +541,7 @@ function btnRegist_Click() {
 	}
 	
 	if(getSelectedVal('cboSystem2').cm_sysinfo.substr(9,1) == "0") {
-		if(getSelectedIndex('cboSRID') < 0) {
+		if(getSelectedIndex('cboSRID') < 1) {
 			dialog.alert('SR-ID를 선택하여 주십시오.',function(){});
 			$('#cboSRID').focus();
 			return;
@@ -572,7 +595,7 @@ function btnRegist_Click() {
 				if(strExe.substr(strExe.length-1) == ",") strExe = strExe.substr(0,strExe.length-1);
 				if($('#txtRsrcName2').val().substr($('#txtRsrcName2').val().length - strExe.length) != strExe) {
 					if($('#txtRsrcName2').val().indexOf(".") > 0) {
-						dialog.alert('확장자를 정확하게 입력하여 주십시오.[1][' + strExe + ']',function(){});
+						dialog.alert('확장자를 정확하게 입력하여 주십시오.[' + strExe + ']',function(){});
 						return;
 					}
 					$('#txtRsrcName2').val($('#txtRsrcName2').val() + strExe);
@@ -584,11 +607,11 @@ function btnRegist_Click() {
 				strWork1 = strWork1.toUpperCase();
 				
 				if(strWork2.indexOf(strWork1) < 0) {
-					dialog.alert('확장자를 정확하게 입력하여 주십시오.[2][' + $('#txtExeName').val() + ']',function(){});
+					dialog.alert('확장자를 정확하게 입력하여 주십시오.[' + $('#txtExeName').val() + ']',function(){});
 					return;
 				}
 			}else {
-				dialog.alert('확장자를 정확하게 입력하여 주십시오.[3][' + $('#txtExeName').val() + ']',function(){});
+				dialog.alert('확장자를 정확하게 입력하여 주십시오.[' + $('#txtExeName').val() + ']',function(){});
 				return;
 			}
 		}

@@ -76,7 +76,7 @@
 						<input id="txtRsrcName2" type="text" placeholder="프로그램명을 입력하세요." class="width-100" />
 	               	</div>
 				</div>
-				<div class="r_wrap width-50">
+				<div class="r_wrap width-50" style="margin-top:3px;">
 					<label class="tit-150 dib poa">&nbsp;&nbsp;&nbsp;*업무</label>
 					<div class="ml_100">
 						<div id="cboJob" data-ax5select="cboJob" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>

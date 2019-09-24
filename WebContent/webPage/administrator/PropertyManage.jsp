@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/webPage/common/common.jsp" />
-
 <div class="contentFrame">
 	<!-- history S-->
 	<div id="history_wrap">관리자<strong>&gt; 프로퍼티관리</strong></div>
@@ -35,20 +34,20 @@
 			<div>
 				<label class="title">형상관리 서버 프로퍼티</label>
 			</div>
-			<div class="l_wrap width-90 row">
+			<div class="l_wrap width-100 row">
 				<div class="vat dib">
 					<label class="dib">DBCONN</label>
 				</div>
-				<input id="txtConn" name="txtConn" type="password" class="width-20 margin-5-left">
+				<input id="txtConn" name="txtConn" type="password" class="margin-5-left inputwidth" style="width: calc(33% - 102px);">
 				<div class="vat dib margin-10-left">
 					<label class="dib">DBUSER</label>
 				</div>
-				<input id="txtUser" name="txtUser" type="password" class="width-20 margin-5-left">
+				<input id="txtUser" name="txtUser" type="password" class="margin-5-left inputwidth" style="width: calc(33% - 102px);">
 				<div class="vat dib margin-10-left">
 					<label class="dib">DBPASS</label>
 				</div>
-				<input id="txtPass" name="txtPass" type="password" class="width-20 margin-5-left">
-				<button id="btnSvrSave" class="btn_basic_s" style="cursor: pointer;">Properties저장</button>
+				<input id="txtPass" name="txtPass" type="password" class="margin-5-left inputwidth" style="width: calc(33% - 102px);">
+				<button id="btnSvrSave" class="btn_basic_s" style="cursor: pointer; margin-right: 0px;">Properties저장</button>
 			</div>	
 		</div>
 	</div>

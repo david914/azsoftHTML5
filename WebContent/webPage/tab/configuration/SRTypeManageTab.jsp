@@ -17,7 +17,7 @@
 	<!-- cell2 -->
 	<div class="row">
 		<label class="tit_80 poa">신청구분</label>
-		<div class="ml_80 dib scrollBind" style="height:calc(100% - 50px);width:calc(30% + 37px);">
+		<div class="ml_80 dib scrollBind" style="height:calc(100% - 50px); width:calc(100% - 86px);">
 			<ul class="list-group" id="ulReqInfo"></ul>
 		</div>
 	</div>

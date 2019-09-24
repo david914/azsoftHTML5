@@ -50,9 +50,9 @@
 						<label class="tit_80 poa">프로그램명</label>
 		                <div class="ml_80 width-80">
 							<input id="txtRsrcName" name="txtRsrcName" type="text" class="dib"  style="width:calc(100% - 60px);">
-							<button id="btnQry" name="btnQry" class="btn_basic_s">조회</button>
 						</div>						
 					</div>
+					<button id="btnQry" name="btnQry" class="btn_basic_s poa margin-0-right" style="right:0; margin-right:0;">조 회</button>
 				</div>
 			</div>
 		</div>
@@ -109,9 +109,9 @@
 			            <label class="tit_80 poa">경로</label>
 			            <div class="ml_80">
 							<div id="cboAftDir" data-ax5select="cboAftDir" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(100% - 60px);"></div>
-							<button id="btnUpdt" name="btnUpdt" class="btn_basic_s">수정</button>
 						</div>
 					</div>
+					<button id="btnUpdt" name="btnUpdt" class="btn_basic_s poa margin-0-right" style="right:0; margin-right:0;">수정</button>
 				</div>
 			</div>
 	<!-- 하단 E-->

@@ -4679,7 +4679,7 @@ public class Cmr0200{
             	strQuery.append("update cmc0110 set cc_status='5'\n");
             	strQuery.append(" where cc_srid=?                \n");
             	strQuery.append("   and cc_userid=?              \n");
-            	strQuery.append("   and cc_status in ('B','C')   \n");
+            	strQuery.append("   and cc_status<>'5'           \n");
 
             	pstmtcount = 1;
             	pstmt = conn.prepareStatement(strQuery.toString());

@@ -502,7 +502,7 @@ public class Cmd0100{
 			}
 			strQuery.setLength(0);
 			strQuery.append("select a.cm_micode,a.cm_codename,b.cm_info,d.cm_volpath,b.cm_exename \n");
-			strQuery.append(", decode((select count(*) from cmm0037 where cm_syscd = b.cm_syscd and cm_samersrc = a.cm_micode and cm_factcd='04'), 0, 'N', 'Y') as moduleyn \n");
+			strQuery.append(", decode((select count(*) from cmm0037 where cm_syscd = b.cm_syscd and cm_samersrc = a.cm_micode and cm_rsrccd<>cm_samersrc), 0, 'N', 'Y') as moduleyn \n");
 			strQuery.append("  from cmm0020 a,cmm0036 b,cmm0031 c,cmm0038 d          \n");
 			strQuery.append(" where b.cm_syscd=?                                     \n");
 			strQuery.append("   and b.cm_closedt is null                             \n");

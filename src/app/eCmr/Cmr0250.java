@@ -146,8 +146,8 @@ public class Cmr0250{
 				//rst.put("reqgbn", rs.getString("reqgbn"));
 				rst.put("cr_qrycd",rs.getString("cr_qrycd"));
 				if (rs.getString("cr_qrycd").equals("01") || rs.getString("cr_qrycd").equals("02") || rs.getString("cr_qrycd").equals("07")) {
-					if (rs.getString("cr_eclipse").equals("R")) rst.put("etcdata", "Remote");
-					else if (rs.getString("cr_eclipse").equals("E")) rst.put("etcdata", "eclipse");
+					if ("R".equals(rs.getString("cr_eclipse"))) rst.put("etcdata", "Remote");
+					else if ("E".equals(rs.getString("cr_eclipse"))) rst.put("etcdata", "eclipse");
 					else rst.put("etcdata", "Local");
 					if (rs.getString("cr_qrycd").equals("07")) {
 						if (rs.getString("cr_svryn").equals("N")) {

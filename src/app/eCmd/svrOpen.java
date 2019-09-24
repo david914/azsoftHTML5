@@ -2277,7 +2277,8 @@ public class svrOpen{
 	                							findSw = true;
 	                							break;
 	                						}else {
-                								if(wkB.trim().equals(strPrgName[z].trim())) {
+	                							//프로그램명 일부만 임력해도 가능하도록
+                								if(wkB.trim().contains(strPrgName[z].trim())) {
                     								findSw = true;
                     								break;
                     							}

@@ -48,8 +48,8 @@
 					</div>
 				</div>
 				
-				<div class="row">
-					<div class="tac">
+				<div class="row" style="overflow:auto;">
+					<div class="tac float-right">
 						<button class="btn_basic_s" id="btnReg">등록</button>
     					<button class="btn_basic_s" id="btnDel">삭제</button>
 					</div>

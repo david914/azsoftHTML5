@@ -30,8 +30,9 @@ function setTabMenu(){
 		var activeTab = $(this).attr("rel");
 		$("ul.tabs li").removeClass('on');
 		$(this).addClass("on");
-		$("#" + activeTab + " iframe").attr('src', $("#" + activeTab + " iframe").attr('src'));
-		$("#" + activeTab).fadeIn();
+		//$("#" + activeTab + " iframe").attr('src', $("#" + activeTab + " iframe").attr('src'));
+		$("#" + activeTab).show();
+		//$("#" + activeTab).fadeIn();
 	});
 }
 
