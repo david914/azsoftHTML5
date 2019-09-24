@@ -101,6 +101,7 @@
 	 			<div class="dib" id="dibChkBase">
 		 			<input type="checkbox" class="checkbox-IP" id="chkBase" data-label="기준서버"  />
 	 			</div>
+	 			<input type="checkbox" class="checkbox-IP" id="chkLogView" data-label="서버로그작성"  />
 	 			<input type="checkbox" class="checkbox-IP" id="chkErr" data-label="장애"  />
 	 			<input type="checkbox" class="checkbox-IP" id="chkStop" data-label="일시정지"  />
 	 		</div>
