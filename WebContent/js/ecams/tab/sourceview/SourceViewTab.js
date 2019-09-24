@@ -157,5 +157,5 @@ function btnSearch_click(word,gbn) {
 }
 
 function btnSrcDown_click() {
-	location.href = downURL+'?f='+rsrcname+'&folderPath='+tmpDir+'/'+outName;
+	location.href = downURL+'?fileName='+rsrcname+'&fullPath='+tmpDir+'/'+outName;
 }
