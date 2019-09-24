@@ -16,31 +16,32 @@
 		</div>
 			
 		<div class="r_wrap dib width-60 vat">
-			<label class="tit_80 dib">프로그램종류</label>
-			<div class="dib margin-3-top" style="float: right;">
-				<input type="checkbox" class="checkbox-dir" id="chkAllPrg" data-label="전체선택"/>
+			<label class="tit_80 dib">Directory</label>
+			<div class="dib vat" style="width:calc(100% - 90px);">
+				<input id="txtPath" name="txtPath" type="text" class="width-100">
 			</div>
-	
-			<div class="width-100 dib" style="height: 280px; border: 1px dotted gray;; background-color: white; overflow-y: auto;">
-				<ul class="list-group" id="ulPrgInfo"></ul>
+			
+			<div class="margin-10-top">
+				<label class="tit_80 dib">프로그램종류</label>
+				<div class="dib margin-3-top" style="float: right;">
+					<input type="checkbox" class="checkbox-dir" id="chkAllPrg" data-label="전체선택"/>
+				</div>
+		
+				<div class="width-100 dib" style="height: 203px; border: 1px dotted gray;; background-color: white; overflow-y: auto;">
+					<ul class="list-group" id="ulPrgInfo"></ul>
+				</div>
 			</div>
 		</div>
 			
-		<div class="l_wrap dib width-38 vat">
-			<label class="tit_80 dib">Directory</label>
-			<div class="dib vat width-70">
-				<input id="txtPath" name="txtPath" type="text" class="width-100">
-			</div>
-		</div>
 				
-		<div class="l_wrap dib width-38 vat">
+		<div class="l_wrap dib width-38 vat margin-10-top">
 			<label class="tit_80 dib">업무</label>
 			<div class="dib width-70">
 				<div class="margin-3-top" style="float: right;">
 					<input type="checkbox" class="checkbox-dir float-right" id="chkAllJob" data-label="전체선택"/>
 				</div>
 			</div>
-			<div class="width-83 dib" style="height: 200px; border: 1px dotted gray;; background-color: white; overflow-y: auto;">
+			<div class="dib" style="height: 200px; border: 1px dotted gray; background-color: white; overflow-y: auto; width: calc(70% + 85px);">
 				<ul class="list-group" id="ulJobInfo"></ul>
 			</div>
 		</div>
@@ -55,10 +56,10 @@
 		</div>
 			
 		<div class="r_wrap dib width-60 vat margin-10-top">
-			<button id="btnAdd" class="btn_basic_s">추가</button>
-			<button id="btnReq" class="btn_basic_s">등록</button>
-			<button id="btnDel" class="btn_basic_s">삭제</button>
-			<button id="btnQry" class="btn_basic_s">조회</button>
+			<button id="btnQry" class="btn_basic_s float-right">조회</button>
+			<button id="btnDel" class="btn_basic_s float-right margin-5-right">삭제</button>
+			<button id="btnReq" class="btn_basic_s float-right margin-5-right">등록</button>
+			<button id="btnAdd" class="btn_basic_s float-right margin-5-right">추가</button>
 		</div>
 			
 	</div>

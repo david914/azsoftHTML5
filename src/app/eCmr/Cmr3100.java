@@ -867,16 +867,18 @@ public class Cmr3100{
     public String nextConf(String AcptNo,String UserId,String conMsg,String Cd,String ReqCd) throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
-		PreparedStatement pstmt2      = null;
-		ResultSet         rs          = null;
+		//PreparedStatement pstmt2      = null;
+		//ResultSet         rs          = null;
 		StringBuffer      strQuery    = new StringBuffer();
 		String            retmsg      = "";
 		ConnectionContext connectionContext = new ConnectionResource();
 
-		try {
+		//try {
 
 			conn = connectionContext.getConnection();
-
+			
+			if (null == conMsg) conMsg = "";
+			
         	strQuery.setLength(0);
         	strQuery.append("Begin CMR9900_STR ( ");
         	strQuery.append("?, ?, ?, '9', ?, ? ); End;");
@@ -949,7 +951,7 @@ public class Cmr3100{
 
     		return retmsg;
 
-		} catch (SQLException sqlexception) {
+		/*} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();
 			ecamsLogger.error("## Cmr3100.nextConf() SQLException START ##");
 			ecamsLogger.error("## Error DESC : ", sqlexception);
@@ -974,7 +976,7 @@ public class Cmr3100{
 					ex3.printStackTrace();
 				}
 			}
-		}
+		}*/
 	}//end of nextConf() method statement
 
 

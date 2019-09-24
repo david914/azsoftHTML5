@@ -28,7 +28,7 @@
 		</div>
 	</div>
 </div>
-<div class="az_search_wrap row">	
+<div class="az_search_wrap row" style="margin-bottom:0px;">	
 	<div class="az_in_wrap por">
 		<!-- cell1 -->		
 		<div class="width-35 dib vat">
@@ -74,7 +74,7 @@
 		</div>
 	</div>
 </div>
-    <div class="row az_board_basic" style="height: calc(100% - 280px);">
+    <div class="row az_board_basic" style="height: calc(100% - 256px);">
     	<div data-ax5grid="notiGrid" style="height: 100%;"></div>
 	</div>
 </body>

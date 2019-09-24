@@ -137,7 +137,14 @@ public class RequestStatus extends HttpServlet {
 		Cd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Cd") );
 		String ReqCd = null;
 		ReqCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "ReqCd") );
-		return gson.toJson( cmr3100.nextConf(AcptNo, UserId, conMsg, Cd, ReqCd));
+		
+		try {
+			return gson.toJson( cmr3100.nextConf(AcptNo, UserId, conMsg, Cd, ReqCd));
+		} catch (SQLException e) {
+			return gson.toJson( e.getMessage() );
+		} catch (Exception e) {
+			return gson.toJson( e.getMessage() );
+		}
 	}
 	
 	private String svrProc(JsonElement jsonElement) throws SQLException, Exception {
