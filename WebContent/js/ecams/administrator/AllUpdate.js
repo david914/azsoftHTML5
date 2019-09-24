@@ -303,32 +303,39 @@ function successSRID(data) {
 }
 
 function cboAftJawon_Change() {
-	if(getSelectedIndex('cboAftJob') > 0) {
-		getDirList();
-	}
-}
-
-function cboAftJob_Change() {
 	if(getSelectedIndex('cboAftJawon') > 0) {
 		getDirList();
 	}
 }
 
+function cboAftJob_Change() {
+	getDirList();
+}
+
 function getDirList() {
-	tmpInfo = new Object();
-	tmpInfo.userId = userId;
-	tmpInfo.sysCd  = getSelectedVal('cboSysCd').cm_syscd;
-	tmpInfo.secuYn = "Y";
-	tmpInfo.rsrccd = getSelectedVal('cboAftJawon').cm_micode;
-	tmpInfo.jobcd  = getSelectedVal('cboAftJob').cm_jobcd;
-	tmpInfo.selMsg = "SEL";
-	
-	tmpInfoData = new Object();
-	tmpInfoData = {
-		tmpInfo		: tmpInfo,
-		requestType	: 'GETDIRLIST'
+	if (getSelectedIndex('cboAftJob') === 0){
+		cboAftDirData 	= []; 
+		cboAftDirData.push({cm_dsncd: '0', cm_dirpath: '업무와 프로그램종류를 선택하세요'});
+		$('[data-ax5select="cboAftDir"]').ax5select({
+	        options: injectCboDataToArr(cboAftDirData, 'cm_dsncd', 'cm_dirpath')
+	   	});
+	} else {
+		tmpInfo = new Object();
+		tmpInfo.userId = userId;
+		tmpInfo.sysCd  = getSelectedVal('cboSysCd').cm_syscd;
+		tmpInfo.secuYn = "Y";
+		tmpInfo.rsrccd = getSelectedVal('cboAftJawon').cm_micode;
+		tmpInfo.jobcd  = getSelectedVal('cboAftJob').cm_jobcd;
+		tmpInfo.selMsg = "SEL";
+		
+		tmpInfoData = new Object();
+		tmpInfoData = {
+			tmpInfo		: tmpInfo,
+			requestType	: 'GETDIRLIST'
+		}
+		ajaxAsync('/webPage/administrator/AllUpdateServlet', tmpInfoData, 'json', successDirList);
 	}
-	ajaxAsync('/webPage/administrator/AllUpdateServlet', tmpInfoData, 'json', successDirList);
+	
 }
 
 function successDirList(data) {
@@ -358,7 +365,6 @@ function btnQry_Click() {
 	
 	tmpInfo.DirPath = $('#txtDirPath').val().trim();
 	tmpInfo.Txt_ProgId = $('#txtRsrcName').val().trim();
-	
 	tmpInfoData = new Object();
 	tmpInfoData = {
 		tmpInfo		: tmpInfo,
@@ -376,11 +382,11 @@ function successPrjList(data) {
 function btnUpdt_Click() {
 	gridSelectedLen = 0;
 	
-	if(getSelectedIndex('cboAftJob') < 0 && 	//업무
-		getSelectedIndex('cboAftJawon') < 0 &&  //프로그램종류 
-		getSelectedIndex('cboAftOwner') < 0 &&  //담당자
-		getSelectedIndex('cboAftSRID') < 0 &&   //SR-ID
-		getSelectedIndex('cboAftDir') < 0)      //경로
+	if(getSelectedIndex('cboAftJob') < 1 && 	//업무
+		getSelectedIndex('cboAftJawon') < 1 &&  //프로그램종류 
+		getSelectedIndex('cboAftOwner') < 1 &&  //담당자
+		getSelectedIndex('cboAftSRID') < 1 &&   //SR-ID
+		getSelectedIndex('cboAftDir') < 1)      //경로
 	{ 
 		dialog.alert('업무/프로그램종류/담당자/SR-ID/경로를 선택하여 주십시오.',function(){});
 		return;

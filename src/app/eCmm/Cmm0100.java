@@ -1761,7 +1761,7 @@ public class Cmm0100{
 			
 			//전체항목
 			strQuery.setLength(0);
-			strQuery.append("SELECT				cm_gbncd, cm_uppgbncd, cm_gbnname, cm_seq, cm_reqyn, cm_typecd		\n");
+			strQuery.append("SELECT				cm_gbncd, cm_uppgbncd, nvl(substr(CM_GBNNAME,1,instr(CM_GBNNAME,'-')-1),CM_GBNNAME) cm_gbnname, cm_seq, cm_reqyn, cm_typecd		\n");
 			strQuery.append("FROM				CMM0110																\n");
 			strQuery.append("START WITH			cm_uppgbncd IS NULL													\n");
 			strQuery.append("AND				cm_clsdate IS NULL													\n");
