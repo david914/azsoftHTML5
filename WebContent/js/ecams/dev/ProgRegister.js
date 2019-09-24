@@ -589,30 +589,32 @@ function btnRegist_Click() {
 			return;
 		}
 	}else {
-		if($('#txtExeName').val() != "" && $('#txtExeName').val() != null) {
-			if(getSelectedVal('cboJawon2').cm_info.substr(43,1) == "1") { //[44]확장자자동등록
-				var strExe = $('#txtExeName').val();
-				if(strExe.substr(strExe.length-1) == ",") strExe = strExe.substr(0,strExe.length-1);
-				if($('#txtRsrcName2').val().substr($('#txtRsrcName2').val().length - strExe.length) != strExe) {
-					if($('#txtRsrcName2').val().indexOf(".") > 0) {
-						dialog.alert('확장자를 정확하게 입력하여 주십시오.[' + strExe + ']',function(){});
+		if(getSelectedVal('cboJawon2').cm_info.substr(40,1) == "0") {
+			if($('#txtExeName').val() != "" && $('#txtExeName').val() != null) {
+				if(getSelectedVal('cboJawon2').cm_info.substr(43,1) == "1") { //[44]확장자자동등록
+					var strExe = $('#txtExeName').val();
+					if(strExe.substr(strExe.length-1) == ",") strExe = strExe.substr(0,strExe.length-1);
+					if($('#txtRsrcName2').val().substr($('#txtRsrcName2').val().length - strExe.length) != strExe) {
+						if($('#txtRsrcName2').val().indexOf(".") > 0) {
+							dialog.alert('확장자를 정확하게 입력하여 주십시오.[' + strExe + ']',function(){});
+							return;
+						}
+						$('#txtRsrcName2').val($('#txtRsrcName2').val() + strExe);
+					}
+				}else if($('#txtRsrcName2').val().indexOf(".") > 0) {
+					var strWork1 = $('#txtRsrcName2').val().substr($('#txtRsrcName2').val().lastIndexOf(".")) + ",";
+					var strWork2 = $('#txtExeName').val().toUpperCase() + ",";
+					
+					strWork1 = strWork1.toUpperCase();
+					
+					if(strWork2.indexOf(strWork1) < 0) {
+						dialog.alert('확장자를 정확하게 입력하여 주십시오.[' + $('#txtExeName').val() + ']',function(){});
 						return;
 					}
-					$('#txtRsrcName2').val($('#txtRsrcName2').val() + strExe);
-				}
-			}else if($('#txtRsrcName2').val().indexOf(".") > 0) {
-				var strWork1 = $('#txtRsrcName2').val().substr($('#txtRsrcName2').val().lastIndexOf(".")) + ",";
-				var strWork2 = $('#txtExeName').val().toUpperCase() + ",";
-				
-				strWork1 = strWork1.toUpperCase();
-				
-				if(strWork2.indexOf(strWork1) < 0) {
+				}else {
 					dialog.alert('확장자를 정확하게 입력하여 주십시오.[' + $('#txtExeName').val() + ']',function(){});
 					return;
 				}
-			}else {
-				dialog.alert('확장자를 정확하게 입력하여 주십시오.[' + $('#txtExeName').val() + ']',function(){});
-				return;
 			}
 		}
 	}
