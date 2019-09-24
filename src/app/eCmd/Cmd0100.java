@@ -1295,13 +1295,14 @@ public class Cmd0100{
 				strQuery.append("select a.cr_status,a.cr_lstver,a.cr_editor,b.cm_codename \n");
 				strQuery.append("  from cmm0020 b,cmr0020 a                               \n");
 				strQuery.append(" where a.cr_syscd=? and a.cr_dsncd=?                     \n");
-				strQuery.append("   and a.cr_rsrcname=?                                   \n");
+				strQuery.append("   and upper(a.cr_rsrcname)=?                            \n");
 				strQuery.append("   and b.cm_macode='CMR0020' and b.cm_micode=a.cr_status \n");
-
 		        pstmt = conn.prepareStatement(strQuery.toString());
+		        pstmt =  new LoggableStatement(conn, strQuery.toString());
 		        pstmt.setString(1, SysCd);
 		        pstmt.setString(2, DsnCd);
-		        pstmt.setString(3, RsrcName);
+		        pstmt.setString(3, RsrcName.toUpperCase());
+		        ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 		        rs = pstmt.executeQuery();
 		        rsval.clear();
 		        if (rs.next() == true) {
@@ -1667,6 +1668,7 @@ public class Cmd0100{
 		boolean           insFg       = true;
 		int 		      parmCnt     = 0;
 //		String            strGrpCd    = "";
+		String            sysOs		  = "";
 
 		try {
 			if (openInfo.get("info").substring(26,27).equals("1")) {
@@ -1703,14 +1705,36 @@ public class Cmd0100{
 //					strGrpCd = openInfo.get("grpcd");
 				}
 			}
+			
+			// 윈도우 서버가 하나라도 있으면 upper 으로 구분해서 비교
+			parmCnt = 0;
+			strQuery.setLength(0);
+			strQuery.append("select count(*) cnt    \n");
+			strQuery.append("  from cmm0031       	\n");
+			strQuery.append(" where cm_syscd=?    	\n");
+			strQuery.append("   and cm_sysos='03'   \n");
+			strQuery.append("   and cm_closedt is null   \n");
+	        pstmt = conn.prepareStatement(strQuery.toString());
+	        pstmt.setString(++parmCnt, openInfo.get("syscd"));
+	        rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	        	if(rs.getInt("cnt") > 0) {
+	        		sysOs = "03";
+	        	}else {
+	        		sysOs = "01";
+	        	}
+	        }
+	        rs.close();
+	        pstmt.close();
 
+	        parmCnt = 0;
 			//conn.setAutoCommit(false);
 			strQuery.setLength(0);
 			strQuery.append("select cr_itemid     \n");
 			strQuery.append("  from cmr0020       \n");
 			strQuery.append(" where cr_syscd=?    \n");
 		    strQuery.append("   and cr_dsncd=?    \n");
-		    if("03".equals(openInfo.get("syscd"))) {
+		    if("03".equals(sysOs)) {
 		    	strQuery.append("   and upper(cr_rsrcname)=? \n");
 		    } else {
 		    	strQuery.append("   and cr_rsrcname=? \n");
@@ -1718,7 +1742,7 @@ public class Cmd0100{
 	        pstmt = conn.prepareStatement(strQuery.toString());
 	        pstmt.setString(++parmCnt, openInfo.get("syscd"));
 	        pstmt.setString(++parmCnt, openInfo.get("dsncd"));
-	        if("03".equals(openInfo.get("syscd"))) {
+	        if("03".equals(sysOs)) {
 	        	pstmt.setString(++parmCnt, openInfo.get("rsrcname").toUpperCase());
 	        }else {
 	        	pstmt.setString(++parmCnt, openInfo.get("rsrcname"));

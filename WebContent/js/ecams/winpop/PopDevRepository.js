@@ -895,22 +895,24 @@ function btnRegist_Click() {
 				//tmpObj = tmpAry.getItemAt(i);
 				//tmpObj.filename = tmpObj.filename.substr(0,tmpObj.filename.indexOf("."));
 			}else {
-				if($('#txtExeName').val() != "" && $('#txtExeName').val() != null) {
-					if(checkedGridItem[i].filename.lastIndexOf(".") > 0) {
-						tmpExe = checkedGridItem[i].filename.substr(checkedGridItem[i].filename.lastIndexOf("."));
-						tmpExe = tmpExe + ",";
-						tmpExe = tmpExe.toUpperCase();
-						rsrcExe = $('#txtExeName').val().toUpperCase();
-						
-						if(rsrcExe.indexOf(tmpExe) < 0) {
+				if($('[data-ax5select="cboJawon"]').ax5select("getValue")[0].cm_info.substr(40,1) == "0") {
+					if($('#txtExeName').val() != "" && $('#txtExeName').val() != null) {
+						if(checkedGridItem[i].filename.lastIndexOf(".") > 0) {
+							tmpExe = checkedGridItem[i].filename.substr(checkedGridItem[i].filename.lastIndexOf("."));
+							tmpExe = tmpExe + ",";
+							tmpExe = tmpExe.toUpperCase();
+							rsrcExe = $('#txtExeName').val().toUpperCase();
+							
+							if(rsrcExe.indexOf(tmpExe) < 0) {
+								grdProgList.setValue(checkedGridItem[i].__index, "error", "1");
+								grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "확장자불일치");
+								errSw = true;
+							}
+						}else {
 							grdProgList.setValue(checkedGridItem[i].__index, "error", "1");
 							grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "확장자불일치");
 							errSw = true;
 						}
-					}else {
-						grdProgList.setValue(checkedGridItem[i].__index, "error", "1");
-						grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "확장자불일치");
-						errSw = true;
 					}
 				}
 			}
