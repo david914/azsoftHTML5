@@ -36,6 +36,8 @@ var treeObjData		= []; //디렉토리트리 데이터
 var selectedIndex 	= 0; 	//select 선택 index
 var selectedItem 	= [];	//select 선택 item
 
+var fileList = [];
+
 var tmpInfo = new Object();
 var tmpInfoData = new Object();
 
@@ -825,6 +827,14 @@ function btnRegist_Click() {
 		return;
 	}
 	
+	if(getSelectedVal('cboSystem').cm_sysinfo.substr(9,1) == "0") {
+		if(getSelectedIndex('cboSRID') < 1) {
+			dialog.alert('SR-ID를 선택하여 주십시오.',function(){});
+			$('#cboSRID').focus();
+			return;
+		}
+	}
+	
 	if(checkedGridItem.length == 0) {
 		dialog.alert('등록할 파일을 선택하여 주십시오.',function(){});
 		$('#cboSystem').focus();
@@ -962,13 +972,17 @@ function successRegistProg(data) {
 		for(j=0; j<grdProgListData.length; j++) {
 			if(tmpArray[i].cm_dirpath == grdProgListData[j].cm_dirpath &&
 					tmpArray[i].filename == grdProgListData[j].filename) {
+				console.log(tmpArray[i].error + " / " + i +" / " + j);
 				if(tmpArray[i].error == "1") {
 					findSw = true;
 					grdProgList.setValue(grdProgListData[j].__index, "errmsg", tmpArray[i].errmsg);
 					grdProgList.setValue(grdProgListData[j].__index, "error", tmpArray[i].error);
 					grdProgList.select(j, {selected: false});
 				}else {
-					grdProgList.removeRow(j--);
+					//row 삭제이후 해당 목록 data 넣고 다시 grid에 넣기
+					grdProgList.deleteRow(j);
+					grdProgListData = clone(grdProgList.list);
+					grdProgList.setData(grdProgListData);
 					okSw = true;
 					break;
 				}

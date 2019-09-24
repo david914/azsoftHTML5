@@ -2897,7 +2897,7 @@ public class Cmr0200{
 				            	pstmt2.close();
 
 				            	if (strDsnCd.length() == 0) {
-				            		strDsnCd = cmd0100.cmm0070_Insert(etcData.get("userid"), etcData.get("syscd"),"",strRsrcCd,fileList.get(i).get("cr_jobcd"),strDirPath,true,conn);
+				            		strDsnCd = cmd0100.cmm0070_Insert(etcData.get("userid"), etcData.get("syscd"),"",strRsrcCd,fileList.get(i).get("cr_jobcd"),strDirPath,"",true,conn);
 				            		if (strDsnCd == null || strDsnCd == "") {
 					        			for (j=rtList.size()-1;j>=svCnt;j--) {
 											rtList.remove(j);

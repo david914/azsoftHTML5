@@ -659,7 +659,7 @@ public class Cmd0101{
 				rst = new HashMap<String, String>();
 				rst = fileList.get(i);
 				if (fileList.get(i).get("cm_dsncd") == null || fileList.get(i).get("cm_dsncd") == "") {
-					strDsnCd = cmd0100.cmm0070_Insert(etcData.get("userid"),etcData.get("cr_syscd"),fileList.get(i).get("cr_rsrcname"),fileList.get(i).get("cr_rsrccd"),etcData.get("cr_jobcd"),fileList.get(i).get("cm_dirpath"),false,conn);
+					strDsnCd = cmd0100.cmm0070_Insert(etcData.get("userid"),etcData.get("cr_syscd"),fileList.get(i).get("cr_rsrcname"),fileList.get(i).get("cr_rsrccd"),etcData.get("cr_jobcd"),fileList.get(i).get("cm_dirpath"),"",false,conn);
 					rst.put("cm_dsncd", strDsnCd);
 				}
 				rtList.add(rst);

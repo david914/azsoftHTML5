@@ -615,7 +615,7 @@ public class svrOpen_local{
 	        	rst2 = fileList.get(i);
 	        	
 	        	if (fileList.get(i).get("cm_dsncd") == "" || fileList.get(i).get("cm_dsncd") == null){
-	        		strDsnCD = cmd0100.cmm0070_Insert(etcData.get("userid"),etcData.get("syscd"),etcData.get("rsrcname"),etcData.get("rsrccd"),etcData.get("jobcd"),fileList.get(i).get("cm_dirpath"), tmaxfg, conn);
+	        		strDsnCD = cmd0100.cmm0070_Insert(etcData.get("userid"),etcData.get("syscd"),etcData.get("rsrcname"),etcData.get("rsrccd"),etcData.get("jobcd"),fileList.get(i).get("cm_dirpath"),"", tmaxfg, conn);
 
 	               	rst.put("dsncd", strDsnCD);
 	                rst.put("dirpath",fileList.get(i).get("cm_dirpath"));
