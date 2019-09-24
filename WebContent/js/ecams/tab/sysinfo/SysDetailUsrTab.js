@@ -61,7 +61,7 @@ svrUsrGrid.setConfig({
     ]
 });
 
-accGrid.setConfig({
+accGrid.setConfig({ 
     target: $('[data-ax5grid="accGrid"]'),
     sortable: true, 
     multiSort: true,
