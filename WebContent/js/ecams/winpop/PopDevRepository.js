@@ -238,7 +238,12 @@ function cboJawon_Change() {
 	selectedItem = $('[data-ax5select="cboJawon"]').ax5select("getValue")[0];
 	$('#txtExeName').val("");
 	if(selectedIndex < 1) return;
-	$('#txtExeName').val(selectedItem.cm_exename);
+	if($('[data-ax5select="cboJawon"]').ax5select("getValue")[0].cm_info.substr(40,1) == "1") {
+		$('#txtExeName').val("확장자체크안함");
+	}else{
+		$('#txtExeName').val(selectedItem.cm_exename);
+	}
+	
 }
 
 function cboSystem_Change() {
@@ -707,6 +712,21 @@ function contextmenu_click(gbn) {
 	tmpInfo.BaseDir = fullpath;
 	tmpInfo.SvrCd = selectedItem.cm_svrcd;
 	tmpInfo.GbnCd = tmpStr;
+	
+	console.log("tmpExe1: " + tmpExe1 + " / tmpExe2: " + tmpExe2);
+	
+	if(tmpExe1.length > 0){
+		if(tmpExe1.indexOf(".") < 0){
+			dialog.alert('추출대상 확장자에 "." 을 입력하여 주십시오.',function(){});
+			return;
+		}
+	}
+	if(tmpExe2.length > 0){
+		if(tmpExe2.indexOf(".") < 0){
+			dialog.alert('추출제외 확장자에 "." 을 입력하여 주십시오.',function(){});
+			return;
+		}
+	}
 	tmpInfo.exeName1 = tmpExe1;
 	tmpInfo.exeName2 = tmpExe2;
 	tmpInfo.SysInfo = selectedItem.cm_sysinfo;
@@ -716,7 +736,7 @@ function contextmenu_click(gbn) {
 	tmpInfo.svrInfo = selectedItem.cm_svruse;
 	tmpInfo.svrSeq = selectedItem.cm_seqno;
 	tmpInfo.PrgName = tmpPrgName;
-	
+	 
 	tmpInfoData = new Object();
 	tmpInfoData = {
 		tmpInfo		: tmpInfo,

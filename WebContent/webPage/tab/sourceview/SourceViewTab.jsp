@@ -21,7 +21,7 @@ body{min-width: 0;}
 			</div>
 		</div>
 		
-		<div class="dib vat margin-40-left" style="width:34%">
+		<div class="dib vat margin-30-left" style="width:34%">
 			<label class="tit_80 poa">기준프로그램</label>
 			<div class="ml_30">
 				<div class="ml_80">
@@ -29,7 +29,7 @@ body{min-width: 0;}
 				</div>
 			</div>
 		</div>
-		<div class="dib vat margin-40-left" style="width:21%">
+		<div class="dib vat margin-30-left" style="width:21%">
 			<label class="tit_40 poa">버전</label>
 			<div class="ml_20">
 				<div class="margin-30-left">
