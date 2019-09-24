@@ -19,6 +19,7 @@ var strIsrId = "";
 var strQryGbn = "";
 var cboQryGbnData = [];
 var loadSrReg = false;
+var loadPrjList = false;
 
 var urlArr = [];
 
@@ -134,7 +135,7 @@ $(document).ready(function(){
 	initScreen();
 	
 	document.getElementById('frmPrjList').onload = function() {
-		setCbo();
+		loadPrjList = true;
 	};
 	
 	document.getElementById('frmSRRegister').onload = function() {
@@ -148,6 +149,8 @@ $(document).ready(function(){
 //	document.getElementById('frmDevPlan').onload = function() {
 		clickTabMenu();
 //	}
+		
+	callPrjList();
 });
 
 //페이지 로딩 완료시 다음 진행 
@@ -160,6 +163,15 @@ function callSRRegister(data) {
          clearInterval(inter);
       }
    },100);
+}
+
+function callPrjList() {
+	inter = setInterval(function(){
+		if(loadPrjList) {
+			setCbo();
+			clearInterval(inter);
+		}
+	},100);
 }
 
 function setCbo() {
