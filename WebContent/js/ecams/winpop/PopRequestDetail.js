@@ -147,7 +147,7 @@ function createViewGrid1() {
 	        	if (param.dindex < 0) return false;
 	        	
 	        	if (isAdmin || param.item.secusw == 'Y' ||
-	    			    cmdOk.enabled == true || reqInfoData[0].confsw == '1') {
+	        			!$('#btnApproval').is(':disabled') || reqInfoData[0].confsw == '1') { 
 	        		
 	        		var retType = '';
 	        		
