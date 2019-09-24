@@ -1162,6 +1162,10 @@ function nextConf(gyulGbn, conMsg) {
 		tmpId = reqInfoData[0].signteam;
 	}
 	
+	if (null == conMsg || undefined  == conMsg || 'undefined ' == conMsg) {
+		conMsg = '';
+	}
+	
 	data =  new Object();
 	data = {
 		AcptNo			: pReqNo,
@@ -1177,10 +1181,10 @@ function nextConf(gyulGbn, conMsg) {
 function successNextConf(data) {
 	ingSw = false;
 	
-	if (data == "0") {
+	if (data == '0') {
 		close();
 	}else{
-		confirmDialog2.alert('처리에 실패했습니다.');
+		confirmDialog2.alert('처리에 실패했습니다. \n[ERROR='+data+']');
 	}
 	$('#btnQry').trigger('click');
 }
