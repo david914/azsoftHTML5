@@ -101,6 +101,8 @@ public class ApplyRequest extends HttpServlet {
 				case "getRelatFileList" :
 					response.getWriter().write( getRelatFileList(jsonElement) );
 					break;
+				case "delBefJob" :
+					response.getWriter().write( delBefJob(jsonElement) );
 				default:
 					break;
 			}
@@ -249,5 +251,13 @@ public class ApplyRequest extends HttpServlet {
 		fileList = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"fileList"));
 		
 		return gson.toJson(cmr0200.getRelatFileList(UserId,srID,fileList));
+	}
+	private String delBefJob(JsonElement jsonElement) throws SQLException, Exception {
+
+		String acptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "acptNo") );
+		String befAcpt = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "befAcpt") );
+		
+		return gson.toJson(cmr0200_BefJob.delBefJob(acptNo, befAcpt));
+			
 	}
 }

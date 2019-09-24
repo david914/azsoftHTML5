@@ -7,12 +7,31 @@ var firstGrid  	= new ax5.ui.grid();
 var secondGrid  	= new ax5.ui.grid();
 var thirdGrid  	= new ax5.ui.grid();
 
+var confirmDialog  = new ax5.ui.dialog();	//확인,취소 창
+var confirmDialog2 = new ax5.ui.dialog();   //확인 창
+
 var firstGridData = null; 							//선후행목록 데이타
 var secondGridData = null; 							//선후행목록 데이타
 var thirdGridData = null; 							//선후행목록 데이타
 var data          = null;							//json parameter
 var prgData		= null;
 var thirdGridSelect = false;
+
+confirmDialog.setConfig({
+    lang:{
+        "ok": "확인", "cancel": "취소"
+    },
+    width: 500
+});
+
+function successDelBefJob(data) {
+	if (data>0) {
+		confirmDialog2.alert('선후행작업을 해제하였습니다.');
+	} else {
+		confirmDialog2.alert('선후행작업을 해제하지 못했습니다.');
+	}
+	return;
+}
 
 firstGrid.setConfig({
     target: $('[data-ax5grid="firstGrid"]'),
@@ -48,6 +67,29 @@ firstGrid.setConfig({
     	},
         onDBLClick: function () {
         	addDataRow(this.item);
+        	
+        	if (this.dindex < 0) return;
+        	
+	       	var selIn = reqGrid.selectedDataIndexs;
+	       	if(selIn.length === 0) return;
+       	 
+	       	mask.open();
+	        confirmDialog.confirm({
+				title: '선행작업해제확인',
+				msg: '선택하신 신청 건을 선행작업에서 해제하시겠습니까?',
+			}, function(){
+				if(this.key === 'ok') {
+					var tmpData = {
+						acptNo		: 	acptNo,
+						befAcpt   	:   this.item.cr_befact,
+						requestType	: 	'delBefJob'
+					}
+					
+					ajaxAsync('/webPage/apply/ApplyRequest', tmpData, 'json',successDelBefJob);
+				}
+				mask.close();
+			});
+	        
         },
         onClick: function () {
         	getReqPgmList(this.item);

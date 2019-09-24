@@ -185,7 +185,6 @@ function createViewGrid1() {
 	        			retType = retType+'3';
 					}
 	
-				    console.log(reqInfoData[0].prcsw, isAdmin, param.item.cr_status);
 				    if (reqInfoData[0].prcsw == '0' && isAdmin && param.item.cr_status == '0') {
 	        			retType = retType+'4';
 					}
@@ -485,8 +484,9 @@ function startFunction() {
 			if (reqInfoData == null || reqInfoData.length < 1 || reqInfoData[0].cr_passok != '4') {
 				$('#txtReqDate').val(getDate('DATE',0).substr(0,4)+'/'+getDate('DATE',0).substr(4,2)+'/'+getDate('DATE',0).substr(6));
 				//$('#txtReqTime').val(getTime().substr(0,2)+':'+getTime().substr(2,2));
-				$('#hourTxt').val(Number(getTime().substr(0,2)));
-				$('#minTxt').val(Number(getTime().substr(2,2)));
+				
+				$('#hourTxt').val(getTime().substr(0,2));
+				$('#minTxt').val(getTime().substr(2,2));
 			}
 		} else {
 			$("#reqgbnDiv").css("display","none");
@@ -1366,8 +1366,8 @@ function successGetReqList(data) {
 			//처리일시
 			$('#txtReqDate').val(reqInfoData[0].aplydate.substr(0,4)+"/"+reqInfoData[0].aplydate.substr(4,2)+"/"+reqInfoData[0].aplydate.substr(6,2));
 			//$('#txtReqTime').val(reqInfoData[0].aplydate.substr(8,2)+":"+reqInfoData[0].aplydate.substr(10));
-			$('#hourTxt').val(Number(reqInfoData[0].aplydate.substr(8,2)));
-			$('#minTxt').val(Number(reqInfoData[0].aplydate.substr(10)));
+			$('#hourTxt').val(reqInfoData[0].aplydate.substr(8,2));
+			$('#minTxt').val(reqInfoData[0].aplydate.substr(10,2));
 		} 
 		$('#cboReqPass').trigger('change');
 		
@@ -1414,14 +1414,13 @@ function successGetReqList(data) {
 }
 //결재자 여부확인완료
 function successGyulChk(data) {
-	console.log('++++++++++++data:'+data);
 	//지금 로그인 사용자가 결재자 일때
 	if (data == '0') {
 		$('#btnApproval').prop("disabled", false); //활성화
 		if (reqInfoData[0].prcsw == '0' && reqInfoData[0].signteamcd != '8') {
-			$('#btnCncl').prop("disabled", true); //비활성화
-		} else {
 			$('#btnCncl').prop("disabled", false);
+		} else {
+			$('#btnCncl').prop("disabled", true); //비활성화
 		}
 		document.getElementById('lblApprovalMsg').style.visibility = "visible";
 		document.getElementById('txtApprovalMsg').style.visibility = "visible";
