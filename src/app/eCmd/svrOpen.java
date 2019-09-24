@@ -2063,6 +2063,7 @@ public class svrOpen{
 		String       	svrHome = "";
 		String       	sysHome = "";
 		String 			BaseDir = ""; 
+		String			AgentDir = "";
 		int             j = 0;
 		
 		
@@ -2085,13 +2086,21 @@ public class svrOpen{
 			shFileName = "filelist"+ etcData.get("UserID") + "." + etcData.get("SysCd") + ".ih.cs.sh";
 			strFile = strTmpPath + "/filelist"+ etcData.get("UserID") + "." + etcData.get("SysCd") + ".ih.cs";
 			strTmpPath = null;
+			
 			if ("03".equals(etcData.get("SysOs"))) {
 				BaseDir = etcData.get("BaseDir").replace("/", "\\");
 				BaseDir = BaseDir.replace("\\\\", "\\");
 				BaseDir = BaseDir.replace("\\", "\\\\");
+				
+				AgentDir = etcData.get("AgentDir").replace("/", "\\");
+				AgentDir = AgentDir.replace("\\\\", "\\");
+				AgentDir = AgentDir.replace("\\", "\\\\");
+			}else {
+				BaseDir = etcData.get("BaseDir");
+				AgentDir = etcData.get("AgentDir");
 			}
 			strParm = "./ecams_ih_cs " + etcData.get("SysCd") + " " + etcData.get("SvrIp") + " "  + etcData.get("SvrPort") + " " + etcData.get("buffSize") + " Y " + 
-						etcData.get("BaseDir") +  " filelist" + etcData.get("UserID") + " " + etcData.get("GbnCd") + " " + etcData.get("AgentDir");
+					BaseDir +  " filelist" + etcData.get("UserID") + " " + etcData.get("GbnCd") + " " + AgentDir;
 			ecamsinfo   = new eCAMSInfo();
 			ret = ecamsinfo.execShell_conn(shFileName, strParm, false,conn);
 			ecamsinfo = null;
