@@ -1001,6 +1001,9 @@ public class Cmr0250{
 			String  binpath;
 			String[] chkAry;
 			int	cmdrtn;
+			
+			conn = connectionContext.getConnection();
+			
 			SystemPath systemPath = new SystemPath();
 			binpath = systemPath.getTmpDir_conn("15",conn);
 			systemPath = null;
@@ -1075,7 +1078,7 @@ public class Cmr0250{
 				strQuery.setLength(0);
 				strQuery.append("delete cmr1011 a                                        \n");
 				strQuery.append(" where a.cr_acptno=?                                    \n");
-				strQuery.append("   and exists (select 1 from cmr1010                    \n");
+				strQuery.append("   and (exists (select 1 from cmr1010                    \n");
 				strQuery.append("                where cr_acptno=a.cr_acptno             \n");
 				strQuery.append("                  and cr_serno=a.cr_serno               \n");
 				strQuery.append("                  and cr_prcdate is null                \n");
