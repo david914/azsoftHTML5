@@ -126,7 +126,6 @@ function onClickTree(event, treeId, treeNode) {
 	else return;		// 코드 사용불가 
 };
 
-
 // 트리 오른쪽 클릭 이벤트
 function OnRightClickTree(event, treeId, treeNode) {
 	var treeId = treeNode.id;
