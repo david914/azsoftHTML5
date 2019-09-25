@@ -201,7 +201,7 @@ public class Cmd0900{
 			conn = connectionContext.getConnection();
 			strQuery.setLength(0);
 			strQuery.append("SELECT b.cm_dirpath,c.cm_codename,a.cr_rsrcname,        \n");
-			strQuery.append("       a.cr_lstver,a.cr_itemid,                         \n");
+			strQuery.append("       a.cr_viewver,a.cr_itemid,                        \n");
 			strQuery.append("       (select count(*) from cmd0011                    \n");
 			strQuery.append("         where cd_itemid=a.cr_itemid) modcnt            \n");
 			strQuery.append("  from cmr0020 a,cmm0070 b,cmm0020 c                    \n");
@@ -233,7 +233,7 @@ public class Cmd0900{
         		rst.put("cm_dirpath", rs.getString("cm_dirpath"));  //경로
         		rst.put("cr_rsrcname",rs.getString("cr_rsrcname")); //프로그램명
         		rst.put("jawon",rs.getString("cm_codename"));       //프로그램종류
-        		rst.put("cr_lstver",Integer.toString(rs.getInt("cr_lstver"))); //버전
+        		rst.put("cr_viewver",rs.getString("cr_viewver"));   //버전
         		rst.put("cr_itemid",rs.getString("cr_itemid"));     //itemid
         		rst.put("modcnt", rs.getString("modcnt"));
         		rtList.add(rst);
@@ -301,7 +301,7 @@ public class Cmd0900{
 			strQuery.setLength(0);
 
 			strQuery.append("SELECT b.cm_dirpath,c.cm_codename,a.cr_rsrcname,        \n");
-			strQuery.append("       a.cr_lstver,a.cr_itemid,                         \n");
+			strQuery.append("       a.cr_viewver,a.cr_itemid,                        \n");
 			strQuery.append("       (select count(*) from cmd0011                    \n");
 			strQuery.append("         where cd_prcitem=a.cr_itemid) srccnt           \n");
 			strQuery.append("  from cmr0020 a,cmm0070 b,cmm0020 c                    \n");
@@ -347,7 +347,7 @@ public class Cmd0900{
         		rst.put("cm_dirpath", rs.getString("cm_dirpath"));  //경로
         		rst.put("cr_rsrcname",rs.getString("cr_rsrcname")); //프로그램명
         		rst.put("jawon",rs.getString("cm_codename"));       //프로그램종류
-        		rst.put("cr_lstver",Integer.toString(rs.getInt("cr_lstver"))); //버전
+        		rst.put("cr_viewver",rs.getString("cr_viewver"));   //버전
         		rst.put("cr_itemid",rs.getString("cr_itemid"));     //itemid
         		rst.put("checked","false");     //itemid
         		rst.put("srccnt", rs.getString("srccnt"));
@@ -395,7 +395,7 @@ public class Cmd0900{
 		}
 	}//end of getModList() method statement
 
-    public Object[] getRelatList(String UserId,String SysCd,String GbnCd,String ProgId,boolean subSw) throws SQLException, Exception {
+    public Object[] getRelatList(String UserId,String SysCd,String RsrcCd,String GbnCd,String ProgId,boolean subSw) throws SQLException, Exception {
     	Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
@@ -420,10 +420,13 @@ public class Cmd0900{
 			strQuery.append("  from cmr0020 a,cmm0070 b,cmm0020 c,cmd0011 d,             \n");
 			strQuery.append("       cmr0020 e,cmm0070 f,cmm0020 g                        \n");
 			strQuery.append(" where a.cr_syscd=?                                         \n");
+			if (RsrcCd != null && !"".equals(RsrcCd) && !"0000".equals(RsrcCd)) {
+				strQuery.append("   and a.cr_rsrccd=?                                     \n");
+			}
 			if (subSw) {
 				strQuery.append("and instr(?,d.cd_itemid)>0                              \n");
 			} else {
-				if (GbnCd.equals("P") && ProgId != null && ProgId != "")
+				if (GbnCd.equals("P") && ProgId != null && !"".equals(ProgId))
 					strQuery.append("and a.cr_rsrcname like '%' || ? || '%'              \n");
 				else if (GbnCd.equals("I") && ProgId != null && ProgId != "")
 					strQuery.append("and a.cr_itemid=?                                   \n");
@@ -434,13 +437,13 @@ public class Cmd0900{
 			strQuery.append("   and e.cr_syscd=?                                         \n");
 			strQuery.append("   and e.cr_itemid=d.cd_prcitem                             \n");
 			if (!subSw) {
-				if (GbnCd.equals("M") && ProgId != null && ProgId != "")
+				if (GbnCd.equals("M") && ProgId != null && !"".equals(ProgId))
 					strQuery.append("and e.cr_rsrcname like '%' || ? || '%'              \n");
 			}
 			strQuery.append("   and e.cr_syscd=f.cm_syscd and e.cr_dsncd=f.cm_dsncd      \n");
 			strQuery.append("   and g.cm_macode='JAWON' and g.cm_micode=e.cr_rsrccd      \n");
 			if (!subSw) {
-				if (GbnCd.equals("A") && ProgId != null && ProgId != "") {
+				if (GbnCd.equals("A") && ProgId != null && !"".equals(ProgId)) {
 					strQuery.append("and (a.cr_rsrcname like '%' || ? || '%' or          \n");
 					strQuery.append("     e.cr_rsrcname like '%' || ? || '%')            \n");
 				}
@@ -448,16 +451,17 @@ public class Cmd0900{
 			pstmt = conn.prepareStatement(strQuery.toString());
 			//pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmt.setString(++parmCnt, SysCd);
+			if (RsrcCd != null && !"".equals(RsrcCd) && !"0000".equals(RsrcCd)) pstmt.setString(++parmCnt, RsrcCd);
 			if (subSw) pstmt.setString(++parmCnt, ProgId);
-			else if (GbnCd.equals("P")  && ProgId != null && ProgId != "")
+			else if (GbnCd.equals("P")  && ProgId != null && !"".equals(ProgId))
 				pstmt.setString(++parmCnt, ProgId);
-			else if (GbnCd.equals("I") && ProgId != null && ProgId != "")
+			else if (GbnCd.equals("I") && ProgId != null && !"".equals(ProgId))
 				pstmt.setString(++parmCnt, ProgId);
 			pstmt.setString(++parmCnt, SysCd);
 			if (!subSw) {
-				if (GbnCd.equals("M")  && ProgId != null && ProgId != "")
+				if (GbnCd.equals("M")  && ProgId != null && !"".equals(ProgId))
 					pstmt.setString(++parmCnt, ProgId);
-				if (GbnCd.equals("A") && ProgId != null && ProgId != "") {
+				if (GbnCd.equals("A") && ProgId != null && !"".equals(ProgId)) {
 					pstmt.setString(++parmCnt, ProgId);
 					pstmt.setString(++parmCnt, ProgId);
 				}
