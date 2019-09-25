@@ -33,7 +33,11 @@ var setting = {
 	callback: {
 		onRightClick: OnRightClickTree,
 		onClick 	: onClickTree,
+	},
+	view: {
+		dblClickExpand: false
 	}
+	
 	
 };
 
@@ -110,7 +114,6 @@ function popClose() {
 // 트리 클릭 이벤트
 function onClickTree(event, treeId, treeNode) {
 	var treeId = treeNode.id;
-	
 	var infoSw = false;
 	
 	if(treeNode.children == undefined || treeNode.children.length === 0) infoSw = true;
