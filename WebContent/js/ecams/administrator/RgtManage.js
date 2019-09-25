@@ -83,10 +83,9 @@ $(document).ready(function(){
 		});
 		
 		if(dutyList.length === 0 ) {
-			dialog.alert('권한을 부여할 직무를 선택한 후 등록하십시오.',function(){});
+			dialog.alert('직무구분을 선택하세요.',function(){});
 			return;
 		}
-		
 		
 		var checkedNodes= treeObj.getCheckedNodes(true);
 		if(checkedNodes.length === 0) {
