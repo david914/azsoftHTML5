@@ -121,7 +121,6 @@ function onClickTree(event, treeId, treeNode) {
 		infoSw = true;
 		getCodeSelInfo(treeId);
 	}
-	
 	if(infoSw) return; 	// 코드 사용가능
 	else return;		// 코드 사용불가 
 };
