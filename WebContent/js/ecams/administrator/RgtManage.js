@@ -20,7 +20,6 @@ var treeObjData		= null;
 var cboDutyData		= null;
 var dutyUlInfoData	= null;
 
-
 var setting = {
 	check: {
 		enable: true
