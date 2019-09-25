@@ -50,7 +50,6 @@ $(document).ready(function(){
 	var timeOut = null;
 	var timeOut2 = null;
 	strReqCd = "41";
-	setCbo();
 	
 	document.getElementById('frmSRRegister').onload = function() {
 		loadSrReg = true;
@@ -214,15 +213,6 @@ function openOranizationModal() {
 		}
 	}, function() {
 	});
-}
-
-//PrjListTab 대상구분 콤보박스 데이터
-function setCbo() {
-	cboQryGbnData.push({value: "00", text: "전체", dateyn: "Y"});
-	cboQryGbnData.push({value: "01", text: "SR수정대상", dateyn: "N"});
-	
-//	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", cboQryGbnData[1].value, true);
-	$('#cboQryGbn').trigger('change');
 }
 
 function subScreenInit() {

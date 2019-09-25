@@ -71,7 +71,19 @@ firstGrid.setConfig({
 });
 
 $(document).ready(function() {
-	cboQryGbnData = window.parent.cboQryGbnData;
+	console.log("strReqCD: " + strReqCD);
+	
+	if(strReqCD == "41") {
+		cboQryGbnData.push({value: "00", text: "전체", dateyn: "Y"});
+		cboQryGbnData.push({value: "01", text: "SR수정대상", dateyn: "N"});
+	}else if(strReqCD == "42") {
+		cboQryGbnData.push({value: "00", text: "전체", dateyn: "Y"});
+		cboQryGbnData.push({value: "01", text: "개발계획등록대상", dateyn: "N"});
+		cboQryGbnData.push({value: "02", text: "개발실적등록대상", dateyn: "N"});
+	}
+	$('#cboQryGbn').trigger('change');
+	
+//	cboQryGbnData = window.parent.cboQryGbnData;
 	getReqDepartInfo();
 	getCboElementPrj();
 	

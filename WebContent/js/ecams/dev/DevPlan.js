@@ -19,7 +19,6 @@ var strIsrId = "";
 var strQryGbn = "";
 var cboQryGbnData = [];
 var loadSrReg = false;
-var loadPrjList = false;
 
 var urlArr = [];
 
@@ -134,10 +133,6 @@ $(document).ready(function(){
 	
 	initScreen();
 	
-	document.getElementById('frmPrjList').onload = function() {
-		loadPrjList = true;
-	};
-	
 	document.getElementById('frmSRRegister').onload = function() {
 		setSRRegData();
 	};
@@ -150,7 +145,6 @@ $(document).ready(function(){
 		clickTabMenu();
 //	}
 		
-	callPrjList();
 });
 
 //페이지 로딩 완료시 다음 진행 
@@ -163,35 +157,6 @@ function callSRRegister(data) {
          clearInterval(inter);
       }
    },100);
-}
-
-function callPrjList() {
-	inter = setInterval(function(){
-		if(loadPrjList) {
-			setCbo();
-			clearInterval(inter);
-		}
-	},100);
-}
-
-function setCbo() {
-	//PrjListTab 대상구분 콤보박스 데이터
-	cboQryGbnData.push({value: "00", text: "전체", dateyn: "Y"});
-	cboQryGbnData.push({value: "01", text: "개발계획등록대상", dateyn: "N"});
-	cboQryGbnData.push({value: "02", text: "개발실적등록대상", dateyn: "N"});
-	
-//	if(strQryGbn != null && strQryGbn != "") {
-//		for(var i=0; i<cboQryGbnData.length; i++) {
-//			if(cboQryGbnData[i].value == strQryGbn) {
-//				$('[data-ax5select="cboQryGbn"]').ax5select("setValue", cboQryGbnData[i].value, true);
-//				break;
-//			}
-//		}
-//	}
-	
-	var tmpTab = $('#frmPrjList').get(0).contentWindow;
-	tmpTab.strReqCD = strReqCd;
-	$('#cboQryGbn').trigger('change');
 }
 
 function setSRRegData() {
