@@ -1425,7 +1425,8 @@ public class SysInfo{
 			strQuery.append("select a.cm_svrip,a.cm_portno,a.cm_svrname,a.cm_volpath,\n");
 			strQuery.append("       a.cm_svruse,a.cm_svrcd,a.cm_seqno,a.cm_sysos,    \n");
 			strQuery.append("       b.cm_sysinfo,a.cm_dir,a.cm_buffsize,             \n");
-			strQuery.append("       nvl(a.cm_samedir,a.cm_volpath) cm_samedir        \n");
+			strQuery.append("       nvl(a.cm_samedir,a.cm_volpath) cm_samedir,       \n");
+			strQuery.append("       a.cm_logview							         \n");
 			strQuery.append("from cmm0031 a,cmm0030 b                                \n");
 			strQuery.append("where b.cm_syscd=? and b.cm_syscd=a.cm_syscd            \n");
 			strQuery.append("  and a.cm_svrcd in ('01','23')                         \n");
@@ -1463,6 +1464,7 @@ public class SysInfo{
 				rst.put("cm_buffsize", rs.getString("cm_buffsize"));
 				rst.put("cm_samedir", rs.getString("cm_samedir"));
 				rst.put("svrinfo", rs.getString("cm_svrname")+"["+rs.getString("cm_svrip")+"]");
+				rst.put("cm_logview", rs.getString("cm_logview"));
 
 				rsval.add(rst);
 				rst = null;

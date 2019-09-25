@@ -1292,12 +1292,13 @@ public class Cmd0100{
 			}
 			if (retMsg.equals("0")) {
 				strQuery.setLength(0);
-				strQuery.append("select a.cr_status,a.cr_lstver,a.cr_editor,b.cm_codename \n");
+				strQuery.append("select a.cr_status,a.cr_lstver,a.cr_editor, 			  \n");
+				strQuery.append("		b.cm_codename, a.cr_isrid						  \n");
 				strQuery.append("  from cmm0020 b,cmr0020 a                               \n");
 				strQuery.append(" where a.cr_syscd=? and a.cr_dsncd=?                     \n");
 				strQuery.append("   and upper(a.cr_rsrcname)=?                            \n");
 				strQuery.append("   and b.cm_macode='CMR0020' and b.cm_micode=a.cr_status \n");
-		        pstmt = conn.prepareStatement(strQuery.toString());
+//		        pstmt = conn.prepareStatement(strQuery.toString());
 		        pstmt =  new LoggableStatement(conn, strQuery.toString());
 		        pstmt.setString(1, SysCd);
 		        pstmt.setString(2, DsnCd);
@@ -1312,6 +1313,9 @@ public class Cmd0100{
 		        	else retMsg = "기 등록하여 운영 중인 프로그램ID입니다.";
 */
 		        	if (rs.getString("cr_status").equals("3")) retMsg = "0";
+		        	else if(!"".equals(SRid) && SRid != null) {
+		        		if(!SRid.equals(rs.getString("cr_isrid"))) retMsg = "0";
+		        	}
 		        	else retMsg = "기 등록하여 운영 중인 프로그램ID입니다.";
 		        
 		        }
