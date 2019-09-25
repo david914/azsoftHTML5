@@ -69,7 +69,8 @@ public class Cmm0200_Svr{
 			strQuery.append("       a.cm_agent,a.cm_svrstop,a.cm_buffsize,         \n");
 			strQuery.append("       b.cm_codename,c.cm_codename sysos,             \n");
 			strQuery.append("       nvl(a.cm_cmpsvr,'N') cm_cmpsvr,                \n");
-			strQuery.append("       d.cm_codename ab,a.cm_prcseq,a.cm_samedir      \n");
+			strQuery.append("       d.cm_codename ab,a.cm_prcseq,a.cm_samedir,     \n");
+			strQuery.append("       a.cm_logview							       \n");
 			strQuery.append(" from cmm0031 a,cmm0020 b,cmm0020 c , cmm0020 d       \n");
 			strQuery.append(" where a.cm_syscd=? and a.cm_closedt is null          \n");
 			strQuery.append("   and b.cm_macode='SERVERCD'                         \n");
@@ -103,6 +104,7 @@ public class Cmm0200_Svr{
 				rst.put("ab", rs.getString("ab"));
 				rst.put("cm_volpath", rs.getString("cm_volpath"));
 				rst.put("cm_dir", rs.getString("cm_dir"));
+				rst.put("logview", rs.getString("cm_logview"));
 				if (rs.getString("cm_samedir") != null) rst.put("cm_samedir", rs.getString("cm_samedir"));
 				if (rs.getString("cm_svruse") != null) rst.put("cm_svruse", rs.getString("cm_svruse"));
 				if (rs.getString("cm_agent") != null) {
@@ -328,9 +330,9 @@ public class Cmm0200_Svr{
 					strQuery.append("    CM_LASTUPDT,CM_EDITOR,CM_PRCSEQ,    \n");          
 					strQuery.append("    CM_PORTNO,CM_SYSOS,CM_SVRUSE,       \n");         
 					strQuery.append("    CM_DIR,CM_SVRSTOP,CM_FTPPASS,CM_CMPSVR,   \n");  
-					strQuery.append("    CM_BUFFSIZE,CM_SVRUSR,cm_samedir, cm_agent) values  \n");             
+					strQuery.append("    CM_BUFFSIZE,CM_SVRUSR,cm_samedir, cm_agent, cm_logview) values  \n");             
 					strQuery.append("(?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE,          			\n");               
-					strQuery.append(" ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?)          	\n"); 
+					strQuery.append(" ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?)          	\n"); 
 					pstmt = conn.prepareStatement(strQuery.toString());
 					//pstmt = new LoggableStatement(conn,strQuery.toString());
 					pstmt.setString(++parmCnt, etcData.get("cm_syscd"));
@@ -352,6 +354,7 @@ public class Cmm0200_Svr{
 					pstmt.setString(++parmCnt, etcData.get("cm_svrusr"));
 					pstmt.setString(++parmCnt, etcData.get("cm_samedir"));
 					pstmt.setString(++parmCnt, etcData.get("cm_agent"));
+					pstmt.setString(++parmCnt, etcData.get("cm_logview"));
 					
 					pstmt.executeUpdate();
 					pstmt.close();
@@ -364,7 +367,8 @@ public class Cmm0200_Svr{
 					strQuery.append("   CM_LASTUPDT=SYSDATE,CM_EDITOR=?,     \n");          
 					strQuery.append("   CM_PRCSEQ=?,cm_cmpsvr=?,             \n");           
 					strQuery.append("   CM_SYSOS=?,CM_SVRUSE=?,CM_DIR=?,     \n");         
-					strQuery.append("   CM_FTPPASS=?,CM_BUFFSIZE=?,cm_samedir=?, cm_agent=?, cm_svrstop=? \n");             
+					strQuery.append("   CM_FTPPASS=?,CM_BUFFSIZE=?,cm_samedir=?, cm_agent=?, cm_svrstop=?, \n");
+					strQuery.append("   CM_LOGVIEW = ?						 \n");    
 					strQuery.append(" where cm_syscd=? and cm_svrcd=?        \n");               
 					strQuery.append("   and cm_seqno=?                       \n"); 
 					pstmt = conn.prepareStatement(strQuery.toString());
@@ -382,6 +386,7 @@ public class Cmm0200_Svr{
 					pstmt.setString(++parmCnt, etcData.get("cm_samedir"));
 					pstmt.setString(++parmCnt, etcData.get("cm_agent"));
 					pstmt.setString(++parmCnt, etcData.get("cm_svrstop"));
+					pstmt.setString(++parmCnt, etcData.get("cm_logview"));
 					pstmt.setString(++parmCnt, etcData.get("cm_syscd"));
 					pstmt.setString(++parmCnt, etcData.get("cm_svrcd"));
 					pstmt.setInt(++parmCnt, seqNo);
@@ -415,7 +420,8 @@ public class Cmm0200_Svr{
 				strQuery.append("   CM_SVRNAME=?,CM_VOLPATH=?,           \n");          
 				strQuery.append("   CM_LASTUPDT=SYSDATE,CM_EDITOR=?,     \n");          
 				strQuery.append("   CM_SYSOS=?,CM_SVRUSE=?,CM_DIR=?,     \n");         
-				strQuery.append("   CM_FTPPASS=?,CM_BUFFSIZE=?,cm_samedir=?, cm_agent=?, cm_svrstop=? \n");             
+				strQuery.append("   CM_FTPPASS=?,CM_BUFFSIZE=?,cm_samedir=?, cm_agent=?, cm_svrstop=?, \n");
+				strQuery.append("   CM_LOGVIEW = ? 						 \n");       
 				strQuery.append(" where cm_syscd=? and cm_svrcd=?        \n");               
 				strQuery.append("   and cm_seqno=?                       \n"); 
 				pstmt = conn.prepareStatement(strQuery.toString());
@@ -436,6 +442,7 @@ public class Cmm0200_Svr{
 				pstmt.setString(++parmCnt, etcData.get("cm_samedir"));
 				pstmt.setString(++parmCnt, etcData.get("cm_agent"));
 				pstmt.setString(++parmCnt, etcData.get("cm_svrstop"));
+				pstmt.setString(++parmCnt, etcData.get("cm_logview"));
 				pstmt.setString(++parmCnt, etcData.get("cm_syscd"));
 				pstmt.setString(++parmCnt, etcData.get("cm_svrcd"));
 				pstmt.setInt(++parmCnt, seqNo);
@@ -935,10 +942,11 @@ public class Cmm0200_Svr{
 				strQuery.append("    CM_SVRNAME,CM_VOLPATH,CM_CREATDT,   \n");          
 				strQuery.append("    CM_LASTUPDT,CM_EDITOR,CM_PRCSEQ,    \n");          
 				strQuery.append("    CM_PORTNO,CM_SYSOS,CM_SVRUSE,cm_cmpsvr, \n");         
-				strQuery.append("    CM_DIR,CM_FTPPASS,CM_SVRUSR,cm_samedir,cm_buffsize, cm_agent, cm_svrstop) \n");   
-				strQuery.append(" values                                 \n");            
-				strQuery.append("(?,?,?,?,?,?,  SYSDATE,SYSDATE,?,?,     \n");               
-				strQuery.append(" ?, ?, ?,   ?, ?, ?, ?, ?, ?, ?, ?)              \n"); 
+				strQuery.append("    CM_DIR,CM_FTPPASS,CM_SVRUSR,cm_samedir,cm_buffsize, cm_agent, cm_svrstop, \n");   
+				strQuery.append("    CM_LOGVIEW) \n");
+				strQuery.append(" values                                 	\n");            
+				strQuery.append("(?,?,?,?,?,?,  SYSDATE,SYSDATE,?,?,    	\n");               
+				strQuery.append(" ?, ?, ?,   ?, ?, ?, ?, ?, ?, ?, ?,	?)	\n"); 
 				pstmt = conn.prepareStatement(strQuery.toString());
 				//pstmt = new LoggableStatement(conn,strQuery.toString());
 				pstmt.setString(++parmCnt, etcData.get("cm_syscd"));
@@ -960,6 +968,7 @@ public class Cmm0200_Svr{
 				pstmt.setString(++parmCnt, etcData.get("cm_buffsize"));
 				pstmt.setString(++parmCnt, etcData.get("cm_agent"));
 				pstmt.setString(++parmCnt, etcData.get("cm_svrstop"));
+				pstmt.setString(++parmCnt, etcData.get("cm_logview"));
 				pstmt.executeUpdate();
 				pstmt.close();
 				//CM_SYSCD,CM_SVRCD,CM_SEQNO,CM_JOBCD,CM_OWNER,CM_GRPID,CM_PERMISSION,CM_DBUSER,CM_DBPASS,CM_DBCONN
@@ -1181,10 +1190,11 @@ public class Cmm0200_Svr{
 					strQuery.append("    CM_SVRNAME,CM_VOLPATH,CM_CREATDT,   \n");          
 					strQuery.append("    CM_LASTUPDT,CM_EDITOR,CM_PRCSEQ,    \n");          
 					strQuery.append("    CM_PORTNO,CM_SYSOS,CM_SVRUSE,cm_cmpsvr,  \n");         
-					strQuery.append("    CM_DIR,CM_FTPPASS,CM_SVRUSR,cm_samedir,cm_agent, cm_svrstop)  \n"); 
+					strQuery.append("    CM_DIR,CM_FTPPASS,CM_SVRUSR,cm_samedir,cm_agent, cm_svrstop,  \n");
+					strQuery.append("    CM_LOGVIEW)  \n");
 					strQuery.append(" values                                 \n");              
 					strQuery.append("(?,?,?,?,?,?,   SYSDATE, SYSDATE,?,?,   \n");               
-					strQuery.append(" ?, ?, ?, ?,   ?, ?, ?, ?,?,?)          \n"); 
+					strQuery.append(" ?, ?, ?, ?,   ?, ?, ?, ?,?,?,		?)   \n"); 
 					pstmt = conn.prepareStatement(strQuery.toString());
 					//pstmt = new LoggableStatement(conn,strQuery.toString());
 					pstmt.setString(++parmCnt, etcData.get("cm_syscd"));
@@ -1205,6 +1215,7 @@ public class Cmm0200_Svr{
 					pstmt.setString(++parmCnt, etcData.get("cm_samedir"));
 					pstmt.setString(++parmCnt, etcData.get("cm_agent"));
 					pstmt.setString(++parmCnt, etcData.get("cm_svrstop"));
+					pstmt.setString(++parmCnt, etcData.get("cm_logview"));
 					pstmt.executeUpdate();
 					pstmt.close();
 					
@@ -1256,9 +1267,9 @@ public class Cmm0200_Svr{
 					strQuery.append("   (CM_SVRIP,CM_SVRNAME,CM_VOLPATH,CM_CLOSEDT,\n");          
 					strQuery.append("    CM_CREATDT,CM_LASTUPDT,CM_EDITOR,CM_PRCSEQ,\n");          
 					strQuery.append("    CM_PORTNO,CM_SYSOS,CM_SVRUSE,cm_cmpsvr,CM_DIR,  \n");         
-					strQuery.append("    CM_FTPPASS,CM_SVRUSR,cm_samedir, cm_agent, cm_svrstop) =       \n");
+					strQuery.append("    CM_FTPPASS,CM_SVRUSR,cm_samedir, cm_agent, cm_svrstop, cm_logview) =       \n");
 					strQuery.append("(select ?, ?, ?, '', SYSDATE,SYSDATE,?,?,    \n");           
-					strQuery.append("        ?, ?, ?, ?, ?,    ?, ?, ? ,? ,?      \n");      
+					strQuery.append("        ?, ?, ?, ?, ?,    ?, ?, ? ,? ,?,?      \n");      
 					strQuery.append("   from cmm0031                              \n");      
 					strQuery.append("  where cm_syscd=? and cm_svrcd=?            \n");     
 					strQuery.append("    and cm_seqno=?)                          \n");       
@@ -1281,6 +1292,7 @@ public class Cmm0200_Svr{
 					pstmt.setString(++parmCnt, etcData.get("cm_samedir"));
 					pstmt.setString(++parmCnt, etcData.get("cm_agent"));
 					pstmt.setString(++parmCnt, etcData.get("cm_svrstop"));
+					pstmt.setString(++parmCnt, etcData.get("cm_logview"));
 					
 					pstmt.setString(++parmCnt, etcData.get("cm_syscd"));
 					pstmt.setString(++parmCnt, etcData.get("cm_svrcd"));

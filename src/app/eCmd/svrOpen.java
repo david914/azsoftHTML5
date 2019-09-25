@@ -20,21 +20,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
-
-import app.common.CreateXml;
-import app.common.LoggableStatement;
-import app.common.eCAMSInfo;
-import app.thread.ThreadPool;
-import app.eCmr.Cmr0200;
 
 import com.ecams.common.dbconn.ConnectionContext;
 import com.ecams.common.dbconn.ConnectionResource;
 import com.ecams.common.logger.EcamsLogger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import app.common.CreateXml;
+import app.common.LoggableStatement;
+import app.common.eCAMSInfo;
+import app.eCmr.Cmr0200;
+import app.thread.ThreadPool;
 
 /**
  * @author bigeyes
@@ -1101,7 +1102,6 @@ public class svrOpen{
 		        	rst2.put("baseitem","");
 		        	rst2.put("info",strRsrcInfo);
 		        	rst2.put("srid", etcData.get("srid"));
-		        	rst2.put("sysOs", sysOs);
 		        	//rst2.put("todsn",etcData.get("todsn"));
 		        	//rst2.put("scrno",etcData.get("scrno"));
 		        	retMsg = cmd0100.cmr0020_Insert(rst2,conn);
@@ -1637,8 +1637,9 @@ public class svrOpen{
 		}
 	}//end of getFileList_thread_MASTER() method statement
 	
-	public ArrayList<HashMap<String, String>> getSvrDir_HTML5(String UserID,String SysCd,String SvrIp,String SvrPort,
-			String BaseDir,String AgentDir,String SysOs,String HomeDir,String svrName,String buffSize) throws SQLException, Exception {			
+//	public ArrayList<HashMap<String, String>> getSvrDir_HTML5(String UserID,String SysCd,String SvrIp,String SvrPort,
+//			String BaseDir,String AgentDir,String SysOs,String HomeDir,String svrName,String buffSize) throws SQLException, Exception {			
+	public ArrayList<HashMap<String, String>> getSvrDir_HTML5(HashMap<String,String> etcData) throws SQLException, Exception {
 			ArrayList<HashMap<String, String>>  rsval = new ArrayList<HashMap<String, String>>();
 			HashMap<String, String>			  rst		  = null;
 			String[]          pathDepth   = null;
@@ -1657,7 +1658,7 @@ public class svrOpen{
 			
 			String       shFileName = "";
 			String       strParm = "";
-
+			
 			rsval.clear();
 			
 			HashMap<String, String> rtMap 				= new HashMap<>();
@@ -1676,18 +1677,25 @@ public class svrOpen{
 				ecamsinfo = null;
 				if (strTmpPath == "" || strTmpPath == null)
 					throw new Exception("관리자에게 연락하여 주시기 바랍니다. (형상관리환경설정 - 실행디렉토리)");
-
-				if (HomeDir == null) HomeDir = "";
-				HomeDir = HomeDir.replace("##USER##", UserID);
+				
+				String HomeDir = etcData.get("HomeDir");
+				String BaseDir = etcData.get("BaseDir");
+				String UserID = etcData.get("UserId");
+				
+				ecamsLogger.error("HomeDir: " + HomeDir);
+				
+				if (etcData.get("HomeDir") == null) HomeDir = "";
+				HomeDir = etcData.get("HomeDir").replace("##USER##", UserID);
+				
 				shFileName = "dir"+ UserID + ".sh";
 				strFile = strTmpPath + "dir"+ UserID;
-				if (SysOs.equals("03")) {
+				if ("03".equals(etcData.get("SysOs"))) {
 					BaseDir = BaseDir.replace("/", "\\");
 					BaseDir = BaseDir.replace("\\\\", "\\");
 					BaseDir = BaseDir.replace("\\", "\\\\");
 				}
 				
-				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " Y " + BaseDir + " dir" + UserID;
+				strParm = "./ecams_dir " + etcData.get("SvrIp") + " " + etcData.get("SvrPort") + " " + etcData.get("buffSize") + " " + etcData.get("logview") + " " + BaseDir + " dir" + UserID;
 
 				Cmr0200 cmr0200 = new Cmr0200();
 				ret = cmr0200.execShell(shFileName, strParm, false);
@@ -1727,7 +1735,7 @@ public class svrOpen{
 							HomeDir = HomeDir.replace("\\", "/");
 							BaseDir = BaseDir.replace("\\", "/");
 							rst = new HashMap<String,String>();
-							rst.put("cm_dirpath","["+svrName+"]"+HomeDir);
+							rst.put("cm_dirpath","["+etcData.get("svrName")+"]"+HomeDir);
 							rst.put("cm_fullpath",HomeDir);
 							rst.put("cm_upseq","0");
 							rst.put("cm_seqno",Integer.toString(maxSeq));
@@ -1738,7 +1746,7 @@ public class svrOpen{
 								dirSw = false;
 								
 				                if (str.length() > 0) {
-				                	if (SysOs.equals("03")) {
+				                	if ("03".equals(etcData.get("SysOs"))) {
 				                		str = str.trim();
 				                		str = str.replace("\\", "/");
 									}
@@ -1849,8 +1857,9 @@ public class svrOpen{
 
 	}//end of getDirPath() method statement
 	
-	public List<HashMap<String, String>> getChildSvrDir_HTML5(String UserID,String SysCd,String SvrIp,String SvrPort,
-			String BaseDir,String AgentDir,String SysOs,String HomeDir,String svrName,String buffSize) throws SQLException, Exception {			
+//	public List<HashMap<String, String>> getChildSvrDir_HTML5(String UserID,String SysCd,String SvrIp,String SvrPort,
+//			String BaseDir,String AgentDir,String SysOs,String HomeDir,String svrName,String buffSize) throws SQLException, Exception {
+	public List<HashMap<String, String>> getChildSvrDir_HTML5(HashMap<String,String> etcData) throws SQLException, Exception {
 			ArrayList<HashMap<String, String>>  rsval = new ArrayList<HashMap<String, String>>();
 			HashMap<String, String>			  rst		  = null;
 			String[]          pathDepth   = null;
@@ -1870,7 +1879,7 @@ public class svrOpen{
 			
 			String       shFileName = "";
 			String       strParm = "";
-
+			
 			rsval.clear();
 			
 			try {
@@ -1887,17 +1896,21 @@ public class svrOpen{
 				if (strTmpPath == "" || strTmpPath == null)
 					throw new Exception("관리자에게 연락하여 주시기 바랍니다. (형상관리환경설정 - 실행디렉토리)");
 
-				if (HomeDir == null) HomeDir = "";
-				HomeDir = HomeDir.replace("##USER##", UserID);
+				String HomeDir = etcData.get("HomeDir");
+				String BaseDir = etcData.get("BaseDir");
+				String UserID = etcData.get("UserId");
+				
+				if ("".equals(HomeDir)) HomeDir = "";
+				else HomeDir = HomeDir.replace("##USER##", UserID);
 				shFileName = "dir"+ UserID + ".sh";
 				strFile = strTmpPath + "dir"+ UserID;
-				if (SysOs.equals("03")) {
+				if ("03".equals(etcData.get("SysOs"))) {
 					BaseDir = BaseDir.replace("/", "\\");
 					BaseDir = BaseDir.replace("\\\\", "\\");
 					BaseDir = BaseDir.replace("\\", "\\\\");
 				}
 				
-				strParm = "./ecams_dir " + SvrIp + " " + SvrPort + " " + buffSize + " Y " + BaseDir + " dir" + UserID;
+				strParm = "./ecams_dir " + etcData.get("SvrIp") + " " + etcData.get("SvrPort") + " " + etcData.get("buffSize") + " " + etcData.get("logview")+ " " + BaseDir + " dir" + UserID;
 				Cmr0200 cmr0200 = new Cmr0200();
 				ret = cmr0200.execShell(shFileName, strParm, false);
 				cmr0200 = null;
@@ -2064,6 +2077,8 @@ public class svrOpen{
 		String       	svrHome = "";
 		String       	sysHome = "";
 		String 			BaseDir = ""; 
+		String			AgentDir = "";
+		
 		int             j = 0;
 		
 		
@@ -2086,13 +2101,22 @@ public class svrOpen{
 			shFileName = "filelist"+ etcData.get("UserID") + "." + etcData.get("SysCd") + ".ih.cs.sh";
 			strFile = strTmpPath + "/filelist"+ etcData.get("UserID") + "." + etcData.get("SysCd") + ".ih.cs";
 			strTmpPath = null;
+			
 			if ("03".equals(etcData.get("SysOs"))) {
 				BaseDir = etcData.get("BaseDir").replace("/", "\\");
 				BaseDir = BaseDir.replace("\\\\", "\\");
 				BaseDir = BaseDir.replace("\\", "\\\\");
+				
+				AgentDir = etcData.get("AgentDir").replace("/", "\\");
+				AgentDir = AgentDir.replace("\\\\", "\\");
+				AgentDir = AgentDir.replace("\\", "\\\\");
+			}else {
+				BaseDir = etcData.get("BaseDir");
+				AgentDir = etcData.get("AgentDir");
 			}
-			strParm = "./ecams_ih_cs " + etcData.get("SysCd") + " " + etcData.get("SvrIp") + " "  + etcData.get("SvrPort") + " " + etcData.get("buffSize") + " Y " + 
-						etcData.get("BaseDir") +  " filelist" + etcData.get("UserID") + " " + etcData.get("GbnCd") + " " + etcData.get("AgentDir");
+			strParm = "./ecams_ih_cs " + etcData.get("SysCd") + " " + etcData.get("SvrIp") + " "  + etcData.get("SvrPort") + " " + 
+						etcData.get("buffSize") + " " + etcData.get("logview") + " " +
+						BaseDir +  " filelist" + etcData.get("UserID") + " " + etcData.get("GbnCd") + " " + AgentDir;
 			ecamsinfo   = new eCAMSInfo();
 			ret = ecamsinfo.execShell_conn(shFileName, strParm, false,conn);
 			ecamsinfo = null;

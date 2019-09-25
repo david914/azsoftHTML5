@@ -95,10 +95,11 @@ public class ModuleInfo extends HttpServlet {
 	private String getRelatList(JsonElement jsonElement) throws SQLException, Exception {
 		String UserId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"UserId"));
 		String SysCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"SysCd"));
+		String RsrcCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"RsrcCd"));
 		String GbnCd 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"GbnCd"));
 		String ProgId 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"ProgId"));
 		String subSw 	= ParsingCommon.jsonStrToStr(ParsingCommon.jsonEtoStr(jsonElement,"subSw"));
-		return gson.toJson(cmd0900.getRelatList(UserId, SysCd, GbnCd, ProgId, Boolean.valueOf(subSw)));
+		return gson.toJson(cmd0900.getRelatList(UserId, SysCd, RsrcCd, GbnCd, ProgId, Boolean.valueOf(subSw)));
 	}
 	
 	// [실행모듈정보] 프로그램목록 가져오기

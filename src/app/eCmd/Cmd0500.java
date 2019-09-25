@@ -250,7 +250,7 @@ public class Cmd0500{
 		        	strQuery.append("   and upper(b.cm_dirpath) like upper(?)		      \n");
 		        }
 		        if(etcData.get("JobCd") != null && !"".equals(etcData.get("JobCd"))) {
-		        	strQuery.append("  and a.cr_rsrccd=? 							      \n");
+		        	strQuery.append("  and a.cr_jobcd=? 							      \n");
 		        }	
 	        }	        	 
 	        strQuery.append("   and a.cr_syscd=c.cm_syscd                             \n");	

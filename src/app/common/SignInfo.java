@@ -441,7 +441,8 @@ public class SignInfo {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public Object[] getSignLst_dept(String UserId,String RgtCd,String SysCd,String JobCd,String RgtCd2) throws SQLException, Exception {
+	//public Object[] getSignLst_dept(String UserId,String RgtCd,String SysCd,String JobCd,String RgtCd2) throws SQLException, Exception {
+	public Object[] getSignLst_dept(HashMap<String, String>	etcData) throws SQLException, Exception {
 		Connection        conn        = null;
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
@@ -458,11 +459,16 @@ public class SignInfo {
 		String[] svJobCd              = null;
 		int parmCnt = 0;
 		int i = 0;
+		String UserId                 = etcData.get("UserId");
+		String RgtCd                  = etcData.get("tmpRgt");
+		String SysCd                  = etcData.get("SysCd");
+		String JobCd                  = etcData.get("JobCd");
+		String RgtCd2                 = etcData.get("tmpRgt2");
 		ConnectionContext connectionContext = new ConnectionResource();
 
 		try {
 			conn = connectionContext.getConnection();
-			if (RgtCd != null && RgtCd != "") {
+			if (RgtCd != null && !"".equals(RgtCd)) {
 				svRgtCd = RgtCd.split(",");
 				strQuery.setLength(0);
 				strQuery.append("select d.cm_userid,b.cm_codename,d.cm_username,   \n");
@@ -522,7 +528,7 @@ public class SignInfo {
 //	            rsval.clear();
 				while (rs.next()){
 					findSw = false;
-					if (WkUser == null || WkUser == "") findSw = true;
+					if (WkUser == null || "".equals(WkUser)) findSw = true;
 					else {
 						if (!WkUser.equals(rs.getString("cm_userid"))) {
 							findSw = true;						
@@ -531,7 +537,7 @@ public class SignInfo {
 						}
 					}
 					if (findSw) {
-						if (WkUser != null && WkUser != "") {
+						if (WkUser != null && !"".equals(WkUser)) {
 							rst = rsval.get(rsval.size()-1);
 							rst.put("cm_rgtcd", WkRgtCd);
 							rsval.set(rsval.size()-1, rst);
@@ -581,7 +587,7 @@ public class SignInfo {
 				}
 			}
 			
-			if (RgtCd2 != null && RgtCd2 != "") {
+			if (RgtCd2 != null && !"".equals(RgtCd2)) {
 				svRgtCd = RgtCd2.split(",");
 				if (JobCd != null && JobCd != "") {
 					svJobCd = JobCd.split(",");
@@ -622,7 +628,7 @@ public class SignInfo {
 				} else {
 					strQuery.append("and exists (select 1 from cmm0044 y,cmm0044 x \n");
 					strQuery.append("             where x.cm_userid=?              \n");
-					if (SysCd != null && SysCd != "" && !SysCd.equals("99999")) {
+					if (SysCd != null && !"".equals(SysCd) && !SysCd.equals("99999")) {
 						strQuery.append("               and x.cm_syscd=?           \n");
 					}
 					strQuery.append("               and x.cm_closedt is null       \n");
@@ -646,7 +652,7 @@ public class SignInfo {
 					}
 	            } else {
 	            	pstmt.setString(++parmCnt, UserId);
-	            	if (SysCd != null && SysCd != "" && !SysCd.equals("99999")) pstmt.setString(++parmCnt, SysCd);
+	            	if (SysCd != null && !"".equals(SysCd) && !SysCd.equals("99999")) pstmt.setString(++parmCnt, SysCd);
 	            }
 	            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	            rs = pstmt.executeQuery();

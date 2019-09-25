@@ -2037,6 +2037,8 @@ public class Cmm0400{
 			if(!"".equals(userId)) {
 				strQuery.append("AND         a.cm_userid = ?																\n");
 			}
+			// 활성화 되어있는 사람만 조회
+			strQuery.append("AND         a.cm_active = '1'																\n");
 			strQuery.append("GROUP   BY  a.cm_userid, a.cm_username, b.cm_syscd, d.cm_sysmsg, b.cm_jobcd, e.cm_jobname	\n");
 			strQuery.append("ORDER   BY  a.cm_username, a.cm_userid, d.cm_sysmsg, e.cm_jobname							\n");								
 			

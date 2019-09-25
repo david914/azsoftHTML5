@@ -50,7 +50,6 @@ $(document).ready(function(){
 	var timeOut = null;
 	var timeOut2 = null;
 	strReqCd = "41";
-	setCbo();
 	
 	document.getElementById('frmSRRegister').onload = function() {
 		loadSrReg = true;
@@ -153,6 +152,7 @@ $(document).ready(function(){
 	});
 
 	var oldVal = "";
+	// 기간 선택 달력의 경우 두번째 달력 값 선택 또는 변경시 자동으로 달력 닫히게 추가
 	$('#datEdD').bind('propertychange change keyup paste input', function() {
 		var currentVal =  $("#datEdD").val();
 		if(currentVal != oldVal){
@@ -213,15 +213,6 @@ function openOranizationModal() {
 		}
 	}, function() {
 	});
-}
-
-//PrjListTab 대상구분 콤보박스 데이터
-function setCbo() {
-	cboQryGbnData.push({value: "00", text: "전체", dateyn: "Y"});
-	cboQryGbnData.push({value: "01", text: "SR수정대상", dateyn: "N"});
-	
-//	$('[data-ax5select="cboQryGbn"]').ax5select("setValue", cboQryGbnData[1].value, true);
-	$('#cboQryGbn').trigger('change');
 }
 
 function subScreenInit() {

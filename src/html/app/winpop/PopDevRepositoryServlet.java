@@ -150,16 +150,17 @@ public class PopDevRepositoryServlet extends HttpServlet {
 	private String getSvrDir(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> DataMap = ParsingCommon.jsonStrToMap( ParsingCommon.jsonEtoStr(jsonElement, "tmpInfo") );
 		try {
-			return gson.toJson(svropen.getSvrDir_HTML5(DataMap.get("UserId"),
-				  	   DataMap.get("SysCd"),
-				  	   DataMap.get("SvrIp"),
-				  	   DataMap.get("SvrPort"),
-				  	   DataMap.get("BaseDir"),
-				  	   DataMap.get("AgentDir"),
-				  	   DataMap.get("SysOs"),
-				  	   DataMap.get("HomeDir"),
-				  	   DataMap.get("svrName"),
-					   DataMap.get("buffSize")));
+//			return gson.toJson(svropen.getSvrDir_HTML5(DataMap.get("UserId"),
+//				  	   DataMap.get("SysCd"),
+//				  	   DataMap.get("SvrIp"),
+//				  	   DataMap.get("SvrPort"),
+//				  	   DataMap.get("BaseDir"),
+//				  	   DataMap.get("AgentDir"),
+//				  	   DataMap.get("SysOs"),
+//				  	   DataMap.get("HomeDir"),
+//				  	   DataMap.get("svrName"),
+//					   DataMap.get("buffSize")));
+			return gson.toJson(svropen.getSvrDir_HTML5(DataMap));
 		}catch (Exception e) {
 			return gson.toJson("[ERR]" + e.getMessage());
 		}
@@ -189,16 +190,18 @@ public class PopDevRepositoryServlet extends HttpServlet {
 		ArrayList<HashMap<String, String>> mergeDirList  =  new ArrayList<HashMap<String, String>>();
 		try {
 				
-			childDirList = (ArrayList<HashMap<String, String>>) svropen.getChildSvrDir_HTML5(DataMap.get("UserId"),
-																					  	     DataMap.get("SysCd"),
-																					  	     DataMap.get("SvrIp"),
-																					  	     DataMap.get("SvrPort"),
-																						  	 DataMap.get("BaseDir"),
-																						  	 DataMap.get("AgentDir"),
-																						  	 DataMap.get("SysOs"),
-																						  	 DataMap.get("HomeDir"),
-																						  	 DataMap.get("svrName"),
-																							 DataMap.get("buffSize"));
+//			childDirList = (ArrayList<HashMap<String, String>>) svropen.getChildSvrDir_HTML5(DataMap.get("UserId"),
+//																					  	     DataMap.get("SysCd"),
+//																					  	     DataMap.get("SvrIp"),
+//																					  	     DataMap.get("SvrPort"),
+//																						  	 DataMap.get("BaseDir"),
+//																						  	 DataMap.get("AgentDir"),
+//																						  	 DataMap.get("SysOs"),
+//																						  	 DataMap.get("HomeDir"),
+//																						  	 DataMap.get("svrName"),
+//																							 DataMap.get("buffSize"));
+			
+			childDirList = (ArrayList<HashMap<String, String>>) svropen.getChildSvrDir_HTML5(DataMap);
 				
 			for(HashMap<String, String> pathMap: childDirList) {
 				

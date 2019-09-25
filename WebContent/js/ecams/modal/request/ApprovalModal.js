@@ -1,5 +1,5 @@
 
-var userId 		= window.parent.pUserId;			//접속자 ID
+var userId 		= window.parent.userId;			//접속자 ID
 var reqCd 		= window.parent.reqCd;			//접속자 ID
 var sysCd 		= window.parent.sysCd;
 var jobCd		= window.parent.jobCd;
@@ -259,13 +259,16 @@ function cmdInit(){
 	if ((tmpRgt != null && tmpRgt != "") || (tmpRgt2 != null && tmpRgt2 != "")) {
 		selCd = "U";
 
-		
-		 var tmpData = {
-			UserId	  :   userId,
-			tmpRgt   :   tmpRgt,
-			SysCd	 :	 sysCd,
-			JobCd		 : 	 jobCd,
-			tmpRgt2	 :   tmpRgt2,
+		 var tmpData = new Object();
+		 var tmpDataDetail = new Object();
+		 tmpDataDetail.UserId = userId;
+		 tmpDataDetail.tmpRgt = tmpRgt;
+		 tmpDataDetail.SysCd = sysCd;
+		 tmpDataDetail.JobCd = jobCd;
+		 tmpDataDetail.tmpRgt2 = tmpRgt2;
+		 
+		 tmpData = {
+			signUser	: 	tmpDataDetail,
 			requestType	: 	'getSignLst_dept'
 		}
 		

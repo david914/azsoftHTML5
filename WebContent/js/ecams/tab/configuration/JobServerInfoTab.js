@@ -142,8 +142,9 @@ function successInsertWorkServerList(data) {
 
 // 폐기
 function delWorkServerList() {
-	if(getSelectedIndex('cboJobDiv') < 1) {
-		dialog.alert('작업구분을 선택하여 주십시오.', function() {});
+	var selIn = workGrid.selectedDataIndexs;
+	if(selIn.length === 0 ) {
+		dialog.alert('폐기 대상을 선택해 주시기 바랍니다.');
 		return;
 	}
 	

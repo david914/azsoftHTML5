@@ -328,6 +328,8 @@ function checkSvrVal(gbnCd) {
 	if($('#chkErr').is(':checked'))  svrReqInfo.cm_agent = 'ER';
 	if($('#chkStop').is(':checked')) svrReqInfo.cm_svrstop = 'Y';
 	else svrReqInfo.cm_svrstop = 'N';
+	if($('#chkLogView').is(':checked')) svrReqInfo.cm_logview = 'Y';
+	else svrReqInfo.cm_logview = 'N';
 	
 	
 	for(var i=0; i<svrInfoData.length; i++) {
@@ -454,6 +456,12 @@ function clickSvrList(selIndex) {
 		$('#chkStop').wCheck('check', false);
 	} else {
 		$('#chkStop').wCheck('check', true);
+	}
+	
+	if(selItem.logview === 'N') {
+		$('#chkLogView').wCheck('check', false);
+	} else {
+		$('#chkLogView').wCheck('check', true);
 	}
 	
 	$('#txtSvrName').val(selItem.cm_svrname);

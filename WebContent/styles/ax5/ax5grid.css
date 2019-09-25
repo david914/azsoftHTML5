@@ -1410,7 +1410,7 @@ textarea.input-lg, .input-group-lg>textarea.form-control,
 
 [data-ax5grid] [data-ax5grid-container="root"] [data-ax5grid-container="body"] [data-ax5grid-panel] table tr td[data-ax5grid-column-focused]
 	{
-	box-shadow: inset 0px 0px 1px 1px #0581f2;
+	/*box-shadow: inset 0px 0px 1px 1px #0581f2;*/
 	background: #e3f1ff;
 	/* color: #000 */
 }

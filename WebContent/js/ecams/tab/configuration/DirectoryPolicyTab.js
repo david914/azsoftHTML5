@@ -87,6 +87,8 @@ function getDirList() {
 function successGetDirList(data) {
 	dirGridData = data;
 	dirGrid.setData(dirGridData);
+	//그리드 정렬
+	dirGrid.setColumnSort({cm_codename:{seq:0, orderBy:"asc"}});
 }
 
 // 등록
@@ -123,8 +125,9 @@ function successInsertDirList(data) {
 
 // 폐기
 function delDirList() {
-	if(getSelectedIndex('cboPathDiv') < 1) {
-		dialog.alert('디렉토리구분을 선택하여 주십시오.', function() {});
+	var selIn = dirGrid.selectedDataIndexs;
+	if(selIn.length === 0 ) {
+		dialog.alert('폐기 대상을 선택해 주시기 바랍니다.');
 		return;
 	}
 	
@@ -148,7 +151,6 @@ function clickDirGrid(index) {
 	$('#txtIp').val(selItem.cm_downip);
 	$('#txtPort').val(selItem.cm_downport);
 	$('#txtPathName').val(selItem.cm_path);
-	
 	$('[data-ax5select="cboPathDiv"]').ax5select('setValue', selItem.cm_pathcd, true);
 }
 

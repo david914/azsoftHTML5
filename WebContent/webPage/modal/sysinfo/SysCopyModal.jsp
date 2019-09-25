@@ -111,7 +111,7 @@
 		<input type="checkbox" class="checkbox-all" id="chkMonitor" data-label="선택한 시스템에 대한 모니터링 체크리스트도 복사합니다." checked="checked"/> -->
 	</div>
 	<!--button-->
-	<div class="row tac">
+	<div class="row tac float-right">
 		<button id="btnReq" class="btn_basic_s">복사</button>
 		<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
 	</div>

@@ -100,13 +100,13 @@
 			<div class="dib width-100">
 	        	<label class="tit_60 poa">변경(전)</label>
 	            <div class="ml_60">
-					<input id="txtBefSrc" class="width-100" type="text" readonly />
+					<textarea id="txtBefSrc" class="width-100" readonly style="padding: 5px 5px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px; resize: none; height: 40px;"></textarea>
 				</div>
 			</div>
-			<div class="dib width-100">
+			<div class="dib width-100 margin-5-top">
 	        	<label class="tit_60 poa">변경(후)</label>
 	            <div class="ml_60">
-					<input id="txtAftSrc" class="width-100" type="text" readonly />
+					<textarea id="txtAftSrc" class="width-100" readonly style="padding: 5px 5px; box-sizing: border-box; border: 1px solid #ddd; background-color: #fff; font-size: 12px; resize: none; height: 40px;"></textarea>
 				</div>
 			</div>	
 		</div>

@@ -19,6 +19,7 @@ $(document).ready(function() {
 	console.log(escape('ecams12'));
 	
 	if(txtUserId !== undefined && txtUserId.length > 0) {
+		$('#txtUserId').attr('disabled', true);
 		$('#txtUserId').val(txtUserId);
 	}
 	

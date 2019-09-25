@@ -174,7 +174,7 @@
 								<input id="txtJobname" name="txtJobname" type="text" class="width-100" />
 							</div>
 							
-							<div class="az_board_basic scroll_h az_board_basic_in sm-row" style="height: 32%">
+							<div class="az_board_basic scroll_h az_board_basic_in sm-row" style="height: 32%" id="jobGridBox">
 								<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 							</div>
 						</div>

@@ -249,7 +249,6 @@ function successGetItemInfoStepList() {
 		var text = value.cm_gbnname;
 		var cutText = text.indexOf("-") == -1 ? text :  text.substr(0, text.indexOf("-"));
 		$("#step" + i).html("<h4>" + cutText + "</h4>");
-		console.log(text);
 	});
 	beforeClick = liData;
 	

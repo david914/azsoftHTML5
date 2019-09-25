@@ -63,7 +63,6 @@ $('input.checkbox-dir').wCheck({theme: 'square-classic blue', selector: 'checkma
 $(document).ready(function() {
 	getSysInfo();
 	
-	
 	// 디렉토리 엔터시 조회
 	$('#txtPath').bind('keypress', function(event) {
 		if(event.keyCode === 13) {
@@ -75,27 +74,40 @@ $(document).ready(function() {
 	$('#cboSysCd').bind('change', function() {
 		getBaseInfo();
 	});
+	
 	// 프로그램전체선택
 	$('#chkAllPrg').bind('click', function() {
 		var checkSw = $('#chkAllPrg').is(':checked');
 		checkAllPrg(checkSw);
 	});
+	
 	// 업무전체선택
 	$('#chkAllJob').bind('click', function() {
 		var checkSw = $('#chkAllJob').is(':checked');
 		checkAllJob(checkSw);
 	});
+	
 	// 추가
 	$('#btnAdd').bind('click', function() {
-		addPath();
+		if ($('#txtPath').val().trim().length === 0){
+			dialog.alert('디렉토리 값을 입력 후 추가해 주시기 바랍니다.');
+			return;
+		} else addPath();
 	});
+	
 	// 조회
 	$('#btnQry').bind('click', function() {
-		getPathList();
+		if ($('#txtPath').val().trim().length === 0){
+			dialog.alert('디렉토리 값을 입력 후 조회해 주시기 바랍니다.');
+			return;
+		} else getPathList();
 	});
+	
+	//삭제
 	$('#btnDel').bind('click', function() {
 		dblClickDirGrid(null, 'btn');
 	});
+	
 	// 등록
 	$('#btnReq').bind('click', function() {
 		savePath();
@@ -218,6 +230,7 @@ function dblClickDirGrid(index, division) {
 	} else {
 		var selIn = dirGrid.selectedDataIndexs;
 		if(selIn.length === 0 ) {
+			dialog.alert('삭제 대상 체크 후 삭제해 주시기 바랍니다.');
 			return;
 		}
 		selArr = dirGrid.getList("selected");

@@ -36,9 +36,9 @@ releaseGrid.setConfig({
     },
     columns: [
         {key: "cm_sysmsg", 	label: "시스템명",  	width: '20%', align: 'left'},
-        {key: "weekname", 	label: "요일",  		width: '40%', align: 'left'},
-        {key: "buildtime", 	label: "정기빌드시간", width: '20%'},
-        {key: "deploytime", label: "정기배포시간", width: '20%'}
+        {key: "weekname", 	label: "요일",  		width: '20%', align: 'left'},
+        {key: "buildtime", 	label: "정기빌드시간", width: '30%'},
+        {key: "deploytime", label: "정기배포시간", width: '30%'}
     ]
 });
 

@@ -126,8 +126,9 @@ function successInsertOperTime(data) {
 
 // 폐기
 function deleteOperList() {
-	if(getSelectedIndex('cboTimeDiv') < 1) {
-		dialog.alert('시간구분을 선택하여 주십시오.', function() {});
+	var selIn = operTimeGrid.selectedDataIndexs;
+	if(selIn.length === 0 ) {
+		dialog.alert('폐기 대상을 체크해 주시기 바랍니다.');
 		return;
 	}
 	

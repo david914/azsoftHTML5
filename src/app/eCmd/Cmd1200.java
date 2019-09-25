@@ -560,7 +560,8 @@ public class Cmd1200{
 				rst.put("CM_DIRTOTYN", rs.getString("CM_DIRTOTYN"));
 				rst.put("CM_JOBTOTYN", rs.getString("CM_JOBTOTYN"));
 				
-				rst.put("bldmsg", rs.getString("bldmsg"));
+				if("".equals(rs.getString("bldmsg")) || rs.getString("bldmsg") == null) rst.put("bldmsg", "처리유형"+rs.getString("cm_bldCD"));
+				else rst.put("bldmsg", rs.getString("bldmsg"));
 
 				if (rs.getString("CM_RUNGBN").equals("B")) rst.put("RUNGBN", "파일송수신전");
 				else rst.put("RUNGBN", "파일송수신후");

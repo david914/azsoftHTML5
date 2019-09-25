@@ -1229,6 +1229,11 @@ function resize(){
 		$("#divRight").height($("#divLeft").height());
 		$("#divRight").children(".half_wrap").addClass("height-100");
 	}
+	
+	var leftSize = $("#divRight").offset().top + $("#divRight").height();
+	var GridSize = $('[data-ax5grid="jobGrid"]').offset().top + $('[data-ax5grid="jobGrid"]').height();
+	jobGrid.setHeight( leftSize - $('[data-ax5grid="jobGrid"]').offset().top - 10);
+	$('#jobGridBox').height(leftSize - $('[data-ax5grid="jobGrid"]').offset().top - 10);
 }
 
 function clear() {

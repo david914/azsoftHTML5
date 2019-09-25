@@ -215,12 +215,10 @@ public class ApplyRequest extends HttpServlet {
 	}
 
 	private String getSignLst_dept(JsonElement jsonElement) throws SQLException, Exception {
-		HashMap<String, String> signListInfo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"sysJobInfo"));
-		return gson.toJson(signInfo.getSignLst_dept(signListInfo.get("UserId"), 
-																	 signListInfo.get("tmpRgt"),
-																	 signListInfo.get("SysCd"),
-																	 signListInfo.get("JboCd"),
-																	 signListInfo.get("tmpRgt2")));
+		
+		HashMap<String, String> signListInfo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"signUser"));
+		
+		return gson.toJson(signInfo.getSignLst_dept(signListInfo));
 	}
 	private String setDocFile(JsonElement jsonElement) throws SQLException, Exception {
 		

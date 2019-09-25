@@ -27,7 +27,6 @@ mapGrid.setConfig({
     target: $('[data-ax5grid="mapGrid"]'),
     sortable: true, 
     multiSort: true,
-    showRowSelector: true,
     header: {
         align: "center"
     },

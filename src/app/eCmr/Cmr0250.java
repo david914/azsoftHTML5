@@ -989,7 +989,6 @@ public class Cmr0250{
 		ResultSet         rs          = null;
 		StringBuffer      strQuery    = new StringBuffer();
 		String            wkPrcSys    = "";
-		boolean           endSw       = false;
 		String            wkRunGbn    = "";
 		Runtime  run = null;
 		Process p = null;
@@ -1002,8 +1001,11 @@ public class Cmr0250{
 			String  binpath;
 			String[] chkAry;
 			int	cmdrtn;
+			
+			conn = connectionContext.getConnection();
+			
 			SystemPath systemPath = new SystemPath();
-			binpath = systemPath.getTmpDir("15");
+			binpath = systemPath.getTmpDir_conn("15",conn);
 			systemPath = null;
 
 			run = Runtime.getRuntime();
@@ -1027,54 +1029,6 @@ public class Cmr0250{
 			if (cmdrtn > 0) {
 				return "2";
 			}
-//
-//			shFileName = tmpPath + "/" + UserID+ ItemID1 +"_cmpsrc.sh";
-//			fileName = UserID+ ItemID1;
-//
-//			shfile = new File(shFileName);
-//
-//			if( !(shfile.isFile()) )              //File이 없으면
-//			{
-//				shfile.createNewFile();          //File 생성
-//			}
-//
-//
-//			writer = new OutputStreamWriter( new FileOutputStream(shFileName));
-//			writer.write("cd "+strBinPath +"\n");
-//			writer.write("./ecams_cmpsrc " + ItemID1 + " " + ver1 +" " + ItemID2 + " " +ver2 + " " + fileName +"\n");
-//			writer.write("exit $?\n");
-//			writer.close();
-//
-//
-//			strAry = new String[3];
-//			strAry[0] = "chmod";
-//			strAry[1] = "777";
-//			strAry[2] = shFileName;
-//
-//			run = Runtime.getRuntime();
-//
-//			p = run.exec(strAry);
-//			p.waitFor();
-//
-//
-//
-//			run = Runtime.getRuntime();
-//
-//			strAry = new String[2];
-//
-//			strAry[0] = "/bin/sh";
-//			strAry[1] = shFileName;
-//
-//			p = run.exec(strAry);
-//			p.waitFor();
-//
-//			if (p.exitValue() != 0) {
-//				shfile.delete();
-//				throw new Exception("해당 소스 생성  실패. run=["+shFileName +"]" + " return=[" + p.exitValue() + "]" );
-//			}
-//			else{
-//				//shfile.delete();
-//			}
 
 			conn = connectionContext.getConnection();
 			conn.setAutoCommit(false);
@@ -1082,50 +1036,26 @@ public class Cmr0250{
 			wkPrcSys = prcSys;
 			wkRunGbn = "B";
 
-//			if (prcSys.equals("SYSGB")) {
-//				wkPrcSys = "SYSUA,SYSGB";
-//			}
-			//SYSUA 있으면 SYSUA 넣고 없으면 , SYSCB,SYSGB 로 셋팅
-			wkPrcSys = prcSys;
-			if (prcCd.equals("Retry")) {
-				if (prcSys.equals("SYSUA")) {
-					wkPrcSys = "SYSUA,SYSGB";
-				} else if (prcSys.equals("SYSGB")) {
-					strQuery.setLength(0);
-					strQuery.append("select count(*) as cnt \n");
-			        strQuery.append("  from cmr9900         \n");
-			        strQuery.append(" where cr_acptno=?     \n");
-			        strQuery.append("   and cr_team='SYSUA' \n");
-			        pstmt = conn.prepareStatement(strQuery.toString());
-					pstmt.setString(1, AcptNo);
-					rs = pstmt.executeQuery();
-					if (rs.next() && rs.getInt("cnt") > 0) {
-						wkPrcSys = "SYSUA,SYSGB";
-					} else {
-						wkPrcSys = "SYSCB,SYSGB";
-					}
-					rs.close();
-					pstmt.close();
-				} else {
-					wkPrcSys = prcSys;
-				}
+			if (prcSys.equals("SYSGB")) {
+				wkPrcSys = "SYSCB,SYSGB";
 			}
+			
 			strQuery.setLength(0);
-			strQuery.append("select count(*) as cnt                                      \n");
+			strQuery.append("select nvl(a.cr_rungbn,'B') rungbn,count(*) as cnt          \n");
 	        strQuery.append("  from cmr1011 a,cmr1010 b                                  \n");
 	        strQuery.append(" where b.cr_acptno=? and b.cr_prcdate is null               \n");
 	        strQuery.append("   and b.cr_acptno=a.cr_acptno                              \n");
 	        strQuery.append("   and b.cr_serno=a.cr_serno                                \n");
 	        strQuery.append("   and a.cr_prcsys=?                                        \n");
-	        strQuery.append("   and nvl(a.cr_putcode,'NONE')<>'0000'                     \n");
-	        strQuery.append("   and nvl(a.cr_rungbn,'B')<>'B'                            \n");
+	        strQuery.append(" group by nvl(a.cr_rungbn,'B')                              \n");
+	        strQuery.append(" order by decode(nvl(a.cr_rungbn,'B'),'B',1,'F',2,3) desc   \n");
 	        pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt.setString(1, AcptNo);
 			pstmt.setString(2, prcSys);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				if (rs.getInt("cnt") > 0) {
-					wkRunGbn = "A";
+					wkRunGbn = rs.getString("rungbn");
 				}
 			}
 			rs.close();
@@ -1142,97 +1072,23 @@ public class Cmr0250{
 					pstmt.executeUpdate();
 					pstmt.close();
 				}
-                /*
-				strQuery.setLength(0);
-		        strQuery.append("select count(*) as cnt                                      \n");
-		        strQuery.append("  from cmr1010 a,cmm0036 b                                  \n");
-		        strQuery.append(" where a.cr_acptno=? and a.cr_prcdate is null               \n");
-		        strQuery.append("   and nvl(a.cr_putcode,'NONE')<>'0000'                     \n");
-		        strQuery.append("   and a.cr_syscd=b.cm_syscd and a.cr_rsrccd=b.cm_rsrccd    \n");
-		        if (prcSys.equals("SYSPF")) {
-		        	strQuery.append("and (substr(b.cm_info,4,1)='1' or                       \n");
-		        	strQuery.append("     substr(b.cm_info,9,1)='1' or                       \n");
-		        	strQuery.append("     substr(b.cm_info,27,1)='1')                        \n");
-		        }else if (prcSys.equals("SYSUP")) {
-		        	strQuery.append("and (substr(b.cm_info,22,1)='1' or                      \n");
-		        	strQuery.append("     substr(b.cm_info,24,1)='1')                        \n");
-		        }else if (prcSys.equals("SYSCB")) {
-		        	strQuery.append("and (substr(b.cm_info,1,1)='1' or                       \n");
-		        	strQuery.append("     substr(b.cm_info,13,1)='1' or                      \n");
-		        	strQuery.append("     substr(b.cm_info,25,1)='1')                        \n");
-		        }else if (prcSys.equals("SYSUA")) {
-		        	strQuery.append("and substr(b.cm_info,49,1)='1'                          \n");
-		        }else if (prcSys.equals("SYSPC")) {
-		        	strQuery.append("and substr(b.cm_info,50,1)='1'                          \n");
-		        }else if (prcSys.equals("SYSED")) {
-		        	strQuery.append("and (substr(b.cm_info,11,1)='1' or                      \n");
-		        	strQuery.append("     substr(b.cm_info,21,1)='1')                        \n");
-		        }else if (prcSys.equals("SYSRC")) {
-		        	strQuery.append("and (substr(b.cm_info,35,1)='1')                        \n");
-		        }else if (prcSys.equals("SYSAR")) {
-		        	strQuery.append("and (substr(b.cm_info,40,1)='1')                        \n");
-		        }else if (prcSys.equals("SYSGB")) {
-		        	strQuery.append("and substr(b.cm_info,25,1)='1'                          \n");
-		        }
-		        strQuery.append("union                                                       \n");
-		        strQuery.append("select count(*) as cnt                                      \n");
-		        strQuery.append("  from cmr1011 a,cmr1010 b                                  \n");
-		        strQuery.append(" where b.cr_acptno=? and b.cr_prcdate is null               \n");
-		        strQuery.append("   and b.cr_acptno=a.cr_acptno                              \n");
-		        strQuery.append("   and b.cr_serno=a.cr_serno                                \n");
-		        strQuery.append("   and instr(?,a.cr_prcsys)>0                               \n");
-		        strQuery.append("   and nvl(a.cr_putcode,'NONE')<>'0000'                     \n");
-		        pstmt = conn.prepareStatement(strQuery.toString());
-				pstmt.setString(1, AcptNo);
-				pstmt.setString(2, AcptNo);
-				pstmt.setString(3, wkPrcSys);
-				rs = pstmt.executeQuery();
-				endSw = true;
-				while (rs.next()) {
-					if (rs.getInt("cnt") > 0) {
-						endSw = false;
-						break;
-					}
-				}
-				rs.close();
-				pstmt.close();
-				*/
-				endSw = false;
 			}
 
-			if (endSw == true) {
+			if (prcCd.equals("Retry")) {  //전체재처리
 				strQuery.setLength(0);
-				strQuery.append("update cmr1010 set cr_pid='',cr_srccmp='Y',cr_putcode=''     \n");
-	            strQuery.append(" where cr_acptno=? and cr_status='0'                         \n");
-	            strQuery.append("   and cr_serno in (select cr_serno from cmr1011             \n");
-	            strQuery.append("                         where cr_acptno=?                   \n");
-	            strQuery.append("                           and cr_prcsys=?                   \n");
-	            strQuery.append("                           and cr_rungbn=?                   \n");
-	            strQuery.append("                           and (nvl(cr_prcrst,'0000')='0000' \n");
-	            strQuery.append("                           or   nvl(cr_prcrst,'RTRY')='RTRY')) \n");
-	            pstmt = conn.prepareStatement(strQuery.toString());
-	            pstmt.setString(1,AcptNo);
-	            pstmt.setString(2,AcptNo);
-	            pstmt.setString(3,prcSys);
-	            pstmt.setString(4,wkRunGbn);
-	            pstmt.executeUpdate();
-		        pstmt.close();
-			}
-			if (prcCd.equals("Retry") && endSw == false) {  //전체재처리
-				strQuery.setLength(0);
-				strQuery.append("delete cmr1011                                          \n");
-				strQuery.append(" where cr_acptno=?                                      \n");
-				strQuery.append("   and (cr_serno in (select cr_serno from cmr1010       \n");
-				strQuery.append("                     where cr_acptno=?                  \n");
-				strQuery.append("                       and cr_prcdate is null           \n");
-				strQuery.append("                       and cr_status='0')               \n");
-				strQuery.append("                 or cr_serno=0)                         \n");
-				strQuery.append("   and instr(?,cr_prcsys)>0                             \n");
+				strQuery.append("delete cmr1011 a                                        \n");
+				strQuery.append(" where a.cr_acptno=?                                    \n");
+				strQuery.append("   and (exists (select 1 from cmr1010                    \n");
+				strQuery.append("                where cr_acptno=a.cr_acptno             \n");
+				strQuery.append("                  and cr_serno=a.cr_serno               \n");
+				strQuery.append("                  and cr_prcdate is null                \n");
+				strQuery.append("                  and cr_status='0')                    \n");
+				strQuery.append("       or a.cr_serno=0)                                 \n");
+				strQuery.append("   and instr(?,a.cr_prcsys)>0                           \n");
 				pstmt = conn.prepareStatement(strQuery.toString());
 				//pstmt = new LoggableStatement(conn,strQuery.toString());
 				pstmt.setString(1, AcptNo);
-				pstmt.setString(2,AcptNo);
-				pstmt.setString(3,wkPrcSys);
+				pstmt.setString(2, wkPrcSys);
 		        //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 		        pstmt.executeUpdate();
 		        pstmt.close();
@@ -1248,74 +1104,80 @@ public class Cmr0250{
 		        //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 		        pstmt.executeUpdate();
 		        pstmt.close();
-			} else if (prcCd.equals("Sttry") && endSw == false) {   //다음단계진행
+			} else if (prcCd.equals("Sttry")) {   //다음단계진행
 				strQuery.setLength(0);
-				strQuery.append("update cmr1010 set cr_pid='',cr_srccmp='Y',cr_putcode=''     \n");
-	            strQuery.append(" where cr_acptno=? and cr_status='0'                         \n");
-	            strQuery.append("   and cr_serno not in (select cr_serno from cmr1011         \n");
-	            strQuery.append("                         where cr_acptno=?                   \n");
-	            strQuery.append("                           and cr_prcsys=?                   \n");
-	            strQuery.append("                           and (nvl(cr_prcrst,'0000')='0000' \n");
-	            strQuery.append("                           or   nvl(cr_prcrst,'RTRY')='RTRY')) \n");
+				strQuery.append("update cmr1010 a                                           \n");
+				strQuery.append("   set a.cr_pid='',a.cr_srccmp='Y',a.cr_putcode=''         \n");
+	            strQuery.append(" where a.cr_acptno=? and a.cr_status='0'                   \n");
+	            strQuery.append("   and not exists (select 1 from cmr1011                   \n");
+	            strQuery.append("                    where cr_acptno=a.cr_acptno            \n");
+	            strQuery.append("                      and cr_serno=a.cr_serno              \n");
+	            strQuery.append("                      and cr_prcsys=?                      \n");
+	            strQuery.append("                      and (nvl(cr_prcrst,'0000')='0000' or \n");
+	            strQuery.append("                           nvl(cr_prcrst,'RTRY')='RTRY'))  \n");
 	            pstmt = conn.prepareStatement(strQuery.toString());
 	            pstmt.setString(1,AcptNo);
-	            pstmt.setString(2,AcptNo);
-	            pstmt.setString(3,prcSys);
+	            pstmt.setString(2,prcSys);
 	            pstmt.executeUpdate();
 		        pstmt.close();
-			} else if (endSw == false) { //오류건재처리
+			} else { //오류건재처리
 				strQuery.setLength(0);
-				strQuery.append("update cmr1010 set cr_pid='',cr_putcode=''                   \n");
-	            strQuery.append(" where cr_acptno=? and cr_status='0'                         \n");
-	            strQuery.append("   and cr_serno not in (select cr_serno from cmr1011         \n");
-	            strQuery.append("                         where cr_acptno=?                   \n");
-	            strQuery.append("                           and cr_prcsys=?                   \n");
-	            strQuery.append("                           and cr_rungbn=?                   \n");
-	            strQuery.append("                           and (nvl(cr_prcrst,'0000')='0000' \n");
-	            strQuery.append("                           or   nvl(cr_prcrst,'RTRY')='RTRY')) \n");
+				strQuery.append("update cmr1010 a                                           \n");
+				strQuery.append("   set a.cr_pid='',a.cr_putcode=''                         \n");
+	            strQuery.append(" where a.cr_acptno=? and a.cr_status='0'                   \n");
+	            strQuery.append("   and not exists (select 1 from cmr1011                   \n");
+	            strQuery.append("                    where cr_acptno=a.cr_acptno            \n");
+	            strQuery.append("                      and cr_serno=a.cr_serno              \n");
+	            strQuery.append("                      and cr_prcsys=?                      \n");
+	            strQuery.append("                      and cr_rungbn=?                      \n");
+	            strQuery.append("                      and (nvl(cr_prcrst,'0000')='0000' or \n");
+	            strQuery.append("                           nvl(cr_prcrst,'RTRY')='RTRY'))  \n");
 	            pstmt = conn.prepareStatement(strQuery.toString());
 	           // pstmt = new LoggableStatement(conn,strQuery.toString());
 	            pstmt.setString(1,AcptNo);
-	            pstmt.setString(2,AcptNo);
-	            pstmt.setString(3,prcSys);
-	            pstmt.setString(4,wkRunGbn);
+	            pstmt.setString(2,prcSys);
+	            pstmt.setString(3,wkRunGbn);
 	            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	            pstmt.executeUpdate();
 		        pstmt.close();
 
 
 				strQuery.setLength(0);
-				strQuery.append("update cmr1010 set cr_pid='',cr_putcode=''                   \n");
-	            strQuery.append(" where cr_acptno=? and cr_status='0'                         \n");
-	            strQuery.append("   and cr_serno in (select cr_serno from cmr1011         \n");
-	            strQuery.append("                         where cr_acptno=?                   \n");
-	            strQuery.append("                           and cr_prcsys=?                   \n");
-	            strQuery.append("                           and cr_rungbn=?                   \n");
-	            strQuery.append("                           and nvl(cr_prcrst,'WAIT')<>'0000') \n");
+				strQuery.append("update cmr1010 a                                     \n");
+				strQuery.append("   set a.cr_pid='',a.cr_putcode=''                   \n");
+	            strQuery.append(" where a.cr_acptno=? anda.cr_status='0'              \n");
+	            strQuery.append("   and exists (select 1 from cmr1011                 \n");
+	            strQuery.append("                where cr_acptno=a.cr_acptno          \n");
+	            strQuery.append("                  and cr_serno=a.cr_serno            \n");
+	            strQuery.append("                  and cr_prcsys=?                    \n");
+	            strQuery.append("                  and cr_rungbn=?                    \n");
+	            strQuery.append("                  and nvl(cr_prcrst,'WAIT')<>'0000') \n");
 	            pstmt = conn.prepareStatement(strQuery.toString());
 	           // pstmt = new LoggableStatement(conn,strQuery.toString());
 	            pstmt.setString(1,AcptNo);
-	            pstmt.setString(2,AcptNo);
-	            pstmt.setString(3,prcSys);
-	            pstmt.setString(4,wkRunGbn);
+	            pstmt.setString(2,prcSys);
+	            pstmt.setString(3,wkRunGbn);
 	            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 	            pstmt.executeUpdate();
 		        pstmt.close();
 
 
 				strQuery.setLength(0);
-				strQuery.append("delete cmr1011                                             \n");
-				strQuery.append(" where cr_acptno=?                                         \n");
-				strQuery.append("   and cr_serno in (select cr_serno from cmr1010           \n");
-				strQuery.append("                     where cr_acptno=?                     \n");
-				strQuery.append("                       and cr_prcdate is null              \n");
-				strQuery.append("                       and cr_status='0')                  \n");
-				strQuery.append("   and cr_prcsys=? and nvl(cr_putcode,'NONE')<>'0000'      \n");
+				strQuery.append("delete cmr1011 a                             \n");
+				strQuery.append(" where a.cr_acptno=?                         \n");
+				strQuery.append("   and exists (select 1 from cmr1010         \n");
+				strQuery.append("                where cr_acptno=a.cr_acptno  \n");
+	            strQuery.append("                  and cr_serno=a.cr_serno    \n");
+				strQuery.append("                  and cr_prcdate is null     \n");
+				strQuery.append("                  and cr_status='0')         \n");
+				strQuery.append("   and cr_prcsys=?                           \n");
+				strQuery.append("   and nvl(cr_putcode,'NONE')<>'0000'        \n");
+				strQuery.append("   and cr_rungbn=?                           \n");
 		        pstmt = conn.prepareStatement(strQuery.toString());
 				//pstmt = new LoggableStatement(conn,strQuery.toString());
 				pstmt.setString(1, AcptNo);
-				pstmt.setString(2,AcptNo);
-				pstmt.setString(3,prcSys);
+				pstmt.setString(2, prcSys);
+	            pstmt.setString(3, wkRunGbn);
 		        //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 		        pstmt.executeUpdate();
 		        pstmt.close();
@@ -1330,7 +1192,7 @@ public class Cmr0250{
 	        pstmt.executeUpdate();
 	        pstmt.close();
 
-	        if ((prcSys.equals("SYSUA") || prcSys.equals("SYSGB")) && prcCd.equals("Retry")) {
+	        if ("SYSGB".equals(prcSys) && "Retry".equals(prcCd)) {
 	        	strQuery.setLength(0);
 	        	strQuery.append("update cmr9900  set                             \n");
 	        	strQuery.append("  (cr_team,cr_confname,cr_sgngbn,cr_confusr)    \n");
@@ -1344,8 +1206,7 @@ public class Cmr0250{
 	        	pstmt = conn.prepareStatement(strQuery.toString());
 				//pstmt = new LoggableStatement(conn,strQuery.toString());
 				pstmt.setString(1,AcptNo);
-				if (wkPrcSys.indexOf("SYSUA")>=0) pstmt.setString(2, "SYSUA");
-				else pstmt.setString(2, "SYSCB");
+				pstmt.setString(2, "SYSCB");
 				pstmt.setString(3,AcptNo);
 		        //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 		        pstmt.executeUpdate();

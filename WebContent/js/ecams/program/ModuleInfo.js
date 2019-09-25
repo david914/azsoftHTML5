@@ -14,82 +14,22 @@ var adminYN 	= window.top.adminYN;		// 관리자여부
 var userDeptName= window.top.userDeptName;	// 부서명
 var userDeptCd 	= window.top.userDeptCd;	// 부서코드
 
-var prgGrid		= new ax5.ui.grid();
-var modGrid		= new ax5.ui.grid();
 var modListGrid	= new ax5.ui.grid();
+var moduleInfoModal = new ax5.ui.modal();
 
-var prgGridData 	= [];
-var fPrgGridData 	= [];
-var modGridData	 	= [];
-var fModGridData	= [];
 var modListGridData	= [];
 
 var cboSysCdData	= [];
 var cboRsrcData		= [];
 
-prgGrid.setConfig({
-    target: $('[data-ax5grid="prgGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: true,
-    header: {
-        align: "center",
-    },
-    body: {
-        onClick: function () {
-            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	dblClickDirGrid(this.dindex);
-        },
-        trStyleClass: function () {
-    		if(this.item.status === 'ER'){
-    			return "text-danger";
-    		}
-    	},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cr_rsrcname", 	label: "프로그램명",  		width: '25%', align: "left"},
-        {key: "jawon",			label: "프로그램종류",  	width: '15%', align: "left"},
-        {key: "cm_dirpath", 	label: "프로그램경로",  	width: '40%', align: "left"},
-        {key: "cr_lstver", 		label: "버전",  			width: '10%'},
-    ]
-});
+var sysCD           = '';
+var screenWidth = 0;
+var screenHeight = 0;
 
-modGrid.setConfig({
-    target: $('[data-ax5grid="modGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: true,
-    header: {
-        align: "center",
-    },
-    body: {
-        onClick: function () {
-            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	dblClickDirGrid(this.dindex);
-        },
-        trStyleClass: function () {
-    		if(this.item.status === 'ER'){
-    			return "text-danger";
-    		}
-    	},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cr_rsrcname", 	label: "프로그램명",  		width: '25%', align: "left"},
-        {key: "jawon",			label: "프로그램종류",  	width: '15%', align: "left"},
-        {key: "cm_dirpath", 	label: "프로그램경로",  	width: '40%', align: "left"},
-        {key: "cr_lstver", 		label: "버전",  			width: '10%'},
-    ]
-});
+$(window).resize(function(){
+	screenHeight = $("#iFrm", parent.document).width();
+	screenWidth = $("#iFrm", parent.document).height();
+ });
 
 modListGrid.setConfig({
 	target: $('[data-ax5grid="modListGrid"]'),
@@ -116,12 +56,12 @@ modListGrid.setConfig({
 		}
 	},
 	columns: [
-		{key: "cr_rsrcname", 	label: "프로그램명",  		width: '10%', align: "left"},
+		{key: "cr_rsrcname", 	label: "프로그램명",  		width: '20%', align: "left"},
 		{key: "jawon",			label: "프로그램종류",  	width: '10%', align: "left"},
-		{key: "cm_dirpath", 	label: "프로그램경로",  	width: '30%', align: "left"},
-		{key: "cr_rsrcname2", 	label: "맵핑프로그램명",  	width: '10%', align: "left"},
+		{key: "cm_dirpath", 	label: "프로그램경로",  	width: '20%', align: "left"},
+		{key: "cr_rsrcname2", 	label: "맵핑프로그램명",  	width: '20%', align: "left"},
 		{key: "jawon2", 		label: "맵핑프로그램종류",  width: '10%', align: "left"},
-		{key: "cm_dirpath2", 	label: "맵핑프로그램경로",  	width: '30%', align: "left"},
+		{key: "cm_dirpath2", 	label: "맵핑프로그램경로",  	width: '20%', align: "left"},
 		]
 });
 $('[data-ax5select="cboSysCd"]').ax5select({
@@ -132,69 +72,40 @@ $('[data-ax5select="cboRsrc"]').ax5select({
 	options: []
 });
 
-$('input.checkbox-module').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 $('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 
 $(document).ready(function() {
+	//userId = 'cishappy';
+
+	screenWidth = $("#iFrm", parent.document).width();
+	screenHeight = $("#iFrm", parent.document).height();
+	
 	$('#optPrg').wRadio('check', true);
 	getSysInfo();
 	
 	$('#cboSysCd').bind('change', function() {
 		if(getSelectedIndex('cboSysCd') < 1) {
+			modListGridData	= [];
+			modListGrid.setData([]);
+			cboRsrcData = [];
+			$('[data-ax5select="cboRsrc"]').ax5select({
+		        options: []
+			});
 			return;
 		}
 		getRsrcList();
 		getRelatList();
 	});
 	
-	$('#cboRsrc').bind('change', function() {
-		if(getSelectedIndex('cboRsrc') < 1) {
-			dialog.alert('프로그램종류를 선택하여 주시기 바랍니다.', function() {});
-			return;
-		}
-		
-		$('#btnQryPrg').trigger('click');
-		$('#btnQryMod').trigger('click');
-	});
-	
 	// 전체, 프로그램명, 맵핑프로그램명 클릭(라디오버튼)
 	$('input:radio[name^="radio"]').bind('click', function() {
 		
 	});
-	// 프로그램목록 미연결건 클릭
-	$('#chkNoPrg').bind('click', function() {
-		progFilter();
-	});
-	// 맵핑프로그램목록 미연결건 클릭
-	$('#chkNoMod').bind('click', function() {
-		modFilter();
-	});
-	// 프로그램 목록 엔터
-	$('#txtPrg').bind('keypress', function(event) {
-		if(event.keyCode === 13) {
-			$('#btnQryPrg').trigger('click');
-		}
-	});
-	// 맵핑 프로그램 목록 엔터
-	$('#txtMod').bind('keypress', function(event) {
-		if(event.keyCode === 13) {
-			$('#btnQryMod').trigger('click');
-		}
-	});
 	// 맵핑 리스트 엔터
-	$('#txtModList').bind('keypress', function(event) {
+	$('#txtRsrcName').bind('keypress', function(event) {
 		if(event.keyCode === 13) {
 			$('#btnQry').trigger('click');
 		}
-	});
-	
-	// 프로그램 목록 검색
-	$('#btnQryPrg').bind('click', function() {
-		getProgList();
-	});
-	// 맵핑 프로그램 검색
-	$('#btnQryMod').bind('click', function() {
-		getModList();
 	});
 	// 맵핑 리스트 검색
 	$('#btnQry').bind('click', function() {
@@ -212,8 +123,7 @@ $(document).ready(function() {
 	// 폐기
 	$('#btnDel').bind('click', function() {
 		delRelat();
-	});
-	
+	});	
 });
 
 // 폐기
@@ -256,162 +166,7 @@ function successDelRelat(data) {
 		dialog.alert('프로그램과 맵핑프로그램의 연결해제처리에 실패하였습니다.', function(){});
 	}
 	
-	$('#btnQryPrg').trigger('click');
-	$('#btnQryMod').trigger('click');
 	$('#btnQry').trigger('click');
-}
-
-// 등록
-function updtRelat() {
-	var selInPrg = prgGrid.selectedDataIndexs;
-	var selInMod = modGrid.selectedDataIndexs;
-	var progList = [];
-	if(getSelectedIndex('cboSysCd') < 1) {
-		dialog.alert('시스템을 선택하여 주십시오.', function() {});
-		return;
-	}
-	
-	if(selInPrg.length === 0 ){
-		dialog.alert('선택된 프로그램목로기 없습ㅂ니다. 프로그램을 선택한 후 처리하십시오.', function() {});
-		return;
-	}
-	
-	if(selInMod.length === 0 ){
-		dialog.alert('선택된 맵핑프로그램목록이 없습니다. 맵핑프로그램을 선택한 후 처리하십시오.', function() {});
-		return;
-	}
-	
-	selInPrg.forEach(function(selInP, index) {
-		selInMod.forEach(function(selInM, index) {
-			var prgItem = prgGrid.list[selInP];
-			var modItem = modGrid.list[selInM];
-			var tmpItem = new Object();
-			tmpItem.cr_itemid 	= prgItem.cr_itemid;
-			tmpItem.cr_prcitem 	= modItem.cr_itemid;
-			tmpItem.check 		= 'true';
-			progList.push(tmpItem);
-			tmpItem = null;
-			prgItem = null;
-			modItem = null;
-		});
-	});
-	
-	var data = new Object();
-	data = {
-		UserId 		: userId,
-		SysCd 		: getSelectedVal('cboSysCd').value,
-		progList 	: progList,
-		requestType	: 'updtRelat'
-	}
-	ajaxAsync('/webPage/program/ModuleInfo', data, 'json',successUpdtRelat);
-}
-// 등록 완료
-function successUpdtRelat(data) {
-	if(data === '0' ) {
-		dialog.alert('프로그램과 맵핑프로그램의 연결등록을 완료하였습니다.', function(){});
-	} else {
-		dialog.alert('프로그램과 맵핑프로그램의  연결등록처리에 실패하였습니다.', function(){});
-	}
-	
-	$('#btnQryPrg').trigger('click');
-	$('#btnQryMod').trigger('click');
-	$('#btnQry').trigger('click');
-}
-
-// 모듈 미연결건 필터
-function modFilter() {
-	var checkSw = $('#chkNoMod').is(':checked');
-	fModGridData = [];
-	if(checkSw) {
-		modGridData.forEach(function(item, index) {
-			if(item.srccnt === '0') {
-				fModGridData.push(item);
-			}
-		});
-	} else {
-		fModGridData = modGridData;
-	}
-	
-	modGrid.setData(fModGridData);
-}
-
-// 프로그램 미연결건 필터
-function progFilter() {
-	var checkSw = $('#chkNoPrg').is(':checked');
-	fPrgGridData = [];
-	
-	if(checkSw) {
-		prgGridData.forEach(function(item, index) {
-			if(item.modcnt === '0') {
-				fPrgGridData.push(item);
-			}
-		});
-	} else {
-		fPrgGridData = prgGridData;
-	}
-	
-	prgGrid.setData(fPrgGridData);
-}
-
-// 프로그램 목록 가져오기
-function getProgList() {
-	
-	if(getSelectedIndex('cboSysCd') < 1) {
-		dialog.alert('시스템을 선택하여 주십시오.', function() {});
-		return;
-	}
-	
-	if(getSelectedIndex('cboRsrc') < 1) {
-		dialog.alert('프로그램 종류를 선택하여 주십시오.', function() {});
-		return;
-	}
-	
-	var data = new Object();
-	data = {
-		UserId 		: userId,
-		SysCd 		: getSelectedVal('cboSysCd').value,
-		ProgId 		: $('#txtPrg').val().trim(),
-		subSw 		: false,
-		rsrcCd 		: getSelectedVal('cboRsrc').value,
-		requestType	: 'getProgList'
-	}
-	ajaxAsync('/webPage/program/ModuleInfo', data, 'json',successGetProgList);
-}
-
-// 모듈 목록 가져오기
-function getModList() {
-	
-	if(getSelectedIndex('cboSysCd') < 1) {
-		dialog.alert('시스템을 선택하여 주십시오.', function() {});
-		return;
-	}
-	
-	if(getSelectedIndex('cboRsrc') < 1) {
-		dialog.alert('프로그램 종류를 선택하여 주십시오.', function() {});
-		return;
-	}
-	
-	var data = new Object();
-	data = {
-		UserId 		: userId,
-		SysCd 		: getSelectedVal('cboSysCd').value,
-		ProgId 		: $('#txtMod').val().trim(),
-		subSw 		: false,
-		rsrcCd 		: getSelectedVal('cboRsrc').samersrc,
-		requestType	: 'getModList'
-	}
-	ajaxAsync('/webPage/program/ModuleInfo', data, 'json',successGetModList);
-}
-// 모듈 목록 가져오기 완료
-function successGetModList(data) {
-	modGridData = data;
-	modFilter();
-}
-
-// 프로그램 목록 가져오기 완료
-function successGetProgList(data) {
-	prgGridData =data;
-	progFilter();
 }
 
 // 맵핑연결 리스트 가져오기
@@ -422,11 +177,14 @@ function getRelatList() {
 				: $('#optMod').is(':checked') ? 'A' : '';
 	
 	var data = new Object();
+	var rsrcCD = "";
+	if (cboRsrcData != null && cboRsrcData.length > 0) rsrcCD = getSelectedVal('cboRsrc').value;
 	data = {
 		UserId 		: userId,
 		SysCd 		: getSelectedVal('cboSysCd').value,
+		RsrcCd 		: rsrcCD,
 		GbnCd 		: GbnCd,
-		ProgId 		: $('#txtModList').val().trim(),
+		ProgId 		: $('#txtRsrcName').val().trim(),
 		subSw 		: false,
 		requestType	: 'getRelatList'
 	}
@@ -460,10 +218,7 @@ function successGetRsrcList(data) {
       options: injectCboDataToArr(cboRsrcData, 'cm_micode' , 'cm_codename')
 	});
 	
-	if(cboSysCdData.length === 2) {
-		$('[data-ax5select="cboRsrc"]').ax5select('setValue', cboRsrcData[1].cm_micode, true);
-		$('#cboRsrc').trigger('change');
-	}
+	$('[data-ax5select="cboRsrc"]').ax5select('setValue', 	'0000', 	true); 	// 프로그램유형 초기화
 }
 
 //시스템 콤보 가져오기
@@ -488,5 +243,44 @@ function successGetSysInfo(data) {
 	$('[data-ax5select="cboSysCd"]').ax5select({
       options: injectCboDataToArr(cboSysCdData, 'cm_syscd' , 'cm_sysmsg')
 	});
+	
+	var sysSelectIndex = 0;
+	if(cboSysCdData.length == 2) sysSelectIndex = 1;
+	else sysSelectIndex = 0;
+	var selectVal = $('select[name=cboSysCd] option:eq('+sysSelectIndex+')').val();
+	$('[data-ax5select="cboSysCd"]').ax5select('setValue',selectVal,true);
+	$('#cboSysCd').trigger('change');
 }
+//등록
+function updtRelat() {
 
+	if(getSelectedIndex('cboSysCd') < 1) {
+		dialog.alert('시스템을 선택하여 주십시오.', function() {});
+		return;
+	}
+	
+	sysCD = getSelectedVal('cboSysCd').value;
+	
+	var tmpWidth = screenWidth * 0.9; 
+	var tmpHeight = screenHeight * 0.9; 
+	//console.log(tmpWidth+', '+tmpHeight);
+	
+	moduleInfoModal.open({
+        width: tmpWidth,
+        height: tmpHeight,
+        iframe: {
+            method: "get",
+            url: "../modal/moduleinfo/ModuleInfoModal.jsp",
+            param: "callBack=modalCallBack"
+	    },
+        onStateChanged: function () {
+            if (this.state === "open") {
+                mask.open();
+            }
+            else if (this.state === "close") {
+                mask.close();
+            }
+        }
+	});
+	
+}

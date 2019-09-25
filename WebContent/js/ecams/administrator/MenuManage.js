@@ -198,7 +198,6 @@ function cbo_selMenu_click(){
 			
 			if($('[data-ax5select="Cbo_selMenu"]').ax5select("getValue")[0].text === "상위메뉴"){
 				resultData = getMenuList("LOW");
-				
 				$('#tmpTest2 *').remove();
 				$.each(resultData,function(key,value) {
 					var option = $("<li class='dd-item' data-id="+value.cm_menucd+"><div class='dd-handle'>"+value.cm_maname+"</div></li>");

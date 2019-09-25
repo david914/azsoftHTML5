@@ -42,7 +42,7 @@
             <label class="tit_80 poa margin-5-left">Agent경로</label>
             <div class="ml_80 por">
             	<input id="txtAgent" type="text" class="dib" style="width:calc(100% - 100px);"> 
-            	<label class="margin-5-left tar"><input type="checkbox" />장애</label>
+            	<label class="margin-5-left tar"><input type="checkbox" id="chkStop"/>장애</label>
             </div>
 		</div>
 	</div>	

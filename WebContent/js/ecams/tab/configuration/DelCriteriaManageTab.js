@@ -120,8 +120,9 @@ function successInsertDelCycle(data) {
 
 // 폐기
 function deleteDelCycle() {
-	if(getSelectedIndex('cboPathDiv') < 1) {
-		dialog.alert('디렉토리구분을 선택하여 주십시오.', function() {});
+	var selIn = delCycleGrid.selectedDataIndexs;
+	if(selIn.length === 0 ) {
+		dialog.alert('폐기 대상을 선택해 주시기 바랍니다.');
 		return;
 	}
 	
@@ -161,6 +162,8 @@ function getDelCycleList() {
 function successGetDelCycleList(data) {
 	delCycleGridData = data;
 	delCycleGrid.setData(delCycleGridData);
+	//그리드 정렬
+	delCycleGrid.setColumnSort({cm_codename:{seq:0, orderBy:"asc"}});
 }
 
 //시간구분가져오기
