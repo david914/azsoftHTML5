@@ -58,17 +58,16 @@ signUpGrid.setConfig({
     	}
     },
     columns: [
-        {key: "CM_USERID", 		label: "*사용자ID",  	width: '8%'},
-        {key: "CM_USERNAME",	label: "*이름",  		width: '7%'},
-        {key: "CM_UPPERPROJECT",label: "*본부명",  	width: '9%'},
-        {key: "CM_PROJECT", 	label: "*부서명",  	width: '9%'},
-        {key: "CM_POSITION", 	label: "*직위명",  	width: '7%'},
-        {key: "CM_CODENAME", 	label: "직무명",  	width: '9%'},
+        {key: "CM_USERID", 		label: "*사원번호",  	width: '8%'},
+        {key: "CM_USERNAME",	label: "*성명",  		width: '7%'},
+        {key: "CM_PROJECT", 	label: "*소속조직",  	width: '9%'},
+        {key: "CM_POSITION", 	label: "*직급",  	width: '7%'},
+        {key: "CM_DUTY",     	label: "직위",  	width: '9%'},
         {key: "CM_SYSCD", 		label: "시스템명",  	width: '15%'},
         {key: "CM_JOBNAME", 	label: "업무명",  	width: '15%'},
         {key: "CM_EMAIL", 		label: "이메일주소",  	width: '10%'},
-        {key: "CM_TELNO1", 		label: "전화번호",  	width: '8%'},
-        {key: "CM_TELNO2", 		label: "핸드폰번호",  	width: '8%'},
+        {key: "CM_TELNO1", 		label: "전화번호1",  	width: '8%'},
+        {key: "CM_TELNO2", 		label: "*전화번호2",  	width: '8%'},
     ]
 });
 
@@ -229,10 +228,9 @@ function onUploadCompleteData(filePath){
 	
 	headerDef.push("CM_USERID");
 	headerDef.push("CM_USERNAME");
-	headerDef.push("CM_UPPERPROJECT");
 	headerDef.push("CM_PROJECT");
 	headerDef.push("CM_POSITION");
-	headerDef.push("CM_CODENAME");
+	headerDef.push("CM_DUTY");
 	headerDef.push("CM_SYSCD");
 	headerDef.push("CM_JOBNAME");
 	headerDef.push("CM_EMAIL");
