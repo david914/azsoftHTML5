@@ -271,8 +271,8 @@
 							<div class="r_wrap width-50">
 								<div class="l_wrap width-95">
 									<div class="dd scrollBind row" id="nestable" style="overflow-y:auto; height:119px;">
-										<!-- <ol id="tmpTest2" class="dd-list">
-										</ol> -->
+										<ol id="tmpTest2" class="dd-list">
+										</ol>
 									</div>										
 								</div>
 							</div>
