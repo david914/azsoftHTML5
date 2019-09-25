@@ -19,7 +19,7 @@ import app.common.CodeInfo;
 import app.common.SysInfo;
 import app.common.TeamInfo;
 import app.common.UserInfo;
-import app.eCmr.Cmr0150;
+import app.eCmr.Cmr0250;
 import app.eCmr.Cmr3100;
 import app.eCmr.Cmr3200;
 import html.app.common.ParsingCommon;
@@ -34,7 +34,7 @@ public class RequestStatus extends HttpServlet {
 	TeamInfo teaminfo = new TeamInfo();
 	Cmr3200 cmr3200 = new Cmr3200();
 	Cmr3100 cmr3100 = new Cmr3100();
-	Cmr0150 cmr0150 = new Cmr0150();
+	Cmr0250 cmr0250 = new Cmr0250();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -154,6 +154,8 @@ public class RequestStatus extends HttpServlet {
 		prcCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "prcCd") );
 		String prcSys = null;
 		prcSys = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "prcSys") );
-		return gson.toJson( cmr0150.svrProc(AcptNo, prcCd, prcSys));
+		String userId = null;
+		userId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		return gson.toJson( cmr0250.svrProc(AcptNo, prcCd, prcSys,userId));
 	}
 }
