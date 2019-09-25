@@ -141,7 +141,7 @@
 						</div>
 					</div>
 		            <div class="sm-row" style="margin-top:10px;">
-						<label class="tit_80 poa">당당업무</label>
+						<label class="tit_80 poa">담당업무</label>
 		              	<div class="ml_100 margin-5-right">
 							<div data-ax5grid="jobGrid" class="width-100" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 300px;"></div>	
 						</div>
