@@ -21,6 +21,7 @@ var ajaxReturnData = null;
 var options 	   = [];
 
 var acptNo		   = ""; //롤백신청번호
+var ingSw          = false;
 
 var confirmInfoData= new Object();
 
@@ -109,7 +110,7 @@ firstGrid.setConfig({
         	this.self.select(this.dindex);
         	
         	//secondGrid조회 액션
-        	getFileList();
+        	if (!ingSw) getFileList();
         },
         onDBLClick: function () {},
     	trStyleClass: function () {},
@@ -281,6 +282,8 @@ function successGetBefList(data) {
 }
 //신청프로그램목록 조회
 function getFileList() {
+	ingSw = true;
+	
 	secondGrid.setData([]);
 	
 	data =  new Object();
@@ -294,7 +297,7 @@ function getFileList() {
 //신청프로그램목록조회 완료
 function successGetBefReq_Prog(data){
 	var secondGridList = new Array;
-	
+	ingSw = false;
 	$(data).each(function(j){		
 		if (data[j].baseitem == data[j].cr_itemid && data[j].selected_flag == '0') {
 			data[j].__disable_selection__ = false;
