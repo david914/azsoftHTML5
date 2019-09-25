@@ -352,6 +352,11 @@ function successGetRsrcList(data) {
 	$('[data-ax5select="cboRsrc"]').ax5select({
       options: injectCboDataToArr(cboRsrcData, 'cm_micode' , 'cm_codename')
 	});
+	
+	if(cboRsrcData.length === 2) {
+		$('[data-ax5select="cboRsrc"]').ax5select('setValue', cboRsrcData[1].cm_micode, true);
+		$('#cboRsrc').trigger('change');
+	}
 }
 
 //시스템 콤보 가져오기

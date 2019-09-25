@@ -663,6 +663,13 @@ public class Cmm0500{
 
 			int X=0;
 		    if (Cbo_selMenu.equals("상위메뉴")){
+		    	strQuery.setLength(0);
+		    	strQuery.append("update cmm0081 set cm_befmenu=999 ");
+		    	strQuery.append("where cm_befmenu=0 ");
+	    		pstmt = conn.prepareStatement(strQuery.toString());
+	    		pstmt.executeUpdate();
+	    		pstmt.close();
+		    	
 		    	for (X=0 ; X<Lst_DevStep.size() ; X++){
 		    		strQuery.setLength(0);
 		    		strQuery.append("update cmm0081 set cm_order=?, ");
