@@ -63,7 +63,6 @@ $('input.checkbox-dir').wCheck({theme: 'square-classic blue', selector: 'checkma
 $(document).ready(function() {
 	getSysInfo();
 	
-	
 	// 디렉토리 엔터시 조회
 	$('#txtPath').bind('keypress', function(event) {
 		if(event.keyCode === 13) {
