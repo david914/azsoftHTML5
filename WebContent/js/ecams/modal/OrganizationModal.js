@@ -179,6 +179,10 @@ function addMenu() {
         msg: '선택한 조직과 동일한 레벨의 조직생성'
     }, function () {
         if(this.key === 'ok') {
+        	if(this.input.value == "" || this.input.value == null){
+        		dialog.alert('조직명을 입력하여 주십시오', function() {});
+				return;
+        	}
         	var dataObj = new Object();
         	dataObj.DeptUpCd = selectedNode.pId === undefined ? null : selectedNode.pId;
         	dataObj.DeptName = this.input.value;
@@ -219,6 +223,10 @@ function addSubMenu() {
         msg: '선택한 조직의 하위레벨의 조직생성'
     }, function () {
         if(this.key === 'ok') {
+        	if(this.input.value == "" || this.input.value == null){
+        		dialog.alert('조직명을 입력하여 주십시오', function() {});
+				return;
+        	}
         	var dataObj = new Object();
         	dataObj.DeptUpCd 	= selectedNode.id === undefined ? null : selectedNode.id;
         	dataObj.DeptName 	= this.input.value;
@@ -255,9 +263,13 @@ function delMenu() {
 	
 	var confirmMsg = '';
 	confirmMsg += '['+selectedNode.name+'] 해당 조직을 삭제 하시겠습니까?';
-	confirmMsg += childSw ? '\n또한 하위조직이 존재하여 하위조직까지 모두 삭제됩니다. 삭제처리할까요?':'';
+	
+	if(childSw){
+		confirmMsg = confirmMsg + '\n또한 하위조직이 존재하여 하위조직까지 모두 삭제됩니다. 삭제처리할까요?'; 
+	}
 	
 	confirmDialog.confirm({
+		title: "조직삭제",
 		msg: confirmMsg,
 	}, function(){
 		if(this.key === 'ok') {
