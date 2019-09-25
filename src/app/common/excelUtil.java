@@ -95,10 +95,9 @@ public class excelUtil {
 			for (rowIdx = firstRow; rowIdx <= lastRow; rowIdx++) {
 				//행을 표시하는 오브젝트의 취득
 				row = sheet.getRow(rowIdx);
-
+				
 				// 행에 데이터가 없는 경우
-				if (row == null) break;
-
+//				if (row == null) break;
 
 				// 행에서 첫셀과 마지막 셀의 인덱스를 취득
 				firstCell = row.getFirstCellNum();
@@ -126,7 +125,8 @@ public class excelUtil {
 					cell = row.getCell(cellIdx);
 
 					// 빈 셀인 경우
-					if (cell == null) break;
+					// break 하게되면 비어있는 공간이 있는 경우 다음것도 안들어감 
+					if (cell == null) continue;
 
 					//cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 					// 셀에 있는 데이터의 종류를 취득
