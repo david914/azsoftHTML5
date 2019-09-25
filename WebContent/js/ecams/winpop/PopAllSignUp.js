@@ -60,6 +60,7 @@ signUpGrid.setConfig({
     columns: [
         {key: "CM_USERID", 		label: "*사원번호",  	width: '8%'},
         {key: "CM_USERNAME",	label: "*성명",  		width: '7%'},
+        {key: "CM_UPPERPROJECT", label: "*상위조직",  	width: '9%'},
         {key: "CM_PROJECT", 	label: "*소속조직",  	width: '9%'},
         {key: "CM_POSITION", 	label: "*직급",  	width: '7%'},
         {key: "CM_DUTY",     	label: "직위",  	width: '9%'},
@@ -137,15 +138,31 @@ function saveDb() {
 		if(data.CM_USERID)
 			
 		if(data.CM_USERID === null || data.CM_USERID === ''){
-			dialog.alert('ID를 입력하세요.', function() {});
+			dialog.alert('사원번호를 입력하세요.', function() {});
 			return;
 		}
 		if(data.CM_USERNAME === null || data.CM_USERNAME === ''){
-			dialog.alert('이름을 입력하세요.', function() {});
+			dialog.alert('성명을 입력하세요.', function() {});
+			return;
+		}
+		if(data.CM_UPPERPROJECT === null || data.CM_UPPERPROJECT === ''){
+			dialog.alert('상위조직을 입력하세요.', function() {});
+			return;
+		}
+		if(data.CM_PROJECT === null || data.CM_PROJECT === ''){
+			dialog.alert('소속조직을 입력하세요.', function() {});
 			return;
 		}
 		if(data.CM_POSITION === null || data.CM_POSITION === ''){
+			dialog.alert('직급을 입력하세요.', function() {});
+			return;
+		}
+		if(data.CM_DUTY === null || data.CM_DUTY === ''){
 			dialog.alert('직위를 입력하세요.', function() {});
+			return;
+		}
+		if(data.CM_TELNO2 === null || data.CM_TELNO2 === ''){
+			dialog.alert('전화번호를 입력하세요.', function() {});
 			return;
 		}
 	}
@@ -228,6 +245,7 @@ function onUploadCompleteData(filePath){
 	
 	headerDef.push("CM_USERID");
 	headerDef.push("CM_USERNAME");
+	headerDef.push("CM_UPPERPROJECT");
 	headerDef.push("CM_PROJECT");
 	headerDef.push("CM_POSITION");
 	headerDef.push("CM_DUTY");
