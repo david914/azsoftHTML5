@@ -390,7 +390,7 @@ function successSvrInfo(data) {
 	
    	$.fn.zTree.init($("#treeDir"), treeSetting, []); //초기화
 	
-	if(selOptions.length > 0) {
+	if(cboSvrData.length > 0) {
 		$('[data-ax5select="cboSvr"]').ax5select('setValue',selOptions[0].value,true); //value값으로
 		cboSvr_click();
 	}
