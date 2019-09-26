@@ -216,23 +216,24 @@ function fileUpload(){
 	        	setProgress(percent);
         	};
         	return xhr;
-        	}
-    }).done(function(response){
-    	onUploadCompleteData(response);
-    	
-    }).fail(function(xhr,status,errorThrown){
-    	dialog.alert('<div>오류가 발생했습니다.</div><div>재전송 버튼을 눌러 다시 등록해주시기 바랍니다.</div>',function(){});
-    	$("#percent").width(0+"%");
-    	$("#percentText").text(0+"%");
-		$("#btnReq").prop("disabled", false);
-    	return;
+        },
+        success : function(data){
+        	onUploadCompleteData(firstGridData);
+        },
+        error : function(){
+        	dialog.alert('<div>오류가 발생했습니다.</div><div>재전송 버튼을 눌러 다시 등록해주시기 바랍니다.</div>',function(){});
+        	$("#percent").width(0+"%");
+        	$("#percentText").text(0+"%");
+    		$("#btnReq").prop("disabled", false);
+        	return;
+        }
     });
     	
 }
 
-function onUploadCompleteData(response){
+function onUploadCompleteData(firstGridDataTmp){
 	var ajaxResultData = "";
-	var dbFileData = clone(firstGridData);
+	var dbFileData = firstGridDataTmp;
 	var cmdData = new Object();
 	var dirpath = replaceAllString(response,'\\','');
 	cmdData.txtcmd 	= dirpath.trim();

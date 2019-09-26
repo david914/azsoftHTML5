@@ -22,7 +22,7 @@ grdReqDoc.setConfig({
         	this.self.select(this.dindex);
         	if (this.colIndex == 1) {
         		//location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+'\\'+this.item.savename;
-        		location.href = '/webPage/fileupload/upload?fullPath='+fileHomePath+'/'+this.item.savename+'&fileName='+this.item.orgname;
+        		location.href = '/webPage/fileupload/upload?fullPath='+fileHomePath+'/'+this.item.savename+'&fileName='+encodeURI(this.item.orgname);
         	}
         },
         onDBLClick: function () {
@@ -33,7 +33,7 @@ grdReqDoc.setConfig({
 	       	
 	       	//문서열기
 			//location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+'\\'+this.item.savename;
-    		location.href = '/webPage/fileupload/upload?fullPath='+fileHomePath+'/'+this.item.savename+'&fileName='+this.item.orgname;
+    		location.href = '/webPage/fileupload/upload?fullPath='+fileHomePath+'/'+this.item.savename+'&fileName='+encodeURI(this.item.orgname);
         },
     	onDataChanged: function(){
     	    this.self.repaint();
