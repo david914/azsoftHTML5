@@ -1545,6 +1545,10 @@ public class Cmr0200{
 				strQuery.append("and (upper(a.cr_rsrcname) like upper(?) or                      \n");
 				strQuery.append("     upper(a.cr_story) like upper(?) )                          \n");
 			}
+			if (!"99".equals(etcData.get("ReqCd"))){
+				if (etcData.get("ReqCd").equals("03")) strQuery.append(" and a.cr_lstver=0                      \n");
+				else 								   strQuery.append(" and a.cr_lstver>0                      \n");
+			}
 			strQuery.append("   and a.cr_lstusr = ?                                              \n");
 			strQuery.append("   and PGMSTACHK(?,'BEF',b.cm_systype,a.cr_status,a.cr_lstver,a.cr_viewver)='OK'  \n");
 			strQuery.append("   and a.cr_syscd=i.cm_syscd and a.cr_rsrccd=i.cm_rsrccd           \n");
@@ -1784,6 +1788,10 @@ public class Cmr0200{
 				strQuery.append("  and a.cr_lstver>0                                            \n");
 			}
 			strQuery.append("   and a.cr_lstusr=?                                               \n");
+			if (!"99".equals(etcData.get("ReqCd"))){
+				if (etcData.get("ReqCd").equals("03")) strQuery.append(" and a.cr_lstver=0      \n");
+				else 								   strQuery.append(" and a.cr_lstver>0      \n");
+			}
 			strQuery.append("   and exists (select 1 from cmm0044                               \n");
 			strQuery.append("                where cm_userid=?                                  \n");
 			strQuery.append("                  and cm_syscd=a.cr_syscd                          \n");
