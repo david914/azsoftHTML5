@@ -308,6 +308,7 @@ $(document).ready(function() {
 		//fileTypeCheck(this);
 	});
 	
+	
 });
 
 function screenInit() {
@@ -443,6 +444,10 @@ function changeSys(){
 	firstGrid.setData([]);
 	fristGridData = [];
 	treeData = [];
+	$('[data-ax5select="cboRsrccd"]').ax5select({
+        options: []
+	});
+	ztree = $.fn.zTree.init($('#treeDemo'), treeData);
 	
 	if(getSelectedIndex('cboSys') < 1) return;
 	

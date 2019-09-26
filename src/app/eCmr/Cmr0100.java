@@ -970,7 +970,7 @@ public class Cmr0100 {
 				} else if (!DsnCd.substring(0, 1).equals("F")){
 					strQuery.append("   and a.cr_dsncd= ?                                         \n");
 				} else{
-					strQuery.append("   and ( e.cm_dirpath = ? or e.cm_dirpath like ?)            \n");
+					strQuery.append("   and ( c.cm_dirpath = ? or c.cm_dirpath like ?)            \n");
 				}
 			}
 			if (RsrcCd.equals("0000") || RsrcCd.equals("") || RsrcCd == null) {
