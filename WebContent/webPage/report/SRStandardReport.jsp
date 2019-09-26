@@ -54,7 +54,7 @@
 					<div class="row">
 						<div class="width-100 rowItem">
 							<div class="item nolbl">
-								<div class="tit_80 poa block1">
+								<div class="tit_80 poa">
 		                        	<label>*조회구분</label>
 		                        </div>
 							</div>
