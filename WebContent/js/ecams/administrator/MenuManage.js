@@ -198,8 +198,6 @@ function cbo_selMenu_click(){
 			
 			if($('[data-ax5select="Cbo_selMenu"]').ax5select("getValue")[0].text === "상위메뉴"){
 				resultData = getMenuList("LOW");
-				console.log("@@@");
-				console.log(resultData);
 				$('#tmpTest2 *').remove();
 				$.each(resultData,function(key,value) {
 					var option = $("<li class='dd-item' data-id="+value.cm_menucd+"><div class='dd-handle'>"+value.cm_maname+"</div></li>");
@@ -350,6 +348,10 @@ function Cmd_Ip_Click(num){
 	    	
 	    	// 오른쪽 메뉴 없어도 등록 되도록 수정
 	    	// if($('#nestable').children('.dd-list').children().length === 0) return;
+	    	if($('[data-ax5select="Cbo_selMenu"]').ax5select("getValue")[0].text === "선택하세요"){
+	    		dialog.alert("메뉴리스트 데이터가 없습니다.");
+	    		return;
+	    	}
 	    	
 	    	var menucd = "";
 	    	if($('[data-ax5select="Cbo_Menu"]').ax5select("getValue")[0] != undefined){
