@@ -237,7 +237,7 @@ $(document).ready(function(){
 	});
 	// 엑셀저장버튼 클릭
 	$('#btnExcel').bind('click', function() {
-		firstGrid.exportExcel("신청현황목록.xls");
+		firstGrid.exportExcel('신청현황목록.xls');
 	});
 	
 	// 초기화 버튼 클릭

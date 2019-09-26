@@ -40,13 +40,13 @@
 		</div>
 		<div class="half_wrap_cb" style="margin-top:5px;">
 			<div class="l_wrap width-50">
-				<div class="width-50">
+				<div class="l_wrap width-45">
 					<label class="tit_80 poa">성명</label>
 					<div class="ml_80">
 						<input id="txtUser" name="txtUser" type="text" class="width-100" autocomplete="off">
 					</div>
 				</div>
-				<div class="width-50">
+				<div class="r_wrap width-50">
 					<label class="tit_80 poa">직무명</label>
 					<div class="ml_80">
 						<input id="txtRGTCD" name="txtRGTCD" type="text" class="width-100" autocomplete="off">

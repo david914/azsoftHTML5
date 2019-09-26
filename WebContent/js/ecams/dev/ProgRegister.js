@@ -233,6 +233,9 @@ function cboSystem1_Change() {
 	
 	grdProgList.setData([]);
 	getRsrccd(1, getSelectedVal('cboSystem1'));
+	if(cboSRIDData.length > 0) {
+		$('[data-ax5select="cboSRID"]').ax5select('setValue',cboSRIDData[0].value,true); //value값으로
+	}
 	
 	if(getSelectedIndex('cboSystem1') < 1){
 		return;
@@ -726,7 +729,8 @@ function successDELETE(data) {
 	if(data == "0") {
 		dialog.alert('삭제처리가 완료되었습니다.',function(){});
 		grdProgList.removeRow("selected");
-	}else {
+		//console.log("grdProgList", grdProgList);
+	}else { 
 		dialog.alert('삭제처리가 실패되었습니다.',function(){});
 	}
 }
