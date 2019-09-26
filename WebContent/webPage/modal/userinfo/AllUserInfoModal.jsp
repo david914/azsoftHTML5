@@ -38,14 +38,32 @@
 				<label for="optInActive">폐쇄사용자만</label>
 			</div>
 		</div>
+		<div class="half_wrap_cb" style="margin-top:5px;">
+			<div class="l_wrap width-50">
+				<div class="width-50">
+					<label class="tit_80 poa">성명</label>
+					<div class="ml_80">
+						<input id="txtUser" name="txtUser" type="text" class="width-100" autocomplete="off">
+					</div>
+				</div>
+				<div class="width-50">
+					<label class="tit_80 poa">직무명</label>
+					<div class="ml_80">
+						<input id="txtRGTCD" name="txtRGTCD" type="text" class="width-100" autocomplete="off">
+					</div>
+				</div>
+			</div>
+			<div class="r_wrap width-50 tar">			
+		     	<button id="btnExcel" class="btn_basic_s">엑셀저장</button>
+				<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
+			</div>
+		</div>
 		<!--line2-->
-		<div class="row az_board_basic" style="height: 85%">
+		<div class="row az_board_basic" style="height: 80%">
 			<div data-ax5grid="userGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 		</div>
 		<!--button-->
 		<div class="row tar">
-			<button id="btnExcel" class="btn_basic_s">엑셀저장</button>
-			<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
 			<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
 		</div>
 	</div>

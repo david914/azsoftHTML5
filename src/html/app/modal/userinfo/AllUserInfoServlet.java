@@ -63,7 +63,9 @@ public class AllUserInfoServlet extends HttpServlet {
 	private String getAllUserInfo(JsonElement jsonElement) throws SQLException, Exception {
 		String Cbo_Team = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Cbo_Team") );
 		String Option 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Option") );
-		return gson.toJson(cmm0400.getAllUserInfo(Cbo_Team, Integer.parseInt(Option)));
+		String txtUser  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "txtUser") );
+		String txtRGTCD = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "txtRGTCD") );
+		return gson.toJson(cmm0400.getAllUserInfo(Cbo_Team, Integer.parseInt(Option), txtUser, txtRGTCD));
 	}
 	
 }
