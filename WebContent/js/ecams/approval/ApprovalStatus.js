@@ -131,13 +131,12 @@ $('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: '
 
 $(document).ready(function() {
 	initDate();
+	getCodeInfo();
+	
 	$('#optReq').wRadio('check', true);
 	$('#dateSt').prop('disabled', true);
 	$('#dateEd').prop('disabled', true);
 	$('.btn_calendar').css('background-color','#ddd');
-	getCodeInfo();
-	getSysInfo();
-	getTeamInfo();
 	
 	// 신청자 엔터
 	$('#txtUser').bind('keypress', function(event) {
@@ -309,6 +308,8 @@ function successGetTeamInfo(data) {
 	$('[data-ax5select="cboApproDe"]').ax5select({
 		options: injectCboDataToArr(cboApproDeData, 'cm_deptcd' , 'cm_deptname')
 	});
+	
+	$('#btnQry').trigger('click');
 }
 
 // 시스템 정보 가져오기
@@ -331,11 +332,14 @@ function successGetSysInfo(data) {
 	$('[data-ax5select="cboSys"]').ax5select({
 		options: injectCboDataToArr(cboSysData, 'cm_syscd' , 'cm_sysmsg')
 	});
+	getTeamInfo();
 }
 
 
 // 콤보정보 가져오기
 function getCodeInfo() {
+	getSysInfo();
+	
 	var codeInfos = getCodeInfoCommon([
 			new CodeInfo('REQUEST','ALL','N'),
 			new CodeInfo('APPROVAL','ALL','N'),
