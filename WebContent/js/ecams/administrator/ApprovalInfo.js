@@ -1003,6 +1003,12 @@ function btnQry_Click() {
 		}
 	}
 	
+	if(!$('#chkMember').is(':checked') && !$('#chkOutsourcing').is(':checked')) {
+		dialog.alert('직원/외주 구분을 선택하여 주시기 바랍니다.',function(){});
+		return;
+	}
+		
+	
 	var tmpSys = "";
 	var tmpMem = "";
 	
@@ -1268,6 +1274,13 @@ function successSetApprovalInfo(data) {
 }
 
 function btnDel_Click() {
+	var selectedGridItem = null;
+	selectedGridItem = grdSign.list[grdSign.selectedDataIndexs];
+	
+	if(selectedGridItem == null) {
+		dialog.alert('폐기 대상 선택 후 진행해 주시기 바랍니다.',function(){});
+		return;
+	}
 	
 	if(getSelectedIndex('cboReqCd') < 1) {
 		dialog.alert('결재종류를 선택하여 주시기 바랍니다.',function(){});
@@ -1307,7 +1320,6 @@ function btnDel_Click() {
 	}else {
 		tmpMem = "2";
 	}
-	
 	
 	//Cmm0300.confInfo_Close(tmpSys,cboReq.selectedItem.cm_micode,tmpMan,cboStep.selectedItem.cm_micode);
 	tmpInfo = new Object();
