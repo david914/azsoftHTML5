@@ -65,6 +65,7 @@ grdDiffSrc.setConfig({
     target: $('[data-ax5grid="grdDiffSrc"]'),
     sortable: false, 
     multiSort: false,
+    showLineNumber: true,
     header: {
         align: "center",
         columnHeight: 28
@@ -124,8 +125,8 @@ $('input:radio[name^="optSysGbn"]').wRadio({theme: 'circle-radial blue', selecto
 
 $(document).ready(function(){
 	
-	//pUserId = 'MASTER';
-	//pItemId = '000000179672';
+	//pUserId = 'cishappy';
+	//pItemId = '000000326715';
 	if (pUserId == null || pUserId.length == 0) {
 		dialog.alert('로그인 후 사용하시기 바랍니다.',function(){});
 		return;		
@@ -316,6 +317,18 @@ function btnVerDiff_click() {
 		if (grdDiffSrcData.length > 0 && befVer == grdProgHistoryData[secondLine].cr_version && aftVer == grdProgHistoryData[firstLine].cr_version) {
 			grdDiffSrc.setData(grdDiffSrcData);
 			grdDiffSrc.repaint();
+
+			if (diffSrcData.length == 0) {
+				$('#btnSrcDiff').prop('disabled', true); 
+				$('#btnChgPart').prop('disabled', true); 
+				$('#btnLeft').prop('disabled', true); 
+				$('#btnRight').prop('disabled', true); 
+			} else {
+				$('#btnSrcDiff').prop('disabled', false); 
+				$('#btnChgPart').prop('disabled', false); 
+				$('#btnLeft').prop('disabled', false); 
+				$('#btnRight').prop('disabled', false); 
+			}
 			return;
 		}
 	}
@@ -383,12 +396,16 @@ function successDiffList(data) {
 	$('#txtAddLine').val(String(addCnt));
 	
 	grdDiffSrc.setData(grdDiffSrcData);
-	
 	if (diffSrcData.length == 0) {
 		$('#btnSrcDiff').prop('disabled', true); 
 		$('#btnChgPart').prop('disabled', true); 
 		$('#btnLeft').prop('disabled', true); 
 		$('#btnRight').prop('disabled', true); 
+	} else {
+		$('#btnSrcDiff').prop('disabled', false); 
+		$('#btnChgPart').prop('disabled', false); 
+		$('#btnLeft').prop('disabled', false); 
+		$('#btnRight').prop('disabled', false); 
 	}
 	
 }
@@ -400,7 +417,7 @@ function grdSrcDiff_Click() {
 	if (selectedGridRow == null) return;
 	
 	$('#txtBefSrc').val(selectedGridRow.file1);
-	$('#txtAftSrc').val(selectedGridRow.file1);
+	$('#txtAftSrc').val(selectedGridRow.file2);
 }
 
 function btnSrcDiff_click() {	
@@ -415,6 +432,9 @@ function btnSrcDiff_click() {
 		dialog.alert('변경된 내용이 없습니다.');
 		return;
 	}
+	$('#btnChgPart').prop('disabled', true); 
+	$('#btnLeft').prop('disabled', true); 
+	$('#btnRight').prop('disabled', true); 
 	
 }
 
