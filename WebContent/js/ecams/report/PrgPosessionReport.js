@@ -108,6 +108,10 @@ $(document).ready(function() {
 		}, 300);
 	})
 	
+	//최초 페이지 진입 시 전체 데이터 출력
+	setTimeout(function() {
+		$("#btnSearch").trigger('click');		
+	}, 300);
 })
 
 //시스템 콤보박스 세팅
@@ -162,13 +166,11 @@ function getRsrcCd() {
 	ajaxData.syscd = syscd;
 	
 	ajaxResult = ajaxCallWithJson('/webPage/report/PrgPosessionReport', ajaxData, 'json');
-	console.log(ajaxResult);
-	console.log(ajaxResult.length);
 	
 	columnData.push({key : "cm_sysmsg", label : "시스템", align : "center", width: "10%"});
 	columnData.push({key : "rowhap", label : "합계", align : "center", width: "5%", styleClass: "color-red"});
 	$.each(ajaxResult, function(i, value) {
-		columnData.push({key : "col" + value.cm_micode , label : value.cm_codename, align: "center", width : ""});
+		columnData.push({key : "col" + value.cm_micode , label : value.cm_codename, align: "center", width : 85 / ajaxResult.length + "%"});
 	});
 	
 	mainGrid.setConfig({columns : null});
@@ -191,8 +193,18 @@ function getProgList(syscd) {
 	ajaxData.date = replaceAllString($("#date").val(), '/', '');
 	
 	ajaxResult = ajaxCallWithJson('/webPage/report/PrgPosessionReport', ajaxData, 'json');
-	
-	mainGrid.setData(ajaxResult);
+	var gdata = ajaxCallWithJson('/webPage/report/PrgPosessionReport', ajaxData, 'json');
+		
+	mainGrid.setData(gdata);
+	$.each(columnData, function(i, value) {
+		if(i > 1) {
+			$.each(gdata, function(j, value2) {
+				if(value2[value.key] == undefined) {
+					value2[value.key] = "0";
+				}
+			})
+		}
+	})
 	
 	ajaxResult.pop();
 	if(ajaxResult.length == 1) {		
