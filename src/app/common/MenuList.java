@@ -830,16 +830,16 @@ public class MenuList{
 	            rst.put("cr_qrycd", rs.getString("CR_QRYCD"));
         		rst.put("title", "["+rs.getString("CR_ACPTNO")+"]\n"+rs.getString("CONFNAME"));
 				rst.put("start", rs.getString("STARTDATE"));
-        		if(rs.getString("COLORSW").equals("0")) {
+        		if("0".equals(rs.getString("COLORSW"))) {
         			rst.put("color", "#0000FF");
         		}
-        		if(rs.getString("COLORSW").equals("3")) {
+        		if("3".equals(rs.getString("COLORSW"))) {
         			rst.put("color", "#FF0000");
         		}
-        		if(rs.getString("COLORSW").equals("5")) {
+        		if("5".equals(rs.getString("COLORSW"))) {
         			rst.put("color", "#E719FF");
         		}
-        		if(rs.getString("COLORSW").equals("9")) {
+        		if("9".equals(rs.getString("COLORSW"))) {
         			rst.put("color", "#000000");
         		}
         		
