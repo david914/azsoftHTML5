@@ -67,7 +67,6 @@ picker.bind({
     }
 });
 
-
 mainGrid.setConfig({
 	target : $('[data-ax5grid="mainGrid"]'),
 	showLineNumber : true,
@@ -128,6 +127,11 @@ $(document).ready(function() {
 		setDateEnable();
 	});
 	
+	//엔터조회
+	$("#txtUser, #txtPath, #dayTerm").bind('keypress', function() {
+		if(window.event.keyCode == 13) search();
+	})
+	
 });
 
 function search() {
@@ -151,9 +155,9 @@ function search() {
 		stDt : stDt,
 		edDt : edDt,
 		chkDay : chkDay,
-		txtUser : $("#txtUser").val() == '' ? null : $("#txtUser").val(),
-		txtPath : $("#txtPath").val() == '' ? null : $("#txtPath").val(),
-		dayTerm : $("#dayTerm").val() == '' ? null : $("#dayTerm").val(),
+		txtUser : $("#txtUser").val(),
+		txtPath : $("#txtPath").val(),
+		dayTerm : $("#dayTerm").val(),
 		userId  : userid
 	}
 	ajaxData = {
@@ -182,9 +186,15 @@ function SuccessGetSysInfo(data) {
 }
 
 function setDateEnable() {
+	var today = getDate('DATE',0);
+	var lastMonth = getDate('DATE', -30);
+	today = today.substr(0,4) + '/' + today.substr(4,2) + '/' + today.substr(6,2);
+	lastMonth = lastMonth.substr(0,4) + '/' + lastMonth.substr(4,2) + '/' + lastMonth.substr(6,2);
 	if($('#chkDay').is(':checked')) {
 		$('#dateSt').prop("disabled", false);
-		$('#dateEd').prop("disabled", false);		
+		$('#dateEd').prop("disabled", false);	
+		$('#dateSt').val(today);
+		$('#dateEd').val(lastMonth);
 	} else {
 		$('#dateSt').prop("disabled", true);
 		$('#dateEd').prop("disabled", true);
