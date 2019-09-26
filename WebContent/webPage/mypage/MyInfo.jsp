@@ -17,14 +17,13 @@
 }
 </style>
 
-<div class="contentFrame">
-	<div id="history_wrap">기본관리<strong>&gt; 내 기본정보 보기</strong></div>
+<div class="contentFrame" style="background-color: #f8f8f8;">
+	<div id="history_wrap" style="background-color: #fff;">기본관리<strong>&gt; 내 기본정보 보기</strong></div>
 	
-	
-	<div style="width:54%;margin:auto; background-color: #f8f8f8; padding: 5px; min-width:1009px;">
+	<div style="width:57%;margin:auto; min-width:1009px;"><!-- background-color: #fff; padding: 5px 20px;  -->
 		<div class="cb">
-			<div class="float-left width-30 margin-10-top">
-				<fieldset style="border:3px #2477c1;">
+			<div class="float-left width-30 margin-10-top" style="height: 290px; background-color: #fff; border-color: #dadada; border: 1px; border-style: groove;"> 
+				<fieldset style="border:3px #2477c1;margin: 10px;">
 					<legend>기본정보</legend>
 	               	<div class="sm-row">
 						<label class="tit_80 poa">사용자ID</label>
@@ -71,8 +70,8 @@
 				</FIELDSET>
 			</div>
 			
-			<div class="float-left width-33 margin-20-left margin-10-top">
-				<fieldset style="border:3px #2477c1;">
+			<div class="float-left width-33 margin-20-left margin-10-top" style="height: 290px; background-color: #fff; border-color: #dadada; border: 1px; border-style: groove;">
+				<fieldset style="border:3px #2477c1;margin: 10px;">
 					<legend>조직정보</legend>
 	               	<div class="sm-row">
 						<label class="tit_80 poa">직급</label>
@@ -101,8 +100,8 @@
 				</fieldset>
 			</div>
 			
-			<div class="float-left width-33 margin-20-left margin-10-top">
-				<fieldset style="border:3px #2477c1;">
+			<div class="float-left width-33 margin-20-left margin-10-top" style="height: 290px; background-color: #fff; border-color: #dadada; border: 1px; border-style: groove;">
+				<fieldset style="border:3px #2477c1;margin: 10px;">
 					<legend>부재등록정보</legend>
 	               	<div class="sm-row">
 						<label class="tit_80 poa">대결지정</label>
@@ -129,9 +128,9 @@
 			</div>
 		</div>
 		
-		<div class="cb" style="margin-top:20px;">
-			<div class="float-left width-100 margin-10-top">
-				<fieldset style="border:3px #2477c1;">
+		<div class="cb">
+			<div class="float-left width-100 margin-10-top" style="margin-bottom: 20px; background-color: #fff; border-color: #dadada; border: 1px; border-style: groove;">
+				<fieldset style="border:3px #2477c1;margin: 10px;">
 					<legend>권한정보</legend>
 					<label id="basicInfo" style="color:#2477c1;font-size:15;"></label>
 		            <div class="sm-row" style="margin-top:20px;">
