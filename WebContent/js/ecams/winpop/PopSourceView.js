@@ -334,7 +334,7 @@ function btnSearch_click() {
 function btnSrcDown_click() {
 	
 	//location.href = '/webPage/fileupload/upload?f='+this.item.orgname+'&folderPath='+fileHomePath+this.item.savename;
-	location.href = downURL+'?fileName='+grdProgHistoryData[0].cr_rsrcname+'&fullPath='+tmpDir+'/'+outName;
+	location.href = downURL+'?fileName='+encodeURI(grdProgHistoryData[0].cr_rsrcname)+'&fullPath='+tmpDir+'/'+outName;
 	//location.href = "F:\\Azsoft\\HTML5\\save\\AutoSeq.java";
 }
 

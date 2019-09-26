@@ -1122,12 +1122,13 @@ public class Cmm0400{
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-    public Object[] getAllUserInfo(String Cbo_Team,int Option) throws SQLException, Exception{
+    public Object[] getAllUserInfo(String Cbo_Team,int Option,String txtUser,String txtRGTCD) throws SQLException, Exception{
     	Connection			conn		= null;
     	PreparedStatement	pstmt		= null;
 		ResultSet         	rs          = null;
     	PreparedStatement	pstmt2		= null;
 		ResultSet         	rs2         = null;
+		int parmCnt = 0;
 		StringBuffer      	strQuery    = new StringBuffer();
 		ArrayList<HashMap<String, String>>  rsval = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String>			  	rst	  = null;
@@ -1150,7 +1151,11 @@ public class Cmm0400{
 			strQuery.append("where a.cm_position=b.cm_micode and b.cm_macode='POSITION' and b.cm_micode<>'****' and b.cm_closedt is null ");
 			strQuery.append("  and a.cm_duty=c.cm_micode and c.cm_macode='DUTY' and c.cm_micode<>'****' and c.cm_closedt is null ");
 			strQuery.append("  and a.cm_project=d.cm_deptcd ");
-
+			
+			if(!txtUser.equals("") && txtUser != null) {		// 사용자 이름 입력 시 해당 사람 조회
+				strQuery.append("and a.cm_username like ? ");
+			}
+			
 	    	if (Option == 1){//폐기사용자제외 조회
 	    		strQuery.append("and a.cm_active='1' ");
 	    	}else if (Option == 2) {//폐기사용자만 조회
@@ -1163,12 +1168,18 @@ public class Cmm0400{
 		    strQuery.append("order by a.cm_userid ");
 
             pstmt = conn.prepareStatement(strQuery.toString());
+            
+            if(!txtUser.equals("") && txtUser != null) {
+            	pstmt.setString(++parmCnt, "%"+txtUser+"%");
+			}
+            
             if (!Cbo_Team.equals("00")){
-            	pstmt.setString(1,Cbo_Team);
+            	pstmt.setString(++parmCnt, Cbo_Team);
             }
             rs = pstmt.executeQuery();
 
             while(rs.next()){
+            	parmCnt = 0;
 				rst = new HashMap<String, String>();
 				rst.put("cm_userid", rs.getString("cm_userid"));
 				rst.put("cm_username", rs.getString("cm_username"));
@@ -1185,8 +1196,18 @@ public class Cmm0400{
 				strQuery.append("select a.cm_codename from cmm0020 a,cmm0043 b ");
 				strQuery.append("where b.cm_userid=? ");//userid
 				strQuery.append("  and a.cm_macode='RGTCD' and a.cm_micode=b.cm_rgtcd ");
+				if(!txtRGTCD.equals("") && txtRGTCD != null) {
+					strQuery.append("  and a.cm_codename like ? ");//RGTCD 직무
+				}
 				pstmt2 = conn.prepareStatement(strQuery.toString());
-				pstmt2.setString(1, rs.getString("cm_userid"));
+				//pstmt2 =  new LoggableStatement(conn, strQuery.toString());
+				pstmt2.setString(++parmCnt, rs.getString("cm_userid"));
+				
+				if(!txtRGTCD.equals("") && txtRGTCD != null) {
+					pstmt2.setString(++parmCnt, "%"+txtRGTCD+"%");
+				}
+				
+				//ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
 				rs2 = pstmt2.executeQuery();
 				String rgtname = "";
 				while (rs2.next()){
@@ -1196,9 +1217,17 @@ public class Cmm0400{
 					rgtname = rgtname + rs2.getString("cm_codename");
 				}
 				rst.put("rgtname", rgtname);
+				
+				if(rgtname.equals("") && !txtRGTCD.equals("") && txtRGTCD != null) {
+	                rs2.close();
+	                pstmt2.close();
+	                rst = null;
+					continue;
+				}
+				
                 rs2.close();
                 pstmt2.close();
-
+                
 				rsval.add(rst);
 				rst = null;
             }

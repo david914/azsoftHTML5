@@ -310,7 +310,7 @@ function execFile(gbnCd){
 				return;
 			}
 			var fullpath=document.getElementById("txtcmd").value.trim();
-			location.href = '/webPage/fileupload/upload?&fullPath='+fullpath+'&fileName='+fullpath.substr(fullpath.lastIndexOf('/')+1);
+			location.href = '/webPage/fileupload/upload?&fullPath='+fullpath+'&fileName='+encodeURI(fullpath.substr(fullpath.lastIndexOf('/')+1));
 		}
 	}
 }

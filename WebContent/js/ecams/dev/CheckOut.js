@@ -405,7 +405,9 @@ function successGetPrgCbo(data){
 		dialog.alert("체크아웃대상 프로그램유형이 없습니다.");
 	} else {
 		$.each(prgData,function(key,value) {
-			options.push({value: value.cm_micode, text: value.cm_codename});
+			if (value.moduleyn == 'N' || value.cm_micode == '0000') {
+				options.push({value: value.cm_micode, text: value.cm_codename});
+			}
 		});
     }
 	$('[data-ax5select="cboRsrccd"]').ax5select({

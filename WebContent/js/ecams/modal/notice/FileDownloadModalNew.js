@@ -54,7 +54,7 @@ downGrid.setConfig({
         	if (this.colIndex == 2) {
         		var fullPath = encodeURI(noticeFolderPath+ '/' +downAcptno+ '/' +this.item.orgname);
         		var fileName = encodeURI(this.item.orgname);
-        		location.href = '/webPage/fileupload/upload?&fullPath='+fullPath+'&fileName=' + fileName;
+        		location.href = '/webPage/fileupload/upload?fullPath='+fullPath+'&fileName=' + encodeURI(fileName);
         	}
         },
         onDBLClick: function () {
@@ -66,7 +66,7 @@ downGrid.setConfig({
 	       	//문서열기
 	       	var fullPath = encodeURI(noticeFolderPath+ '/' +downAcptno+ '/' +this.item.orgname);
     		var fileName = encodeURI(this.item.orgname);
-    		location.href = '/webPage/fileupload/upload?&fullPath='+fullPath+'&fileName=' + fileName;
+    		location.href = '/webPage/fileupload/upload?fullPath='+fullPath+'&fileName=' + encodeURI(fileName);
         },
     	onDataChanged: function(){
     	    this.self.repaint();
@@ -124,7 +124,7 @@ $(document).ready(function() {
 	$('#btnAllDw').bind('click', function() {
 		if(downFileCnt > 0) {
 			var zipName = '공지사항일괄다운';
-			location.href = '/webPage/fileupload/upload?&zipPath='+noticeFolderPath+  '/' +downAcptno + '&zipName=' + zipName;
+			location.href = '/webPage/fileupload/upload?&zipPath='+noticeFolderPath+  '/' +downAcptno + '&zipName=' + encodeURI(zipName);
 			return;
 		} else {
 			dialog.alert('다운로드 받을 파일이 없습니다.', function() {});

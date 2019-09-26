@@ -75,6 +75,17 @@ $(document).ready(function() {
 		getAllUserInfo();
 	});
 	
+	// 텍스트 입력 후 엔터키로 작동
+	$('#txtUser').bind('keydown', function(event) {
+		if(event.keyCode === 13) {
+			getAllUserInfo()
+		}
+	});
+	$('#txtRGTCD').bind('keydown', function(event) {
+		if(event.keyCode === 13) {
+			getAllUserInfo()
+		}
+	});
 	// 닫기
 	$('#btnExit').bind('click', function() {
 		popClose();
@@ -91,12 +102,14 @@ function getAllUserInfo() {
 	} else if($('#optInActive').is(':checked')) {
 		Option = 2;
 	}
-	
+
 	var data;
 	data = new Object();
 	data = {
 		Cbo_Team 	: getSelectedVal('cboTeam').value,
 		Option		: Option,
+		txtUser		: $("#txtUser").val(),
+		txtRGTCD	: $("#txtRGTCD").val(),
 		requestType	: 'getAllUserInfo'
 	}
 	ajaxAsync('/webPage/modal/userinfo/AllUserInfoServlet', data, 'json',successGetAllUserInfo);
