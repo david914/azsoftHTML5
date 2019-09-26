@@ -69,7 +69,6 @@ $(document).ready(function(){
 	//userId = "MASTER";
 	
 	//tab메뉴
-
 	$('#tab1Li').width($('#tab1Li').width()+10);
 	$('#tab2Li').width($('#tab2Li').width()+10);
 	
@@ -346,9 +345,9 @@ function btnQry_Click() {
 	tmpInfo.DirPath = $('#txtDirPath').val();
 	tmpInfo.DsnCd = '';
 	if(adminYN) {
-		tmpInfo.SecuYn = 'N';
-	}else {
 		tmpInfo.SecuYn = 'Y';
+	}else {
+		tmpInfo.SecuYn = 'N';
 	}
 	tmpInfo.ViewFg = 'false';
 	
@@ -386,9 +385,9 @@ function grdProgList_Click() {
 	tmpInfo.UserId = userId;
 	tmpInfo.L_ItemId  = selectedGridItem.cr_itemid;
 	if(adminYN) {
-		tmpInfo.SecuYn = 'N';
-	}else {
 		tmpInfo.SecuYn = 'Y';
+	}else {
+		tmpInfo.SecuYn = 'N';
 	}
 	tmpInfoData = new Object();
 	tmpInfoData = {

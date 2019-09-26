@@ -145,11 +145,11 @@
 	</div>	
 	
 	<div class="tar margin-10-top" style="float:right">
-		<button id="btnDel" name="btnDel" onclick="btnDel_Click()" class="btn_basic_s">삭제</button>
-		<button id="btnDiff" name="btnDiff" onclick="btnDiff_Click()" class="btn_basic_s">소스비교</button>
-		<button id="btnView" name="btnView" onclick="btnView_Click()" class="btn_basic_s">소스보기</button>
-		<button id="btnRegist" name="btnRegist" onclick="btnRegist_Click()" class="btn_basic_s">수정</button>
-		<button id="btnClose" name="btnClose" onclick="btnClose_Click()" class="btn_basic_s">폐기</button>
+		<button id="btnDel" name="btnDel" class="btn_basic_s">삭제</button>
+		<button id="btnDiff" name="btnDiff" class="btn_basic_s">소스비교</button>
+		<button id="btnView" name="btnView" class="btn_basic_s">소스보기</button>
+		<button id="btnRegist" name="btnRegist" class="btn_basic_s">수정</button>
+		<button id="btnClose" name="btnClose" class="btn_basic_s">폐기</button>
 	<!-- <button id="btnReg" name="btnReg" onclick="cmd_click()" class="btn_basic">닫기</button>-->
 	</div>
 	<!--페이지버튼 E-->

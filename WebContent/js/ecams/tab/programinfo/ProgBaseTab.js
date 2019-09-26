@@ -271,7 +271,6 @@ function successProgInfo(data) {
 			
 			getDirList(progInfoData[0].WkRsrcCd);
 			getEditorList(progInfoData[0].cr_editor);
-			
 			if (progInfoData[0].WkSta == '3' || progInfoData[0].WkSta == '0') {
 				if (adminYN) $('#btnDel').prop('disabled', false);
 				else if (progInfoData[0].WkSta == '3') {
