@@ -102,19 +102,15 @@ function changePage(division) {
 		pathName = '/webPage/approval/ApprovalStatus.jsp';
 		mainTitle = '결재확인';
 		subTitle = '결재현황';
-	}
-	if(division === 'srCnt') {
+	} else if(division === 'srCnt') {
 		pathName = '/webPage/register/SRStatus.jsp';
 		mainTitle = '등록';
 		subTitle = 'SR진행현황(등록)';
-	}
-	if(division === 'errCnt') {
+	} else if(division === 'errCnt') {
 		pathName = '/webPage/approval/RequestStatus.jsp';
 		mainTitle = '결재확인';
 		subTitle = '신청현황';
-	}
-
-	if(division == '3' || division == '5') {
+	} else if(division == '3' || division == '5') {
 		pathName = '/webPage/apply/ApplyRequest.jsp';
 		mainTitle = '개발';
 		subTitle = '체크인';
@@ -181,6 +177,7 @@ function resize(){
 
 // 프레임을 불러오고나서 height 가 변하는 부분이 있을경우 사용
 function frameLoad(){
+	
 	$('#iFrm').contents().find('#history_wrap').html(contentHistory);
 	
 	if($('#iFrm').contents().find(".contentFrame").length == 0){
