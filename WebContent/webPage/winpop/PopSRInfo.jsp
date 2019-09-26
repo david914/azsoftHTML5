@@ -33,16 +33,16 @@
 					<!-- line1 -->		
                     <div class="width-30 float-left">
 						<div class="margin-5-right">
-	                    	<label class="tit_80 poa">SR-ID</label>
-	                        <div class="ml_80">
+	                    	<label class="tit_60 poa">SR-ID</label>
+	                        <div class="ml_60">
 								<input class="width-100" type="text" id="txtSRID" readonly="readonly">
 							</div>
 						</div>
 					</div>	
                     <div class="width-70 float-left">
 						<div>
-	                    	<label class="tit_80 poa tac">상태</label>
-	                        <div class="ml_80">
+	                    	<label class="tit_60 poa tac">상태</label>
+	                        <div class="ml_60">
 								<input class="width-100" type="text" id="txtSRSta" readonly="readonly">
 							</div>
 						</div>
@@ -50,8 +50,8 @@
 				</div>	
 				<div class="row">
 					<!-- line2 -->	
-                	<label class="tit_80 poa">SR명</label>
-                    <div class="ml_80">
+                	<label class="tit_60 poa">SR명</label>
+                    <div class="ml_60">
 						<input class="width-100" type="text" id="txtSRTitle" readonly="readonly">
 					</div>
 				</div>
