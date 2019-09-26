@@ -50,6 +50,9 @@ public class LoginServlet extends HttpServlet {
 				case "SETSESSION" :
 					response.getWriter().write( getUserName(jsonElement, request)  );
 					break;	
+				case "UPDATELOGINIP" : 
+					updateLoginIp(jsonElement, request);
+					break;
 				default:
 					break;
 			}
@@ -75,5 +78,13 @@ public class LoginServlet extends HttpServlet {
 		loginManager.setSession(session, userId);
 		
 		return gson.toJson( session.getId() );
+	}
+	
+	private void updateLoginIp(JsonElement jsonElement, HttpServletRequest request) throws SQLException, Exception {
+		String userId  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userId") );
+		String IpAddr  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "IpAddr") );
+		String Url	   = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Url") );
+		
+		loginManager.updateLoginIp(userId, IpAddr, Url);
 	}
 }

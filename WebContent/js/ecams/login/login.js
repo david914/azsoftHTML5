@@ -74,6 +74,8 @@ var loginSubmitAction = function(e) {
     	
     	sessionID = setSessionLoginUser(userId);
     	console.log('sessionId check : ' + sessionID);
+    	updateLoginIp(userId);
+    	
     	if( sessionID !== null && sessionID !== undefined ) {
     		
     	    var form = document.createElement("form");
@@ -169,6 +171,20 @@ function setSessionLoginUser(userId) {
 	var userInfo = {
 		userId		: 	userId,
 		requestType	: 	'SETSESSION'
+	}
+	return ajaxCallWithJson('/webPage/login/Login', userInfo, 'json');
+}
+
+function updateLoginIp(userId) {
+	var form = document.popPam;
+	var IpAddr = form.custIP.value;
+	var Url = form.Url.value;
+	
+	var userInfo = {
+		userId		: userId,
+		IpAddr		: IpAddr,
+		Url 		: Url, 
+		requestType	: 'UPDATELOGINIP'
 	}
 	return ajaxCallWithJson('/webPage/login/Login', userInfo, 'json');
 }

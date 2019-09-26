@@ -12,6 +12,11 @@
 <link rel="stylesheet" href="<c:url value="/css/ecams/login/loginPage.css" />">
 </head>
 <body>
+	<%
+		String custIP = request.getRemoteAddr();
+	    String Url =  request.getRequestURL().toString();
+	%>
+	
 	<section class="height-100">
 		<div class="login-form">
 		    <form id="ecamsLoginForm" method="post">
@@ -38,6 +43,8 @@
 	<form name="popPam">
 		<input type="hidden" name="userId"/>
 		<input type="hidden" name="winPopSw"/>
+		<input type="hidden" name="custIP" value=<%=custIP%>>
+		<input type="hidden" name="Url" value=<%=Url%>>
 	</form>
 	
 	<c:import url="/js/ecams/common/commonscript.jsp" />
