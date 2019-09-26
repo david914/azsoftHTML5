@@ -52,11 +52,11 @@
 					<!-- 조회조건 -->
 					<div class="width-40 dib vat">
 	                	<div style="margin-left: 10px;">
-							<input id="rdoAll"  type="radio" name="rdoDaeSang" value="N" checked="checked"/>
+							<input id="rdoAll"  type="radio" name="rdoDaeSang" value="N"/>
 							<label for="rdoAll" >전체대상</label>
 							<input id="rdoTeam" type="radio" name="rdoDaeSang" value="T"/>
 							<label for="rdoTeam">팀내진행건</label>
-							<input id="rdoMy" type="radio" name="rdoDaeSang" value="M"/>
+							<input id="rdoMy" type="radio" name="rdoDaeSang" value="M" checked="checked"/>
 							<label for="rdoMy">내진행건만</label>
 						</div>
 					</div>

@@ -303,8 +303,8 @@ function resetScreen() {
 	$("#txtSpms").val('');												// SR-ID 초기화
 	
 	// SR상태,개발자상태 초기화
-	$('[data-ax5select="cboSta1"]').ax5select("setValue", '0', true);
-	$('[data-ax5select="cboSta2"]').ax5select("setValue", '00',	true);
+	$('[data-ax5select="cboSta1"]').ax5select("setValue", '4', true);	//SR상태 default 진행중
+	$('[data-ax5select="cboSta2"]').ax5select("setValue", '00',	true);	//개발자상태 default 전체
 	
 	data_setEnable();
 }
@@ -391,7 +391,7 @@ function cmdQry_Proc(){
 }
 //조회 가져오기완료
 function successGet_SelectList(data) {
-	console.log(data);
+	//console.log(data);
 	firstGridData = data;
 	firstGrid.setData(firstGridData);
 }
