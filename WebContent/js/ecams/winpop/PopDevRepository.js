@@ -806,6 +806,7 @@ function successGetFileList(data) {
 	}
 	
 	grdProgList.setData(grdProgListData);
+	grdProgList.setColumnSort({filename:{seq:0, orderBy:"asc"}});
 }
 
 function btnRegist_Click() {
@@ -887,7 +888,9 @@ function btnRegist_Click() {
 				grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "홈디렉토리불일치");
 				errSw = true;
 			}
-		}else {
+		}//else {
+		
+		if(!errSw) {
 			if(checkedGridItem[i].filename.lastIndexOf(",") >= 0) {
 				grdProgList.setValue(checkedGridItem[i].__index, "error", "1");
 				grdProgList.setValue(checkedGridItem[i].__index, "errmsg", "프로그램명컴마제외");
@@ -920,6 +923,7 @@ function btnRegist_Click() {
 				}
 			}
 		}
+		//}
 		
 		if(!errSw) {
 			if(checkedGridItem[i].story == null || checkedGridItem[i].story == "") {
