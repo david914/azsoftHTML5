@@ -491,7 +491,7 @@ public class Cmr0250{
 	        strQuery.append("   and a.cr_baseitem=z.cr_baseitem(+)                               \n");
 	        strQuery.append("   and a.cr_baseitem=u.cr_baseitem(+)                               \n");
 	        //strQuery.append(" order by a.cr_serno                                                \n");
-	        strQuery.append(" order by a.cr_baseitem, a.cr_itemid                                \n");
+	        strQuery.append(" order by a.cr_baseitem,decode(a.cr_itemid,a.cr_baseitem,0,1)       \n");
 			pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt = new LoggableStatement(conn,strQuery.toString());
 			pstmt.setString(1, AcptNo);

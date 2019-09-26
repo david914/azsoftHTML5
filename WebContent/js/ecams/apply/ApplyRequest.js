@@ -639,7 +639,6 @@ function getSrIdCbo() {
 		prjInfo	: 	prjInfo,
 		requestType	: 	'PROJECT_LIST'
 	}
-	
 	ajaxAsync('/webPage/common/PrjInfoServlet', prjInfoData, 'json', successGetPrjInfoList);
 }
 //SR-ID정보
@@ -656,7 +655,6 @@ function successGetPrjInfoList(data) {
 	$('[data-ax5select="cboSrId"]').ax5select({
 		options: cboOptions
 	});
-	
 	if (srData.length > 1) {
 		var selectVal = $('select[name=cboSrId] option:eq(1)').val();
 		$('[data-ax5select="cboSrId"]').ax5select('setValue',selectVal,true);
@@ -774,7 +772,7 @@ function successGetProgramList(data) {
 	});
 	firstGrid.setData(firstGridData);
 	
-	if(firstGridData.length > 0 && reqCd == '03'){
+	if(firstGridData.length > 0 && reqCd == '04'){
 		firstGrid.selectAll({selected:true, filter:function(){
 			
 				return this['selected_flag'] != '1';
@@ -828,7 +826,7 @@ function addDataRow() {
 	ajaxReturnData = null;
 	var strRsrcName = '';
 	var calSw = false;
-		
+	
 	$(firstGridSeleted).each(function(i){
 		if(this.selected_flag == '1' && reqCd != '04'){
 			return true;
@@ -866,6 +864,11 @@ function addDataRow() {
 			}
 		}
 	});
+
+	if (secondGridList.length == 0) {
+		dialog.alert('배포 할 파일을 선택한 후 진행하시기 바랍니다.');
+		return;
+	}
 	
 	firstGrid.clearSelect();	// 상위 그리드에 있는 데이터가 하단 그리드에 추가되면 상단 그리드에서 선택했던 체크박스 초기화
 	
@@ -1254,19 +1257,16 @@ function changeSys(){
 	else srSw = true;
 	
 	if (srSw) {
-		$('[data-ax5select="cboSrId"]').ax5select("enable");
+		//$('[data-ax5select="cboSrId"]').ax5select("enable");
 		if(srData.lenght == 2){
 			var selectVal = $('select[name=cboSrId] option:eq(1)').val();
 			$('[data-ax5select="cboSrId"]').ax5select('setValue',selectVal,true);
 		}
 	} 
-	else { //SR 사용안함
-		cboOptions = [];
-		cboOptions.push({value: 'SR정보 선택 또는 해당없음', text: 'SR정보 선택 또는 해당없음', srid: 'SR정보 선택 또는 해당없음'});
-		$('[data-ax5select="cboSrId"]').ax5select({
-			options: cboOptions
-		});
-		$('[data-ax5select="cboSrId"]').ax5select("disable");
+	else { 
+		var selectVal = $('select[name=cboSrId] option:eq(0)').val();
+		$('[data-ax5select="cboSrId"]').ax5select('setValue',selectVal,true);
+		//$('[data-ax5select="cboSrId"]').ax5select("disable");
 	}
 	
 
@@ -1634,6 +1634,7 @@ function requestEnd(){
 	
 	secondGrid.setData([]);
 	secondGridData = [];
+	$('#btnRequest').prop('disabled',true);
 }
 
 function cmdDetail(){
