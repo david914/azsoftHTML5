@@ -28,6 +28,8 @@ $('[data-ax5select="cboProgramer2"]').ax5select({
     options: []
 });
 
+$('input:radio[name^="radioAppli"]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
+
 $(document).ready(function() {
 	strReqCd = "XX";
 	createViewGrid();
@@ -86,9 +88,9 @@ function createViewGrid() {
 	    	}
 	    },
 	    columns: [
-	        {key: "cm_sysmsg", label: "시스템",  width: '15%', align: "left"},
+	        {key: "cm_sysmsg", label: "시스템",  width: '20%', align: "left"},
 	        {key: "qrycd", label: "신청구분",  width: '10%'},
-	        {key: "acptno", label: "신청번호",  width: '15%', },
+	        {key: "acptno", label: "신청번호",  width: '10%', },
 	        {key: "acptdate", label: "신청일",  width: '10%'},
 	        {key: "status", label: "상태",  width: '10%'},
 	        {key: "prcdate", label: "완료일",  width: '10%'},
@@ -163,13 +165,13 @@ function getReqList() {
 		if($('#rdoOpt1').is(':checked')){
 			//컬럼 제거하기
 			var columns = [
-				{key: "cm_sysmsg", label: "시스템",  width: '15%', align: "left"},
-		        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
-		        {key: "acptno", label: "신청번호",  width: '15%', align: "left"},
+				{key: "cm_sysmsg", label: "시스템",  width: '20%', align: "left"},
+		        {key: "qrycd", label: "신청구분",  width: '10%'},
+		        {key: "acptno", label: "신청번호",  width: '10%'},
 		        {key: "acptdate", label: "신청일",  width: '10%'},
-		        {key: "status", label: "상태",  width: '10%', align: "left"},
+		        {key: "status", label: "상태",  width: '10%'},
 		        {key: "prcdate", label: "완료일",  width: '10%'},
-		        {key: "passok", label: "처리구분",  width: '10%', align: "left"},
+		        {key: "passok", label: "처리구분",  width: '10%'},
 		        {key: "prcreq", label: "적용예정일시",  width: '20%'}
 		    ];
 		    
@@ -181,16 +183,16 @@ function getReqList() {
 		} else {
 			// 컬럼 추가하기
 			var columns = [
-				{key: "cm_sysmsg", label: "시스템",  width: '10%', align: "left"},
-		        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
-		        {key: "acptno", label: "신청번호",  width: '10%', align: "left"},
-		        {key: "acptdate", label: "신청일",  width: '10%'},
-		        {key: 'cm_dirpath', label: '경로',  width: '10%', align: "left"},
-		        {key: 'cr_rsrcname', label: '파일명',  width: '10%', align: "left"},
-		        {key: "status", label: "상태",  width: '10%', align: "left"},
-		        {key: "prcdate", label: "완료일",  width: '10%'},
-		        {key: "passok", label: "처리구분",  width: '10%', align: "left"},
-		        {key: "prcreq", label: "적용예정일시",  width: '10%'}
+				{key: "cm_sysmsg", label: "시스템",  width: '9%', align: "left"},
+		        {key: "qrycd", label: "신청구분",  width: '8%'},
+		        {key: "acptno", label: "신청번호",  width: '8%'},
+		        {key: "acptdate", label: "신청일",  width: '8%'},
+		        {key: 'cm_dirpath', label: '경로',  width: '20%', align: "left"},
+		        {key: 'cr_rsrcname', label: '파일명',  width: '15%', align: "left"},
+		        {key: "status", label: "상태",  width: '8%'},
+		        {key: "prcdate", label: "완료일",  width: '8%'},
+		        {key: "passok", label: "처리구분",  width: '8%'},
+		        {key: "prcreq", label: "적용예정일시",  width: '8%'}
 		    ];
 		    
 			ReqListGrid.config.columns = columns;
