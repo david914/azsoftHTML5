@@ -86,7 +86,7 @@ function createViewGrid() {
 	    	}
 	    },
 	    columns: [
-	        {key: "cm_sysmsg", label: "시스템",  width: '20%', align: "left"},
+	        {key: "cm_sysmsg", label: "시스템",  width: '15%', align: "left"},
 	        {key: "qrycd", label: "신청구분",  width: '10%'},
 	        {key: "acptno", label: "신청번호",  width: '15%', },
 	        {key: "acptdate", label: "신청일",  width: '10%'},
@@ -162,28 +162,39 @@ function getReqList() {
 	if(ajaxReturnData !== 'ERR') {
 		if($('#rdoOpt1').is(':checked')){
 			//컬럼 제거하기
-			ReqListGridColumns = ReqListGrid.columns;
-			if(ReqListGridColumns[4].key == 'cm_dirpath'){
-				ReqListGrid.removeColumn(4);
-				ReqListGrid.removeColumn(4);
-			}
+			var columns = [
+				{key: "cm_sysmsg", label: "시스템",  width: '15%', align: "left"},
+		        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
+		        {key: "acptno", label: "신청번호",  width: '15%', align: "left"},
+		        {key: "acptdate", label: "신청일",  width: '10%'},
+		        {key: "status", label: "상태",  width: '10%', align: "left"},
+		        {key: "prcdate", label: "완료일",  width: '10%'},
+		        {key: "passok", label: "처리구분",  width: '10%', align: "left"},
+		        {key: "prcreq", label: "적용예정일시",  width: '20%'}
+		    ];
+		    
+			ReqListGrid.config.columns = columns;
+			ReqListGrid.setConfig();
+
 			ReqListGridData = ajaxReturnData;
 			ReqListGrid.setData(ReqListGridData);
 		} else {
 			// 컬럼 추가하기
-			ReqListGridColumns = ReqListGrid.columns;
-			if(ReqListGridColumns[4].key != 'cm_dirpath'){
-				var excelDataColums = {key: 'cm_dirpath', label: '경로',  width: '20%', align: "left"};
-				ReqListGridColumns.splice(4, 0,excelDataColums);
-				ReqListGrid.config.columns = ReqListGridColumns;
-				ReqListGrid.setConfig();
-				
-				ReqListGridColumns = ReqListGrid.columns;
-				var excelDataColums = {key: 'cr_rsrcname', label: '파일명',  width: '15%', align: "left"};
-				ReqListGridColumns.splice(5, 0,excelDataColums);
-				ReqListGrid.config.columns = ReqListGridColumns;
-				ReqListGrid.setConfig();
-			}
+			var columns = [
+				{key: "cm_sysmsg", label: "시스템",  width: '10%', align: "left"},
+		        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
+		        {key: "acptno", label: "신청번호",  width: '10%', align: "left"},
+		        {key: "acptdate", label: "신청일",  width: '10%'},
+		        {key: 'cm_dirpath', label: '경로',  width: '10%', align: "left"},
+		        {key: 'cr_rsrcname', label: '파일명',  width: '10%', align: "left"},
+		        {key: "status", label: "상태",  width: '10%', align: "left"},
+		        {key: "prcdate", label: "완료일",  width: '10%'},
+		        {key: "passok", label: "처리구분",  width: '10%', align: "left"},
+		        {key: "prcreq", label: "적용예정일시",  width: '10%'}
+		    ];
+		    
+			ReqListGrid.config.columns = columns;
+			ReqListGrid.setConfig();
 			
 			ReqListGridData = ajaxReturnData;
 			ReqListGrid.setData(ReqListGridData);
