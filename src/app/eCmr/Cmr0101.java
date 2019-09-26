@@ -73,6 +73,7 @@ public class Cmr0101 {
 			if (!"".equals(etcData.get("txtProg"))  && etcData.get("txtProg") != null){
 				strQuery.append(" and (b.cr_rsrcname like ?	or b.cr_story like ?)	  		\n");
 			}
+			strQuery.append("   and substr(d.cm_info, 58, 1)='0'                 \n");
 			strQuery.append("   and decode(b.cr_status,'5',b.cr_ckoutacpt,'B',b.cr_acptno,'E',b.cr_devacpt,b.cr_testacpt)=f.cr_acptno \n");
 			strQuery.append("   and f.cr_acptno=a.cr_acptno   					            \n");
 			strQuery.append("   and b.cr_itemid=a.cr_itemid   							    \n");
