@@ -230,9 +230,6 @@ $('input:radio[name=rdoDate]').wRadio({theme: 'circle-radial red', selector: 'ch
 
 $(document).ready(function(){
 	getUserInfo();
-	getSysInfo();
-	getCodeInfo();
-	getDeptInfo();
 	
 	//진행상태에따라 일자조건 활성화,비활성화 처리
 	$('#cboSta').bind('change', function() {
@@ -299,6 +296,7 @@ function successGetUserInfo(data) {
 	if (data.cm_admin === '1') {
 		isAdmin = true;
 	}
+	getSysInfo();
 }
 
 // 시스템 cbo 가져오기 완료
@@ -312,6 +310,7 @@ function successGetSysInfo(data) {
 	$('[data-ax5select="cboSysCd"]').ax5select({
         options: options
 	});
+	getCodeInfo();
 }
 
 // 시스템 cbo 가져오기
@@ -337,6 +336,8 @@ function successGetDeptInfo(data) {
 	$('[data-ax5select="cboDept"]').ax5select({
         options: options
 	});
+	
+	$('#btnQry').trigger('click');
 }
 
 // 신청부서 cbo 가져오기
@@ -355,6 +356,8 @@ function getDeptInfo(){
 
 // 진행상태 cbo , 신청종류 cbo 가져오기
 function getCodeInfo(){
+	getDeptInfo();
+	
 	var codeInfos = getCodeInfoCommon([
 		new CodeInfo('REQUEST','ALL','N'),
 		new CodeInfo('R3200STA','ALL','N'),
