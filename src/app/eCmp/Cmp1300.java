@@ -205,13 +205,13 @@ public class Cmp1300{
 			strQuery.append("      a.cr_acptno=g.cr_acptno and  																				\n");
 			strQuery.append("      a.cr_confno is null and a.cr_itemid=a.cr_baseitem and													\n");
 			if (!SysCd.equals("00000")) strQuery.append(" g.cr_syscd=?  and                         	 								    \n");
-			if (JobCd != "" && JobCd != null) strQuery.append(" a.cr_jobcd=?  and                          								        \n");
+			if (!JobCd.equals("") && JobCd != null) strQuery.append(" a.cr_jobcd=?  and                          								        \n");
 			strQuery.append("      g.cr_qrycd in ('01','02','03') and  		        														    \n");
-			if (txtPath != "" && txtPath != null) strQuery.append(" f.cm_dirpath like ? and                           	 				     	\n");
+			if (!txtPath.equals("") && txtPath != null) strQuery.append(" f.cm_dirpath like ? and                           	 				     	\n");
 			strQuery.append("      f.cm_dsncd = r.cr_dsncd and  		        														    \n");
 			strQuery.append("      f.cm_syscd = r.cr_syscd and  		        														    \n");
-			if (txtUser != "" && txtUser != null) strQuery.append(" b.cm_username =? and                           	 					    	\n");
-			if (Ilsu != "" && Ilsu != null) strQuery.append("TRUNC(SYSDATE - cr_acptdate) >=?  			and								    	\n");
+			if (!txtUser.equals("") && txtUser != null) strQuery.append(" b.cm_username like ? and                           	 					    	\n");
+			if (!Ilsu.equals("") && Ilsu != null) strQuery.append("TRUNC(SYSDATE - cr_acptdate) >=?  			and								    	\n");
 		 	if (baseCd.equals("1")) {
 			   strQuery.append("    to_char(g.cr_acptdate,'yyyymmdd')>=? and							  								        \n");
 			    strQuery.append("    to_char(g.cr_acptdate,'yyyymmdd')<=? and                               							    	\n");
@@ -225,10 +225,10 @@ public class Cmp1300{
 	        pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt = new LoggableStatement(conn,strQuery.toString());
 	        if (!SysCd.equals("00000")) pstmt.setString(++parmCnt, SysCd);
-			if (JobCd != "" && JobCd != null) pstmt.setString(++parmCnt, JobCd);
-			if (txtPath != "" && txtPath != null) pstmt.setString(++parmCnt, "%"+txtPath+"%");
-			if (txtUser != "" && txtUser != null) pstmt.setString(++parmCnt, txtUser);
-			if (Ilsu != null && Ilsu != "") pstmt.setInt(++parmCnt, Integer.parseInt(Ilsu));
+			if (!JobCd.equals("") && JobCd != null) pstmt.setString(++parmCnt, JobCd);
+			if (!txtPath.equals("") && txtPath != null) pstmt.setString(++parmCnt, "%"+txtPath+"%");
+			if (!txtUser.equals("") && txtUser != null) pstmt.setString(++parmCnt, "%"+txtUser+"%");
+			if (Ilsu != null && !Ilsu.equals("")) pstmt.setInt(++parmCnt, Integer.parseInt(Ilsu));
 			if (baseCd.equals("1")) {
 				pstmt.setString(++parmCnt, StDate);
 				pstmt.setString(++parmCnt, EdDate);
@@ -273,7 +273,7 @@ public class Cmp1300{
 
 			returnObjectArray = rsval.toArray();
 			rsval = null;
-
+			
 			//
 			return returnObjectArray;
 
