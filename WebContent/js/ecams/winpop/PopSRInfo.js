@@ -50,6 +50,18 @@ $(document).ready(function() {
 	strAcptNo = $('#AcptNo').val(); 
 	userId = $('#UserId').val();
 	strReqCd = "XX";
+	
+
+	//userId = 'cishappy';
+	//strIsrId = 'R201909-0018';
+	if (userId == null || userId == '') {
+		dialog.alert('로그인 후 사용하시기 바랍니다.');
+		return;
+	}
+	if (strIsrId == null || strIsrId == '') {
+		dialog.alert('SR-ID가 없습니다. 확인 후 진행하시기 바랍니다.');
+		return;
+	}
 
 	$('#frmSRRegister').get(0).contentWindow.strReqCd = "XX";
 	$('#frmDevPlan').get(0).contentWindow.strReqCd = "42";
@@ -242,6 +254,16 @@ function iSRID_Click(data) {
 			}
 		}
 		//SR등록.initApp();
+	}
+
+	
+	if(data.isrproc.indexOf("92")>=0) { //프로그램존재
+		$('#tab3').attr('disabled', false);
+		$('#tab3').removeClass('tab_disabled');
+	}
+	if(data.isrproc.indexOf("93")>=0) { //프로그램존재
+		$('#tab4').attr('disabled', false);
+		$('#tab4').removeClass('tab_disabled');
 	}
 //	console.log("data.isrproc: " + data.isrproc);
 //	console.log("tabIdx: " + tabIdx);

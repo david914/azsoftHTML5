@@ -68,14 +68,14 @@ function createViewGrid() {
 	    	}
 	    },
 	    columns: [
-	        {key: "qrycd", label: "신청구분",  width: '10%', align: "left"},
+	        {key: "qrycd", label: "신청구분",  width: '10%'},
 	        {key: "cm_sysmsg", label: "시스템",  width: '10%', align: "left"},
-	        {key: "cm_dirpath", label: "프로그램경로",  width: '30%', align: "left"},
-	        {key: "cr_rsrcname", label: "프로그램명",  width: '10%', align: "left"},
-	        {key: "status", label: "상태",  width: '10%', align: "left"},
+	        {key: "cm_dirpath", label: "프로그램경로",  width: '20%', align: "left"},
+	        {key: "cr_rsrcname", label: "프로그램명",  width: '15%', align: "left"},
+	        {key: "status", label: "상태",  width: '10%'},
 	        {key: "rsrccd", label: "프로그램유형",  width: '10%'},
 	        {key: "lastdate", label: "최종변경일",  width: '10%'},
-	        {key: "cr_story", label: "프로그램설명",  width: '10%', align: "left"},
+	        {key: "cr_story", label: "프로그램설명",  width: '15%', align: "left"},
 	    ]
 	});
 	
