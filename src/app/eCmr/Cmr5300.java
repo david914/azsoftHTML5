@@ -101,7 +101,7 @@ public class Cmr5300 {
 				in1 = null;
 				rst = null;
 			}
-			outFile.delete();
+//			outFile.delete();
 			//ecamsLogger.error(rtList.toString());
 			//return strQuery.toString();
 			return rtList.toArray();
