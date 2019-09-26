@@ -165,12 +165,12 @@ $(document).ready(function() {
 	
 	$('[name = "optBase"]').bind('change',function(){
 		if($(this).val() == "추가"){
-			selCd = "U";
+			selCd = "I";
 			$("#AddArea").show();
 			firstGrid.setData(firstGridData);
 		}
 		else{
-			selCd = "I";
+			selCd = "U";
 			$("#AddArea").hide();
 			firstGrid.setData(firstGridSimpleData);
 		}
@@ -200,13 +200,11 @@ function simpleData(){
 		firstGridSimpleData = [];
 	}
 	else{
+		firstGridSimpleData = [];
 		var secondItem =  secondGrid.getList('selected')[0];
 		
 		for(var i =0; i < firstGridData.length; i++){
-			if(secondItem.cm_gubun != "3" && secondItem.cm_gubun != "6"      ||
-			   secondItem.cm_gubun == "3" && firstGridData[i].cm_gubun != "3"  ||
-			   secondItem.cm_gubun == "6" && firstGridData[i].cm_gubun != "6" ){
-				
+			if(secondItem.cm_gubun != "3" && secondItem.cm_gubun != "6") {
 				continue;
 			}
 			if(secondItem.cm_position.indexOf(firstGridData[i].cm_rgtcd) >= 0){
