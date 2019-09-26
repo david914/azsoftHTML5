@@ -738,7 +738,7 @@ function fileDbClick(index,item){
 	else{
 		//파일다운
 		//console.log(item);
-		location.href = '/webPage/fileupload/upload?fullPath='+uploadUrl+'/'+item.cc_savename+'&fileName='+item.name;
+		location.href = '/webPage/fileupload/upload?fullPath='+uploadUrl+'/'+item.cc_savename+'&fileName='+encodeURI(item.name);
 	}
 	
 }
@@ -1099,15 +1099,17 @@ function fileupload(){
         async: true,
         cache:false,
         contentType:false,
-        processData: false
-    }).done(function(response){
-    	onUploadCompleteData(response);
-    	
-    }).fail(function(xhr,status,errorThrown){
-    	dialog.alert('<div>파일등록 오류가 발생했습니다.</div><div>파일을 다시 등록해주시기 바랍니다.</div>',function(){});
-		ing_sw = false;
-    	return;
+        processData: false, 
+        success : function(data){
+        	onUploadCompleteData();
+        },
+        error : function(){
+        	dialog.alert('<div>파일등록 오류가 발생했습니다.</div><div>파일을 다시 등록해주시기 바랍니다.</div>',function(){});
+    		ing_sw = false;
+        	return;
+        }
     });
+    	
 
 	
 }

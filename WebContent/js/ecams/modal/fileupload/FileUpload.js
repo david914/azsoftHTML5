@@ -182,7 +182,6 @@ function successGetSignUser(data){
 function deleteData(){
 
 	var firstGridGridSeleted = firstGrid.getList("selected");
-	console.log(firstGridGridSeleted.length);
 	if(firstGridGridSeleted.length < 1){
 		dialog.alert("삭제할 첨부파일을 선택해 주세요");
 		return;
@@ -211,10 +210,8 @@ function fileUpload(){
 		formData.append('saveName',filename+"."+index);
 		formData.append('file',firstGridData[i].file);
 		
-		console.log(tmpPath, tmpPath);
 		firstGridData[i].index = index;
 	}
-	
 	// ajax
     $.ajax({
         url:'/webPage/fileupload/FileUpload.jsp',
@@ -224,24 +221,25 @@ function fileUpload(){
         async: true,
         cache:false,
         contentType:false,
-        processData: false,
-        xhr: function() { //XMLHttpRequest 재정의 가능
+        processData: false
+        ,xhr: function() {
         	var xhr = $.ajaxSettings.xhr();
         	xhr.upload.onprogress = function(e) { //progress 이벤트 리스너 추가
 	        	var percent = e.loaded * 100 / e.total;
 	        	setProgress(percent);
         	};
         	return xhr;
-        	}
-    }).done(function(response){
-    	onUploadCompleteData(response);
-    	
-    }).fail(function(xhr,status,errorThrown){
-    	dialog.alert('<div>오류가 발생했습니다.</div><div>재전송 버튼을 눌러 다시 등록해주시기 바랍니다.</div>',function(){});
-    	$("#percent").width(0+"%");
-    	$("#percentText").text(0+"%");
-		$("#btnReq").prop("disabled", false);
-    	return;
+        },
+        success : function(data){
+        	onUploadCompleteData(firstGridData);
+        },
+        error : function(){
+        	dialog.alert('<div>오류가 발생했습니다.</div><div>재전송 버튼을 눌러 다시 등록해주시기 바랍니다.</div>',function(){});
+        	$("#percent").width(0+"%");
+        	$("#percentText").text(0+"%");
+    		$("#btnReq").prop("disabled", false);
+        	return;
+        }
     });
     	
 }
@@ -249,9 +247,9 @@ function fileUpload(){
 
 
 
-function onUploadCompleteData(){
+function onUploadCompleteData(firstGridDataTmp){
 	var ajaxResultData = "";
-	var dbFileData = clone(firstGridData);
+	var dbFileData = firstGridDataTmp;
 	for(var key in dbFileData){ // 파일 데이터가 있으면 Json HashMap 변환에 에러가 뜨므로 파일 데이터를 지워서 전달
 		dbFileData[key].file = null;
 		dbFileData[key].saveName = "/"+filepath+"/"+filename;
