@@ -273,6 +273,10 @@ $(document).ready(function(){
 	$('#btnFind').bind('click',function(){
 		findProc();
 	});
+	
+	$('#btnDiff').bind('click',function(){
+		btnDiffClick();
+	});
 
 	$('#btnRequest').bind('click',function(){
 		btnRequestClick();
@@ -407,7 +411,7 @@ function porgRowEdit(){
 	if(reqCd == '07'){
 		$('#panCal').after($('#sayuBox').children());
 		$('#sayuInputBox').addClass('poa');
-		$('#sayuInputBox').css('width','calc(100% - 150px)');
+		$('#sayuInputBox').css('width','calc(100% - 230px)');
 		$('[data-ax5grid="firstGrid"]').parent('div.az_board_basic').height('36%');
 		
 		$('[data-ax5grid="secondGrid"]').parent('div.az_board_basic').height('calc(38% + 40px)');
@@ -973,9 +977,17 @@ function deleteDataRow() {
 		 }
 		
 		$('#btnRequest').prop('disabled',true);
+		$('#btnDiff').prop('disabled',true);
 	}
 	else if(reqCd == '07'){
 		outpos = "R";
+		$('#btnDiff').prop('disabled',true);
+		for(var j=0; secondGridData.length>j ; j++){
+			if (secondGridData[j].cm_info.substr(52,1) == "1"){
+				$('#btnDiff').prop('disabled',false);
+				break;
+			}
+		}
 	}
 	//$('#totalCnt').text(secondGrid.list.length);
 	
@@ -1035,6 +1047,13 @@ function checkDuplication(downFileList){
 	secondGrid.addRow(secondGridList);
 	secondGrid.repaint();
 	exlSw = false;
+	
+	for(i=0; secondGridList.length>i ; i++){
+		if (secondGridList[i].cm_info.substr(52,1) == "1"){
+			$('#btnDiff').prop('disabled',false);
+			break;
+		}
+	}
 	
 	$('#btnRequest').prop('disabled', false);
 	
@@ -1289,59 +1308,34 @@ function changeSys(){
 	
 }
 
-//파일비교버튼 미개발
 function btnDiffClick(){
-	var tmpArray = new ArrayCollection();
-	var tmpObj = new Object();
-	
-	for (var x=0;x<grdLst2_dp.length;x++) {
-		if (grdLst2_dp.getItemAt(x).cm_info.substr(44,1) == "1") {  //45 로컬에서 개발
-			tmpObj = grdLst2_dp.getItemAt(x);
-			tmpObj.errflag = "0";
-			tmpObj.sendflag = "0";
-			tmpObj.cm_dirpath = grdLst2_dp.getItemAt(x).pcdir;
-			tmpObj.pcdir = grdLst2_dp.getItemAt(x).localdir;
-			tmpArray.addItem(tmpObj);
-			tmpObj = null;
-		}
+	if (secondGridData.length == 0){
+		dialog.alert("체크인 대상파일을 추가한 후 진행하시기 바랍니다.");
+		return;
 	}
-	tmpObj = null;
-	if (tmpArray.length>0) {
-		fileUpDownPop = progFileUpDown_Agent(PopUpManager.createPopUp(this, progFileUpDown_Agent, true));
-        PopUpManager.centerPopUp(fileUpDownPop);//팝업을 중앙에 위치하도록 함
-        fileUpDownPop.acptNo = cboSys.selectedItem.cm_syscd;
-        fileUpDownPop.UserId = strUserId;
-        fileUpDownPop.acptNo = "999999999999";
-        fileUpDownPop.progFile_dp = tmpArray;
-        fileUpDownPop.popType = "F";
-        fileUpDownPop.parentFunc = FileUpLoad_Handler_diff;
-	    fileUpDownPop.initApp();
-		} else {
-			diffNext();
-		}
-}
-
-function btnDiffClick(){
-
-	griddiff.visible = true; 
-	Cmr0200.diffList(strUserId,cboSys.selectedItem.cm_syscd,grdLst2_dp.toArray());	
-}
-
-function difflist_resultHandler(event){
 	
-	grdLst2_dp.source = event.result ;
-	grdLst2_dp.refresh();
+	var tmpData = {
+		secondGridData : secondGridData,
+		UserId: 	userId,
+		SysCd:	SelSysCd,
+		requestType: 	'fileDiff'
+	}
+	ajaxReturnData = ajaxCallWithJson('/webPage/apply/ApplyRequest', tmpData, 'json');
+	successGetFileDiff(ajaxReturnData);
+}
 
-	for (var i=0;grdLst2_dp.length>i;i++) {
-		if (grdLst2_dp.getItemAt(i).diffrstcd != null) {
-			if (grdLst2_dp.getItemAt(i).diffrstcd != "0") {
-				Alert.show("체크인이 가능하지 않은 파일이 있습니다. 목록에서 확인 후 진행하시기 바랍니다.");
+function successGetFileDiff(data){
+	secondGridData = data;
+	secondGrid.setData(secondGridData);
+	
+	for(i=0; secondGridData.length>i ; i++){
+		if (secondGridData[i].diffrstcd != null){
+			if (secondGridData[i].diffrstcd != "0"){
+				dialog.alert("체크인이 가능하지 않은 파일이 있습니다. 목록에서 확인 후 진행하시기 바랍니다.");
 				return;
 			}
 		}
 	}
-	cmdReq_DiffNext();
-		
 }
 
 
