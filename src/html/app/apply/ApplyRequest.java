@@ -101,6 +101,9 @@ public class ApplyRequest extends HttpServlet {
 				case "getRelatFileList" :
 					response.getWriter().write( getRelatFileList(jsonElement) );
 					break;
+				case "fileDiff" :
+					response.getWriter().write( getFileDiff(jsonElement) );
+					break;
 				case "delBefJob" :
 					response.getWriter().write( delBefJob(jsonElement) );
 				default:
@@ -250,6 +253,18 @@ public class ApplyRequest extends HttpServlet {
 		
 		return gson.toJson(cmr0200.getRelatFileList(UserId,srID,fileList));
 	}
+	
+	private String getFileDiff(JsonElement jsonElement) throws SQLException, Exception {
+		String UserId = null;
+		UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
+		String SysCd = null;
+		SysCd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SysCd") );
+		ArrayList<HashMap<String, String>> secondGridData = new ArrayList<HashMap<String, String>>();
+		secondGridData = ParsingCommon.jsonArrToArr(ParsingCommon.jsonEtoStr(jsonElement,"secondGridData"));
+		
+		return gson.toJson(cmr0200.diffList(UserId,SysCd,secondGridData));
+	}
+	
 	private String delBefJob(JsonElement jsonElement) throws SQLException, Exception {
 
 		String acptNo = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "acptNo") );
