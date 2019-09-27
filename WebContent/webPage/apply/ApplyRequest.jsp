@@ -197,7 +197,7 @@ input[type=number]::-webkit-outer-spin-button {
 	   				<input type="checkbox" class="checkbox-pie" id="chkSvr" data-label="버전UP만적용" style="display:none;"></input>
 				</div>
 				<button id="btnFileUpload" class="btn_basic_s margin-5-left"  style='display:none;'>테스트결과서</button>
-				<button id="btnDiff" class="btn_basic_s" style='display:none;'>파일비교</button>
+				<button id="btnDiff" class="btn_basic_s" disabled=true>파일비교</button>
 				<button id="btnRequest" class="btn_basic_s" disabled=true>체크인신청</button>
 			</div>
 		</div>
