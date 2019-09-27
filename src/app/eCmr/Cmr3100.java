@@ -151,7 +151,7 @@ public class Cmr3100{
 			} else if (pProc.equals("3")){//반려
 				strQuery.append("and   a.cr_status='3'                                              \n");
 				strQuery.append("and   A.CR_PRCDATE IS NOT NULL                                     \n");
-			}else if (pStateCd.equals("9")){//완료
+			}else if (pStateCd.equals("9") || pProc.equals("9")){//완료
 				strQuery.append("and   A.CR_PRCDATE IS NOT NULL and a.cr_status<>'3'                \n");
 			}
 			if (!pReqCd.equals("0")) {
@@ -222,7 +222,7 @@ public class Cmr3100{
 				} else if (pProc.equals("3")){//반려
 					strQuery.append("and   a.cr_status='3'                                              \n");
 					strQuery.append("and   A.CR_PRCDATE IS NOT NULL                                     \n");
-				}else if (pStateCd.equals("9")){//완료
+				}else if (pStateCd.equals("9") || pProc.equals("9")){//완료
 					strQuery.append("and   A.CR_PRCDATE IS NOT NULL and a.cr_status<>'3'                \n");
 				}
 				if (!pReqCd.equals("0")) {
@@ -321,7 +321,7 @@ public class Cmr3100{
 				} else if (pProc.equals("3")){//반려
 					strQuery.append("and   a.cc_status='3'                                              \n");
 					strQuery.append("and   A.Cc_edDATE IS NOT NULL                                      \n");
-				}else if (pStateCd.equals("9")){//완료
+				}else if (pStateCd.equals("9") || pProc.equals("9")){//완료
 					strQuery.append("and   A.Cc_edDATE IS NOT NULL and a.cc_status<>'3'                \n");
 				}
 				if (!pReqCd.equals("0")) {
@@ -383,7 +383,7 @@ public class Cmr3100{
 					} else if (pProc.equals("3")){//반려
 						strQuery.append("and   a.cc_status='3'                                              \n");
 						strQuery.append("and   A.Cc_edDATE IS NOT NULL                                     \n");
-					}else if (pStateCd.equals("9")){//완료
+					}else if (pStateCd.equals("9") || pProc.equals("9")){//완료
 						strQuery.append("and   A.Cc_edDATE IS NOT NULL and a.cc_status<>'3'                \n");
 					}
 					if (!pReqCd.equals("0")) {
