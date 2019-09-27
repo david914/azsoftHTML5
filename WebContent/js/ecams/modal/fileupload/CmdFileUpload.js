@@ -218,7 +218,7 @@ function fileUpload(){
         	return xhr;
         },
         success : function(data){
-        	onUploadCompleteData(firstGridData);
+        	onUploadCompleteData(data);
         },
         error : function(){
         	dialog.alert('<div>오류가 발생했습니다.</div><div>재전송 버튼을 눌러 다시 등록해주시기 바랍니다.</div>',function(){});
@@ -231,11 +231,11 @@ function fileUpload(){
     	
 }
 
-function onUploadCompleteData(firstGridDataTmp){
+function onUploadCompleteData(response){
 	var ajaxResultData = "";
-	var dbFileData = firstGridDataTmp;
+	var dbFileData = firstGridData;
 	var cmdData = new Object();
-	var dirpath = replaceAllString(response,'\\','');
+	var dirpath = replaceAllString(response,'//','');
 	cmdData.txtcmd 	= dirpath.trim();
 	
 	var tmpData = {

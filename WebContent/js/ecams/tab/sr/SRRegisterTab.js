@@ -60,6 +60,9 @@ var fileData = [];
 var devUserDate = [];
 var uploadUrl = "";
 var TotalFileSize = 0;
+var uploadFileData = [];
+var uploadFileSeq = 0;
+
 // 파일첨부 팝업
 var fileUploadModal = new ax5.ui.modal(
 		{
@@ -1048,7 +1051,23 @@ function confirmEnd(){
 
 function srComplet(){
 	if(fileData.length > 0){
-		fileupload();
+		uploadFileData = [];
+		uploadFileSeq = 0;
+		$(fileData).each(function(){
+			if(this.cc_savename == null || this.cc_saveName == ""){
+				uploadFileData.push(this);
+			}
+			else{
+				if(this.cc_seq>uploadFileSeq){
+					uploadFileSeq = this.cc_seq;
+					uploadFileSeq++;
+				}
+			}
+		});
+		
+		if(uploadFileData.length > 0){
+			fileupload();
+		}
 	}
 	else{
 		dialog.alert(strSel + "이 완료되었습니다.");
@@ -1063,10 +1082,11 @@ function fileupload(){
 	var ajaxResultData = "";
 	var fileseq = 0;
 	var fileseqText = "";
+	var fileseq = uploadFileSeq;
 	var formData = new FormData();
 	//tmpPath = 'C:\\eCAMS\\webTmp\\'; //uploadUrl; //테스트 임시경로
 	tmpPath = uploadUrl;
-	for(var key in fileData){
+	for(var key in uploadFileData){
 		var selSaveFile = "";
 		if(fileseq < 10){
 			fileseqText = "0"+fileseq;
@@ -1079,13 +1099,13 @@ function fileupload(){
 		formData.append('fullName',tmpPath);
 		formData.append('fullpath',tmpPath+"/SR/"+ strIsrId.substr(1,6) + "/");
 		formData.append('saveName',strIsrId+"_"+strReqCd+"_"+fileseqText);
-		formData.append('file',fileData[key].file);
+		formData.append('file',uploadFileData[key].file);
 	
-		fileData[key].sendflag = false;
-		fileData[key].savefile = selSaveFile;
-		fileData[key].fullpath = uploadUrl;
-		fileData[key].fullName = uploadUrl+selSaveFile;
-		fileData[key].fileseq = fileseqText;
+		uploadFileData[key].sendflag = false;
+		uploadFileData[key].savefile = selSaveFile;
+		uploadFileData[key].fullpath = uploadUrl;
+		uploadFileData[key].fullName = uploadUrl+selSaveFile;
+		uploadFileData[key].fileseq = fileseqText;
 		fileseq++;
 		
 	}
@@ -1116,12 +1136,12 @@ function fileupload(){
 
 function onUploadCompleteData(){
 
-	for(var key in fileData){ // 파일 데이터가 있으면 Json HashMap 변환에 에러가 뜨므로 파일 데이터를 지워서 전달
-		fileData[key].file = null;
+	for(var key in uploadFileData){ // 파일 데이터가 있으면 Json HashMap 변환에 에러가 뜨므로 파일 데이터를 지워서 전달
+		uploadFileData[key].file = null;
 	}
 	
 	var tmpData = {
-			fileList   :   fileData,
+			fileList   :   uploadFileData,
 			strIsrId : strIsrId,
 			strUserId : userid,
 			strReqCd : strReqCd,
