@@ -887,6 +887,13 @@ function format_confirm(sel){
     	return;
     }
     
+    if(getSelectedVal('cboReqSecu').value === '6'){
+    	if($("#txtReqSecu").val() === ""){
+    		dialog.alert("보안요구사항을 입력하여 주시기 바랍니다.");
+        	return;
+    	}
+    }
+    
     if(sel === "INSERT"){
     	strSel = "등록";
     	
