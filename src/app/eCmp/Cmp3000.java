@@ -166,15 +166,192 @@ public class Cmp3000 {
 			strQuery.append("AND A.CD_GUBUN = H.CM_MICODE \n");
 			strQuery.append("ORDER BY CM_DIRPATH, CD_RSRCNAME \n");
 
+//			pstmt = conn.prepareStatement(strQuery.toString());
+			 pstmt = new LoggableStatement(conn,strQuery.toString());
+			if (!strSys.equals("00000")) {
+				pstmt.setString(++cnt, strSys);
+			}
+			if (!strSys.equals("00000")) {
+				pstmt.setString(++cnt, strSys);
+			}
+			 ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			rs = pstmt.executeQuery();
+			rsval.clear();
+			while (rs.next()) {
+				ColorSw = "0";
+				rst = new HashMap<String, String>();
+				rst.put("cd_syscd", rs.getString("cd_syscd"));
+				rst.put("cd_dsncd", rs.getString("cd_dsncd"));
+				rst.put("cd_jobcd", rs.getString("cd_jobcd"));
+				rst.put("cd_rsrccd", rs.getString("cd_rsrccd"));
+				rst.put("cd_rsrcname", rs.getString("cd_rsrcname"));
+				rst.put("cd_creator", rs.getString("cd_creator"));
+				rst.put("cd_editor", rs.getString("cd_editor"));
+				rst.put("cd_clseditor", rs.getString("cd_clseditor"));
+				rst.put("cd_reqdoc", rs.getString("cd_reqdoc"));
+				rst.put("cd_opendate", rs.getString("cd_opendate"));
+				rst.put("cd_clsdate", rs.getString("cd_clsdate"));
+				if(rs.getString("cd_clsdate")!= null){
+					ColorSw = "3";
+				}
+				rst.put("colorsw", ColorSw);
+				rst.put("cd_lastdate", rs.getString("cd_lastdate"));
+				rst.put("cd_gubun", rs.getString("cd_gubun"));
+				rst.put("cd_sayucd", rs.getString("cd_sayucd"));
+				rst.put("diffre", rs.getString("diffre"));
+				rst.put("editor", rs.getString("editor"));
+				rst.put("clseditor", rs.getString("clseditor"));
+				rst.put("cm_jobname", rs.getString("cm_jobname"));
+				rst.put("cm_codename", rs.getString("cm_codename"));
+				rst.put("cm_sysmsg", rs.getString("cm_sysmsg"));
+				rst.put("cm_dirpath", rs.getString("cm_dirpath"));
+				rst.put("scmgubun", rs.getString("scmgubun"));
+				rsval.add(rst);
+				rst = null;
+			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+
+			rs = null;
+			pstmt = null;
+			conn = null;
+
+			rtObj = rsval.toArray();
+			rsval.clear();
+			rsval = null;
+
+			return rtObj;
+
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## Cmp3000.get_get_Result() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## Cmp3000.get_Result() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## Cmp3000.get_Result() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## Cmp3000.get_Result() Exception END ##");
+			throw exception;
+		} finally {
+			if (strQuery != null)
+				strQuery = null;
+			if (rtObj != null)
+				rtObj = null;
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (Exception ex2) {
+					ex2.printStackTrace();
+				}
+			if (conn != null) {
+				try {
+					ConnectionResource.release(conn);
+				} catch (Exception ex3) {
+					ecamsLogger.error("## Cmp3000.get_Result() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+
+	}// end of get_Result() method statement
+	
+	public Object[] get_Result_New(String strSys, String prgType, String prgName)throws SQLException, Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuffer strQuery = new StringBuffer();
+		ArrayList<HashMap<String, String>> rsval = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> rst = null;
+		Object[] rtObj = null;
+		int cnt = 0;
+		String			  ColorSw     = "";
+		ConnectionContext connectionContext = new ConnectionResource();
+		try {
+			conn = connectionContext.getConnection();
+			strQuery.append("SELECT A.CD_SYSCD , A.CD_DSNCD ,A.CD_JOBCD ,A.CD_RSRCCD ,A.CD_RSRCNAME ,A.CD_CREATOR , \n");
+			strQuery.append("A.CD_EDITOR,A.CD_CLSEDITOR ,A.CD_REQDOC ,TO_CHAR(A.CD_OPENDATE, 'YYYY-MM-DD') CD_OPENDATE,TO_CHAR(A.CD_CLSDATE, 'YYYY-MM-DD') CD_CLSDATE ,TO_CHAR(A.CD_LASTDATE, 'YYYY-MM-DD') CD_LASTDATE ,A.CD_GUBUN, \n");
+			strQuery.append("A.CD_SAYUCD ,I.cm_codename as DIFFRE ,B.CM_USERNAME AS EDITOR,C.CM_USERNAME AS CLSEDITOR,D.CM_JOBNAME,  \n");
+			strQuery.append("E.CM_CODENAME,F.CM_SYSMSG,G.CM_DIRPATH,H.CM_CODENAME AS SCMGUBUN  \n");
+			strQuery.append("FROM CMD0028 A ,CMM0040 B ,CMM0040 C ,CMM0102 D ,CMM0020 E ,CMM0030 F ,CMM0070 G ,CMM0020 H ,CMM0020 I  \n");
+			strQuery.append("WHERE A.CD_EDITOR = B.CM_USERID  AND   \n");
+			if (!strSys.equals("00000"))
+				strQuery.append("  a.cd_syscd= ?     and   \n");
+			strQuery.append("A.CD_CLSEDITOR = C.CM_USERID(+)  \n");
+			strQuery.append("AND A.CD_SYSCD = F.CM_SYSCD   \n");
+			strQuery.append("AND A.CD_JOBCD = D.CM_JOBCD   \n");
+			strQuery.append("AND E.CM_MACODE = 'JAWON'   \n");
+			strQuery.append("AND A.CD_RSRCCD = E.CM_MICODE   \n");
+			strQuery.append("AND I.CM_MACODE = 'DIFFREJECT'   \n");
+			strQuery.append("AND A.CD_SAYUCD = I.CM_MICODE \n");
+			strQuery.append("AND A.CD_GUBUN = '1' \n");
+			strQuery.append("AND A.CD_SYSCD = G.CM_SYSCD \n");
+			strQuery.append("AND A.CD_DSNCD = G.CM_DSNCD \n");
+			strQuery.append("AND H.CM_MACODE = 'CMD0028' \n");
+			strQuery.append("AND A.CD_GUBUN = H.CM_MICODE \n");
+			if (!prgType.equals("") && prgType != null) {
+				strQuery.append("AND E.CM_CODENAME = ? \n");
+			}
+			if (!prgName.equals("") && prgName != null) {
+				strQuery.append("AND A.CD_RSRCNAME like ? \n");
+			}
+			strQuery.append("UNION ALL \n");
+			strQuery.append("SELECT A.CD_SYSCD,A.CD_DSNCD,A.CD_JOBCD,A.CD_RSRCCD,A.CD_RSRCNAME,A.CD_CREATOR,A.CD_EDITOR,A.CD_CLSEDITOR, \n");
+			strQuery.append("A.CD_REQDOC,TO_CHAR(A.CD_OPENDATE, 'YYYY-MM-DD') CD_OPENDATE,TO_CHAR(A.CD_CLSDATE, 'YYYY-MM-DD') CD_CLSDATE ,TO_CHAR(A.CD_LASTDATE, 'YYYY-MM-DD') CD_LASTDATE ,A.CD_GUBUN,A.CD_SAYUCD,I.cm_codename as DIFFRE, \n");
+			strQuery.append("B.CM_USERNAME AS EDITOR,C.CM_USERNAME AS CLSEDITOR,D.CM_JOBNAME,E.CM_CODENAME,F.CM_SYSMSG, \n");
+			strQuery.append("  A.CD_DSNCD AS CM_DIRPATH, H.CM_CODENAME AS SCMGUBUN \n");
+			strQuery.append("FROM CMD0028 A,CMM0040 B,CMM0040 C,CMM0102 D,CMM0020 E,CMM0030 F,CMM0020 H,CMM0020 I   \n");
+			strQuery.append("WHERE A.CD_EDITOR = B.CM_USERID AND \n");
+			/*strQuery.append("A.CD_CLSDATE IS NULL AND \n");*/
+			if (!strSys.equals("00000"))
+				strQuery.append("  a.cd_syscd= ?     and   \n");
+			strQuery.append("A.CD_CLSEDITOR = C.CM_USERID(+) \n");
+			strQuery.append("AND A.CD_SYSCD = F.CM_SYSCD \n");
+			strQuery.append("AND A.CD_JOBCD = D.CM_JOBCD \n");
+			strQuery.append("AND E.CM_MACODE = 'JAWON' \n");
+			strQuery.append("AND A.CD_RSRCCD = E.CM_MICODE \n");
+			strQuery.append("AND I.CM_MACODE = 'DIFFREJECT' \n");
+			strQuery.append("AND A.CD_SAYUCD = I.CM_MICODE \n");
+			strQuery.append("AND A.CD_GUBUN = '2' \n");
+			strQuery.append("AND H.CM_MACODE = 'CMD0028' \n");
+			strQuery.append("AND A.CD_GUBUN = H.CM_MICODE \n");
+			if (!prgType.equals("") && prgType != null) {
+				strQuery.append("AND E.CM_CODENAME = ? \n");
+			}
+			if (!prgName.equals("") && prgName != null) {
+				strQuery.append("AND A.CD_RSRCNAME like ? \n");
+			}
+			strQuery.append("ORDER BY CM_DIRPATH, CD_RSRCNAME \n");
+
 			pstmt = conn.prepareStatement(strQuery.toString());
-			// pstmt = new LoggableStatement(conn,strQuery.toString());
+//			 pstmt = new LoggableStatement(conn,strQuery.toString());
 			if (!strSys.equals("00000")) {
 				pstmt.setString(++cnt, strSys);
+			}
+			if (!prgType.equals("") && prgType != null) {
+				pstmt.setString(++cnt, prgType);
+			}
+			if (!prgName.equals("") && prgName != null) {
+				pstmt.setString(++cnt, "%" + prgName + "%");
 			}
 			if (!strSys.equals("00000")) {
 				pstmt.setString(++cnt, strSys);
 			}
-			// ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			if (!prgType.equals("") && prgType != null) {
+				pstmt.setString(++cnt, prgType);
+			}
+			if (!prgName.equals("") && prgName != null) {
+				pstmt.setString(++cnt, "%" + prgName + "%");
+			}
+//			 ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 			rs = pstmt.executeQuery();
 			rsval.clear();
 			while (rs.next()) {

@@ -244,6 +244,8 @@ function getResult() {
 	var data = new Object();
 	data = {
 		strSys 		: getSelectedVal('cboSys').value,
+		prgType 	: getSelectedVal('cboPrgDiv') == null ? "" : getSelectedVal('cboPrgDiv').cm_codename == "전체" ? "" : getSelectedVal('cboPrgDiv').cm_codename,
+		prgName		: $("#txtPrgName").val(),
 		requestType	: 'getResult'
 	}
 	ajaxAsync('/webPage/report/FileExceptionRegReport', data, 'json',successGetResult);
