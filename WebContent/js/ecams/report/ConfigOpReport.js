@@ -5,7 +5,9 @@ var userid 		= window.top.userId;
 var picker = [new ax5.ui.picker(), new ax5.ui.picker()];
 var mainGrid = new ax5.ui.grid();
 var dialog = new ax5.ui.dialog({title: "경고"});
-
+var strDate = '';
+var endDate = '';
+var columnData = [];	
 
 //picker세팅
 for(var i = 0; i <= 1; i++) {
@@ -98,6 +100,11 @@ $(document).ready(function() {
 		
 		mainGrid.exportExcel("형상관리운영현황 " + today + ".xls");
 	})
+	
+	//조회 클릭 시
+	$("#btnSearch").bind('click', function() {
+		columnSet();
+	})
 })
 
 
@@ -107,7 +114,7 @@ function isAdmin() {
 			requestType : 'isAdmin',
 			UserId : userid
 	}
-	ajaxResultData = ajaxCallWithJson('/webPage/report/SRStandardReport', ajaxData, 'json');
+	var ajaxResultData = ajaxCallWithJson('/webPage/report/SRStandardReport', ajaxData, 'json');
 	SecuYn = ajaxResultData ? "Y" : "N"; 
 }
 
@@ -165,11 +172,7 @@ $(function() {
 	$("#datStD").val(today);
 })
 
-//조회 클릭 시
-$("#btnSearch").bind('click', function() {
-	
-	var strDate = '';
-	var endDate = '';
+function columnSet() {
 	
 	//조회구분 월별일 경우 일자 자르기
 	if($("[data-ax5select='dateStd']").ax5select("getValue")[0].value === '01') {
@@ -206,7 +209,6 @@ $("#btnSearch").bind('click', function() {
 		return;
 	}	
 	
-	var columnData = [];	
 	var inputData = {	
 		userid : userid,
 		syscd : $("[data-ax5select='systemSel']").ax5select("getValue")[0].value,
@@ -215,13 +217,19 @@ $("#btnSearch").bind('click', function() {
 		endDate : endDate
 	}
 	
-	ajaxData = {
+	var ajaxData = {
 			inputData : inputData,
 			requestType : "getRsrcCd"
 	}
-	
 	//컬럼에 표시할 데이터 불러오기
-	var ajaxResult = ajaxCallWithJson('/webPage/report/ConfigOpReport', ajaxData, 'json');
+	ajaxAsync('/webPage/report/ConfigOpReport', ajaxData, 'json', successColumnSet);
+}
+
+function successColumnSet(ajaxResult) {
+	if(ajaxResult.length <= 0) {
+		dialog.alert("해당 조건에 해당하는 데이터가 존재가하지 않습니다.");
+		return;
+	}
 	
 	//step선택 값에 따른 컬럼 데이터 세팅
 	for(var i = 1; i <= 4; i++) {
@@ -230,15 +238,16 @@ $("#btnSearch").bind('click', function() {
 	}
 	columnData.push({key : "rowhap",label : "합계",align : "right",width: "5%", styleClass: "font-red"});
 	
-	console.log(ajaxResult);
 	//존재하는 컬럼 데이터 추가
 	$.each(ajaxResult, function(index, value) {
 		columnData.push({key : "col" + value.cm_micode, label : value.cm_codename, align : "right", width : "5%"});
 	})
+	gridSet();
+}
+
+function gridSet() {
 	
-	ajaxData, inputData = null;
-	
-	inputData = {
+	var inputData = {
 		userid : userid,
 		syscd : $("[data-ax5select='systemSel']").ax5select("getValue")[0].value,
 		dateGbn : $("[data-ax5select='dateStd']").ax5select("getValue")[0].value,
@@ -250,11 +259,14 @@ $("#btnSearch").bind('click', function() {
 		strDate : strDate,
 		endDate : endDate
 	}
-	ajaxData = {
+	var ajaxData = {
 			inputData : inputData,
 			requestType : "getProgList"
 	}
-	var ajaxResult = ajaxCallWithJson('/webPage/report/ConfigOpReport', ajaxData, 'json');
+	ajaxAsync('/webPage/report/ConfigOpReport', ajaxData, 'json', successGridSet);
+}
+
+function successGridSet(ajaxResult) {
 	
 	if(ajaxResult.length > 0) {		
 		var footSumData = [[]];
@@ -273,28 +285,6 @@ $("#btnSearch").bind('click', function() {
 			}
 		});
 		
-		var testColumnData = [
-			{key: "isrid", label: "SR-ID",  width: '6%'},
-			{key: "genieid", label: "문서번호",  width: '6%', align: 'left'},
-			{key: "recvdate", label: "등록일",  width: '5%'},
-			{key: "reqdept", label: "요청부서",  width: '5%', align: 'left'},
-			{key: "reqsta1", label: "SR상태",  width: '5%', align: 'left'},
-			{key: "reqtitle", label: "요청제목",  width: '15%', align: 'left'},
-			{key: "reqedday", label: "완료요청일",  width: '5%'},
-			{key: "comdept", label: "등록부서",  width: '5%', align: 'left'},
-			{key: "recvuser", label: "등록인",  width: '4%'},
-			{key: "recvdept", label: "개발부서",  width: '5%', align: 'left'},
-			{key: "devuser", label: "개발담당자",  width: '5%'},
-			{key: "reqsta2", label: "개발자상태",  width: '5%', align: 'left'},
-			{key: "chgdevterm", label: "개발기간", width: '8%', align: 'left'},
-			{key: "chgdevtime", label: "개발계획공수", width: '6%'},
-			{key: "realworktime", label: "개발투입공수", width: '6%'},
-			{key: "chgpercent", label: "개발진행율", width: '6%'},
-			{key: "chgedgbn", label: "변경종료구분", width: '6%', align: 'left'},
-			{key: "chgeddate", label: "변경종료일", width: '6%'},
-			{key: "isredgbn", label: "SR완료구분", width: '6%', align: 'left'},
-			{key: "isreddate", label: "SR완료일", width: '6%'}
-			];
 		//컬럼 세팅
 		mainGrid.setConfig({
 			footSum : footSumData,
@@ -302,12 +292,8 @@ $("#btnSearch").bind('click', function() {
 		})
 		
 		gridData.pop();	
-		
-		console.log(testColumnData);
-		console.log(columnData);
-		
 		//그리드 세팅
 		mainGrid.setData(gridData);
 	}
-})
+}
 
