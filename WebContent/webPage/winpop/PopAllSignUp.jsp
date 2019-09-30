@@ -42,7 +42,7 @@
 					<!--button-->
 					<div class="vat dib poa_r">
 						<button id="btnExcelOpen" class="btn_basic_s">엑셀열기</button>
-						<!-- <button id="btnCellAd" class="btn_basic_s margin-5-left">셀추가</button> -->
+						<button id="btnCellAd" class="btn_basic_s margin-5-left" data-grid-control="row-add">셀추가</button>
 						<button id="btnExcel" class="btn_basic_s margin-5-left">엑셀저장</button>
 						<button id="btnDbSave" class="btn_basic_s margin-5-left">디비저장</button>
 					</div>
