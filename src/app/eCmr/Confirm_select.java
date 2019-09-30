@@ -404,7 +404,7 @@ public class Confirm_select {
 								*/
 							}
 							if (SvLine.length()>0) {
-								if (rs.getString("cm_jobcd").equals("SYSEDN") || rs.getString("cm_jobcd").equals("SYSEUP")) {
+								if (rs.getString("cm_jobcd").equals("SYSEDN") || rs.getString("cm_jobcd").equals("SYSEUP") || rs.getString("cm_jobcd").equals("SYSENC")) {
 									SvLine = "";
 								} else if (OutPos.equals("R")) {
 									if (rs.getString("cm_jobcd").equals("SYSPDN") || rs.getString("cm_jobcd").equals("SYSFMK") ||
@@ -607,17 +607,19 @@ public class Confirm_select {
 							SvUser = rs.getString("cm_jobcd");
 							SvBaseUser =  rs.getString("cm_jobcd");
 							SvSgnName = "자동처리";
-							if (rs.getString("cm_jobcd").equals("SYSDDN") ||
-								rs.getString("cm_jobcd").equals("SYSDUP") ||
-							    rs.getString("cm_jobcd").equals("SYSDNC")) {
-								if (rs.getString("cm_manid").equals("N")){
-									SvTag = "파트너사 " + rs.getString("cm_username");
-								}
-							    else{
-							    	SvTag = "NICE" + rs.getString("cm_username");
-							    }
-							}
-							else {
+							ecamsLogger.error("++++++++++++cm_jobcd+++++++++"+rs.getString("cm_jobcd"));
+//							if (rs.getString("cm_jobcd").equals("SYSDDN") ||
+//								rs.getString("cm_jobcd").equals("SYSDUP") ||
+//							    rs.getString("cm_jobcd").equals("SYSDNC")) {
+// 20190930 주석처리
+//								if (rs.getString("cm_manid").equals("N")){
+//									SvTag = "파트너사 " + rs.getString("cm_username");
+//								}
+//							    else{
+//							    	SvTag = "NICE" + rs.getString("cm_username");
+//							    }
+//							}
+//							else {
 								strQuery.setLength(0);
 								pstmtcount = 1;
 								strQuery.append("select cm_codename from cmm0020                         \n");
@@ -632,7 +634,7 @@ public class Confirm_select {
 					            }
 					            pstmt2.close();
 					            rs2.close();
-							}
+//							}
 							HashSv = new HashMap<String, String>();
 							HashSv.put("SvUser", SvUser);
 							HashSv.put("SvTag", SvTag);
