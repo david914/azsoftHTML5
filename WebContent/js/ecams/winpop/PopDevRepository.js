@@ -806,7 +806,7 @@ function successGetFileList(data) {
 	}
 	
 	grdProgList.setData(grdProgListData);
-	grdProgList.setColumnSort({filename:{seq:0, orderBy:"asc"}});
+	//grdProgList.setColumnSort({filename:{seq:0, orderBy:"asc"}});
 }
 
 function btnRegist_Click() {
@@ -956,8 +956,10 @@ function btnRegist_Click() {
 	tmpInfo.seqno = getSelectedVal('cboSvr').cm_seqno;
 	tmpInfo.jobcd = getSelectedVal('cboJob').value;
 	
-	if(getSelectedVal('cboSystem').cm_sysinfo.substr(9,1) == "0" && getSelectedIndex('cboSRID') > 0) {
-		tmpInfo.srid = getSelectedVal('cboSRID').cc_srid;
+	if(getSelectedVal('cboSystem').cm_sysinfo.substr(9,1) == "0") {
+		if(getSelectedIndex('cboSRID') > 0) {
+			tmpInfo.srid = getSelectedVal('cboSRID').value;
+		}
 	}
 	
 	tmpInfoData = new Object();

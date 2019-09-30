@@ -1102,6 +1102,7 @@ public class svrOpen{
 		        	rst2.put("baseitem","");
 		        	rst2.put("info",strRsrcInfo);
 		        	rst2.put("srid", etcData.get("srid"));
+		        	
 		        	//rst2.put("todsn",etcData.get("todsn"));
 		        	//rst2.put("scrno",etcData.get("scrno"));
 		        	retMsg = cmd0100.cmr0020_Insert(rst2,conn);

@@ -298,7 +298,12 @@ public class Cmm1600{
 	                
 	                	if (rs.getString("cm_exename") != null) {
 	                		exeName = "";
-	                		exeName = rsrcname.substring(rsrcname.lastIndexOf("."));
+	                		if(rsrcname.lastIndexOf(".") > 0) {
+	                			exeName = rsrcname.substring(rsrcname.lastIndexOf("."));
+	                		}else {
+	                			exeName = rsrcname;
+	                		}
+	                		
 	                		if (exeName.length()>0) {
 	                			if (rs.getString("cm_exename").indexOf(exeName)<0) {
 	                				errMsg = errMsg + "확장자불일치";
