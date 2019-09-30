@@ -171,6 +171,10 @@ function successDelRelat(data) {
 
 // 맵핑연결 리스트 가져오기
 function getRelatList() {
+	if(getSelectedIndex('cboSysCd') < 1) {
+		dialog.alert('시스템을 선택해 주시기 바랍니다.',function(){});
+		return;
+	}
 	
 	var GbnCd = $('#optAll').is(':checked') ? 'A'
 				: $('#optPrg').is(':checked') ? 'P'
