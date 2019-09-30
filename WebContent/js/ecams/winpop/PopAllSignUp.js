@@ -75,7 +75,9 @@ signUpGrid.setConfig({
 $('[data-grid-control]').click(function () {
 	switch (this.getAttribute("data-grid-control")) {
     case "row-add":
-    	signUpGrid.addRow($.extend({}, {}, {__index: undefined}));
+    	signUpGrid.addRow($.extend({}, {newRow : true}, {__index: undefined}) ,"last",{focus: "END"});
+    	signUpGrid.clearSelect();
+    	signUpGrid.select(signUpGrid.getList().length-1, {selected: true});
     	$('#btnExcel').prop('disabled', false);
     	$('#btnDbSave').prop('disabled', false);
         break;
@@ -178,7 +180,7 @@ function saveDb() {
 	
 	var data = new Object();
 	data = {
-		rtList 		: signUpGridData,
+		rtList 		: signUpGrid.getList(),
 		requestType	: 'saveDb'
 	}
 	ajaxAsync('/webPage/administrator/UserInfoServlet', data, 'json',successSaveDb);
