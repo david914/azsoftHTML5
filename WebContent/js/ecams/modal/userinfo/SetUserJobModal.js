@@ -254,13 +254,26 @@ function successSetAllUserJob(data) {
 
 // 사용자/팀의 업무정보 리스트 가져오기
 function getUserJobList(){
-	if(cboUserData.length === 0 ) {
+	if(ulUserInfoData.length === 0 ) {
+		dialog.alert('조회할 목록이 추가되어있지 않습니다.');
 		return;
 	}
+	
+	var searchUser = '';
+	
+	if(getSelectedVal('cboUser').ID === 'USER') {
+		for(var i=0; i <ulUserInfoData.length; i++) {
+			if(i !== 0 ) searchUser +=   ',';
+			searchUser += ulUserInfoData[i].value;
+		}
+	} else {
+		searchUser = getSelectedVal('cboUser').code;
+	}
+	
 	var data = new Object();
 	data = {
 		gbnCd 	: getSelectedVal('cboUser').ID,
-		UserId 	: getSelectedVal('cboUser').code,
+		UserId 	: searchUser,
 		requestType	: 'getUserJobList'
 	}
 	ajaxAsync('/webPage/modal/userinfo/SetUserJobServlet', data, 'json', successGetUserJobList);
@@ -335,8 +348,20 @@ function getUserOrTeamList() {
 		if(ulUserInfoData.indexOf(getSelectedVal('cboUser')) > -1) {
 			return;
 		}
-		ulUserInfoData.push(getSelectedVal('cboUser'));
-		makeUserInfoUlList();
+		
+		var checkSameUserSw = false;
+		
+		for(var i=0; i<ulUserInfoData.length; i++) {
+			if(ulUserInfoData[i].value === getSelectedVal('cboUser').value)  {
+				checkSameUserSw = true;
+				dialog.alert('이미 목록에 추가 되어 있는 사용자 입니다.');
+				break;
+			}
+		}
+		if(!checkSameUserSw) {
+			ulUserInfoData.push(getSelectedVal('cboUser'));
+			makeUserInfoUlList();
+		}
 	} else {
 		getTeamUserList();
 	}
