@@ -41,7 +41,7 @@
                 	<div class="width-25 dib vat">
 	                	<label class="tit-80 dib poa">신청종류</label>
 	                	<div class="ml_80">
-		                    <div data-ax5select="cboType" data-ax5select-config="{size:'sm', theme:'primary'}" class="width-100"></div> 	
+		                    <div id = "cboType" data-ax5select="cboType" data-ax5select-config="{size:'sm', theme:'primary'}" class="width-100"></div> 	
 	                	</div>
 					</div>
                 	<div class="width-25 dib vat">

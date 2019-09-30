@@ -358,23 +358,30 @@ public class Cmr1100 {
 	}
 
 	public Object[] getFileList(HashMap<String,String> etcData) throws SQLException, Exception {
-		Connection        conn        = null;
-		PreparedStatement pstmt       = null;
-		PreparedStatement pstmt2      = null;
-		ResultSet         rs          = null;
-		ResultSet         rs2         = null;
-		StringBuffer      strQuery    = new StringBuffer();
-		StringBuffer      strQuery2   = new StringBuffer();
-		Object[]		  rtObj		  = null;
+		Connection        	conn        = null;
+		PreparedStatement 	pstmt       = null;
+		PreparedStatement 	pstmt2      = null;
+		ResultSet         	rs          = null;
+		ResultSet         	rs2         = null;
+		StringBuffer      	strQuery    = new StringBuffer();
+		StringBuffer      	strQuery2   = new StringBuffer();
+		Object[]		 	rtObj		= null;
+		int					pstmtcount  = 1;
+		int					subrowcnt   = 0;
+		String          	reqName     = "";
+		boolean				AdminChk	= false;
+		HashMap<String, String>	 rst  	= null;
 		ArrayList<HashMap<String, String>>		  rtList	  = new ArrayList<HashMap<String, String>>();
-		HashMap<String, String>	 rst  = null;
-		ConnectionContext connectionContext = new ConnectionResource();
-		int				  pstmtcount  = 1;
-		int				 subrowcnt    = 0;
-		String           reqName      = "";
+		ConnectionContext 	connectionContext = new ConnectionResource();
+				
 
 		try {
 			conn = connectionContext.getConnection();
+			
+			UserInfo		  userInfo	  = new UserInfo();
+			AdminChk = userInfo.isAdmin(etcData.get("UserID"));
+			userInfo = null;
+			
 			strQuery.append("select /*+ index(h CMR1010_PK) */  a.cr_acptno,a.cr_editor,a.cr_syscd,a.cr_status,     \n");
 			strQuery.append("to_char(a.CR_ACPTDATE,'yyyy/mm/dd hh24:mi') as acptdate,   \n");
 			strQuery.append("a.cr_acptno,a.cr_editor,a.cr_syscd,a.cr_status,            \n");
@@ -395,20 +402,13 @@ public class Cmr1100 {
 			}
 			strQuery.append("       group by cr_acptno) g,                              \n");
 			strQuery.append("       cmr1010 h, cmm0020 i,cmc0100 j                      \n");
-			if (etcData.get("req").equals("01")){
-				strQuery.append("where a.cr_qrycd in ('01','02','11')      \n");
-			}else if(etcData.get("req").equals("03")){
-				strQuery.append("where a.cr_qrycd in ('03','07','06','12') \n");
-			}else if(etcData.get("req").equals("04")){
-				strQuery.append("where a.cr_qrycd in ('03','04','07','06','12') \n");
+			
+			if (etcData.get("reqcd").equals("01")){
+				strQuery.append("where a.cr_qrycd in ('01','02')      \n");
 			}else{
-				strQuery.append("where a.cr_qrycd = '07' 			   \n");
+				strQuery.append("where a.cr_qrycd = ?			   \n");
 			}
-			//else{
-			//	strQuery.append("where a.cr_qrycd in ('03','04','06','12') \n");
-			//}
 
-//			if (AdminChk == false){
 			if(etcData.get("chkSelf").equals("true")) {
 				strQuery.append("and a.cr_editor= ? \n");					
 			} else if( etcData.get("chkSelf").equals("false") && !etcData.get("userName").equals("") && (etcData.get("userName") != null) ){
@@ -416,15 +416,9 @@ public class Cmr1100 {
 					strQuery.append("          from cmm0040						\n");
 					strQuery.append("          where cm_username = ?)			\n");
 			}
-//				strQuery.append("and a.cr_editor= ? \n");
-//			}
-
-		    if (!etcData.get("reqcd").equals("00")){
-		    	strQuery.append("and a.cr_qrycd= ? \n");
-		    	if(etcData.get("reqcd").equals("93") || etcData.get("reqcd").equals("94")) { //93:Å×½ºÆ® Æó±â(qrycd=03), 94:¿î¿µÆó±â(qrycd=04)
-		    		strQuery.append("and a.cr_closeyn = 'Y' \n");
-		    	}
-		    }
+			if (AdminChk == false){
+				strQuery.append(" and a.cr_syscd in (select cm_syscd from cmm0044 where cm_userid = ? and cm_closedt is null) 	\n");
+			}
 
 			if (etcData.get("stepcd").equals("0")){
 				strQuery.append("and ((a.cr_prcdate is not null \n");
@@ -488,16 +482,20 @@ public class Cmr1100 {
 			//strQuery.append("order by a.cr_acptdate desc \n");
            // pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt =  new LoggableStatement(conn, strQuery.toString());
-//			if (AdminChk == false){
 			if(etcData.get("chkSelf").equals("true")) {
 				pstmt.setString(pstmtcount++, etcData.get("UserID"));
 				pstmt.setString(pstmtcount++, etcData.get("UserID"));
 			}else if( etcData.get("chkSelf").equals("false") && !etcData.get("userName").equals("") && (etcData.get("userName") != null) ){
 				pstmt.setString(pstmtcount++, etcData.get("userName"));
 			}
-//			}
+			if (!etcData.get("reqcd").equals("01")){
+				pstmt.setString(pstmtcount++, etcData.get("reqcd"));
+			}
+			if (AdminChk == false){
+				pstmt.setString(pstmtcount++, etcData.get("UserID"));
+			}
 
-			if (!etcData.get("reqcd").equals("00")){
+			/*if (!etcData.get("reqcd").equals("00")){
 		    	if(etcData.get("reqcd").equals("93")) { //93:Å×½ºÆ® Æó±â(qrycd=03)
 		    		pstmt.setString(pstmtcount++, "03");	
 		    	} else if(etcData.get("reqcd").equals("94")) { // 94:¿î¿µÆó±â(qrycd=04)
@@ -505,7 +503,7 @@ public class Cmr1100 {
 		    	} else {
 					pstmt.setString(pstmtcount++, etcData.get("reqcd"));	    		
 		    	}
-			}
+			}*/
 
 			if (etcData.get("stepcd").equals("0") || etcData.get("stepcd").equals("3") || etcData.get("stepcd").equals("9") ){
 				pstmt.setString(pstmtcount++, etcData.get("stDt"));

@@ -312,8 +312,6 @@ function successGetCodeInfo(data) {
 	var chkIn = ["00", "03", "06", "07"];
 	var dist = ["00", "03", "04", "06", "07"];
 	var count = 0;
-	console.log(data);
-	
 	//reqCd에 따라서 신청종류 데이터를 다르게 세팅
 	switch(strReqCD) {	
 	case "01" :
@@ -360,10 +358,12 @@ function typeDefaultSet() {
 		$("#nameDiv").removeClass("width-25").addClass("width-50");
 		$('[data-ax5select="cboType"]').ax5select("setValue", '01', true);
 	} else if (strReqCD == '07'){
+		$('[data-ax5select="cboGbn"]').ax5select("disable");
 		$('[data-ax5select="cboType"]').ax5select("setValue", '07', true);
 	} else if (strReqCD == '04'){
 		$('[data-ax5select="cboType"]').ax5select("setValue", '04', true);
 	} else if (strReqCD == '03'){
+		$('[data-ax5select="cboGbn"]').ax5select("disable");
 		$('[data-ax5select="cboType"]').ax5select("setValue", '03', true);
 	}
 }
@@ -385,11 +385,11 @@ function cboGbnSet() {
 	$('[data-ax5select="cboGbn"]').ax5select({
 		options : [
 			{value: "ALL", text: "전체"},
-			{value: 0, text: "일반적용"},
-			{value: 4, text: "수시적용"},
-			{value: 2, text: "긴급적용"}			
+			{value: 0, text: "일반배포"},
+			{value: 4, text: "특정일시배포"},
+			{value: 2, text: "긴급배포"}
 			]
-	})
+	});
 }
 
 // 초기화 버튼 클릭
@@ -469,7 +469,6 @@ function getFileList(){
 
 // 신청 리스트 가져오기 완료
 function successGetFileList(data) {
-	console.log(data);
 	firstGridData = data;
 	firstGrid.setData(firstGridData);
 }
