@@ -228,6 +228,7 @@ function columnSet() {
 function successColumnSet(ajaxResult) {
 	if(ajaxResult.length <= 0) {
 		dialog.alert("해당 조건에 해당하는 데이터가 존재가하지 않습니다.");
+		mainGrid.setConfig({});
 		return;
 	}
 	
