@@ -91,6 +91,9 @@ $(document).ready(function() {
 	// 시스템 콤보 변경
 	$('#cboSys').bind('change', function() {
 		if(getSelectedIndex('cboSys') < 1) {
+			$('#txtPrgName').val('');
+			$('#txtDir').val('');
+			$('#txtSayu').val('');
 			return;
 		}
 		getJobInfo();

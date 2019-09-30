@@ -248,6 +248,8 @@ function dblClickDirGrid(index, division) {
 			}
 			//delIndex = index;
 			ajaxAsync('/webPage/administrator/DirectoryReg', data, 'json',successRemovePath);
+		} else {
+			dialog.alert('취소되였습니다.', function() {});
 		}
 	});
 }
