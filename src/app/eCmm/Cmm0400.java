@@ -1775,7 +1775,7 @@ public class Cmm0400{
 			pstmt = null;
 			rs = null;
 
-        	return dataObj.get("gbncd") + DeptCd;
+        	return DeptCd;
 
 		} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();

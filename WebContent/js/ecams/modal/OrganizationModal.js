@@ -199,7 +199,7 @@ function addMenu() {
 
 // 트리구분 추가 완료
 function successInsertNewDir(data) {
-	var treeId 	= data.substr(0,1);
+	var treeId 	= data;
 	var pId		= selectedNode.pId === undefined ? null : selectedNode.pId;
 	var parentNode = null;
 	if(pId != null) parentNode = treeObj.getNodeByParam("id", pId, null);
@@ -243,7 +243,7 @@ function addSubMenu() {
 
 // 트리 서브구분 추가 완료
 function successInsertNewSubDir(data) {
-	var treeId 	= data.substr(0,1);
+	var treeId 	= data;
 	var newNode = new Object();
 	newNode.id 	= treeId;
 	newNode.pId = selectedNode.id;
@@ -324,6 +324,12 @@ function deleteDir() {
 function successDelDir(data) {
 	dialog.alert('['+selectedNode.name+'] 해당 구분 삭제 처리 완료.',function() {
 		treeObj.removeNode(selectedNode);
+		
+		// 트리 삭제 후 자식트리가 없을 경우 상위 트리가 저절로 아이콘이 파일로 변경됨 그래서 상위 트리의 속성 값 변경!
+		var nodes =  treeObj.getNodeByTId(selectedNode.parentTId);
+		nodes.isParent = true;
+		treeObj.updateNode(nodes);
+		
 		selectedNode 	= null;
 		insertNode 		= null;
 	});
