@@ -207,12 +207,17 @@ function getProgList(syscd) {
 	})
 	
 	ajaxResult.pop();
-	if(ajaxResult.length == 1) {		
+	if(ajaxResult.length == 1) {
+		console.log('####1');
 		successGetBarData(ajaxResult);
-	} else if(ajaxResult.length > 1){		
+	} else if(ajaxResult.length > 1){
+		console.log('####2');
+		$('#barAppliKinds').empty();
 		successGetPieData(ajaxResult);
 		successGetBarData(ajaxResult);
 	} else {
+		console.log('####3');
+		$('#barAppliKinds').empty();
 		columnData = [];		
 	}
 }
