@@ -103,6 +103,16 @@ $(document).ready(function() {
 	});
 	//getPrjList();
 	
+	// 요청부서 변경시 재조회
+	$('#cboReqDepart').bind('change', function() {
+		getPrjList();
+	});
+	
+	// 분류유형 변경시 재조회
+	$('#cboCatType').bind('change', function() {
+		getPrjList();
+	});
+	
 	$('#datStD').prop("disabled", true); 
 	window.parent.$("#datStD").prop("disabled", true);
 	$('#datEdD').prop("disabled", true); 
