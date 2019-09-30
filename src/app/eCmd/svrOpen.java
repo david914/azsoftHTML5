@@ -2316,6 +2316,7 @@ public class svrOpen{
                 					//rsval = new ArrayList<HashMap<String, String>>();
                 					if ( findSw ) {
 	                					rst = new HashMap<String, String>();
+	                					rst.put("SysOs", etcData.get("SysOs"));
 	                					rst.put("syscd", etcData.get("SysCd"));
 	                					//rst.put("cm_dirpath", wkDir.replace(svrHome, ""));
 	                					rst.put("cm_dirpath", wkDir);

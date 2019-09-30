@@ -67,128 +67,259 @@ public class svrOpen_thread_file implements Runnable{
 
 		try {
 			wkB = etcData.get("filename");
-			if ( etcData.get("svrchg").equals("Y") ) {
-				strQuery.setLength(0);
-	        	strQuery.append("select a.cr_rsrccd,b.cm_dirpath      \n");
-	        	strQuery.append("  from cmr0020 a,cmm0070 b           \n");
-				strQuery.append(" where a.cr_syscd=?                  \n");
-				strQuery.append("   and a.cr_rsrcname=?               \n");
-				strQuery.append("   and a.cr_syscd=b.cm_syscd         \n");
-				strQuery.append("   and a.cr_dsncd=b.cm_dsncd         \n");
-				//pstmt = conn.prepareStatement(strQuery.toString());
-				pstmt = new LoggableStatement(conn,strQuery.toString());
-	            pstmt.setString(1, etcData.get("syscd"));
-	            pstmt.setString(2, wkB);
-	            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
-	            rs = pstmt.executeQuery();
-	            while (rs.next()) {
-	            	strQuery.setLength(0);
-	            	strQuery.append("select b.cm_volpath from cmm0031 a,cmm0038 b  \n");
-	            	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd=?          \n");
-	            	strQuery.append("   and a.cm_closedt is null                   \n");
-	            	strQuery.append("   and a.cm_syscd=b.cm_syscd                  \n");
-	            	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                  \n");
-	            	strQuery.append("   and a.cm_seqno=b.cm_seqno                  \n");
-	            	strQuery.append("   and b.cm_rsrccd=?                          \n");
-	            	//pstmt2 = conn.prepareStatement(strQuery.toString());
-					pstmt2 = new LoggableStatement(conn,strQuery.toString());
-		            pstmt2.setString(1, etcData.get("syscd"));
-		            pstmt2.setString(2, etcData.get("basesvr"));
-		            pstmt2.setString(3, rs.getString("cr_rsrccd"));
-		            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
-		            rs2 = pstmt2.executeQuery();
-		            if (rs2.next()) {
-		            	baseHome = rs2.getString("cm_volpath");
-		            }
-		            rs2.close();
-		            pstmt2.close();
-		            
-	            	strQuery.setLength(0);
-	            	strQuery.append("select b.cm_volpath from cmm0031 a,cmm0038 b  \n");
-	            	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd=?          \n");
-	            	strQuery.append("   and a.cm_seqno=?                           \n");
-	            	strQuery.append("   and a.cm_closedt is null                   \n");
-	            	strQuery.append("   and a.cm_syscd=b.cm_syscd                  \n");
-	            	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                  \n");
-	            	strQuery.append("   and a.cm_seqno=b.cm_seqno                  \n");
-	            	strQuery.append("   and b.cm_rsrccd=?                          \n");
-	            	//pstmt2 = conn.prepareStatement(strQuery.toString());
-					pstmt2 = new LoggableStatement(conn,strQuery.toString());
-		            pstmt2.setString(1, etcData.get("syscd"));
-		            pstmt2.setString(2, etcData.get("svrcd"));
-		            pstmt2.setString(3, etcData.get("svrseq"));
-		            pstmt2.setString(4, rs.getString("cr_rsrccd"));
-		            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
-		            rs2 = pstmt2.executeQuery();
-		            if (rs2.next()) {
-		            	svrHome = rs2.getString("cm_volpath");
-		            }
-		            rs2.close();
-		            pstmt2.close();
-		            
-		            chgPath = etcData.get("dirpath").replace(svrHome, baseHome);
-		            
-		            //ecamsLogger.error("dirpath,chgpath,svrhome,basehome===="+etcData.get("dirpath")+", "+chgPath+", "+svrHome+", "+baseHome);
-		            strQuery.setLength(0);
-					strQuery.append("select cm_dsncd from cmm0070            \n");
-					strQuery.append(" where cm_syscd=? and cm_dirpath=?      \n");
-					//pstmt2 = conn.prepareStatement(strQuery.toString());
-					pstmt2 = new LoggableStatement(conn,strQuery.toString());
-		            pstmt2.setString(1, etcData.get("syscd"));
-		            pstmt2.setString(2, chgPath);
-		            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
-		            rs2 = pstmt2.executeQuery();
-		            if (rs2.next()) {
-		            	wkDsnCd = rs2.getString("cm_dsncd");
-		            	findSw = true;
-		            }
-		            rs2.close();
-		            pstmt2.close();
-		            if (findSw) break;
-	            }
-	            rs.close();
-	            pstmt.close();
-			} else {   
-				strQuery.setLength(0);
-				strQuery.append("select cm_dsncd from cmm0070            \n");
-				strQuery.append(" where cm_syscd=? and cm_dirpath=?      \n");
-				//pstmt = conn.prepareStatement(strQuery.toString());
-				pstmt = new LoggableStatement(conn,strQuery.toString());
-	            pstmt.setString(1, etcData.get("syscd"));
-	            pstmt.setString(2, etcData.get("dirpath"));
-	            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
-	            rs = pstmt.executeQuery();
-	            if (rs.next()) {
-	            	wkDsnCd = rs.getString("cm_dsncd");
-	            }
-	            rs.close();
-	            pstmt.close();
-	
-	            if (wkB.indexOf(".")>=0) {
-	            	wkC = wkB.substring(0,wkB.lastIndexOf("."));
-	            }
-	            findSw = false;
-	            if (wkDsnCd != null && wkDsnCd != "") {
-	            	strQuery.setLength(0);
-	            	strQuery.append("select count(*) cnt from cmr0020 a,cmm0036 b  \n");
-					strQuery.append(" where a.cr_syscd=? and a.cr_dsncd=? \n");
+			
+			ecamsLogger.error("@@@@@@ SysOs > " + etcData.get("SysOs"));
+			if (!"03".equals(etcData.get("SysOs"))) {	//windows 시스템이 아닐경우
+				if ( etcData.get("svrchg").equals("Y") ) {
+					strQuery.setLength(0);
+		        	strQuery.append("select a.cr_rsrccd,b.cm_dirpath      \n");
+		        	strQuery.append("  from cmr0020 a,cmm0070 b           \n");
+					strQuery.append(" where a.cr_syscd=?                  \n");
+					strQuery.append("   and a.cr_rsrcname=?               \n");
 					strQuery.append("   and a.cr_syscd=b.cm_syscd         \n");
-					strQuery.append("   and a.cr_rsrccd=b.cm_rsrccd       \n");
-					strQuery.append("   and a.cr_rsrcname=decode(substr(b.cm_info,27,1),'1',?,?) \n");
+					strQuery.append("   and a.cr_dsncd=b.cm_dsncd         \n");
 					//pstmt = conn.prepareStatement(strQuery.toString());
 					pstmt = new LoggableStatement(conn,strQuery.toString());
 		            pstmt.setString(1, etcData.get("syscd"));
-		            pstmt.setString(2, wkDsnCd);
-		            pstmt.setString(3, wkC);
-		            pstmt.setString(4, wkB);
+		            pstmt.setString(2, wkB);
 		            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 		            rs = pstmt.executeQuery();
-		            if ( rs.next() && rs.getInt("cnt") > 0 ) {
-		            	findSw = true;
+		            while (rs.next()) {
+		            	strQuery.setLength(0);
+		            	strQuery.append("select b.cm_volpath from cmm0031 a,cmm0038 b  \n");
+		            	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd=?          \n");
+		            	strQuery.append("   and a.cm_closedt is null                   \n");
+		            	strQuery.append("   and a.cm_syscd=b.cm_syscd                  \n");
+		            	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                  \n");
+		            	strQuery.append("   and a.cm_seqno=b.cm_seqno                  \n");
+		            	strQuery.append("   and b.cm_rsrccd=?                          \n");
+		            	//pstmt2 = conn.prepareStatement(strQuery.toString());
+						pstmt2 = new LoggableStatement(conn,strQuery.toString());
+			            pstmt2.setString(1, etcData.get("syscd"));
+			            pstmt2.setString(2, etcData.get("basesvr"));
+			            pstmt2.setString(3, rs.getString("cr_rsrccd"));
+			            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
+			            rs2 = pstmt2.executeQuery();
+			            if (rs2.next()) {
+			            	baseHome = rs2.getString("cm_volpath");
+			            }
+			            rs2.close();
+			            pstmt2.close();
+			            
+		            	strQuery.setLength(0);
+		            	strQuery.append("select b.cm_volpath from cmm0031 a,cmm0038 b  \n");
+		            	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd=?          \n");
+		            	strQuery.append("   and a.cm_seqno=?                           \n");
+		            	strQuery.append("   and a.cm_closedt is null                   \n");
+		            	strQuery.append("   and a.cm_syscd=b.cm_syscd                  \n");
+		            	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                  \n");
+		            	strQuery.append("   and a.cm_seqno=b.cm_seqno                  \n");
+		            	strQuery.append("   and b.cm_rsrccd=?                          \n");
+		            	//pstmt2 = conn.prepareStatement(strQuery.toString());
+						pstmt2 = new LoggableStatement(conn,strQuery.toString());
+			            pstmt2.setString(1, etcData.get("syscd"));
+			            pstmt2.setString(2, etcData.get("svrcd"));
+			            pstmt2.setString(3, etcData.get("svrseq"));
+			            pstmt2.setString(4, rs.getString("cr_rsrccd"));
+			            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
+			            rs2 = pstmt2.executeQuery();
+			            if (rs2.next()) {
+			            	svrHome = rs2.getString("cm_volpath");
+			            }
+			            rs2.close();
+			            pstmt2.close();
+			            
+			            chgPath = etcData.get("dirpath").replace(svrHome, baseHome);
+			            
+			            //ecamsLogger.error("dirpath,chgpath,svrhome,basehome===="+etcData.get("dirpath")+", "+chgPath+", "+svrHome+", "+baseHome);
+			            strQuery.setLength(0);
+						strQuery.append("select cm_dsncd from cmm0070            \n");
+						strQuery.append(" where cm_syscd=? and cm_dirpath=?      \n");
+						//pstmt2 = conn.prepareStatement(strQuery.toString());
+						pstmt2 = new LoggableStatement(conn,strQuery.toString());
+			            pstmt2.setString(1, etcData.get("syscd"));
+			            pstmt2.setString(2, chgPath);
+			            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
+			            rs2 = pstmt2.executeQuery();
+			            if (rs2.next()) {
+			            	wkDsnCd = rs2.getString("cm_dsncd");
+			            	findSw = true;
+			            }
+			            rs2.close();
+			            pstmt2.close();
+			            if (findSw) break;
 		            }
 		            rs.close();
 		            pstmt.close();
-	            }
+				} else {   
+					strQuery.setLength(0);
+					strQuery.append("select cm_dsncd from cmm0070            \n");
+					strQuery.append(" where cm_syscd=? and cm_dirpath=?      \n");
+					//pstmt = conn.prepareStatement(strQuery.toString());
+					pstmt = new LoggableStatement(conn,strQuery.toString());
+		            pstmt.setString(1, etcData.get("syscd"));
+		            pstmt.setString(2, etcData.get("dirpath"));
+		            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+		            rs = pstmt.executeQuery();
+		            if (rs.next()) {
+		            	wkDsnCd = rs.getString("cm_dsncd");
+		            }
+		            rs.close();
+		            pstmt.close();
+		
+		            if (wkB.indexOf(".")>=0) {
+		            	wkC = wkB.substring(0,wkB.lastIndexOf("."));
+		            }
+		            findSw = false;
+		            if (wkDsnCd != null && wkDsnCd != "") {
+		            	strQuery.setLength(0);
+		            	strQuery.append("select count(*) cnt from cmr0020 a,cmm0036 b  \n");
+						strQuery.append(" where a.cr_syscd=? and a.cr_dsncd=? \n");
+						strQuery.append("   and a.cr_syscd=b.cm_syscd         \n");
+						strQuery.append("   and a.cr_rsrccd=b.cm_rsrccd       \n");
+						strQuery.append("   and a.cr_rsrcname=decode(substr(b.cm_info,27,1),'1',?,?) \n");
+						//pstmt = conn.prepareStatement(strQuery.toString());
+						pstmt = new LoggableStatement(conn,strQuery.toString());
+			            pstmt.setString(1, etcData.get("syscd"));
+			            pstmt.setString(2, wkDsnCd);
+			            pstmt.setString(3, wkC);
+			            pstmt.setString(4, wkB);
+			            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			            rs = pstmt.executeQuery();
+			            if ( rs.next() && rs.getInt("cnt") > 0 ) {
+			            	findSw = true;
+			            }
+			            rs.close();
+			            pstmt.close();
+		            }
+				}
+			}else {	//windows 시스템일 경우
+				
+				if ( etcData.get("svrchg").equals("Y") ) {
+					strQuery.setLength(0);
+		        	strQuery.append("select a.cr_rsrccd,b.cm_dirpath      \n");
+		        	strQuery.append("  from cmr0020 a,cmm0070 b           \n");
+					strQuery.append(" where a.cr_syscd=?                  \n");
+					strQuery.append("   and upper(a.cr_rsrcname)=?               \n");
+					strQuery.append("   and a.cr_syscd=b.cm_syscd         \n");
+					strQuery.append("   and a.cr_dsncd=b.cm_dsncd         \n");
+					//pstmt = conn.prepareStatement(strQuery.toString());
+					pstmt = new LoggableStatement(conn,strQuery.toString());
+		            pstmt.setString(1, etcData.get("syscd"));
+		            pstmt.setString(2, wkB.toUpperCase());
+		            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+		            rs = pstmt.executeQuery();
+		            while (rs.next()) {
+		            	strQuery.setLength(0);
+		            	strQuery.append("select b.cm_volpath from cmm0031 a,cmm0038 b  \n");
+		            	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd=?          \n");
+		            	strQuery.append("   and a.cm_closedt is null                   \n");
+		            	strQuery.append("   and a.cm_syscd=b.cm_syscd                  \n");
+		            	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                  \n");
+		            	strQuery.append("   and a.cm_seqno=b.cm_seqno                  \n");
+		            	strQuery.append("   and b.cm_rsrccd=?                          \n");
+		            	//pstmt2 = conn.prepareStatement(strQuery.toString());
+						pstmt2 = new LoggableStatement(conn,strQuery.toString());
+			            pstmt2.setString(1, etcData.get("syscd"));
+			            pstmt2.setString(2, etcData.get("basesvr"));
+			            pstmt2.setString(3, rs.getString("cr_rsrccd"));
+			            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
+			            rs2 = pstmt2.executeQuery();
+			            if (rs2.next()) {
+			            	baseHome = rs2.getString("cm_volpath");
+			            }
+			            rs2.close();
+			            pstmt2.close();
+			            
+		            	strQuery.setLength(0);
+		            	strQuery.append("select b.cm_volpath from cmm0031 a,cmm0038 b  \n");
+		            	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd=?          \n");
+		            	strQuery.append("   and a.cm_seqno=?                           \n");
+		            	strQuery.append("   and a.cm_closedt is null                   \n");
+		            	strQuery.append("   and a.cm_syscd=b.cm_syscd                  \n");
+		            	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                  \n");
+		            	strQuery.append("   and a.cm_seqno=b.cm_seqno                  \n");
+		            	strQuery.append("   and b.cm_rsrccd=?                          \n");
+		            	//pstmt2 = conn.prepareStatement(strQuery.toString());
+						pstmt2 = new LoggableStatement(conn,strQuery.toString());
+			            pstmt2.setString(1, etcData.get("syscd"));
+			            pstmt2.setString(2, etcData.get("svrcd"));
+			            pstmt2.setString(3, etcData.get("svrseq"));
+			            pstmt2.setString(4, rs.getString("cr_rsrccd"));
+			            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
+			            rs2 = pstmt2.executeQuery();
+			            if (rs2.next()) {
+			            	svrHome = rs2.getString("cm_volpath");
+			            }
+			            rs2.close();
+			            pstmt2.close();
+			            
+			            chgPath = etcData.get("dirpath").replace(svrHome, baseHome);
+			            
+			            //ecamsLogger.error("dirpath,chgpath,svrhome,basehome===="+etcData.get("dirpath")+", "+chgPath+", "+svrHome+", "+baseHome);
+			            strQuery.setLength(0);
+						strQuery.append("select cm_dsncd from cmm0070            \n");
+						strQuery.append(" where cm_syscd=? and uppercm_dirpath=?      \n");
+						//pstmt2 = conn.prepareStatement(strQuery.toString());
+						pstmt2 = new LoggableStatement(conn,strQuery.toString());
+			            pstmt2.setString(1, etcData.get("syscd"));
+			            pstmt2.setString(2, chgPath.toUpperCase());
+			            ecamsLogger.error(((LoggableStatement)pstmt2).getQueryString());
+			            rs2 = pstmt2.executeQuery();
+			            if (rs2.next()) {
+			            	wkDsnCd = rs2.getString("cm_dsncd");
+			            	findSw = true;
+			            }
+			            rs2.close();
+			            pstmt2.close();
+			            if (findSw) break;
+		            }
+		            rs.close();
+		            pstmt.close();
+				} else {   
+					strQuery.setLength(0);
+					strQuery.append("select cm_dsncd from cmm0070            \n");
+					strQuery.append(" where cm_syscd=? and upper(cm_dirpath)=?      \n");
+					//pstmt = conn.prepareStatement(strQuery.toString());
+					pstmt = new LoggableStatement(conn,strQuery.toString());
+		            pstmt.setString(1, etcData.get("syscd"));
+		            pstmt.setString(2, etcData.get("dirpath").toUpperCase());
+		            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+		            rs = pstmt.executeQuery();
+		            if (rs.next()) {
+		            	wkDsnCd = rs.getString("cm_dsncd");
+		            }
+		            rs.close();
+		            pstmt.close();
+		
+		            if (wkB.indexOf(".")>=0) {
+		            	wkC = wkB.substring(0,wkB.lastIndexOf("."));
+		            }
+		            findSw = false;
+		            if (wkDsnCd != null && wkDsnCd != "") {
+		            	strQuery.setLength(0);
+		            	strQuery.append("select count(*) cnt from cmr0020 a,cmm0036 b  \n");
+						strQuery.append(" where a.cr_syscd=? and a.cr_dsncd=? \n");
+						strQuery.append("   and a.cr_syscd=b.cm_syscd         \n");
+						strQuery.append("   and a.cr_rsrccd=b.cm_rsrccd       \n");
+						strQuery.append("   and upper(a.cr_rsrcname)=decode(substr(b.cm_info,27,1),'1',?,?) \n");
+						//pstmt = conn.prepareStatement(strQuery.toString());
+						pstmt = new LoggableStatement(conn,strQuery.toString());
+			            pstmt.setString(1, etcData.get("syscd"));
+			            pstmt.setString(2, wkDsnCd);
+			            pstmt.setString(3, wkC.toUpperCase());
+			            pstmt.setString(4, wkB.toUpperCase());
+			            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			            rs = pstmt.executeQuery();
+			            if ( rs.next() && rs.getInt("cnt") > 0 ) {
+			            	findSw = true;
+			            }
+			            rs.close();
+			            pstmt.close();
+		            }
+				}
+				
+				
 			}
             if ( !findSw ) {
             	rst = new HashMap<String, String>();
