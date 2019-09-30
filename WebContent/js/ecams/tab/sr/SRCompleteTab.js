@@ -189,8 +189,10 @@ function endSr(){
 		
 		//parent.document.location.reload();
 		srendInfoCall();
-		window.parent.reloadVal = "Y";
-		window.parent.getPrjList();
+		if(window.parent.tmpValue === "Y"){
+			window.parent.reloadVal = "Y";
+			window.parent.getPrjList();
+		}
 	}
 }
 

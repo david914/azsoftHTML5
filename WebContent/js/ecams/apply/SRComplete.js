@@ -24,6 +24,7 @@ var strIsrTitle = "";
 var cboQryGbnData = [];
 var loadSrReg = false;
 var urlArr = [];
+var tmpValue = "N";
 
 $(document).ready(function(){
 	//tab메뉴
@@ -44,9 +45,9 @@ $(document).ready(function(){
 	var url = $('#frmPrjList').attr('src');
 	$('#frmPrjList').attr('src', url);
 	
-	document.getElementById('frmPrjList').onload = function() {
-		setCbo();
-	};
+	//document.getElementById('frmPrjList').onload = function() {
+	//	setCbo();
+	//};
 	
 	document.getElementById('frmSRRegister').onload = function() {
 		setSRRegData();

@@ -13,7 +13,7 @@ var adminYN 		= window.top.adminYN;
 var userDeptName 	= window.top.userDeptName;
 var userDeptCd 	 	= window.top.userDeptCd;
 var strReqCd	 	= window.top.reqCd;
-
+var tmpValue = "Y";
 //public
 var strIsrId  = "";
 var strQryGbn = "";

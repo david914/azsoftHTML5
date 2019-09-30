@@ -80,6 +80,9 @@ $(document).ready(function() {
 		cboQryGbnData.push({value: "00", text: "전체", dateyn: "Y"});
 		cboQryGbnData.push({value: "01", text: "개발계획등록대상", dateyn: "N"});
 		cboQryGbnData.push({value: "02", text: "개발실적등록대상", dateyn: "N"});
+	}else if(strReqCD == "69"){
+		cboQryGbnData.push({value: "00", text: "전체", dateyn: "Y"});
+		cboQryGbnData.push({value: "01", text: "SR종료대상", dateyn: "N"});
 	}
 	$('#cboQryGbn').trigger('change');
 	
