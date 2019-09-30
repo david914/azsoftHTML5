@@ -196,6 +196,7 @@ public class Cmm1600{
 			String  noName  = "";
 			String  strWork1 = "";
 			String  noNameAry[] = null;
+			String  sysos = "";
 			
 			strQuery.setLength(0);
 			strQuery.append("select cm_noname from cmm0010 where cm_stno='ECAMS' and cm_noname is not null  \n");
@@ -210,6 +211,21 @@ public class Cmm1600{
 			int errCnt = 0;
 			int i = 0;
 			int j = 0;
+			
+			strQuery.setLength(0);
+			strQuery.append("select cm_sysos from cmm0031 where cm_syscd=? and cm_Svrcd=? and cm_seqno=?  \n");
+			pstmt = conn.prepareStatement(strQuery.toString());
+            pstmt = new LoggableStatement(conn, strQuery.toString());
+			pstmt.setString(1, _syscd);
+			pstmt.setString(2, dataObj.get("svrcd"));
+			pstmt.setString(3, dataObj.get("svrseq"));
+            ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				sysos = rs.getString("cm_sysos");
+			}
+			rs.close();
+			pstmt.close();
 			
 			if (noName.length()>0) {
 				for (i=0;noName.length()>i;i++) {
@@ -254,7 +270,17 @@ public class Cmm1600{
 					fileList.set(i, tmpRst);
 					tmpRst = null;
 				}
-				rst.put("dirpath", fileList.get(i).get("dirpath").trim());
+				_dirpath = "";
+				
+				if (sysos.equals("03")) {
+					_dirpath = fileList.get(i).get("dirpath").trim().replace("/", "\\");
+					_dirpath = _dirpath.replace("\\\\", "\\");
+					_dirpath = _dirpath.replace("\\", "\\\\");
+					_dirpath = _dirpath.replace("\\\\", "/");
+				}else {
+					_dirpath = fileList.get(i).get("dirpath").trim();
+				}
+				rst.put("dirpath", _dirpath);
 
 				if (fileList.get(i).get("jawon") == null){
 					tmpRst = new HashMap<String, String>();
@@ -271,7 +297,6 @@ public class Cmm1600{
 				_sourcename = rsrcname;
 				_jobcd = "";
 				_editor = "";
-				_dirpath = "";
 				_dsncd = "";
 
 				if (fileList.get(i).get("jawon") == "" && fileList.get(i).get("jawon") == null){
@@ -298,7 +323,7 @@ public class Cmm1600{
 	                
 	                	if (rs.getString("cm_exename") != null) {
 	                		exeName = "";
-	                		if(rsrcname.lastIndexOf(".") > 0) {
+	                		if(rsrcname.lastIndexOf(".") > 0) { 
 	                			exeName = rsrcname.substring(rsrcname.lastIndexOf("."));
 	                		}else {
 	                			exeName = rsrcname;
@@ -323,15 +348,28 @@ public class Cmm1600{
 						strQuery.setLength(0);
 						strQuery.append("select count(*) cnt from cmr0020 a					\n"); 
 						strQuery.append(" where cr_syscd = ?                                \n");
-						strQuery.append("   and cr_rsrcname = ?                             \n");
+						if (sysos.equals("03")) {
+							strQuery.append("   and upper(cr_rsrcname) = ?                             \n");
+						}else {
+							strQuery.append("   and cr_rsrcname = ?                             \n");
+						}
 						strQuery.append("   and cr_dsncd in (select cm_dsncd                \n");
 						strQuery.append("                      from cmm0070                 \n");
 						strQuery.append("                     where cm_syscd = a.cr_syscd   \n");
-						strQuery.append("                       and cm_dirpath = ?)         \n");
+						if (sysos.equals("03")) {
+							strQuery.append("                       and upper(cm_dirpath) = ?)         \n");
+						}else {
+							strQuery.append("                       and cm_dirpath = ?)         \n");
+						}
 						pstmt = conn.prepareStatement(strQuery.toString());
-						pstmt.setString(1, _syscd); 
-						pstmt.setString(2, rsrcname);
-						pstmt.setString(3, fileList.get(i).get("dirpath").trim());
+						pstmt.setString(1, _syscd);
+						if (sysos.equals("03")) {
+							pstmt.setString(2, rsrcname.toUpperCase());
+							pstmt.setString(3, _dirpath.toUpperCase());
+						}else {
+							pstmt.setString(2, rsrcname.toUpperCase());
+							pstmt.setString(3, _dirpath.toUpperCase());
+						}
 						rs = pstmt.executeQuery();
 						if (rs.next()) {
 							if (rs.getInt("cnt")>0) {
@@ -444,7 +482,6 @@ public class Cmm1600{
 				
 				//_baseItem = "";
 
-				_dirpath = fileList.get(i).get("dirpath").trim();
 				//if ( _dirpath.indexOf(".")>0) {
 				//풀경로에 파일명이 마지막에 들어가 있는지 체크해서...
 				if ( _dirpath.indexOf(".")>0 && _dirpath.substring(_dirpath.length()-_sourcename.length()).equals(_sourcename) ) {
@@ -452,6 +489,11 @@ public class Cmm1600{
 				}
 				rst.put("_dirpath", _dirpath);
 				rst.put("dirpath", _dirpath);
+				
+				
+				ecamsLogger.debug("@@ > _dirpath : " + _dirpath);
+				
+				
 				if (_dirpath == "" & _dirpath == null){
 					errMsg = errMsg + "프로그램경로 입력없음/";
 					errSw = true;
@@ -1493,7 +1535,7 @@ public class Cmm1600{
 					fileList.set(i, tmpRst);
 					tmpRst = null;
 				}
-				rst.put("dirpath", fileList.get(i).get("dirpath").trim());
+				rst.put("dirpath", _dirpath);
 				rst.put("_syscd", _syscd);
 
 				errMsg = "";
@@ -1502,7 +1544,7 @@ public class Cmm1600{
 				_dsncd = "";
 
 
-				_dirpath = fileList.get(i).get("dirpath").trim();
+				_dirpath = _dirpath;
 				//if ( _dirpath.indexOf(".")>0) {
 				//풀경로에 파일명이 마지막에 들어가 있는지 체크해서...
 				if ( _dirpath.indexOf(".")>0 && _dirpath.substring(_dirpath.length()-_sourcename.length()).equals(_sourcename) ) {

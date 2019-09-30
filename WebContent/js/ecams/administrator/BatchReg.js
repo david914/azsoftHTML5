@@ -410,11 +410,14 @@ function successGetArrayCollection(data) {
 	getFileListExcel();
 }
 
-// 세팅한 정보 유효성 검사
+// 세팅한 정보 유효성 검사 
 function getFileListExcel() {
 	var dataObj = new Object();
 	dataObj.cm_syscd = getSelectedVal('cboSysCd').cm_syscd;
 	dataObj.cm_sysmsg = getSelectedVal('cboSysCd').cm_sysmsg;
+	dataObj.sysgb 	= getSelectedVal('cboSvrCd').cm_sysgb;
+	dataObj.svrcd 	= getSelectedVal('cboSvrCd').cm_svrcd;
+	dataObj.svrseq 	= getSelectedVal('cboSvrCd').cm_seqno;
 	
 	var tmpData = {
 		fileList 	: batchGridData,
