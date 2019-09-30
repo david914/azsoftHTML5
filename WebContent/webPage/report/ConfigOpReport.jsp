@@ -53,7 +53,7 @@ label {
 
 </style>
 
-<div id="wrapper">
+<div id="wrapper"> 
 	<div class="contentFrame">
 		<div id="history_wrap">보고서 <strong>&gt; 형상관리운영현황</strong></div>
 		<div class="az_search_wrap">
