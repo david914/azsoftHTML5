@@ -82,6 +82,7 @@ function screenInit(gbn,userId) {
 	$('#txtCreatDt').val('');
 	$('#txtEditor').val('');
 	$('#txtLastDt').val('');
+	$('#txtDir').val('');
 	$('#txtStory').prop("readonly", true);
 	
 	$('#txtLastCkIn').val('');
@@ -480,6 +481,7 @@ function successUpdateProg(data) {
 
 	if(Number(data) > 0) {
 		dialog.alert('수정처리를 완료하였습니다.', function(){});
+		$('#btnQry', window.parent.document).trigger('click');
 	}else {
 		dialog.alert('수정처리 중 오류가 발생하였습니다.', function(){});
 	}
@@ -508,6 +510,7 @@ function successDELETE(data) {
 	
 	if(Number(data) > 0) {
 		dialog.alert('삭제처리를 완료하였습니다.', function(){});
+		$('#btnQry', window.parent.document).trigger('click');
 	}else {
 		dialog.alert('삭제처리 중 오류가 발생하였습니다.', function(){});
 	}
@@ -535,6 +538,7 @@ function btnClose_Click() {
 function successClose(data) {
 	
 	if(Number(data) > 0) {
+		$('#btnQry', window.parent.document).trigger('click');
 		dialog.alert('폐기처리를 완료하였습니다.', function(){});
 	}else {
 		dialog.alert('폐기처리 중 오류가 발생하였습니다.', function(){});
