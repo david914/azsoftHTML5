@@ -10,7 +10,9 @@ package app.eCmr;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -71,16 +73,17 @@ public class Cmr0200{
 		PreparedStatement pstmt       = null;
 		ResultSet         rs          = null;
 		StringBuffer      strQuery    = new StringBuffer();
-		String            strErrMsg   = null;
+		String            strErrMsg   = "";
 		int               cnt         = 0;
-		int               i           = 0;
 
 		try {
 			cnt = 0;
 			//ecamsLogger.error("+++++++ RsrcCd,QryCd,ReqCd ++++++++"+RsrcCd+", "+QryCd+", "+ReqCd);
 			String strRsrc = RsrcCd;
 			String strCmInfo = rsrcInfo;
-			if (QryCd.equals("16")) {
+			String PrcSysList = "";
+			
+			if ("16".equals(QryCd)) {
 				strQuery.setLength(0);
 	    		strQuery.append("select cm_info from cmm0036             \n");
 	    		strQuery.append(" where cm_syscd=? and cm_rsrccd=?       \n");
@@ -108,7 +111,6 @@ public class Cmr0200{
     		pstmt.setString(2, RsrcCd);
     		rs = pstmt.executeQuery();
     		while (rs.next()) {
-    			++i;
     			strRsrc = strRsrc + ","+ rs.getString("cm_rsrccd");
     			strCmInfo = strCmInfo + "," + rs.getString("cm_info");
     		}
@@ -118,860 +120,232 @@ public class Cmr0200{
     		String strRsrcCd[] = strRsrc.split(",");
 			String strInfo[] = strCmInfo.split(",");
 			String strPrcSys[] = strRsrc.split(",");
+			int i = 0;
 			int j = 0;
 			int k = 0;
+			int parmCnt = 0;
 			boolean findSw = false;
-			String confTeam = "";
-			ArrayList<HashMap<String, String>>	rData2 = null;
 
     		for (i=0;strRsrcCd.length>i;i++) {
-    			if (strInfo[i].substring(7,8).equals("1") ||   //파일삭제(개발서버)
-    				strInfo[i].substring(1,3).equals("10") ||   //체크아웃
-					strInfo[i].substring(13,14).equals("1") || //체크아웃스크립트실행
-					strInfo[i].substring(21,22).equals("1") || //형상관리저장스크립트실행
-		        	strInfo[i].substring(23,24).equals("1") || //개발서버에서 체크인
-		        	strInfo[i].substring(26,27).equals("1")) { //개발툴연계
-    				findSw = false;
-    				if (QryCd.equals("01") || QryCd.equals("02")) {
-    					if (strInfo[i].substring(1,2).equals("1") || strInfo[i].substring(13,14).equals("1")) {
-    						for (k=0;ConfList.size()>k;k++) {
-		    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-		    	        	    	//*************************************************
-		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-		    	        	    	Gson gson = new Gson(); 
-		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-		    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-		    	        	    	
-		    	        	    	//**************************************************
-									rData2 = myMap;
-		        					confTeam = (String) rData2.get(0).get("SvUser");
-		        					rData2 = null;
-		        					if (confTeam.equals("SYSDN")) {
-		        						findSw = true;
-		        						break;
-		        					}
-		    					}
-    						}
-    					}
-    				} else if (!ReqCd.equals("05")) {
-    					if (strInfo[i].substring(21,22).equals("1") || strInfo[i].substring(23,24).equals("1")) {
-    						for (k=0;ConfList.size()>k;k++) {
-		    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-		    	        	    	//*************************************************
-		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-		    	        	    	Gson gson = new Gson(); 
-		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-		    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-		    	        	    	
-		    	        	    	//**************************************************
-		    						rData2 = myMap;
-		        					confTeam = (String) rData2.get(0).get("SvUser");
-		        					rData2 = null;
-		        					if (confTeam.equals("SYSUP")) {
-		        						findSw = true;
-		        						break;
-		        					}
-		    					}
-    						}
-    					} else if (strInfo[i].substring(7,8).equals("1")) findSw = true;
-    				}
-
-    				if ( findSw ) {
-			        	strQuery.setLength(0);
-			        	strQuery.append("select count(*) cnt from cmm0038 b,cmm0031 a   \n");
-			        	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd='01'        \n");
-			        	strQuery.append("   and a.cm_closedt is null                    \n");
-			        	strQuery.append("   and a.cm_syscd=b.cm_syscd                   \n");
-			        	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                   \n");
-			        	strQuery.append("   and a.cm_seqno=b.cm_seqno                   \n");
-			        	strQuery.append("   and b.cm_rsrccd=?                           \n");
-			        	pstmt = conn.prepareStatement(strQuery.toString());
-
-			        	pstmt.setString(1, SysCd);
-			        	pstmt.setString(2, strRsrcCd[i]);
-
-			        	rs = pstmt.executeQuery();
-			        	if (rs.next()){
-			        		if (rs.getInt("cnt") == 0) {
-			        			strErrMsg = "체크아웃서버가 연결되어 있지 않습니다. [관리자 연락요망]. RsrcCd="+strRsrcCd[i];
-			        			break;
-			        		}
-			        	}
-			        	rs.close();
-			        	pstmt.close();
-    				}
-				}
-				if (strErrMsg == null &&
-			        QryCd.equals("04") &&			
-					(strInfo[i].substring(0,1).equals("1") ||   //컴파일
-					strInfo[i].substring(6,7).equals("1") ||   //파일삭제(컴파일)
-					strInfo[i].substring(12,13).equals("1") || //빌드서버FileCopy
-					strInfo[i].substring(24,25).equals("1"))) { //빌드서버체크인
-					findSw  = false;
-					if (!ReqCd.equals("05")) {
-    					if (strInfo[i].substring(0,1).equals("1") || strInfo[i].substring(12,13).equals("1") ||
-    					    strInfo[i].substring(24,25).equals("1")) {
-    						for (k=0;ConfList.size()>k;k++) {
-		    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-		    	        	    	//*************************************************
-		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-		    	        	    	Gson gson = new Gson(); 
-		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-		    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-		    	        	    	
-		    	        	    	//**************************************************
-		    						rData2 = myMap;
-		        					confTeam = (String) rData2.get(0).get("SvUser");
-		        					rData2 = null;
-		        					if (confTeam.equals("SYSFT") && strInfo[i].substring(27,28).equals("1")) {
-		        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-		        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-		        						} else findSw = true;
-		        						break;
-		        					}
-		        					if (confTeam.equals("SYSAC") && strInfo[i].substring(43,44).equals("1")) {
-		        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-		        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-		        						} else findSw = true;
-		        						break;
-		        					}
-		        					if (confTeam.equals("SYSCB") &&
-		        						(strInfo[i].substring(0,1).equals("1") || strInfo[i].substring(12,13).equals("1") ||
-		        						 strInfo[i].substring(24,25).equals("1"))) {
-		        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-		        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-		        						} else findSw = true;
-		        						break;
-		        					}
-		    					}
-    						}
-    					} else if (strInfo[i].substring(6,7).equals("1")) findSw = true;
-    				}
-					if ( findSw ) {
-			        	strQuery.setLength(0);
-			        	strQuery.append("select count(*) cnt from cmm0038 b,cmm0031 a   \n");
-			        	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd='03'           \n");
-			        	strQuery.append("   and a.cm_closedt is null                    \n");
-			        	strQuery.append("   and a.cm_syscd=b.cm_syscd                   \n");
-			        	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                   \n");
-			        	strQuery.append("   and a.cm_seqno=b.cm_seqno                   \n");
-			        	strQuery.append("   and b.cm_rsrccd=?                           \n");
-			        	pstmt = conn.prepareStatement(strQuery.toString());
-			        	//pstmt = new LoggableStatement(conn,strQuery.toString());
-
-			        	pstmt.setString(1, SysCd);
-			        	pstmt.setString(2, strRsrcCd[i]);
-			        	//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
-			        	rs = pstmt.executeQuery();
-			        	if (rs.next()){
-			        		if (rs.getInt("cnt") == 0) {
-			        			strErrMsg = "빌드서버가 연결되어 있지 않습니다. [관리자 연락요망]. RsrcCd="+strRsrcCd[i];
-			        			break;
-			        		}
-			        	}
-			        	rs.close();
-			        	pstmt.close();
-					}
-				}
-				if (strErrMsg == null &&
-					QryCd.equals("04") &&
-					(strInfo[i].substring(10,11).equals("1") ||   //운영서버FileCopy
-					strInfo[i].substring(20,21).equals("1") ||   //릴리즈스크립트실행
-					strInfo[i].substring(34,35).equals("1"))) {   //적용스크립트실행
-
-					findSw  = false;
-					if (!ReqCd.equals("05")) {
-						for (k=0;ConfList.size()>k;k++) {
-	    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-	    	        	    	//*************************************************
-	    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-	    	        	    	Gson gson = new Gson(); 
-	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-	    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-	    	        	    	
-	    	        	    	//**************************************************
-	    						rData2 = myMap;
-	        					confTeam = (String) rData2.get(0).get("SvUser");
-	        					rData2 = null;
-	        					if (confTeam.equals("SYSRC") && strInfo[i].substring(34,35).equals("1")) {
-	        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-	        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-	        						} else findSw = true;
-	        						break;
-	        					}
-	        					if (confTeam.equals("SYSED") &&
-	        						(strInfo[i].substring(10,11).equals("1") ||   //운영서버FileCopy
-	        						 strInfo[i].substring(20,21).equals("1"))) {
-	        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-	        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-	        						} else findSw = true;
-	        						break;
-	        					}
+    			strQuery.setLength(0);
+	        	strQuery.append("select count(*) cnt from cmm0038 b,cmm0031 a   \n");
+	        	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd='01'        \n");
+	        	strQuery.append("   and a.cm_closedt is null                    \n");
+	        	strQuery.append("   and a.cm_syscd=b.cm_syscd                   \n");
+	        	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                   \n");
+	        	strQuery.append("   and a.cm_seqno=b.cm_seqno                   \n");
+	        	strQuery.append("   and b.cm_rsrccd=?                           \n");
+	        	pstmt = conn.prepareStatement(strQuery.toString());
+	        	pstmt.setString(1, SysCd);
+	        	pstmt.setString(2, strRsrcCd[i]);
+	        	rs = pstmt.executeQuery();
+	        	if (rs.next()){
+	        		if (rs.getInt("cnt") == 0) {
+	        			strErrMsg = "체크아웃서버가 연결되어 있지 않습니다. [관리자 연락요망]. RsrcCd="+strRsrcCd[i];
+	        		}
+	        	}
+	        	rs.close();
+	        	pstmt.close();
+	        	
+	        	if (strErrMsg.length()>0) {
+	        		break;
+	        	}
+	        	findSw = false;
+	        	if ("01".equals(QryCd) || "02".equals(QryCd)) {   //체크아웃이면서 체크아웃쉘실행
+	        		if ("1".equals(strInfo[i].substring(13,14))) {
+	        			PrcSysList = "01SYSDN";
+	        			findSw = true;
+	        		}	        			
+	        	} else if ("11".equals(QryCd)) {                 //체크아웃취소이면서 체크아웃취소쉘실행
+	        		if ("1".equals(strInfo[i].substring(16,17))) {
+	        			PrcSysList = "01SYSDNC";
+	        			findSw = true;
+	        		}	        			
+	        	} else if ("07".equals(QryCd) || "08".equals(QryCd) || "13".equals(QryCd)) {      
+	        		// 체크인/ 개발적용 / 개발복원
+	        		if ("07".equals(QryCd)) {
+		        		if ("1".equals(strInfo[i].substring(21,22))) {          //형상관리저장스크립트실행(개발)
+		        			PrcSysList = "01SYSUP";
+		        			findSw = true;
+		        		} 
+	        		}
+	        		if ("1".equals(strInfo[i].substring(38,39))) {          //빌드스크립트실행(개발)
+	        			PrcSysList = "23SYSCB";
+	        			findSw = true;
+	        		} 
+	        		if ("1".equals(strInfo[i].substring(50,51))) {   //배포스크립트실행(개발)
+	        			if (PrcSysList.length()>0) PrcSysList = PrcSysList + ",25SYSED";
+	        			else PrcSysList = "25SYSED";
+	        			findSw = true;
+	        		} 
+	        		if ("1".equals(strInfo[i].substring(58,59))) {   //적용스크립트실행(개발)
+	        			if (PrcSysList.length()>0) PrcSysList = PrcSysList + ",25SYSRC";
+	        			else PrcSysList = "25SYSRC";
+	        			findSw = true;
+	        		}      			
+	        		
+	        	} else if ("03".equals(QryCd) || "12".equals(QryCd)) {        
+	        		// 테스트적용 / 테스트복원 
+	        		if ("1".equals(strInfo[i].substring(60,61))) {          //빌드스크립트실행(테스트)
+	        			PrcSysList = "13SYSCB";
+	        			findSw = true;
+	        		} 
+	        		if ("1".equals(strInfo[i].substring(63,64))) {   //배포스크립트실행(테스트)
+	        			if (PrcSysList.length()>0) PrcSysList = PrcSysList + ",15SYSED";
+	        			else PrcSysList = "15SYSED";
+	        			findSw = true;
+	        		} 
+	        		if ("1".equals(strInfo[i].substring(66,67))) {   //적용스크립트실행(테스트)
+	        			if (PrcSysList.length()>0) PrcSysList = PrcSysList + ",15SYSRC";
+	        			else PrcSysList = "15SYSRC";
+	        			findSw = true;
+	        		}        			
+	        		
+	        	} else if ("04".equals(QryCd) || "06".equals(QryCd)) {        
+	        		// 운영적용 / 운영복원 
+	        		if ("1".equals(strInfo[i].substring(0,1))) {            //빌드스크립트실행(운영)
+	        			PrcSysList = "03SYSCB";
+	        			findSw = true;
+	        		}
+	        		if ("1".equals(strInfo[i].substring(20,21))) {   //배포스크립트실행(운영)
+	        			if (PrcSysList.length()>0) PrcSysList = PrcSysList + ",05SYSED";
+	        			else PrcSysList = "05SYSED";
+	        			findSw = true;
+	        		}
+	        		if ("1".equals(strInfo[i].substring(34,35))) {   //적용스크립트실행(운영)
+	        			if (PrcSysList.length()>0) PrcSysList = PrcSysList + ",05SYSRC";
+	        			else PrcSysList = "05SYSRC";
+	        			findSw = true;
+	        		}  
+	        	}
+	        	if (findSw) {
+	        		strPrcSys = PrcSysList.split(",");
+	        		for (j=0;strPrcSys.length>j;j++) {
+	        			if (strPrcSys[j] == null || "".equals(strPrcSys[j])) continue;
+	        			
+	        			findSw = false;
+	        			for (k=0;ConfList.size()>k;k++) {
+	    					if ("1".equals(ConfList.get(k).get("cm_gubun"))) {
+	    						if (ConfList.get(k).get("cm_baseuser").equals(strPrcSys[j])) {
+	    							findSw = true;
+	    							break;	    								
+	    						}
 	    					}
 						}
-    				}
-					if ( findSw ) {
-			        	strQuery.setLength(0);
-			        	strQuery.append("select count(*) cnt from cmm0038 b,cmm0031 a   \n");
-			        	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd='05'        \n");
-			        	strQuery.append("   and a.cm_closedt is null                    \n");
-			        	strQuery.append("   and a.cm_syscd=b.cm_syscd                   \n");
-			        	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                   \n");
-			        	strQuery.append("   and a.cm_seqno=b.cm_seqno                   \n");
-			        	strQuery.append("   and b.cm_rsrccd=?                           \n");
+	        			if (!findSw) continue;
+	        			
+	        			parmCnt = 0;
+		        		strQuery.setLength(0);
+			        	strQuery.append("select SCRIPT_CHK(?,?,?,?,?,'B',?,'04',?) retcd from dual  \n");
 			        	pstmt = conn.prepareStatement(strQuery.toString());
-			        	//pstmt = new LoggableStatement(conn,strQuery.toString());
-			        	pstmt.setString(1, SysCd);
-			        	pstmt.setString(2, strRsrcCd[i]);
-			        	////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			        	pstmt.setString(++parmCnt, SysCd);
+			        	pstmt.setString(++parmCnt, JobCd);
+			        	pstmt.setString(++parmCnt, strRsrcCd[i]);
+			        	pstmt.setString(++parmCnt, strPrcSys[j].substring(2));
+			        	pstmt.setString(++parmCnt, QryCd);
+			        	pstmt.setString(++parmCnt, strPrcSys[j].substring(0,2));
+			        	pstmt.setString(++parmCnt, ItemId);
 			        	rs = pstmt.executeQuery();
 			        	if (rs.next()){
-			        		if (rs.getInt("cnt") == 0) {
-			        			strErrMsg = "배포서버가 연결되어 있지 않습니다. [관리자 연락요망]. RsrcCd="+strRsrcCd[i];
-			        			break;
+			        		if ("ER".equals(rs.getString("retcd"))) {
+			        			strErrMsg = "빌드/릴리즈 스크립트가 연결되어 있지 않습니다. [관리자 연락요망]. RsrcCd="+strRsrcCd[i];
 			        		}
 			        	}
 			        	rs.close();
 			        	pstmt.close();
-					}
-				}
-
-				if (strErrMsg == null &&
-			        QryCd.equals("08") &&			
-					(strInfo[i].substring(38,39).equals("1") || //컴파일(개발)
-					strInfo[i].substring(6,7).equals("1") ||   //파일삭제(컴파일)
-					strInfo[i].substring(41,42).equals("1") || //빌드서버FileCopy
-					strInfo[i].substring(24,25).equals("1"))) { //빌드서버체크인
-					findSw  = false;
-					if (!ReqCd.equals("05")) {
-    					if (strInfo[i].substring(38,39).equals("1") || strInfo[i].substring(41,42).equals("1") ||
-    					    strInfo[i].substring(24,25).equals("1")) {
-    						for (k=0;ConfList.size()>k;k++) {
-		    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-		    	        	    	//*************************************************
-		    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-		    	        	    	Gson gson = new Gson(); 
-		    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-		    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-		    	        	    	
-		    	        	    	//**************************************************
-		    						rData2 = myMap;
-		        					confTeam = (String) rData2.get(0).get("SvUser");
-		        					rData2 = null;
-		        					if (confTeam.equals("SYSFT") && strInfo[i].substring(27,28).equals("1")) {
-		        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-		        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-		        						} else findSw = true;
-		        						break;
-		        					}
-		        					if (confTeam.equals("SYSAC") && strInfo[i].substring(43,44).equals("1")) {
-		        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-		        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-		        						} else findSw = true;
-		        						break;
-		        					}
-		        					if (confTeam.equals("SYSCB") &&
-		        						(strInfo[i].substring(38,39).equals("1") || strInfo[i].substring(27,28).equals("1") ||
-		        						 strInfo[i].substring(24,25).equals("1"))) {
-		        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-		        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-		        						} else findSw = true;
-		        						break;
-		        					}
-		    					}
-    						}
-    					} else if (strInfo[i].substring(6,7).equals("1")) findSw = true;
-    				}
-					if ( findSw ) {
-			        	strQuery.setLength(0);
-			        	strQuery.append("select count(*) cnt from cmm0038 b,cmm0031 a   \n");
-			        	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd='23'           \n");
-			        	strQuery.append("   and a.cm_closedt is null                    \n");
-			        	strQuery.append("   and a.cm_syscd=b.cm_syscd                   \n");
-			        	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                   \n");
-			        	strQuery.append("   and a.cm_seqno=b.cm_seqno                   \n");
-			        	strQuery.append("   and b.cm_rsrccd=?                           \n");
-			        	pstmt = conn.prepareStatement(strQuery.toString());
-			        	//pstmt = new LoggableStatement(conn,strQuery.toString());
-
-			        	pstmt.setString(1, SysCd);
-			        	pstmt.setString(2, strRsrcCd[i]);
-			        	//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
-			        	rs = pstmt.executeQuery();
-			        	if (rs.next()){
-			        		if (rs.getInt("cnt") == 0) {
-			        			strErrMsg = "개발빌드서버가 연결되어 있지 않습니다. [관리자 연락요망]. RsrcCd="+strRsrcCd[i];
-			        			break;
-			        		}
+			        	if (strErrMsg.length()>0) {
+			        		break;
 			        	}
-			        	rs.close();
-			        	pstmt.close();
-					}
-				}
-				if (strErrMsg == null &&
-					QryCd.equals("08") &&
-					(strInfo[i].substring(48,49).equals("1") ||   //운영서버FileCopy
-					strInfo[i].substring(50,51).equals("1") ||   //릴리즈스크립트실행
-					strInfo[i].substring(58,59).equals("1"))) {   //적용스크립트실행
-
-					findSw  = false;
-					if (!ReqCd.equals("05")) {
-						for (k=0;ConfList.size()>k;k++) {
-	    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-	    	        	    	//*************************************************
-	    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-	    	        	    	Gson gson = new Gson(); 
-	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-	    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-	    	        	    	
-	    	        	    	//**************************************************
-	    						rData2 = myMap;
-	        					confTeam = (String) rData2.get(0).get("SvUser");
-	        					rData2 = null;
-	        					if (confTeam.equals("SYSRC") && strInfo[i].substring(58,59).equals("1")) {
-	        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-	        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-	        						} else findSw = true;
-	        						break;
-	        					}
-	        					if (confTeam.equals("SYSED") &&
-	        						(strInfo[i].substring(48,49).equals("1") ||   //운영서버FileCopy
-	        						 strInfo[i].substring(50,51).equals("1"))) {
-	        						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-	        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-	        						} else findSw = true;
-	        						break;
-	        					}
+	        		}
+	        		findSw = true;
+	        	}
+	        	
+	        	if (strErrMsg.length()>0) {
+	        		break;
+	        	}
+	        	
+	        	if (!findSw) {
+	        		if ("07".equals(QryCd) || "08".equals(QryCd) || "13".equals(QryCd)) { 
+		        		if ("1".equals(strInfo[i].substring(41,42))) {            //빌드서버파일copy(개발)
+		        			PrcSysList = "03SYSCB";
+		        			findSw = true;
+		        		}
+		        		if ("1".equals(strInfo[i].substring(48,49))) {            //배포서버파일copy(개발)
+		        			if (PrcSysList.length()>0) PrcSysList = PrcSysList + ",05SYSED";
+		        			else PrcSysList = "05SYSED";
+		        			findSw = true;
+		        		}		        		
+		        	} else if ("03".equals(QryCd) || "12".equals(QryCd)) {        
+		        		// 테스트적용 / 테스트복원 
+		        		if ("1".equals(strInfo[i].substring(61,62))) {            //빌드서버파일copy(테스트)
+		        			PrcSysList = "03SYSCB";
+		        			findSw = true;
+		        		}
+		        		if ("1".equals(strInfo[i].substring(62,63))) {            //배포서버파일copy(테스트)
+		        			if (PrcSysList.length()>0) PrcSysList = PrcSysList + ",05SYSED";
+		        			else PrcSysList = "05SYSED";
+		        			findSw = true;
+		        		}
+		        	} else if ("04".equals(QryCd) || "06".equals(QryCd)) {        
+		        		// 운영적용 / 운영복원 
+		        		if ("1".equals(strInfo[i].substring(12,13))) {            //빌드서버파일copy(운영)
+		        			PrcSysList = "03SYSCB";
+		        			findSw = true;
+		        		}
+		        		if ("1".equals(strInfo[i].substring(10,11))) {            //배포서버파일copy(운영)
+		        			if (PrcSysList.length()>0) PrcSysList = PrcSysList + ",05SYSED";
+		        			else PrcSysList = "05SYSED";
+		        			findSw = true;
+		        		}
+		        	}
+	        	}
+	        	if (findSw) {
+	        		strPrcSys = PrcSysList.split(",");
+	        		for (j=0;strPrcSys.length>j;j++) {
+	        			if (strPrcSys[j] == null || "".equals(strPrcSys[j])) continue;
+	        			
+	        			findSw = false;
+	        			for (k=0;ConfList.size()>k;k++) {
+	    					if ("1".equals(ConfList.get(k).get("cm_gubun"))) {
+	    						if (ConfList.get(k).get("cm_baseuser").equals(strPrcSys[j])) {
+	    							findSw = true;
+	    							break;	    								
+	    						}
 	    					}
 						}
-    				}
-					if ( findSw ) {
-			        	strQuery.setLength(0);
-			        	strQuery.append("select count(*) cnt from cmm0038 b,cmm0031 a   \n");
-			        	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd='25'        \n");
-			        	strQuery.append("   and a.cm_closedt is null                    \n");
-			        	strQuery.append("   and a.cm_syscd=b.cm_syscd                   \n");
-			        	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                   \n");
-			        	strQuery.append("   and a.cm_seqno=b.cm_seqno                   \n");
-			        	strQuery.append("   and b.cm_rsrccd=?                           \n");
+	        			if (!findSw) continue;
+	        			
+	        			parmCnt = 0;
+		        		strQuery.setLength(0);
+			        	strQuery.append("select count(*) cnt          \n");
+			        	strQuery.append("  from cmm0031 a,cmm0038 b   \n");
+			        	strQuery.append(" where a.cm_syscd=?          \n");
+			        	strQuery.append("   and a.cm_svrcd=?          \n");
+			        	strQuery.append("   and a.cm_closedt is null  \n");
+			        	strQuery.append("   and a.cm_syscd=b.cm_syscd \n");
+			        	strQuery.append("   and a.cm_svrcd=b.cm_svrcd \n");
+			        	strQuery.append("   and a.cm_seqno=b.cm_seqno \n");
+			        	strQuery.append("   and b.cm_rsrccd=?         \n");
 			        	pstmt = conn.prepareStatement(strQuery.toString());
-			        	//pstmt = new LoggableStatement(conn,strQuery.toString());
-			        	pstmt.setString(1, SysCd);
-			        	pstmt.setString(2, strRsrcCd[i]);
-			        	////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+			        	pstmt.setString(++parmCnt, SysCd);
+			        	pstmt.setString(++parmCnt, strPrcSys[j].substring(0,2));
+			        	pstmt.setString(++parmCnt, strRsrcCd[i]);
 			        	rs = pstmt.executeQuery();
 			        	if (rs.next()){
 			        		if (rs.getInt("cnt") == 0) {
-			        			strErrMsg = "개발배포서버가 연결되어 있지 않습니다. [관리자 연락요망]. RsrcCd="+strRsrcCd[i];
-			        			break;
+			        			strErrMsg = "서버정보를 등록하여 주시기 바랍니다. [관리자 연락요망]. SvrCd="+ strPrcSys[j].substring(0,2) + ", RsrcCd="+strRsrcCd[i];
 			        		}
 			        	}
 			        	rs.close();
 			        	pstmt.close();
-					}
-				}
-				if (strErrMsg == null &&
-					strInfo[i].substring(39,40).equals("1")) {   //사후처리쉘실행
-					findSw  = false;
-					if (QryCd.equals("01") || QryCd.equals("02") || QryCd.equals("03") || QryCd.equals("07")) findSw = false;
-					else if (!ReqCd.equals("05")) {
-						for (k=0;ConfList.size()>k;k++) {
-	    					if (ConfList.get(k).get("cm_gubun").equals("1")) {
-	    	        	    	//*************************************************
-	    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-	    	        	    	Gson gson = new Gson(); 
-	    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-	    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-	    	        	    	
-	    	        	    	//**************************************************
-	    						rData2 = myMap;
-	        					confTeam = (String) rData2.get(0).get("SvUser");
-	        					rData2 = null;
-	        					if (confTeam.equals("SYSAR")) {
-	        						findSw = true;
-	        						break;
-	        					}
-	    					}
-						}
-    				}
-
-					if ( findSw ) {
-			        	strQuery.setLength(0);
-			        	strQuery.append("select count(*) cnt from cmm0038 b,cmm0031 a   \n");
-			        	strQuery.append(" where a.cm_syscd=? and a.cm_svrcd='09'        \n");
-			        	strQuery.append("   and a.cm_closedt is null                    \n");
-			        	strQuery.append("   and a.cm_syscd=b.cm_syscd                   \n");
-			        	strQuery.append("   and a.cm_svrcd=b.cm_svrcd                   \n");
-			        	strQuery.append("   and a.cm_seqno=b.cm_seqno                   \n");
-			        	strQuery.append("   and b.cm_rsrccd=?                           \n");
-			        	pstmt = conn.prepareStatement(strQuery.toString());
-			        	//pstmt = new LoggableStatement(conn,strQuery.toString());
-			        	pstmt.setString(1, SysCd);
-			        	pstmt.setString(2, strRsrcCd[i]);
-			        	////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
-			        	rs = pstmt.executeQuery();
-			        	if (rs.next()){
-			        		if (rs.getInt("cnt") == 0) {
-			        			strErrMsg = "최종소스보관서버가 연결되어 있지 않습니다. [관리자 연락요망]. RsrcCd="+strRsrcCd[i];
-			        			break;
-			        		}
+			        	if (strErrMsg.length()>0) {
+			        		break;
 			        	}
-			        	rs.close();
-			        	pstmt.close();
-					}
-				}
-    		}
-
-    		if (strErrMsg == null) {
-	    		strQuery.setLength(0);
-				strQuery.append("select a.cm_rsrccd,a.cm_prcsys          \n");
-				strQuery.append("  from cmm0033 a,cmm0030 b              \n");
-				strQuery.append(" where b.cm_syscd= ?                    \n");
-				strQuery.append("   and b.cm_syscd=a.cm_syscd            \n");
-				strQuery.append("   and a.cm_qrycd=?                     \n");
-				if (ReqCd.equals("05"))
-					strQuery.append("and a.cm_prcsys='SYSDEL'            \n");
-				strQuery.append("   and cm_jobcd=decode(substr(b.cm_sysinfo,8,1),'1',?,'****')\n");
-				strQuery.append("   and cm_rsrccd in ( 				     \n");
-				for (i=0;strRsrcCd.length>i;i++) {
-					if (i>0) strQuery.append(", ? ");
-					else strQuery.append("? ");
-				}
-			    strQuery.append(")                                       \n");
-			    strQuery.append("order by a.cm_rsrccd                    \n");
-	            pstmt = conn.prepareStatement(strQuery.toString());
-	            //pstmt = new LoggableStatement(conn,strQuery.toString());
-	            pstmt.setString(++cnt, SysCd);
-	            pstmt.setString(++cnt, QryCd);
-	            pstmt.setString(++cnt, JobCd);
-	            for (i=0;strRsrcCd.length>i;i++) {
-					pstmt.setString(++cnt, strRsrcCd[i]);
-				}
-	            ////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
-	            rs = pstmt.executeQuery();
-
-				while (rs.next()){
-					for (i=0;strPrcSys.length>i;i++) {
-						if (strPrcSys[i].substring(0,2).equals(rs.getString("cm_rsrccd"))) {
-							strPrcSys[i] = strPrcSys[i] + "," + rs.getString("cm_prcsys");
-						}
-					}
-				}//end of while-loop statement
-				rs.close();
-				pstmt.close();
-
-				if (strErrMsg == null) {
-					for (i=0;strRsrcCd.length>i;i++) {
-						findSw = false;
-						if (QryCd.equals("01") || QryCd.equals("02") || QryCd.equals("11") || QryCd.equals("04") || QryCd.equals("07")) {
-							if (strInfo[i].substring(5,6).equals("1")) {   //LOCK관리
-								findSw = false;
-								for (k=0;ConfList.size()>k;k++) {
-									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-			    	        	    	//*************************************************
-			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-			    	        	    	
-			    	        	    	//**************************************************
-										rData2 = myMap;
-				    					confTeam = (String) rData2.get(0).get("SvUser");
-				    					rData2 = null;
-				    					if (confTeam.equals("SYSRK")) {
-				    						findSw = true;
-				    						break;
-				    					}
-									}
-								}
-								if (findSw == true) {
-									findSw = false;
-									for (j=0;strPrcSys.length>j;j++) {
-										if (strPrcSys[j].substring(0,2).equals(strRsrcCd[i])) {
-											findSw = true;
-											if (strPrcSys[j].indexOf(confTeam)<0) {
-												strErrMsg = "LOCK관리를 위한 스크립트정보가 등록되지 않았습니다.1";
-												break;
-											} else break;
-										}
-									}
-									if (findSw == false) {
-										strErrMsg = "LOCK관리를 위한 스크립트정보가 등록되지 않았습니다.2";
-										break;
-									}
-								}
-							}
-						}
-						if (QryCd.equals("01") || QryCd.equals("02")) {
-							if (strInfo[i].substring(13,14).equals("1")) {
-								findSw = false;
-								for (k=0;ConfList.size()>k;k++) {
-									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-			    	        	    	//*************************************************
-			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-			    	        	    	
-			    	        	    	//**************************************************
-										rData2 = myMap;
-				    					confTeam = (String) rData2.get(0).get("SvUser");
-				    					rData2 = null;
-				    					if (confTeam.equals("SYSDN")) {
-				    						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-			        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-			        						} else findSw = true;
-				    						break;
-				    					}
-									}
-								}
-								if ( findSw ) {
-									findSw = false;
-									for (j=0;strPrcSys.length>j;j++) {
-										if (strPrcSys[j].substring(0,2).equals(strRsrcCd[i])) {
-											findSw = true;
-											if (strPrcSys[j].indexOf(confTeam)<0) {
-												strErrMsg = "체크아웃스크립트정보가 등록되지 않았습니다.1";
-												break;
-											} else break;
-										}
-									}
-									if (findSw == false) {
-										strErrMsg = "체크아웃스크립트정보가 등록되지 않았습니다.2";
-									}
-								}
-							}
-						} else if (!ReqCd.equals("05")) {
-							if (strInfo[i].substring(27,28).equals("1")) {
-								findSw = false;
-								for (k=0;ConfList.size()>k;k++) {
-									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-			    	        	    	//*************************************************
-			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-			    	        	    	
-			    	        	    	//**************************************************
-										rData2 = myMap;
-				    					confTeam = (String) rData2.get(0).get("SvUser");
-				    					rData2 = null;
-				    					if (confTeam.equals("SYSFT")) {
-				    						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-			        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-			        						} else findSw = true;
-				    						break;
-				    					}
-									}
-								}
-								if ( findSw ) {
-									findSw = false;
-									for (j=0;strPrcSys.length>j;j++) {
-										if (strPrcSys[j].substring(0,2).equals(strRsrcCd[i])) {
-											findSw = true;
-											if (strPrcSys[j].indexOf(confTeam)<0) {
-												strErrMsg = "웹취약성스크립트정보가 등록되지 않았습니다.1";
-												break;
-											} else break;
-										}
-									}
-									if (findSw == false) {
-										strErrMsg = "웹취약성스크립트정보가 등록되지 않았습니다.2";
-									}
-								}
-							}
-							if (strInfo[i].substring(21,22).equals("1")) {
-								findSw = false;
-								for (k=0;ConfList.size()>k;k++) {
-									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-			    	        	    	//*************************************************
-			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-			    	        	    	
-			    	        	    	//**************************************************
-										rData2 = myMap;
-				    					confTeam = (String) rData2.get(0).get("SvUser");
-				    					rData2 = null;
-				    					if (confTeam.equals("SYSUP")) {
-				    						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-			        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-			        						} else findSw = true;
-				    						break;
-				    					}
-									}
-								}
-								if ( findSw ) {
-									findSw = false;
-									for (j=0;strPrcSys.length>j;j++) {
-										if (strPrcSys[j].substring(0,2).equals(strRsrcCd[i])) {
-											findSw = true;
-											if (strPrcSys[j].indexOf(confTeam)<0) {
-												strErrMsg = "형상관리저장스크립트정보가 등록되지 않았습니다.1";
-												break;
-											} else break;
-										}
-									}
-									if (findSw == false) {
-										strErrMsg = "형상관리저장스크립트정보가 등록되지 않았습니다.2";
-									}
-								}
-							}
-							if (QryCd.equals("04") && strInfo[i].substring(0,1).equals("1")) {
-								findSw = false;
-								for (k=0;ConfList.size()>k;k++) {
-									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-			    	        	    	//*************************************************
-			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-			    	        	    	
-			    	        	    	//**************************************************
-										rData2 = myMap;
-				    					confTeam = (String) rData2.get(0).get("SvUser");
-				    					rData2 = null;
-				    					if (confTeam.equals("SYSCB")) {
-				    						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-			        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-			        						} else findSw = true;
-											break;
-				    					}
-									}
-								}
-								if ( findSw ) {
-									findSw = false;
-									if (strInfo[i].substring(47,48).equals("1")) {
-										strQuery.setLength(0);
-										strQuery.append("select count(*) cnt from cmr0026          \n");
-										strQuery.append(" where cr_itemid=? and cr_prcsys='SYSCB'  \n");
-										pstmt = conn.prepareStatement(strQuery.toString());
-										pstmt.setString(1, ItemId);
-										rs = pstmt.executeQuery();
-										if (rs.next()) {
-											if (rs.getInt("cnt")>0) findSw = true;
-										}
-										rs.close();
-										pstmt.close();
-									} else {
-										for (j=0;strPrcSys.length>j;j++) {
-											//ecamsLogger.error("++++ prcsys ++++"+strPrcSys[j]);
-											//ecamsLogger.error("++++ strRsrcCd ++++"+strRsrcCd[i]);
-											if (strPrcSys[j].substring(0,2).equals(strRsrcCd[i])) {
-												findSw = true;
-												if (strPrcSys[j].indexOf(confTeam)<0) {
-													strErrMsg = "실행 할 빌드스크립트정보가 등록되지 않았습니다.1";
-													break;
-												} else break;
-											}
-										}
-									}
-									if (findSw == false) {
-										strErrMsg = "실행 할 빌드스크립트정보가 등록되지 않았습니다.2";
-									}
-								}
-							}
-							if (QryCd.equals("04") && strInfo[i].substring(20,21).equals("1")) {
-								findSw = false;
-								for (k=0;ConfList.size()>k;k++) {
-									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-			    	        	    	//*************************************************
-			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-			    	        	    	
-			    	        	    	//**************************************************
-										rData2 = myMap;
-				    					confTeam = (String) rData2.get(0).get("SvUser");
-				    					rData2 = null;
-				    					if (confTeam.equals("SYSED")) {
-				    						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-			        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-			        						} else findSw = true;
-				    						break;
-				    					}
-									}
-								}
-								if ( findSw ) {
-									findSw = false;
-									if (strInfo[i].substring(47,48).equals("1")) {
-										strQuery.setLength(0);
-										strQuery.append("select count(*) cnt from cmr0026         \n");
-										strQuery.append(" where cr_itemid=? and cr_prcsys='SYSED' \n");
-										pstmt = conn.prepareStatement(strQuery.toString());
-										pstmt.setString(1, ItemId);
-										rs = pstmt.executeQuery();
-										if (rs.next()) {
-											if (rs.getInt("cnt")>0) findSw = true;
-										}
-										rs.close();
-										pstmt.close();
-									} else {
-										for (j=0;strPrcSys.length>j;j++) {
-											if (strPrcSys[j].substring(0,2).equals(strRsrcCd[i])) {
-												findSw = true;
-												if (strPrcSys[j].indexOf(confTeam)<0) {
-													strErrMsg = "실행 할 배포스크립트정보가 등록되지 않았습니다.1";
-													break;
-												} else break;
-											}
-										}
-									}
-									if (findSw == false) {
-										strErrMsg = "실행 할 배포스크립트정보가 등록되지 않았습니다.2";
-									}
-								}
-							}
-							if (strInfo[i].substring(34,35).equals("1")) {
-								findSw = false;
-								for (k=0;ConfList.size()>k;k++) {
-									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-			    	        	    	//*************************************************
-			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-			    	        	    	
-			    	        	    	//**************************************************
-										rData2 = myMap;
-				    					confTeam = (String) rData2.get(0).get("SvUser");
-				    					rData2 = null;
-				    					if (confTeam.equals("SYSRC")) {
-				    						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-			        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-			        						} else findSw = true;
-				    						break;
-				    					}
-									}
-								}
-								if ( findSw ) {
-									findSw = false;
-									for (j=0;strPrcSys.length>j;j++) {
-										if (strPrcSys[j].substring(0,2).equals(strRsrcCd[i])) {
-											findSw = true;
-											if (strPrcSys[j].indexOf(confTeam)<0) {
-												strErrMsg = "실행 할 적용스크립트정보가 등록되지 않았습니다.1";
-												break;
-											} else break;
-										}
-									}
-									if (findSw == false) {
-										strErrMsg = "실행 할 적용스크립트정보가 등록되지 않았습니다.2";
-									}
-								}
-							}
-							if (strInfo[i].substring(39,40).equals("1")) {
-								findSw = false;
-								for (k=0;ConfList.size()>k;k++) {
-									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-			    	        	    	//*************************************************
-			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-			    	        	    	
-			    	        	    	//**************************************************
-										rData2 = myMap;
-				    					confTeam = (String) rData2.get(0).get("SvUser");
-				    					rData2 = null;
-				    					if (confTeam.equals("SYSAR")) {
-				    						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-			        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-			        						} else findSw = true;
-				    						break;
-				    					}
-									}
-								}
-								if ( findSw ) {
-									findSw = false;
-									for (j=0;strPrcSys.length>j;j++) {
-										if (strPrcSys[j].substring(0,2).equals(strRsrcCd[i])) {
-											findSw = true;
-											if (strPrcSys[j].indexOf(confTeam)<0) {
-												strErrMsg = "사후처리스크립트정보가 등록되지 않았습니다.1";
-												break;
-											} else break;
-										}
-									}
-									if (findSw == false) {
-										strErrMsg = "사후처리스크립트정보가 등록되지 않았습니다.2";
-									}
-								}
-							}
-							if (strInfo[i].substring(16,17).equals("1")) {
-								findSw = false;
-								for (k=0;ConfList.size()>k;k++) {
-									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-			    	        	    	//*************************************************
-			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-			    	        	    	
-			    	        	    	//**************************************************
-										rData2 = myMap;
-				    					confTeam = (String) rData2.get(0).get("SvUser");
-				    					rData2 = null;
-				    					if (confTeam.equals("SYSCN")) {
-				    						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-			        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-			        						} else findSw = true;
-				    						break;
-				    					}
-									}
-								}
-								if ( findSw ) {
-									findSw = false;
-									for (j=0;strPrcSys.length>j;j++) {
-										if (strPrcSys[j].substring(0,2).equals(strRsrcCd[i])) {
-											findSw = true;
-											if (strPrcSys[j].indexOf(confTeam)<0) {
-												strErrMsg = "체크인취소시실행할 스크립트정보가 등록되지 않았습니다.1";
-												break;
-											} else break;
-										}
-									}
-									if (findSw == false) {
-										strErrMsg = "체크인취소시실행할 스크립트정보가 등록되지 않았습니다.2";
-									}
-								}
-							}
-						} else if (ReqCd.equals("05")) {             //폐기
-							if (strInfo[i].substring(17,18).equals("1")) {
-								findSw = false;
-								for (k=0;ConfList.size()>k;k++) {
-									if (ConfList.get(k).get("cm_gubun").equals("1")) {
-			    	        	    	//*************************************************
-			    	        	    	// 데이터를 json 형태로 받아오기때문에 하위 json data도 형변환
-			    	        	    	Gson gson = new Gson(); 
-			    	        	    	Type type = new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType();
-			    	        	    	ArrayList<HashMap<String, String>> myMap = gson.fromJson(ConfList.get(k).get("arysv").toString(), type);
-			    	        	    	
-			    	        	    	//**************************************************
-										rData2 = myMap;
-				    					confTeam = (String) rData2.get(0).get("SvUser");
-				    					rData2 = null;
-				    					if (confTeam.equals("SYSED")) {
-				    						if (ConfList.get(k).get("cm_rsrccd") != null && !"".equals(ConfList.get(k).get("cm_rsrccd"))) {
-			        							if (ConfList.get(k).get("cm_rsrccd").toString().indexOf(strRsrcCd[i])>=0) findSw = true;
-			        						} else findSw = true;
-				    						break;
-				    					}
-									}
-								}
-								if ( findSw ) {
-									findSw = false;
-									if (strPrcSys[i].indexOf("SYSDEL")<0) {
-										strErrMsg = "파일삭제용 스크립트정보가 등록되지 않았습니다.1";
-									} else findSw = true;
-								}
-							}
-						}
-						if (strErrMsg != null) break;
-					}
-				}
+	        		}
+	        	}
+	        	if (strErrMsg.length()>0) {
+	        		break;
+	        	}
     		}
 
 			return strErrMsg;
@@ -5808,75 +5182,98 @@ public class Cmr0200{
 			//fileStr = fileStream.toString("EUC-KR");	
 		}
 	}//execShell_ap
-	public Object[] diffList(String UserId,String sysCd,ArrayList<HashMap<String,String>> fileList) throws SQLException, Exception {
-		Connection        conn        = null;
-		PreparedStatement pstmt       = null;
-		ResultSet         rs          = null;
-		StringBuffer      strQuery    = new StringBuffer();
+	public Object[] diffList(String UserId,String sysCd,ArrayList<HashMap<String,String>> fileList) throws Exception {
 		ArrayList<HashMap<String, String>>		  rtList	  = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String>			  rst		  = null;
-		ConnectionContext connectionContext = new ConnectionResource();
-		int i = 0;
-		boolean sameSw = false;
-		String  shFileName = "";
-		String	fileName = "";
-		String	outName = "";
-		String  strParm = "";
-		String  strMd5sum = "";
-
-		File shfile=null;
-		BufferedReader in1 = null;
-		String	readline1 = "";
-		int     ret = 0;
+		int     i   = 0;
+		int     cnt = 0;
 		try {
-			conn = connectionContext.getConnection();
-			SystemPath cTempGet = new SystemPath();
-			String tmpPath = cTempGet.getTmpDir_conn("99",conn);
-			rtList.clear();
-			for (i=0;fileList.size()>i;i++) {
-				rst = new HashMap<String,String>();
-				rst = fileList.get(i);
-				rst.put("diffrst", "해당사항없음");
-				rst.put("diffrstcd", "0");
+			SystemPath systemPath = new SystemPath();
+			String outFile = systemPath.getTmpDir("99") + "/FILEDIFF07_"+UserId+"_"+fileList.get(0).get("cr_syscd");
+			systemPath = null;
+			OutputStreamWriter       writer = null;
+			File outfile = new File(outFile);
+			outfile.delete();
+			outfile.createNewFile();//File이 없으면 File 생성
+			writer = new OutputStreamWriter( new FileOutputStream(outFile));
+			for(i=0 ; i<fileList.size() ; i++){
+				writer.write(fileList.get(i).get("cr_itemid") +"\n");
+				++cnt;
+			}
+			writer.close();
+			
+			writer = null;
+			
+			if (cnt > 0) {
+				String resultFile = outfile + ".out";
+				File rstfile = new File(resultFile);
+				BufferedReader in1  = null;
+				String readline1 = "";
 				
-				if (rst.get("cm_info").substring(52,53).equals("1") && !rst.get("cr_lstver").equals("0")) {
-					Cmr0200 cmr0200 = new Cmr0200();
-					strParm = "./ecams_chkdoc_filediff " + fileList.get(i).get("cr_itemid")+ " "+UserId;
-					shFileName = UserId+"_"+ fileList.get(i).get("cr_itemid") + "diff04.sh";
-					ret = cmr0200.execShell(shFileName, strParm, false);
-					if (ret != 0 && ret != 8 && ret != 9) {
-						throw new Exception("파일비교 실패. run=["+strParm +"]" + " return=[" + ret + "]" );
-					} else {
-						if (ret == 0) {
-							rst.put("diffrst", "파일변경안됨");
-							rst.put("diffrstcd", "1");
-						}
-						else if (ret == 9) {
-							rst.put("diffrst", "파일없음");
-							rst.put("diffrstcd", "1");
-						}
-						else if (ret == 8) {
-							rst.put("diffrst", "파일변경");
-							rst.put("diffrstcd", "0");
+				String shellFile = "FILEDIFF_"+UserId+"_"+fileList.get(0).get("cr_syscd")+ ".sh";
+				String parmName = "ecams_chkdoc_filediff " + outFile + " " + UserId;
+				Cmr0200 cmr0200 = new Cmr0200();
+				int nRet = cmr0200.execShell(shellFile, parmName, false);
+				if (nRet != 0) {
+					rst = new HashMap<String,String>();
+					rst = fileList.get(0);
+					rst.put("ERR", "Y");
+					rst.put("result", "파일비교 중 오류가 발생하였습니다.");
+					rtList.add(rst);
+					rst = null;
+				} else {
+					if (!rstfile.exists()) {
+						rst = new HashMap<String,String>();
+						rst.put("ERR", "Y");
+						rst.put("result", "파일비교결과 파일이 없습니다.");
+						rtList.add(rst);
+						rst = null;
+					} 
+				}
+				
+				if (rtList.size()== 0) {
+					in1 = new BufferedReader(new InputStreamReader(new FileInputStream(resultFile),"MS949"));
+					
+					String itemID = "";
+					String retCD = "";
+					String retMsg = "";
+					while((readline1 = in1.readLine()) != null) {
+						if (readline1.length() == 0) continue;
+						itemID = readline1.substring(0,12);
+						retCD = readline1.substring(12,14);
+						retMsg = readline1.substring(14);
+						
+						for(i=0 ; i<fileList.size() ; i++){
+							if (fileList.get(i).get("cr_itemid").equals(itemID)) {
+								rst = new HashMap<String,String>();
+								rst = fileList.get(i);
+								rst.put("ERR", "N");
+								if ("1".equals(fileList.get(i).get("cm_info").substring(52,53))) {
+									rst.put("diffrst", retMsg);
+									if ("OK".equals(retCD)) {
+										rst.put("diffrstcd", "0");
+									} else {
+										rst.put("diffrstcd", "1");
+									}
+								} else {
+									rst.put("diffrst", "대상아님");
+									rst.put("diffrstcd", "0");
+								}
+								rtList.add(rst);
+								rst = null;
+							}
 						}
 					}
+					in1.close();
+					in1 = null;
 				}
-				rtList.add(rst);
-			} 
-			conn.close();
-			conn = null;
-			pstmt = null;
-			rs = null;
+				rstfile.delete();
+			}
+			
 			
 			//ecamsLogger.error("+++ rtList +++"+rtList.toString());
 			return rtList.toArray();
 
-		} catch (SQLException sqlexception) {
-			sqlexception.printStackTrace();
-			ecamsLogger.error("## Cmr0200.diffList() SQLException START ##");
-			ecamsLogger.error("## Error DESC : ", sqlexception);
-			ecamsLogger.error("## Cmr0200.diffList() SQLException END ##");
-			throw sqlexception;
 		} catch (Exception exception) {
 			exception.printStackTrace();
 			ecamsLogger.error("## Cmr0200.diffList() Exception START ##");
@@ -5884,18 +5281,7 @@ public class Cmr0200{
 			ecamsLogger.error("## Cmr0200.diffList() Exception END ##");
 			throw exception;
 		}finally{
-			if (strQuery != null) 	strQuery = null;
 			if (rtList != null)  rtList = null;
-			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
-			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
-			if (conn != null){
-				try{
-					ConnectionResource.release(conn);
-				}catch(Exception ex3){
-					ecamsLogger.error("## Cmr0200.diffList() connection release exception ##");
-					ex3.printStackTrace();
-				}
-			}
 		}
 	}
 	

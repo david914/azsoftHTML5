@@ -148,10 +148,13 @@ secondGrid.setConfig({
     	    this.self.repaint();
     	},
     	trStyleClass: function () {
+    		if (this.item.diffrstcd != null) {
+	    		if (this.item.diffrstcd === '1'){
+	    			return "fontStyle-cncl";
+	    		}
+    		}
     		if (this.item.cr_itemid != this.item.baseitem){
     			return "fontStyle-module";
-    		}
-    		else {
     		}
     	}
     },
@@ -982,9 +985,11 @@ function deleteDataRow() {
 	else if(reqCd == '07'){
 		outpos = "R";
 		$('#btnDiff').prop('disabled',true);
+		$('#btnRequest').prop('disabled',false);
 		for(var j=0; secondGridData.length>j ; j++){
 			if (secondGridData[j].cm_info.substr(52,1) == "1"){
 				$('#btnDiff').prop('disabled',false);
+				$('#btnRequest').prop('disabled',true);
 				break;
 			}
 		}
@@ -1048,17 +1053,19 @@ function checkDuplication(downFileList){
 	secondGrid.repaint();
 	exlSw = false;
 	
-	for(i=0; secondGridList.length>i ; i++){
-		if (secondGridList[i].cm_info.substr(52,1) == "1"){
-			$('#btnDiff').prop('disabled',false);
-			break;
-		}
-	}
 	
-	$('#btnRequest').prop('disabled', false);
 	
 	if(secondGrid.list.length > 0){
 		$('#btnRequest').prop('disabled', false);
+		if (reqCd == '07') {
+			for(i=0; secondGridList.length>i ; i++){
+				if (secondGridList[i].cm_info.substr(52,1) == "1"){
+					$('#btnDiff').prop('disabled',false);
+					$('#btnRequest').prop('disabled', true);
+					break;
+				}
+			}
+		} 
 		$('[data-ax5select="cboSys"]').ax5select('disable');
 		if(srSw) $('[data-ax5select="cboSrId"]').ax5select('disable');
 		simpleData();
@@ -1325,6 +1332,16 @@ function btnDiffClick(){
 }
 
 function successGetFileDiff(data){
+
+	var resultData = [];
+	resultData = data;
+	
+	if (resultData.length == 1) {
+		if (resultData[0].ERR == 'Y') {
+			dialog.alert("파일비교 중 오류가 발생하였습니다. [" + resultData[0].result + "]");
+			return;
+		}
+	}
 	secondGridData = data;
 	secondGrid.setData(secondGridData);
 	
@@ -1336,6 +1353,8 @@ function successGetFileDiff(data){
 			}
 		}
 	}
+	$('#btnRequest').prop('disabled', false);
+	
 }
 
 
@@ -1629,6 +1648,7 @@ function requestEnd(){
 	secondGrid.setData([]);
 	secondGridData = [];
 	$('#btnRequest').prop('disabled',true);
+	$('#btnDiff').prop('disabled',true);
 }
 
 function cmdDetail(){
