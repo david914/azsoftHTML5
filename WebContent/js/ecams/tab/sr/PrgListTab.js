@@ -108,8 +108,8 @@ function openWindow(type,acptNo, etcInfo) {
     winName = type+'_pop_'+strReqCd;
 
     if (type === 1) {//프로그램정보
-       screenWidth = $("#iFrm", parent.document).width();
-       screenHeight = $("#iFrm", parent.document).height();
+       screenHeight = $("#frmPrgList", parent.document).height();
+       screenWidth = $("#frmPrgList", parent.document).width();
 	   nWidth = screenWidth * 0.8; 
 	   nHeight = screenHeight * 0.8; 
 	   cURL = "/webPage/winpop/PopProgramInfo.jsp";
