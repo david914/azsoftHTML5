@@ -27,8 +27,8 @@ var screenWidth = 0;
 var screenHeight = 0;
 
 $(window).resize(function(){
-	screenHeight = $("#iFrm", parent.document).width();
-	screenWidth = $("#iFrm", parent.document).height();
+	screenHeight = $("#iFrm", parent.document).height();
+	screenWidth = $("#iFrm", parent.document).width();
  });
 
 modListGrid.setConfig({

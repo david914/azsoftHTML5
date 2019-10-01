@@ -13,7 +13,7 @@ var adminYN 		= window.parent.adminYN;
 var userDeptName 	= window.parent.userDeptName;
 var userDeptCd 	 	= window.parent.userDeptCd;
 var strReqCd	 	= window.parent.strReqCd; 
-
+var strAcptNo 		= window.parent.strAcptNo;
 var strStatus		= window.parent.strStatus; //SR상태 "2";
 var strIsrId		= window.parent.strIsrId; //"R201906-0003";  
 
@@ -22,15 +22,26 @@ var cboUserData = null;
 var PrgListGridData = [];
 var PrgListGrid 	= new ax5.ui.grid();
 
+var screenWidth = 0;
+var screenHeight = 0;
+
+$(window).resize(function(){
+	screenHeight = $("#frmPrgList", parent.document).height();
+	screenWidth = $("#frmPrgList", parent.document).width();
+ });
+
+
 $('[data-ax5select="cboProgramer"]').ax5select({
     options: []
 });
 
 $(document).ready(function() {
+	screenWidth = $("#iFrm", parent.document).width();
+	screenHeight = $("#iFrm", parent.document).height();
+	
 	strReqCd = "XX";
 	createViewGrid();
 	getReqDepartInfo();
-	
 	getPrgList();
 	
 	// 대상구분 변경시 달력 변경
@@ -63,6 +74,14 @@ function createViewGrid() {
 	        	this.self.clearSelect();
 	            this.self.select(this.dindex);
 	        },
+	        onDBLClick: function () {
+	        	if (this.dindex < 0) return;
+	
+		       	var selIn = PrgListGrid.selectedDataIndexs;
+		       	if(selIn.length === 0) return;
+		       	console.log(PrgListGridData[selIn]);
+		       	openWindow(1, '', PrgListGridData[selIn].cr_itemid);
+	        },
 	        onDataChanged: function(){
 	    		this.self.repaint();
 	    	}
@@ -82,6 +101,42 @@ function createViewGrid() {
 	if(PrgListGridData.length > 0){
 		PrgListGrid.setData(PrgListGridData);
 	}
+}
+
+function openWindow(type,acptNo, etcInfo) {
+	var nHeight, nWidth, cURL, winName;
+
+	if ( (type+'_'+strReqCd) == winName ) {
+		if (myWin != null) {
+	        if (!myWin.closed) {
+	        	myWin.close();
+	        }
+		}
+	}
+
+    winName = type+'_pop_'+strReqCd;
+
+    if (type === 1) {//프로그램정보
+	   nWidth = screenWidth * 0.8; 
+	   nHeight = screenHeight * 0.8; 
+	   cURL = "/webPage/winpop/PopProgramInfo.jsp";
+	} else {
+		confirmDialog2.alert('window open - popup: invalid type ['+type+'] error', function(){return;});
+	}
+	
+	var f = document.setReqData;
+    f.user.value 	= userId;
+    
+	//POST방식으로 넘기고 싶은 값(hidden 변수에 값을 넣음)
+	if (acptNo != '' && acptNo != null) {
+		f.acptno.value	= acptNo;
+	}
+	
+	if (etcInfo != '' && etcInfo != null) {
+		f.itemid.value = etcInfo;
+	}
+    
+    myWin = winOpen(f, winName, cURL, nHeight, nWidth);
 }
 
 //개발자 가져오기

@@ -24,5 +24,11 @@
 			style="height: 100%;"></div>
 	</div>
 </body>
-
+<form name="setReqData">
+	<input type="hidden" name="acptno"/>
+	<input type="hidden" name="user"/>
+	<input type="hidden" name="itemid"/>
+	<input type="hidden" name="srid"/>
+	<input type="hidden" name="etcinfo"/>
+</form>
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/sr/PrgListTab.js"/>"></script>
