@@ -210,8 +210,6 @@ $(document).ready(function(){
 	
 	getTmpDir('99,F1');
 	
-	getProgHistory_Acptno(pItemId);
-	
 });
 //환성화 비활성화 초기화로직
 function screenInit(gbn){
@@ -242,6 +240,8 @@ function successeCAMSDir(data) {
 		if(data.cm_pathcd == '99') tmpDir = data.cm_path;
 		else downURL = data.cm_path;
 	});
+	
+	getProgHistory_Acptno(pItemId);
 	
 }
 function getProgHistory_Acptno(itemid){

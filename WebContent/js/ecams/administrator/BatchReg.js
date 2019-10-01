@@ -104,6 +104,7 @@ $(document).ready(function() {
 		}
 	});
 	$('#cboSysCd').bind('change', function() {
+		batchGrid.setData([]); // grid 초기화
 		getSvrInfo();
 	});
 	// 엑셀파일

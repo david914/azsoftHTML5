@@ -182,6 +182,7 @@ public class Cmm1600{
 			conn.setAutoCommit(false);
 
 			String _syscd = dataObj.get("cm_syscd");
+			String _sysmsg = dataObj.get("cm_sysmsg");
 			String rsrcname = "";
 			String userid = "";
 			String _sourcename = "";
@@ -290,14 +291,19 @@ public class Cmm1600{
 				}
 				rst.put("jawon", fileList.get(i).get("jawon").trim());
 
-				rst.put("_syscd", _syscd);
-
 				errMsg = "";
 				errSw = false;
 				_sourcename = rsrcname;
 				_jobcd = "";
 				_editor = "";
 				_dsncd = "";
+				
+				if(fileList.get(i).get("sysmsg").equals(_syscd) || fileList.get(i).get("sysmsg").equals(_sysmsg)) {
+					rst.put("_syscd", _syscd);
+				}else {
+					errMsg = errMsg + "시스템 불일치/";
+					errSw = true;
+				}
 
 				if (fileList.get(i).get("jawon") == "" && fileList.get(i).get("jawon") == null){
 					errMsg = "프로그램종류 입력없음/";
@@ -490,10 +496,6 @@ public class Cmm1600{
 				rst.put("_dirpath", _dirpath);
 				rst.put("dirpath", _dirpath);
 				
-				
-				ecamsLogger.debug("@@ > _dirpath : " + _dirpath);
-				
-				
 				if (_dirpath == "" & _dirpath == null){
 					errMsg = errMsg + "프로그램경로 입력없음/";
 					errSw = true;
@@ -524,12 +526,22 @@ public class Cmm1600{
 				if (errSw == false) {
 					rst.put("_dirpath", _dirpath);
 					for (j=0;rsval.size()>j;j++) {
-						if (rsval.get(j).get("_dirpath").equals(_dirpath) &&
-							rsval.get(j).get("rsrcname").equals(_sourcename)) {
-							++errCnt;
-							errMsg = errMsg + "중복Data/";
-							errSw = true;
-							break;
+						if (sysos.equals("03")) {
+							if (rsval.get(j).get("_dirpath").toUpperCase().equals(_dirpath.toUpperCase()) &&
+								rsval.get(j).get("rsrcname").toUpperCase().equals(_sourcename.toUpperCase())) {
+								++errCnt;
+								errMsg = errMsg + "중복Data/";
+								errSw = true;
+								break;
+							}
+						}else {
+							if (rsval.get(j).get("_dirpath").equals(_dirpath) &&
+									rsval.get(j).get("rsrcname").equals(_sourcename)) {
+								++errCnt;
+								errMsg = errMsg + "중복Data/";
+								errSw = true;
+								break;
+							}
 						}
 					}
 				}
@@ -1079,7 +1091,7 @@ public class Cmm1600{
         	rData = null;
         	uInfo = null;
         	String strTitle = "";
-        	strQuery.setLength(0);
+        	strQuery.setLength(0); 
         	strQuery.append("select cm_codename from cmm0020     \n");
         	strQuery.append(" where cm_macode='REQUEST'          \n");
         	strQuery.append("   and cm_micode=?                  \n");
@@ -1224,8 +1236,8 @@ public class Cmm1600{
                 	strQuery.append("insert into cmr1000 ");
                 	strQuery.append("(CR_ACPTNO,CR_SYSCD,CR_SYSGB,CR_JOBCD,CR_ACPTDATE,CR_STATUS,CR_TEAMCD,CR_QRYCD, ");
                 	strQuery.append("CR_PASSOK,CR_PASSCD,CR_BEFJOB,CR_EMGCD,CR_EDITOR,CR_SAYU,CR_PASSSUB,CR_SAYUCD, ");
-                	strQuery.append("CR_SVRCD,CR_SVRSEQ) values ( ");
-                	strQuery.append("?,?,?,?,sysdate,'0',?,?,   '0',?,'N','11',?,'일괄등록',?,'',  ?,?) ");
+                	strQuery.append("CR_SVRCD,CR_SVRSEQ,CR_VERSION) values ( ");
+                	strQuery.append("?,?,?,?,sysdate,'0',?,?,   '0',?,'N','11',?,'일괄등록',?,'',  ?,?,?) ");
 
                 	pstmt = conn.prepareStatement(strQuery.toString());
 //                	pstmt = new LoggableStatement(conn,strQuery.toString());
@@ -1243,7 +1255,12 @@ public class Cmm1600{
 
                 	pstmt.setString(pstmtcount++, etcData.get("svrcd"));
                 	pstmt.setInt(pstmtcount++, Integer.parseInt(etcData.get("svrseq")));
-
+                	// 최초등록(버전:1)
+                	if ("3".equals(etcData.get("base")) || "1".equals(etcData.get("base"))) {
+                		pstmt.setString(pstmtcount++, "Y");
+                	} else {
+                		pstmt.setString(pstmtcount++, "N");
+                	}
 //                	ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
                 	pstmt.executeUpdate();
 
@@ -1256,13 +1273,13 @@ public class Cmm1600{
             	strQuery.append(" CR_RSRCCD,CR_DSNCD,CR_RSRCNAME,CR_RSRCNAM2,CR_SRCCHG,CR_SRCCMP,   \n");
             	strQuery.append(" CR_PRIORITY,CR_VERSION,CR_BEFVER,CR_CONFNO,CR_EDITOR,CR_BASENO,   \n");
             	strQuery.append(" CR_BASEITEM,CR_ITEMID,CR_EDITCON,CR_SYSTYPE,CR_BEFVIEWVER,        \n");
-            	strQuery.append(" CR_AFTVIEWVER)    \n");
+            	strQuery.append(" CR_AFTVIEWVER,CR_VERYN)    \n");
             	strQuery.append(" values            \n");
             	strQuery.append("(?,?,?,?,?,'0',?,  \n");
             	strQuery.append(" ?,?,?,?,?,'Y',    \n");
             	strQuery.append(" ?,?,?,?,?,?,      \n");
             	strQuery.append(" ?,?,?,?,'0.0.0.0',\n");
-            	strQuery.append(" ?)                \n");
+            	strQuery.append(" ?,?)                \n");
 
             	pstmtcount = 1;
             	pstmt = conn.prepareStatement(strQuery.toString());
@@ -1305,8 +1322,14 @@ public class Cmm1600{
             	}
             	pstmt.setString(pstmtcount++, chkInList.get(i).get("story"));
             	pstmt.setString(pstmtcount++, etcData.get("cm_systype"));
-            	if ("1".equals(etcData.get("base"))) pstmt.setString(pstmtcount++,"0.0.0.1");
-            	else pstmt.setString(pstmtcount++,"0.0.0.0");
+            	// 최초등록(버전:1)
+            	if ("3".equals(etcData.get("base")) || "1".equals(etcData.get("base"))) {
+            		pstmt.setString(pstmtcount++,"0.0.0.1");
+            		pstmt.setString(pstmtcount++, "Y");
+            	} else {
+            		pstmt.setString(pstmtcount++,"0.0.0.0");
+            		pstmt.setString(pstmtcount++, "N");
+            	}
             	//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             	pstmt.executeUpdate();
             	pstmt.close();

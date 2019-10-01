@@ -186,8 +186,6 @@ $(document).ready(function(){
 	
 	getTmpDir('99,F1');
 	
-	getProgHistory(pItemId);
-
 	new ResizeSensor($('#girdDiv'), function() { // div 리사이징 감지 이벤트
 		var girdHeight = $('#girdDiv').height();
 		grdDiffSrc.setHeight(girdHeight);
@@ -224,9 +222,12 @@ function successeCAMSDir(data) {
 		else downURL = data.cm_path;
 	});
 	
+	//getTmpDir() 와 같이 진행하게 되면 tmpdir 을 간혈적으로 가져 오지 못함
+	getProgHistory(pItemId);
+	
 }
 function getProgHistory(itemid){
-	
+	console.log("1");
 	var tmpInfoData = {
 		itemId: 	itemid,
 		acptNo:     pReqNo,
@@ -239,6 +240,8 @@ function getProgHistory(itemid){
 function successProgList(data) {
 	var firstSw = false;
 	var secondSw = false;
+	
+	console.log("2");
 	
 	grdProgHistoryData = data;
 	grdProgHistory.setData(grdProgHistoryData);
@@ -260,6 +263,8 @@ function btnVerDiff_click() {
 	var befVer = 0;
 	var aftVer = 0;
 	diffGbn = 'A';
+	
+	console.log("3");
 	
 	if (befVer > 0 && aftVer > 0) {
 		grdDiffSrc.setData(grdDiffSrcData);
@@ -300,6 +305,8 @@ function btnVerDiff_click() {
 		}
 	}
 	
+	console.log("4");
+	
 	tmpInfo = new Object();
 	tmpInfo.userid = pUserId;
 	tmpInfo.itemid  = cr_itemid;
@@ -332,6 +339,8 @@ function successDiffList(data) {
 	var addCnt = 0;
 	var aftCnt = 0;
 	
+	console.log("5");
+	
 	if(data.indexOf("ERROR") != -1){
 		dialog.alert(data);
 		return;
@@ -361,6 +370,8 @@ function successDiffList(data) {
 		if(data.file2diff != null && data.file2diff != '') return true;
 		return false;
 	});
+	
+	console.log("6 " + grdDiffSrcData.length);
 	
 	$('#txtDelLine').val(String(delCnt));
 	$('#txtBefLine').val(String(befCnt));
