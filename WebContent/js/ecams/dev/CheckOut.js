@@ -91,20 +91,21 @@ firstGrid.setConfig({
 	        	            mask.open();
 	        	        }
 	        	        else if (this.state === "close") {
-	        	        	console.log(gridSelIdx);
-	        	        	console.log(updateFlag, selectVer, selectAcptno, selectViewVer);
+	        	        	console.log(gridSelIdx, updateFlag, selectVer, selectAcptno, selectViewVer);
+	        	        	
 	        	        	if (updateFlag) {
-		        	        	if (selectViewVer == 'sel') {
-			        	        	firstGrid.setValue(gridSelIdx, 'cr_viewver', '버전선택');
-			        	        	firstGrid.setValue(gridSelIdx, 'selAcptno', '');
-			        	        	firstGrid.setValue(gridSelIdx, 'cr_lstver', '');
-		        	        	} else {
+//		        	        	if (selectViewVer == 'sel') {
+//			        	        	firstGrid.setValue(gridSelIdx, 'cr_viewver', 'sel');
+//			        	        	firstGrid.setValue(gridSelIdx, 'selAcptno', '');
+//			        	        	firstGrid.setValue(gridSelIdx, 'cr_lstver', '');
+//		        	        	} else {
 		        	        		firstGrid.setValue(gridSelIdx, 'cr_viewver', selectViewVer);
 			        	        	firstGrid.setValue(gridSelIdx, 'selAcptno', selectAcptno);
 			        	        	firstGrid.setValue(gridSelIdx, 'cr_lstver', selectVer);
-		        	        	}
+//		        	        	}
 	        	        	}
-	        	            mask.close();
+	        	        	mask.close();
+	        	        	firstGrid.repaint();
 	        	        }
 	        	    }
 	        	}, function () {
@@ -167,10 +168,10 @@ firstGrid.setConfig({
         		if (reqCd == '01' || this.item.cr_status != '0') {
         			return '<label>'+ this.value +'</label>';
         		} else {//이전버전체크아웃
-        			if (selectViewVer == 'sel') {
+        			if (this.value == 'sel') {
         				return '<button style="width: 98%; height: 98%;">버전선택</button>';
         			} else {
-        				return '<button style="width: 98%; height: 98%;">버전: '+selectViewVer+'</button>';
+        				return '<button style="width: 98%; height: 98%;">버전: '+ this.value +'</button>';
         			}
         		}
         	}
