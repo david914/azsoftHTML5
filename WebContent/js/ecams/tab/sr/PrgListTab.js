@@ -25,20 +25,11 @@ var PrgListGrid 	= new ax5.ui.grid();
 var screenWidth = 0;
 var screenHeight = 0;
 
-$(window).resize(function(){
-	screenHeight = $("#frmPrgList", parent.document).height();
-	screenWidth = $("#frmPrgList", parent.document).width();
- });
-
-
 $('[data-ax5select="cboProgramer"]').ax5select({
     options: []
 });
 
 $(document).ready(function() {
-	screenWidth = $("#iFrm", parent.document).width();
-	screenHeight = $("#iFrm", parent.document).height();
-	
 	strReqCd = "XX";
 	createViewGrid();
 	getReqDepartInfo();
@@ -117,6 +108,8 @@ function openWindow(type,acptNo, etcInfo) {
     winName = type+'_pop_'+strReqCd;
 
     if (type === 1) {//프로그램정보
+       screenWidth = $("#iFrm", parent.document).width();
+       screenHeight = $("#iFrm", parent.document).height();
 	   nWidth = screenWidth * 0.8; 
 	   nHeight = screenHeight * 0.8; 
 	   cURL = "/webPage/winpop/PopProgramInfo.jsp";

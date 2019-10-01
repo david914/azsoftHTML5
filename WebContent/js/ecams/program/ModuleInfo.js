@@ -26,11 +26,6 @@ var sysCD           = '';
 var screenWidth = 0;
 var screenHeight = 0;
 
-$(window).resize(function(){
-	screenHeight = $("#iFrm", parent.document).height();
-	screenWidth = $("#iFrm", parent.document).width();
- });
-
 modListGrid.setConfig({
 	target: $('[data-ax5grid="modListGrid"]'),
 	sortable: true, 
@@ -76,10 +71,6 @@ $('input:radio[name^="radio"]').wRadio({theme: 'circle-radial blue', selector: '
 
 $(document).ready(function() {
 	//userId = 'cishappy';
-
-	screenWidth = $("#iFrm", parent.document).width();
-	screenHeight = $("#iFrm", parent.document).height();
-	
 	$('#optPrg').wRadio('check', true);
 	getSysInfo();
 	
@@ -264,6 +255,9 @@ function updtRelat() {
 	}
 	
 	sysCD = getSelectedVal('cboSysCd').value;
+	
+	screenWidth = $("#iFrm", parent.document).width();
+	screenHeight = $("#iFrm", parent.document).height();
 	
 	var tmpWidth = screenWidth * 0.9; 
 	var tmpHeight = screenHeight * 0.9; 
