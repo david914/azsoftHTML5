@@ -393,21 +393,16 @@ public class Cmr1100 {
 			strQuery.append("j.cc_srid, j.cc_docid, j.cc_reqtitle, h.cr_story           \n");
 			strQuery.append("from cmm0020 f,cmm0030 d,cmm0102 e, cmr1000 a ,            \n");
 			strQuery.append("    (select cr_acptno,count(*) as cnt from cmr1010         \n");
-			
 			if(etcData.get("chkSelf").equals("true")) {
 				strQuery.append("Where cr_editor= ?                                     \n");
 			    strQuery.append("  and cr_baseitem=cr_itemid                            \n");					
-			} else {
-			    strQuery.append("where cr_baseitem=cr_itemid                            \n");					
-			}
+			} else strQuery.append("where cr_baseitem=cr_itemid                       	\n");
 			strQuery.append("       group by cr_acptno) g,                              \n");
 			strQuery.append("       cmr1010 h, cmm0020 i,cmc0100 j                      \n");
 			
-			if (etcData.get("reqcd").equals("01")){
-				strQuery.append("where a.cr_qrycd in ('01','02')      \n");
-			}else{
-				strQuery.append("where a.cr_qrycd = ?			   \n");
-			}
+			if (etcData.get("reqcd").equals("01")) 
+				strQuery.append(" where a.cr_qrycd in ('01','02')      	\n");
+			else strQuery.append(" where a.cr_qrycd = ?			   		\n");
 
 			if(etcData.get("chkSelf").equals("true")) {
 				strQuery.append("and a.cr_editor= ? \n");					
@@ -456,7 +451,7 @@ public class Cmr1100 {
 			}
 			strQuery.append("and a.cr_acptno = g.cr_acptno \n");
 			strQuery.append("and g.cr_acptno = h.cr_acptno \n");
-			strQuery.append("and h.cR_serno = (select cr_serno from cmr1010 where cr_acptno=h.cr_acptno and rownum=1 ) \n");
+			strQuery.append("and h.cr_serno = (select cr_serno from cmr1010 where cr_acptno=h.cr_acptno and rownum=1 ) \n");
 			//strQuery.append("and b.cm_macode = 'CMR1000' and a.cr_status = b.cm_micode \n");
 			strQuery.append("and a.cr_sysCD = d.cm_SYSCD \n");
 			strQuery.append("and a.cr_jobcd = e.cm_jobcd \n");
@@ -474,36 +469,30 @@ public class Cmr1100 {
 			strQuery.append(" and i.cm_macode = 'REQPASS'                  \n");
 			strQuery.append(" and a.cr_itsmid=j.cc_srid(+)                 \n");
 			if(etcData.get("spms") !=null && etcData.get("spms")!=""){
-				strQuery.append(" and (j.cc_srid like ? or upper(j.cc_reqtitle) like upper(?) or j.cc_docid like ?)      \n");
+				strQuery.append(" and (j.cc_srid like ? or upper(j.cc_reqtitle) like upper(?) or j.cc_docid like ?)		\n");
 			}
-			if (etcData.get("prgname") != null && etcData.get("prgname") != ""){
-				strQuery.append("and (upper(h.cr_rsrcname) like upper(?) or upper(h.cr_story) like upper(?))  \n");
+			if (etcData.get("prgname") != null && etcData.get("prgname") != "" && etcData.get("prgname").length() != 0){
+				strQuery.append("and (upper(h.cr_rsrcname) like upper(?) or upper(h.cr_story) like upper(?))			\n");
 			}
 			//strQuery.append("order by a.cr_acptdate desc \n");
-           // pstmt = conn.prepareStatement(strQuery.toString());
+			
+            //pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt =  new LoggableStatement(conn, strQuery.toString());
 			if(etcData.get("chkSelf").equals("true")) {
 				pstmt.setString(pstmtcount++, etcData.get("UserID"));
-				pstmt.setString(pstmtcount++, etcData.get("UserID"));
-			}else if( etcData.get("chkSelf").equals("false") && !etcData.get("userName").equals("") && (etcData.get("userName") != null) ){
-				pstmt.setString(pstmtcount++, etcData.get("userName"));
 			}
 			if (!etcData.get("reqcd").equals("01")){
 				pstmt.setString(pstmtcount++, etcData.get("reqcd"));
 			}
+			if(etcData.get("chkSelf").equals("true")) {
+				pstmt.setString(pstmtcount++, etcData.get("UserID"));
+			} else if( etcData.get("chkSelf").equals("false") && !etcData.get("userName").equals("") && (etcData.get("userName") != null) ){
+				pstmt.setString(pstmtcount++, etcData.get("userName"));
+			}
+			
 			if (AdminChk == false){
 				pstmt.setString(pstmtcount++, etcData.get("UserID"));
 			}
-
-			/*if (!etcData.get("reqcd").equals("00")){
-		    	if(etcData.get("reqcd").equals("93")) { //93:테스트 폐기(qrycd=03)
-		    		pstmt.setString(pstmtcount++, "03");	
-		    	} else if(etcData.get("reqcd").equals("94")) { // 94:운영폐기(qrycd=04)
-		    		pstmt.setString(pstmtcount++, "04");	
-		    	} else {
-					pstmt.setString(pstmtcount++, etcData.get("reqcd"));	    		
-		    	}
-			}*/
 
 			if (etcData.get("stepcd").equals("0") || etcData.get("stepcd").equals("3") || etcData.get("stepcd").equals("9") ){
 				pstmt.setString(pstmtcount++, etcData.get("stDt"));
@@ -524,7 +513,7 @@ public class Cmr1100 {
 				pstmt.setString(pstmtcount++, "%"+etcData.get("spms")+"%");
 				pstmt.setString(pstmtcount++, "%"+etcData.get("spms")+"%");
 			}
-			if (etcData.get("prgname") != null && etcData.get("prgname") != ""){
+			if (etcData.get("prgname") != null && etcData.get("prgname") != "" && etcData.get("prgname").length() != 0){
 				pstmt.setString(pstmtcount++, "%"+etcData.get("prgname")+"%");
 				pstmt.setString(pstmtcount++, "%"+etcData.get("prgname")+"%");
 			}
@@ -600,20 +589,13 @@ public class Cmr1100 {
 							rs.getString("cr_prcreq").substring(6, 8) + " " +
 							rs.getString("cr_prcreq").substring(8, 10) + ":" +
 							rs.getString("cr_prcreq").substring(10, 12));
-
-
 				strQuery2.setLength(0);
 				strQuery2.append("select count(*) as cnt from cmr1010 where \n");
 				strQuery2.append("cr_acptno= ? and \n");
 				strQuery2.append("cr_confno is null \n");
-
-
 				pstmt2 = conn.prepareStatement(strQuery2.toString());
-
 				pstmt2.setString(1,rs.getString("cr_acptno"));
-
 				rs2 = pstmt2.executeQuery();
-
 				if (rs2.next()){
 					subrowcnt = rs2.getInt("cnt");
 				}
@@ -626,52 +608,37 @@ public class Cmr1100 {
 				else{
 					rst.put("relno","0");
 				}
-
-				
 				rst.put("cr_editor",rs.getString("cr_editor")); //신청자 사번
 				
 				strQuery2.setLength(0);
 				strQuery2.append("select cm_username		\n");
 				strQuery2.append("from cmm0040				\n");
 				strQuery2.append("where cm_userid = ? 		\n");
-
 				pstmt2 = conn.prepareStatement(strQuery2.toString());
-
 				pstmt2.setString(1,rs.getString("cr_editor"));
-
 				rs2 = pstmt2.executeQuery();
-
 				while (rs2.next()){
 					rst.put("editor",rs2.getString("cm_username")); //신청자 이름
 				}
 				rs2.close();
 				pstmt2.close();
-
-
+				
 				strQuery2.setLength(0);
 				strQuery2.append("select count(*) as cnt from cmr1011 where \n");
 				strQuery2.append("cr_acptno= ? and \n");
 				strQuery2.append("cr_rstfile is not null \n");
-
-
 				pstmt2 = conn.prepareStatement(strQuery2.toString());
-
 				pstmt2.setString(1,rs.getString("cr_acptno"));
-
 				rs2 = pstmt2.executeQuery();
-
 				while (rs2.next()){
 					subrowcnt = rs2.getInt("cnt");
 				}
 				rs2.close();
 				pstmt2.close();
 
-				if (subrowcnt > 0){
+				if (subrowcnt > 0) 
 					rst.put("result","1");
-				}
-				else{
-					rst.put("result","0");
-				}
+				else rst.put("result","0");
 
 				rst.put("cr_syscd",rs.getString("cr_syscd"));
 
@@ -740,7 +707,6 @@ public class Cmr1100 {
 			pstmt = null;
 			rs = null;
 			rtObj =  rtList.toArray();
-
 			rtList = null;
 
 			return rtObj;
