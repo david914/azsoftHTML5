@@ -70,7 +70,8 @@ $(document).ready(function() {
 	// 로그아웃 클릭
 	$('#logOut').bind('click', function() {
 		confirmDialog.confirm({
-			msg: '로그아웃 하시겠습니까?',
+			title: '로그아웃',
+			msg: '로그아웃 하시겠습니까?'
 		}, function(){
 			if(this.key === 'ok') {
 				logOut();
