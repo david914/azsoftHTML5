@@ -392,24 +392,30 @@ public class Cmm0400{
 			if(UserId.indexOf(",") >= 0 ) {
 				userIdList = UserId.split(",");
 			}
+			
+			ecamsLogger.error(", gbncd: " + gbnCd + ", userid: " + UserId);
 
 			strQuery.setLength(0);
 			strQuery.append("select a.cm_jobcd,d.cm_jobname job,  \n");
 			strQuery.append("       e.cm_sysmsg jobgrp,e.cm_sysgb,\n");
 			strQuery.append("       e.cm_syscd,c.cm_userid,c.cm_username \n");
-			strQuery.append("from cmm0102 d,cmm0030 e,cmm0044 a,cmm0040 c ");
-			if (gbnCd.equals("USER")) {
-				strQuery.append("where a.cm_userid in (        \n");
-				for(int i=0; i< userIdList.length; i++) {
-					if(i != 0) {
-						strQuery.append(" ,");
+			strQuery.append("from cmm0102 d,cmm0030 e,cmm0044 a,cmm0040 c where \n");
+			if ("USER".equals(gbnCd)) {
+				if(userIdList != null && userIdList.length > 0) {
+					strQuery.append("a.cm_userid in (        \n");
+					for(int i=0; i< userIdList.length; i++) {
+						if(i != 0) {
+							strQuery.append(" ,");
+						}
+						strQuery.append("?");
 					}
-					strQuery.append("?");
+					strQuery.append(")\n");
+					strQuery.append("  and a.cm_userid=c.cm_userid \n");
+				}else {
+					strQuery.append("a.cm_userid = ?        \n");
 				}
-				strQuery.append(")\n");
-				strQuery.append("  and a.cm_userid=c.cm_userid \n");
 			} else {
-				strQuery.append("where c.cm_project=?          \n");
+				strQuery.append("c.cm_project=?          \n");
 				strQuery.append("  and a.cm_userid=c.cm_userid \n");
 			}
 			strQuery.append("and a.cm_closedt is null          \n");
@@ -420,16 +426,20 @@ public class Cmm0400{
 			strQuery.append("order by c.cm_userid,e.cm_sysmsg,d.cm_jobcd   \n");
 
             pstmt = conn.prepareStatement(strQuery.toString());
-            //pstmt =  new LoggableStatement(conn, strQuery.toString());
+            //pstmt = new LoggableStatement(conn, strQuery.toString());
             
-            if(UserId.indexOf(",") >= 0 ) {
-            	for(int i=0; i< userIdList.length; i++) {
-            		pstmt.setString(i+1,userIdList[i]);
-				}
-            } else {
+            if ("USER".equals(gbnCd)) {
+            	if(userIdList != null && userIdList.length > 0) {
+	            	for(int i=0; i< userIdList.length; i++) {
+	            		pstmt.setString(i+1,userIdList[i]);
+					}
+                }else {
+                	pstmt.setString(1,UserId);
+                }
+            }else {
             	pstmt.setString(1,UserId);
             }
-            ////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
             while(rs.next()){
