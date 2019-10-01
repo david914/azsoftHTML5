@@ -135,31 +135,32 @@ public class SysInfo{
 					strQuery.append("where a.cm_closedt is null                    \n");
 				}
 			}
-			if (ReqCd != "" && ReqCd != null) {
-				if (ReqCd.equals("03")) {
-					if (strSw == true) strQuery.append("and ");
-					else {
-						strSw = true;
-						strQuery.append("where ");
-					}
-
-					strQuery.append("a.cm_syscd in (select distinct cm_syscd      \n");
-					strQuery.append("                 from cmm0031                \n");
-					strQuery.append("                where cm_svrcd IN('13','15') \n");
-					strQuery.append("                  and cm_closedt is null)    \n");
-				}  else if (ReqCd.equals("08")) {
-					if (strSw == true) strQuery.append("and ");
-					else {
-						strSw = true;
-						strQuery.append("where ");
-					}
-
-					strQuery.append("a.cm_syscd in (select distinct cm_syscd      \n");
-					strQuery.append("                 from cmm0031                \n");
-					strQuery.append("                where cm_svrcd IN('23','25') \n");
-					strQuery.append("                  and cm_closedt is null)    \n");
-				}
-			}
+			//사용안함
+//			if (ReqCd != "" && ReqCd != null) {
+//				if (ReqCd.equals("03")) {
+//					if (strSw == true) strQuery.append("and ");
+//					else {
+//						strSw = true;
+//						strQuery.append("where ");
+//					}
+//
+//					strQuery.append("a.cm_syscd in (select distinct cm_syscd      \n");
+//					strQuery.append("                 from cmm0031                \n");
+//					strQuery.append("                where cm_svrcd IN('13','15') \n");
+//					strQuery.append("                  and cm_closedt is null)    \n");
+//				}  else if (ReqCd.equals("08")) {
+//					if (strSw == true) strQuery.append("and ");
+//					else {
+//						strSw = true;
+//						strQuery.append("where ");
+//					}
+//
+//					strQuery.append("a.cm_syscd in (select distinct cm_syscd      \n");
+//					strQuery.append("                 from cmm0031                \n");
+//					strQuery.append("                where cm_svrcd IN('23','25') \n");
+//					strQuery.append("                  and cm_closedt is null)    \n");
+//				}
+//			}
 			strQuery.append("order by a.cm_sysmsg \n");
 
 			//pstmt = conn.prepareStatement(strQuery.toString());

@@ -487,7 +487,7 @@ function getCodeInfoList() {
 	$('[data-ax5select="cboReqGbn"]').ax5select({
 		options: cboOptions
 	});
-	if(reqCd == '03'){ // 테스트배포
+	if(reqCd == '03' || reqCd == '08'){ // 테스트배포 && 개발배포
 		$('[data-ax5select="cboReqGbn"]').ax5select('disable');
 	}
 	cboOptions = [];
@@ -517,11 +517,6 @@ function getSysCbo() {
 //시스템 리스트
 function successGetSysCbo(data) {
 	sysData = data;
-	
-	if(sysData.length == 0 && reqCd == '03'){
-		dialog.alert('권한이 있는 시스템중 테스트환경이 존재하는 시스템이 없습니다. 메뉴의 적용->운영배포 화면을 이용하여 주십시요.');
-		return;
-	}
 	
 	cboOptions = [];
 	$.each(sysData,function(key,value) {
@@ -833,6 +828,11 @@ function addDataRow() {
 	ajaxReturnData = null;
 	var strRsrcName = '';
 	var calSw = false;
+	
+	if(reqCd == '04' && getSelectedIndex('cboSrId') > 0 && firstGridSeleted.length > 0){ // 운영신청일때는 한방에 전부 추가가 되어야 함.
+		firstGrid.selectAll({selected: true});
+		firstGridSeleted = firstGrid.getList("selected");
+	}
 	
 	$(firstGridSeleted).each(function(i){
 		if(this.selected_flag == '1' && reqCd != '04'){
@@ -1226,7 +1226,20 @@ function sysDataFilter(){
 			if(getSelectedIndex('cboSrId') > 0){
 				continue;
 			} else {
-				options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype: data.cm_systype});
+				if (reqCd == '08') {
+					if (data.cm_systype != 'B' && data.cm_systype != 'C' && data.cm_systype != 'D' && data.cm_systype != 'E'){
+						continue;
+					}
+				} else if (reqCd == '03') {
+					if (data.cm_systype != 'C' && data.cm_systype != 'D' && data.cm_systype != 'F' && data.cm_systype != 'G'){
+						continue;
+					}
+				} else if (reqCd == '04'){
+					if (data.cm_systype != 'D' && data.cm_systype != 'E' && data.cm_systype != 'G' && data.cm_systype != 'H'){
+						continue;
+					}
+				}
+				options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo: data.cm_sysinfo, tstsw: data.TstSw, cm_systype: data.cm_systype});
 			}
 		}
 		else{
@@ -1235,7 +1248,20 @@ function sysDataFilter(){
 				var arySyscd = syscd.split(",");
 				for(var j=0; j<arySyscd.length; j++){
 					if(arySyscd[j] == data.cm_syscd){
-						options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo : data.cm_sysinfo, cm_systype: data.cm_systype});
+						if (reqCd == '08') {
+							if (data.cm_systype != 'B' && data.cm_systype != 'C' && data.cm_systype != 'D' && data.cm_systype != 'E'){
+								continue;
+							}
+						} else if (reqCd == '03') {
+							if (data.cm_systype != 'C' && data.cm_systype != 'D' && data.cm_systype != 'F' && data.cm_systype != 'G'){
+								continue;
+							}
+						} else if (reqCd == '04'){
+							if (data.cm_systype != 'D' && data.cm_systype != 'E' && data.cm_systype != 'G' && data.cm_systype != 'H'){
+								continue;
+							}
+						}
+						options.push({value: data.cm_syscd, text: data.cm_sysmsg, cm_sysgb: data.cm_sysgb, cm_sysinfo: data.cm_sysinfo, tstsw: data.TstSw, cm_systype: data.cm_systype});
 						break;
 					}
 				}
