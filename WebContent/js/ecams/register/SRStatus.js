@@ -194,6 +194,13 @@ $(document).ready(function(){
 	$('#btnQry').bind('click', function() {
 		cmdQry_Proc();
 	});
+	
+	$('#txtTit').bind('keydown', function(event) {
+		if(event.keyCode === 13) {
+			cmdQry_Proc();
+		}
+	});
+	
 	//초기화버튼
 	$('#btnReset').bind('click', function() {
 		resetScreen();
@@ -381,7 +388,8 @@ function cmdQry_Proc(){
 	param.selfsw = $('input[name="rdoDaeSang"]:checked').val();
 					
 	param.userid = userid;
-
+	
+	console.log(param);
 	data =  new Object();
 	data = {
 		prjData		: param,

@@ -490,7 +490,7 @@ public class PrjInfo{
 			if (etcData.get("stday") != null && !"".equals(etcData.get("stday"))) {
 				if ((etcData.get("reqsta1") == null || etcData.get("reqsta1") == "") &&
 					(etcData.get("reqsta2") == null || etcData.get("reqsta2") == "")) {
-					strQuery.append(" and (a.cc_status not in ('0','3','8','9') or (\n");
+					strQuery.append(" and (a.cc_status not in ('0','3','8','9') and (\n");
 				} else {
 					strQuery.append(" and  \n");
 				}
@@ -528,6 +528,7 @@ public class PrjInfo{
 			strQuery.append("   and b.cc_userid=g.cm_userid                     \n");
 			strQuery.append("   and b.cc_status=h.cm_micode                     \n");
 			strQuery.append("   and a.cc_status=i.cm_micode                     \n");
+			strQuery.append(" order by a.CC_CREATEDATE desc                     \n");
 			
 			//pstmt = conn.prepareStatement(strQuery.toString());
 			pstmt = new LoggableStatement(conn,strQuery.toString());

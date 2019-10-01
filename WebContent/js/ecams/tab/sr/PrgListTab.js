@@ -108,10 +108,12 @@ function openWindow(type,acptNo, etcInfo) {
     winName = type+'_pop_'+strReqCd;
 
     if (type === 1) {//프로그램정보
-       screenHeight = $("#frmPrgList", parent.document).height();
-       screenWidth = $("#frmPrgList", parent.document).width();
-	   nWidth = screenWidth * 0.8; 
-	   nHeight = screenHeight * 0.8; 
+       //screenHeight = $("#frmPrgList", parent.document).height();
+       //screenWidth = $("#frmPrgList", parent.document).width();
+	  // nWidth = screenWidth * 0.8; 
+	  // nHeight = screenHeight * 0.8; 
+    	nWidth = 1145;
+    	nHeight = 370;
 	   cURL = "/webPage/winpop/PopProgramInfo.jsp";
 	} else {
 		confirmDialog2.alert('window open - popup: invalid type ['+type+'] error', function(){return;});
