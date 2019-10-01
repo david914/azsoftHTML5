@@ -168,7 +168,7 @@ $(document).ready(function() {
 	
 	// 조회 버튼 클릭
 	$('#btnQry').bind('click', function() {
-		getSelectList();
+		getRequestList();
 	});
 	// 엑셀저장
 	$('#btnExcel').bind('click', function() {
@@ -237,7 +237,7 @@ function screenInit() {
 }
 
 // 결재 현황 리스트 가져오기
-function getSelectList() {
+function getRequestList() {
 	var strSys 	= '0';
 	var strQry 	= '0';
 	var strGbn 	= '0';

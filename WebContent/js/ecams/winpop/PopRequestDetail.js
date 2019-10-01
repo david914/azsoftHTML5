@@ -827,6 +827,7 @@ function startFunction() {
 	});
 	//닫기클릭
 	$('#btnClose').bind('click', function() {
+		window.opener.getRequestList();
 		close();
 	});
 	
@@ -1068,7 +1069,10 @@ function successReqCncl(data) {
 	ingSw = false;
 	
 	if (data == '0') {
-		confirmDialog2.alert('전체회수 처리가 완료되었습니다.', function(){close();});
+		confirmDialog2.alert('전체회수 처리가 완료되었습니다.', function(){
+			close();
+			window.opener.getRequestList();
+		});
 	} else if (data == '2') {
 		confirmDialog2.alert('현재 형상관리서버에서 다른처리를 진행하고 있습니다.\n잠시 후 다시 처리하여 주시기 바랍니다.');
 	} else {
@@ -1178,11 +1182,12 @@ function successNextConf(data) {
 	ingSw = false;
 	
 	if (data == '0') {
+		window.opener.getRequestList();
 		close();
 	}else{
 		confirmDialog2.alert('처리에 실패했습니다. \n[ERROR='+data+']');
 	}
-	$('#btnQry').trigger('click');
+//	$('#btnQry').trigger('click');
 }
 //자동처리 실행
 function svrProc(prcSysGbn) {
