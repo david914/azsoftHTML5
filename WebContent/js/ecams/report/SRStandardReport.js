@@ -83,7 +83,7 @@ $(document).ready(function() {
 				{key : "dept2",label : "개발부서",align : "center",width: "10%"}, 
 				{key : "sysmsg",label : "시스템",align : "center",width: "15%"}, 
 				{key : "chkDate",label : "기간",align : "center",width: "15%"}, 
-				{key : "CntSum",label : "합계",align : "right",width: "40%"} 
+				{key : "CntSum",label : "합계",align : "right",width: "39%"} 
 			];
 	} else {
 		columnData =
@@ -201,7 +201,7 @@ $("#btnSearch").bind('click', function() {
 		deptGbn : "D",
 		dept1 : $("[data-ax5select='reqDept']").ax5select("getValue")[0].value,
 		dept2 : $("[data-ax5select='devDept']").ax5select("getValue")[0].value,
-		Sta : $("[data-ax5select='devDept']").ax5select("getValue")[0].value,
+		Sta : $("[data-ax5select='srStat']").ax5select("getValue")[0].value,
 		srid : $("#srId").val() == '' ? null : $("#srId").val()
 	}
 	
