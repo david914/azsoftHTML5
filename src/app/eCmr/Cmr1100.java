@@ -381,7 +381,7 @@ public class Cmr1100 {
 			UserInfo		  userInfo	  = new UserInfo();
 			AdminChk = userInfo.isAdmin(etcData.get("UserID"));
 			userInfo = null;
-			
+			strQuery.setLength(0);
 			strQuery.append("select /*+ index(h CMR1010_PK) */  a.cr_acptno,a.cr_editor,a.cr_syscd,a.cr_status,     \n");
 			strQuery.append("to_char(a.CR_ACPTDATE,'yyyy/mm/dd hh24:mi') as acptdate,   \n");
 			strQuery.append("a.cr_acptno,a.cr_editor,a.cr_syscd,a.cr_status,            \n");
@@ -399,10 +399,12 @@ public class Cmr1100 {
 			} else strQuery.append("where cr_baseitem=cr_itemid                       	\n");
 			strQuery.append("       group by cr_acptno) g,                              \n");
 			strQuery.append("       cmr1010 h, cmm0020 i,cmc0100 j                      \n");
+			strQuery.append("where a.cr_acptno = g.cr_acptno 							\n");
 			
 			if (etcData.get("reqcd").equals("01")) 
-				strQuery.append(" where a.cr_qrycd in ('01','02')      	\n");
-			else strQuery.append(" where a.cr_qrycd = ?			   		\n");
+				strQuery.append("   and a.cr_qrycd in ('01','02')      	\n");
+			else if (!etcData.get("reqcd").equals("00"))
+				strQuery.append("   and a.cr_qrycd = ?			   		\n");
 
 			if(etcData.get("chkSelf").equals("true")) {
 				strQuery.append("and a.cr_editor= ? \n");					
@@ -449,7 +451,7 @@ public class Cmr1100 {
 					strQuery.append("and to_char(a.cr_prcdate,'yyyymmdd')<= replace(? ,'/','') \n");
 				}
 			}
-			strQuery.append("and a.cr_acptno = g.cr_acptno \n");
+			
 			strQuery.append("and g.cr_acptno = h.cr_acptno \n");
 			strQuery.append("and h.cr_serno = (select cr_serno from cmr1010 where cr_acptno=h.cr_acptno and rownum=1 ) \n");
 			//strQuery.append("and b.cm_macode = 'CMR1000' and a.cr_status = b.cm_micode \n");
@@ -481,7 +483,7 @@ public class Cmr1100 {
 			if(etcData.get("chkSelf").equals("true")) {
 				pstmt.setString(pstmtcount++, etcData.get("UserID"));
 			}
-			if (!etcData.get("reqcd").equals("01")){
+			if (!etcData.get("reqcd").equals("01") && !etcData.get("reqcd").equals("00")){
 				pstmt.setString(pstmtcount++, etcData.get("reqcd"));
 			}
 			if(etcData.get("chkSelf").equals("true")) {
@@ -519,10 +521,9 @@ public class Cmr1100 {
 			}
 			ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
-
             rtList.clear();
+            
 			while (rs.next()){
-
 				rst = new HashMap<String,String>();
 				//rst.put("ID", Integer.toString(rs.getRow()));
 				rst.put("sysgbname",rs.getString("SysGb"));
