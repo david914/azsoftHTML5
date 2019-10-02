@@ -208,6 +208,16 @@ $(document).ready(function() {
 	$('#btnQry').bind('click', function() {
 		getNoticeInfo();
 	});
+	
+	var oldVal = "";
+	// 기간 선택 달력의 경우 두번째 달력 값 선택 또는 변경시 자동으로 달력 닫히게 추가
+	$('#end_date').bind('propertychange change keyup paste input', function() {
+		var currentVal =  $("#end_date").val();
+		if(currentVal != oldVal){
+			picker.close();
+		}
+		oldVal = currentVal;
+	});
 })
 
 // 첨부파일 더블 클릭시 열리는 공지사항 편집창 안열리게 막기

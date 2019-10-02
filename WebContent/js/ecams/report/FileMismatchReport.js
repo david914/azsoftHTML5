@@ -175,6 +175,16 @@ $(document).ready(function() {
 	$('#btnExcel').bind('click', function() {
 		fileGrid.exportExcel('파일대사불일치현황.xls');
 	});
+	
+	var oldVal = "";
+	// 기간 선택 달력의 경우 두번째 달력 값 선택 또는 변경시 자동으로 달력 닫히게 추가
+	$('#dateEd').bind('propertychange change keyup paste input', function() {
+		var currentVal =  $("#dateEd").val();
+		if(currentVal != oldVal){
+			picker.close();
+		}
+		oldVal = currentVal;
+	});
 });
 
 // 불일치 삭제

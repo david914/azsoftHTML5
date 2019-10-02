@@ -215,6 +215,16 @@ $('input:radio[name=rdoDate]').wRadio({theme: 'circle-radial red', selector: 'ch
 $(document).ready(function(){
 	getUserInfo();
 	
+	var oldVal = "";
+	// 기간 선택 달력의 경우 두번째 달력 값 선택 또는 변경시 자동으로 달력 닫히게 추가
+	$('#datEdD').bind('propertychange change keyup paste input', function() {
+		var currentVal =  $("#datEdD").val();
+		if(currentVal != oldVal){
+			picker.close();
+		}
+		oldVal = currentVal;
+	});
+	
 	//진행상태에따라 일자조건 활성화,비활성화 처리
 	$('#cboSta').bind('change', function() {
 		setDateEnable();

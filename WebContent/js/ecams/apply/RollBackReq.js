@@ -230,6 +230,16 @@ $(document).ready(function(){
 	
 	//시스템정보 가져오기
 	system_getData();
+	
+	var oldVal = "";
+	// 기간 선택 달력의 경우 두번째 달력 값 선택 또는 변경시 자동으로 달력 닫히게 추가
+	$('#datEdD').bind('propertychange change keyup paste input', function() {
+		var currentVal =  $("#datEdD").val();
+		if(currentVal != oldVal){
+			picker.close();
+		}
+		oldVal = currentVal;
+	});
 });
 //시스템정보 가져오기
 function system_getData() {

@@ -141,10 +141,17 @@ $(document).ready(function(){
 		loadSrReg = true;
 	}
 	
-//	document.getElementById('frmDevPlan').onload = function() {
-		clickTabMenu();
-//	}
-		
+	clickTabMenu();
+	
+	var oldVal = "";
+	// 기간 선택 달력의 경우 두번째 달력 값 선택 또는 변경시 자동으로 달력 닫히게 추가
+	$('#datEdD').bind('propertychange change keyup paste input', function() {
+		var currentVal =  $("#datEdD").val();
+		if(currentVal != oldVal){
+			picker.close();
+		}
+		oldVal = currentVal;
+	});
 });
 
 //페이지 로딩 완료시 다음 진행 

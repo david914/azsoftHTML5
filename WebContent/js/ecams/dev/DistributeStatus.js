@@ -194,6 +194,16 @@ $(document).ready(function(){
 	$('input:radio[name=rdoDate]').wRadio({theme: 'circle-radial blue', selector: 'checkmark'});
 	$('input:checkBox[name=checkSelf]').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 	
+	var oldVal = "";
+	// 기간 선택 달력의 경우 두번째 달력 값 선택 또는 변경시 자동으로 달력 닫히게 추가
+	$('#datEdD').bind('propertychange change keyup paste input', function() {
+		var currentVal =  $("#datEdD").val();
+		if(currentVal != oldVal){
+			picker.close();
+		}
+		oldVal = currentVal;
+	});
+	
 	//콤보박스 데이터 세팅
 	getCodeInfo();
 	prcdSet();
