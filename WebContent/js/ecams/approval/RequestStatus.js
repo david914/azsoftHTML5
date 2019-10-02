@@ -18,9 +18,6 @@ var cboGbnData		= null;
 var cboSinData		= null;
 var cboStaData		= null;
 
-var timer = null;
-var clicks = 0;
-
 // 이 부분 지우면 영어명칭으로 바뀜
 // ex) 월 -> MON
 ax5.info.weekNames = [
@@ -61,19 +58,6 @@ picker.bind({
          formatter: {
              pattern: 'date'
          }
-     },
-     onStateChanged: function () {
-    	 clicks++;
-    	 
-    	 if(clicks === 1) {
-    		 timer = setTimeout(function() {
-    			clicks = 0; 
-    		 }, 500);
-    	 }else {
-			clearTimeout(timer);
-    		clicks = 0;
-    		this.self.close();
-    	 }
      },
      btns: {
          today: {
