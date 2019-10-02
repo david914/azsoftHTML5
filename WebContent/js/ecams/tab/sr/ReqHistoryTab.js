@@ -36,21 +36,21 @@ $(document).ready(function() {
 	
 	getReqDepartInfo();
 	
-	getReqList();
+	getRequestList();
 	
 	// 대상구분 변경시 달력 변경
 	$('#cboProgramer2').bind('change', function() {
-		getReqList();
+		getRequestList();
 	});
 	
 	// 신청건별 클릭이벤트
 	$('#rdoOpt1').bind('click', function() {
-		getReqList();
+		getRequestList();
 	});
 	
 	// 프로그램별 클릭이벤트
 	$('#rdoOpt2').bind('click', function() {
-		getReqList();
+		getRequestList();
 	});
 	
 	// 엑셀 저장
@@ -135,7 +135,7 @@ function getReqDepartInfo() {
 
 
 // 그리드 데이터 가져오기
-function getReqList() {
+function getRequestList() {
 	var ReqData = new Object();
 	var ajaxReturnData = null;
 	
