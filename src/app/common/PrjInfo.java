@@ -258,40 +258,70 @@ public class PrjInfo{
 			while(rs.next()){
 				if (etcData.get("reqcd").equals("55") && rs.getString("progyn").equals("N")) {
 					continue;
+				} else if ("05".equals(etcData.get("reqcd")) || "09".equals(etcData.get("reqcd")) || "10".equals(etcData.get("reqcd"))) {
+					//개발폐기, 테스트폐기, 운영폐기
+					if (!"09".equals(rs.getString("cc_cattype"))) { //변경신종류가 폐기가 아니면 skip 
+						continue;
+					} else if ("09".equals(rs.getString("cc_cattype"))) { //변경신종류가 폐기이고 폐기신청이 아닌경우 skip
+						if (etcData.get("reqcd").equals("01") ||
+							etcData.get("reqcd").equals("02") ||
+							etcData.get("reqcd").equals("03") ||
+							etcData.get("reqcd").equals("04") ||
+							etcData.get("reqcd").equals("07") ||
+							etcData.get("reqcd").equals("08") ||
+							etcData.get("reqcd").equals("11")) {
+							continue;
+						}
+					}
+					
 				}
 				rst = new HashMap<String, String>();
 				rst.put("cc_srid", rs.getString("cc_srid"));
 				rst.put("cc_reqtitle", rs.getString("cc_reqtitle"));
 				if (etcData.get("reqcd").equals("01") ||
 					etcData.get("reqcd").equals("02") ||
-					etcData.get("reqcd").equals("03") ||//20140718 neo. 테스트적용요청구분 추가
+					etcData.get("reqcd").equals("03") ||
 					etcData.get("reqcd").equals("04") ||
 					etcData.get("reqcd").equals("07") ||
 					etcData.get("reqcd").equals("08") ||
-					etcData.get("reqcd").equals("11")) {
+					etcData.get("reqcd").equals("11") ||
+					etcData.get("reqcd").equals("05") ||
+					etcData.get("reqcd").equals("09") ||
+					etcData.get("reqcd").equals("10")) {
 					
 					rst.put("syscd", "");
-					if (etcData.get("reqcd").equals("03") ||//20140718 neo. 테스트적용요청구분 추가
+					if (etcData.get("reqcd").equals("03") ||
 						etcData.get("reqcd").equals("04") ||
 						etcData.get("reqcd").equals("07") ||
 						etcData.get("reqcd").equals("08") ||
-						etcData.get("reqcd").equals("11")) {
+						etcData.get("reqcd").equals("11") ||
+						etcData.get("reqcd").equals("09") ||
+						etcData.get("reqcd").equals("10")) {
 						svSysCd = "";
 						strQuery.setLength(0);
-						strQuery.append("select distinct cr_syscd from cmr0020 \n");
-						strQuery.append(" where cr_isrid=? \n");
-						strQuery.append("   and cr_lstusr=? \n");
-						if (etcData.get("reqcd").equals("04")) {
-							//20140721 neo. 운영배포 일때 프로그램의 상태값 변경. 체크인완료[B] 또는 테스트적용완료[G] 상태만 조회 되도록 수정. CMM0020 테이블 cm_macode='CMR0020' 확인
-							//테스트가 있는 시스템 [G] , 테스트가 없는 시스템은 [B] 상태가 조회 됨.
-							//변경전:strQuery.append("   and cr_status='D' \n");
-							strQuery.append("   and cr_status in ('B','E','G') \n");
-						} else if (etcData.get("reqcd").equals("03")) {
-							strQuery.append("   and cr_status in ('B','E','G') \n");
-						} else if (etcData.get("reqcd").equals("08")) {
-							strQuery.append("   and cr_status = 'B' \n");
+						strQuery.append("select a.cm_syscd from cmm0030 a \n");
+						strQuery.append(" where a.cm_closedt is null      \n");
+						if ("04".equals(etcData.get("reqcd")) || "10".equals(etcData.get("reqcd"))) {
+							strQuery.append("   and a.cm_systype in ('D','E','G','H') \n");							
+						} else if ("03".equals(etcData.get("reqcd")) || "09".equals(etcData.get("reqcd"))) {
+							strQuery.append("   and a.cm_systype in ('C','D','F','G') \n");							
 						} else {
-							strQuery.append("   and cr_status in ('3','5','B','D','E','G') \n");
+							strQuery.append("   and a.cm_systype in ('B','C','D','E') \n");						
+						}
+						strQuery.append("   and exists (select 1 from cmr0020         \n");
+						strQuery.append("                where cr_isrid=?             \n");
+						strQuery.append("                  and cr_lstusr=?            \n");
+						strQuery.append("                  and cr_syscd=a.cm_syscd    \n");
+						if ("04".equals(etcData.get("reqcd"))) {
+							strQuery.append("              and cr_status in ('B','E','G'))\n");
+						} else if ("03".equals(etcData.get("reqcd"))) {
+							strQuery.append("              and cr_status in ('B','E','G'))\n");
+						} else if ("08".equals(etcData.get("reqcd"))) {
+							strQuery.append("              and cr_status = 'B')           \n");
+						} else if ("10".equals(etcData.get("reqcd")) || "09".equals(etcData.get("reqcd"))) {
+							strQuery.append("              and cr_status in ('P','Q'))    \n");
+						} else {
+							strQuery.append("              and cr_status in ('3','5','B','D','E','G')) \n");
 						}
 						pstmt2 = conn.prepareStatement(strQuery.toString());
 						//pstmt2 = new LoggableStatement(conn, strQuery.toString());
@@ -301,9 +331,9 @@ public class PrjInfo{
 						rs2 = pstmt2.executeQuery();
 						while ( rs2.next() ) {
 							if ("".equals(svSysCd)) {
-								svSysCd = rs2.getString("cr_syscd");
+								svSysCd = rs2.getString("cm_syscd");
 							} else {
-								svSysCd = svSysCd + ","+rs2.getString("cr_syscd");
+								svSysCd = svSysCd + ","+rs2.getString("cm_syscd");
 							}
 						}
 						rs2.close();
