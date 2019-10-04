@@ -361,11 +361,11 @@ function cboSgnGbn_Change() {
 	    	$('[data-ax5select="cboEmg"]').ax5select('setValue',cboEmgData[2].value,true);
 	    	$('[data-ax5select="cboEmgAft"]').ax5select('setValue',cboEmgAftData[2].value,true);
 	    	
-	    	$('[data-ax5select="cboCommon"]').ax5select("enable");
-	    	$('[data-ax5select="cboBlank"]').ax5select("enable");
-	    	$('[data-ax5select="cboComAft"]').ax5select("enable");
-	    	$('[data-ax5select="cboEmg"]').ax5select("enable");
-	    	$('[data-ax5select="cboEmgAft"]').ax5select("enable");
+	    	$('[data-ax5select="cboCommon"]').ax5select("disable");
+	    	$('[data-ax5select="cboBlank"]').ax5select("disable");
+	    	$('[data-ax5select="cboComAft"]').ax5select("disable");
+	    	$('[data-ax5select="cboEmg"]').ax5select("disable");
+	    	$('[data-ax5select="cboEmgAft"]').ax5select("disable");
 	    	
 	    	break;
 	    case "2":
