@@ -355,6 +355,19 @@ function cboSgnGbn_Change() {
 	
 	switch (getSelectedVal('cboSgnGbn').value) {
 	    case "1":
+	    	$('[data-ax5select="cboCommon"]').ax5select('setValue',cboCommonData[2].value,true);
+	    	$('[data-ax5select="cboBlank"]').ax5select('setValue',cboBlankData[2].value,true);
+	    	$('[data-ax5select="cboComAft"]').ax5select('setValue',cboComAftData[2].value,true); 
+	    	$('[data-ax5select="cboEmg"]').ax5select('setValue',cboEmgData[2].value,true);
+	    	$('[data-ax5select="cboEmgAft"]').ax5select('setValue',cboEmgAftData[2].value,true);
+	    	
+	    	$('[data-ax5select="cboCommon"]').ax5select("enable");
+	    	$('[data-ax5select="cboBlank"]').ax5select("enable");
+	    	$('[data-ax5select="cboComAft"]').ax5select("enable");
+	    	$('[data-ax5select="cboEmg"]').ax5select("enable");
+	    	$('[data-ax5select="cboEmgAft"]').ax5select("enable");
+	    	
+	    	break;
 	    case "2":
 	    case "C": //결재추가
 	    	//////////////////////// 정상결재시 ////////////////////////
