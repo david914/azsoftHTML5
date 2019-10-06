@@ -2643,7 +2643,6 @@ public class Cmr0200{
 							}
 			    			rst.put("cr_acptno",fileList.get(i).get("cr_acptno"));
 			    			rst.put("cr_baseno",fileList.get(i).get("cr_baseno"));
-			    			rst.put("cr_befviewver", rs2.getString("cr_viewver"));
 			    			if ("09".equals(fileList.get(i).get("reqcd"))) {
 			    				strAftViewVer = rs2.getString("cr_viewver");
 			    			} else {
@@ -4033,28 +4032,30 @@ public class Cmr0200{
 				conn.close();
 				throw new Exception("결재정보등록 중 오류가 발생하였습니다. 관리자에게 연락하여 주시기 바랍니다.");
 			}
-  	        
-//  	        String strWork1 = "";
-//  	        String strWork2 = "";
-//  	        String strWork3 = "";
-//  	        int szSerNo = 0;
-//  	        boolean findSw = false;
+  	        			
         	for (j=0;svAcpt.length>j;j++) {
         		strQuery.setLength(0);
         		strQuery.append("update cmr1010 set cr_confno=?                     \n");
-        		strQuery.append(" where cr_itemid in (select cr_itemid from cmr1010 \n");
-        		strQuery.append("                   where cr_acptno=?               \n");
+        		strQuery.append(" where cr_acptno<>?                                \n");
+        		strQuery.append("   and cr_itemid in (select cr_itemid from cmr1010 \n");
+        		strQuery.append("                      where cr_acptno=?            \n");
         		strQuery.append("                     and cr_itemid=cr_baseitem)    \n");
-        		strQuery.append("   and cr_acptno in (select cr_acptno from cmr1000 \n");
-        		strQuery.append("                      where cr_itsmid=?            \n");
-        		strQuery.append("                        and cr_prcdate is not null \n");
-        		strQuery.append("                        and cr_status<>'3')        \n");
+        		if (etcData.get("cc_srid") != null && !"".equals(etcData.get("cc_srid"))) {
+	        		strQuery.append("   and cr_acptno in (select cr_acptno from cmr1000 \n");
+	        		strQuery.append("                      where cr_itsmid=?            \n");
+	        		strQuery.append("                        and cr_prcdate is not null \n");
+	        		strQuery.append("                        and cr_status<>'3')        \n");
+        		} else {
+            		strQuery.append("   and cr_status<>'3'                          \n");
+            		strQuery.append("   and cr_prcdate is not null                  \n");
+        		}
         		strQuery.append("   and cr_confno is null                           \n");
         		//pstmt = conn.prepareStatement(strQuery.toString());
             	pstmt = new LoggableStatement(conn, strQuery.toString());
                 pstmt.setString(1, svAcpt[j]);
                 pstmt.setString(2, svAcpt[j]);
-                pstmt.setString(3, etcData.get("cc_srid"));
+                pstmt.setString(3, svAcpt[j]);
+                if (etcData.get("cc_srid") != null && !"".equals(etcData.get("cc_srid"))) pstmt.setString(4, etcData.get("cc_srid"));
                 ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
                 pstmt.executeUpdate();
                 pstmt.close();
@@ -4071,43 +4072,6 @@ public class Cmr0200{
                 //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
                 rs = pstmt.executeQuery();
             	while (rs.next()) {
-            		for (i=0;scriptList.size()>i;i++) {
-            			if (scriptList.get(i).get("cr_itemid").equals(rs.getString("cr_itemid"))) {
-            				if (scriptList.get(i).get("compyn").equals("Y")) {
-                				strQuery.setLength(0);
-                				pstmtcount = 0;
-                				strQuery.append("insert into cmr1060                  \n");
-                				strQuery.append(" (CR_ACPTNO,CR_SERNO,CR_PRCSYS,CR_RUNGBN,CR_BLDGBN,CR_BLDCD,CR_PARM,CR_RUNYN) \n");
-                				strQuery.append("values (?,?,'SYSCB',?,?,?,?,'Y')     \n");
-                				pstmt2 = conn.prepareStatement(strQuery.toString());
-                				pstmt2.setString(++pstmtcount, svAcpt[j]);
-                				pstmt2.setString(++pstmtcount, rs.getString("cr_serno"));            				
-                				pstmt2.setString(++pstmtcount, scriptList.get(i).get("cm_rungbn"));			
-                				pstmt2.setString(++pstmtcount, scriptList.get(i).get("compbldgbn"));		
-                				pstmt2.setString(++pstmtcount, scriptList.get(i).get("compbldcd"));
-                				pstmt2.setString(++pstmtcount, scriptList.get(i).get("chgparm1"));
-                				pstmt2.executeUpdate();
-                				pstmt2.close();
-            				}
-            				if (scriptList.get(i).get("deployyn").equals("Y")) {
-                				strQuery.setLength(0);
-                				pstmtcount = 0;
-                				strQuery.append("insert into cmr1060                  \n");
-                				strQuery.append("       (CR_ACPTNO,CR_SERNO,CR_PRCSYS,CR_RUNGBN,CR_BLDGBN,CR_BLDCD,CR_PARM,CR_RUNYN) \n");
-                				strQuery.append("values (?,?,'SYSED',?,?,?,?,?)       \n");
-                				pstmt2 = conn.prepareStatement(strQuery.toString());
-                				pstmt2.setString(++pstmtcount, svAcpt[j]);
-                				pstmt2.setString(++pstmtcount, rs.getString("cr_serno"));            				
-                				pstmt2.setString(++pstmtcount, scriptList.get(i).get("cm_rungbn"));			
-                				pstmt2.setString(++pstmtcount, scriptList.get(i).get("deploybldgbn"));		
-                				pstmt2.setString(++pstmtcount, scriptList.get(i).get("deploybldcd"));
-                				pstmt2.setString(++pstmtcount, scriptList.get(i).get("chgparm2"));
-                				pstmt2.setString(++pstmtcount, scriptList.get(i).get("chguseryn"));	            				
-                				pstmt2.executeUpdate();
-                				pstmt2.close();
-            				}
-            			}
-            		}
             		//ecamsLogger.error("$$$$$$$$$$$$$$$$$$  cr_qrycd:"+rs.getString("cr_qrycd"));
             		if ( !rs.getString("cr_qrycd").equals("09") ) {
             			pstmtcount = 1;
@@ -4144,7 +4108,7 @@ public class Cmr0200{
                 	pstmt.close();
             	}
         	}
-        	if ( etcData.get("cc_srid") != null && etcData.get("ReqCD").equals("04") ) {
+        	if ( etcData.get("cc_srid") != null && !"".equals(etcData.get("cc_srid")) && etcData.get("ReqCD").equals("04") ) {
             	strQuery.setLength(0);
             	strQuery.append("update cmc0110 set cc_status='5'\n");
             	strQuery.append(" where cc_srid=?                \n");
