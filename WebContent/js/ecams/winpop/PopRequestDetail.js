@@ -1390,7 +1390,7 @@ function successGetReqList(data) {
 		if ( reqInfoData[0].file == '1' ) {						//테스트결과서
 			$('#btnTestDoc').prop("disabled", false);
 		}
-		if ( pReqCd == '04' && reqInfoData[0].befjob == '1' ) {	//선후행작업확인
+		if ( (pReqCd == '04' || pReqCd == '10') && reqInfoData[0].befjob == '1' ) {	//선후행작업확인
 			$('#btnBefJob').prop("disabled", false);
 		}
 
@@ -1435,7 +1435,7 @@ function successGyulChk(data) {
 	}
 	
 	//선후행작업확인이 비활성일때
-	if (pReqCd == '04' && $('#btnBefJob').is(':disabled')) {
+	if ( (pReqCd == '04' || pReqCd =='10') && $('#btnBefJob').is(':disabled')) {
 		//관리자거나 신청자거나 반려가능 상태일때 선후행작업확인 활성화 시켜줌
 		if(isAdmin || !$('#btnCncl').is(':disabled') || pUserId == reqInfoData[0].cr_editor){
 			$('#btnBefJob').prop("disabled", false); //활성화

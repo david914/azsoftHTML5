@@ -51,12 +51,17 @@ function getFileText(userid, itemid, acptno, ver,cr_aftviewver, status){
 	outName = userid + '_' + ver + '_' + rsrcname;
 	tmpInfo.outname = outName; 
 	tmpInfo.tmpdir = tmpDir;
-	if(status == "9"){
+	if (acptno.substr(4,2) == "05" || acptno.substr(4,2) == "09" || acptno.substr(4,2) == "10"){
 		tmpInfo.cr_acptno  = ver;
 		tmpInfo.gbncd = "CMR0025";
-	}else{
-		tmpInfo.cr_acptno  = acptno;
-		tmpInfo.gbncd = "CMR0027";
+	} else {
+		if(status == "9"){
+			tmpInfo.cr_acptno  = ver;
+			tmpInfo.gbncd = "CMR0025";
+		}else{
+			tmpInfo.cr_acptno  = acptno;
+			tmpInfo.gbncd = "CMR0027";
+		}
 	}
 	
 	var tmpInfoData = {
