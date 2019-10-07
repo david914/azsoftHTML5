@@ -194,7 +194,7 @@ public class Cmm0700{
     			strQuery.append("CM_PWDCNT,CM_PWDTERM,CM_PWDCD,CM_IPADDR2,CM_TSTPWD,CM_PROCTOT,       	\n");
     			strQuery.append("CM_LOCKBASEDT,CM_LOGHISP,CM_PWDNUM,CM_NONAME,cm_mgrlog)            	\n");
     			strQuery.append("values ('ECAMS', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) 			\n");
-            }
+            } 
 
             pstmt = conn.prepareStatement(strQuery.toString());
             //pstmt = new LoggableStatement(conn,strQuery.toString());

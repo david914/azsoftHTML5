@@ -45,7 +45,7 @@ $(document).ready(function(){
 	});
 });
 
-// 환경 설정 등록시 유효성 검사
+// 환경 설정 등록시 유효성 검사 
 function checkConfigVal() {
 	var objData			= new Object();
 	var txtIpIn 		= $('#txtIpIn').val().trim();
