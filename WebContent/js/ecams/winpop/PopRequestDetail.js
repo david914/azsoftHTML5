@@ -827,7 +827,7 @@ function startFunction() {
 	});
 	//닫기클릭
 	$('#btnClose').bind('click', function() {
-		if (window.opener.location.pathname == '/webPage/approval/RequestStatus.jsp'){
+		if (window.opener.getRequestList != undefined){
 			window.opener.getRequestList();
 		}
 		close();
