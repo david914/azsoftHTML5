@@ -859,11 +859,16 @@
        */
       this.open = function (opts, callback, tryCount) {
     	
-		//2019 10 02 모든 모달창 현재 브라우저 크기의 비율로 뜨도록 수정
-		if(opts.defaultSize !== undefined && opts.defaultSize) {
-			opts.width = window.outerWidth * opts.wRatio;
-			opts.height = window.outerHeight * opts.hRatio;
-		}
+    	if(opts.defaultSize !== undefined && opts.defaultSize) {
+    		var screenWith = window.outerWidth * 0.8;
+    		var screenHeight = window.outerHeight * 0.75;
+    		if( opts.width < screenWith ) {
+    			opts.width = screenWith;
+    		}
+    		if( opts.height < screenHeight ) {
+    			opts.height = screenHeight;
+    		}
+    	}
     	  
         if (typeof tryCount === "undefined") tryCount = 0;
         if (!this.activeModal) {
@@ -918,6 +923,7 @@
 
                 try {
                   $(idoc.body).children().each(function () {
+                	  
                     $(this).remove();
                   });
                 } catch (e) {}

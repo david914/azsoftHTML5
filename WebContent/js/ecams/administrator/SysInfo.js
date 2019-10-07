@@ -463,9 +463,9 @@ $(document).ready(function(){
 		}
 		selectedSystem = sysInfoGrid.list[gridSelectedIndex];
 		sysDetailModal.open({
+	        width: 1024,
+	        height: 768,
 	        defaultSize : true,
-	        wRatio : 0.8,
-	        hRatio : 0.75,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/sysinfo/SysDetailModal.jsp",
