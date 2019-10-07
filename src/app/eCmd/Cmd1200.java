@@ -507,7 +507,7 @@ public class Cmd1200{
 		    if (SysInfo.substring(7,8).equals("1")) strQuery.append("b.cm_jobname,     \n");
 		    strQuery.append("       a.cm_prcsys,d.cm_codename prcsys,a.cm_bldgbn,      \n");
 		    strQuery.append("       a.CM_RUNGBN,a.CM_RUNPOS,a.CM_SEQYN,a.CM_TOTYN,     \n");
-		    strQuery.append("       a.CM_USERYN,                                       \n");
+		    strQuery.append("       a.CM_USERYN,a.CM_SYSSEQYN,                         \n");
 		    strQuery.append("       nvl(a.CM_ACPTTOTYN,'N') CM_ACPTTOTYN, 			   \n");
 		    strQuery.append("       nvl(a.CM_RSRCTOTYN,'N') CM_RSRCTOTYN,              \n");
 		    strQuery.append("       nvl(a.CM_DIRTOTYN,'N') CM_DIRTOTYN,                \n");
@@ -554,6 +554,7 @@ public class Cmd1200{
 				rst.put("CM_SEQYN", rs.getString("CM_SEQYN"));
 				rst.put("CM_TOTYN", rs.getString("CM_TOTYN"));
 				rst.put("CM_USERYN", rs.getString("CM_USERYN"));
+				rst.put("CM_SYSSEQYN", rs.getString("CM_SYSSEQYN"));
 				
 				rst.put("CM_ACPTTOTYN", rs.getString("CM_ACPTTOTYN"));
 				rst.put("CM_RSRCTOTYN", rs.getString("CM_RSRCTOTYN"));
@@ -571,6 +572,9 @@ public class Cmd1200{
 
 				if (rs.getString("CM_SEQYN").equals("Y")) rst.put("SEQYN", "YES");
 				else rst.put("SEQYN", "NO");
+				
+				if (rs.getString("CM_SYSSEQYN").equals("Y")) rst.put("SYSSEQYN", "YES");
+				else rst.put("SYSSEQYN", "NO");
 
 //				if (rs.getString("CM_TOTYN").equals("Y")) rst.put("TOTYN", "YES");
 //				else rst.put("TOTYN", "NO");
@@ -1161,10 +1165,11 @@ public class Cmd1200{
 		    for (x=0;svRsrc.length>x;x++){
 		    	for (y=0;svJob.length>y;y++) {
 			    	strQuery.setLength(0);
-			    	strQuery.append("insert into cmm0033 \n");
-			    	strQuery.append(" (CM_SYSCD,CM_RSRCCD,CM_JOBCD,CM_QRYCD,CM_PRCSYS,CM_BLDGBN,\n");
-			    	strQuery.append("  CM_BLDCD,CM_RUNGBN,CM_RUNPOS,CM_SEQYN,CM_TOTYN,CM_ITEMID,\n");
-			    	strQuery.append("  CM_USERYN,CM_ACPTTOTYN,CM_RSRCTOTYN,CM_DIRTOTYN,CM_JOBTOTYN) \n");
+			    	strQuery.append("insert into cmm0033 											\n");
+			    	strQuery.append(" (CM_SYSCD,CM_RSRCCD,CM_JOBCD,CM_QRYCD,CM_PRCSYS,CM_BLDGBN,	\n");
+			    	strQuery.append("  CM_BLDCD,CM_RUNGBN,CM_RUNPOS,CM_SEQYN,CM_TOTYN,CM_ITEMID,	\n");
+			    	strQuery.append("  CM_USERYN,CM_ACPTTOTYN,CM_RSRCTOTYN,CM_DIRTOTYN,CM_JOBTOTYN, \n");
+			    	strQuery.append("  CM_SYSSEQYN) 												\n");
 			    	strQuery.append("values (\n");
 			    	strQuery.append("?, \n");//CM_SYSCD
 			    	strQuery.append("?, \n");//CM_RSRCCD
@@ -1182,7 +1187,8 @@ public class Cmd1200{
 			        strQuery.append("?, \n");//CM_ACPTTOTYN
 			        strQuery.append("?, \n");//CM_RSRCTOTYN
 			        strQuery.append("?, \n");//CM_DIRTOTYN
-			        strQuery.append("?) \n");//CM_JOBTOTYN
+			        strQuery.append("?, \n");//CM_JOBTOTYN
+			        strQuery.append("?) \n");//CM_SYSSEQYN
 
 					pstmt = conn.prepareStatement(strQuery.toString());
 					//pstmt =  new LoggableStatement(conn, strQuery.toString());
@@ -1205,6 +1211,7 @@ public class Cmd1200{
 		            pstmt.setString(++paramIndex, etcData.get("CM_RSRCTOTYN"));
 		            pstmt.setString(++paramIndex, etcData.get("CM_DIRTOTYN"));
 		            pstmt.setString(++paramIndex, etcData.get("CM_JOBTOTYN"));
+		            pstmt.setString(++paramIndex, etcData.get("CM_SYSSEQYN"));
 
 					////ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
 		            rtn_cnt = pstmt.executeUpdate();

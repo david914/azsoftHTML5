@@ -79,9 +79,10 @@
 				</div>
 				<div class="width-50 vat float-left">
 					<div class="dib vat float-left ml_7">
-						<input type="checkbox" class="checkbox-view" id="chkExe" data-label="실행여부선택"/>
+						<!-- <input type="checkbox" class="checkbox-view" id="chkExe" data-label="실행여부선택"/> -->
 						<input type="checkbox" class="checkbox-view" id="chkLocal" data-label="형상관리서버에서 실행"/>
 						<input type="checkbox" class="checkbox-view" id="chkSeq" data-label="쉘순차 실행"/>
+						<input type="checkbox" class="checkbox-view" id="chkSysSeq" data-label="시스탬내 순차 실행"/>
 						
 						<input id="optBefore"  type="radio" name="releaseChk" value="before"/>
 						<label for="optBefore" >파일송수신 전</label>
