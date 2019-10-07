@@ -107,6 +107,7 @@
 			</div>
 			<!--컨텐츠버튼 S-->
 			<div class="sm-row tar">
+				<input type="checkbox" class="checkbox-dir" id="chkMgrLog" data-label="MGR로그확인"/>
 				<button id="btnReq" class="btn_basic_s margin-5-left">환경설정등록</button>
 			</div>
 			<!--컨텐츠버튼 E-->
