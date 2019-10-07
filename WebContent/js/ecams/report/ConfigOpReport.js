@@ -231,7 +231,7 @@ function successColumnSet(ajaxResult) {
 		mainGrid.setConfig({});
 		return;
 	}
-	
+	columnData = [];
 	//step선택 값에 따른 컬럼 데이터 세팅
 	for(var i = 1; i <= 4; i++) {
 		var stepText = $("[data-ax5select='step" + i + "']").ax5select("getValue")[0].text;
