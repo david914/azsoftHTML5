@@ -1499,7 +1499,11 @@ function aftChk() {
 			}
 	   	}
 	}
-
+	
+	if (pReqCd == '05' || pReqCd == '09' || pReqCd == '10'){
+		$('#btnSrcDiff').prop("disabled", true);
+	}
+	
 	if (reqInfoData[0].cr_status == '0' && (reqInfoData[0].cr_editor == pUserId || isAdmin) && reqInfoData[0].prcsw == '0') {
 	    if (reqInfoData[0].updtsw1 == '1') {
 	    	$('#btnPriorityOrder').prop("disabled", false);			//우선순위적용

@@ -1034,7 +1034,7 @@ public class Cmr5300 {
 			strQuery.append("   and d.cr_acptno=?                                     \n");
 			strQuery.append("   and e.cr_acptno=a.cr_acptno                           \n");
 			strQuery.append("   and a.cr_status<>'3'                                  \n");
-			strQuery.append("   and a.cr_qrycd in ('03','04')                         \n");
+			strQuery.append("   and a.cr_qrycd in ('03','04','05')                         \n");
 			strQuery.append("   and a.cr_syscd=b.cm_syscd and a.cr_dsncd=b.cm_dsncd   \n");
 			strQuery.append("   and a.cr_syscd=c.cm_syscd and a.cr_rsrccd=c.cm_rsrccd \n");
 			strQuery.append("   and substr(c.cm_info,10,1)='0'                        \n");
