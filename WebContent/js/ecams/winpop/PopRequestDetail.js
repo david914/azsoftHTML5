@@ -937,6 +937,7 @@ function resetScreen(){
 	reqGrid.repaint();
 	resultGrid.setData([]);
 	resultGrid.repaint();
+	$("#btnBox").show();
 }
 var befJobModalCallBack = function() {
 	befJobListModal.close();
