@@ -64,10 +64,10 @@ grdBefJob.setConfig({
         {key: "linkgbn", label: "연결",  width: '10%'},
         {key: "cr_acptno", label: "신청번호",  width: '15%'},
         {key: "acptdate", label: "신청일시",  width: '15%'},
-        {key: "cm_sysmsg", label: "시스템",  width: '10%'},
+        {key: "cm_sysmsg", label: "시스템",  width: '10%',align: 'left'},
         {key: "cm_username", label: "신청자",  width: '10%'},
         {key: "cm_codename", label: "진행상태",  width: '10%'},
-        {key: "cr_sayu", label: "신청사유",  width: '20%'} 
+        {key: "cr_sayu", label: "신청사유",  width: '20%',align: 'left'} 
     ]
 });
 
