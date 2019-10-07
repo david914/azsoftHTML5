@@ -1285,6 +1285,7 @@ textarea{/* border: 1px solid #ddd; */border-radius: 0px;box-shadow: none;font-s
 .poa{position: absolute;}
 .por{position: relative;}
 .poa_r{position: absolute; right: 0; top: 0;}
+.poa_l{position: absolute; left: 0; top: 0;}
 .tal{text-align: left !important;}
 .tac{text-align: center;}
 .tar{text-align: right;}

@@ -449,9 +449,13 @@ $(document).ready(function(){
 	    }, function () {
 	    });
 	});
-	
+
 	// 시스템상세정보
 	$('#btnSysDetail').bind('click', function() {
+	
+		//var w = window.outerWidth * 0.8;
+		//var h = window.outerHeight  * 0.7;
+		
 		var gridSelectedIndex 	= sysInfoGrid.selectedDataIndexs;
 		if(gridSelectedIndex.length === 0 ) {
 			dialog.alert('시스템을 그리드에서 선택후 눌러주세요.',function(){});
@@ -459,8 +463,9 @@ $(document).ready(function(){
 		}
 		selectedSystem = sysInfoGrid.list[gridSelectedIndex];
 		sysDetailModal.open({
-	        width: 1200,
-	        height: 800,
+	        defaultSize : true,
+	        wRatio : 0.8,
+	        hRatio : 0.75,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/sysinfo/SysDetailModal.jsp",

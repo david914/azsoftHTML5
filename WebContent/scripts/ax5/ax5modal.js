@@ -858,6 +858,13 @@
        * ```
        */
       this.open = function (opts, callback, tryCount) {
+    	
+		//2019 10 02 모든 모달창 현재 브라우저 크기의 비율로 뜨도록 수정
+		if(opts.defaultSize !== undefined && opts.defaultSize) {
+			opts.width = window.outerWidth * opts.wRatio;
+			opts.height = window.outerHeight * opts.hRatio;
+		}
+    	  
         if (typeof tryCount === "undefined") tryCount = 0;
         if (!this.activeModal) {
           opts = self.modalConfig = jQuery.extend(true, {}, cfg, opts);

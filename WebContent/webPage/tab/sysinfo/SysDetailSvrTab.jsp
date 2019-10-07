@@ -21,18 +21,14 @@
 				</div>
 			</div>
 		 			
-		 	<div class="sm-row half_wrap_cb">
+		 	<div class="sm-row half_wrap_cb por">
 		 		<label class="tit_80 poa">IP/PORT/순서</label>
-			 	<div class="ml_80 por">
-			 		<div class="l_wrap width-45">
-			 			<input id="txtSvrIp" class="width-100" type="text" placeholder="서버 IP"/>
-			 		</div>
-			 		<div class="l_wrap width-25 tar" style="margin-left: 12px;">
-						<input id="txtPort" class="width-100" type="text" placeholder="agent port"/>
-			 		</div>
-			 		<div class="r_wrap width-25 tar">
-						<input id="txtSeq" class="width-100" type="text" placeholder="서버순서"/>
-			 		</div>
+			 	<div class="ml_80">
+		 			<input id="txtSvrIp" class="width-45" type="text" placeholder="서버 IP"/>
+		 			<div class="width-45 vat dib poa_r">
+						<input id="txtPort" class="width-48" type="text" placeholder="agent port"/>
+						<input id="txtSeq" class="width-48 poa_r" type="text" placeholder="서버순서"/>
+		 			</div>
 			 	</div>
 			</div>
 		 			

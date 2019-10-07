@@ -368,11 +368,17 @@ String.prototype.trim = function() {
 	return this.replace(/^\s+|\s+$/g,""); 
 }
 
-function winOpen(form, winName, cURL, nHeight, nWidth, resizableYn) {
+function winOpen(form, winName, cURL, nHeight, nWidth, ratioSw, wRatio, hRatio, resizableYn) {
 	var cFeatures 	= '';
 	var tmpWindow 	= '';
 	var nTop	 	= '';
 	var nLeft 		= '';
+	
+	
+	if(ratioSw !== undefined && ratioSw && hRatio !== undefined && wRatio !== undefined) {
+		nHeight = window.outerHeight * hRatio;
+		nWidth = window.outerWidth * wRatio;
+	}
 	
     cURL = 'http://'+location.host + cURL;
     nTop  = parseInt((window.screen.availHeight/2) - (nHeight/2));
@@ -382,7 +388,7 @@ function winOpen(form, winName, cURL, nHeight, nWidth, resizableYn) {
     form.target		= winName;    	//폼의 타겟 지정(위의 새창을 지정함)
     form.method		= "post"; 		//POST방식
    
-    if(resizableYn !== undefined) {
+    if(resizableYn !== undefined && resizableYn !== null && resizableYn !== '') {
     	cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable="+resizableYn+",scroll=no";
     } else {
     	cFeatures = "top=" + nTop + ",left=" + nLeft + ",height=" + nHeight + ",width=" + nWidth + ",help=no,menubar=no,status=yes,resizable=yes,scroll=no";
