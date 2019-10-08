@@ -8,11 +8,17 @@
 <title>형상관리 로그인</title>
 
 <c:import url="/webPage/common/common.jsp" />
+<%@ page import = "com.ecams.common.base.RSA"%>
 
 <link rel="stylesheet" href="<c:url value="/css/ecams/login/loginPage.css" />">
 </head>
 <body>
 	<%
+		RSA rsa = RSA.getEncKey();
+		request.setAttribute("publicKeyModulus", rsa.getPublicKeyModulus());
+		request.setAttribute("publicKeyExponent", rsa.getPublicKeyExponent());
+		request.getSession().setAttribute("_ecams_encry_key_", rsa.getPrivateKey());
+	
 		String custIP = request.getRemoteAddr();
 	    String Url =  request.getRequestURL().toString();
 	%>
@@ -25,7 +31,7 @@
 		        	<input id="idx_input_id" name="idx_input_id" class="form-control az_login_input" placeholder="아이디를 입력하세요." required="required" />
 		        </div>
 		        <div class="form-group">
-		            <input type ="password" id="idx_input_pwd" name="idx_input_pwd" class="form-control az_login_input" placeholder="비밀번호를 입력하세요" required="required"/>
+		            <input type ="password" id="idx_input_pwd" name="idx_input_pwd" class="form-control az_login_input" placeholder="비밀번호를 입력하세요" required="required" autocomplete="off"/>
 		        </div>
 		        <div class="form-group">
 		        	<button class ="az_login_btn" id="idx_login_btn" style="width:100%" type="submit">로그인</button>
@@ -45,9 +51,15 @@
 		<input type="hidden" name="winPopSw"/>
 		<input type="hidden" name="custIP" value=<%=custIP%>>
 		<input type="hidden" name="Url" value=<%=Url%>>
+	    <input type="hidden" id="rsaPublicKeyModulus" value="${publicKeyModulus}">
+		<input type="hidden" id="rsaPublicKeyExponent" value="${publicKeyExponent}">
 	</form>
 	
 	<c:import url="/js/ecams/common/commonscript.jsp" />
+	<script type="text/javascript" src="/js/util/jsbn.js"></script>
+	<script type="text/javascript" src="/js/util/rsa.js"></script>
+	<script type="text/javascript" src="/js/util/prng4.js"></script>
+	<script type="text/javascript" src="/js/util/rng.js"></script>
 	<script type="text/javascript" src="<c:url value="/js/ecams/login/login.js"/>"></script>
 </body>
 </html>

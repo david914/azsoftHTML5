@@ -1,9 +1,7 @@
 package html.app.login;
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.security.PrivateKey;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.ecams.common.base.RSA;
 import com.ecams.service.list.LoginManager;
 import com.google.gson.*;
 
@@ -45,13 +44,16 @@ public class LoginServlet extends HttpServlet {
 			
 			switch (requestType) {
 				case "ISVALIDLOGIN" :
-					response.getWriter().write( isValidLoginUser(jsonElement) );
+					response.getWriter().write( isValidLoginUser(jsonElement, request) );
 					break;
 				case "SETSESSION" :
 					response.getWriter().write( getUserName(jsonElement, request)  );
 					break;	
 				case "UPDATELOGINIP" : 
 					updateLoginIp(jsonElement, request);
+					break;
+				case "removeSession" :
+					removeSession(request);
 					break;
 				default:
 					break;
@@ -63,14 +65,24 @@ public class LoginServlet extends HttpServlet {
 		
 	}
 	
-	private String isValidLoginUser(JsonElement jsonElement) throws SQLException, Exception {
-		String userId  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userId") );;
+	private String isValidLoginUser(JsonElement jsonElement, HttpServletRequest request) throws SQLException, Exception {
+		String userId  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userId") );
 		String userPwd = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userPwd") );
-		return gson.toJson(loginManager.isValid(userId, userPwd));
+		
+		try {
+			String decPw = RSA.decryptRsa((PrivateKey) request.getSession().getAttribute("_ecams_encry_key_"), userPwd);//암호화된 비밀번호를 복호화한다.
+
+			if (null == decPw || "".equals(decPw)) {
+				return "ENCERROR";
+			}
+			return gson.toJson(loginManager.isValid(userId, decPw));
+		} catch (Exception e) {
+			return "ENCERROR["+e.getMessage()+"]";
+		}
 	}
 	
 	private String getUserName(JsonElement jsonElement, HttpServletRequest request) throws SQLException, Exception {
-		String userId  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userId") );;
+		String userId  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userId") );
 		HttpSession session = request.getSession();
 		
 		session.setAttribute("userId", userId);
@@ -86,5 +98,9 @@ public class LoginServlet extends HttpServlet {
 		String Url	   = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "Url") );
 		
 		loginManager.updateLoginIp(userId, IpAddr, Url);
+	}
+	
+	private void removeSession(HttpServletRequest request) throws Exception {
+		loginManager.removeSession(request.getSession());
 	}
 }

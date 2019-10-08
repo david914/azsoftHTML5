@@ -407,6 +407,12 @@ function goHome() {
 }
 
 function logOut() {
+	//session all remove
+	var data = {
+		requestType	: 	'removeSession'
+	}
+	ajaxCallWithJson('/webPage/login/Login', data);
+	
 	window.location.replace('/webPage/login/ecamsLogin.jsp');
 }
 

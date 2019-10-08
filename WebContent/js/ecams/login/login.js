@@ -29,6 +29,14 @@ function setInput() {
 	}
 }
 
+function fnRsaEnc(value, rsaPublicKeyModulus, rsaPpublicKeyExponent) {
+    var rsa = new RSAKey();
+    rsa.setPublic(rsaPublicKeyModulus, rsaPpublicKeyExponent);
+
+    var encValue = rsa.encrypt(value);     // 사용자ID와 비밀번호를 RSA로 암호화한다.
+    return encValue;
+}
+
 var loginSubmitAction = function(e) {
 	e.preventDefault();
     e.stopPropagation();
@@ -52,9 +60,29 @@ var loginSubmitAction = function(e) {
     	setCookie('remember', 	false);
 	}
     
+    try {
+    	var encPassword = fnRsaEnc($('#idx_input_pwd').val(), $('#rsaPublicKeyModulus').val(), $('#rsaPublicKeyExponent').val());
+    	if (null == encPassword || encPassword == '' || encPassword == undefined || encPassword == 'undefined') {
+    		dialog.alert('아이디 또는 비밀번호를 다시 확인하세요.', function() {
+    			return;
+    		});
+    	}
+	} catch (err) {
+		dialog.alert(err);
+		return;
+	} finally {
+		$('#idx_input_pwd').val('');
+	}
 	
-    loginValidReturnStr = isValidLogin();
+    loginValidReturnStr = isValidLogin(encPassword);
     
+    if (loginValidReturnStr.indexOf('ENCERROR')>-1) {
+		dialog.alert('비정상접근입니다. 다시 로그인 하시기 바랍니다.', function() {
+			$('#idx_input_id').val('');
+			$('#idx_input_pwd').val('');
+			return;
+		});
+    }
     authCode= loginValidReturnStr.substring(0,1);
     userId	= loginValidReturnStr.substring(1,loginValidReturnStr.lenght);
     
@@ -73,11 +101,9 @@ var loginSubmitAction = function(e) {
     	}
     	
     	sessionID = setSessionLoginUser(userId);
-    	console.log('sessionId check : ' + sessionID);
     	updateLoginIp(userId);
     	
     	if( sessionID !== null && sessionID !== undefined ) {
-    		
     	    var form = document.createElement("form");
             var parm = new Array();
             var input = new Array();
@@ -126,17 +152,6 @@ var loginSubmitAction = function(e) {
     		});
     	}
     }
-    
-    
-    
-    
-    /* 
-    if (authCode === '2')//에러카운드 초과 했을때
-	if (authCode === '7')//DB 사용자정보가 없을때
-	if (authCode === '1')//cm_active == 0 일때
-	if (authCode === '5')//CM_JUMINNUM 주민번호가 null 일때
-	if (authCode === '6')//비번변경 주기 초과 했을 경우
-    */
 };
 
 function openPwdChange(userId) {
@@ -186,15 +201,15 @@ function updateLoginIp(userId) {
 		Url 		: Url, 
 		requestType	: 'UPDATELOGINIP'
 	}
-	return ajaxCallWithJson('/webPage/login/Login', userInfo, 'json');
+	return ajaxCallWithJson('/webPage/login/Login', userInfo);
 }
 
-function isValidLogin() {
+function isValidLogin(encPassword) {
 	var ajaxReturnData = null;
 	
 	var userInfo = {
 		userId		: 	$('#idx_input_id').val(),
-		userPwd		: 	$('#idx_input_pwd').val(),
+		userPwd		: 	encPassword,//$('#idx_input_pwd').val()
 		requestType	: 	'ISVALIDLOGIN'
 	}
 	ajaxReturnData = ajaxCallWithJson('/webPage/login/Login', userInfo, 'json');
