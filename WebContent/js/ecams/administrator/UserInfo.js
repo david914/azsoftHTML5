@@ -212,8 +212,9 @@ $(document).ready(function() {
 // 전체 사용자 조회
 function getAllUserInfo() {
 	allUserInfoModal.open({
-        width: 1100,
-        height: 800,
+        width: 1024,
+        height: 768,
+        defaultSize: true,
         iframe: {
             method: "get",
             url: "../modal/userinfo/AllUserInfoModal.jsp",
@@ -238,8 +239,9 @@ var allUserInfoModalCallBack = function(){
 // 업무권한 일괄등록
 function openSetUserJob() {
 	setUserJobModal.open({
-        width: 1100,
-        height: 800,
+        width: 1024,
+        height: 768,
+        defaultSize: true,
         iframe: {
             method: "get",
             url: "../modal/userinfo/SetUserJobModal.jsp",
@@ -293,8 +295,9 @@ var initPassModalCallBack = function(){
 // 권한 복사
 function openJobCopyModal() {
 	jobCopyModal.open({
-        width: 1200,
+        width: 1024,
         height: 700,
+        defaultSize: true,
         iframe: {
             method: "get",
             url: "../modal/userinfo/JobCopyModal.jsp",
@@ -348,8 +351,9 @@ function winOpenSignUp() {
 // 사용자 직무조회 
 function openAllRgtCd() {
 	rgtCdModal.open({
-        width: 1040,
+        width: 1024,
         height: 700,
+        defaultSize: true,
         iframe: {
             method: "get",
             url: "../modal/userinfo/RgtCdModal.jsp",

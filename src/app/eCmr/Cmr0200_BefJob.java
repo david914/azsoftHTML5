@@ -53,15 +53,16 @@ public class Cmr0200_BefJob {
 			strQuery.append("      || '-' ||  substr(a.cr_acptno,7,6) acptno,            \n");
 			strQuery.append("      to_char(a.cr_acptdate,'yyyy/mm/dd hh24:mi') acptdate, \n");		
 			strQuery.append("      a.cr_acptno,a.cr_prcdate,a.cr_status,a.cr_sayu,       \n");		
-			strQuery.append("      b.cm_sysmsg,c.cm_username,d.cm_codename              \n");
-		    strQuery.append(" from cmm0020 d,cmm0040 c,cmm0030 b,cmr1000 a            \n");
-		    strQuery.append("where a.cr_qrycd=? and a.cr_prcdate is null              \n"); 
+			strQuery.append("      b.cm_sysmsg,c.cm_username,d.cm_codename               \n");
+		    strQuery.append(" from cmm0020 d,cmm0040 c,cmm0030 b,cmr1000 a               \n");
+		    strQuery.append(" where a.cr_qrycd in ('04','10')                            \n"); 
+		    strQuery.append("   and a.cr_prcdate is null                                 \n"); 
 		    if (AcptNo != null && !"".equals(AcptNo)) {
-			   strQuery.append("and a.cr_acptno not in (select cr_befact from cmr1030 \n");
-			   strQuery.append("                         where cr_acptno=?)           \n");
-			   strQuery.append("and a.cr_acptno not in (select cr_acptno from cmr1030 \n");
-			   strQuery.append("                         where cr_befact=?)           \n");
-		       strQuery.append("and a.cr_acptno <> ?								  \n");
+			   strQuery.append("and a.cr_acptno not in (select cr_befact from cmr1030    \n");
+			   strQuery.append("                         where cr_acptno=?)              \n");
+			   strQuery.append("and a.cr_acptno not in (select cr_acptno from cmr1030    \n");
+			   strQuery.append("                         where cr_befact=?)              \n");
+		       strQuery.append("and a.cr_acptno <> ?								     \n");
 		    }    
 			strQuery.append("  and a.cr_syscd=b.cm_syscd                                 \n");                
 			strQuery.append("  and a.cr_editor=c.cm_userid                               \n");                
@@ -72,7 +73,7 @@ public class Cmr0200_BefJob {
             pstmt = new LoggableStatement(conn,strQuery.toString());
             
             parmCnt = 0;
-            pstmt.setString(++parmCnt, ReqCd);
+           // pstmt.setString(++parmCnt, ReqCd);
             if (AcptNo != null && !"".equals(AcptNo)) {
             	pstmt.setString(++parmCnt, AcptNo);
             	pstmt.setString(++parmCnt, AcptNo);

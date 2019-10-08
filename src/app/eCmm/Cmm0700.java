@@ -75,18 +75,14 @@ public class Cmm0700{
 			conn = connectionContext.getConnection();
 
 			strQuery.setLength(0);
-			strQuery.append("select cm_ipaddr,cm_port,cm_passwd,cm_policypwd,cm_pwdcnt,     \n");
-			strQuery.append("       cm_pwdterm,cm_pwdcd,cm_ipaddr2,cm_initpwd,cm_tstpwd,    \n");
-			strQuery.append("       cm_proctot,cm_lockbasedt,cm_loghisp,cm_pwdnum,cm_noname \n");
-			strQuery.append("from cmm0010 \n");
-			strQuery.append("where cm_stno='ECAMS' \n");
+			strQuery.append("select cm_ipaddr,cm_port,cm_passwd,cm_policypwd,cm_pwdcnt,     			\n");
+			strQuery.append("       cm_pwdterm,cm_pwdcd,cm_ipaddr2,cm_initpwd,cm_tstpwd,    			\n");
+			strQuery.append("       cm_proctot,cm_lockbasedt,cm_loghisp,cm_pwdnum,cm_noname,cm_mgrlog 	\n");
+			strQuery.append("  from cmm0010 where cm_stno='ECAMS' 										\n");
 
 			pstmt = conn.prepareStatement(strQuery.toString());
-
             rs = pstmt.executeQuery();
-
             rst = new HashMap<String, String>();
-
             if (rs.next())
             {
 				rst.put("cm_ipaddr", rs.getString("cm_ipaddr"));
@@ -108,6 +104,7 @@ public class Cmm0700{
 				rst.put("cm_loghisp", rs.getString("cm_loghisp"));
 				rst.put("cm_pwdnum", rs.getString("cm_pwdnum"));
 				rst.put("cm_noname", rs.getString("cm_noname"));
+				rst.put("cm_mgrlog", rs.getString("cm_mgrlog"));
 			}
             rs.close();
             pstmt.close();
@@ -117,7 +114,6 @@ public class Cmm0700{
             pstmt = null;
             conn = null;
             return rst;
-
 		} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();
 			ecamsLogger.error("## Cmm0700.getAgentInfo() SQLException START ##");
@@ -157,20 +153,15 @@ public class Cmm0700{
 		int				  nret;
 
 		ConnectionContext connectionContext = new ConnectionResource();
-
-
 		try {
 			conn = connectionContext.getConnection();
 
 			strQuery.setLength(0);
 			strQuery.append("select count(*) as cnt \n");
-			strQuery.append("from cmm0010 \n");
-			strQuery.append("where cm_stno='ECAMS' \n");
-
+			strQuery.append("from cmm0010 			\n");
+			strQuery.append("where cm_stno='ECAMS'	\n");
 			pstmt = conn.prepareStatement(strQuery.toString());
-
             rs = pstmt.executeQuery();
-
             nret = 0;
             if (rs.next()){
             	nret = rs.getInt("cnt");
@@ -180,30 +171,30 @@ public class Cmm0700{
 
             if (nret > 0){
     			strQuery.setLength(0);
-    			strQuery.append("update cmm0010            \n");
-    			strQuery.append("	set	cm_ipaddr = ? ,    \n");
-    			strQuery.append("		cm_port   = ? ,    \n");
-    			strQuery.append("		cm_passwd   = ? ,  \n");
-    			strQuery.append("		cm_initpwd   = ? , \n");
-    			strQuery.append("		cm_pwdcnt   = ? ,  \n");
-    			strQuery.append("		cm_pwdterm   = ? , \n");
-    			strQuery.append("		cm_pwdcd   = ? ,   \n");
-    			strQuery.append("		cm_ipaddr2   = ? , \n");
-    			strQuery.append("		cm_tstpwd   = ?,   \n");
-    			strQuery.append("		cm_proctot   = ?,  \n");
-    			strQuery.append("		cm_lockbasedt = ?, \n");
-    			strQuery.append("		cm_loghisp   = ?,  \n");
-    			strQuery.append("		cm_pwdnum   = ?,   \n");
-    			strQuery.append("		cm_noname   = ?    \n");
-    			strQuery.append("where cm_stno='ECAMS'     \n");
-            }
-            else{
+    			strQuery.append("update cmm0010            	\n");
+    			strQuery.append("	set	cm_ipaddr = ? ,    	\n");
+    			strQuery.append("		cm_port   = ? ,    	\n");
+    			strQuery.append("		cm_passwd   = ? ,  	\n");
+    			strQuery.append("		cm_initpwd   = ? , 	\n");
+    			strQuery.append("		cm_pwdcnt   = ? ,  	\n");
+    			strQuery.append("		cm_pwdterm   = ? , 	\n");
+    			strQuery.append("		cm_pwdcd   = ? ,   	\n");
+    			strQuery.append("		cm_ipaddr2   = ? , 	\n");
+    			strQuery.append("		cm_tstpwd   = ?,   	\n");
+    			strQuery.append("		cm_proctot   = ?,  	\n");
+    			strQuery.append("		cm_lockbasedt = ?, 	\n");
+    			strQuery.append("		cm_loghisp   = ?,  	\n");
+    			strQuery.append("		cm_pwdnum   = ?,   	\n");
+    			strQuery.append("		cm_noname   = ?,   	\n");
+    			strQuery.append("		cm_mgrlog   = ?    	\n");
+    			strQuery.append("where cm_stno='ECAMS'		\n");
+            } else {
     			strQuery.setLength(0);
-    			strQuery.append("insert into cmm0010 (CM_STNO,CM_IPADDR,CM_PORT,CM_PASSWD,CM_INITPWD, \n");
-    			strQuery.append("CM_PWDCNT,CM_PWDTERM,CM_PWDCD,CM_IPADDR2,CM_TSTPWD,CM_PROCTOT,       \n");
-    			strQuery.append("CM_LOCKBASEDT,CM_LOGHISP,CM_PWDNUM,CM_NONAME)                        \n");
-    			strQuery.append("values ('ECAMS', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) \n");
-            }
+    			strQuery.append("insert into cmm0010 (CM_STNO,CM_IPADDR,CM_PORT,CM_PASSWD,CM_INITPWD, 	\n");
+    			strQuery.append("CM_PWDCNT,CM_PWDTERM,CM_PWDCD,CM_IPADDR2,CM_TSTPWD,CM_PROCTOT,       	\n");
+    			strQuery.append("CM_LOCKBASEDT,CM_LOGHISP,CM_PWDNUM,CM_NONAME,cm_mgrlog)            	\n");
+    			strQuery.append("values ('ECAMS', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) 			\n");
+            } 
 
             pstmt = conn.prepareStatement(strQuery.toString());
             //pstmt = new LoggableStatement(conn,strQuery.toString());
@@ -234,29 +225,25 @@ public class Cmm0700{
         	pstmt.setString(12, objData.get("cm_loghisp"));
         	pstmt.setString(13, objData.get("cm_pwdnum"));
         	pstmt.setString(14, objData.get("cm_noname"));
-            
+        	pstmt.setString(15, objData.get("cm_mgrlog"));
         	//ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             nret = pstmt.executeUpdate();
-
             rst = new HashMap<String, String>();
             if (nret > 0){
             	rst.put("retval", "0");
             	rst.put("retmsg", "환경설정등록 처리 완료하였습니다.");
             	conn.commit();
-            	pstmt.close();
-            }
-            else{
+            }else{
             	rst.put("retval", "1");
             	rst.put("retmsg", "환경설정등록 처리 실패.");
             	conn.rollback();
-            	pstmt.close();
             }
+            
+            pstmt.close();
             conn.close();
 			conn = null;
 			pstmt = null;
 			rs = null;
-
-
             return rst;
 		} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();
@@ -285,7 +272,6 @@ public class Cmm0700{
 			}
 		}
 	}//end of setAgentInfo() method statement
-
 
     public Object[] getTab1Info() throws SQLException, Exception {
 		Connection        conn        = null;

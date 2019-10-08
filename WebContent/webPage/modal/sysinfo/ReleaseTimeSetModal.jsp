@@ -39,8 +39,8 @@
 	<div class="sm-row az_board_basic" style="height: 78%">
 		<div data-ax5grid="releaseGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>
-	<div class="sm-row cb">
-		<div class="l_wrap width-10">
+	<div class="sm-row cb" style="font-size: 0px">
+		<div class="l_wrap" style="width:calc(10% + 5px);">
 			<input id="optCheck"  type="radio" name="releaseChk" value="optCheck"/>
 			<label for="optCheck" >설정</label>
 			<input id="optUnCheck" type="radio" name="releaseChk" value="optUnCheck"/>

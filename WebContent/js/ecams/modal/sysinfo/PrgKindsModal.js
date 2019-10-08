@@ -450,7 +450,7 @@ $(document).ready(function(){
 	$('#btnPrgSeq').bind('click', function() {
 		prgSeqModal.open({
 	        width: 800,
-	        height: 780,
+	        height: 700,
 	        iframe: {
 	            method: "get",
 	            url: "./PrgSeqModal.jsp",

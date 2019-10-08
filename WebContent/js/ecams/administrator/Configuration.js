@@ -25,6 +25,7 @@ var tmpTab = null;
 $('[data-ax5select="cboPassCycle"]').ax5select({
     options: []
 });
+$('input.checkbox-dir').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 
 $(document).ready(function(){
 	$('#tab1Li').width($('#tab1Li').width()+10);
@@ -44,7 +45,7 @@ $(document).ready(function(){
 	});
 });
 
-// 환경 설정 등록시 유효성 검사
+// 환경 설정 등록시 유효성 검사 
 function checkConfigVal() {
 	var objData			= new Object();
 	var txtIpIn 		= $('#txtIpIn').val().trim();
@@ -59,6 +60,7 @@ function checkConfigVal() {
 	var txtPassNum 		= $('#txtPassNum').val().trim();
 	var txtSpc 			= $('#txtSpc').val().trim();
 	var txtProcTot 		= $('#txtProcTot').val().trim();
+	var txtMgrLog 		= $('#chkMgrLog').is(':checked') ? 'Y':'N';
 	
 	if(txtIpIn.length === 0 ) {
 		dialog.alert('서버 IP Address(내부망)를 입력하여 주십시오.', function() {});
@@ -165,7 +167,7 @@ function checkConfigVal() {
 	objData.cm_pwdnum  	= txtPassNum;
 	objData.cm_noname 	= txtSpc;
 	objData.cm_proctot 	= txtProcTot;
-	
+	objData.cm_mgrlog 	= txtMgrLog;
 	objData.cm_pwdcd  = getSelectedVal('cboPassCycle').value;
 	
 	var data = new Object();
@@ -210,6 +212,10 @@ function successGetAgentInfo(data) {
 	$('#txtPassNum').val(data.cm_pwdnum);
 	$('#txtSpc').val(data.cm_noname);
 	$('#txtProcTot').val(data.cm_proctot);
+	if (data.cm_mgrlog === 'Y') 
+		$('#chkMgrLog').wCheck('check',true);
+	else
+		$('#chkMgrLog').wCheck('check',false);
 	
 	if(data.hasOwnProperty('cm_pwdcd')) {
 		$('[data-ax5select="cboPassCycle"]').ax5select('setValue', data.cm_pwdcd, true);

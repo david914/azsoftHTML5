@@ -858,6 +858,18 @@
        * ```
        */
       this.open = function (opts, callback, tryCount) {
+    	
+    	if(opts.defaultSize !== undefined && opts.defaultSize) {
+    		var screenWith = window.outerWidth * 0.8;
+    		var screenHeight = window.outerHeight * 0.75;
+    		if( opts.width < screenWith ) {
+    			opts.width = screenWith;
+    		}
+    		if( opts.height < screenHeight ) {
+    			opts.height = screenHeight;
+    		}
+    	}
+    	  
         if (typeof tryCount === "undefined") tryCount = 0;
         if (!this.activeModal) {
           opts = self.modalConfig = jQuery.extend(true, {}, cfg, opts);
@@ -911,6 +923,7 @@
 
                 try {
                   $(idoc.body).children().each(function () {
+                	  
                     $(this).remove();
                   });
                 } catch (e) {}

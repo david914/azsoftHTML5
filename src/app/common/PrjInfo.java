@@ -141,7 +141,10 @@ public class PrjInfo{
 					   etcData.get("reqcd").equals("07") ||   //개발체크인
 				       etcData.get("reqcd").equals("03") ||   //테스트적용요청
 				       etcData.get("reqcd").equals("08") ||   //개발적용요청	
-				       etcData.get("reqcd").equals("04")) {    //운영적용요청
+				       etcData.get("reqcd").equals("04") ||   //운영적용요청
+				       etcData.get("reqcd").equals("05") ||   //개발폐기
+				       etcData.get("reqcd").equals("09") ||   //테스트폐기	
+				       etcData.get("reqcd").equals("10")) {   //운영폐기
 				if (etcData.get("qrygbn").equals("00")) {
 					strQuery.append("   and a.cc_status not in ('0','1') \n");
 				} else {
@@ -260,18 +263,18 @@ public class PrjInfo{
 					continue;
 				} else if ("05".equals(etcData.get("reqcd")) || "09".equals(etcData.get("reqcd")) || "10".equals(etcData.get("reqcd"))) {
 					//개발폐기, 테스트폐기, 운영폐기
-					if (!"09".equals(rs.getString("cc_cattype"))) { //변경신종류가 폐기가 아니면 skip 
+					if (!"09".equals(rs.getString("cc_chgtype"))) { //변경신종류가 폐기가 아니면 skip 
 						continue;
-					} else if ("09".equals(rs.getString("cc_cattype"))) { //변경신종류가 폐기이고 폐기신청이 아닌경우 skip
-						if (etcData.get("reqcd").equals("01") ||
-							etcData.get("reqcd").equals("02") ||
-							etcData.get("reqcd").equals("03") ||
-							etcData.get("reqcd").equals("04") ||
-							etcData.get("reqcd").equals("07") ||
-							etcData.get("reqcd").equals("08") ||
-							etcData.get("reqcd").equals("11")) {
-							continue;
-						}
+					}
+				} else if ("09".equals(rs.getString("cc_chgtype"))) { //변경신종류가 폐기이고 폐기신청이 아닌경우 skip
+					if (etcData.get("reqcd").equals("01") ||
+						etcData.get("reqcd").equals("02") ||
+						etcData.get("reqcd").equals("03") ||
+						etcData.get("reqcd").equals("04") ||
+						etcData.get("reqcd").equals("07") ||
+						etcData.get("reqcd").equals("08") ||
+						etcData.get("reqcd").equals("11")) {
+						continue;
 					}
 					
 				}

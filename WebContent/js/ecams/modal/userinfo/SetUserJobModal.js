@@ -281,6 +281,7 @@ function getUserJobList(){
 
 // 사용자/팀의 업무정보 리스트 가져오기 완료
 function successGetUserJobList(data) {
+	
 	jobGridData = data;
 	jobGrid.setData(jobGridData);
 }

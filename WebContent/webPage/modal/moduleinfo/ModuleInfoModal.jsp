@@ -9,7 +9,7 @@
 
 <c:import url="/webPage/common/common.jsp" />
 
-<body style="width: 100% !important; min-width: 1050px !important;height: 100% !important; min-height: 630px !important ">
+<body style="width: 100% !important; height: 100% !important; min-height: 630px !important ">
 <div class="pop-header">
 	<div>
 		<label id="lbSub">프로그램Vs실행모듈 맵핑</label>

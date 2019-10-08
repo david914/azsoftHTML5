@@ -54,15 +54,16 @@ conInfoGrid.setConfig({
     	}
     },
     columns: [
-        {key: "cm_jobname", 	label: "업무명",		width: '10%'},
-        {key: "cm_codename", 	label: "프로그램종류", 	width: '10%'},
-        {key: "prcsys", 		label: "처리단계",  	width: '10%'},
-        {key: "bldmsg", 		label: "스크립트유형", 	width: '15%'},
-        {key: "RUNGBN", 		label: "실행시점",  	width: '15%', align: "center"},
-        {key: "RUNPOS", 		label: "쉘실행위치",  	width: '10%', align: "center"},
-        {key: "SEQYN", 			label: "쉘순차실행",  	width: '10%', align: "center"},
-        {key: "TOTYN", 			label: "일괄쉘실행",  	width: '10%', align: "center"},
-        {key: "USERYN", 		label: "실행여부선택", 	width: '10%', align: "center"},
+        {key: "cm_jobname", 	label: "업무명",			width: '10%'},
+        {key: "cm_codename", 	label: "프로그램종류", 		width: '10%'},
+        {key: "prcsys", 		label: "처리단계",  		width: '10%'},
+        {key: "bldmsg", 		label: "스크립트유형", 		width: '16%'},
+        {key: "RUNGBN", 		label: "실행시점",  		width: '8%', align: "center"},
+        {key: "RUNPOS", 		label: "쉘실행위치",  		width: '8%', align: "center"},
+        {key: "SEQYN", 			label: "쉘순차실행",  		width: '8%', align: "center"},
+        {key: "SYSSEQYN", 		label: "시스템내순차실행",  	width: '12%', align: "center"},
+        {key: "TOTYN", 			label: "일괄쉘실행",  		width: '8%', align: "center"},
+        {key: "USERYN", 		label: "실행여부선택", 		width: '10%', align: "center"},
     ]
 });
 
@@ -318,11 +319,11 @@ function insertBldList() {
 		}
 	}
 	
-	if($('#chkExe').is(':checked')) {
-		etcData.CM_USERYN = 'Y'
-	} else {
+//	if($('#chkExe').is(':checked')) {
+//		etcData.CM_USERYN = 'Y'
+//	} else {
 		etcData.CM_USERYN = 'N'
-	}
+//	}
 	
 	if($('#chkLocal').is(':checked')) {
 		etcData.CM_RUNPOS = 'L'
@@ -334,6 +335,12 @@ function insertBldList() {
 		etcData.CM_SEQYN = 'Y'
 	} else {
 		etcData.CM_SEQYN = 'N'
+	}
+	
+	if($('#chkSysSeq').is(':checked')) {
+		etcData.CM_SYSSEQYN = 'Y'
+	} else {
+		etcData.CM_SYSSEQYN = 'N'
 	}
 	
 	if($('#chkBatch').is(':checked')) {
@@ -371,6 +378,7 @@ function insertBldList() {
 	} else {
 		etcData.CM_RUNGBN = 'A'
 	}
+	
 	etcData.cm_syscd 	= getSelectedVal('cboSysCd').cm_syscd;
 	etcData.cm_qrycd 	= getSelectedVal('cboQry').cm_reqcd;
 	etcData.cm_prcsys 	= getSelectedVal('cboPrcSys').cm_jobcd;
@@ -464,14 +472,15 @@ function clickConInfoGrid(index) {
 	
 	$('#chkPrg'+selItem.cm_rsrccd).wCheck('check',true);
 	
-	$('#chkExe').wCheck('check',false);
+//	$('#chkExe').wCheck('check',false);
 	$('#chkLocal').wCheck('check',false);
 	$('#chkSeq').wCheck('check',false);
+	$('#chkSysSeq').wCheck('check',false);
 	$('#chkBatch').wCheck('check',false);
 	
-	if(selItem.CM_USERYN === 'Y') {
-		$('#chkExe').wCheck('check',true);
-	}
+//	if(selItem.CM_USERYN === 'Y') {
+//		$('#chkExe').wCheck('check',true);
+//	}
 	
 	if(selItem.CM_RUNPOS === 'L') {
 		$('#chkLocal').wCheck('check',true);
@@ -479,6 +488,10 @@ function clickConInfoGrid(index) {
 	
 	if(selItem.CM_SEQYN === 'Y') {
 		$('#chkSeq').wCheck('check',true);
+	}
+	
+	if(selItem.CM_SYSSEQYN === 'Y') {
+		$('#chkSysSeq').wCheck('check',true);
 	}
 	
 	if(selItem.CM_TOTYN === 'Y') {

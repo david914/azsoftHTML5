@@ -23,8 +23,6 @@ var cboSysCdData	= [];
 var cboRsrcData		= [];
 
 var sysCD           = '';
-var screenWidth = 0;
-var screenHeight = 0;
 
 modListGrid.setConfig({
 	target: $('[data-ax5grid="modListGrid"]'),
@@ -256,16 +254,12 @@ function updtRelat() {
 	
 	sysCD = getSelectedVal('cboSysCd').value;
 	
-	screenWidth = $("#iFrm", parent.document).width();
-	screenHeight = $("#iFrm", parent.document).height();
-	
-	var tmpWidth = screenWidth * 0.9; 
-	var tmpHeight = screenHeight * 0.9; 
 	//console.log(tmpWidth+', '+tmpHeight);
 	
 	moduleInfoModal.open({
-        width: tmpWidth,
-        height: tmpHeight,
+        width: 1024,
+        height: 670,
+        defaultSize : true,
         iframe: {
             method: "get",
             url: "../modal/moduleinfo/ModuleInfoModal.jsp",

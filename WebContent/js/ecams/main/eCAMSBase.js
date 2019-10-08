@@ -346,7 +346,7 @@ function successGetPopNoticeInfo(data) {
 }
 // 공지사항 오픈
 function openPopNotice(cm_acptno) {
-	var nHeight, nWidth, cURL, winName, resizableYn;
+	var nHeight, nWidth, cURL, winName, resizableYn, ratioSw, wRatio, hRatio;
 	if ( ('popNotice_' + cm_acptno) == winName ) {
 		if (noticeWin != null) {
 	        if (!noticeWin.closed) {
@@ -363,9 +363,12 @@ function openPopNotice(cm_acptno) {
 	nHeight = 375;
     nWidth  = 600;
 	cURL	= '/webPage/winpop/PopNotice.jsp';
+	ratioSw = true;
+	wRatio = 0.3; 
+	hRatio = 0.4;
 	resizableYn = 'no';
-   
-	noticeWin = winOpen(form, winName, cURL, nHeight, nWidth, resizableYn);
+	
+	noticeWin = winOpen(form, winName, cURL, nHeight, nWidth, ratioSw, wRatio, hRatio, resizableYn);
 }
 
 function clickSideMenu(event) {
