@@ -1499,7 +1499,7 @@ h1.logo{display: inline-block; font-size: 25px; font-weight: bold; line-height: 
 ******************************************************************************/
 button.close { -webkit-appearance: none; padding: 0; cursor: pointer; background: transparent; border: 0;}
 .close {position: absolute; right: 10px; top: 1px; font-size: 21px; font-weight: bold; line-height: 1; color: #000; text-shadow: 0 1px 0 #fff; filter: alpha(opacity=20); opacity: .2;}
-.pop_wrap{position: relative; padding: 10px;}
+.pop_wrap{position: relative;padding: 10px;}
 /******************************************************************************
 									ax5
 ******************************************************************************/
@@ -1612,4 +1612,8 @@ select.input-sm, .input-group-sm>select.form-control, .input-group-sm>select.inp
 
 [data-ax5select] .ax5select-display.input-sm, [data-ax5select] .input-group-sm>.ax5select-display.form-control, [data-ax5select] .input-group-sm>.ax5select-display.input-group-addon, [data-ax5select] .input-group-sm>.input-group-btn>.ax5select-display.btn {
 	min-width:0px !important;
+}
+
+#tabBody{
+	min-width: 994px;
 }

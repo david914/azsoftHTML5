@@ -256,7 +256,8 @@ function openFileHisModal() {
 	
 	fileHisModal.open({
         width: 1024,
-        height: 800,
+        height: 700,
+        defaultSize : true,
         iframe: {
             method: "get",
             url: "../modal/filechkreport/FileHisModal.jsp",
@@ -292,8 +293,9 @@ function openFileSumModal(selItem) {
 	DaesaResult.UserId 	= userId;
 	
 	fileSumModal.open({
-        width: 1048,
+        width: 1024,
         height: 600,
+        defaultSize : true,
         iframe: {
             method: "get",
             url: "../modal/filechkreport/FileSumModal.jsp",

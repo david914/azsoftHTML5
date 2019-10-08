@@ -407,8 +407,9 @@ $(document).ready(function(){
 	// 정기배포설정
 	$('#btnReleaseTimeSet').bind('click', function() {
 		relModal.open({
-	        width: 1200,
+	        width: 1024,
 	        height: 600,
+	        defaultSize: true,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/sysinfo/ReleaseTimeSetModal.jsp",
@@ -431,7 +432,7 @@ $(document).ready(function(){
 	$('#btnJob').bind('click', function() {
 		jobModal.open({
 	        width: 800,
-	        height: 800,
+	        height: 700,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/sysinfo/JobModal.jsp",
@@ -493,8 +494,9 @@ $(document).ready(function(){
 		}
 		selectedSystem = sysInfoGrid.list[gridSelectedIndex];
 		prgKindsModal.open({
-	        width: 1200,
-	        height: 800,
+	        width: 1024,
+	        height: 768,
+	        defaultSize: true,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/sysinfo/PrgKindsModal.jsp",
@@ -545,8 +547,9 @@ $(document).ready(function(){
 	// 시스템정보복사
 	$('#btnCopy').bind('click', function() {
 		sysCopyModal.open({
-	        width: 1200,
-	        height: 800,
+	        width: 1024,
+	        height: 768,
+	        defaultSize: true,
 	        iframe: {
 	            method: "get",
 	            url: "../modal/sysinfo/SysCopyModal.jsp",

@@ -127,7 +127,7 @@ $(document).ready(function() {
 function openJobModal() {
 	jobModal.open({
         width: 800,
-        height: 800,
+        height: 700,
         iframe: {
             method: "get",
             url: "../modal/sysinfo/JobModal.jsp",

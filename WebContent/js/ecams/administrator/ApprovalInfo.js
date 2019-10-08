@@ -1364,8 +1364,9 @@ function successDelApprovalInfo(data) {
 
 function btnAllQry_Click() {
 	allApprovalInfoModal.open({
-        width: 1200,
+        width: 1024,
         height: 700,
+        defaultSize: true,
         iframe: {
             method: "get",
             url: "../modal/approvalInfo/AllApprovalInfoModal.jsp",
@@ -1385,8 +1386,9 @@ function btnAllQry_Click() {
 
 function btnCopy_Click() {
 	copyApprovalInfoModal.open({
-        width: 1200,
+        width: 1024,
         height: 700,
+        defaultSize: true,
         iframe: {
             method: "get",
             url: "../modal/approvalInfo/CopyApprovalInfoModal.jsp",
