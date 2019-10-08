@@ -85,16 +85,16 @@ public class ApprovalStatus extends HttpServlet {
 	}
 	// [결재현황] 시스템 정보 가져오기
 	private String getSysInfo(JsonElement jsonElement) throws SQLException, Exception {
-		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "UserId") );
-		String SecuYn = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SecuYn") );
-		String SelMsg = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
-		String CloseYn= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "CloseYn") );
-		String ReqCd  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "ReqCd") );
+		String UserId = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "userId") );
+		String SecuYn = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "secuYn") );
+		String SelMsg = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "selMsg") );
+		String CloseYn= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "closeYn") );
+		String ReqCd  = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "reqCd") );
 		return gson.toJson(sysinfo.getSysInfo(UserId, SecuYn, SelMsg, CloseYn, ReqCd));
 	}
 	// [결재현황] 부서 정보 가져오기
 	private String getTeamInfo(JsonElement jsonElement) throws SQLException, Exception {
-		String SelMsg 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "SelMsg") );
+		String SelMsg 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "selMsg") );
 		String cm_useyn = ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "cm_useyn") );
 		String gubun 	= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "gubun") );
 		String itYn		= ParsingCommon.jsonStrToStr( ParsingCommon.jsonEtoStr(jsonElement, "itYn") );

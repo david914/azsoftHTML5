@@ -303,7 +303,7 @@ function successGetSelectList(data) {
 function getTeamInfo() {
 	var data = new Object();
 	data = {
-		SelMsg 		: 'ALL',
+		selMsg 		: 'ALL',
 		cm_useyn 	: 'Y',
 		gubun 		: 'sub',
 		itYn 		: 'N',
@@ -326,11 +326,11 @@ function successGetTeamInfo(data) {
 function getSysInfo() {
 	var data = new Object();
 	data = {
-		UserId 		: userId,
-		SecuYn 		: 'Y',
-		SelMsg 		: 'ALL',
-		CloseYn 	: 'N',
-		ReqCd 		: '',
+		userId 		: userId,
+		secuYn 		: 'Y',
+		selMsg 		: 'ALL',
+		closeYn 	: 'N',
+		reqCd 		: '',
 		requestType	: 'getSysInfo'
 	}
 	ajaxAsync('/webPage/approval/ApprovalStatus', data, 'json',successGetSysInfo);
