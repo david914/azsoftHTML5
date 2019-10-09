@@ -91,99 +91,96 @@ $('input.checkbox-IPC').wCheck({theme: 'square-classic blue', selector: 'checkma
 
 
 $(document).ready(function(){
-	sysCd = selectedSystem.cm_syscd;
-	sysInfo = selectedSystem.cm_sysinfo;
-	dirBase = selectedSystem.cm_dirbase;
-	
-	$('#dibChkBase').css('display', 'none');
-	$('#lblAftIp').css('visibility','hidden');
-	$('#txtAftIp').css('visibility','hidden');
-	$('#lblSysMsg').text('시스템 : ' + selectedSystem.cm_syscd + ' ' + selectedSystem.cm_sysmsg);
-	
-	_promise(50,getCodeInfo())
-		.then(function(){
-			return _promise(50,getSvrInfoList());
+	if (selectedSystem != null) {
+		sysCd = selectedSystem.cm_syscd;
+		sysInfo = selectedSystem.cm_sysinfo;
+		dirBase = selectedSystem.cm_dirbase;
+		
+		$('#dibChkBase').css('display', 'none');
+		$('#lblAftIp').css('visibility','hidden');
+		$('#txtAftIp').css('visibility','hidden');
+		$('#lblSysMsg').text('시스템 : ' + selectedSystem.cm_syscd + ' ' + selectedSystem.cm_sysmsg);
+		
+		_promise(50,getCodeInfo())
+			.then(function(){
+				return _promise(50,getSvrInfoList());
+			});
+		
+		
+		$('#txtPort').keyup(function (event) { 
+			var v = $(this).val();
+			$(this).val(v.replace(/[^a-z0-9]/gi,''));
 		});
-	
-	
-	$('#txtPort').keyup(function (event) { 
-		var v = $(this).val();
-		$(this).val(v.replace(/[^a-z0-9]/gi,''));
-	});
-	
-	$('#txtSeq').keyup(function (event) { 
-		var v = $(this).val();
-		$(this).val(v.replace(/[^a-z0-9]/gi,''));
-	});
-	
-	$('#chkAllSvr').bind('click',function() {
-		clickChkAllSvr($('#chkAllSvr').is(':checked'));
-	});
-	
-	$('#chkIp').bind('click',function() {
-		if($('#chkIp').is(':checked')) {
-			if($('#chkIpC').is(':checked')) {
-				$('#chkIpC').wCheck('check',false);
-			}
-			$('#lblAftIp').css('visibility','visible');
-			$('#txtAftIp').css('visibility','visible');
-		} 
-		if(!$('#chkIp').is(':checked') && !$('#chkIpC').is(':checked')){
-			$('#lblAftIp').css('visibility','hidden');
-			$('#txtAftIp').css('visibility','hidden');
-		}
-	});
-	
-	$('#chkIpC').bind('click',function() {
-		if($('#chkIpC').is(':checked')) {
+		
+		$('#txtSeq').keyup(function (event) { 
+			var v = $(this).val();
+			$(this).val(v.replace(/[^a-z0-9]/gi,''));
+		});
+		
+		$('#chkAllSvr').bind('click',function() {
+			clickChkAllSvr($('#chkAllSvr').is(':checked'));
+		});
+		
+		$('#chkIp').bind('click',function() {
 			if($('#chkIp').is(':checked')) {
-				$('#chkIp').wCheck('check',false);
+				if($('#chkIpC').is(':checked')) {
+					$('#chkIpC').wCheck('check',false);
+				}
+				$('#lblAftIp').css('visibility','visible');
+				$('#txtAftIp').css('visibility','visible');
+			} 
+			if(!$('#chkIp').is(':checked') && !$('#chkIpC').is(':checked')){
+				$('#lblAftIp').css('visibility','hidden');
+				$('#txtAftIp').css('visibility','hidden');
 			}
-			$('#lblAftIp').css('visibility','visible');
-			$('#txtAftIp').css('visibility','visible');
-		} 
+		});
 		
-		if(!$('#chkIp').is(':checked') && !$('#chkIpC').is(':checked')){
-			$('#lblAftIp').css('visibility','hidden');
-			$('#txtAftIp').css('visibility','hidden');
-		}
-	});
-	
-	// 등록 클릭
-	$('#btnReq').bind('click', function() {
-		checkSvrVal(1);
-	});
-	
-	// 수정 클릭
-	$('#btnUpdt').bind('click', function() {
-		checkSvrVal(2);
-	});
-	
-	// 폐기 클릭
-	$('#btnCls').bind('click', function() {
-		var selIndex = svrInfoGrid.selectedDataIndexs;
-		if(selIndex.length < 1) {
-			dialog.alert('폐기 그리드를 선택해주세요.', function(){});
-			return;
-		}
+		$('#chkIpC').bind('click',function() {
+			if($('#chkIpC').is(':checked')) {
+				if($('#chkIp').is(':checked')) {
+					$('#chkIp').wCheck('check',false);
+				}
+				$('#lblAftIp').css('visibility','visible');
+				$('#txtAftIp').css('visibility','visible');
+			} 
+			
+			if(!$('#chkIp').is(':checked') && !$('#chkIpC').is(':checked')){
+				$('#lblAftIp').css('visibility','hidden');
+				$('#txtAftIp').css('visibility','hidden');
+			}
+		});
 		
-		closeSvr();
-	});
-	
-	// 조회 클릭
-	$('#btnQry').bind('click', function() {
-		getSvrInfoList();
-	});
-	
-	// 엑셀저장 클릭
-	$('#btnExl').bind('click',function () {
-		svrInfoGrid.exportExcel('['+selectedSystem.cm_sysmsg+']시스템상세정보.xls');
-	});
-	
-	// 닫기 클릭
-	$('#btnExit').bind('click', function() {
-		popClose();
-	});
+		// 등록 클릭
+		$('#btnReq').bind('click', function() {
+			checkSvrVal(1);
+		});
+		
+		// 수정 클릭
+		$('#btnUpdt').bind('click', function() {
+			checkSvrVal(2);
+		});
+		
+		// 폐기 클릭
+		$('#btnCls').bind('click', function() {
+			var selIndex = svrInfoGrid.selectedDataIndexs;
+			if(selIndex.length < 1) {
+				dialog.alert('폐기 그리드를 선택해주세요.', function(){});
+				return;
+			}
+			
+			closeSvr();
+		});
+		
+		// 조회 클릭
+		$('#btnQry').bind('click', function() {
+			getSvrInfoList();
+		});
+		
+		// 엑셀저장 클릭
+		$('#btnExl').bind('click',function () {
+			svrInfoGrid.exportExcel('['+selectedSystem.cm_sysmsg+']시스템상세정보.xls');
+		});
+	}
 	
 });
 

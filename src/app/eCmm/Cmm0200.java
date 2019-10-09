@@ -59,26 +59,18 @@ public class Cmm0200{
 			conn = connectionContext.getConnection();
 			strQuery.setLength(0);
 			strQuery.append("select a.cm_syscd,a.cm_sysmsg,a.cm_sysgb,a.cm_sysopen,		\n");
-			strQuery.append("       a.cm_scmopen,a.cm_sysinfo,a.cm_basesys,        		\n");
-			strQuery.append("       a.cm_stopst,a.cm_stoped,c.cm_sysmsg basesys,   		\n");
-			strQuery.append("       a.cm_closedt,a.cm_prccnt,b.cm_codename,a.cm_systime,\n");
-			strQuery.append("       c.cm_dirbase, d.cm_codename process,a.cm_prjname, 	\n");
-			strQuery.append("       c.cm_systype, to_char(a.cm_closedt,'yyyy/mm/dd hh24:mi:ss') sysclose	\n");
-			strQuery.append("  from cmm0030 a,cmm0020 b,cmm0030 c,cmm0020 d        		\n");
+			strQuery.append("       a.cm_scmopen,a.cm_sysinfo,a.cm_basesys,a.cm_systype,\n");
+			strQuery.append("       a.cm_stopst,a.cm_stoped,a.cm_closedt,a.cm_prjname,  \n");
+			strQuery.append("       a.cm_prccnt,b.cm_codename,a.cm_systime,a.cm_dirbase,\n");
+			strQuery.append("        to_char(a.cm_closedt,'yyyy/mm/dd') sysclose,  	    \n");
+			strQuery.append("       (select cm_codename from cmm0020    	            \n");
+			strQuery.append("         where cm_macode='SYSTYPE'        	                \n");
+			strQuery.append("           and cm_micode=a.cm_systype) process             \n");
+			strQuery.append("  from cmm0030 a,cmm0020 b        		                    \n");
 			strQuery.append(" where b.cm_macode='SYSGB' and b.cm_micode=a.cm_sysgb 		\n");
-			if (!clsSw) strQuery.append("and a.cm_closedt is null     	           		\n");
-			if (SysCd != null && SysCd != "") {
-				strQuery.append("and ( a.cm_syscd like ? or upper(a.cm_sysmsg) like upper(?) )   \n");
-			}
-			strQuery.append("   and nvl(a.cm_basesys,a.cm_syscd)=c.cm_syscd        \n");
-			strQuery.append("   and d.cm_macode = 'SYSTYPE' and c.cm_systype = d.cm_micode \n");
-			strQuery.append("order by a.cm_syscd                                   \n");
-			//pstmt = new LoggableStatement(conn,strQuery.toString());
+			strQuery.append(" order by a.cm_syscd                                       \n");
             pstmt = conn.prepareStatement(strQuery.toString());
-            if (SysCd != null && SysCd != "") {
-            	pstmt.setString(1, ("%"+SysCd+"%"));
-            	pstmt.setString(2, ("%"+SysCd+"%").toUpperCase());
-            }
+			//pstmt = new LoggableStatement(conn,strQuery.toString());
             //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
@@ -97,7 +89,6 @@ public class Cmm0200{
 				rst.put("cm_sysopen", rs.getString("cm_sysopen"));
 				rst.put("cm_basesys", rs.getString("cm_basesys"));
 				rst.put("cm_systime", rs.getString("cm_systime"));
-				rst.put("basesys", rs.getString("basesys"));
 				rst.put("cm_prjname", rs.getString("cm_prjname"));
 				rst.put("sysopen", rs.getString("cm_sysopen").substring(0,4)+"/"+
 						           rs.getString("cm_sysopen").substring(4,6)+"/"+

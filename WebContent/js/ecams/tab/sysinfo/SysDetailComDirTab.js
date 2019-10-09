@@ -15,7 +15,7 @@ var userDeptName= window.parent.userDeptName;	// 부서명
 var userDeptCd 	= window.parent.userDeptCd;		// 부서코드
 var selectedSystem  = window.parent.selectedSystem;
 
-var sysCd 	= selectedSystem.cm_syscd;	// 시스템정보 선택 코드
+var sysCd 	= '';	// 시스템정보 선택 코드
 
 var dirGrid		= new ax5.ui.grid();
 var dirGridData = null;
@@ -60,37 +60,34 @@ dirGrid.setConfig({
 
 
 $(document).ready(function(){
-	sysCd = selectedSystem.cm_syscd;
-	$('#txtSysMsg').val(sysCd + ' ' + selectedSystem.cm_sysmsg);
-	$('#txtSysMsg').prop('disabled', true);
-	getCodeInfo();
-	getDirList();
-	
-	// PORT 숫자만 입력하도록 수정
-	$("#txtPort").on("keyup", function(event) {
-		$(this).val($(this).val().replace(/[^0-9]/g,""));
-	});
-	
-	
-	// 등록
-	$('#btnReq').bind('click', function() {
-		checkVal();
-	});
-	
-	// 폐기
-	$('#btnCls').bind('click', function() {
-		closeDir();
-	});
-	
-	// 조회
-	$('#btnQry').bind('click', function() {
+	if (selectedSystem != null) {
+		sysCd = selectedSystem.cm_syscd;
+		$('#txtSysMsg').val(sysCd + ' ' + selectedSystem.cm_sysmsg);
+		$('#txtSysMsg').prop('disabled', true);
+		getCodeInfo();
 		getDirList();
-	});
-	
-	// 닫기
-	$('#btnExit').bind('click', function() {
-		popClose();
-	});
+		
+		// PORT 숫자만 입력하도록 수정
+		$("#txtPort").on("keyup", function(event) {
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+		});
+		
+		
+		// 등록
+		$('#btnReq').bind('click', function() {
+			checkVal();
+		});
+		
+		// 폐기
+		$('#btnCls').bind('click', function() {
+			closeDir();
+		});
+		
+		// 조회
+		$('#btnQry').bind('click', function() {
+			getDirList();
+		});
+	}
 	
 });
 

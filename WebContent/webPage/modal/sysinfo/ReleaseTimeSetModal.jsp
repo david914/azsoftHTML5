@@ -28,10 +28,11 @@
 			<input id="optUnRelease" type="radio" name="releaseChkS" value="unRelease"/>
 			<label for="optUnRelease">정기배포비대상</label>
 		</div>
-		<div class="l_wrap width-70">
-			<label class="tit_80 poa">시스템</label>
-			<div class="ml_80">
-				<input id="txtSysMsg" type="text" class="width-80"><button id="btnSearch" class="btn_basic_s margin-5-left poa_r">조회</button>
+		<div class="r_wrap">
+			<label class="tit_60 poa">시스템</label>
+			<div class="ml_60">
+				<input id="txtSysMsg" type="text" style="width:250px">
+				<button id="btnSearch" class="btn_basic_s">조회</button>
 			</div>
 		</div>
 	</div>

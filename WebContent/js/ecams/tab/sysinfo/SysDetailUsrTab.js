@@ -104,158 +104,154 @@ $('input.checkbox-usr').wCheck({theme: 'square-classic blue', selector: 'checkma
 
 
 $(document).ready(function(){
-	sysCd = selectedSystem.cm_syscd;
-	sysInfo = selectedSystem.cm_sysinfo;
-	dirBase = selectedSystem.cm_dirbase;
-	
-	// 업무별 서버관리
-	if(sysInfo.substr(8,1) === '1') {
-		getUlSvrInfo();
-		$('#chkAllSvrJob').wCheck('disabled', false);
-	} else  {
-		$('#chkAllSvrJob').wCheck('disabled', true);
-	}
-	
-	_promise(50,getCodeInfo())
-		.then(function(){
-			return _promise(50,$('#cboSvrUsr').trigger('change'));
-		})
-		.then(function() {
-			return _promise(50,getSecuList());
-		});
-	
-	
-	$('#txtMode').keyup(function (event) { 
-		var v = $(this).val();
-		$(this).val(v.replace(/[^a-z0-9]/gi,''));
-	});
-	
-	/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
-	$('#cboSvrUsr').bind('change',function(){
+	if (selectedSystem != null) {
+		sysCd = selectedSystem.cm_syscd;
+		sysInfo = selectedSystem.cm_sysinfo;
+		dirBase = selectedSystem.cm_dirbase;
 		
-		if(svrUsrGridData !== null) $('#chkAllUsr').wCheck('check',false);
-		
+		// 업무별 서버관리
 		if(sysInfo.substr(8,1) === '1') {
-			// 사용업무 사용가능하게
-		} else {
-			// 사용업무 사용 불가능하게
+			getUlSvrInfo();
+			$('#chkAllSvrJob').wCheck('disabled', false);
+		} else  {
+			$('#chkAllSvrJob').wCheck('disabled', true);
 		}
 		
-		var svrUsrInfoData = new Object();
-		svrUsrInfoData = {
-			SysCd	: sysCd,
-			SvrCd 	: getSelectedVal('cboSvrUsr').value ,
-			requestType	: 'getSvrUsrInfo'
-		}
-		ajaxAsync('/webPage/tab/sysinfo/SvrUsrServlet', svrUsrInfoData, 'json',successGetSvrUsrInfo);
-
-	});
-	
-	// 계정정보 닫기 버튼 클릭 이벤트
-	$('#btnExitUsr').bind('click', function() {
-		popClose();
-	});
-	
-	// 계정정보 등록 버튼 클릭 이벤트
-	$('#btnReqUsr').bind('click', function() {
-		checkValUsr();
-	});
-	
-	// 계정정보 폐기 버튼 클릭 이벤트
-	$('#btnUsrClose').bind('click',function() {
-		
-		var selSvrIn= svrUsrGrid.selectedDataIndexs;
-		var svrItem = null;
-		var tmpJob 	= '';
-		var svrArr	= [];
-		if(selSvrIn.length === 0 ) {
-			dialog.alert('폐기할 서버를 선택한 후 처리하시기 바랍니다.', function() {});
-			return;
-		}
-		
-		if(sysInfo.substr(8,1) === '1') {
-			var checkSw = false;
-			ulSvrInfoData.forEach(function( ulItem, index) {
-				var id = ulItem.cm_jobcd;
-				if($('#chkJob'+id).is(':checked')) {
-					checkSw = true;
-				}
+		_promise(50,getCodeInfo())
+			.then(function(){
+				return _promise(50,$('#cboSvrUsr').trigger('change'));
+			})
+			.then(function() {
+				return _promise(50,getSecuList());
 			});
+		
+		
+		$('#txtMode').keyup(function (event) { 
+			var v = $(this).val();
+			$(this).val(v.replace(/[^a-z0-9]/gi,''));
+		});
+		
+		/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
+		$('#cboSvrUsr').bind('change',function(){
 			
-			if(!checkSw) {
-				dialog.alert('폐기할 업무를 선택한 후 처리하시기 바랍니다.',function(){});
+			if(svrUsrGridData !== null) $('#chkAllUsr').wCheck('check',false);
+			
+			if(sysInfo.substr(8,1) === '1') {
+				// 사용업무 사용가능하게
+			} else {
+				// 사용업무 사용 불가능하게
+			}
+			
+			var svrUsrInfoData = new Object();
+			svrUsrInfoData = {
+				SysCd	: sysCd,
+				SvrCd 	: getSelectedVal('cboSvrUsr').value ,
+				requestType	: 'getSvrUsrInfo'
+			}
+			ajaxAsync('/webPage/tab/sysinfo/SvrUsrServlet', svrUsrInfoData, 'json',successGetSvrUsrInfo);
+	
+		});
+		
+		// 계정정보 닫기 버튼 클릭 이벤트
+		$('#btnExitUsr').bind('click', function() {
+			popClose();
+		});
+		
+		// 계정정보 등록 버튼 클릭 이벤트
+		$('#btnReqUsr').bind('click', function() {
+			checkValUsr();
+		});
+		
+		// 계정정보 폐기 버튼 클릭 이벤트
+		$('#btnUsrClose').bind('click',function() {
+			
+			var selSvrIn= svrUsrGrid.selectedDataIndexs;
+			var svrItem = null;
+			var tmpJob 	= '';
+			var svrArr	= [];
+			if(selSvrIn.length === 0 ) {
+				dialog.alert('폐기할 서버를 선택한 후 처리하시기 바랍니다.', function() {});
 				return;
 			}
-		}
-		
-		selSvrIn.forEach(function(selIn, index) {
-			svrItem = svrUsrGrid.list[selIn];
-			svrArr.push(svrItem);
-		});
-		
-		if(sysInfo.substr(8,1) === '1') {
-			ulSvrInfoData.forEach(function(jobItem, index) {
-				var id = jobItem.cm_jobcd;
-				if( $('#chkJob'+id).is(':checked')) {
-					if(tmpJob.length > 0 ) tmpJob += ',';
-					tmpJob +=  $('#chkJob'+id).val();
+			
+			if(sysInfo.substr(8,1) === '1') {
+				var checkSw = false;
+				ulSvrInfoData.forEach(function( ulItem, index) {
+					var id = ulItem.cm_jobcd;
+					if($('#chkJob'+id).is(':checked')) {
+						checkSw = true;
+					}
+				});
+				
+				if(!checkSw) {
+					dialog.alert('폐기할 업무를 선택한 후 처리하시기 바랍니다.',function(){});
+					return;
 				}
+			}
+			
+			selSvrIn.forEach(function(selIn, index) {
+				svrItem = svrUsrGrid.list[selIn];
+				svrArr.push(svrItem);
 			});
 			
-		} else {
-			tmpJob = '****';
+			if(sysInfo.substr(8,1) === '1') {
+				ulSvrInfoData.forEach(function(jobItem, index) {
+					var id = jobItem.cm_jobcd;
+					if( $('#chkJob'+id).is(':checked')) {
+						if(tmpJob.length > 0 ) tmpJob += ',';
+						tmpJob +=  $('#chkJob'+id).val();
+					}
+				});
+				
+			} else {
+				tmpJob = '****';
+			}
+			
+			var svrUsrCloseData = new Object();
+			svrUsrCloseData = {
+				svrList		: svrArr,
+				SysCd 		: sysCd,
+				JobCd 		: tmpJob,
+				requestType	: 'closeSvrUsr'
+			}
+			ajaxAsync('/webPage/tab/sysinfo/SvrUsrServlet', svrUsrCloseData, 'json',successCloseSvrUsr);
+			
+		});
+		
+		function successCloseSvrUsr(data) {
+			dialog.alert('업무별 계정권한에 대한 폐기처리를 완료하였습니다.', function() {
+				getSecuList();
+			});
 		}
 		
-		var svrUsrCloseData = new Object();
-		svrUsrCloseData = {
-			svrList		: svrArr,
-			SysCd 		: sysCd,
-			JobCd 		: tmpJob,
-			requestType	: 'closeSvrUsr'
-		}
-		ajaxAsync('/webPage/tab/sysinfo/SvrUsrServlet', svrUsrCloseData, 'json',successCloseSvrUsr);
-		
-	});
-	
-	function successCloseSvrUsr(data) {
-		dialog.alert('업무별 계정권한에 대한 폐기처리를 완료하였습니다.', function() {
+		// 계정정보 조회버튼 클릭 이벤트
+		$('#btnQryUsr').bind('click', function() {
 			getSecuList();
 		});
+		
+		$('#chkAllUsr').bind('change',function() {
+			var checkSw = false;
+			if($('#chkAllUsr').is(':checked')) checkSw = true;
+			
+			if(checkSw) {
+				svrUsrGridData.forEach(function(svrUsrItem, index) {
+					svrUsrGrid.select(index);
+				});
+			} else {
+				svrUsrGridData.forEach(function(svrUsrItem, index) {
+					svrUsrGrid.clearSelect(index);
+				});
+			}
+		});
+		
+		// 사용업무 전체선택 클릭 이벤트
+		$('#chkAllSvrJob').bind('change', function(e) {
+			var id = '';
+			var checkSw = false;
+			if($('#chkAllSvrJob').is(':checked')) checkSw = true;
+			
+		})
 	}
-	
-	// 계정정보 조회버튼 클릭 이벤트
-	$('#btnQryUsr').bind('click', function() {
-		getSecuList();
-	});
-	
-	$('#chkAllUsr').bind('change',function() {
-		var checkSw = false;
-		if($('#chkAllUsr').is(':checked')) checkSw = true;
-		
-		if(checkSw) {
-			svrUsrGridData.forEach(function(svrUsrItem, index) {
-				svrUsrGrid.select(index);
-			});
-		} else {
-			svrUsrGridData.forEach(function(svrUsrItem, index) {
-				svrUsrGrid.clearSelect(index);
-			});
-		}
-	});
-	
-	// 사용업무 전체선택 클릭 이벤트
-	$('#chkAllSvrJob').bind('change', function(e) {
-		var id = '';
-		var checkSw = false;
-		if($('#chkAllSvrJob').is(':checked')) checkSw = true;
-		
-//		for(var i=0; i<ulSvrInfoData.length; i++) {
-//			var svrinfoItem = ulSvrInfoData[i];
-//			id = svrinfoItem.cm_jobcd;
-//			if(checkSw) $('#chkJob'+id).wCheck('check',true);
-//			if(!checkSw) $('#chkJob'+id).wCheck('check',false);
-//		}
-	})
 	/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
 });
 
