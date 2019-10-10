@@ -312,6 +312,10 @@ function getSysInfo(){
 	var data =  new Object();
 	data = {
 		UserId : userid,
+		secuYn : 'Y',
+		selMsg : 'ALL',
+		closeYn : 'N',
+		reqCd : '',
 		requestType	: 'getSysInfo'
 	}
 	ajaxAsync('/webPage/approval/RequestStatus', data, 'json',successGetSysInfo);
@@ -338,7 +342,7 @@ function successGetDeptInfo(data) {
 function getDeptInfo(){
 	var data =  new Object();
 	data = {
-		SelMsg 		: 'All',
+		selMsg 		: 'All',
 		cm_useyn 	: 'Y',
 		gubun 		: 'sub',
 		itYn 		: 'N',
