@@ -82,7 +82,7 @@ public class TeamInfo{
 			if (itYn.equals("Y")) {
 				strQuery.append(" from (Select cm_deptcd,cm_updeptcd,cm_deptname,cm_useyn \n");
 				strQuery.append("         from (Select * from cmm0100 where cm_useyn='Y') \n");
-				strQuery.append("        start with cm_updeptcd=' 000000100'  				  \n");	//TODO updeptcd 実特
+				strQuery.append("        start with cm_updeptcd='000000100'  				  \n");	//TODO updeptcd 実特
 				strQuery.append("       connect by prior cm_deptcd = cm_updeptcd) 		  \n");
 				strQuery.append(" where cm_useyn='Y'                          		      \n");
 			} else if (gubun != "" && gubun != null) {
