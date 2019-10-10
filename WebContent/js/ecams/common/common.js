@@ -134,6 +134,9 @@ function CodeInfo(MACODE, SelMsg, closeYn) {
 	SBUxMethod.refresh('cboQryGbn');
  */
 function getCodeInfoCommon(codeInfoArr) {
+	codeInfoArr.forEach(function(item, index) {
+		item.ordercd = '2';
+	});
 	var returnCodeInfo = {};
 	var ajaxReturnData = null;
 	var codeInfo = {};
