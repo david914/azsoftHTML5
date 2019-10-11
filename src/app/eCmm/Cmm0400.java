@@ -413,6 +413,7 @@ public class Cmm0400{
 					strQuery.append("  and a.cm_userid=c.cm_userid \n");
 				}else {
 					strQuery.append("a.cm_userid = ?        \n");
+					strQuery.append("  and a.cm_userid=c.cm_userid \n");
 				}
 			} else {
 				strQuery.append("c.cm_project=?          \n");
