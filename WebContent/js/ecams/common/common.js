@@ -28,6 +28,7 @@ function ajaxCallWithJson(url, requestData, dataType) {
 	$.ajax({
 		type 	: 'POST',
 		url 	: url,
+		contentType: 'application/json',
 		data 	: requestJson,
 		dataType: dataType,
 		async 	: false,
@@ -70,6 +71,7 @@ function ajaxAsync(url, requestData, dataType,successFunc,callbackFunc) {
 	var ajax = $.ajax({
 		type 	: 'POST',
 		url 	: url,
+		contentType: 'application/json',
 		data 	: requestJson,
 		dataType: dataType,
 		async 	: true,
