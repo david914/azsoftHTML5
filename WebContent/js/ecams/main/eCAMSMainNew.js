@@ -70,17 +70,14 @@ $(document).ready(function(){
 // 파이차트 데이터 가져오기
 function getPieData() {
 	var data = {
-			requestType	: 	'getMainPie',
-			data : {				
-				userId		: 	userId
-			}
-		}
+		requestType	: 	'getMainPie',
+		userId		: 	userId
+	}
 	ajaxAsync('/webPage/main/eCAMSMainServlet', data, 'json',successGetPieData);
 }
 
 // 파이차트 데이터 가져오기 완료
 function successGetPieData(data) {
-	
 	if(data.length === 0 ){
 		data = makeFakeData('PIE');
 	}
