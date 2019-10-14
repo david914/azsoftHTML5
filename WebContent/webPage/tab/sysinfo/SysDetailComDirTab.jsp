@@ -1,4 +1,4 @@
-c<!--  
+<!--  
 	* 화면명: 공통디렉토리정보
 	* 화면호출: 시스템정보 -> 공통디렉토리 클릭
 -->
@@ -14,16 +14,9 @@ c<!--
 	        <!-- 검색 S-->    
 			<div class="az_search_wrap">
 				<div class="az_in_wrap">
-					<!-- 시스템 -->		
-	                <div>
-						<label class="tit_80 poa">시스템</label>
-	                    <div class="ml_80">
-							<input id="txtSysMsg" class="width-100" type="text"></input>
-						</div>
-					</div>
-	                <div class="sm-row cb">
+	                <div class="sm-row cb width-50">
 						<label class="tit_80 poa">디렉토리구분</label>
-	                    <div class="ml_80">
+	                    <div class="ml_80 margin-15-right">
 							<div id="cboDir" data-ax5select="cboDir" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;"></div>
 						</div>
 					</div>
@@ -70,23 +63,27 @@ c<!--
 						</div>
 					</div>
 					<!-- 실행파일명 -->		
-	                <div class="sm-row por">
-						<label class="tit_80 poa">실행파일명</label>
-	                    <div class="ml_80">
-							<input id="txtShell" class="width-70" type="text"></input>
-							<div class="dib poa_r">
-								<button id="btnReq" class="btn_basic_s">등록</button>
-								<button id="btnCls" class="btn_basic_s margin-5-left">폐기</button>
-								<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
-								<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
+	                <div class="sm-row">
+	                    <div class="float-left width-50">
+	                        <div>
+								<label class="tit_80 poa">실행파일명</label>
+			                    <div class="ml_80">
+									<input id="txtShell" type="text" style="width:calc(100% - 15px)"></input>
+								</div>
 							</div>
+						</div>
+						<div class="dib width-50 tar">
+							<button id="btnReq" class="btn_basic_s">등록</button>
+							<button id="btnCls" class="btn_basic_s margin-5-left">폐기</button>
+							<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
+							<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			<!--검색E-->
 			<div class="sm-row">
-				<div class="az_board_basic az_board_basic_in" style="height: 55%">
+				<div class="az_board_basic az_board_basic_in" style="height: 70%">
 			    	<div data-ax5grid="dirGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 				</div>
 			</div>

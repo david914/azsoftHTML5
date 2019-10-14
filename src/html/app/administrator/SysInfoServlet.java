@@ -72,6 +72,9 @@ public class SysInfoServlet extends HttpServlet {
 				case "getProcType" :
 					response.getWriter().write(getProcType(jsonElement));
 					break;
+				case "getUseSysCdList" :
+					response.getWriter().write(getUseSysCdList(jsonElement));
+					break;
 				case "TEST" :
 					response.getWriter().write(testMethod(jsonElement));
 					break;
@@ -93,6 +96,11 @@ public class SysInfoServlet extends HttpServlet {
 	private String getJobList(JsonElement jsonElement) throws SQLException, Exception {
 		HashMap<String, String> jobInfoCbo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"jobInfoCbo"));
 		return gson.toJson(codeInfo.getJobCd(jobInfoCbo.get("SelMsg"), jobInfoCbo.get("closeYn")));
+	}
+	// [시스템정보] 사용가능한 시스템코드 가져오기
+	private String getUseSysCdList(JsonElement jsonElement) throws SQLException, Exception {
+		//HashMap<String, String> sysInfoCbo = ParsingCommon.jsonStrToMap(ParsingCommon.jsonEtoStr(jsonElement,"useSysLIstCbo"));
+		return gson.toJson(cmm0200.getUseSysCdList());
 	}
 	// [시스템정보] 업무정보 가져오기
 	private String getJobInfo(JsonElement jsonElement) throws SQLException, Exception {

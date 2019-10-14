@@ -35,63 +35,7 @@ $('[data-ax5select="cboSvrItem"]').ax5select({
     options: []
 });
 
-svrItemGrid.setConfig({
-    target: $('[data-ax5grid="svrItemGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: true,
-    header: {
-        align: "center",
-    },
-    body: {
-        onClick: function () {
-            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", 	label: "서버종류",  		width: '20%'},
-        {key: "cm_svrname", 	label: "서버명",  		width: '20%'},
-        {key: "cm_svrip", 		label: "IP Address",  	width: '50%', align: "left"},
-        {key: "cm_portno", 		label: "Port",  		width: '10%'}
-    ]
-});
 
-itemGrid.setConfig({
-    target: $('[data-ax5grid="itemGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 25,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-            clickItemGrid(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "svrcd", 		label: "서버구분",  		width: '15%'},
-        {key: "cm_svrname", label: "서버명",  		width: '18%'},
-        {key: "cm_svrip", 	label: "IP Address",  	width: '20%', 	align: "center"},
-        {key: "cm_portno", 	label: "Port",  		width: '7%', 	align: "center"},
-        {key: "rsrccd", 	label: "형상항목",  		width: '10%'},
-        {key: "cm_volpath", label: "홈디렉토리",  		width: '30%'},
-    ]
-});
 
 $('input.checkbox-prg').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 
@@ -100,6 +44,84 @@ $('input.checkbox-prg').wCheck({theme: 'square-classic blue', selector: 'checkma
 
 $(document).ready(function(){
 	
+	if (window.parent.frmLoad5) createViewGrid();
+	
+	
+});
+
+function createViewGrid() {
+	window.parent.frmLoad5 = true;
+	svrItemGrid = new ax5.ui.grid();
+	itemGrid 	= new ax5.ui.grid();
+	svrItemGrid.setConfig({
+	    target: $('[data-ax5grid="svrItemGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: true,
+	    header: {
+	        align: "center",
+	    },
+	    body: {
+	        onClick: function () {
+	            this.self.select(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_codename", 	label: "서버종류",  		width: '20%'},
+	        {key: "cm_svrname", 	label: "서버명",  		width: '20%'},
+	        {key: "cm_svrip", 		label: "IP Address",  	width: '50%'},
+	        {key: "cm_portno", 		label: "Port",  		width: '10%'}
+	    ]
+	});
+
+	itemGrid.setConfig({
+	    target: $('[data-ax5grid="itemGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: false,
+	    header: {
+	        align: "center",
+	        columnHeight: 30
+	    },
+	    body: {
+	        columnHeight: 25,
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	            clickItemGrid(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "svrcd", 		label: "서버구분",  		width: '15%'},
+	        {key: "cm_svrname", label: "서버명",  		width: '18%'},
+	        {key: "cm_svrip", 	label: "IP Address",  	width: '20%'},
+	        {key: "cm_portno", 	label: "Port",  		width: '7%'},
+	        {key: "rsrccd", 	label: "형상항목",  		width: '10%'},
+	        {key: "cm_volpath", label: "홈디렉토리",  		width: '30%', 	align: "left"},
+	    ]
+	});
+
+	screenLoad();
+	
+	if (svrItemGridData != null && svrItemGridData.length > 0) {
+		svrItemGrid.setData(svrItemGridData);
+	}
+	if (itemGridData != null && itemGridData.length > 0) {
+		itemGrid.setData(itemGridData);
+	}
+}
+function screenLoad() {
+	selectedSystem  = window.parent.selectedSystem;
 	if (selectedSystem != null) {
 		sysCd 	= selectedSystem.cm_syscd;
 		sysInfo = selectedSystem.cm_sysinfo;
@@ -163,12 +185,7 @@ $(document).ready(function(){
 			}
 		})
 	}
-	///////////////////////  버튼 event end////////////////////////////////////////////////
-	
-	
-});
-
-
+}
 ///////////////////////  버튼 function start////////////////////////////////////////////////
 function popClose(){
 	window.parent.parent.sysDetailModal.close();

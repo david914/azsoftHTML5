@@ -17,8 +17,8 @@
 		 		<div class="sm-row por">
 				 	<label class="tit_80 poa">서버명/OS</label>
 	                <div class="ml_80">
-	                	<input id="txtSvrName" class="vat width-45 dib vat" type="text" placeholder="hostname/서버구분명칭"></input>
-						<div id="cboOs" data-ax5select="cboOs" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-45 dib poa_r"></div>
+	                	<input id="txtSvrName" class="vat width-45 dib" type="text" placeholder="hostname/서버구분명칭"></input>
+						<div id="cboOs" data-ax5select="cboOs" data-ax5select-config="{size:'sm',theme:'primary'}" class="dib" style="width:calc(55% - 5px);"></div>
 					</div>
 				</div>
 			 			
@@ -26,10 +26,8 @@
 			 		<label class="tit_80 poa">IP/PORT/순서</label>
 				 	<div class="ml_80">
 			 			<input id="txtSvrIp" class="width-45" type="text" placeholder="서버 IP"/>
-			 			<div class="width-45 vat dib poa_r">
-							<input id="txtPort" class="width-48" type="text" placeholder="agent port"/>
-							<input id="txtSeq" class="width-48 poa_r" type="text" placeholder="서버순서"/>
-			 			</div>
+						<input id="txtPort" class="width-30" type="text" placeholder="agent port"/>
+						<input id="txtSeq"  type="text" placeholder="서버순서" style="width:calc(25% - 10px);"/>
 				 	</div>
 				</div>
 			 			
@@ -37,7 +35,7 @@
 			 		<label class="tit_80 poa">계정/비밀번호</label>
 				 	<div class="ml_80">
 				 		<input id="txtUser" class="width-45" type="text" placeholder="agent 설치계정"/>
-				 		<input id="txtPass" class="width-45 poa_r" type="text" style="text-security: disc; -webkit-text-security: disc;" autocomplete="off" placeholder="계정 비밀번호" />
+				 		<input id="txtPass" type="text" style="text-security: disc; -webkit-text-security: disc; width:calc(55% - 5px);" autocomplete="off" placeholder="계정 비밀번호" />
 				 	</div>
 				</div>
 			 			
@@ -91,7 +89,7 @@
 			 			<input type="checkbox" class="checkbox-IP" id="chkAllSvr" data-label="전체선택"  />
 		 			</div>
 		 		</div>
-		 		<div class="scrollBind sm-row" style="height:211px;">
+		 		<div class="scrollBind sm-row" style="height:209px;">
 					<ul class="list-group" id="ulSyrInfo"></ul>
 				</div>
 		 		<div class="tar">
@@ -104,11 +102,11 @@
 		 		</div>
 		 		<div class="sm-row tar">
 					<button id="btnReq" class="btn_basic_s">등록</button>
-					<button id="btnUpdt" class="btn_basic_s margin-5-left">수정</button>
-					<button id="btnCls" class="btn_basic_s margin-5-left">폐기</button>
-					<button id="btnQry" class="btn_basic_s margin-5-left">조회</button>
-					<button id="btnExl" class="btn_basic_s margin-5-left">엑셀저장</button>
-					<button id="btnExit" class="btn_basic_s margin-5-left">닫기</button>
+					<button id="btnUpdt" class="btn_basic_s">수정</button>
+					<button id="btnCls" class="btn_basic_s">폐기</button>
+					<button id="btnQry" class="btn_basic_s">조회</button>
+					<button id="btnExl" class="btn_basic_s">엑셀저장</button>
+					<button id="btnExit" class="btn_basic_s">닫기</button>
 		 		</div>
 		 	</div>
 		</div>

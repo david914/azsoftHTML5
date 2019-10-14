@@ -27,6 +27,7 @@ var prgGridData 	= null;
 
 var cboJawonData	= null;
 var cboSameData		= null;
+var cboFactData     = null;
 var cboOptions		= null;
 
 var treeObj			= null;
@@ -49,65 +50,6 @@ var setting = {
 	
 };
 
-sameGrid.setConfig({
-    target: $('[data-ax5grid="sameGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-    },
-    body: {
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-            clickSameGrid(this.dindex);
-        },
-        onDBLClick: function () {
-        	dbClickSameGrid(this.dindex);
-        },
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", 	label: "동시적용종류", 	width: '19%', align: "center"},
-        {key: "chgname", 		label: "파일적용룰",  	width: '19%', align: "center"},
-        {key: "cm_basedir", 	label: "기준Dir",  	width: '35%', align: "center"},
-        {key: "cm_samedir", 	label: "변경Dir",  	width: '19%', align: "center"},
-        {key: "cm_cmdyn", 		label: "커맨드",  	width: '8%', align: "center"},
-    ]
-});
-
-
-prgGrid.setConfig({
-    target: $('[data-ax5grid="prgGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-    },
-    body: {
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-            clickPrgGrid(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", 	label: "프로그램종류", 	width: '20%', align: "center"},
-        {key: "cm_vercnt", 		label: "버전수",  	width: '20%', align: "center"},
-        {key: "cm_time", 		label: "정기배포",  	width: '30%', align: "center"},
-        {key: "cm_exename", 	label: "대상확장자",  	width: '30%', align: "center"}
-    ]
-});
 
 $('[data-ax5select="cboJawon"]').ax5select({
     options: []
@@ -117,14 +59,96 @@ $('[data-ax5select="cboSame"]').ax5select({
     options: []
 });
 
-$('input:radio[name=radioPrg]').wRadio({theme: 'circle-classic blue', selector: 'checkmark'});
+$('[data-ax5select="cboFact"]').ax5select({
+    options: []
+});
+
+//$('input:radio[name=radioPrg]').wRadio({theme: 'circle-classic blue', selector: 'checkmark'});
 $('input.checkbox-prg').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: false});
 
 $(document).ready(function(){
 	
-	if (selectedSystem != null) {
-		$('#txtSysMsg').val(selectedSystem.cm_syscd + ' ' + selectedSystem.cm_sysmsg);
-		
+	if (window.parent.frmLoad2) createViewGrid();
+	
+});
+
+function createViewGrid() {
+	
+	window.parent.frmLoad2 = true;
+	sameGrid 	= new ax5.ui.grid();
+	prgGrid 	= new ax5.ui.grid();
+	sameGrid.setConfig({
+	    target: $('[data-ax5grid="sameGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: false,
+	    header: {
+	        align: "center",
+	    },
+	    body: {
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	            clickSameGrid(this.dindex);
+	        },
+	        onDBLClick: function () {
+	        	dbClickSameGrid(this.dindex);
+	        },
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_codename", 	label: "구분", 	width: '15%', align: "left"},
+	        {key: "factname", 	label: "동시적용종류", 	width: '15%', align: "left"},
+	        {key: "cm_basename", 	label: "파일적용[기준]",  	width: '15%', align: "center"},
+	        {key: "cm_samename", 	label: "파일적용[변경]",  	width: '15%', align: "center"},
+	        {key: "cm_basedir", 	label: "기준Dir",  	width: '20%', align: "left"},
+	        {key: "cm_samedir", 	label: "변경Dir",  	width: '20%', align: "left"}
+	    ]
+	});
+
+
+	prgGrid.setConfig({
+	    target: $('[data-ax5grid="prgGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: false,
+	    header: {
+	        align: "center",
+	    },
+	    body: {
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	            clickPrgGrid(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_codename", 	label: "프로그램종류", 	width: '25%', align: "left"},
+	        {key: "cm_vercnt", 		label: "버전수",  	width: '25%', align: "center"},
+	        {key: "cm_exename", 	label: "대상확장자",  	width: '50%', align: "left"}
+	    ]
+	});
+	
+	screenLoad();
+	
+	if (prgGridData != null && prgGridData.length > 0) {
+		prgGrid.setData(prgGridData);
+	}
+	if (sameGridData != null && sameGridData.length > 0) {
+		sameGrid.setData(sameGridData);
+	}
+}
+function screenLoad() {
+	selectedSystem  = window.parent.selectedSystem;
+	if (selectedSystem != null) {		
 		getProgInfoTree();
 		
 		_promise(10,getJawon())
@@ -144,6 +168,7 @@ $(document).ready(function(){
 			var tmpWork = null;
 			var tmpCd	= null;
 			var tmpCd2	= null;
+			var factCd  = null;
 			
 			var prgList = prgGrid.getList(); 
 			
@@ -155,10 +180,7 @@ $(document).ready(function(){
 						prgGrid.clearSelect();
 						prgGrid.select(k);
 						
-						var txtTime = prgSelItem.cm_time;
-						txtTime = txtTime !== undefined ? txtTime.substr(0,2) + ':' + txtTime.substr(2,2) : '';
 						$('#txtVer').val(prgSelItem.cm_vercnt);
-						$('#txtTime').val(txtTime);
 						$('#txtExename').val(prgSelItem.cm_exename);
 						tmpWork = prgSelItem.cm_info;
 						
@@ -166,11 +188,17 @@ $(document).ready(function(){
 						
 						for(var i=0; i<tmpWork.length; i++) {
 							if(tmpWork.substr(i,1) === '1') {
-								if (i == 3) 		$('#radioCkIn').wCheck('check',true);		// 실행모듈정보
-					    		else if (i == 8) 	$('#radioCkOut').wCheck('check',true);		// 동시적용항목정보
-					    		else if (i == 26) 	$('#radioDir').wCheck('check',true);		// 자동생성항목정보
-					    		else if (i == 49) 	$('#radioRename').wCheck('check',true);		// 확장자변경
+								factCd = null;
+								if (i == 3) 		factCd = '04';		// 동시적용항목정보
+					    		else if (i == 8) 	factCd = '09';		// 실행모듈정보
+					    		else if (i == 26) 	factCd = '27';		// 자동생성항목정보
+					    		else if (i == 49) 	factCd = '50';		// 확장자변경
 								
+								if (factCd != null) {
+									$('[data-ax5select="cboFact"]').ax5select('setValue',factCd,true);
+								} else {
+									$('[data-ax5select="cboFact"]').ax5select('setValue','0000',true);
+								}
 								tmpCd = i < 9 ? '0'+ (i+1) : String(i+1);
 								
 								for(var j=0; j<treeObjData.length; j++) {
@@ -194,15 +222,14 @@ $(document).ready(function(){
 				
 				if(!findSw) {
 					$('#txtVer').val('');
-					$('#txtTime').val('');
 					$('#txtExename').val('');
 					treeObj.checkAllNodes(false);
-					$('#chkCmd').wCheck('check',false);
-					$('#radioCkIn').wCheck('check',true);
+				//	$('#chkCmd').wCheck('check',false);
 					$('#txtBase').val('');
 					$('#txtChgRule').val('');
 					$('#txtBaseDir').val('');
 					$('#txtChgDir').val('');
+					$('[data-ax5select="cboFact"]').ax5select('setValue','0000',true);
 				}
 			}
 			
@@ -215,7 +242,7 @@ $(document).ready(function(){
 			var tmpObj 		= new Object();
 			var sameSw 		= false;
 			var modSw 		= false;
-			var dirSw 		= false;
+			var autoSw 		= false;
 			var renameSw 	= false;
 			var findSw		= false;
 			var exeSw		= false;
@@ -243,9 +270,8 @@ $(document).ready(function(){
 					var code = id.substr(pid.length,2);
 					if( code === '04') sameSw 	= true;
 					if( code === '09') modSw 	= true;
-					if( code === '27') dirSw 	= true;
-					if( code === '47') dirSw 	= true;
-					if( code === '44') exeSw 	= true;
+					if( code === '27') autoSw 	= true;
+					if( code === '44') exeSw    = true;
 					if( code === '50') renameSw = true;
 					
 					j = Number(code) -1 ;
@@ -321,20 +347,20 @@ $(document).ready(function(){
 				}
 			}
 			
-			if (dirSw) {
+			if (autoSw) {
 				if(sameGridArr.length === 0 ){
-					dialog.alert('개발툴연계 또는 디렉토리기준 처리속성이 체크되어 있습니다. 자동생성항목정보를 입력한 후 등록하시기 바랍니다.', function(){});
+					dialog.alert('개발툴연계 처리속성이 체크되어 있습니다. 자동생성항목정보를 입력한 후 등록하시기 바랍니다.', function(){});
 					return;
 				} else {
 					findSw = false;
 					for( var i=0; i<sameGridArr.length; i++) {
-						if(sameGridArr[i].cm_factcd === '09') {
+						if(sameGridArr[i].cm_factcd === '27') {
 							findSw = true;
 							break;
 						}
 					}
 					if(!findSw) {
-						dialog.alert('개발툴연계 또는 디렉토리기준 처리속성이 체크되어 있습니다. 자동생성항목정보를 입력한 후 등록하시기 바랍니다.', function(){});
+						dialog.alert('개발툴연계 처리속성이 체크되어 있습니다. 자동생성항목정보를 입력한 후 등록하시기 바랍니다.', function(){});
 						return;
 					}
 				}
@@ -391,7 +417,7 @@ $(document).ready(function(){
 			tmpObj.cm_rsrccd 	= getSelectedVal('cboJawon').value;
 			tmpObj.userid 		= userId;
 			tmpObj.info 		= tmpWork;
-			tmpObj.cm_time 		= replaceAllString($('#txtTime').val(), ':', '');
+			tmpObj.cm_time 		= '';
 			tmpObj.cm_exename 	= txtExename.length === 0 ? null : txtExename;
 			
 			confirmDialog.confirm({
@@ -451,7 +477,7 @@ $(document).ready(function(){
 		
 		$('#btnPrgSeq').bind('click', function() {
 			prgSeqModal.open({
-		        width: 800,
+		        width: 1000,
 		        height: 700,
 		        iframe: {
 		            method: "get",
@@ -476,7 +502,7 @@ $(document).ready(function(){
 			var tmpObj 		= new Object();
 			var sameSw 		= false;
 			var modSw 		= false;
-			var dirSw 		= false;
+			var autoSw 		= false;
 			var renameSw 	= false;
 			
 			var txtBase 	= $('#txtBase').val().trim();
@@ -495,13 +521,12 @@ $(document).ready(function(){
 					var code = id.substr(pid.length,2);
 					if( code === '04') sameSw 	= true;
 					if( code === '09') modSw 	= true;
-					if( code === '27') dirSw 	= true;
-					if( code === '47') dirSw 	= true;
+					if( code === '27') autoSw 	= true;
 					if( code === '50') renameSw = true;
 				}
 			});
 			
-			if( $('#radioCkIn').is(':checked') && sameSw) {
+			if( getSelectedVal('cboFact').value == '04' && sameSw) {
 				if(txtBase.length === 0 ) {
 					dialog.alert('기준프로그램종류에 대한 동시적용룰을 입력하여 주시기 바랍니다.', function(){});
 					return;
@@ -518,11 +543,11 @@ $(document).ready(function(){
 					dialog.alert('동시적용프로그램종류에 대한 기준디렉토리를 입력하여 주시기 바랍니다.', function(){});
 					return;
 				}
-			}else if ($('#radioCkOut').is(':checked') && modSw == true) {
+			}else if (getSelectedVal('cboFact').value == '09' && modSw) {
 				
-			} else if ($('#radioDir').is(':checked') && dirSw == true) {
+			} else if (getSelectedVal('cboFact').value == '27' && autoSw) {
 				
-			} else if ($('#radioRename').is(':checked') && renameSw == true) {
+			} else if (getSelectedVal('cboFact').value == '50' && renameSw) {
 	
 			} else {
 				dialog.alert('처리팩터와 동시적용항목을 정확히 선택한 후 처리하시기 바랍니다.', function(){});
@@ -532,6 +557,7 @@ $(document).ready(function(){
 			for(var i=0; i<sameGridArr.length; i++) {
 				if (sameGridArr[i].cm_rsrccd == getSelectedVal('cboJawon').value  &&
 					sameGridArr[i].cm_samersrc == getSelectedVal('cboSame').value &&
+					sameGridArr[i].cm_factcd == getSelectedVal('cboFact').value &&
 					sameGridArr[i].cm_basedir == txtBaseDir &&
 					sameGridArr[i].cm_samedir == txtChgDir &&
 					sameGridArr[i].cm_basename == txtBase &&
@@ -544,19 +570,14 @@ $(document).ready(function(){
 			tmpObj.cm_codename 	= getSelectedVal('cboSame').text;
 			tmpObj.cm_rsrccd 	= getSelectedVal('cboJawon').value;
 			tmpObj.cm_samersrc 	= getSelectedVal('cboSame').value;
+			tmpObj.cm_factcd 	= getSelectedVal('cboFact').value;
 			tmpObj.cm_basename 	= txtBase;
 			tmpObj.cm_samename 	= txtChgRule;
 			tmpObj.cm_basedir 	= txtBaseDir;
 			tmpObj.cm_samedir 	= txtChgDir;
-			tmpObj.chgname 		= txtBase + "->"+txtChgRule;
-			
-			if ($('#radioCkOut').is(':checked')) 		tmpObj.cm_factcd = "09";
-			else if ($('#radioCkIn').is(':checked')) 	tmpObj.cm_factcd = "04";
-			else if ($('#radioDir').is(':checked')) 	tmpObj.cm_factcd = "27";
-			else if($('#radioRename').is(':checked')) 	tmpObj.cm_factcd = "50";
-			
-			if ($('#chkCmd').is(':checked')) tmpObj.cm_cmdyn = "Y";
-			else tmpObj.cm_cmdyn = "N";
+			tmpObj.factname 	= getSelectedVal('cboFact').text;
+						
+			tmpObj.cm_cmdyn = "N";
 			
 			sameGrid.addRow(tmpObj);
 			sameGrid.clearSelect();
@@ -613,9 +634,7 @@ $(document).ready(function(){
 			
 		});
 	}
-	
-});
-
+}
 // 트리노드 클릭시 check box에 선택 되도록
 function clickTree(event, treeId, treeNode) {
 	var node = treeObj.getNodeByParam('id', treeNode.id);
@@ -657,19 +676,17 @@ function successSetPrgSeq(data) {
 function clickSameGrid(index) {
 	var sameItem = sameGrid.list[index];
 	$('[data-ax5select="cboSame"]').ax5select('setValue',sameItem.cm_samersrc,true);
-	
-	if(sameItem.cm_cmdyn === 'Y') $('#chkCmd').wCheck('check',true);
-	else $('#chkCmd').wCheck('check',false);
-	
+		
 	$('#txtBase').val(sameItem.cm_basename);
 	$('#txtChgRule').val(sameItem.cm_samename);
 	$('#txtBaseDir').val(sameItem.cm_basedir);
 	$('#txtChgDir').val(sameItem.cm_samedir);
 	
-	if (sameItem.cm_factcd == "04") 	 $('#radioCkIn').wCheck('check',true);		// 실행모듈정보
-	else if (sameItem.cm_factcd == "09") $('#radioCkOut').wCheck('check',true);		// 동시적용항목정보
-	else if (sameItem.cm_factcd == "27") $('#radioDir').wCheck('check',true);		// 자동생성항목정보
-	else $('#radioRename').wCheck('check',true);									// 확장자변경
+	$('[data-ax5select="cboFact"]').ax5select('setValue','0000',true);
+	
+	if (sameItem.cm_factcd != null && sameItem.cm_factcd != '') {
+		$('[data-ax5select="cboFact"]').ax5select('setValue',sameItem.cm_factcd,true);
+	}			// 확장자변경
 	
 }
 
@@ -702,7 +719,7 @@ function successGetProcInfoInit(data) {
 function getSameList() {
 	var data = new Object();
 	data = {
-		SysCd : sysCd,
+		SysCd : selectedSystem.cm_syscd,
 		requestType	: 'getSameList'
 	}
 	ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successGetSameList);
@@ -733,7 +750,7 @@ function sameGridFilter() {
 function getProgList() {
 	var data = new Object();
 	data = {
-		SysCd : sysCd,
+		SysCd : selectedSystem.cm_syscd,
 		requestType	: 'getProgList'
 	}
 	ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successGetProgList);
@@ -746,8 +763,13 @@ function successGetProgList(data) {
 
 // 자원 콤보 가져오기
 function getJawon() {
-	var codeInfos = getCodeInfoCommon([new CodeInfo('JAWON','','N')]);
+
+	var codeInfos = getCodeInfoCommon([
+		            new CodeInfo('JAWON','','N'),
+		            new CodeInfo('RSCHKITEM','','N'),
+		            ]);
 	cboJawonData 	= codeInfos.JAWON;
+	cboFactData 	= codeInfos.RSCHKITEM;
 	cboOptions 		= [];
 	$.each(cboJawonData,function(key,value) {
 		cboOptions.push({value: value.cm_micode, text: value.cm_codename});
@@ -758,13 +780,28 @@ function getJawon() {
 	});
 	
 	cboOptions = [];
+	
+	cboOptions.push({value: '0000', text: '선택하세요'});
+	$.each(cboFactData,function(key,value) {
+		if (value.cm_micode == '04' || value.cm_micode == '09' || value.cm_micode == '50') {
+			cboOptions.push({value: value.cm_micode, text: value.cm_codename});
+		} else if (value.cm_micode == '27') {
+			cboOptions.push({value: value.cm_micode, text: '자동생성항목'});
+		}
+	});
+	
+	$('[data-ax5select="cboFact"]').ax5select({
+        options: cboOptions
+	});
+	
+	cboOptions = [];
 }
 
 // 동시적용 자원 콤보 가져오기
 function getSameCbo() {
 	var data = new Object();
 	data = {
-		SysCd : sysCd,
+		SysCd : selectedSystem.cm_syscd,
 		requestType	: 'getSameCbo'
 	}
 	ajaxAsync('/webPage/modal/sysinfo/PrgKindsServlet', data, 'json',successGetSameCbo);

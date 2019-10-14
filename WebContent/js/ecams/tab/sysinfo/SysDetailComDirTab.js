@@ -27,44 +27,58 @@ $('[data-ax5select="cboDir"]').ax5select({
     options: []
 });
 
-dirGrid.setConfig({
-    target: $('[data-ax5grid="dirGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-    },
-    body: {
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-            clickDirGrid(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", 	label: "디렉토리구분", width: 100 , align: "left"	},
-        {key: "cm_dirpath", 	label: "디렉토리",  	width: 220, align: "left"	},
-        {key: "cm_shell", 		label: "실행파일",  	width: 80 , align: "left"	},
-        {key: "cm_svrip", 		label: "서버IP",  	width: 120, align: "center"},
-        {key: "cm_port", 		label: "Port",  	width: 70, 	align: "center"},
-        {key: "cm_svrusr", 		label: "계정",  		width: 70, 	align: "center"},
-        {key: "cm_svrpass", 	label: "비밀번호",  	width: 70, 	align: "center"},
-    ]
-});
 
 
 $(document).ready(function(){
+	if (window.parent.frmLoad6) createViewGrid();
+});
+
+function createViewGrid() {
+	window.parent.frmLoad6 = true;
+	dirGrid		= new ax5.ui.grid();
+	dirGrid.setConfig({
+	    target: $('[data-ax5grid="dirGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: false,
+	    header: {
+	        align: "center",
+	    },
+	    body: {
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	            clickDirGrid(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_codename", 	label: "디렉토리구분", width: '15%' , align: "left"	},
+	        {key: "cm_dirpath", 	label: "디렉토리",  	width: '20%', align: "left"	},
+	        {key: "cm_shell", 		label: "실행파일",  	width: '20%', align: "left"	},
+	        {key: "cm_svrip", 		label: "서버IP",  	width: '15%', align: "center"},
+	        {key: "cm_port", 		label: "Port",  	width: '10%', 	align: "center"},
+	        {key: "cm_svrusr", 		label: "계정",  		width: '10%', 	align: "center"},
+	        {key: "cm_svrpass", 	label: "비밀번호",  	width: '10%', 	align: "center"},
+	    ]
+	});
+	screenLoad();
+	if (dirGridData != null && dirGridData.length > 0) {
+		dirGrid.setData(dirGridData);
+	}
+}
+function screenLoad() {
+
+	getCodeInfo();
+	
 	if (selectedSystem != null) {
 		sysCd = selectedSystem.cm_syscd;
 		$('#txtSysMsg').val(sysCd + ' ' + selectedSystem.cm_sysmsg);
 		$('#txtSysMsg').prop('disabled', true);
-		getCodeInfo();
 		getDirList();
 		
 		// PORT 숫자만 입력하도록 수정
@@ -87,10 +101,9 @@ $(document).ready(function(){
 		$('#btnQry').bind('click', function() {
 			getDirList();
 		});
-	}
+	} 
 	
-});
-
+}
 // 공통 디렉토리 삭제
 function closeDir() {
 	var selIndex 	= dirGrid.selectedDataIndexs;

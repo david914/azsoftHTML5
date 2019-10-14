@@ -35,67 +35,6 @@ $('[data-ax5select="cboSvrUsr"]').ax5select({
 });
 
 
-svrUsrGrid.setConfig({
-    target: $('[data-ax5grid="svrUsrGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: true,
-    header: {
-        align: "center",
-    },
-    body: {
-        onClick: function () {
-            this.self.select(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", 	label: "서버종류",  		width: 120},
-        {key: "cm_svrname", 	label: "서버명/OS",  		width: 120},
-        {key: "cm_svrip", 		label: "IP Address",  	width: 120},
-        {key: "cm_portno", 		label: "Port",  		width: 80 }
-    ]
-});
-
-accGrid.setConfig({ 
-    target: $('[data-ax5grid="accGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-        columnHeight: 30
-    },
-    body: {
-        columnHeight: 25,
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-            clickAccGrid(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", 	label: "서버구분",  	width: 120, align: "center"},
-        {key: "cm_svrname", 	label: "서버명",  	width: 120, align: "center"},
-        {key: "cm_svrip", 		label: "IP Address",width: 120, align: "center"},
-        {key: "cm_portno", 		label: "Port",  	width: 80, 	align: "center"},
-        {key: "cm_svrusr", 		label: "계정",  		width: 80, 	align: "center"},
-        {key: "cm_jobname", 	label: "업무명",  	width: 130, align: "center"},
-        {key: "cm_grpid", 		label: "그룹",  		width: 80, 	align: "center"},
-        {key: "cm_permission", 	label: "권한",  		width: 150, align: "center"},
-        {key: "cm_dbuser", 		label: "DB계정",  	width: 80, 	align: "center"},
-        {key: "cm_dbconn", 		label: "DB연결자", 	width: 80, 	align: "center"}
-    ]
-});
 
 
 $('input.checkbox-usr').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
@@ -104,6 +43,88 @@ $('input.checkbox-usr').wCheck({theme: 'square-classic blue', selector: 'checkma
 
 
 $(document).ready(function(){
+	
+	if (window.parent.frmLoad4) createViewGrid();
+	
+});
+
+function createViewGrid() {
+	
+	window.parent.frmLoad4 = true;
+	
+	svrUsrGrid		= new ax5.ui.grid();
+	accGrid			= new ax5.ui.grid();
+	svrUsrGrid.setConfig({
+	    target: $('[data-ax5grid="svrUsrGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: true,
+	    header: {
+	        align: "center",
+	    },
+	    body: {
+	        onClick: function () {
+	            this.self.select(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_codename", 	label: "서버종류",  		width: '30%'},
+	        {key: "cm_svrname", 	label: "서버명/OS",  		width: '30%'},
+	        {key: "cm_svrip", 		label: "IP Address",  	width: '30%'},
+	        {key: "cm_portno", 		label: "Port",  		width: '10%' }
+	    ]
+	});
+
+	accGrid.setConfig({ 
+	    target: $('[data-ax5grid="accGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: false,
+	    header: {
+	        align: "center",
+	        columnHeight: 30
+	    },
+	    body: {
+	        columnHeight: 25,
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	            clickAccGrid(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_codename", 	label: "서버구분",  	width: '15%', align: "center"},
+	        {key: "cm_svrname", 	label: "서버명",  	width: '10%', align: "center"},
+	        {key: "cm_svrip", 		label: "IP Address",width: '10%', align: "center"},
+	        {key: "cm_portno", 		label: "Port",  	width: '8%', 	align: "center"},
+	        {key: "cm_svrusr", 		label: "계정",  		width: '8%', 	align: "center"},
+	        {key: "cm_jobname", 	label: "업무명",  	width: '15%', align: "center"},
+	        {key: "cm_grpid", 		label: "그룹",  		width: '8%', 	align: "center"},
+	        {key: "cm_permission", 	label: "권한",  		width: '8%', align: "center"},
+	        {key: "cm_dbuser", 		label: "DB계정",  	width: '8%', 	align: "center"},
+	        {key: "cm_dbconn", 		label: "DB연결자", 	width: '10%', 	align: "center"}
+	    ]
+	});
+	screenLoad();
+	if (svrUsrGridData != null && svrUsrGridData.length > 0) {
+		svrUsrGrid.setData(svrUsrGridData);
+	}
+	if (accGridData != null && accGridData.length > 0) {
+		accGrid.setData(accGridData);
+	}
+}
+function screenLoad() {
+	selectedSystem  = window.parent.selectedSystem;
 	if (selectedSystem != null) {
 		sysCd = selectedSystem.cm_syscd;
 		sysInfo = selectedSystem.cm_sysinfo;
@@ -252,9 +273,8 @@ $(document).ready(function(){
 			
 		})
 	}
-	/////////////////////// 계정정보 버튼 event end////////////////////////////////////////////////
-});
-
+	
+}
 // 계정정보 등록 유효성 체크
 function checkValUsr() {
 	var jobSw 		= false;

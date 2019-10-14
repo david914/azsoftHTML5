@@ -11,8 +11,8 @@
 		<div class="l_wrap width-50">
 			<div class="margin-5-right">
 				<div>
-					<label class="tit_80 poa">서버종류</label>
-	                <div class="ml_80">
+					<label class="tit_60 poa">서버종류</label>
+	                <div class="ml_60">
 						<div id="cboSvrItem" data-ax5select="cboSvrItem" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
 					</div>
 				</div>					
@@ -20,12 +20,6 @@
 				<div class="row">
 					<div class="az_board_basic" style="height: 30%;">
 						<div data-ax5grid="svrItemGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
-					</div>
-				</div>					
-				<div class="row">
-					<label class="tit_80 poa">홈디렉토리</label>
-					<div class="ml_80">
-						<input id="txtVolpath" class="width-100" type="text"></input>
 					</div>
 				</div>
 			</div>
@@ -39,84 +33,35 @@
 						<input type="checkbox" class="checkbox-prg" id="chkAllItem" data-label="전체선택"  />
 					</div>
 				</div>
-				<div class="scrollBind row" style="height: 210px;">
+				<div class="scrollBind row" style="height: 30%;">
 	    			<ul class="list-group" id="ulItemInfo"></ul>
 	   			</div>
 	   		</div>
-	 		<div class="row tar">
-				<button id="btnReqItem" class="btn_basic_s" data-grid-control="excel-export">등록</button>
-				<button id="btnClsItem" class="btn_basic_s margin-5-left" data-grid-control="excel-export">폐기</button>
-				<button id="btnQryItem" class="btn_basic_s margin-5-left" data-grid-control="excel-export">조회</button>
-				<button id="btnExitItem" class="btn_basic_s margin-5-left" data-grid-control="excel-export">닫기</button>
-	 		</div>
+	   	</div>
+	</div>
+	<div class="az_in_wrap" style="background: #f8f8f8; height:30px;">
+	   	<div class="sm-row">	
+	   		<label class="tit_80 poa">홈디렉토리</label>	
+			<div class="ml_80" >
+				<input id="txtVolpath" type="text" style="width:calc(100% - 191px);"></input>
+		 		<div class="dib tar">
+					<button id="btnReqItem" class="btn_basic_s margin-5-left" data-grid-control="excel-export">등록</button>
+					<button id="btnClsItem" class="btn_basic_s margin-5-left" data-grid-control="excel-export">폐기</button>
+					<button id="btnQryItem" class="btn_basic_s margin-5-left" data-grid-control="excel-export">조회</button>
+					<button id="btnExitItem" class="btn_basic_s margin-5-left" data-grid-control="excel-export">닫기</button>
+		 		</div>
+			</div>
 		</div>
 	</div>
+	
 	<!--테이블 S-->
 	<div class="row">
-		<div class="az_board_basic" style="height: 55%;">
+		<div class="az_board_basic" style="height: 50%;">
 			<div data-ax5grid="itemGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 		</div>
 	</div>
 	<!--테이블 E-->
 	
-	<!-- 
-	<div class="row">
-		<div class="col-sm-7">
-			<div class="col-sm-3">
-				<label id="lblSvrItem">서버종류</label>
-			</div>
-			<div class="col-sm-5">
-				<div 	id="cboSvrItem" data-ax5select="cboSvrItem" data-ax5select-config="{size:'sm',theme:'primary'}" style="width:100%;" >
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<input type="checkbox" class="checkbox-prg" id="chkAllSvrItem" data-label="전체선택"  />
-			</div>
-			<div class="col-sm-12">
-				<div data-ax5grid="svrItemGrid" data-ax5grid-config="{showLineNumber: false, lineNumberColumnWidth: 40}" style="height: 45%;"></div>
-			</div>
-		</div>
-		
-		<div class="col-sm-5">
-			<div class="col-sm-8">
-				<label id="lblItem">[프로그램종류]</label>
-			</div>
-			<div class="col-sm-4">
-				<input type="checkbox" class="checkbox-prg" id="chkAllItem" data-label="전체선택"  />
-			</div>
-			<div class="col-sm-12">
-				<div class="scrollBind" style="height: 235px; border: 1px solid black;">
-					<ul class="list-group" id="ulItemInfo"></ul>
-				</div>
-			</div>
-		</div>
-		
-		<div class="col-sm-1">
-			<label id="lblHome">홈디렉토리</label>
-		</div>
-		<div class="col-sm-7">
-			<input id="txtVolpath" name="txtVolpath" class="form-control" type="text"></input>
-		</div>
-		<div class="col-sm-4">
-			<button class="btn btn-default" id="btnReqItem">
-				등록 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-			</button>
-			<button class="btn btn-default" id="btnClsItem">
-				폐기 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-			</button>
-			<button class="btn btn-default" id="btnQryItem">
-				조회 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-			</button>
-			<button class="btn btn-default" id="btnExitItem">
-				닫기 <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
-			</button>
-		</div>
-		
-		<div class="col-sm-12">
-			<div data-ax5grid="itemGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 45%;"></div>
-		</div>
-	</div>
- 	-->
  </body>
 <c:import url="/js/ecams/common/commonscript.jsp" />	
 <script type="text/javascript" src="<c:url value="/js/ecams/tab/sysinfo/SysDetailSvrPrgTab.js"/>"></script>

@@ -49,48 +49,65 @@ $('[data-ax5select="cboBuffer"]').ax5select({
 });
 
 
-svrInfoGrid.setConfig({
-    target: $('[data-ax5grid="svrInfoGrid"]'),
-    sortable: true, 
-    multiSort: true,
-    showRowSelector: false,
-    header: {
-        align: "center",
-    },
-    body: {
-        onClick: function () {
-        	this.self.clearSelect();
-            this.self.select(this.dindex);
-            clickSvrList(this.dindex);
-        },
-        onDBLClick: function () {},
-    	trStyleClass: function () {},
-    	onDataChanged: function(){
-    		this.self.repaint();
-    	}
-    },
-    columns: [
-        {key: "cm_codename", 	label: "서버구분",		width: 120 , align: "left"},
-        {key: "cm_svrname", 	label: "서버명",  	width: 120 , align: "left"},
-        {key: "sysos", 			label: "OS",  		width: 80},
-        {key: "cm_svrip", 		label: "IP Address",width: 120},
-        {key: "cm_portno", 		label: "Port",  	width: 80},
-        {key: "cm_prcseq", 		label: "순서",  		width: 80},
-        {key: "cm_svrusr", 		label: "계정",  		width: 80},
-        {key: "cm_volpath", 	label: "Home_Dir",  width: 150, align: "left" },
-        {key: "cm_dir", 		label: "Agent_Dir", width: 130, align: "left" },
-        {key: "ab", 			label: "버퍼사이즈", 	width: 80 , align: "left" },
-        {key: "svrinfo", 		label: "속성",  		width: 150, align: "left"},
-        {key: "agent", 			label: "장애",  		width: 80},
-        {key: "svrstop", 		label: "정지",  		width: 80}
-    ]
-});
+
 $('input.checkbox-IP').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 $('input.checkbox-IPC').wCheck({theme: 'square-classic blue', selector: 'checkmark', highlightLabel: true});
 /////////////////// 서버정보 화면 세팅 end////////////////////////////////////////////////
 
 
 $(document).ready(function(){
+	if (window.parent.frmLoad3) createViewGrid();
+});
+
+
+function createViewGrid() {
+	
+	window.parent.frmLoad3 = true;
+	svrInfoGrid		= new ax5.ui.grid();
+	svrInfoGrid.setConfig({
+	    target: $('[data-ax5grid="svrInfoGrid"]'),
+	    sortable: true, 
+	    multiSort: true,
+	    showRowSelector: false,
+	    header: {
+	        align: "center",
+	    },
+	    body: {
+	        onClick: function () {
+	        	this.self.clearSelect();
+	            this.self.select(this.dindex);
+	            clickSvrList(this.dindex);
+	        },
+	        onDBLClick: function () {},
+	    	trStyleClass: function () {},
+	    	onDataChanged: function(){
+	    		this.self.repaint();
+	    	}
+	    },
+	    columns: [
+	        {key: "cm_codename", 	label: "서버구분",		width: 120 , align: "left"},
+	        {key: "cm_svrname", 	label: "서버명",  	width: 120 , align: "left"},
+	        {key: "sysos", 			label: "OS",  		width: 80},
+	        {key: "cm_svrip", 		label: "IP Address",width: 120},
+	        {key: "cm_portno", 		label: "Port",  	width: 80},
+	        {key: "cm_prcseq", 		label: "순서",  		width: 80},
+	        {key: "cm_svrusr", 		label: "계정",  		width: 80},
+	        {key: "cm_volpath", 	label: "Home_Dir",  width: 150, align: "left" },
+	        {key: "cm_dir", 		label: "Agent_Dir", width: 130, align: "left" },
+	        {key: "ab", 			label: "버퍼사이즈", 	width: 80 , align: "left" },
+	        {key: "svrinfo", 		label: "속성",  		width: 150, align: "left"},
+	        {key: "agent", 			label: "장애",  		width: 80},
+	        {key: "svrstop", 		label: "정지",  		width: 80}
+	    ]
+	});
+	screenLoad();
+	if (svrInfoGridData != null && svrInfoGridData.length > 0) {
+		svrInfoGrid.setData(svrInfoGridData);
+	}
+}
+function screenLoad() {
+	
+	selectedSystem  = window.parent.selectedSystem;
 	if (selectedSystem != null) {
 		sysCd = selectedSystem.cm_syscd;
 		sysInfo = selectedSystem.cm_sysinfo;
@@ -181,10 +198,7 @@ $(document).ready(function(){
 			svrInfoGrid.exportExcel('['+selectedSystem.cm_sysmsg+']시스템상세정보.xls');
 		});
 	}
-	
-});
-
-
+}
 /////////////////////// 서버정보 버튼 function start////////////////////////////////////////////////
 function closeSvr() {
 	var selIndex 	= svrInfoGrid.selectedDataIndexs;

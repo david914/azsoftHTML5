@@ -9,8 +9,7 @@
 <c:import url="/webPage/common/common.jsp" />
 
         
-        
-<body style="width: 100% !important; min-width: 0px !important">
+<body style="width: 100% !important; height: 100% !important; min-height: 600px !important ">
 	<div class="pop-header">
 		<div>
 			<label class="margin-5-left">[시스템상세정보]</label>
@@ -21,14 +20,14 @@
 			</button>
 		</div> 
 	</div>
-	<div class="container-fluid pop_wrap">
+	<div class="container-fluid pop_wrap" style="overflow: hidden;">
 		<div class="az_search_wrap">
 			<div class="az_in_wrap width-100 dib vat">
 	            <label id="lbSysMsg" class="tit_60 poa">시스템</label>
-	            <div class="ml_60">
-			          <input id="txtSysMsg" name="txtSysMsg" type="text" style="width:calc(100% - 80px);" readonly>
+	            <div class="ml_60 width-100" >
+			          <input id="txtSysMsg" name="txtSysMsg" type="text" style="width:calc(100% - 110px);" readonly>
+			    	  <button id="btnExit" name="btnExit" class="btn_basic_s tar margin-5-left">닫기</button>
 				</div>
-			    <button id="btnExit" name="btnExit" class="btn_basic_s poa_r">닫기</button>
 			</div>		
 		</div>
 		<div class="tab_wrap">
@@ -41,24 +40,24 @@
 				<li rel="dirTab" id="tab6Li">공통디렉토리</li>
 			</ul>
 		</div>
-		<div>
+		<div style="height: calc(100% - 147px);">
 	       	<div id="baseTab" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/sysinfo/SysDetailTab.jsp' width='100%' height='90%' frameborder="0"></iframe>
+	       		<iframe id="frmBaseTab" name="frmBaseTab" src='/webPage/tab/sysinfo/SysDetailTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
 	       	<div id="progTab" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/sysinfo/SysDetailPrgTab.jsp' width='100%' height='90%' frameborder="0"></iframe>
+	       		<iframe id="frmPrgTab" name="frmPrgTab" src='/webPage/tab/sysinfo/SysDetailPrgTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
 	       	<div id="svrTab" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/sysinfo/SysDetailSvrTab.jsp' width='100%' height='90%' frameborder="0"></iframe>
+	       		<iframe id="frmSvrTab" name="frmSvrTab" src='/webPage/tab/sysinfo/SysDetailSvrTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
 	       	<div id="usrTab" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/sysinfo/SysDetailUsrTab.jsp' width='100%' height='90%' frameborder="0"></iframe>
+	       		<iframe id="frmUsrTab" name="frmUsrTab" src='/webPage/tab/sysinfo/SysDetailUsrTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
 	       	<div id="svrprgTab" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/sysinfo/SysDetailSvrPrgTab.jsp' width='100%' height='90%' frameborder="0"></iframe>
+	       		<iframe id="frmSvrPrgTab" name="frmSvrPrgTab" src='/webPage/tab/sysinfo/SysDetailSvrPrgTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
 	       	<div id="dirTab" class="tab_content" style="width:100%">
-	       		<iframe src='/webPage/tab/sysinfo/SysDetailComDirTab.jsp' width='100%' height='90%' frameborder="0"></iframe>
+	       		<iframe id="frmDirTab" name="frmDirTab" src='/webPage/tab/sysinfo/SysDetailComDirTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
 	   	</div>
 	</div>

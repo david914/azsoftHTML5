@@ -33,12 +33,14 @@ sysInfoGrid.setConfig({
         align: "center",
     },
     body: {
-        onClick: function () {
-        	this.self.clearSelect();
+         onClick: function () {
+         	this.self.clearSelect();
             this.self.select(this.dindex);
-        },
-        onDBLClick: function () {
-        	sysInfoGrid_DblClick('');
+         },
+         onDBLClick: function () {
+         	if (this.dindex < 0) return;
+         	
+        	sysInfoGrid_DblClick('UPDT');
         },
     	trStyleClass: function () {
     		if(this.item.closeSw === 'Y'){
@@ -65,6 +67,12 @@ $('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark
 
 
 $(document).ready(function(){
+	
+	userId = 'MASTER';
+	if (userId == null || userId == '') {
+		dialog.alert('로그인 후 사용하여 주시기 바랍니다.');
+		return;
+	}
 	getSysInfoList('');
 	
 	//폐기포함 클릭시
@@ -140,7 +148,7 @@ $(document).ready(function(){
 	    });
 	});	
 
-	// 조회 클릭시
+	// 시스템신규버튼 클릭시
 	$('#btnReq').bind('click', function() {
 		sysInfoGrid_DblClick('OPEN');
 	});
@@ -168,7 +176,7 @@ function getSysInfoList(sysCd) {
 	var sysListInfoData;
 	sysListInfo 		= new Object();
 	sysListInfo.clsSw 	= sysClsSw;
-	sysListInfo.SysCd 	= sysCd;
+	sysListInfo.SysCd 	= "";
 	
 	sysListInfoData = new Object();
 	sysListInfoData = {
@@ -215,7 +223,7 @@ function sysInfoGrid_DblClick(gbnCd) {
 		selectedSystem = null;
 	} else {
 		var gridSelectedIndex 	= sysInfoGrid.selectedDataIndexs;
-		if(gridSelectedIndex === 0 ) {
+		if(gridSelectedIndex.length === 0 ) {
 			dialog.alert('시스템을 선택한 후 진행하여 주시기 바랍니다.',function(){});
 			return;
 		}
@@ -242,7 +250,7 @@ function sysInfoGrid_DblClick(gbnCd) {
     });
 }
 
-var SysDetailModal = function() {
+var SysDetailModalCallBack = function() {
 	sysDetailModal.close();
 }
 

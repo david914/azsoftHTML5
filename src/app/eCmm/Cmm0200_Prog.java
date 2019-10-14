@@ -269,7 +269,10 @@ public class Cmm0200_Prog{
 			strQuery.setLength(0);
 			strQuery.append("select a.cm_rsrccd,a.cm_samersrc,a.cm_basename,       \n");
 			strQuery.append("       a.cm_samename,a.cm_basedir,a.cm_samedir,       \n");
-			strQuery.append("       a.cm_cmdyn,b.cm_codename,a.cm_factcd           \n");
+			strQuery.append("       a.cm_cmdyn,b.cm_codename,a.cm_factcd,          \n");
+			strQuery.append("       (select cm_codename from cmm0020               \n");
+			strQuery.append("         where cm_macode='RSCHKITEM'                  \n");
+			strQuery.append("           and cm_micode=a.cm_factcd) factname        \n");
 			strQuery.append("  from cmm0037 a,cmm0020 b                            \n");
 			strQuery.append(" where a.cm_syscd=?                                   \n");
 			strQuery.append("   and b.cm_macode='JAWON'                            \n");
@@ -293,14 +296,7 @@ public class Cmm0200_Prog{
 				rst.put("cm_basedir", rs.getString("cm_basedir"));
 				rst.put("cm_cmdyn", rs.getString("cm_cmdyn"));
 				rst.put("cm_factcd", rs.getString("cm_factcd"));
-				tmpWork1 = "";
-				if (rs.getString("cm_basename") != null) {
-					tmpWork1 = rs.getString("cm_basename") + "->";
-					if (rs.getString("cm_samename") != null) {
-						tmpWork1 = tmpWork1 + rs.getString("cm_samename");
-					}
-				}
-				rst.put("chgname", tmpWork1);
+				rst.put("factname", rs.getString("factname"));
 				rsval.add(rst);
 				rst = null;
 			}//end of while-loop statement

@@ -46,6 +46,73 @@ public class Cmm0200{
 	 * @throws SQLException
 	 * @throws Exception
 	 */
+    public Object[] getUseSysCdList() throws SQLException, Exception {
+    	Connection        conn        = null;
+		PreparedStatement pstmt       = null;
+		ResultSet         rs          = null;
+		StringBuffer      strQuery    = new StringBuffer();
+		ArrayList<HashMap<String, String>>  rsval = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String>			  rst		  = null;
+		ConnectionContext connectionContext = new ConnectionResource();
+
+		try {
+			conn = connectionContext.getConnection();
+			strQuery.setLength(0);
+			strQuery.append("SELECT lpad(LEVEL,5,'0') usesys \n");
+			strQuery.append("  FROM DUAL                     \n");
+			strQuery.append("CONNECT BY LEVEL <= 99999       \n");
+			strQuery.append(" minus                          \n");
+			strQuery.append("select cm_syscd from cmm0030    \n");
+            pstmt = conn.prepareStatement(strQuery.toString());
+			//pstmt = new LoggableStatement(conn,strQuery.toString());
+            //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
+            rs = pstmt.executeQuery();
+			while (rs.next()){				
+				rst = new HashMap<String, String>();
+				rst.put("cm_syscd", rs.getString("usesys"));
+				rst.put("cm_sysmsg", rs.getString("usesys"));
+				rsval.add(rst);
+				rst = null;
+			}//end of while-loop statement
+
+			rs.close();
+			pstmt.close();
+			conn.close();
+
+			rs = null;
+			pstmt = null;
+			conn = null;
+
+			return rsval.toArray();
+
+		} catch (SQLException sqlexception) {
+			sqlexception.printStackTrace();
+			ecamsLogger.error("## Cmm0200.getUseSysCdList() SQLException START ##");
+			ecamsLogger.error("## Error DESC : ", sqlexception);
+			ecamsLogger.error("## Cmm0200.getUseSysCdList() SQLException END ##");
+			throw sqlexception;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			ecamsLogger.error("## Cmm0200.getUseSysCdList() Exception START ##");
+			ecamsLogger.error("## Error DESC : ", exception);
+			ecamsLogger.error("## Cmm0200.getUseSysCdList() Exception END ##");
+			throw exception;
+		}finally{
+			if (strQuery != null) 	strQuery = null;
+			if (rsval != null)  rsval = null;
+			if (rs != null)     try{rs.close();}catch (Exception ex){ex.printStackTrace();}
+			if (pstmt != null)  try{pstmt.close();}catch (Exception ex2){ex2.printStackTrace();}
+			if (conn != null){
+				try{
+					ConnectionResource.release(conn);
+				}catch(Exception ex3){
+					ecamsLogger.error("## Cmm0200.getUseSysCdList() connection release exception ##");
+					ex3.printStackTrace();
+				}
+			}
+		}
+	}
+
     public Object[] getSysInfo_List(boolean clsSw,String SysCd) throws SQLException, Exception {
     	Connection        conn        = null;
 		PreparedStatement pstmt       = null;
@@ -68,9 +135,13 @@ public class Cmm0200{
 			strQuery.append("           and cm_micode=a.cm_systype) process             \n");
 			strQuery.append("  from cmm0030 a,cmm0020 b        		                    \n");
 			strQuery.append(" where b.cm_macode='SYSGB' and b.cm_micode=a.cm_sysgb 		\n");
+			if (SysCd != null && !"".equals(SysCd)) {
+				strQuery.append("   and a.cm_syscd=?                                    \n");
+			}
 			strQuery.append(" order by a.cm_syscd                                       \n");
             pstmt = conn.prepareStatement(strQuery.toString());
 			//pstmt = new LoggableStatement(conn,strQuery.toString());
+            if (SysCd != null && !"".equals(SysCd)) pstmt.setString(1, SysCd);
             //ecamsLogger.error(((LoggableStatement)pstmt).getQueryString());
             rs = pstmt.executeQuery();
 
@@ -151,7 +222,6 @@ public class Cmm0200{
 			}
 		}
 	}
-
     public Object[] getSvrInfo(String SysCd) throws SQLException, Exception {
     	Connection        conn        = null;
 		PreparedStatement pstmt       = null;

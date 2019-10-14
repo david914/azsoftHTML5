@@ -11,8 +11,8 @@
 			<div class="l_wrap width-50">
 				<div class="margin-5-right">
 					<div>
-						<label class="tit_80 poa">서버종류</label>
-		                <div class="ml_80">
+						<label class="tit_60 poa">서버종류</label>
+		                <div class="ml_60">
 							<div 	id="cboSvrUsr" data-ax5select="cboSvrUsr" data-ax5select-config="{size:'sm',theme:'primary'}" class="width-100 dib"></div>
 						   <!--  <div class="dib vat poa_r">
 							    <input type="checkbox" class="checkbox-usr" id="chkAllUsr" data-label="전체선택"  />
@@ -35,7 +35,7 @@
 							<input type="checkbox" class="checkbox-usr" id="chkAllSvrJob" data-label="전체선택"  />
 						</div>
 					</div>
-					<div class="scrollBind row" style="height: 210px;">
+					<div class="scrollBind row" style="height: 30%;">
 		   				<ul class="list-group" id="ulSvrInfo"></ul>
 		   			</div>
 		   		</div>
@@ -83,15 +83,15 @@
 			 	</div>
 		 		<div class="row tar" style="margin-top:10px;">
 					<button id="btnReqUsr" class="btn_basic_s">등록</button>
-					<button id="btnUsrClose" class="btn_basic_s margin-5-left">폐기</button>
-					<button id="btnQryUsr" class="btn_basic_s margin-5-left">조회</button>
-					<button id="btnExitUsr" class="btn_basic_s margin-5-left">닫기</button>
+					<button id="btnUsrClose" class="btn_basic_s">폐기</button>
+					<button id="btnQryUsr" class="btn_basic_s">조회</button>
+					<button id="btnExitUsr" class="btn_basic_s">닫기</button>
 		 		</div>
 		 	</div>
 		</div>
 	</div>
 	<!--테이블 S-->
-	<div class="az_board_basic row" style="height: 60%;">
+	<div class="az_board_basic row" style="height: calc(70% - 130px);">
 		<div data-ax5grid="accGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 	</div>
 </body>

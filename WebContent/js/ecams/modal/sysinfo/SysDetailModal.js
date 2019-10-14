@@ -23,6 +23,12 @@ var loadSw4 = false;
 var loadSw5 = false;
 var loadSw6 = false;
 var inter = null;
+var frmLoad1  = false;
+var frmLoad2  = false;
+var frmLoad3  = false;
+var frmLoad4  = false;
+var frmLoad5  = false;
+var frmLoad6  = false;
 
 
 $(document).ready(function(){
@@ -34,97 +40,6 @@ $(document).ready(function(){
 	$('#tab5Li').width($('#tab5Li').width()+10);
 	$('#tab6Li').width($('#tab6Li').width()+10);
 
-	
-	setTabMenu();
-	
-	document.getElementById('baseTab').onload = function() {
-	    loadSw = true;
-	}
-	
-	document.getElementById('progTab').onload = function() {
-	    loadSw2 = true;
-	}
-	
-	document.getElementById('svrTab').onload = function() {
-	    loadSw3 = true;
-	}
-	
-	document.getElementById('usrTab').onload = function() {
-	    loadSw4 = true;
-	}
-	
-	document.getElementById('svrprgTab').onload = function() {
-	    loadSw5 = true;
-	}
-	
-	document.getElementById('dirTab').onload = function() {
-	    loadSw6 = true;
-	}
-	callSRRegister();
-})
-//페이지 로딩 완료시 다음 진행 
-function callSRRegister() {
-   inter = setInterval(function(){
-      if(loadSw) {
-    	 $('#baseTab').get(0).contentWindow.createViewGrid();
-         clearInterval(inter);
-         callProgInfo();
-      }
-   },100);
-}
-
-function callProgInfo() {
-	inter = setInterval(function(){
-      if(loadSw2) {
-    	  $('#progTab').get(0).contentWindow.createViewGrid();
-    	  clearInterval(inter);
-    	  callSvrInfo();
-      }
-	},100);
-}
-
-function callSvrInfo() {
-	inter = setInterval(function(){
-      if(loadSw3) {
-    	  $('#svrTab').get(0).contentWindow.createViewGrid();
-    	  clearInterval(inter);
-    	  callSvrAcc();
-      }
-	},100);
-}
-
-function callSvrAcc() {
-	inter = setInterval(function(){
-      if(loadSw4) {
-    	  $('#usrTab').get(0).contentWindow.createViewGrid();
-    	  clearInterval(inter);
-    	  callSvrProg();
-      }
-	},100);
-}
-
-function callSvrProg() {
-	inter = setInterval(function(){
-      if(loadSw5) {
-    	  $('#svrprgTab').get(0).contentWindow.createViewGrid();
-    	  clearInterval(inter);
-    	  callComDir();
-      }
-	},100);
-}
-
-function callComDir() {
-	inter = setInterval(function(){
-      if(loadSw6) {
-    	  $('#dirTab').get(0).contentWindow.createViewGrid();
-    	  clearInterval(inter);
-    	  initScreen();
-      }
-	},100);
-}
-
-function initScreen() {
-	
 	$('#tab1').attr('disabled', true);
 	$('#tab2').attr('disabled', true);
 	$('#tab3').attr('disabled', true);
@@ -132,10 +47,132 @@ function initScreen() {
 	$('#tab5').attr('disabled', true);
 	$('#tab6').attr('disabled', true);
 	$("ul.tabs li").addClass('tab_disabled');
+		
+	document.getElementById('frmBaseTab').onload = function() {
+	    loadSw = true;
+	}
+	
+	document.getElementById('frmPrgTab').onload = function() {
+	    loadSw2 = true;
+	}
+	
+	document.getElementById('frmSvrTab').onload = function() {
+	    loadSw3 = true;
+	}
+	
+	document.getElementById('frmUsrTab').onload = function() {
+	    loadSw4 = true;
+	}
+	
+	document.getElementById('frmSvrPrgTab').onload = function() {
+	    loadSw5 = true;
+	}
+	
+	document.getElementById('frmDirTab').onload = function() {
+	    loadSw6 = true;
+	}
+	callSysDetail();
+})
+//페이지 로딩 완료시 다음 진행 
+function callSysDetail() {
+	
+   inter = setInterval(function(){
+      if(loadSw) {
+    	 $('#frmBaseTab').get(0).contentWindow.createViewGrid();
+         clearInterval(inter);
+         callProgInfo();
+         loadSw = false
+      }
+   },100);
+}
 
+function callProgInfo() {
+	inter = setInterval(function(){
+      if(loadSw2) {
+    	  $('#frmPrgTab').get(0).contentWindow.createViewGrid();
+    	  clearInterval(inter);
+    	  callSvrInfo();
+          loadSw2 = false
+      }
+	},100);
+}
+
+function callSvrInfo() {
+	inter = setInterval(function(){
+      if(loadSw3) {
+    	  $('#frmSvrTab').get(0).contentWindow.createViewGrid();
+    	  clearInterval(inter);
+    	  callSvrAcc();
+          loadSw3 = false
+      }
+	},100);
+}
+
+function callSvrAcc() {
+	inter = setInterval(function(){
+      if(loadSw4) {
+    	  $('#frmUsrTab').get(0).contentWindow.createViewGrid();
+    	  clearInterval(inter);
+    	  callSvrProg();
+          loadSw4 = false
+      }
+	},100);
+}
+
+function callSvrProg() {
+	inter = setInterval(function(){
+      if(loadSw5) {
+    	  $('#frmSvrPrgTab').get(0).contentWindow.createViewGrid();
+    	  clearInterval(inter);
+    	  callComDir();
+          loadSw5 = false
+      }
+	},100);
+}
+
+function callComDir() {
+	inter = setInterval(function(){
+      if(loadSw6) {
+    	  $('#frmDirTab').get(0).contentWindow.createViewGrid();
+    	  clearInterval(inter);
+    	  initScreen();
+          loadSw6 = false
+      }
+	},100);
+}
+
+function initScreen() {
+	
+	setTabMenu();
+	scrLoad();
+	
+	//닫기 버튼 클릭시
+	$('#btnExit').bind('click',function() {
+		popClose();
+	});
+}
+function scrLoad() {
 	if (selectedSystem != null) {
 		$('#txtSysMsg').val('[' + selectedSystem.cm_syscd + '] ' + selectedSystem.cm_sysmsg);
 		sysCd = selectedSystem.cm_syscd;
+		
+		$('#tab1Li').attr('disabled', false);
+		$('#tab1Li').removeClass('tab_disabled');
+		
+		$('#tab2Li').attr('disabled', false);
+		$('#tab2Li').removeClass('tab_disabled');
+		
+		$('#tab3Li').attr('disabled', false);
+		$('#tab3Li').removeClass('tab_disabled');
+		
+		$('#tab4Li').attr('disabled', false);
+		$('#tab4Li').removeClass('tab_disabled');
+		
+		$('#tab5Li').attr('disabled', false);
+		$('#tab5Li').removeClass('tab_disabled');
+		
+		$('#tab6Li').attr('disabled', false);
+		$('#tab6Li').removeClass('tab_disabled');
 	} else {
 		$('#txtSysMsg').val('시스템신규등록');
 		
@@ -143,7 +180,6 @@ function initScreen() {
 		$('#tab1Li').removeClass('tab_disabled');
 	}
 }
-
 function setTabMenu(){
 	$(".tab_content:first").show();
 	
@@ -157,7 +193,19 @@ function setTabMenu(){
 	});
 }
 
-
+function reLoad() {
+	
+	scrLoad();
+	
+	if (selectedSystem != null) {
+		 $('#frmBaseTab').get(0).contentWindow.baseReload();
+		 $('#frmPrgTab').get(0).contentWindow.screenLoad();
+		 $('#frmSvrTab').get(0).contentWindow.screenLoad();
+		 $('#frmUsrTab').get(0).contentWindow.screenLoad();
+		 $('#frmSvrPrgTab').get(0).contentWindow.screenLoad();
+		 $('#frmDirTab').get(0).contentWindow.screenLoad();
+	}
+}
 function popClose() {
 	window.parent.sysDetailModal.close();
 }
