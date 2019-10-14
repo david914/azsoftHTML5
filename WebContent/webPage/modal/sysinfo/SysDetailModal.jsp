@@ -41,22 +41,22 @@
 			</ul>
 		</div>
 		<div style="height: calc(100% - 147px);">
-	       	<div id="baseTab" class="tab_content" style="width:100%">
+	       	<div id="baseTab" class="tab_content width-100">
 	       		<iframe id="frmBaseTab" name="frmBaseTab" src='/webPage/tab/sysinfo/SysDetailTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
-	       	<div id="progTab" class="tab_content" style="width:100%">
+	       	<div id="progTab" class="tab_content width-100">
 	       		<iframe id="frmPrgTab" name="frmPrgTab" src='/webPage/tab/sysinfo/SysDetailPrgTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
-	       	<div id="svrTab" class="tab_content" style="width:100%">
+	       	<div id="svrTab" class="tab_content width-100">
 	       		<iframe id="frmSvrTab" name="frmSvrTab" src='/webPage/tab/sysinfo/SysDetailSvrTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
-	       	<div id="usrTab" class="tab_content" style="width:100%">
+	       	<div id="usrTab" class="tab_content width-100">
 	       		<iframe id="frmUsrTab" name="frmUsrTab" src='/webPage/tab/sysinfo/SysDetailUsrTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
-	       	<div id="svrprgTab" class="tab_content" style="width:100%">
+	       	<div id="svrprgTab" class="tab_content width-100">
 	       		<iframe id="frmSvrPrgTab" name="frmSvrPrgTab" src='/webPage/tab/sysinfo/SysDetailSvrPrgTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
-	       	<div id="dirTab" class="tab_content" style="width:100%">
+	       	<div id="dirTab" class="tab_content width-100" >
 	       		<iframe id="frmDirTab" name="frmDirTab" src='/webPage/tab/sysinfo/SysDetailComDirTab.jsp' width='100%' height='100%' frameborder="0"></iframe>
 	       	</div>
 	   	</div>

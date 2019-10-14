@@ -68,7 +68,7 @@ $('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark
 
 $(document).ready(function(){
 	
-	userId = 'MASTER';
+	//userId = 'MASTER';
 	if (userId == null || userId == '') {
 		dialog.alert('로그인 후 사용하여 주시기 바랍니다.');
 		return;
@@ -230,7 +230,7 @@ function sysInfoGrid_DblClick(gbnCd) {
 		selectedSystem = sysInfoGrid.list[gridSelectedIndex];
 	}
 	sysDetailModal.open({
-        width: 1024,
+        width: 1100,
         height: 768,
         defaultSize : true,
         iframe: {

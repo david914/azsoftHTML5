@@ -5,10 +5,10 @@
 <c:import url="/webPage/common/common.jsp" />
 
 <body id="tabBody">	
-	<div class="half_wrap">
+	<div class="az_search_wrap">
 		<!--left wrap-->
 		<div class="l_wrap width-50">		
-			<div class="margin-5-right">
+			<div class="margin-5-left margin-5-right">
 				<div class="sm-row">
 					<label class="tit_80 poa">시스템코드</label>
 	                <div class="ml_80">
@@ -116,28 +116,22 @@
 				</div>
 			</div>
 		</div>
-		<div class="width-50 dib vat float-right" style="height:calc(100% - 170px);">
-			<div class="half_wrap">				
-				<div class="sm-row">
-					<div class="width-100">
-						<div class="sm-row" style="margin-top: 5px;">
-							<label class="tit_60 dib poa">업무</label>
-							<div class="ml_60">
-								<input id="txtJobname" name="txtJobname" type="text" class="width-100" />
-							</div>
-							
-							<div class="az_board_basic scroll_h az_board_basic_in sm-row" style="height: 100%;" id="jobGridBox">
-								<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
-							</div>
-						</div>
-					</div>
+		<div class="r_wrap" style="height:calc(100% - 140px);width:calc(50% - 10px);">
+			<div class="sm-row">
+				<label class="tit_60 dib poa">업무</label>
+				<div class="ml_60">
+					<input id="txtJobname" name="txtJobname" type="text" class="width-100" />
+				</div>
+				
+				<div class="az_board_basic scroll_h az_board_basic_in" style="height: 100%;margin-top:7px;" id="jobGridBox">
+					<div data-ax5grid="jobGrid" data-ax5grid-config="{showLineNumber: true, lineNumberColumnWidth: 40}" style="height: 100%;"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<div class="sm-row tar">
-		<div class="width-100 float-right margin-10-right">
+	<div class="tar">
+		<div class="width-100 float-right">
 			<button id="btnAdd" class="btn_basic_s">등록</button>
 			<button id="btnDel" class="btn_basic_s">폐기</button>
 			<button id="btnJob" class="btn_basic_s">업무등록</button>

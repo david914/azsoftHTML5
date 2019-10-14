@@ -39,7 +39,7 @@ var closeModifyFg 	= false;
 
 $('input.checkbox-pie').wCheck({theme: 'square-inset blue', selector: 'checkmark', highlightLabel: true});
 
-$('[data-ax5select="cboSysCd"]').ax5select({
+$('[data-ax5select="cboSys"]').ax5select({
     options: []
 });
 $('[data-ax5select="cboSysGb"]').ax5select({
@@ -87,11 +87,11 @@ $('#timeDeployE').timepicker({
 $(document).ready(function(){
 	
 	if (window.parent.frmLoad1) createViewGrid();
+	//createViewGrid();
 
 });
 
 function createViewGrid() {
-	
 	window.parent.frmLoad1 = true;
 	jobGrid			= new ax5.ui.grid();
 	jobGrid.setConfig({
@@ -126,7 +126,6 @@ function createViewGrid() {
 	}
 }
 function screenLoad() {
-	
 	dateInit();
 	getJobList();
 	getSysCodeInfo();
@@ -167,12 +166,14 @@ function screenLoad() {
 			
 			$('#txtSysCd').prop( "disabled", false );
 			$('#txtSysCd').prop('placeholder', '앞3자리숫자 입력하세요.');
+			$('#cboSys').prop('disabled',false);
 		}
 		
 		if( !($(this).is(':checked')) ) {
 			screenInit();  
 			$('#txtSysCd').prop( "disabled", true );
 			$('#btnDel').prop('disabled', false);
+			$('#cboSys').prop('disabled',true);
 		}
 		
 		
@@ -317,19 +318,20 @@ function screenLoad() {
 function baseReload() {
 	
 	selectedSystem = window.parent.selectedSystem;
-	$('[data-ax5select="cboSys"]').ax5select('setValue','00000',true);
+	if(cboSysCdData !== null){
+		$('[data-ax5select="cboSys"]').ax5select('setValue','00000',true);
+	}
 	if (selectedSystem == null) {
 		$('#chkOpen').wCheck('check',true);
 		$('#chkOpen').prop('disabled',true);
-		$('#cboSys').prop('disabled',false);
+		$('[data-ax5select="cboSys"]').ax5select('enable');
 	} else {
 		$('#chkOpen').wCheck('check',false);
 		$('#chkOpen').prop('disabled',true);
-		$('#cboSys').prop('disabled',true);
+		$('[data-ax5select="cboSys"]').ax5select('disable');
 		setSysInfo();
 	}
 	$('#chkOpen').trigger('click');
-	
 }
 // datepicker 날짜 오늘날짜로 초기화
 function dateInit() {
@@ -766,7 +768,6 @@ function successGetUseSysList(data) {
 }
 
 function sysDataFilter(){
-	
 	cboOptions = [];
 	$('[data-ax5select="cboSys"]').ax5select({
         options: cboOptions
